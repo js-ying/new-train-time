@@ -71,7 +71,10 @@ const ThemeSwitch = () => {
   }
 
   return (
-    <div className="cursor-pointer" onClick={toggleTheme}>
+    <div
+      className="cursor-pointer text-zinc-700 dark:text-zinc-200"
+      onClick={toggleTheme}
+    >
       {theme === "dark" && <LightModeIcon />}
       {theme === "light" && <DarkModeIcon />}
     </div>

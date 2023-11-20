@@ -40,9 +40,8 @@ const Area: React.FC<AreaParams> = ({
 }) => {
   return (
     <div
-      className={`flex justify-center items-center flex-col h-16 p-2
-        rounded-md cursor-pointer
-        border border-solid border-black dark:border-white ${className}
+      className={`flex justify-center items-center flex-col h-16 p-2 cursor-pointer
+        border border-solid rounded-md border-zinc-700 dark:border-zinc-200 ${className}
         transition duration-150 ease-out
         hover:bg-zinc-700 dark:hover:bg-grayBlue hover:text-white hover:ease-in
         ${isActive && " bg-zinc-700 dark:bg-grayBlue text-white"}`}
@@ -94,6 +93,19 @@ const SearchArea: React.FC<SearchAreaParams> = ({
           出發時間
           <div>{datetime}</div>
         </Area>
+      </div>
+      <div className="flex justify-center items-center mt-7">
+        <button
+          type="button"
+          className="
+            px-4 py-2 cursor-pointer rounded-md
+            transition duration-150 ease-out
+          bg-zinc-700 dark:bg-grayBlue text-white
+            hover:bg-zinc-700/80 hover:dark:bg-grayBlue/80
+          "
+        >
+          搜尋
+        </button>
       </div>
     </>
   );
