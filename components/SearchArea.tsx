@@ -1,10 +1,18 @@
-import { MouseEventHandler, useState } from "react";
+import {
+  AreaParams,
+  SearchAreaParams,
+  SwitchArrowButtonParams,
+} from "./interfaces/SearchArea";
 
-const SwitchArrowButton = ({ className = "" }) => {
+const SwitchArrowButton: React.FC<SwitchArrowButtonParams> = ({
+  className = "",
+}) => {
   return (
     <div
-      className={`transition duration-150 ease-out text-zinc-700 cursor-pointer ${className}
-      hover:text-zinc-400 hover:ease-in`}
+      className={`
+        cursor-pointer ${className}
+        text-zinc-700 dark:text-zinc-200
+      `}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -24,21 +32,20 @@ const SwitchArrowButton = ({ className = "" }) => {
   );
 };
 
-interface AreaParams {
-  children: React.ReactNode;
-  isActive: boolean;
-  onClick: MouseEventHandler<HTMLDivElement>;
-  className?: string;
-}
-
-const Area = ({ children, isActive, onClick, className = "" }: AreaParams) => {
+const Area: React.FC<AreaParams> = ({
+  children,
+  isActive,
+  onClick,
+  className = "",
+}) => {
   return (
     <div
       className={`flex justify-center items-center flex-col h-16 p-2
-        border border-solid border-black rounded-md cursor-pointer ${className}
+        rounded-md cursor-pointer
+        border border-solid border-black dark:border-white ${className}
         transition duration-150 ease-out
-        hover:bg-zinc-700 hover:text-white hover:ease-in
-        ${isActive ? " bg-zinc-700 text-white" : ""}`}
+        hover:bg-zinc-700 dark:hover:bg-grayBlue hover:text-white hover:ease-in
+        ${isActive && " bg-zinc-700 dark:bg-grayBlue text-white"}`}
       onClick={onClick}
     >
       {children}
@@ -46,31 +53,20 @@ const Area = ({ children, isActive, onClick, className = "" }: AreaParams) => {
   );
 };
 
-interface SearchAreaParams {
-  startStation: string;
-  endStation: string;
-  datetime: string;
-  stationList: string[];
-}
-
-const SearchArea = ({
+const SearchArea: React.FC<SearchAreaParams> = ({
   startStation,
   endStation,
   datetime,
-}: SearchAreaParams) => {
-  const [activeIndex, setActiveIndex] = useState(null);
-
-  const clickArea = (index: number) => {
-    setActiveIndex(index);
-  };
-
+  activeIndex,
+  setActiveIndex,
+}) => {
   return (
     <>
       <div className="flex items-center gap-4">
         <Area
           className="flex-1"
           isActive={activeIndex === 0}
-          onClick={() => clickArea(0)}
+          onClick={() => setActiveIndex(0)}
         >
           出發車站
           <div>{startStation}</div>
@@ -79,7 +75,7 @@ const SearchArea = ({
         <Area
           className="flex-1"
           isActive={activeIndex === 1}
-          onClick={() => clickArea(1)}
+          onClick={() => setActiveIndex(1)}
         >
           抵達車站
           <div>{endStation}</div>
@@ -87,14 +83,14 @@ const SearchArea = ({
         <Area
           className="flex-1 ml-4 hidden md:flex"
           isActive={activeIndex === 2}
-          onClick={() => clickArea(2)}
+          onClick={() => setActiveIndex(2)}
         >
           出發時間
           <div>{datetime}</div>
         </Area>
       </div>
       <div className="mt-4 block md:hidden">
-        <Area isActive={activeIndex === 2} onClick={() => clickArea(2)}>
+        <Area isActive={activeIndex === 2} onClick={() => setActiveIndex(2)}>
           出發時間
           <div>{datetime}</div>
         </Area>
