@@ -10,5 +10,5 @@
 }
 
 .rotate-fade-in {
-  animation: rotateFadeIn 0.5s ease-in-out forwards;
+  animation: rotateFadeIn 0.5s ease-out forwards;
 }

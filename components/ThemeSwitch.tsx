@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import styles from "./styles/ThemeSwitch.module.css";
+import styles from "../styles/ThemeSwitch.module.css";
 
 const LightModeIcon = () => {
   return (

@@ -1,8 +1,45 @@
+import { useRouter } from "next/router";
+import { useContext } from "react";
+import SelectStation from "./SelectStation";
 import {
-  AreaParams,
-  SearchAreaParams,
-  SwitchArrowButtonParams,
-} from "./interfaces/SearchArea";
+  SearchAreaContext,
+  SearchAreaUpdateContext,
+} from "../contexts/SearchAreaContext";
+
+interface AreaParams {
+  children: React.ReactNode;
+  isActive: boolean;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+  className?: string;
+}
+
+interface SwitchArrowButtonParams {
+  className?: string;
+}
+
+interface SearchAreaParams {
+  stationList: string[];
+}
+
+const Area: React.FC<AreaParams> = ({
+  children,
+  isActive,
+  onClick,
+  className = "",
+}) => {
+  return (
+    <div
+      className={`flex justify-center items-center flex-col h-16 p-2 cursor-pointer
+        border border-solid rounded-md border-zinc-700 dark:border-zinc-200 ${className}
+        transition duration-150 ease-out
+        hover:bg-zinc-700 dark:hover:bg-grayBlue hover:text-white
+        ${isActive && " bg-zinc-700 dark:bg-grayBlue text-white"}`}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
+};
 
 const SwitchArrowButton: React.FC<SwitchArrowButtonParams> = ({
   className = "",
@@ -10,9 +47,9 @@ const SwitchArrowButton: React.FC<SwitchArrowButtonParams> = ({
   return (
     <div
       className={`
-        cursor-pointer ${className}
-        text-zinc-700 dark:text-zinc-200
-      `}
+          cursor-pointer ${className}
+          text-zinc-700 dark:text-zinc-200
+        `}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -32,80 +69,79 @@ const SwitchArrowButton: React.FC<SwitchArrowButtonParams> = ({
   );
 };
 
-const Area: React.FC<AreaParams> = ({
-  children,
-  isActive,
-  onClick,
-  className = "",
-}) => {
+const SearchButton: React.FC = () => {
+  const router = useRouter();
+
+  const handleSearch = () => {
+    router.push({
+      pathname: "/TR/search",
+      query: { s: "台北", e: "新竹", d: "2023-11-21", t: "1300" },
+    });
+  };
+
   return (
-    <div
-      className={`flex justify-center items-center flex-col h-16 p-2 cursor-pointer
-        border border-solid rounded-md border-zinc-700 dark:border-zinc-200 ${className}
-        transition duration-150 ease-out
-        hover:bg-zinc-700 dark:hover:bg-grayBlue hover:text-white hover:ease-in
-        ${isActive && " bg-zinc-700 dark:bg-grayBlue text-white"}`}
-      onClick={onClick}
+    <button
+      type="button"
+      className="
+    px-4 py-2 cursor-pointer rounded-md
+    transition duration-150 ease-out
+  bg-zinc-700 dark:bg-grayBlue text-white
+    hover:bg-zinc-700/80 hover:dark:bg-grayBlue/80
+  "
+      onClick={() => handleSearch()}
     >
-      {children}
-    </div>
+      搜尋
+    </button>
   );
 };
 
-const SearchArea: React.FC<SearchAreaParams> = ({
-  startStation,
-  endStation,
-  datetime,
-  activeIndex,
-  setActiveIndex,
-}) => {
+const SearchArea: React.FC<SearchAreaParams> = ({ stationList }) => {
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
   return (
     <>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         <Area
           className="flex-1"
-          isActive={activeIndex === 0}
-          onClick={() => setActiveIndex(0)}
+          isActive={params.activeIndex === 0}
+          onClick={() => setParams({ ...params, activeIndex: 0 })}
         >
           出發車站
-          <div>{startStation}</div>
+          <div>{params.startStation}</div>
         </Area>
         <SwitchArrowButton />
         <Area
           className="flex-1"
-          isActive={activeIndex === 1}
-          onClick={() => setActiveIndex(1)}
+          isActive={params.activeIndex === 1}
+          onClick={() => setParams({ ...params, activeIndex: 1 })}
         >
           抵達車站
-          <div>{endStation}</div>
+          <div>{params.endStation}</div>
         </Area>
         <Area
           className="flex-1 ml-4 hidden md:flex"
-          isActive={activeIndex === 2}
-          onClick={() => setActiveIndex(2)}
+          isActive={params.activeIndex === 2}
+          onClick={() => setParams({ ...params, activeIndex: 2 })}
         >
           出發時間
-          <div>{datetime}</div>
+          <div>{params.datetime}</div>
         </Area>
       </div>
       <div className="mt-4 block md:hidden">
-        <Area isActive={activeIndex === 2} onClick={() => setActiveIndex(2)}>
+        <Area
+          isActive={params.activeIndex === 2}
+          onClick={() => setParams({ ...params, activeIndex: 2 })}
+        >
           出發時間
-          <div>{datetime}</div>
+          <div>{params.datetime}</div>
         </Area>
       </div>
+      <div className="mt-6">
+        <SelectStation />
+      </div>
       <div className="flex justify-center items-center mt-7">
-        <button
-          type="button"
-          className="
-            px-4 py-2 cursor-pointer rounded-md
-            transition duration-150 ease-out
-          bg-zinc-700 dark:bg-grayBlue text-white
-            hover:bg-zinc-700/80 hover:dark:bg-grayBlue/80
-          "
-        >
-          搜尋
-        </button>
+        <SearchButton />
       </div>
     </>
   );

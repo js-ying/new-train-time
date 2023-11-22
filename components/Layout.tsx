@@ -1,17 +1,27 @@
-import Head from "next/head";
+import { useContext } from "react";
 import ThemeSwitch from "./ThemeSwitch";
-import { LayoutParams } from "./interfaces/Layout";
+import {
+  SearchAreaContext,
+  SearchAreaUpdateContext,
+} from "../contexts/SearchAreaContext";
 
-export default function Layout({
-  children,
-  setActiveIndex,
-  title = "",
-}: LayoutParams) {
+interface LayoutParams {
+  children: React.ReactNode;
+  title?: string;
+}
+
+export default function Layout({ children, title = "" }: LayoutParams) {
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto px-4 py-6">
       <div className="relative mb-6">
         <h1 className="text-center">
-          <span className="cursor-pointer" onClick={() => setActiveIndex(null)}>
+          <span
+            className="cursor-pointer"
+            onClick={() => setParams({ ...params, activeIndex: null })}
+          >
             {title}
           </span>
         </h1>
