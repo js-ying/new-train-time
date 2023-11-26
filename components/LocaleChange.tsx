@@ -1,14 +1,16 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const localeOptions = [
   { label: "繁體中文", value: "zh-Hant" },
   { label: "English", value: "en" },
 ];
 
-const LocaleIcon = () => {
+const LocaleIcon = ({ iconRef = null }) => {
   return (
     <svg
+      ref={iconRef}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -88,7 +90,10 @@ const LocaleDropdown = ({ open, setOpen }) => {
   );
 };
 
-const LocaleChange = () => {
+/**
+ * 語系變更（下拉選單版）
+ */
+const LocaleChangeByDropdown = () => {
   const [open, setOpen] = useState(null);
 
   return (
@@ -97,6 +102,44 @@ const LocaleChange = () => {
       {open && <LocaleDropdown open={open} setOpen={setOpen} />}
     </div>
   );
+};
+
+/**
+ * 語系變更（Switch 版）
+ */
+const LocaleChangeBySwitch = () => {
+  const iconRef = useRef(null);
+  const { i18n } = useTranslation();
+  const router = useRouter();
+
+  const handleChange = () => {
+    iconRef.current.classList.remove("rotate-fade-in");
+    iconRef.current.classList.remove("rotate");
+    setTimeout(() => {
+      iconRef.current.classList.add("rotate");
+    });
+
+    const locale = i18n.language === "en" ? "zh-Hant" : "en";
+
+    router.push(
+      { pathname: router.pathname, query: router.query },
+      router.asPath,
+      { locale: locale },
+    );
+  };
+
+  return (
+    <div className="inline-block cursor-pointer" onClick={handleChange}>
+      <LocaleIcon iconRef={iconRef} />
+    </div>
+  );
+};
+
+/**
+ * 語系變更
+ */
+const LocaleChange = () => {
+  return LocaleChangeBySwitch();
 };
 
 export default LocaleChange;

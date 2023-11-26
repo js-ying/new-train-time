@@ -3,10 +3,21 @@
 @tailwind utilities;
 
 body {
-  @apply p-0 m-0 bg-white dark:bg-grayBlack h-full;
-  font-family: Helvetica Neue For Number, Chinese Quote, -apple-system,
-    BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB,
-    Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+  @apply m-0 h-full bg-white p-0 dark:bg-grayBlack;
+  font-family:
+    Helvetica Neue For Number,
+    Chinese Quote,
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    PingFang SC,
+    Hiragino Sans GB,
+    Microsoft YaHei,
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
   transition: background-color 150ms ease-out;
 }
 
@@ -29,7 +40,7 @@ a {
 }
 
 img {
-  @apply max-w-full h-auto;
+  @apply h-auto max-w-full;
 }
 
 .cursor-pointer {
@@ -49,4 +60,17 @@ img {
 
 .rotate-fade-in {
   animation: rotateFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(-180deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+.rotate {
+  animation: rotate 0.5s ease-out forwards;
 }
