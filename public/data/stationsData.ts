@@ -37,7 +37,7 @@ export const trMainLines = [
   },
   {
     Zh_tw: "南投縣",
-    En: "Nantou county",
+    En: "Nantou County",
   },
   {
     Zh_tw: "雲林縣",
@@ -4179,5 +4179,3 @@ export const trStationDataList = [
 ];
 
 export const thsrStationDataList = [];
-
-

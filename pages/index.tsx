@@ -1,11 +1,5 @@
 import { useRouter } from "next/router";
 
-const Home = () => {
-  const router = useRouter();
-
-  router.push({
-    pathname: "/TR",
-  });
-};
+const Home = () => {};
 
 export default Home;

@@ -6,10 +6,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "i18next": "^23.7.6",
     "next": "latest",
+    "next-i18next": "^15.0.0",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-i18next": "^13.5.0"
   },
   "engines": {
     "node": ">=18"
@@ -21,6 +24,8 @@
     "eslint": "^8.0.0",
     "eslint-config-react-app": "^7.0.1",
     "postcss": "^8.4.31",
+    "prettier": "^3.1.0",
+    "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3.3.5"
   }
 }

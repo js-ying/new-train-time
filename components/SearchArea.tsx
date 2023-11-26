@@ -1,5 +1,6 @@
-import { useRouter } from "next/router";
 import { useContext } from "react";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import SelectStation from "./SelectStation";
 import {
   SearchAreaContext,
@@ -29,11 +30,11 @@ const Area: React.FC<AreaParams> = ({
 }) => {
   return (
     <div
-      className={`flex justify-center items-center flex-col h-16 p-2 cursor-pointer
-        border border-solid rounded-md border-zinc-700 dark:border-zinc-200 ${className}
+      className={`flex h-16 cursor-pointer flex-col items-center justify-center rounded-md
+        border border-solid border-zinc-700 p-2 dark:border-zinc-200 ${className}
         transition duration-150 ease-out
-        hover:bg-zinc-700 dark:hover:bg-grayBlue hover:text-white
-        ${isActive && " bg-zinc-700 dark:bg-grayBlue text-white"}`}
+        hover:bg-zinc-700 hover:text-white dark:hover:bg-grayBlue
+        ${isActive && " bg-zinc-700 text-white dark:bg-grayBlue"}`}
       onClick={onClick}
     >
       {children}
@@ -57,7 +58,7 @@ const SwitchArrowButton: React.FC<SwitchArrowButtonParams> = ({
         viewBox="0 0 24 24"
         strokeWidth="1.5"
         stroke="currentColor"
-        className="w-5 h-5"
+        className="h-5 w-5"
       >
         <path
           strokeLinecap="round"
@@ -71,6 +72,7 @@ const SwitchArrowButton: React.FC<SwitchArrowButtonParams> = ({
 
 const SearchButton: React.FC = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const handleSearch = () => {
     router.push({
@@ -83,14 +85,14 @@ const SearchButton: React.FC = () => {
     <button
       type="button"
       className="
-    px-4 py-2 cursor-pointer rounded-md
-    transition duration-150 ease-out
-  bg-zinc-700 dark:bg-grayBlue text-white
-    hover:bg-zinc-700/80 hover:dark:bg-grayBlue/80
+        cursor-pointer rounded-md bg-zinc-700 px-4
+        py-2 text-white transition
+      duration-150 ease-out hover:bg-zinc-700/80
+        dark:bg-grayBlue hover:dark:bg-grayBlue/80
   "
       onClick={() => handleSearch()}
     >
-      搜尋
+      {t("searchBtn")}
     </button>
   );
 };
@@ -98,7 +100,7 @@ const SearchButton: React.FC = () => {
 const SearchArea: React.FC<SearchAreaParams> = ({ stationList }) => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-
+  const { t } = useTranslation();
   return (
     <>
       <div className="flex items-center gap-3">
@@ -107,7 +109,7 @@ const SearchArea: React.FC<SearchAreaParams> = ({ stationList }) => {
           isActive={params.activeIndex === 0}
           onClick={() => setParams({ ...params, activeIndex: 0 })}
         >
-          出發車站
+          {t("startStation")}
           <div>{params.startStation}</div>
         </Area>
         <SwitchArrowButton />
@@ -116,15 +118,15 @@ const SearchArea: React.FC<SearchAreaParams> = ({ stationList }) => {
           isActive={params.activeIndex === 1}
           onClick={() => setParams({ ...params, activeIndex: 1 })}
         >
-          抵達車站
+          {t("endStation")}
           <div>{params.endStation}</div>
         </Area>
         <Area
-          className="flex-1 ml-4 hidden md:flex"
+          className="ml-4 hidden flex-1 md:flex"
           isActive={params.activeIndex === 2}
           onClick={() => setParams({ ...params, activeIndex: 2 })}
         >
-          出發時間
+          {t("datetime")}
           <div>{params.datetime}</div>
         </Area>
       </div>
@@ -133,14 +135,14 @@ const SearchArea: React.FC<SearchAreaParams> = ({ stationList }) => {
           isActive={params.activeIndex === 2}
           onClick={() => setParams({ ...params, activeIndex: 2 })}
         >
-          出發時間
+          {t("datetime")}
           <div>{params.datetime}</div>
         </Area>
       </div>
       <div className="mt-6">
         <SelectStation />
       </div>
-      <div className="flex justify-center items-center mt-7">
+      <div className="mt-7 flex items-center justify-center">
         <SearchButton />
       </div>
     </>

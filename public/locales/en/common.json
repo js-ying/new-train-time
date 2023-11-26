@@ -1,0 +1,9 @@
+{
+  "title": "Taiwan Railway Schedule Inquiry",
+  "startStation": "Departure Station",
+  "endStation": "Arrival Station",
+  "datetime": "Date Time",
+  "startStationInputPlaceholder": "Departure Station (e.g. Hsinchu)",
+  "endStationInputPlaceholder": "Arrival Station (e.g. Taipei)",
+  "searchBtn": "Search"
+}

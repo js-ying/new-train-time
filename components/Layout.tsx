@@ -4,6 +4,7 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
+import LocaleChange from "./LocaleChange";
 
 interface LayoutParams {
   children: React.ReactNode;
@@ -20,13 +21,24 @@ export default function Layout({ children, title = "" }: LayoutParams) {
         <h1 className="text-center">
           <span
             className="cursor-pointer"
-            onClick={() => setParams({ ...params, activeIndex: null })}
+            onClick={() =>
+              setParams({
+                ...params,
+                startStation: null,
+                endStation: null,
+                datetime: null,
+                activeIndex: 0,
+              })
+            }
           >
             {title}
           </span>
         </h1>
         <div className="absolute top-0.5 right-0">
-          <ThemeSwitch />
+          <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-200">
+            <LocaleChange />
+            <ThemeSwitch />
+          </div>
         </div>
       </div>
       {children}

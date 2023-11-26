@@ -1,0 +1,9 @@
+{
+  "title": "台鐵時刻查詢",
+  "startStation": "出發車站",
+  "endStation": "抵達車站",
+  "datetime": "出發時間",
+  "startStationInputPlaceholder": "出發車站（e.g. 新竹）",
+  "endStationInputPlaceholder": "抵達車站（e.g. 台北）",
+  "searchBtn": "搜尋"
+}

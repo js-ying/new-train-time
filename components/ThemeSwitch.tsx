@@ -1,6 +1,5 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import styles from "../styles/ThemeSwitch.module.css";
 
 const LightModeIcon = () => {
   return (
@@ -10,7 +9,7 @@ const LightModeIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`w-6 h-6 ${styles["rotate-fade-in"]}`}
+      className={`w-6 h-6 rotate-fade-in`}
     >
       <path
         strokeLinecap="round"
@@ -29,7 +28,7 @@ const DarkModeIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`w-6 h-6 ${styles["rotate-fade-in"]}`}
+      className={`w-6 h-6 rotate-fade-in`}
     >
       <path
         strokeLinecap="round"
@@ -71,10 +70,7 @@ const ThemeSwitch = () => {
   }
 
   return (
-    <div
-      className="cursor-pointer text-zinc-700 dark:text-zinc-200"
-      onClick={toggleTheme}
-    >
+    <div className="cursor-pointer inline-block" onClick={toggleTheme}>
       {theme === "dark" && <LightModeIcon />}
       {theme === "light" && <DarkModeIcon />}
     </div>
