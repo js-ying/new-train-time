@@ -77,6 +77,23 @@ export const trMainLines = [
   },
 ];
 
+export interface TrStationData {
+  StationUID: string;
+  StationID: string;
+  StationName: {
+    Zh_tw: string;
+    En: string;
+  };
+  StationPosition: {
+    PositionLat: number;
+    PositionLon: number;
+  };
+  StationAddress: string;
+  StationPhone: string;
+  StationClass: string;
+  StationURL: string;
+}
+
 export const trStationDataList = [
   {
     StationUID: "TRA-0900",

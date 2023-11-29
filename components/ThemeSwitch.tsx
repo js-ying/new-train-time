@@ -9,7 +9,7 @@ const LightModeIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`w-6 h-6 rotate-fade-in`}
+      className={`rotate h-6 w-6`}
     >
       <path
         strokeLinecap="round"
@@ -28,7 +28,7 @@ const DarkModeIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`w-6 h-6 rotate-fade-in`}
+      className={`rotate h-6 w-6`}
     >
       <path
         strokeLinecap="round"
@@ -47,7 +47,7 @@ const ThemeSwitch = () => {
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     const userPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
+      "(prefers-color-scheme: dark)",
     ).matches;
 
     if (storedTheme) {
@@ -70,7 +70,7 @@ const ThemeSwitch = () => {
   }
 
   return (
-    <div className="cursor-pointer inline-block" onClick={toggleTheme}>
+    <div className="inline-block cursor-pointer" onClick={toggleTheme}>
       {theme === "dark" && <LightModeIcon />}
       {theme === "light" && <DarkModeIcon />}
     </div>

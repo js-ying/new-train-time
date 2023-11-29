@@ -47,21 +47,6 @@ img {
   @apply select-none;
 }
 
-@keyframes rotateFadeIn {
-  0% {
-    opacity: 0;
-    transform: rotate(-180deg);
-  }
-  100% {
-    opacity: 1;
-    transform: rotate(0);
-  }
-}
-
-.rotate-fade-in {
-  animation: rotateFadeIn 0.5s ease-out forwards;
-}
-
 @keyframes rotate {
   0% {
     transform: rotate(-180deg);

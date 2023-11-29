@@ -1,53 +1,219 @@
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { trMainLines, trStationDataList } from "../public/data/stationsData";
-import { GetTdxLang } from "../utils/locale-utils";
+import {
+  TrStationData,
+  trMainLines,
+  trStationDataList,
+} from "../public/data/stationsData";
+import { getTdxLang } from "../utils/locale-utils";
+import { useContext, useState } from "react";
+import {
+  SearchAreaContext,
+  SearchAreaParams,
+  SearchAreaUpdateContext,
+} from "../contexts/SearchAreaContext";
 
-const CustomInput = ({ placeholder }) => {
+const isStationBelowMainLine = (
+  trStationData: TrStationData,
+  mainLine: string,
+): boolean => {
+  return (
+    trStationData.StationAddress.replace(/[0-9]/g, "").substring(0, 3) ===
+    mainLine
+  );
+};
+
+const isStationNameIncludesInput = (
+  trStationData: TrStationData,
+  inputValue: string,
+): boolean => {
+  const excludeStationList = ["1001"]; // 排除環島之星列車
+
+  const enFilter = trStationData.StationName.En.toLowerCase().includes(
+    inputValue.toLowerCase(),
+  );
+  const zhHantFilter =
+    trStationData.StationName.Zh_tw.includes(inputValue) ||
+    trStationData.StationName.Zh_tw.replace("臺", "台").includes(inputValue);
+  const excludeFilter = !excludeStationList.includes(trStationData.StationID);
+
+  return (enFilter || zhHantFilter) && excludeFilter;
+};
+
+const handleStationSelect = (
+  stationId: string,
+  params: SearchAreaParams,
+  setParams: (params: SearchAreaParams) => void,
+): void => {
+  // 出發車站
+  if (params?.activeIndex === 0) {
+    setParams({
+      ...params,
+      startStation: stationId,
+      activeIndex: null,
+      layer: 0,
+    });
+  }
+
+  // 抵達車站
+  if (params?.activeIndex === 1) {
+    setParams({
+      ...params,
+      endStation: stationId,
+      activeIndex: null,
+      layer: 0,
+    });
+  }
+};
+
+const StationInput = () => {
+  const { t } = useTranslation();
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
+  const placeholder =
+    params.activeIndex === 0
+      ? t("startStationInputPlaceholder")
+      : t("endStationInputPlaceholder");
+
+  const handleInputEnter = (e) => {
+    if (e.key === "Enter") {
+      const filterTrStationDataList = trStationDataList.filter(
+        (trStationData) => {
+          return params.inputValue
+            ? isStationNameIncludesInput(trStationData, params.inputValue)
+            : isStationBelowMainLine(trStationData, params.inputValue);
+        },
+      );
+
+      if (filterTrStationDataList.length <= 2) {
+        if (filterTrStationDataList.length === 2) {
+          const topLevelStation = filterTrStationDataList.find((station) =>
+            ["0", "1"].includes(station.StationClass),
+          );
+          if (topLevelStation) {
+            handleStationSelect(topLevelStation.StationID, params, setParams);
+          }
+        } else if (filterTrStationDataList.length === 1) {
+          handleStationSelect(
+            filterTrStationDataList[0].StationID,
+            params,
+            setParams,
+          );
+        }
+      }
+    }
+  };
+
   return (
     <input
       type="input"
+      value={params.inputValue}
+      onChange={(e) => setParams({ ...params, inputValue: e.target.value })}
       className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-zinc-700 outline-none
         transition duration-150 ease-out
         focus:border-gray-400 focus:ring focus:ring-gray-300 
         dark:bg-gray-100 dark:focus:border-gray-600 dark:focus:ring-gray-500"
       placeholder={placeholder}
+      onKeyDown={handleInputEnter}
+      autoFocus
     ></input>
   );
 };
 
-const CustomButton = ({ text }) => {
+const StationButton = ({ text, onClick }) => {
   return (
     <div
       className="w-full cursor-pointer rounded bg-neutral-500 px-3 py-2 text-center
       text-white transition duration-150
         ease-out hover:bg-neutral-500/80 
       dark:bg-neutral-600 hover:dark:bg-neutral-600/80"
+      onClick={onClick}
     >
       {text}
     </div>
   );
 };
 
-export default function SelectStation() {
+const SelectTrStation = () => {
+  const { i18n } = useTranslation();
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+  const [mainLine, setMaineLine] = useState(null);
+
+  const handleMainLineClick = (zhMainLine: string): void => {
+    setMaineLine(zhMainLine);
+    setParams({ ...params, layer: 1 });
+  };
+
+  const getStationName = (trStationData: TrStationData): string => {
+    const stationName = trStationData.StationName[getTdxLang(i18n.language)];
+
+    // top level station
+    if (["0", "1"].includes(trStationData.StationClass)) {
+      return `※ ${stationName} ※`;
+    }
+
+    return stationName;
+  };
+
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+      {/* 第 0 層：縣市 */}
+      {params.layer === 0 &&
+        !params.inputValue &&
+        trMainLines.map((trMmainLine) => (
+          <StationButton
+            text={trMmainLine[getTdxLang(i18n.language)]}
+            key={trMmainLine.En}
+            onClick={() => handleMainLineClick(trMmainLine.Zh_tw)}
+          />
+        ))}
+      {/* 第 1 層：車站 (若有輸入文字篩選，則顯示篩選結果；否則顯示位於指定縣市下的車站) */}
+      {(params.layer === 1 || params.inputValue) &&
+        trStationDataList
+          .filter((trStationData) => {
+            return params.inputValue
+              ? isStationNameIncludesInput(trStationData, params.inputValue)
+              : isStationBelowMainLine(trStationData, mainLine);
+          })
+          .map((trStationData) => {
+            return (
+              <StationButton
+                text={getStationName(trStationData)}
+                key={trStationData.StationName.En}
+                onClick={() =>
+                  handleStationSelect(
+                    trStationData.StationID,
+                    params,
+                    setParams,
+                  )
+                }
+              />
+            );
+          })}
+    </div>
+  );
+};
+
+const SelectThsrStation = () => {
+  return <div></div>;
+};
+
+const SelectStation = () => {
   const router = useRouter();
   const isTr = router.pathname.includes("TR");
   const isThsr = router.pathname.includes("THSR");
-  const { t } = useTranslation();
 
   return (
     <>
-      <CustomInput placeholder={t("startStationInputPlaceholder")} />
+      <StationInput />
 
-      {isTr && (
-        <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {trMainLines.map((station) => (
-            <CustomButton text={station[GetTdxLang()]} key={station.En} />
-          ))}
-        </div>
-      )}
+      {isTr && <SelectTrStation />}
 
-      {isThsr && <div></div>}
+      {isThsr && <SelectThsrStation />}
     </>
   );
-}
+};
+
+export default SelectStation;

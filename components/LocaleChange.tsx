@@ -16,7 +16,7 @@ const LocaleIcon = ({ iconRef = null }) => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="rotate-fade-in h-6 w-6"
+      className="rotate h-6 w-6"
       id="locale-icon"
     >
       <path
@@ -113,7 +113,6 @@ const LocaleChangeBySwitch = () => {
   const router = useRouter();
 
   const handleChange = () => {
-    iconRef.current.classList.remove("rotate-fade-in");
     iconRef.current.classList.remove("rotate");
     setTimeout(() => {
       iconRef.current.classList.add("rotate");

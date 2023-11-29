@@ -6,28 +6,9 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
+import { getTrStationNameById } from "../utils/station-utils";
 
-interface AreaParams {
-  children: React.ReactNode;
-  isActive: boolean;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
-  className?: string;
-}
-
-interface SwitchArrowButtonParams {
-  className?: string;
-}
-
-interface SearchAreaParams {
-  stationList: string[];
-}
-
-const Area: React.FC<AreaParams> = ({
-  children,
-  isActive,
-  onClick,
-  className = "",
-}) => {
+const Area = ({ children, isActive, onClick, className = "" }) => {
   return (
     <div
       className={`flex h-16 cursor-pointer flex-col items-center justify-center rounded-md
@@ -42,15 +23,23 @@ const Area: React.FC<AreaParams> = ({
   );
 };
 
-const SwitchArrowButton: React.FC<SwitchArrowButtonParams> = ({
-  className = "",
-}) => {
+const SwitchButton = ({ className = "" }) => {
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
   return (
     <div
       className={`
           cursor-pointer ${className}
           text-zinc-700 dark:text-zinc-200
         `}
+      onClick={() =>
+        setParams({
+          ...params,
+          startStation: params.endStation,
+          endStation: params.startStation,
+        })
+      }
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -70,14 +59,20 @@ const SwitchArrowButton: React.FC<SwitchArrowButtonParams> = ({
   );
 };
 
-const SearchButton: React.FC = () => {
+const SearchButton = () => {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const params = useContext(SearchAreaContext);
 
   const handleSearch = () => {
     router.push({
       pathname: "/TR/search",
-      query: { s: "台北", e: "新竹", d: "2023-11-21", t: "1300" },
+      query: {
+        s: getTrStationNameById(params.startStation, i18n.language),
+        e: getTrStationNameById(params.endStation, i18n.language),
+        d: params.datetime,
+        t: "1300",
+      },
     });
   };
 
@@ -87,9 +82,9 @@ const SearchButton: React.FC = () => {
       className="
         cursor-pointer rounded-md bg-zinc-700 px-4
         py-2 text-white transition
-      duration-150 ease-out hover:bg-zinc-700/80
+        duration-150 ease-out hover:bg-zinc-700/80
         dark:bg-grayBlue hover:dark:bg-grayBlue/80
-  "
+      "
       onClick={() => handleSearch()}
     >
       {t("searchBtn")}
@@ -97,34 +92,63 @@ const SearchButton: React.FC = () => {
   );
 };
 
-const SearchArea: React.FC<SearchAreaParams> = ({ stationList }) => {
+const SearchArea = () => {
+  const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const { t } = useTranslation();
+
+  const handleStationAreaClick = (clickIndex: number, activeIndex: number) => {
+    // 若還沒點選過任何 Area，或是點擊的與已選的 Area 不同
+    if (activeIndex === null || activeIndex !== clickIndex) {
+      setParams({
+        ...params,
+        activeIndex: clickIndex,
+        layer: 0,
+        inputValue: "",
+      });
+    } else {
+      // 若此次點擊與已點選的 Area 相同，且在第一層
+      if (params.layer === 0) {
+        setParams({
+          ...params,
+          activeIndex: null,
+          layer: 0,
+          inputValue: "",
+        });
+      } else {
+        setParams({
+          ...params,
+          layer: 0,
+          inputValue: "",
+        });
+      }
+    }
+  };
+
   return (
     <>
       <div className="flex items-center gap-3">
         <Area
           className="flex-1"
           isActive={params.activeIndex === 0}
-          onClick={() => setParams({ ...params, activeIndex: 0 })}
+          onClick={() => handleStationAreaClick(0, params.activeIndex)}
         >
           {t("startStation")}
-          <div>{params.startStation}</div>
+          <div>{getTrStationNameById(params.startStation, i18n.language)}</div>
         </Area>
-        <SwitchArrowButton />
+        <SwitchButton />
         <Area
           className="flex-1"
           isActive={params.activeIndex === 1}
-          onClick={() => setParams({ ...params, activeIndex: 1 })}
+          onClick={() => handleStationAreaClick(1, params.activeIndex)}
         >
           {t("endStation")}
-          <div>{params.endStation}</div>
+          <div>{getTrStationNameById(params.endStation, i18n.language)}</div>
         </Area>
         <Area
           className="ml-4 hidden flex-1 md:flex"
           isActive={params.activeIndex === 2}
-          onClick={() => setParams({ ...params, activeIndex: 2 })}
+          onClick={() => handleStationAreaClick(2, params.activeIndex)}
         >
           {t("datetime")}
           <div>{params.datetime}</div>
@@ -133,14 +157,15 @@ const SearchArea: React.FC<SearchAreaParams> = ({ stationList }) => {
       <div className="mt-4 block md:hidden">
         <Area
           isActive={params.activeIndex === 2}
-          onClick={() => setParams({ ...params, activeIndex: 2 })}
+          onClick={() => handleStationAreaClick(2, params.activeIndex)}
         >
           {t("datetime")}
           <div>{params.datetime}</div>
         </Area>
       </div>
       <div className="mt-6">
-        <SelectStation />
+        {params.activeIndex === 0 && <SelectStation />}
+        {params.activeIndex === 1 && <SelectStation />}
       </div>
       <div className="mt-7 flex items-center justify-center">
         <SearchButton />

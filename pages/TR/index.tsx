@@ -17,7 +17,7 @@ export default function TrHome() {
   return (
     <SearchAreaProvider>
       <Layout title={t("title")}>
-        <SearchArea stationList={[]} />
+        <SearchArea />
       </Layout>
     </SearchAreaProvider>
   );
