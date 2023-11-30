@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import SelectStation from "./SelectStation";
+import SelectDatetime from "./SelectDatetime";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
@@ -70,8 +71,8 @@ const SearchButton = () => {
       query: {
         s: getTrStationNameById(params.startStation, i18n.language),
         e: getTrStationNameById(params.endStation, i18n.language),
-        d: params.datetime,
-        t: "1300",
+        d: params.date,
+        t: params.time.replace(":", ""),
       },
     });
   };
@@ -80,10 +81,9 @@ const SearchButton = () => {
     <button
       type="button"
       className="
-        cursor-pointer rounded-md bg-zinc-700 px-4
-        py-2 text-white transition
-        duration-150 ease-out hover:bg-zinc-700/80
-        dark:bg-grayBlue hover:dark:bg-grayBlue/80
+        cursor-pointer rounded-md bg-zinc-700 px-4 py-2 text-white
+        transition duration-150 ease-out 
+        hover:bg-zinc-700/80 dark:bg-grayBlue hover:dark:bg-grayBlue/80
       "
       onClick={() => handleSearch()}
     >
@@ -146,12 +146,14 @@ const SearchArea = () => {
           <div>{getTrStationNameById(params.endStation, i18n.language)}</div>
         </Area>
         <Area
-          className="ml-4 hidden flex-1 md:flex"
+          className="ml-6 hidden flex-1 md:flex"
           isActive={params.activeIndex === 2}
           onClick={() => handleStationAreaClick(2, params.activeIndex)}
         >
           {t("datetime")}
-          <div>{params.datetime}</div>
+          <div>
+            {params.date} {params.time}
+          </div>
         </Area>
       </div>
       <div className="mt-4 block md:hidden">
@@ -160,12 +162,19 @@ const SearchArea = () => {
           onClick={() => handleStationAreaClick(2, params.activeIndex)}
         >
           {t("datetime")}
-          <div>{params.datetime}</div>
+          <div>
+            {params.date} {params.time}
+          </div>
         </Area>
       </div>
       <div className="mt-6">
         {params.activeIndex === 0 && <SelectStation />}
         {params.activeIndex === 1 && <SelectStation />}
+        {params.activeIndex === 2 && (
+          <div className="flex justify-center">
+            <SelectDatetime />
+          </div>
+        )}
       </div>
       <div className="mt-7 flex items-center justify-center">
         <SearchButton />

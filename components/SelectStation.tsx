@@ -110,10 +110,7 @@ const StationInput = () => {
       type="input"
       value={params.inputValue}
       onChange={(e) => setParams({ ...params, inputValue: e.target.value })}
-      className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-zinc-700 outline-none
-        transition duration-150 ease-out
-        focus:border-gray-400 focus:ring focus:ring-gray-300 
-        dark:bg-gray-100 dark:focus:border-gray-600 dark:focus:ring-gray-500"
+      className="common-input"
       placeholder={placeholder}
       onKeyDown={handleInputEnter}
       autoFocus
@@ -123,13 +120,7 @@ const StationInput = () => {
 
 const StationButton = ({ text, onClick }) => {
   return (
-    <div
-      className="w-full cursor-pointer rounded bg-neutral-500 px-3 py-2 text-center
-      text-white transition duration-150
-        ease-out hover:bg-neutral-500/80 
-      dark:bg-neutral-600 hover:dark:bg-neutral-600/80"
-      onClick={onClick}
-    >
+    <div className="common-button" onClick={onClick}>
       {text}
     </div>
   );

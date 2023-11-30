@@ -1,9 +1,10 @@
 import { createContext, useState } from "react";
-
+import DateUtils from "../utils/date-utils";
 export interface SearchAreaParams {
   startStation: string;
   endStation: string;
-  datetime: string;
+  date: string;
+  time: string;
   activeIndex: number;
   // 目前只有台鐵的 SelectStation 才有分兩層，其餘皆為一層 (layer = 0)
   layer: number;
@@ -17,7 +18,8 @@ export function SearchAreaProvider({ children }) {
   const [searchAreaParams, setSearchAreaParams] = useState({
     startStation: "1210",
     endStation: "1000",
-    datetime: "2023-11-23",
+    date: DateUtils.getCurrentDate(),
+    time: DateUtils.getCurrentTime(),
     activeIndex: 0,
     layer: 0,
     inputValue: "",

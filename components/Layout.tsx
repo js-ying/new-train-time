@@ -5,6 +5,7 @@ import {
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
 import LocaleChange from "./LocaleChange";
+import DateUtils from "../utils/date-utils";
 
 interface LayoutParams {
   children: React.ReactNode;
@@ -26,7 +27,8 @@ export default function Layout({ children, title = "" }: LayoutParams) {
                 ...params,
                 startStation: null,
                 endStation: null,
-                datetime: null,
+                date: DateUtils.getCurrentDate(),
+                time: DateUtils.getCurrentTime(),
                 activeIndex: null,
               })
             }
