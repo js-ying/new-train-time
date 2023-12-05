@@ -8,8 +8,6 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { useTheme } from "next-themes";
 
 const TimePicker = () => {
   const params = useContext(SearchAreaContext);
@@ -34,17 +32,16 @@ const TimePicker = () => {
     }
   };
 
-  // 生成小時選項
-  const hourOptions = [];
-  for (let i = 0; i <= 23; i++) {
-    hourOptions.push(i.toString().padStart(2, "0"));
-  }
+  const generateOptions = (start: number, end: number) => {
+    const options = [];
+    for (let i = start; i <= end; i++) {
+      options.push(i.toString().padStart(2, "0"));
+    }
+    return options;
+  };
 
-  // 生成小時選項
-  const minOptions = [];
-  for (let i = 0; i <= 59; i++) {
-    minOptions.push(i.toString().padStart(2, "0"));
-  }
+  const hourOptions = useMemo(() => generateOptions(0, 23), []);
+  const minOptions = useMemo(() => generateOptions(0, 59), []);
 
   return (
     <>
@@ -76,7 +73,6 @@ const TimePicker = () => {
 };
 
 const DatePicker = () => {
-  const { theme } = useTheme();
   const { i18n } = useTranslation();
   moment.locale(i18n.language === "en" ? "en" : "zh-tw");
 
@@ -96,38 +92,19 @@ const DatePicker = () => {
     });
   };
 
-  const muiTheme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          primary: {
-            main: `${theme === "light" ? "#6490c4" : "rgb(66, 153, 225)"}`,
-            dark: `${theme === "light" ? "#6490c4" : "rgb(66, 153, 225)"}`,
-          },
-          mode: theme as "light" | "dark",
-        },
-      }),
-    [theme],
-  );
-
   return (
-    <ThemeProvider theme={muiTheme}>
-      <LocalizationProvider
-        dateAdapter={AdapterMoment}
-        dateLibInstance={moment}
-      >
-        <DateCalendar
-          value={selectedDate}
-          onChange={(datetime) => setDate(datetime)}
-          views={["day"]}
-          disablePast={true}
-          maxDate={moment().add(2, "months")}
-          reduceAnimations={true}
-          timezone={"Asia/Taipei"}
-          dayOfWeekFormatter={(_day, weekday) => `${_day}`}
-        />
-      </LocalizationProvider>
-    </ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment}>
+      <DateCalendar
+        value={selectedDate}
+        onChange={(datetime) => setDate(datetime)}
+        views={["day"]}
+        disablePast={true}
+        maxDate={moment().add(2, "months")}
+        reduceAnimations={true}
+        timezone={"Asia/Taipei"}
+        dayOfWeekFormatter={(_day, weekday) => `${_day}`}
+      />
+    </LocalizationProvider>
   );
 };
 

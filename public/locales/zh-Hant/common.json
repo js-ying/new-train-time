@@ -5,5 +5,11 @@
   "datetime": "出發時間",
   "startStationInputPlaceholder": "出發車站（e.g. 新竹）",
   "endStationInputPlaceholder": "抵達車站（e.g. 台北）",
-  "searchBtn": "搜尋"
+  "searchBtn": "搜尋",
+  "errorAlertTitle": "錯誤訊息",
+  "bothStationAreBlank": "請選擇「出發車站」與「抵達車站」",
+  "startStationIsBlank": "請選擇「出發車站」",
+  "endStationIsBlank": "請選擇「抵達車站」",
+  "datetimeNotAllow": "「出發時間」只可選擇今日至未來兩個月內的範圍",
+  "closeBtn": "關閉"
 }

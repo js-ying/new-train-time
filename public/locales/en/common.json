@@ -5,5 +5,11 @@
   "datetime": "Date Time",
   "startStationInputPlaceholder": "Departure Station (e.g. Hsinchu)",
   "endStationInputPlaceholder": "Arrival Station (e.g. Taipei)",
-  "searchBtn": "Search"
+  "searchBtn": "Search",
+  "errorAlertTitle": "Error Message",
+  "bothStationAreBlank": "Please select 'Departure Station' and 'Arrival Station'.",
+  "startStationIsBlank": "Please select 'Departure Station'.",
+  "endStationIsBlank": "Please select 'Arrival Station'.",
+  "datetimeNotAllow": "'Departure Time' can only be selected within today and the next two months.",
+  "closeBtn": "Close"
 }
