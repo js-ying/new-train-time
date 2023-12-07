@@ -68,7 +68,7 @@ img {
 }
 
 .common-button {
-  @apply w-full cursor-pointer rounded bg-neutral-500 px-3 py-2 text-center text-white
+  @apply w-full cursor-pointer rounded bg-neutral-500 text-center text-white
   transition duration-150 ease-out
   hover:bg-neutral-500/80 dark:bg-neutral-600 hover:dark:bg-neutral-600/80;
 }

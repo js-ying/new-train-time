@@ -1,54 +1,41 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import Dialog from "@mui/material/Dialog";
 import { SearchAreaContext } from "../contexts/SearchAreaContext";
 import { getTrStationNameById } from "../utils/station-utils";
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
 import DateUtils from "../utils/date-utils";
+import CommonDialog from "./CommonDialog";
+import { PathEnum } from "../enums/Path";
+import { PageEnum } from "../enums/Page";
 
-const ErrorIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="h-6 w-6"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
-      />
-    </svg>
-  );
-};
+export interface HistoryInquiry {
+  startStationId: string;
+  endStationId: string;
+}
 
-const SearchButton = () => {
+const SearchButton = ({ page }) => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const [open, setOpen] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
+  const localStorageKey = `${page}HistoryList`;
 
-  const checkParams = (
+  const isParamsValid = (
     startStationId: string,
     endStationId: string,
     date: string,
-    callBack: Function,
   ) => {
     if (!startStationId && !endStationId) {
       setAlertMsg("bothStationAreBlank");
       setOpen(true);
-      return;
+      return false;
+    }
+
+    if (startStationId === endStationId) {
+      setAlertMsg("sameStation");
+      setOpen(true);
+      return false;
     }
 
     if (
@@ -57,23 +44,69 @@ const SearchButton = () => {
     ) {
       setAlertMsg("datetimeNotAllow");
       setOpen(true);
-      return;
+      return false;
     }
 
-    callBack();
+    return true;
+  };
+
+  const saveHistoryListToLocalStorage = ({
+    startStationId,
+    endStationId,
+  }: HistoryInquiry) => {
+    let historyList: HistoryInquiry[] = [];
+    const valueString = window.localStorage.getItem(localStorageKey);
+    if (valueString) {
+      const value = JSON.parse(valueString);
+      if (Array.isArray(value) && value.length > 0) {
+        historyList = value;
+      }
+    }
+
+    if (historyList.length > 4) {
+      historyList.shift();
+    }
+
+    let hasDuplicate = false;
+    let duplicateIndex;
+    if (historyList.length > 0) {
+      historyList.forEach((history, index) => {
+        if (
+          JSON.stringify(history) ===
+          JSON.stringify({ startStationId, endStationId })
+        ) {
+          hasDuplicate = true;
+          duplicateIndex = index;
+        }
+      });
+    }
+
+    if (hasDuplicate) {
+      historyList.splice(duplicateIndex, 1);
+    }
+
+    historyList.push({ startStationId, endStationId });
+
+    window.localStorage.setItem(localStorageKey, JSON.stringify(historyList));
   };
 
   const handleSearch = () => {
-    checkParams(params.startStation, params.endStation, params.date, () => {
-      router.push({
-        pathname: "/TR/search",
-        query: {
-          s: getTrStationNameById(params.startStation, i18n.language),
-          e: getTrStationNameById(params.endStation, i18n.language),
-          d: params.date,
-          t: params.time.replace(":", ""),
-        },
-      });
+    if (!isParamsValid(params.startStationId, params.endStationId, params.date))
+      return;
+
+    saveHistoryListToLocalStorage({
+      startStationId: params.startStationId,
+      endStationId: params.endStationId,
+    });
+
+    router.push({
+      pathname: `${PathEnum[page + "Search"]}`,
+      query: {
+        s: getTrStationNameById(params.startStationId, i18n.language),
+        e: getTrStationNameById(params.endStationId, i18n.language),
+        d: params.date,
+        t: params.time.replace(":", ""),
+      },
     });
   };
 
@@ -90,28 +123,7 @@ const SearchButton = () => {
       >
         {t("searchBtn")}
       </button>
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          <div className="flex items-center gap-2">
-            {<ErrorIcon />} {t("errorAlertTitle")}
-          </div>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {t(alertMsg)}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)} autoFocus>
-            {t("closeBtn")}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <CommonDialog open={open} setOpen={setOpen} alertMsg={alertMsg} />
     </>
   );
 };

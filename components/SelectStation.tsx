@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useContext, useState } from "react";
 import { useTranslation } from "next-i18next";
 import {
   TrStationData,
@@ -6,12 +6,12 @@ import {
   trStationDataList,
 } from "../public/data/stationsData";
 import { getTdxLang } from "../utils/locale-utils";
-import { useContext, useState } from "react";
 import {
   SearchAreaContext,
   SearchAreaParams,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
+import { PageEnum } from "../enums/Page";
 
 const isStationBelowMainLine = (
   trStationData: TrStationData,
@@ -49,7 +49,7 @@ const handleStationSelect = (
   if (params?.activeIndex === 0) {
     setParams({
       ...params,
-      startStation: stationId,
+      startStationId: stationId,
       activeIndex: null,
       layer: 0,
     });
@@ -59,7 +59,7 @@ const handleStationSelect = (
   if (params?.activeIndex === 1) {
     setParams({
       ...params,
-      endStation: stationId,
+      endStationId: stationId,
       activeIndex: null,
       layer: 0,
     });
@@ -120,7 +120,7 @@ const StationInput = () => {
 
 const StationButton = ({ text, onClick }) => {
   return (
-    <div className="common-button" onClick={onClick}>
+    <div className="common-button px-3 py-2" onClick={onClick}>
       {text}
     </div>
   );
@@ -153,11 +153,11 @@ const SelectTrStation = () => {
       {/* 第 0 層：縣市 */}
       {params.layer === 0 &&
         !params.inputValue &&
-        trMainLines.map((trMmainLine) => (
+        trMainLines.map((trMainLine) => (
           <StationButton
-            text={trMmainLine[getTdxLang(i18n.language)]}
-            key={trMmainLine.En}
-            onClick={() => handleMainLineClick(trMmainLine.Zh_tw)}
+            text={trMainLine[getTdxLang(i18n.language)]}
+            key={trMainLine.En}
+            onClick={() => handleMainLineClick(trMainLine.Zh_tw)}
           />
         ))}
       {/* 第 1 層：車站 (若有輸入文字篩選，則顯示篩選結果；否則顯示位於指定縣市下的車站) */}
@@ -191,10 +191,9 @@ const SelectThsrStation = () => {
   return <div></div>;
 };
 
-const SelectStation = () => {
-  const router = useRouter();
-  const isTr = router.pathname.includes("TR");
-  const isThsr = router.pathname.includes("THSR");
+const SelectStation = ({ page }) => {
+  const isTr = page === PageEnum.TR;
+  const isThsr = page === PageEnum.THSR;
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useTranslation } from "next-i18next";
 import SelectStation from "./SelectStation";
 import SelectDatetime from "./SelectDatetime";
@@ -7,7 +7,8 @@ import {
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
 import { getTrStationNameById } from "../utils/station-utils";
-import SearchButton from "./SearchButton";
+import SearchButton, { HistoryInquiry } from "./SearchButton";
+import { PageEnum } from "../enums/Page";
 
 const Area = ({ children, isActive, onClick, className = "" }) => {
   return (
@@ -37,8 +38,8 @@ const SwitchButton = ({ className = "" }) => {
       onClick={() =>
         setParams({
           ...params,
-          startStation: params.endStation,
-          endStation: params.startStation,
+          startStationId: params.endStationId,
+          endStationId: params.startStationId,
         })
       }
     >
@@ -60,10 +61,25 @@ const SwitchButton = ({ className = "" }) => {
   );
 };
 
-const SearchArea = () => {
+const SearchArea = ({ page }) => {
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
+  const localStorageKey = `${page}HistoryList`;
+
+  // useEffect(() => {
+  //   const valueString = window.localStorage.getItem(localStorageKey);
+  //   if (valueString) {
+  //     const value: HistoryInquiry[] = JSON.parse(valueString);
+  //     if (Array.isArray(value) && value.length > 0) {
+  //       setParams({
+  //         ...params,
+  //         startStationId: value[value.length - 1].startStationId,
+  //         endStationId: value[value.length - 1].endStationId,
+  //       });
+  //     }
+  //   }
+  // }, []);
 
   const handleStationAreaClick = (clickIndex: number, activeIndex: number) => {
     // 若還沒點選過任何 Area，或是點擊的與已選的 Area 不同
@@ -102,7 +118,9 @@ const SearchArea = () => {
           onClick={() => handleStationAreaClick(0, params.activeIndex)}
         >
           {t("startStation")}
-          <div>{getTrStationNameById(params.startStation, i18n.language)}</div>
+          <div>
+            {getTrStationNameById(params.startStationId, i18n.language)}
+          </div>
         </Area>
         <SwitchButton />
         <Area
@@ -111,7 +129,7 @@ const SearchArea = () => {
           onClick={() => handleStationAreaClick(1, params.activeIndex)}
         >
           {t("endStation")}
-          <div>{getTrStationNameById(params.endStation, i18n.language)}</div>
+          <div>{getTrStationNameById(params.endStationId, i18n.language)}</div>
         </Area>
         <Area
           className="ml-6 hidden flex-1 md:flex"
@@ -136,8 +154,8 @@ const SearchArea = () => {
         </Area>
       </div>
       <div className="mt-6">
-        {params.activeIndex === 0 && <SelectStation />}
-        {params.activeIndex === 1 && <SelectStation />}
+        {params.activeIndex === 0 && <SelectStation page={page} />}
+        {params.activeIndex === 1 && <SelectStation page={page} />}
         {params.activeIndex === 2 && (
           <div className="flex justify-center">
             <SelectDatetime />
@@ -145,7 +163,7 @@ const SearchArea = () => {
         )}
       </div>
       <div className="mt-7 flex items-center justify-center">
-        <SearchButton />
+        <SearchButton page={PageEnum.TR} />
       </div>
     </>
   );

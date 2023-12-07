@@ -10,6 +10,8 @@
   "bothStationAreBlank": "請選擇「出發車站」與「抵達車站」",
   "startStationIsBlank": "請選擇「出發車站」",
   "endStationIsBlank": "請選擇「抵達車站」",
+  "sameStation": "「出發車站」和「抵達車站」不得相同",
   "datetimeNotAllow": "「出發時間」只可選擇今日至未來兩個月內的範圍",
-  "closeBtn": "關閉"
+  "closeBtn": "關閉",
+  "historyInquiry": "歷史查詢：共 {{nowLength}} / 5 筆"
 }

@@ -20,6 +20,11 @@ const DateUtils = {
   isAfter: (date1: string, date2: string): boolean => {
     return moment(date1).isAfter(date2);
   },
+  getTimeByUrlParam: (urlTimeParam: string) => {
+    if (!urlTimeParam || urlTimeParam.length !== 4) return null;
+
+    return `${urlTimeParam.slice(0, 2)}:${urlTimeParam.slice(2, 4)}`;
+  },
 };
 
 export default DateUtils;

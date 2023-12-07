@@ -1,20 +1,24 @@
 import { useContext } from "react";
+import { useRouter } from "next/router";
 import ThemeSwitch from "./ThemeSwitch";
+import LocaleChange from "./LocaleChange";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
-import LocaleChange from "./LocaleChange";
 import DateUtils from "../utils/date-utils";
+import { PathEnum } from "../enums/Path";
 
 interface LayoutParams {
   children: React.ReactNode;
+  page: string;
   title?: string;
 }
 
-export default function Layout({ children, title = "" }: LayoutParams) {
+export default function Layout({ children, page, title = "" }: LayoutParams) {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
+  const router = useRouter();
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
@@ -22,16 +26,19 @@ export default function Layout({ children, title = "" }: LayoutParams) {
         <h1 className="text-center">
           <span
             className="cursor-pointer"
-            onClick={() =>
+            onClick={() => {
               setParams({
                 ...params,
-                startStation: null,
-                endStation: null,
+                startStationId: null,
+                endStationId: null,
                 date: DateUtils.getCurrentDate(),
                 time: DateUtils.getCurrentTime(),
                 activeIndex: null,
-              })
-            }
+              });
+              router.push({
+                pathname: PathEnum[page + "Home"],
+              });
+            }}
           >
             {title}
           </span>

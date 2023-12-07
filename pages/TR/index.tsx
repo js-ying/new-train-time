@@ -5,6 +5,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material";
 import Layout from "../../components/Layout";
 import SearchArea from "../../components/SearchArea";
+import SearchHistory from "../../components/SearchHistory";
+import { PageEnum } from "../../enums/Page";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -31,9 +33,12 @@ export default function TrHome() {
     [theme],
   );
   return (
-    <Layout title={t("title")}>
+    <Layout title={t("title")} page={PageEnum.TR}>
       <MuiThemeProvider theme={muiTheme}>
-        <SearchArea />
+        <SearchArea page={PageEnum.TR} />
+        <div className="mt-7">
+          <SearchHistory page={PageEnum.TR} />
+        </div>
       </MuiThemeProvider>
     </Layout>
   );

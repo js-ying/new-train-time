@@ -7,16 +7,15 @@ const localeOptions = [
   { label: "English", value: "en" },
 ];
 
-const LocaleIcon = ({ iconRef = null }) => {
+const LocaleIcon = ({ isRotated }) => {
   return (
     <svg
-      ref={iconRef}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="rotate h-6 w-6"
+      className={`h-6 w-6 ${isRotated ? "rotate" : ""}`}
       id="locale-icon"
     >
       <path
@@ -108,14 +107,14 @@ const LocaleChangeByDropdown = () => {
  * 語系變更（Switch 版）
  */
 const LocaleChangeBySwitch = () => {
-  const iconRef = useRef(null);
   const { i18n } = useTranslation();
   const router = useRouter();
+  const [isRotated, setIsRotated] = useState(true);
 
   const handleChange = () => {
-    iconRef.current.classList.remove("rotate");
+    setIsRotated(false);
     setTimeout(() => {
-      iconRef.current.classList.add("rotate");
+      setIsRotated(true);
     });
 
     const locale = i18n.language === "en" ? "zh-Hant" : "en";
@@ -129,7 +128,7 @@ const LocaleChangeBySwitch = () => {
 
   return (
     <div className="inline-block cursor-pointer" onClick={handleChange}>
-      <LocaleIcon iconRef={iconRef} />
+      <LocaleIcon isRotated={isRotated} />
     </div>
   );
 };

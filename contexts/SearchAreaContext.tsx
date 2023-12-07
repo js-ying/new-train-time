@@ -1,8 +1,8 @@
 import { createContext, useState } from "react";
 import DateUtils from "../utils/date-utils";
 export interface SearchAreaParams {
-  startStation: string;
-  endStation: string;
+  startStationId: string;
+  endStationId: string;
   date: string;
   time: string;
   activeIndex: number;
@@ -16,11 +16,11 @@ export const SearchAreaUpdateContext = createContext(null);
 
 export function SearchAreaProvider({ children }) {
   const [searchAreaParams, setSearchAreaParams] = useState({
-    startStation: "1210",
-    endStation: "1000",
+    startStationId: null,
+    endStationId: null,
     date: DateUtils.getCurrentDate(),
     time: DateUtils.getCurrentTime(),
-    activeIndex: 0,
+    activeIndex: null,
     layer: 0,
     inputValue: "",
   });
