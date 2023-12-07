@@ -12,6 +12,10 @@ import {
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
 import { PageEnum } from "../enums/Page";
+import {
+  SearchAreaActiveIndexEnum,
+  SearchAreaLayerEnum,
+} from "../enums/SearchAreaParamsEnum";
 
 const isStationBelowMainLine = (
   trStationData: TrStationData,
@@ -46,12 +50,12 @@ const handleStationSelect = (
   setParams: (params: SearchAreaParams) => void,
 ): void => {
   // 出發車站
-  if (params?.activeIndex === 0) {
+  if (params?.activeIndex === SearchAreaActiveIndexEnum.START_STATION) {
     setParams({
       ...params,
       startStationId: stationId,
-      activeIndex: null,
-      layer: 0,
+      activeIndex: SearchAreaActiveIndexEnum.EMPTY,
+      layer: SearchAreaLayerEnum.FIRST_LAYER,
     });
   }
 
@@ -60,8 +64,8 @@ const handleStationSelect = (
     setParams({
       ...params,
       endStationId: stationId,
-      activeIndex: null,
-      layer: 0,
+      activeIndex: SearchAreaActiveIndexEnum.EMPTY,
+      layer: SearchAreaLayerEnum.FIRST_LAYER,
     });
   }
 };
@@ -72,7 +76,7 @@ const StationInput = () => {
   const setParams = useContext(SearchAreaUpdateContext);
 
   const placeholder =
-    params.activeIndex === 0
+    params.activeIndex === SearchAreaActiveIndexEnum.START_STATION
       ? t("startStationInputPlaceholder")
       : t("endStationInputPlaceholder");
 
@@ -134,7 +138,7 @@ const SelectTrStation = () => {
 
   const handleMainLineClick = (zhMainLine: string): void => {
     setMaineLine(zhMainLine);
-    setParams({ ...params, layer: 1 });
+    setParams({ ...params, layer: SearchAreaLayerEnum.SECOND_LAYER });
   };
 
   const getStationName = (trStationData: TrStationData): string => {

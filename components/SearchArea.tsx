@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import SelectStation from "./SelectStation";
 import SelectDatetime from "./SelectDatetime";
@@ -9,6 +9,10 @@ import {
 import { getTrStationNameById } from "../utils/station-utils";
 import SearchButton, { HistoryInquiry } from "./SearchButton";
 import { PageEnum } from "../enums/Page";
+import {
+  SearchAreaActiveIndexEnum,
+  SearchAreaLayerEnum,
+} from "../enums/SearchAreaParamsEnum";
 
 const Area = ({ children, isActive, onClick, className = "" }) => {
   return (
@@ -67,42 +71,65 @@ const SearchArea = ({ page }) => {
   const setParams = useContext(SearchAreaUpdateContext);
   const localStorageKey = `${page}HistoryList`;
 
-  // useEffect(() => {
-  //   const valueString = window.localStorage.getItem(localStorageKey);
-  //   if (valueString) {
-  //     const value: HistoryInquiry[] = JSON.parse(valueString);
-  //     if (Array.isArray(value) && value.length > 0) {
-  //       setParams({
-  //         ...params,
-  //         startStationId: value[value.length - 1].startStationId,
-  //         endStationId: value[value.length - 1].endStationId,
-  //       });
-  //     }
-  //   }
-  // }, []);
+  // 處理預設車站
+  const handleDefaultStation = () => {
+    const alreadyMountedKey = `${page}AlreadyMounted`;
+    const alreadyMounted = localStorage.getItem(alreadyMountedKey);
 
-  const handleStationAreaClick = (clickIndex: number, activeIndex: number) => {
+    // 僅第一次載入時執行
+    // 元件 re-mounted (切換 page 時) 也不執行
+    if (!alreadyMounted || alreadyMounted === "false") {
+      const valueString = window.localStorage.getItem(localStorageKey);
+      if (valueString) {
+        const value: HistoryInquiry[] = JSON.parse(valueString);
+        if (Array.isArray(value) && value.length > 0) {
+          setParams({
+            ...params,
+            startStationId: value[value.length - 1].startStationId,
+            endStationId: value[value.length - 1].endStationId,
+          });
+        }
+      }
+
+      // 設定 localStorage，表示已經執行過
+      localStorage.setItem(alreadyMountedKey, "true");
+
+      // 關閉瀏覽器分頁時，刪除 localStorage 中的值，以便下次進入此系統時可預設車站
+      window.addEventListener("beforeunload", () => {
+        localStorage.setItem(alreadyMountedKey, "false");
+      });
+    }
+  };
+
+  useEffect(() => {
+    handleDefaultStation();
+  }, []);
+
+  const handleStationAreaClick = (
+    clickIndex: number,
+    activeIndex: SearchAreaActiveIndexEnum,
+  ) => {
     // 若還沒點選過任何 Area，或是點擊的與已選的 Area 不同
     if (activeIndex === null || activeIndex !== clickIndex) {
       setParams({
         ...params,
         activeIndex: clickIndex,
-        layer: 0,
+        layer: SearchAreaLayerEnum.FIRST_LAYER,
         inputValue: "",
       });
     } else {
       // 若此次點擊與已點選的 Area 相同，且在第一層
-      if (params.layer === 0) {
+      if (params.layer === SearchAreaLayerEnum.FIRST_LAYER) {
         setParams({
           ...params,
-          activeIndex: null,
-          layer: 0,
+          activeIndex: SearchAreaActiveIndexEnum.EMPTY,
+          layer: SearchAreaLayerEnum.FIRST_LAYER,
           inputValue: "",
         });
       } else {
         setParams({
           ...params,
-          layer: 0,
+          layer: SearchAreaLayerEnum.FIRST_LAYER,
           inputValue: "",
         });
       }
@@ -114,8 +141,15 @@ const SearchArea = ({ page }) => {
       <div className="flex items-center gap-3">
         <Area
           className="flex-1"
-          isActive={params.activeIndex === 0}
-          onClick={() => handleStationAreaClick(0, params.activeIndex)}
+          isActive={
+            params.activeIndex === SearchAreaActiveIndexEnum.START_STATION
+          }
+          onClick={() =>
+            handleStationAreaClick(
+              SearchAreaActiveIndexEnum.START_STATION,
+              params.activeIndex,
+            )
+          }
         >
           {t("startStation")}
           <div>
@@ -125,16 +159,28 @@ const SearchArea = ({ page }) => {
         <SwitchButton />
         <Area
           className="flex-1"
-          isActive={params.activeIndex === 1}
-          onClick={() => handleStationAreaClick(1, params.activeIndex)}
+          isActive={
+            params.activeIndex === SearchAreaActiveIndexEnum.END_STATION
+          }
+          onClick={() =>
+            handleStationAreaClick(
+              SearchAreaActiveIndexEnum.END_STATION,
+              params.activeIndex,
+            )
+          }
         >
           {t("endStation")}
           <div>{getTrStationNameById(params.endStationId, i18n.language)}</div>
         </Area>
         <Area
           className="ml-6 hidden flex-1 md:flex"
-          isActive={params.activeIndex === 2}
-          onClick={() => handleStationAreaClick(2, params.activeIndex)}
+          isActive={params.activeIndex === SearchAreaActiveIndexEnum.DATE_TIME}
+          onClick={() =>
+            handleStationAreaClick(
+              SearchAreaActiveIndexEnum.DATE_TIME,
+              params.activeIndex,
+            )
+          }
         >
           {t("datetime")}
           <div>
@@ -144,8 +190,13 @@ const SearchArea = ({ page }) => {
       </div>
       <div className="mt-4 block md:hidden">
         <Area
-          isActive={params.activeIndex === 2}
-          onClick={() => handleStationAreaClick(2, params.activeIndex)}
+          isActive={params.activeIndex === SearchAreaActiveIndexEnum.DATE_TIME}
+          onClick={() =>
+            handleStationAreaClick(
+              SearchAreaActiveIndexEnum.DATE_TIME,
+              params.activeIndex,
+            )
+          }
         >
           {t("datetime")}
           <div>
@@ -154,9 +205,13 @@ const SearchArea = ({ page }) => {
         </Area>
       </div>
       <div className="mt-6">
-        {params.activeIndex === 0 && <SelectStation page={page} />}
-        {params.activeIndex === 1 && <SelectStation page={page} />}
-        {params.activeIndex === 2 && (
+        {params.activeIndex === SearchAreaActiveIndexEnum.START_STATION && (
+          <SelectStation page={page} />
+        )}
+        {params.activeIndex === SearchAreaActiveIndexEnum.END_STATION && (
+          <SelectStation page={page} />
+        )}
+        {params.activeIndex === SearchAreaActiveIndexEnum.DATE_TIME && (
           <div className="flex justify-center">
             <SelectDatetime />
           </div>

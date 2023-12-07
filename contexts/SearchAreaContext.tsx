@@ -1,13 +1,17 @@
 import { createContext, useState } from "react";
 import DateUtils from "../utils/date-utils";
+import {
+  SearchAreaActiveIndexEnum,
+  SearchAreaLayerEnum,
+} from "../enums/SearchAreaParamsEnum";
 export interface SearchAreaParams {
   startStationId: string;
   endStationId: string;
   date: string;
   time: string;
-  activeIndex: number;
+  activeIndex: SearchAreaActiveIndexEnum;
   // 目前只有台鐵的 SelectStation 才有分兩層，其餘皆為一層 (layer = 0)
-  layer: number;
+  layer: SearchAreaLayerEnum;
   inputValue: string;
 }
 
@@ -20,8 +24,8 @@ export function SearchAreaProvider({ children }) {
     endStationId: null,
     date: DateUtils.getCurrentDate(),
     time: DateUtils.getCurrentTime(),
-    activeIndex: null,
-    layer: 0,
+    activeIndex: SearchAreaActiveIndexEnum.EMPTY,
+    layer: SearchAreaLayerEnum.FIRST_LAYER,
     inputValue: "",
   });
 

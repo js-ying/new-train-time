@@ -13,6 +13,10 @@ import {
 import { getTrStationIdByName } from "../../utils/station-utils";
 import DateUtils from "../../utils/date-utils";
 import { PageEnum } from "../../enums/Page";
+import {
+  SearchAreaActiveIndexEnum,
+  SearchAreaLayerEnum,
+} from "../../enums/SearchAreaParamsEnum";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -58,8 +62,8 @@ export default function Search() {
         ),
         date: router.query.d,
         time: DateUtils.getTimeByUrlParam(router.query.t as string),
-        activeIndex: null,
-        layer: 0,
+        activeIndex: SearchAreaActiveIndexEnum.EMPTY,
+        layer: SearchAreaLayerEnum.FIRST_LAYER,
         inputValue: "",
       });
     }

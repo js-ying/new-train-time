@@ -8,6 +8,7 @@ import {
 } from "../contexts/SearchAreaContext";
 import DateUtils from "../utils/date-utils";
 import { PathEnum } from "../enums/Path";
+import { SearchAreaActiveIndexEnum } from "../enums/SearchAreaParamsEnum";
 
 interface LayoutParams {
   children: React.ReactNode;
@@ -33,7 +34,7 @@ export default function Layout({ children, page, title = "" }: LayoutParams) {
                 endStationId: null,
                 date: DateUtils.getCurrentDate(),
                 time: DateUtils.getCurrentTime(),
-                activeIndex: null,
+                activeIndex: SearchAreaActiveIndexEnum.EMPTY,
               });
               router.push({
                 pathname: PathEnum[page + "Home"],
