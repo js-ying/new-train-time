@@ -3,28 +3,50 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment-timezone";
 import "moment/locale/zh-tw";
 import { useTranslation } from "next-i18next";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
+import DateUtils from "../utils/date-utils";
+
+const NowTimeButton = () => {
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
+  const resetDateTime = () => {
+    setParams({
+      ...params,
+      date: DateUtils.getCurrentDate(),
+      time: DateUtils.getCurrentTime(),
+    });
+  };
+
+  return (
+    <div
+      className="dark:text-orange cursor-pointer text-grayBlue"
+      onClick={resetDateTime}
+    >
+      此時此刻
+    </div>
+  );
+};
 
 const TimePicker = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
-  const [hour, setHour] = useState(params.time?.split(":")[0]);
-  const [min, setMin] = useState(params.time?.split(":")[1]);
+  // 為了讓 <此時此刻> 按鈕方便運作，這邊不使用 useState，而是每次 re-render 時直接取得 params 最新值即可
+  const hour = params.time?.split(":")[0];
+  const min = params.time?.split(":")[1];
 
   const setTime = (type: string, value: string) => {
     if (type === "hour") {
-      setHour(value);
       setParams({
         ...params,
         time: `${value}:${min}`,
       });
     } else {
-      setMin(value);
       setParams({
         ...params,
         time: `${hour}:${value}`,
@@ -44,7 +66,7 @@ const TimePicker = () => {
   const minOptions = useMemo(() => generateOptions(0, 59), []);
 
   return (
-    <>
+    <div className="relative flex items-center">
       <select
         value={hour}
         onChange={(e) => setTime("hour", e.target.value)}
@@ -68,7 +90,10 @@ const TimePicker = () => {
           </option>
         ))}
       </select>
-    </>
+      <div className="absolute -right-16 text-sm">
+        <NowTimeButton />
+      </div>
+    </div>
   );
 };
 
@@ -79,12 +104,11 @@ const DatePicker = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
-  const [selectedDate, setSelectedDate] = useState(moment(params.date));
+  // 為了讓 <此時此刻> 按鈕方便運作，這邊不使用 useState，而是每次 re-render 時直接取得 params 最新值即可
+  const selectedDate = moment(params.date);
 
   const setDate = (date) => {
     if (!date) return;
-
-    setSelectedDate(date);
 
     setParams({
       ...params,
