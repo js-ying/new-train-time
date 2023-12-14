@@ -2,58 +2,27 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { SearchAreaContext } from "../contexts/SearchAreaContext";
-import { getTrStationNameById } from "../utils/station-utils";
-import DateUtils from "../utils/date-utils";
-import CommonDialog from "./CommonDialog";
-import { PathEnum } from "../enums/Path";
 import { PageEnum } from "../enums/Page";
+import { PathEnum } from "../enums/Path";
+import { isParamsValid } from "../pages/search";
+import { getStationNameById } from "../utils/station-utils";
+import CommonDialog from "./CommonDialog";
 
 export interface HistoryInquiry {
   startStationId: string;
   endStationId: string;
 }
 
-const SearchButton = ({ page }) => {
+/** 搜尋按鈕 */
+const SearchButton = ({ page }: { page: PageEnum }) => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
-  const [open, setOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
   const localStorageKey = `${page}HistoryList`;
 
-  const isParamsValid = (
-    startStationId: string,
-    endStationId: string,
-    date: string,
-  ) => {
-    if (!startStationId && !endStationId) {
-      setAlertMsg("bothStationAreBlank");
-      setOpen(true);
-      return false;
-    }
-
-    if (startStationId === endStationId) {
-      setAlertMsg("sameStation");
-      setOpen(true);
-      return false;
-    }
-
-    if (
-      DateUtils.isBefore(date, DateUtils.getCurrentDate()) ||
-      DateUtils.isAfter(date, DateUtils.addMonth(DateUtils.getCurrentDate(), 2))
-    ) {
-      setAlertMsg("datetimeNotAllow");
-      setOpen(true);
-      return false;
-    }
-
-    return true;
-  };
-
-  const saveHistoryListToLocalStorage = ({
-    startStationId,
-    endStationId,
-  }: HistoryInquiry) => {
+  const saveHistory = ({ startStationId, endStationId }: HistoryInquiry) => {
     let historyList: HistoryInquiry[] = [];
     const valueString = window.localStorage.getItem(localStorageKey);
     if (valueString) {
@@ -91,10 +60,18 @@ const SearchButton = ({ page }) => {
   };
 
   const handleSearch = () => {
-    if (!isParamsValid(params.startStationId, params.endStationId, params.date))
+    if (
+      !isParamsValid(
+        params.startStationId,
+        params.endStationId,
+        params.date,
+        setAlertMsg,
+        setAlertOpen,
+      )
+    )
       return;
 
-    saveHistoryListToLocalStorage({
+    saveHistory({
       startStationId: params.startStationId,
       endStationId: params.endStationId,
     });
@@ -102,8 +79,8 @@ const SearchButton = ({ page }) => {
     router.push({
       pathname: `${PathEnum[page + "Search"]}`,
       query: {
-        s: getTrStationNameById(params.startStationId, i18n.language),
-        e: getTrStationNameById(params.endStationId, i18n.language),
+        s: getStationNameById(page, params.startStationId, i18n.language),
+        e: getStationNameById(page, params.endStationId, i18n.language),
         d: params.date,
         t: params.time.replace(":", ""),
       },
@@ -123,7 +100,11 @@ const SearchButton = ({ page }) => {
       >
         {t("searchBtn")}
       </button>
-      <CommonDialog open={open} setOpen={setOpen} alertMsg={alertMsg} />
+      <CommonDialog
+        open={alertOpen}
+        setOpen={setAlertOpen}
+        alertMsg={alertMsg}
+      />
     </>
   );
 };

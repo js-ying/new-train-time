@@ -1,5 +1,8 @@
 {
-  "title": "Taiwan Railway Schedule Inquiry",
+  "trTitle": "TR Schedule Inquiry",
+  "thsrTitle": "THSR Schedule Inquiry",
+  "trToggle": "TR",
+  "thsrToggle": "THSR",
   "startStation": "Departure Station",
   "endStation": "Arrival Station",
   "datetime": "Departure Time",
@@ -13,5 +16,8 @@
   "sameStation": "'Departure Station' and 'Arrival Station' cannot be the same.",
   "datetimeNotAllow": "'Departure Time' can only be selected within today and the next two months.",
   "closeBtn": "Close",
-  "historyInquiry": "History Inquiry: {{nowLength}} / 5"
+  "historyInquiry": "History Inquiry: {{nowLength}} / 5",
+  "trainTypeFilterAll": "All",
+  "trainTypeFilterReserved": "Reserved",
+  "trainTypeFilterNonReserved": "Non Reserved"
 }

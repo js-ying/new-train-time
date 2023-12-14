@@ -1,6 +1,6 @@
 export enum PathEnum {
-  trHome = "/TR/",
+  trHome = "/",
   thsrHome = "/THSR/",
-  trSearch = "/TR/search",
+  trSearch = "/search",
   thsrSearch = "/THSR/search",
 }

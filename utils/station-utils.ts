@@ -1,5 +1,38 @@
+import { PageEnum } from "../enums/Page";
 import { trStationDataList } from "../public/data/stationsData";
 import { getTdxLang } from "./locale-utils";
+
+export const getStationNameById = (
+  page: PageEnum,
+  stationId: string,
+  lang: string,
+): string => {
+  if (page === PageEnum.TR) {
+    return getTrStationNameById(stationId, lang);
+  }
+
+  if (page === PageEnum.THSR) {
+    return "";
+  }
+
+  return "";
+};
+
+export const getStationIdByName = (
+  page: PageEnum,
+  stationName: string,
+  lang: string,
+): string => {
+  if (page === PageEnum.TR) {
+    return getTrStationIdByName(stationName, lang);
+  }
+
+  if (page === PageEnum.THSR) {
+    return "";
+  }
+
+  return "";
+};
 
 /**
  * 取得台鐵車站名稱

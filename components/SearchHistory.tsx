@@ -1,12 +1,14 @@
+import { useTranslation } from "next-i18next";
 import { useContext, useEffect, useState } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
-import { getTrStationNameById } from "../utils/station-utils";
-import { useTranslation } from "next-i18next";
+import { PageEnum } from "../enums/Page";
+import { getStationNameById } from "../utils/station-utils";
 import { HistoryInquiry } from "./SearchButton";
 
+/** 關閉按鈕 */
 const CloseButton = () => {
   return (
     <svg
@@ -26,7 +28,8 @@ const CloseButton = () => {
   );
 };
 
-const SearchHistory = ({ page }) => {
+/** 歷史查詢 */
+const SearchHistory = ({ page }: { page: PageEnum }) => {
   const [historyList, setHistoryList] = useState<HistoryInquiry[]>([]);
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
@@ -77,12 +80,17 @@ const SearchHistory = ({ page }) => {
                       )
                     }
                   >
-                    {getTrStationNameById(
+                    {getStationNameById(
+                      page,
                       history.startStationId,
                       i18n.language,
                     )}{" "}
                     →{" "}
-                    {getTrStationNameById(history.endStationId, i18n.language)}
+                    {getStationNameById(
+                      page,
+                      history.endStationId,
+                      i18n.language,
+                    )}
                   </div>
                 );
               })}

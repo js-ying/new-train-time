@@ -1,11 +1,5 @@
-import { useContext, useState } from "react";
 import { useTranslation } from "next-i18next";
-import {
-  TrStationData,
-  trMainLines,
-  trStationDataList,
-} from "../public/data/stationsData";
-import { getTdxLang } from "../utils/locale-utils";
+import { useContext, useState } from "react";
 import {
   SearchAreaContext,
   SearchAreaParams,
@@ -16,7 +10,14 @@ import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../enums/SearchAreaParamsEnum";
+import {
+  TrStationData,
+  trMainLines,
+  trStationDataList,
+} from "../public/data/stationsData";
+import { getTdxLang } from "../utils/locale-utils";
 
+/** 車站是否在指定縣市轄區內 */
 const isStationBelowMainLine = (
   trStationData: TrStationData,
   mainLine: string,
@@ -27,6 +28,7 @@ const isStationBelowMainLine = (
   );
 };
 
+/** 車站名稱是否符合輸入框內容 */
 const isStationNameIncludesInput = (
   trStationData: TrStationData,
   inputValue: string,
@@ -70,6 +72,7 @@ const handleStationSelect = (
   }
 };
 
+/** 車站輸入框 */
 const StationInput = () => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
@@ -122,6 +125,7 @@ const StationInput = () => {
   );
 };
 
+/** 車站按鈕 */
 const StationButton = ({ text, onClick }) => {
   return (
     <div className="common-button px-3 py-2" onClick={onClick}>
@@ -130,14 +134,15 @@ const StationButton = ({ text, onClick }) => {
   );
 };
 
+/** 車站選擇-台鐵 */
 const SelectTrStation = () => {
   const { i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const [mainLine, setMaineLine] = useState(null);
+  const [mainLine, setMainLine] = useState(null);
 
   const handleMainLineClick = (zhMainLine: string): void => {
-    setMaineLine(zhMainLine);
+    setMainLine(zhMainLine);
     setParams({ ...params, layer: SearchAreaLayerEnum.SECOND_LAYER });
   };
 
@@ -191,11 +196,13 @@ const SelectTrStation = () => {
   );
 };
 
+/** 車站選擇-高鐵 */
 const SelectThsrStation = () => {
   return <div></div>;
 };
 
-const SelectStation = ({ page }) => {
+/** 車站選擇器 */
+const SelectStation = ({ page }: { page: PageEnum }) => {
   const isTr = page === PageEnum.TR;
   const isThsr = page === PageEnum.THSR;
 

@@ -1,11 +1,6 @@
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-
-const localeOptions = [
-  { label: "繁體中文", value: "zh-Hant" },
-  { label: "English", value: "en" },
-];
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const LocaleIcon = ({ isRotated }) => {
   return (
@@ -30,6 +25,14 @@ const LocaleIcon = ({ isRotated }) => {
 const LocaleDropdown = ({ open, setOpen }) => {
   const dropdownRef = useRef(null);
   const router = useRouter();
+
+  const localeOptions = useMemo(
+    () => [
+      { label: "繁體中文", value: "zh-Hant" },
+      { label: "English", value: "en" },
+    ],
+    [],
+  );
 
   const handleChange = (value: string) => {
     router.push(
@@ -97,7 +100,7 @@ const LocaleChangeByDropdown = () => {
 
   return (
     <div className="inline-block cursor-pointer" onClick={() => setOpen(!open)}>
-      <LocaleIcon />
+      <LocaleIcon isRotated={true} />
       {open && <LocaleDropdown open={open} setOpen={setOpen} />}
     </div>
   );

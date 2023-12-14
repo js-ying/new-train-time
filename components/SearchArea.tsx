@@ -1,19 +1,20 @@
-import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
-import SelectStation from "./SelectStation";
-import SelectDatetime from "./SelectDatetime";
+import { useContext, useEffect } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
-import { getTrStationNameById } from "../utils/station-utils";
-import SearchButton, { HistoryInquiry } from "./SearchButton";
 import { PageEnum } from "../enums/Page";
 import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../enums/SearchAreaParamsEnum";
+import { getStationNameById } from "../utils/station-utils";
+import SearchButton, { HistoryInquiry } from "./SearchButton";
+import SelectDatetime from "./SelectDatetime";
+import SelectStation from "./SelectStation";
 
+/** 區域 */
 const Area = ({ children, isActive, onClick, className = "" }) => {
   return (
     <div
@@ -29,6 +30,7 @@ const Area = ({ children, isActive, onClick, className = "" }) => {
   );
 };
 
+/** 車站互換按鈕 */
 const SwitchButton = ({ className = "" }) => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -65,7 +67,8 @@ const SwitchButton = ({ className = "" }) => {
   );
 };
 
-const SearchArea = ({ page }) => {
+/** 搜尋區域 */
+const SearchArea = ({ page }: { page: PageEnum }) => {
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -73,7 +76,7 @@ const SearchArea = ({ page }) => {
 
   // 處理預設車站
   const handleDefaultStation = () => {
-    const alreadyMountedKey = `${page}AlreadyMounted`;
+    const alreadyMountedKey = `alreadyMounted`;
     const alreadyMounted = localStorage.getItem(alreadyMountedKey);
 
     // 僅第一次載入時執行
@@ -153,7 +156,7 @@ const SearchArea = ({ page }) => {
         >
           {t("startStation")}
           <div>
-            {getTrStationNameById(params.startStationId, i18n.language)}
+            {getStationNameById(page, params.startStationId, i18n.language)}
           </div>
         </Area>
         <SwitchButton />
@@ -170,7 +173,9 @@ const SearchArea = ({ page }) => {
           }
         >
           {t("endStation")}
-          <div>{getTrStationNameById(params.endStationId, i18n.language)}</div>
+          <div>
+            {getStationNameById(page, params.endStationId, i18n.language)}
+          </div>
         </Area>
         <Area
           className="ml-6 hidden flex-1 md:flex"
@@ -218,7 +223,7 @@ const SearchArea = ({ page }) => {
         )}
       </div>
       <div className="mt-7 flex items-center justify-center">
-        <SearchButton page={PageEnum.TR} />
+        <SearchButton page={page} />
       </div>
     </>
   );

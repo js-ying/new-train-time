@@ -1,5 +1,8 @@
 {
-  "title": "台鐵時刻查詢",
+  "trTitle": "台鐵時刻查詢",
+  "thsrTitle": "高鐵時刻查詢",
+  "trToggle": "查台鐵",
+  "thsrToggle": "查高鐵",
   "startStation": "出發車站",
   "endStation": "抵達車站",
   "datetime": "出發時間",
@@ -13,5 +16,8 @@
   "sameStation": "「出發車站」和「抵達車站」不得相同",
   "datetimeNotAllow": "「出發時間」只可選擇今日至未來兩個月內的範圍",
   "closeBtn": "關閉",
-  "historyInquiry": "歷史查詢：共 {{nowLength}} / 5 筆"
+  "historyInquiry": "歷史查詢：共 {{nowLength}} / 5 筆",
+  "trainTypeFilterAll": "全部",
+  "trainTypeFilterReserved": "對號列車",
+  "trainTypeFilterNonReserved": "非對號列車"
 }

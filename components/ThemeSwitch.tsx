@@ -39,6 +39,7 @@ const DarkModeIcon = () => {
   );
 };
 
+/** 亮暗色主題切換器 */
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();

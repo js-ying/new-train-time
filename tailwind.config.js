@@ -11,9 +11,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        grayBlack: '#212529',
-        grayBlue: '#81a4cd',
-      }
+        grayBlack: "#212529",
+        grayBlue: "#6490c4",
+        orange: "rgb(245 158 11)",
+      },
     },
   },
   plugins: [],
