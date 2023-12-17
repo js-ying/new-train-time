@@ -5,8 +5,8 @@ import { useTheme } from "next-themes";
 import Head from "next/head";
 import { useMemo } from "react";
 import Layout from "../components/Layout";
-import SearchArea from "../components/SearchArea";
-import SearchHistory from "../components/SearchHistory";
+import SearchArea from "../components/search-area/SearchArea";
+import SearchHistory from "../components/search-area/SearchHistory";
 import { PageEnum } from "../enums/Page";
 
 export async function getStaticProps({ locale }) {

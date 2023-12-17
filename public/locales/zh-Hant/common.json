@@ -19,5 +19,7 @@
   "historyInquiry": "歷史查詢：共 {{nowLength}} / 5 筆",
   "trainTypeFilterAll": "全部",
   "trainTypeFilterReserved": "對號列車",
-  "trainTypeFilterNonReserved": "非對號列車"
+  "trainTypeFilterNonReserved": "非對號列車",
+  "trainTableLengthCount": "共 {{ filter }} / {{ total }} 筆",
+  "trainInfoTimeDiff": "{{hour}} 時 {{min}} 分"
 }

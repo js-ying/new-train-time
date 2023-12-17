@@ -3,13 +3,13 @@ import { useContext, useEffect } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
-} from "../contexts/SearchAreaContext";
-import { PageEnum } from "../enums/Page";
+} from "../../contexts/SearchAreaContext";
+import { PageEnum } from "../../enums/Page";
 import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
-} from "../enums/SearchAreaParamsEnum";
-import { getStationNameById } from "../utils/station-utils";
+} from "../../enums/SearchAreaParamsEnum";
+import { getStationNameById } from "../../utils/station-utils";
 import SearchButton, { HistoryInquiry } from "./SearchButton";
 import SelectDatetime from "./SelectDatetime";
 import SelectStation from "./SelectStation";

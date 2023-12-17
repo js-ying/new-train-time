@@ -2,6 +2,13 @@ import { PageEnum } from "../enums/Page";
 import { trStationDataList } from "../public/data/stationsData";
 import { getTdxLang } from "./locale-utils";
 
+/**
+ * 取得車站名稱 by ID
+ * @param page
+ * @param stationId
+ * @param lang
+ * @returns
+ */
 export const getStationNameById = (
   page: PageEnum,
   stationId: string,
@@ -18,6 +25,13 @@ export const getStationNameById = (
   return "";
 };
 
+/**
+ * 取得車站 ID by 名稱
+ * @param page
+ * @param stationName
+ * @param lang
+ * @returns
+ */
 export const getStationIdByName = (
   page: PageEnum,
   stationName: string,
@@ -35,7 +49,7 @@ export const getStationIdByName = (
 };
 
 /**
- * 取得台鐵車站名稱
+ * 取得 [台鐵] 車站名稱 by ID
  * @param stationId
  * @param lang
  * @returns
@@ -57,6 +71,12 @@ export const getTrStationNameById = (
   return null;
 };
 
+/**
+ * 取得 [台鐵] 車站 ID by 名稱
+ * @param stationName
+ * @param lang
+ * @returns
+ */
 export const getTrStationIdByName = (
   stationName: string,
   lang: string,
@@ -73,3 +93,19 @@ export const getTrStationIdByName = (
 
   return null;
 };
+
+/**
+ * 取得 [台鐵] 車站名稱 by ID
+ * @param stationId
+ * @param lang
+ * @returns
+ */
+export const getThsrStationNameById = () => {};
+
+/**
+ * 取得 [高鐵] 車站 ID by 名稱
+ * @param stationName
+ * @param lang
+ * @returns
+ */
+export const getThsrStationIdByName = () => {};

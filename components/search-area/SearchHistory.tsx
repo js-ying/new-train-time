@@ -3,9 +3,9 @@ import { useContext, useEffect, useState } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
-} from "../contexts/SearchAreaContext";
-import { PageEnum } from "../enums/Page";
-import { getStationNameById } from "../utils/station-utils";
+} from "../../contexts/SearchAreaContext";
+import { PageEnum } from "../../enums/Page";
+import { getStationNameById } from "../../utils/station-utils";
 import { HistoryInquiry } from "./SearchButton";
 
 /** 關閉按鈕 */

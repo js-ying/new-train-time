@@ -1,12 +1,12 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import { SearchAreaContext } from "../contexts/SearchAreaContext";
-import { PageEnum } from "../enums/Page";
-import { PathEnum } from "../enums/Path";
-import { isParamsValid } from "../pages/search";
-import { getStationNameById } from "../utils/station-utils";
-import CommonDialog from "./CommonDialog";
+import { SearchAreaContext } from "../../contexts/SearchAreaContext";
+import { PageEnum } from "../../enums/Page";
+import { PathEnum } from "../../enums/Path";
+import { isParamsValid } from "../../pages/search";
+import { getStationNameById } from "../../utils/station-utils";
+import CommonDialog from "../CommonDialog";
 
 export interface HistoryInquiry {
   startStationId: string;

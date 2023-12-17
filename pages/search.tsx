@@ -2,14 +2,14 @@ import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTheme } from "next-themes";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useMemo, useState } from "react";
 import CommonDialog from "../components/CommonDialog";
 import Layout from "../components/Layout";
-import NoTrainData from "../components/NoTrainData";
-import SearchArea from "../components/SearchArea";
-import TrainTimeTable from "../components/TrainTimeTable";
-import TrainTimeTableNavbar from "../components/TrainTimeTableNavbar";
+import SearchArea from "../components/search-area/SearchArea";
+import NoTrainData from "../components/train-time-table/NoTrainData";
+import TrainTimeTable from "../components/train-time-table/TrainTimeTable";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
@@ -19,7 +19,11 @@ import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../enums/SearchAreaParamsEnum";
-import { trTimeTable } from "../public/mock/trainTimeTable";
+import { tdxTrTrainTimeTableMockData } from "../public/mock/trainTimeTableMockData";
+import {
+  TrTdxTrainTimeTable,
+  TrTrainTimeTable,
+} from "../types/tr-train-time-table";
 import DateUtils from "../utils/date-utils";
 import { getStationIdByName } from "../utils/station-utils";
 
@@ -92,14 +96,19 @@ export default function Search({ page = PageEnum.TR }) {
       }),
     [theme],
   );
+
   const router = useRouter();
-  const params = useContext(SearchAreaContext);
-  const setParams = useContext(SearchAreaUpdateContext);
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMsg, setAlertMsg] = useState(null);
-  const [trainTimeTable, setTrainTimeTable] = useState([]);
   const isTr = page === PageEnum.TR;
   const isThsr = page === PageEnum.THSR;
+
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMsg, setAlertMsg] = useState(null);
+
+  const [trainTimeTable, setTrainTimeTable] =
+    useState<TrTrainTimeTable[]>(null);
 
   // 初始化搜尋區域參數 from URL
   const initSearchAreaParams = () => {
@@ -127,15 +136,15 @@ export default function Search({ page = PageEnum.TR }) {
   const getTrainTimeTable = () => {
     console.log("getTrainTimeTable...");
     if (isTr) {
-      const result = trTimeTable;
+      const result: TrTdxTrainTimeTable = tdxTrTrainTimeTableMockData;
       if (result?.TrainTimetables?.length > 0) {
-        setTrainTimeTable([...trTimeTable.TrainTimetables]);
+        setTrainTimeTable([...tdxTrTrainTimeTableMockData.TrainTimetables]);
       }
     }
   };
 
   useEffect(() => {
-    // 一般導頁永遠都是 true，重新整理一開始是 false 需等待變 true
+    // 導頁永遠都是 true，直接進入/重新整理頁面一開始是 false，需等待變 true
     if (router.isReady) {
       const updatedParams = initSearchAreaParams();
       setParams(updatedParams);
@@ -149,40 +158,42 @@ export default function Search({ page = PageEnum.TR }) {
           setAlertOpen,
         )
       ) {
-        // getTrainTimeTable();
+        getTrainTimeTable();
       }
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
   return (
-    <Layout title={t(page + "Title")} page={page}>
-      <MuiThemeProvider theme={muiTheme}>
-        <SearchArea page={page} />
-        {/* 有列車資料 */}
-        {trainTimeTable.length > 0 ? (
-          <>
-            <div className="mt-7">
-              <TrainTimeTableNavbar page={page} dataList={trainTimeTable} />
-            </div>
+    <>
+      <Head>
+        <title>{t(page + "Title")}</title>
+      </Head>
+
+      <Layout title={t(page + "Title")} page={page}>
+        <MuiThemeProvider theme={muiTheme}>
+          <SearchArea page={page} />
+
+          {/* 有列車資料 */}
+          {trainTimeTable?.length > 0 && (
             <div className="mt-4">
               <TrainTimeTable page={page} dataList={trainTimeTable} />
             </div>
-          </>
-        ) : (
-          // 無列車資料
-          <div className="mt-7">
-            <NoTrainData />
-          </div>
-        )}
+          )}
 
-        <CommonDialog
-          open={alertOpen}
-          setOpen={setAlertOpen}
-          alertMsg={alertMsg}
-        />
-      </MuiThemeProvider>
-    </Layout>
+          {/* 無列車資料 */}
+          {trainTimeTable?.length <= 0 && (
+            <div className="mt-7">
+              <NoTrainData />
+            </div>
+          )}
+
+          <CommonDialog
+            open={alertOpen}
+            setOpen={setAlertOpen}
+            alertMsg={alertMsg}
+          />
+        </MuiThemeProvider>
+      </Layout>
+    </>
   );
 }

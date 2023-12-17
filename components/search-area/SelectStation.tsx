@@ -4,18 +4,18 @@ import {
   SearchAreaContext,
   SearchAreaParams,
   SearchAreaUpdateContext,
-} from "../contexts/SearchAreaContext";
-import { PageEnum } from "../enums/Page";
+} from "../../contexts/SearchAreaContext";
+import { PageEnum } from "../../enums/Page";
 import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
-} from "../enums/SearchAreaParamsEnum";
+} from "../../enums/SearchAreaParamsEnum";
 import {
   TrStationData,
   trMainLines,
   trStationDataList,
-} from "../public/data/stationsData";
-import { getTdxLang } from "../utils/locale-utils";
+} from "../../public/data/stationsData";
+import { getTdxLang } from "../../utils/locale-utils";
 
 /** 車站是否在指定縣市轄區內 */
 const isStationBelowMainLine = (
