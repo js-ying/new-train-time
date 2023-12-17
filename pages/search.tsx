@@ -175,7 +175,7 @@ export default function Search({ page = PageEnum.TR }) {
 
           {/* 有列車資料 */}
           {trainTimeTable?.length > 0 && (
-            <div className="mt-4">
+            <div className="mt-7">
               <TrainTimeTable page={page} dataList={trainTimeTable} />
             </div>
           )}

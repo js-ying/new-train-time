@@ -32,10 +32,6 @@ const SearchButton = ({ page }: { page: PageEnum }) => {
       }
     }
 
-    if (historyList.length > 4) {
-      historyList.shift();
-    }
-
     let hasDuplicate = false;
     let duplicateIndex;
     if (historyList.length > 0) {
@@ -55,6 +51,10 @@ const SearchButton = ({ page }: { page: PageEnum }) => {
     }
 
     historyList.push({ startStationId, endStationId });
+
+    if (historyList.length > 5) {
+      historyList.shift();
+    }
 
     window.localStorage.setItem(localStorageKey, JSON.stringify(historyList));
   };
