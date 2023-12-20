@@ -16,12 +16,12 @@ const TrTrainService = ({ data }: { data: TrTrainInfo }) => {
         description: "行李服務",
       },
       {
-        imgName: "lunch",
+        imgName: "bento",
         flagName: "DiningFlag",
         description: "訂便當服務",
       },
       {
-        imgName: "breast-feeding",
+        imgName: "mother",
         flagName: "BreastFeedFlag",
         description: "哺(集)乳室車廂",
       },
