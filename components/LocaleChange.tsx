@@ -1,6 +1,8 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { PageEnum } from "../enums/Page";
+import { getStationIdByName, getStationNameById } from "../utils/station-utils";
 
 const LocaleIcon = ({ isRotated }) => {
   return (
@@ -109,7 +111,7 @@ const LocaleChangeByDropdown = () => {
 /**
  * 語系變更（Switch 版）
  */
-const LocaleChangeBySwitch = () => {
+const LocaleChangeBySwitch = (page: PageEnum) => {
   const { i18n } = useTranslation();
   const router = useRouter();
   const [isRotated, setIsRotated] = useState(true);
@@ -122,9 +124,32 @@ const LocaleChangeBySwitch = () => {
 
     const locale = i18n.language === "en" ? "zh-Hant" : "en";
 
-    router.push(
-      { pathname: router.pathname, query: router.query },
-      router.asPath,
+    let urlParams = router.query;
+    if (urlParams && Object.keys(urlParams).length > 0) {
+      // 翻譯 url 中的車站名稱
+      urlParams = {
+        ...urlParams,
+        s: getStationNameById(
+          page,
+          getStationIdByName(page, urlParams.s as string, i18n.language),
+          locale,
+        ),
+        e: getStationNameById(
+          page,
+          getStationIdByName(page, urlParams.e as string, i18n.language),
+          locale,
+        ),
+      };
+    }
+
+    // 改變語系不會改變 pathname，若使用 router.push，同 pathname 的話會無法觸發 query 的改變
+    // 所以使用 router.replace
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: urlParams,
+      },
+      undefined,
       { locale: locale },
     );
   };
@@ -139,8 +164,8 @@ const LocaleChangeBySwitch = () => {
 /**
  * 語系變更
  */
-const LocaleChange = () => {
-  return LocaleChangeBySwitch();
+const LocaleChange = ({ page }: { page: PageEnum }) => {
+  return LocaleChangeBySwitch(page);
 };
 
 export default LocaleChange;

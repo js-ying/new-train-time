@@ -51,7 +51,7 @@ export default function Layout({ children, page, title = "" }: LayoutParams) {
         </h1>
         <div className="absolute right-0 top-0.5">
           <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-200">
-            <LocaleChange />
+            <LocaleChange page={page} />
             <ThemeSwitch />
           </div>
         </div>
