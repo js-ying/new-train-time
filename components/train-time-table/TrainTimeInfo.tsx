@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next";
+import { useState } from "react";
 import { PageEnum } from "../../enums/Page";
 import { TrTrainTimeTable } from "../../types/tr-train-time-table";
 import ThsrTimeInfoLeftArea from "./THSR/ThsrTimeInfoLeftArea";
@@ -8,6 +9,7 @@ import TrTimeInfoLeftArea from "./TR/TrTimeInfoLeftArea";
 import TrTimeInfoMidArea from "./TR/TrTimeInfoMidArea";
 import TrTimeInfoRightArea from "./TR/TrTimeInfoRightArea";
 import TrTrainService from "./TR/TrTrainServices";
+import TrTrainTimeDetailDialog from "./TR/TrTrainTimeDetailDialog";
 
 /**
  * 列車時刻資訊
@@ -23,12 +25,18 @@ const TrainTimeInfo = ({
   const isTr = page === PageEnum.TR;
   const isThsr = page === PageEnum.THSR;
 
+  const [open, setOpen] = useState(false);
+  const openDetail = () => {
+    setOpen(true);
+  };
+
   return (
     <>
       <div
         className="relative grid cursor-pointer grid-cols-4 items-center
           justify-between rounded-md border border-solid border-zinc-700 p-2
           transition duration-150 ease-out dark:border-zinc-200"
+        onClick={openDetail}
       >
         <div className="text-center">
           {isTr && <TrTimeInfoLeftArea data={data} lang={i18n.language} />}
@@ -49,6 +57,8 @@ const TrainTimeInfo = ({
       <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
         {data.TrainInfo.Note}
       </div>
+
+      <TrTrainTimeDetailDialog open={open} setOpen={setOpen} data={data} />
     </>
   );
 };
