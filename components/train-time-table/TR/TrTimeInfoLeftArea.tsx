@@ -81,7 +81,7 @@ const TrTimeInfoLeftArea = ({
 
       {/* 起迄站 */}
       <div className="text-sm">
-        {data.TrainInfo.StartingStationName[getTdxLang(lang)]}-
+        {data.TrainInfo.StartingStationName[getTdxLang(lang)]} -{" "}
         {data.TrainInfo.EndingStationName[getTdxLang(lang)]}
       </div>
     </div>

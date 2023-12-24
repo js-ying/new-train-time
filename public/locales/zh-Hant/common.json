@@ -1,4 +1,6 @@
 {
+  "comma": "、",
+  "colon": "：",
   "trTitle": "台鐵時刻查詢",
   "thsrTitle": "高鐵時刻查詢",
   "trToggle": "查台鐵",
@@ -21,5 +23,24 @@
   "trainTypeFilterReserved": "對號列車",
   "trainTypeFilterNonReserved": "非對號列車",
   "trainTableLengthCount": "共 {{ filter }} / {{ total }} 筆",
-  "trainInfoTimeDiff": "{{hour}} 時 {{min}} 分"
+  "trainInfoTimeDiff": "{{hour}} 時 {{min}} 分",
+  "trainServiceWheelChairFlag": "身障旅客專用座位車",
+  "trainServicePackageServiceFlag": "行李服務",
+  "trainServiceDiningFlag": "訂便當服務",
+  "trainServiceBreastFeedFlag": "哺(集)乳室車廂",
+  "trainServiceBikeFlag": "人車同行",
+  "trainServiceExtraTrainFlag": "為加班車",
+  "trainDetail": "列車詳細資訊",
+  "trainNo": "車號",
+  "trainType": "車種",
+  "startAndEndStations": "起迄站",
+  "timeRange": "時程",
+  "ticketFare": "票價",
+  "adultPrice": "全票",
+  "discountedPrice": "半票",
+  "trainServices": "服務",
+  "note": "註記",
+  "stationName": "站名",
+  "arrivalTime": "到站時間",
+  "leaveTime": "離開時間"
 }

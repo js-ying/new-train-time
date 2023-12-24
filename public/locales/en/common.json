@@ -1,4 +1,6 @@
 {
+  "comma": ", ",
+  "colon": ": ",
   "trTitle": "TR Schedule Inquiry",
   "thsrTitle": "THSR Schedule Inquiry",
   "trToggle": "TR",
@@ -21,5 +23,24 @@
   "trainTypeFilterReserved": "Reserved",
   "trainTypeFilterNonReserved": "Non Reserved",
   "trainTableLengthCount": "{{ filter }} / {{ total }}",
-  "trainInfoTimeDiff": "{{hour}} hour(s) {{min}} min(s)"
+  "trainInfoTimeDiff": "{{hour}} hour(s) {{min}} min(s)",
+  "trainServiceWheelChairFlag": "Disability seat service",
+  "trainServicePackageServiceFlag": "Luggage Service",
+  "trainServiceDiningFlag": "Lunchbox order service",
+  "trainServiceBreastFeedFlag": "Nursing rooms",
+  "trainServiceBikeFlag": "Bicycle",
+  "trainServiceExtraTrainFlag": "Extra Train",
+  "trainDetail": "Train Detail Info",
+  "trainNo": "Train No",
+  "trainType": "Train Type",
+  "startAndEndStations": "Stations",
+  "timeRange": "Time Range",
+  "ticketFare": "Ticket Fare",
+  "adultPrice": "Adult Fare",
+  "discountedPrice": "Half Fare",
+  "trainServices": "Train Services",
+  "note": "Note",
+  "stationName": "Station Name",
+  "arrivalTime": "Arrival Time",
+  "leaveTime": "DepartureTime Time"
 }
