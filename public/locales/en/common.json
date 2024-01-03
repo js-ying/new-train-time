@@ -1,6 +1,7 @@
 {
   "comma": ", ",
   "colon": ": ",
+  "none": "None",
   "trTitle": "TR Schedule Inquiry",
   "thsrTitle": "THSR Schedule Inquiry",
   "trToggle": "TR",
@@ -33,7 +34,7 @@
   "trainDetail": "Train Detail Info",
   "trainNo": "Train No",
   "trainType": "Train Type",
-  "startAndEndStations": "Stations",
+  "station": "Station",
   "timeRange": "Time Range",
   "ticketFare": "Ticket Fare",
   "adultPrice": "Adult Fare",
@@ -42,5 +43,8 @@
   "note": "Note",
   "stationName": "Station Name",
   "arrivalTime": "Arrival Time",
-  "leaveTime": "DepartureTime Time"
+  "leaveTime": "DepartureTime Time",
+  "onTime": "On Time",
+  "delay": "Delay",
+  "minute": "minute(s)"
 }

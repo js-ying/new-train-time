@@ -1,3 +1,7 @@
+export interface TrDelayInfo {
+  DelayTime: number;
+}
+
 export interface TrTrainInfo {
   TrainNo: string;
   Direction: number;
@@ -56,6 +60,7 @@ export interface TrTrainTimeTable {
   TrainInfo: TrTrainInfo;
   StopTimes: TrStopTime[];
   fareList: TrFare[];
+  delayInfo: TrDelayInfo[];
 }
 
 export interface TrTdxTrainTimeTable {

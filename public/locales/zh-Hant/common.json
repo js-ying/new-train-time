@@ -1,6 +1,7 @@
 {
   "comma": "、",
   "colon": "：",
+  "none": "無",
   "trTitle": "台鐵時刻查詢",
   "thsrTitle": "高鐵時刻查詢",
   "trToggle": "查台鐵",
@@ -33,7 +34,7 @@
   "trainDetail": "列車詳細資訊",
   "trainNo": "車號",
   "trainType": "車種",
-  "startAndEndStations": "起迄站",
+  "station": "車站",
   "timeRange": "時程",
   "ticketFare": "票價",
   "adultPrice": "全票",
@@ -42,5 +43,8 @@
   "note": "註記",
   "stationName": "站名",
   "arrivalTime": "到站時間",
-  "leaveTime": "離開時間"
+  "leaveTime": "離開時間",
+  "onTime": "準點",
+  "delay": "誤點",
+  "minute": "分鐘"
 }

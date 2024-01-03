@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { SearchAreaContext } from "../../../contexts/SearchAreaContext";
 import { TrTrainTimeTable } from "../../../types/tr-train-time-table";
 import { getTimeDiff } from "../../../utils/train-info-utils";
+import TrDelay from "./TrDelay";
 
 const TrTimeInfoMidArea = ({
   data,
@@ -21,6 +22,7 @@ const TrTimeInfoMidArea = ({
 
   return (
     <>
+      <TrDelay data={data.delayInfo} />
       <div>
         {data.StopTimes[0].DepartureTime} -{" "}
         {data.StopTimes[data.StopTimes.length - 1].ArrivalTime}
