@@ -1,57 +1,8 @@
 import { TrTrainTimeTable } from "../../../types/tr-train-time-table";
 import { getTdxLang } from "../../../utils/locale-utils";
-import {
-  getTrTrainTypeNameByCode,
-  getTrTripLineNameByValue,
-} from "../../../utils/train-info-utils";
-
-const TrTrainType = ({ code, trainTypeName }) => {
-  return (
-    <>
-      {/* 自強 */}
-      {["3", "11"].includes(code) && (
-        <span className={"rounded bg-teal-500 px-1 py-0.5 text-white"}>
-          {trainTypeName}
-        </span>
-      )}
-
-      {/* 區間 */}
-      {["6", "7", "10"].includes(code) && (
-        <span className={"rounded bg-sky-500 px-1 py-0.5 text-white"}>
-          {trainTypeName}
-        </span>
-      )}
-
-      {/* 大魯閣 */}
-      {["1"].includes(code) && (
-        <span className={"rounded bg-indigo-500 px-1 py-0.5 text-white"}>
-          {trainTypeName}
-        </span>
-      )}
-
-      {/* 普悠瑪 */}
-      {["2"].includes(code) && (
-        <span className={"rounded bg-rose-500 px-1 py-0.5 text-white"}>
-          {trainTypeName}
-        </span>
-      )}
-
-      {/* 莒光號 */}
-      {["4"].includes(code) && (
-        <span className={"rounded bg-amber-500 px-1 py-0.5 text-white"}>
-          {trainTypeName}
-        </span>
-      )}
-
-      {/* 復興 */}
-      {["5"].includes(code) && (
-        <span className={"rounded bg-amber-500 px-1 py-0.5 text-white"}>
-          {trainTypeName}
-        </span>
-      )}
-    </>
-  );
-};
+import { getTrTrainTypeNameByCode } from "../../../utils/train-info-utils";
+import TrTrainType from "./TrTrainType";
+import TrTripLine from "./TrTripLine";
 
 const TrTimeInfoLeftArea = ({
   data,
@@ -64,8 +15,10 @@ const TrTimeInfoLeftArea = ({
     <div className="flex flex-col gap-1.5">
       {/* 車號與山海線 */}
       <div className="text-sm">
-        {data.TrainInfo.TrainNo}{" "}
-        {getTrTripLineNameByValue(data.TrainInfo.TripLine, lang)}
+        <TrTripLine
+          trainNo={data.TrainInfo.TrainNo}
+          tripLine={data.TrainInfo.TripLine}
+        />
       </div>
 
       {/* 車種 */}
