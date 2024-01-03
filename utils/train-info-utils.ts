@@ -7,6 +7,8 @@ import { getTdxLang } from "./locale-utils";
  * @returns
  */
 export const getTrTripLineNameByValue = (tripLineValue, lang) => {
+  if (!tripLineValue) return null;
+
   const tripLines = {
     0: {
       Zh_tw: "",
@@ -20,9 +22,13 @@ export const getTrTripLineNameByValue = (tripLineValue, lang) => {
       Zh_tw: "海線",
       En: "Sea",
     },
+    3: {
+      Zh_tw: "成追線",
+      En: "Chengzhui",
+    },
   };
 
-  return tripLines[tripLineValue][getTdxLang(lang)];
+  return tripLines[tripLineValue]?.[getTdxLang(lang)] || "";
 };
 
 /**
@@ -32,6 +38,8 @@ export const getTrTripLineNameByValue = (tripLineValue, lang) => {
  * @returns
  */
 export const getTrTrainTypeNameByCode = (trainTypeCode, lang): string => {
+  if (!trainTypeCode) return null;
+
   const trTrainTypes = {
     "1": {
       Zh_tw: "太魯閣",
