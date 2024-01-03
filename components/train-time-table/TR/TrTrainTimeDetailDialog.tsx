@@ -14,10 +14,21 @@ import {
 import { trTrainServiceList } from "./TrTrainServices";
 
 const TrainDetail = ({ data }: { data: TrTrainTimeTable }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="flex flex-col gap-2">
+      <div className="flex gap-2">
+        <Chip label={t("station")} size="small" color="primary" />
+        <div className="flex items-center">
+          {data.StopTimes[0].StationName[getTdxLang(i18n.language)]} -{" "}
+          {
+            data.StopTimes[data.StopTimes.length - 1].StationName[
+              getTdxLang(i18n.language)
+            ]
+          }
+        </div>
+      </div>
       <div className="flex gap-2">
         <Chip label={t("timeRange")} size="small" color="primary" />
         <div className="flex items-center">
@@ -32,7 +43,8 @@ const TrainDetail = ({ data }: { data: TrTrainTimeTable }) => {
             {t("adultPrice")} NTD{" "}
             {data.fareList.length > 0 && data.fareList[0].Price}
           </span>
-          <span className="ml-2">
+          {t("comma")}
+          <span>
             {t("discountedPrice")} NTD{" "}
             {data.fareList.length > 0 &&
               (data.fareList[0].Price / 2).toFixed(0)}
@@ -42,11 +54,14 @@ const TrainDetail = ({ data }: { data: TrTrainTimeTable }) => {
       <div className="flex gap-2">
         <Chip label={t("trainServices")} size="small" color="primary" />
         <div className="flex items-center">
-          {t("trainServices")}
           {trTrainServiceList
             .filter((service) => data.TrainInfo[service.flagName] === 1)
             .map((service) => t(`trainService${service.flagName}`))
             .join(t("comma"))}
+
+          {trTrainServiceList.filter(
+            (service) => data.TrainInfo[service.flagName] === 1,
+          ).length === 0 && t("none")}
         </div>
       </div>
       <div className="flex gap-2">
