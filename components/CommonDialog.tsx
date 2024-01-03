@@ -42,7 +42,7 @@ const CommonDialog = ({ open, setOpen, alertMsg }) => {
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {t(alertMsg)}
+          {t(alertMsg) || alertMsg}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

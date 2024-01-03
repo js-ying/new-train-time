@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useMemo, useState } from "react";
 import CommonDialog from "../components/CommonDialog";
 import Layout from "../components/Layout";
+import Loading from "../components/Loading";
 import SearchArea from "../components/search-area/SearchArea";
 import NoTrainData from "../components/train-time-table/NoTrainData";
 import TrainTimeTable from "../components/train-time-table/TrainTimeTable";
@@ -19,7 +20,7 @@ import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../enums/SearchAreaParamsEnum";
-import { tdxTrTrainTimeTableMockData } from "../public/mock/trainTimeTableMockData";
+import fetchData from "../services/fetch-data";
 import {
   TrTdxTrainTimeTable,
   TrTrainTimeTable,
@@ -107,6 +108,8 @@ export default function Search({ page = PageEnum.TR }) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [trainTimeTable, setTrainTimeTable] =
     useState<TrTrainTimeTable[]>(null);
 
@@ -133,14 +136,39 @@ export default function Search({ page = PageEnum.TR }) {
   };
 
   // 取得時刻表
-  const getTrainTimeTable = () => {
+  const getTrainTimeTable = async (
+    startStationId: string,
+    endStationId: string,
+    date: string,
+    time: string,
+  ) => {
     console.log("getTrainTimeTable...");
+    setIsLoading(true);
+
     if (isTr) {
-      const result: TrTdxTrainTimeTable = tdxTrTrainTimeTableMockData;
-      if (result?.TrainTimetables?.length > 0) {
-        setTrainTimeTable([...tdxTrTrainTimeTableMockData.TrainTimetables]);
+      try {
+        const result = await fetchData("/api/getTrainTimeTable", {
+          startStationId,
+          endStationId,
+          date,
+          time,
+        });
+
+        const data: TrTdxTrainTimeTable = result;
+        if (data?.TrainTimetables?.length >= 0) {
+          setTrainTimeTable([...data.TrainTimetables]);
+        } else {
+          setTrainTimeTable([]);
+        }
+      } catch (error) {
+        setTrainTimeTable([]);
+
+        setAlertMsg(error);
+        setAlertOpen(true);
       }
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -158,10 +186,21 @@ export default function Search({ page = PageEnum.TR }) {
           setAlertOpen,
         )
       ) {
-        getTrainTimeTable();
+        getTrainTimeTable(
+          updatedParams.startStationId,
+          updatedParams.endStationId,
+          updatedParams.date,
+          updatedParams.time,
+        );
       }
     }
-  }, [router.isReady]);
+  }, [
+    router.isReady,
+    router.query.s,
+    router.query.e,
+    router.query.d,
+    router.query.t,
+  ]);
 
   return (
     <>
@@ -192,6 +231,8 @@ export default function Search({ page = PageEnum.TR }) {
             setOpen={setAlertOpen}
             alertMsg={alertMsg}
           />
+
+          {isLoading && <Loading />}
         </MuiThemeProvider>
       </Layout>
     </>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageEnum } from "../../enums/Page";
 import { TrTrainTimeTable } from "../../types/tr-train-time-table";
 import TrainTimeInfo from "./TrainTimeInfo";
@@ -12,7 +12,11 @@ const TrainTimeTable = ({
   page: PageEnum;
   dataList: TrTrainTimeTable[];
 }) => {
-  const [filterDataList, setFilterDataList] = useState([...dataList]);
+  const [filterDataList, setFilterDataList] = useState(dataList);
+
+  useEffect(() => {
+    setFilterDataList([...dataList]);
+  }, [dataList]);
 
   return (
     <>
