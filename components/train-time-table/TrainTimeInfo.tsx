@@ -1,7 +1,9 @@
 import { useTranslation } from "next-i18next";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { SearchAreaContext } from "../../contexts/SearchAreaContext";
 import { PageEnum } from "../../enums/Page";
 import { TrTrainTimeTable } from "../../types/tr-train-time-table";
+import DateUtils from "../../utils/date-utils";
 import ThsrTimeInfoLeftArea from "./THSR/ThsrTimeInfoLeftArea";
 import ThsrTimeInfoMidArea from "./THSR/ThsrTimeInfoMidArea";
 import ThsrTimeInfoRightArea from "./THSR/ThsrTimeInfoRightArea";
@@ -25,17 +27,30 @@ const TrainTimeInfo = ({
   const isTr = page === PageEnum.TR;
   const isThsr = page === PageEnum.THSR;
 
+  const params = useContext(SearchAreaContext);
+
   const [open, setOpen] = useState(false);
   const openDetail = () => {
     setOpen(true);
   };
 
   return (
-    <>
+    <div
+      className={`${
+        DateUtils.isTrainPass(
+          params.date,
+          DateUtils.getCurrentDate(),
+          data.StopTimes[0].DepartureTime,
+        )
+          ? "opacity-40"
+          : ""
+      }`}
+    >
       <div
         className="relative grid cursor-pointer grid-cols-4 items-center
           justify-between rounded-md border border-solid border-zinc-700 p-2
-          transition duration-150 ease-out dark:border-zinc-200"
+          transition duration-150 ease-out
+          dark:border-zinc-200"
         onClick={openDetail}
       >
         <div className="text-center">
@@ -59,7 +74,7 @@ const TrainTimeInfo = ({
       </div>
 
       <TrTrainTimeDetailDialog open={open} setOpen={setOpen} data={data} />
-    </>
+    </div>
   );
 };
 

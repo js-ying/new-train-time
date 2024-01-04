@@ -30,8 +30,8 @@ const TrainTimeTable = ({
       </div>
 
       <div className="flex flex-col gap-4">
-        {filterDataList.map((data, index) => (
-          <div key={index}>
+        {filterDataList.map((data) => (
+          <div key={data.TrainInfo.TrainNo}>
             <TrainTimeInfo page={page} data={data} />
           </div>
         ))}
