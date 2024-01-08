@@ -24,7 +24,7 @@ const NowTimeButton = () => {
 
   return (
     <div
-      className="dark:text-orange cursor-pointer text-grayBlue"
+      className="cursor-pointer text-grayBlue focus:text-grayBlue/80 dark:text-orange dark:focus:text-orange/80"
       onClick={resetDateTime}
     >
       此時此刻

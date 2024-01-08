@@ -70,7 +70,7 @@ const SearchHistory = ({ page }: { page: PageEnum }) => {
             <div className="flex flex-col gap-2.5">
               {historyList.map((history) => {
                 return (
-                  <div
+                  <button
                     className="common-button px-2 py-1 text-sm"
                     key={`${history.startStationId}-${history.endStationId}`}
                     onClick={() =>
@@ -91,7 +91,7 @@ const SearchHistory = ({ page }: { page: PageEnum }) => {
                       history.endStationId,
                       i18n.language,
                     )}
-                  </div>
+                  </button>
                 );
               })}
 

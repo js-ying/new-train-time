@@ -63,14 +63,15 @@ img {
 .common-input {
   @apply w-full rounded-md border border-zinc-300 px-3 py-1.5 text-zinc-700 outline-none 
   transition duration-150 ease-out
-  focus:border-zinc-400 focus:ring focus:ring-zinc-300 
-  dark:bg-zinc-100 dark:focus:border-zinc-600 dark:focus:ring-zinc-500;
+  focus:border-zinc-400 focus:ring focus:ring-zinc-400/70 
+  dark:bg-zinc-100 dark:focus:border-zinc-500 dark:focus:ring-zinc-300/70;
 }
 
 .common-button {
   @apply cursor-pointer rounded bg-neutral-500 text-center text-white
   transition duration-150 ease-out
-  hover:bg-neutral-500/80 dark:bg-neutral-600 hover:dark:bg-neutral-600/80;
+  hover:bg-neutral-500/80 dark:bg-neutral-600 hover:dark:bg-neutral-600/80
+  ring-neutral-400/70 focus:ring dark:ring-neutral-300/70;
 }
 
 .common-select {

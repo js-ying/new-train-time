@@ -52,20 +52,23 @@ const TrTrainTypeFilter = ({
   return (
     <div className="flex">
       {trainTypeList.map((trainType, index) => (
-        <div
+        <button
           key={trainType}
           className={`cursor-pointer bg-neutral-500 px-3 py-1.5
             ${index === 0 ? "rounded-l" : ""}
             ${index === trainTypeList.length - 1 ? "rounded-r" : ""}
-            text-center text-white transition
-            duration-150 ease-out hover:bg-neutral-600 dark:bg-neutral-600 hover:dark:bg-neutral-700
+            text-center text-white ring-neutral-400/70
+            transition duration-150 ease-out
+            hover:bg-neutral-600 focus:ring dark:bg-neutral-600 dark:ring-neutral-300/70 hover:dark:bg-neutral-700
             ${
-              activeIndex === index ? "bg-neutral-600 dark:bg-neutral-700" : ""
+              activeIndex === index
+                ? " z-10 bg-neutral-600 dark:bg-neutral-700"
+                : ""
             }`}
           onClick={() => handleFilter(trainType, index)}
         >
           {t(trainType)}
-        </div>
+        </button>
       ))}
     </div>
   );
