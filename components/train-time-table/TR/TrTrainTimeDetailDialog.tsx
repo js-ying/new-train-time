@@ -1,3 +1,4 @@
+import { Grow } from "@mui/material";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Dialog from "@mui/material/Dialog";
@@ -123,6 +124,7 @@ const TrTrainTimeDetailDialog = ({
       aria-describedby="alert-dialog-description"
       fullWidth
       maxWidth="sm"
+      TransitionComponent={Grow}
     >
       <DialogTitle id="alert-dialog-title">
         <div className="flex items-center gap-2">
