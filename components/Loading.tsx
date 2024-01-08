@@ -1,7 +1,7 @@
 // Loading 元素的樣式可以根據您的需求進行調整
 const Loading = () => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div role="status" className="flex flex-col justify-center gap-2">
         <div className="flex justify-center">
           <svg
