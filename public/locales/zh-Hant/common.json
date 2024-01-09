@@ -13,11 +13,11 @@
   "endStationInputPlaceholder": "抵達車站（e.g. 台北）",
   "searchBtn": "搜尋",
   "errorAlertTitle": "錯誤訊息",
-  "bothStationAreBlank": "請選擇「出發車站」與「抵達車站」",
-  "startStationIsBlank": "請選擇「出發車站」",
-  "endStationIsBlank": "請選擇「抵達車站」",
-  "sameStation": "「出發車站」和「抵達車站」不得相同",
-  "datetimeNotAllow": "「出發時間」只可選擇今日至未來兩個月內的範圍",
+  "bothStationAreBlankMsg": "請選擇「出發車站」與「抵達車站」",
+  "startStationIsBlankMsg": "請選擇「出發車站」",
+  "endStationIsBlankMsg": "請選擇「抵達車站」",
+  "sameStationMsg": "「出發車站」和「抵達車站」不得相同",
+  "datetimeNotAllowMsg": "「出發時間」只可選擇今日至未來兩個月內的範圍",
   "closeBtn": "關閉",
   "historyInquiry": "歷史查詢：共 {{nowLength}} / 5 筆",
   "trainTypeFilterAll": "全部",
@@ -46,5 +46,8 @@
   "leaveTime": "離開時間",
   "onTime": "準點",
   "delay": "誤點",
-  "minute": "分鐘"
+  "minute": "分鐘",
+  "noTrainDataTitleMsg": "沒有查到列車資訊！有以下兩種可能：",
+  "noTrainInThisTimeMsg": "出發時間設定太晚，已無班次。",
+  "noTrainStopBetweenStationsMsg": "兩站間無停靠列車。"
 }

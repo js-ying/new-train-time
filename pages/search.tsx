@@ -45,25 +45,25 @@ export const isParamsValid = (
   setAlertOpen: Function,
 ): boolean => {
   if (!startStationId && !endStationId) {
-    setAlertMsg("bothStationAreBlank");
+    setAlertMsg("bothStationAreBlankMsg");
     setAlertOpen(true);
     return false;
   }
 
   if (!startStationId) {
-    setAlertMsg("startStationIsBlank");
+    setAlertMsg("startStationIsBlankMsg");
     setAlertOpen(true);
     return false;
   }
 
   if (!endStationId) {
-    setAlertMsg("endStationIsBlank");
+    setAlertMsg("endStationIsBlankMsg");
     setAlertOpen(true);
     return false;
   }
 
   if (startStationId === endStationId) {
-    setAlertMsg("sameStation");
+    setAlertMsg("sameStationMsg");
     setAlertOpen(true);
     return false;
   }
@@ -72,7 +72,7 @@ export const isParamsValid = (
     DateUtils.isBefore(date, DateUtils.getCurrentDate()) ||
     DateUtils.isAfter(date, DateUtils.addMonth(DateUtils.getCurrentDate(), 2))
   ) {
-    setAlertMsg("datetimeNotAllow");
+    setAlertMsg("datetimeNotAllowMsg");
     setAlertOpen(true);
     return false;
   }
