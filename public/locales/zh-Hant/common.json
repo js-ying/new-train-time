@@ -49,5 +49,6 @@
   "minute": "分鐘",
   "noTrainDataTitleMsg": "沒有查到列車資訊！有以下兩種可能：",
   "noTrainInThisTimeMsg": "出發時間設定太晚，已無班次。",
-  "noTrainStopBetweenStationsMsg": "兩站間無停靠列車。"
+  "noTrainStopBetweenStationsMsg": "兩站間無停靠列車。",
+  "noTrainDataDueToApiErrorMsg": "資料異常，請稍後再試，或通知系統管理員。"
 }

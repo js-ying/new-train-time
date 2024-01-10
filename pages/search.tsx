@@ -109,6 +109,7 @@ export default function Search({ page = PageEnum.TR }) {
   const [alertMsg, setAlertMsg] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isApiHealth, setIsApiHealth] = useState(true);
 
   const [trainTimeTable, setTrainTimeTable] =
     useState<TrTrainTimeTable[]>(null);
@@ -160,8 +161,11 @@ export default function Search({ page = PageEnum.TR }) {
         } else {
           setTrainTimeTable([]);
         }
+        setIsApiHealth(true);
       } catch (error) {
         setTrainTimeTable([]);
+
+        setIsApiHealth(false);
 
         setAlertMsg(error);
         setAlertOpen(true);
@@ -222,7 +226,7 @@ export default function Search({ page = PageEnum.TR }) {
           {/* 無列車資料 */}
           {trainTimeTable?.length <= 0 && (
             <div className="mt-7">
-              <NoTrainData />
+              <NoTrainData isApiHealth={isApiHealth} />
             </div>
           )}
 
