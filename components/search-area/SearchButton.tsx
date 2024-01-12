@@ -95,7 +95,7 @@ const SearchButton = ({ page }: { page: PageEnum }) => {
             cursor-pointer rounded-md bg-zinc-700 px-4 py-2 text-white
             ring-zinc-400/70 transition duration-150 
             ease-out hover:bg-zinc-700/80 focus:ring
-            dark:bg-grayBlue dark:ring-blue-200 hover:dark:bg-grayBlue/80
+            dark:bg-grayBlue dark:ring-grayBlue/60 hover:dark:bg-grayBlue/80
             "
         onClick={() => handleSearch()}
       >

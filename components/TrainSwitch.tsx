@@ -44,7 +44,7 @@ const TrainSwitch = ({ page = PageEnum.TR }) => {
 
   return (
     <div
-      className="dark:bg-orange cursor-pointer
+      className="dark:bg-gamboge cursor-pointer
         rounded-md bg-grayBlue px-1 py-0.5 text-sm text-white
         transition duration-150 ease-out dark:text-zinc-900"
       onClick={toggleTrainPage}

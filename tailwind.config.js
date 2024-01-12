@@ -13,7 +13,7 @@ module.exports = {
       colors: {
         grayBlack: "#212529",
         grayBlue: "#6490c4",
-        orange: "rgb(245,158,11)",
+        gamboge: "#f59e0b",
       },
     },
   },

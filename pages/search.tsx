@@ -89,8 +89,8 @@ export default function Search({ page = PageEnum.TR }) {
       createTheme({
         palette: {
           primary: {
-            main: `${theme === "light" ? "#6490c4" : "rgb(245,158,11)"}`,
-            dark: `${theme === "light" ? "#6490c4" : "rgb(245,158,11)"}`,
+            main: `${theme === "light" ? "#6490c4" : "#f59e0b"}`,
+            dark: `${theme === "light" ? "#6490c4" : "#f59e0b"}`,
           },
           mode: theme as "light" | "dark",
         },
