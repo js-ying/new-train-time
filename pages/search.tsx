@@ -168,7 +168,6 @@ export default function Search({ page = PageEnum.TR }) {
         setIsApiHealth(false);
 
         setAlertMsg(error);
-        setAlertOpen(true);
       }
     }
 
@@ -226,7 +225,7 @@ export default function Search({ page = PageEnum.TR }) {
           {/* 無列車資料 */}
           {trainTimeTable?.length <= 0 && (
             <div className="mt-7">
-              <NoTrainData isApiHealth={isApiHealth} />
+              <NoTrainData isApiHealth={isApiHealth} alertMsg={alertMsg} />
             </div>
           )}
 

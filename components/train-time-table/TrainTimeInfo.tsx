@@ -13,6 +13,26 @@ import TrTimeInfoRightArea from "./TR/TrTimeInfoRightArea";
 import TrTrainService from "./TR/TrTrainServices";
 import TrTrainTimeDetailDialog from "./TR/TrTrainTimeDetailDialog";
 
+const isTrainPass = (
+  date: string,
+  currentDate: string,
+  departureTime: string,
+): boolean => {
+  // 若查詢日期與當下日期相同
+  if (date === currentDate) {
+    const trainDatetime = new Date(
+      `${date.replace(/-/g, "/")} ${departureTime}`,
+    );
+    const nowDatetime = new Date();
+    // 若火車時間小於當下時間則代表火車已過時
+    if (trainDatetime < nowDatetime) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 /**
  * 列車時刻資訊
  */
@@ -37,7 +57,7 @@ const TrainTimeInfo = ({
   return (
     <div
       className={`${
-        DateUtils.isTrainPass(
+        isTrainPass(
           params.date,
           DateUtils.getCurrentDate(),
           data.StopTimes[0].DepartureTime,
