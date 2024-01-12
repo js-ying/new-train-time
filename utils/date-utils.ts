@@ -1,4 +1,5 @@
 import moment from "moment-timezone";
+import { DaySegmentEnum } from "../enums/DateEnum";
 moment().tz("Asia/Taipei");
 
 const DateUtils = {
@@ -21,7 +22,7 @@ const DateUtils = {
     return moment(date1).isAfter(date2);
   },
   /**
-   * 取得時間
+   * 取得時間 by Url 參數
    * @param urlTimeParam mmss
    * @returns mm:ss
    */
@@ -30,24 +31,48 @@ const DateUtils = {
 
     return `${urlTimeParam.slice(0, 2)}:${urlTimeParam.slice(2, 4)}`;
   },
-  isTrainPass: (
-    date: string,
-    currentDate: string,
-    departureTime: string,
-  ): boolean => {
-    // 若查詢日期與當下日期相同
-    if (date === currentDate) {
-      const trainDatetime = new Date(
-        `${date.replace(/-/g, "/")} ${departureTime}`,
-      );
-      const nowDatetime = new Date();
-      // 若火車時間小於當下時間則代表火車已過時
-      if (trainDatetime < nowDatetime) {
-        return true;
+  /**
+   * 取得 12 時制的時(字串) by AM/PM
+   * @param hour
+   * @param daySeg
+   * @returns
+   */
+  getHour12ByHour24: (hour24: string | number): string => {
+    if (hour24 != null && hour24 !== undefined && hour24 !== "") {
+      return String(
+        Number(hour24) >= 13 && Number(hour24) <= 24
+          ? Number(hour24) - 12
+          : Number(hour24),
+      ).padStart(2, "0");
+    }
+
+    return null;
+  },
+  /**
+   * 取得 24 時制的時(字串) by AM/PM
+   * @param hour
+   * @param daySeg
+   * @returns
+   */
+  getHour24ByDaySeg: (
+    hour: string | number,
+    daySeg: DaySegmentEnum,
+  ): string => {
+    if (hour != null && hour !== undefined && hour !== "") {
+      const numberHour = Number(hour);
+      if (daySeg === DaySegmentEnum.AM) {
+        return String(hour).padStart(2, "0");
+      } else {
+        return String(numberHour + 12).padStart(2, "0");
       }
     }
 
-    return false;
+    return null;
+  },
+  getDaySeg: (hour24: string | number): DaySegmentEnum => {
+    return Number(hour24) >= 13 && Number(hour24) <= 24
+      ? DaySegmentEnum.PM
+      : DaySegmentEnum.AM;
   },
 };
 
