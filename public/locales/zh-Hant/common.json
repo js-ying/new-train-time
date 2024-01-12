@@ -50,5 +50,7 @@
   "noTrainDataTitleMsg": "沒有查到列車資訊！有以下兩種可能：",
   "noTrainInThisTimeMsg": "出發時間設定太晚，已無班次。",
   "noTrainStopBetweenStationsMsg": "兩站間無停靠列車。",
-  "noTrainDataDueToApiErrorMsg": "資料異常，請稍後再試，或通知系統管理員。"
+  "noTrainDataDueToApiErrorMsg": "系統異常，請稍後再試，或通知系統管理員。",
+  "trDisclaimerMsg": "本站所提供之資訊僅供參考，請依照現場鐵路狀況或臺鐵官方相關管理單位所公佈之資訊為準。",
+  "thsrDisclaimerMsg": "本站所提供之資訊僅供參考，請依照現場鐵路狀況或高鐵官方相關管理單位所公佈之資訊為準。"
 }
