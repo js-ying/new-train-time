@@ -82,7 +82,7 @@ const StopTimesTable = ({ data }: { data: TrTrainTimeTable }) => {
         {["stationName", "arrivalTime", "leaveTime"].map((title) => {
           return (
             <div
-              className="border- flex-1 border-y border-grayBlue py-2 text-center text-grayBlue dark:border-orange dark:text-orange"
+              className="border- dark:border-gamboge dark:text-gamboge flex-1 border-y border-grayBlue py-2 text-center text-grayBlue"
               key={title}
             >
               {t(title)}
@@ -125,6 +125,9 @@ const TrTrainTimeDetailDialog = ({
       fullWidth
       maxWidth="sm"
       TransitionComponent={Grow}
+      PaperProps={{
+        style: { borderRadius: 20 },
+      }}
     >
       <DialogTitle id="alert-dialog-title">
         <div className="flex items-center gap-2">

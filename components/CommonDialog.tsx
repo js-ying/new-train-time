@@ -4,6 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Grow from "@mui/material/Grow";
 import { useTranslation } from "next-i18next";
 
 const ErrorIcon = () => {
@@ -34,13 +35,17 @@ const CommonDialog = ({ open, setOpen, alertMsg }) => {
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      TransitionComponent={Grow}
+      PaperProps={{
+        style: { borderRadius: 20 },
+      }}
     >
       <DialogTitle id="alert-dialog-title">
         <div className="flex items-center gap-2">
           {<ErrorIcon />} {t("errorAlertTitle")}
         </div>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent className="min-w-[300px]">
         <DialogContentText id="alert-dialog-description">
           {t(alertMsg) || alertMsg}
         </DialogContentText>
