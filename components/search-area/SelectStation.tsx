@@ -11,13 +11,15 @@ import {
   SearchAreaLayerEnum,
 } from "../../enums/SearchAreaParamsEnum";
 import {
+  ThsrStationData,
   TrStationData,
+  thsrStationDataList,
   trMainLines,
   trStationDataList,
 } from "../../public/data/stationsData";
 import { getTdxLang } from "../../utils/locale-utils";
 
-/** 車站是否在指定縣市轄區內 */
+/** 車站是否在指定縣市轄區內 (僅台鐵) */
 const isStationBelowMainLine = (
   trStationData: TrStationData,
   mainLine: string,
@@ -30,7 +32,7 @@ const isStationBelowMainLine = (
 
 /** 車站名稱是否符合輸入框內容 */
 const isStationNameIncludesInput = (
-  trStationData: TrStationData,
+  trStationData: TrStationData | ThsrStationData,
   inputValue: string,
 ): boolean => {
   const excludeStationList = ["1001"]; // 排除環島之星列車
@@ -46,6 +48,7 @@ const isStationNameIncludesInput = (
   return (enFilter || zhHantFilter) && excludeFilter;
 };
 
+/** 處理車站選擇 */
 const handleStationSelect = (
   stationId: string,
   params: SearchAreaParams,
@@ -72,8 +75,8 @@ const handleStationSelect = (
   }
 };
 
-/** 車站輸入框 */
-const StationInput = () => {
+/** [台鐵] 車站輸入框 */
+const TrStationInput = () => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -125,6 +128,50 @@ const StationInput = () => {
   );
 };
 
+/** [高鐵] 車站輸入框 */
+const ThsrStationInput = () => {
+  const { t } = useTranslation();
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
+  const placeholder =
+    params.activeIndex === SearchAreaActiveIndexEnum.START_STATION
+      ? t("startStationInputPlaceholder")
+      : t("endStationInputPlaceholder");
+
+  const handleInputEnter = (e) => {
+    if (e.key === "Enter") {
+      const filterStationDataList = thsrStationDataList.filter(
+        (stationData) => {
+          return params.inputValue
+            ? isStationNameIncludesInput(stationData, params.inputValue)
+            : true;
+        },
+      );
+
+      if (filterStationDataList.length === 1) {
+        handleStationSelect(
+          filterStationDataList[0].StationID,
+          params,
+          setParams,
+        );
+      }
+    }
+  };
+
+  return (
+    <input
+      type="input"
+      value={params.inputValue}
+      onChange={(e) => setParams({ ...params, inputValue: e.target.value })}
+      className="common-input"
+      placeholder={placeholder}
+      onKeyDown={handleInputEnter}
+      autoFocus
+    ></input>
+  );
+};
+
 /** 車站按鈕 */
 const StationButton = ({ text, onClick }) => {
   return (
@@ -134,7 +181,7 @@ const StationButton = ({ text, onClick }) => {
   );
 };
 
-/** 車站選擇-台鐵 */
+/** [台鐵] 車站選擇 */
 const SelectTrStation = () => {
   const { i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
@@ -196,9 +243,44 @@ const SelectTrStation = () => {
   );
 };
 
-/** 車站選擇-高鐵 */
+/** [高鐵] 車站選擇 */
 const SelectThsrStation = () => {
-  return <div></div>;
+  const { i18n } = useTranslation();
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
+  const getStationName = (thsrStationData: ThsrStationData): string => {
+    const stationName = thsrStationData.StationName[getTdxLang(i18n.language)];
+    return stationName;
+  };
+
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+      {/* 第 0 層：車站 (若有輸入文字篩選，則顯示篩選結果；否則顯示位於指定縣市下的車站) */}
+      {(params.layer === 0 || params.inputValue) &&
+        thsrStationDataList
+          .filter((thSrStationData) => {
+            return params.inputValue
+              ? isStationNameIncludesInput(thSrStationData, params.inputValue)
+              : true;
+          })
+          .map((thSrStationData) => {
+            return (
+              <StationButton
+                text={getStationName(thSrStationData)}
+                key={thSrStationData.StationName.En}
+                onClick={() =>
+                  handleStationSelect(
+                    thSrStationData.StationID,
+                    params,
+                    setParams,
+                  )
+                }
+              />
+            );
+          })}
+    </div>
+  );
 };
 
 /** 車站選擇器 */
@@ -208,7 +290,9 @@ const SelectStation = ({ page }: { page: PageEnum }) => {
 
   return (
     <>
-      <StationInput />
+      {isTr && <TrStationInput />}
+
+      {isThsr && <ThsrStationInput />}
 
       {isTr && <SelectTrStation />}
 

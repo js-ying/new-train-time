@@ -1,5 +1,8 @@
 import { PageEnum } from "../enums/Page";
-import { trStationDataList } from "../public/data/stationsData";
+import {
+  thsrStationDataList,
+  trStationDataList,
+} from "../public/data/stationsData";
 import { getTdxLang } from "./locale-utils";
 
 /**
@@ -19,7 +22,7 @@ export const getStationNameById = (
   }
 
   if (page === PageEnum.THSR) {
-    return "";
+    return getThsrStationNameById(stationId, lang);
   }
 
   return "";
@@ -42,7 +45,7 @@ export const getStationIdByName = (
   }
 
   if (page === PageEnum.THSR) {
-    return "";
+    return getThsrStationIdByName(stationName, lang);
   }
 
   return "";
@@ -95,12 +98,24 @@ export const getTrStationIdByName = (
 };
 
 /**
- * 取得 [台鐵] 車站名稱 by ID
+ * 取得 [高鐵] 車站名稱 by ID
  * @param stationId
  * @param lang
  * @returns
  */
-export const getThsrStationNameById = () => {};
+export const getThsrStationNameById = (stationId: string, lang: string) => {
+  if (!stationId || !lang) return null;
+
+  const station = thsrStationDataList.find(
+    (station) => station.StationID === stationId,
+  );
+
+  if (station) {
+    return station.StationName[getTdxLang(lang)];
+  }
+
+  return null;
+};
 
 /**
  * 取得 [高鐵] 車站 ID by 名稱
@@ -108,4 +123,16 @@ export const getThsrStationNameById = () => {};
  * @param lang
  * @returns
  */
-export const getThsrStationIdByName = () => {};
+export const getThsrStationIdByName = (stationName: string, lang: string) => {
+  if (!stationName || !lang) return null;
+
+  const station = thsrStationDataList.find(
+    (station) => station.StationName[getTdxLang(lang)] === stationName,
+  );
+
+  if (station) {
+    return station.StationID;
+  }
+
+  return null;
+};
