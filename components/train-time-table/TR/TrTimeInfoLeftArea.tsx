@@ -1,4 +1,4 @@
-import { TrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import { getTdxLang } from "../../../utils/locale-utils";
 import { getTrTrainTypeNameByCode } from "../../../utils/train-info-utils";
 import TrTrainType from "./TrTrainType";
@@ -8,7 +8,7 @@ const TrTimeInfoLeftArea = ({
   data,
   lang,
 }: {
-  data: TrTrainTimeTable;
+  data: JsyTrTrainTimeTable;
   lang: string;
 }) => {
   return (

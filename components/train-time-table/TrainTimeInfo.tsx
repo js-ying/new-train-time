@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next";
 import { useContext, useState } from "react";
 import { SearchAreaContext } from "../../contexts/SearchAreaContext";
 import { PageEnum } from "../../enums/Page";
-import { TrTrainTimeTable } from "../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
 import DateUtils from "../../utils/date-utils";
 import ThsrTimeInfoLeftArea from "./THSR/ThsrTimeInfoLeftArea";
 import ThsrTimeInfoMidArea from "./THSR/ThsrTimeInfoMidArea";
@@ -41,7 +41,7 @@ const TrainTimeInfo = ({
   data,
 }: {
   page: PageEnum;
-  data: TrTrainTimeTable;
+  data: JsyTrTrainTimeTable;
 }) => {
   const { i18n } = useTranslation();
   const isTr = page === PageEnum.TR;

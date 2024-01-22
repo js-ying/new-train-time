@@ -1,13 +1,13 @@
 import { useTranslation } from "next-i18next";
 import { useMemo, useState } from "react";
-import { TrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 
 /** [台鐵] 車種篩選器 */
 const TrTrainTypeFilter = ({
   dataList,
   setFilterDataList,
 }: {
-  dataList: TrTrainTimeTable[];
+  dataList: JsyTrTrainTimeTable[];
   setFilterDataList: Function;
 }) => {
   const { t } = useTranslation();

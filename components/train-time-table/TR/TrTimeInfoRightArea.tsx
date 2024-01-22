@@ -1,10 +1,10 @@
-import { TrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 
 const TrTimeInfoRightArea = ({
   data,
   lang,
 }: {
-  data: TrTrainTimeTable;
+  data: JsyTrTrainTimeTable;
   lang: string;
 }) => {
   return (

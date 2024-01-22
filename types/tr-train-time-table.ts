@@ -1,5 +1,17 @@
-export interface TrDelayInfo {
-  DelayTime: number;
+export interface TrDailyTrainTimetable {
+  UpdateTime: string;
+  UpdateInterval: number;
+  SrcUpdateTime: string;
+  SrcUpdateInterval: number;
+  TrainDate: string;
+  TrainTimetables: JsyTrTrainTimeTable[];
+}
+
+export interface JsyTrTrainTimeTable {
+  TrainInfo: TrTrainInfo;
+  StopTimes: TrStopTime[];
+  fareList: TrOfFare[];
+  delayInfo: TrDelayInfo[];
 }
 
 export interface TrTrainInfo {
@@ -35,11 +47,6 @@ export interface TrTrainInfo {
   Note: string;
 }
 
-export interface TrStationName {
-  Zh_tw: string;
-  En: string;
-}
-
 export interface TrStopTime {
   StopSequence: number;
   StationID: string;
@@ -49,25 +56,18 @@ export interface TrStopTime {
   SuspendedFlag: number;
 }
 
-export interface TrFare {
+export interface TrOfFare {
   TicketType: number;
   FareClass: number;
   CabinClass: number;
   Price: number;
 }
 
-export interface TrTrainTimeTable {
-  TrainInfo: TrTrainInfo;
-  StopTimes: TrStopTime[];
-  fareList: TrFare[];
-  delayInfo: TrDelayInfo[];
+export interface TrStationName {
+  Zh_tw: string;
+  En: string;
 }
 
-export interface TrTdxTrainTimeTable {
-  UpdateTime: string;
-  UpdateInterval: number;
-  SrcUpdateTime: string;
-  SrcUpdateInterval: number;
-  TrainDate: string;
-  TrainTimetables: TrTrainTimeTable[];
+export interface TrDelayInfo {
+  DelayTime: number;
 }

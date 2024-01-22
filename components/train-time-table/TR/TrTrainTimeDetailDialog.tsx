@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useTranslation } from "next-i18next";
-import { TrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import { getTdxLang } from "../../../utils/locale-utils";
 import {
   getTrTrainTypeNameByCode,
@@ -14,7 +14,7 @@ import {
 } from "../../../utils/train-info-utils";
 import { trTrainServiceList } from "./TrTrainServices";
 
-const TrainDetail = ({ data }: { data: TrTrainTimeTable }) => {
+const TrainDetail = ({ data }: { data: JsyTrTrainTimeTable }) => {
   const { t, i18n } = useTranslation();
 
   return (
@@ -73,7 +73,7 @@ const TrainDetail = ({ data }: { data: TrTrainTimeTable }) => {
   );
 };
 
-const StopTimesTable = ({ data }: { data: TrTrainTimeTable }) => {
+const StopTimesTable = ({ data }: { data: JsyTrTrainTimeTable }) => {
   const { t, i18n } = useTranslation();
 
   return (
@@ -112,7 +112,7 @@ const TrTrainTimeDetailDialog = ({
 }: {
   open: boolean;
   setOpen: Function;
-  data: TrTrainTimeTable;
+  data: JsyTrTrainTimeTable;
 }) => {
   const { t, i18n } = useTranslation();
 

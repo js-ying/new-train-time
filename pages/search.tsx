@@ -22,8 +22,8 @@ import {
 } from "../enums/SearchAreaParamsEnum";
 import fetchData from "../services/fetch-data";
 import {
-  TrTdxTrainTimeTable,
-  TrTrainTimeTable,
+  JsyTrTrainTimeTable,
+  TrDailyTrainTimetable,
 } from "../types/tr-train-time-table";
 import DateUtils from "../utils/date-utils";
 import { getStationIdByName } from "../utils/station-utils";
@@ -112,7 +112,7 @@ export default function Search({ page = PageEnum.TR }) {
   const [isApiHealth, setIsApiHealth] = useState(true);
 
   const [trainTimeTable, setTrainTimeTable] =
-    useState<TrTrainTimeTable[]>(null);
+    useState<JsyTrTrainTimeTable[]>(null);
 
   // 初始化搜尋區域參數 from URL
   const initSearchAreaParams = () => {
@@ -155,7 +155,7 @@ export default function Search({ page = PageEnum.TR }) {
           time,
         });
 
-        const data: TrTdxTrainTimeTable = result;
+        const data: TrDailyTrainTimetable = result;
         if (data?.TrainTimetables?.length >= 0) {
           setTrainTimeTable([...data.TrainTimetables]);
         } else {
@@ -164,6 +164,31 @@ export default function Search({ page = PageEnum.TR }) {
         setIsApiHealth(true);
       } catch (error) {
         setTrainTimeTable([]);
+
+        setIsApiHealth(false);
+
+        setAlertMsg(error);
+      }
+    }
+
+    if (isThsr) {
+      try {
+        const result = await fetchData("/api/getThsrTrainTimeTable", {
+          startStationId,
+          endStationId,
+          date,
+          time,
+        });
+
+        const data = result;
+        if (data?.TrainTimetables?.length >= 0) {
+          // setTrainTimeTable([...data.TrainTimetables]);
+        } else {
+          // setTrainTimeTable([]);
+        }
+        setIsApiHealth(true);
+      } catch (error) {
+        // setTrainTimeTable([]);
 
         setIsApiHealth(false);
 

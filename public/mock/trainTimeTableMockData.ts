@@ -1,4 +1,4 @@
-const tdxTrTrainTimeTableMockData = {
+const tdxJsyTrTrainTimeTableMockData = {
   UpdateTime: "2023-12-16T07:40:32+08:00",
   UpdateInterval: 14400,
   SrcUpdateTime: "2023-12-15T11:11:43+08:00",
@@ -3483,4 +3483,4 @@ const tdxTrTrainTimeTableMockData = {
 
 const tdxThsrTrainTimeTable = {};
 
-export { tdxThsrTrainTimeTable, tdxTrTrainTimeTableMockData };
+export { tdxJsyTrTrainTimeTableMockData, tdxThsrTrainTimeTable };

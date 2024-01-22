@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { useContext } from "react";
 import { SearchAreaContext } from "../../../contexts/SearchAreaContext";
-import { TrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import { getTimeDiff } from "../../../utils/train-info-utils";
 import TrDelay from "./TrDelay";
 
@@ -9,7 +9,7 @@ const TrTimeInfoMidArea = ({
   data,
   lang,
 }: {
-  data: TrTrainTimeTable;
+  data: JsyTrTrainTimeTable;
   lang: string;
 }) => {
   const { t } = useTranslation();
@@ -22,7 +22,7 @@ const TrTimeInfoMidArea = ({
 
   return (
     <>
-      <TrDelay data={data.delayInfo} />
+      <TrDelay dataList={data.delayInfo} />
       <div>
         {data.StopTimes[0].DepartureTime} -{" "}
         {data.StopTimes[data.StopTimes.length - 1].ArrivalTime}

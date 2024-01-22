@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { PageEnum } from "../../enums/Page";
-import { TrTrainTimeTable } from "../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
 import ThsrPriceInfo from "./THSR/ThsrTickedPrice";
 import TrTrainTypeFilter from "./TR/TrTrainTypeFilter";
 
@@ -9,8 +9,8 @@ const TableLengthCount = ({
   dataList,
   filterDataList,
 }: {
-  dataList: TrTrainTimeTable[];
-  filterDataList: TrTrainTimeTable[];
+  dataList: JsyTrTrainTimeTable[];
+  filterDataList: JsyTrTrainTimeTable[];
 }) => {
   const { t } = useTranslation();
 
@@ -32,8 +32,8 @@ const TrainTimeNavbar = ({
   setFilterDataList,
 }: {
   page: PageEnum;
-  dataList: TrTrainTimeTable[];
-  filterDataList: TrTrainTimeTable[];
+  dataList: JsyTrTrainTimeTable[];
+  filterDataList: JsyTrTrainTimeTable[];
   setFilterDataList: Function;
 }) => {
   const isTr = page === PageEnum.TR;
