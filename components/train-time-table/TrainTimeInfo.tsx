@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next";
 import { useContext, useState } from "react";
 import { SearchAreaContext } from "../../contexts/SearchAreaContext";
 import { PageEnum } from "../../enums/Page";
+import { JsyThsrTrainTimeTable } from "../../types/thsr-train-time-table";
 import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
 import DateUtils from "../../utils/date-utils";
 import ThsrTimeInfoLeftArea from "./THSR/ThsrTimeInfoLeftArea";
@@ -38,10 +39,12 @@ const isTrainPass = (
  */
 const TrainTimeInfo = ({
   page,
-  data,
+  trTrainTimeTable,
+  thsrTrainTimeTable,
 }: {
   page: PageEnum;
-  data: JsyTrTrainTimeTable;
+  trTrainTimeTable: JsyTrTrainTimeTable;
+  thsrTrainTimeTable: JsyThsrTrainTimeTable;
 }) => {
   const { i18n } = useTranslation();
   const isTr = page === PageEnum.TR;
@@ -60,7 +63,7 @@ const TrainTimeInfo = ({
         isTrainPass(
           params.date,
           DateUtils.getCurrentDate(),
-          data.StopTimes[0].DepartureTime,
+          trTrainTimeTable.StopTimes[0].DepartureTime,
         )
           ? "opacity-40"
           : ""
@@ -74,26 +77,36 @@ const TrainTimeInfo = ({
         onClick={openDetail}
       >
         <div className="text-center">
-          {isTr && <TrTimeInfoLeftArea data={data} lang={i18n.language} />}
+          {isTr && (
+            <TrTimeInfoLeftArea data={trTrainTimeTable} lang={i18n.language} />
+          )}
           {isThsr && <ThsrTimeInfoLeftArea />}
         </div>
         <div className="col-span-2 text-center">
-          {isTr && <TrTimeInfoMidArea data={data} lang={i18n.language} />}
+          {isTr && (
+            <TrTimeInfoMidArea data={trTrainTimeTable} lang={i18n.language} />
+          )}
           {isThsr && <ThsrTimeInfoMidArea />}
         </div>
         <div className="text-center">
-          {isTr && <TrTimeInfoRightArea data={data} lang={i18n.language} />}
+          {isTr && (
+            <TrTimeInfoRightArea data={trTrainTimeTable} lang={i18n.language} />
+          )}
           {isThsr && <ThsrTimeInfoRightArea />}
         </div>
         <div className="absolute right-1.5 top-1.5 flex gap-1">
-          {isTr && <TrTrainService data={data.TrainInfo} />}
+          {isTr && <TrTrainService data={trTrainTimeTable.TrainInfo} />}
         </div>
       </div>
       <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-        {data.TrainInfo.Note}
+        {trTrainTimeTable.TrainInfo.Note}
       </div>
 
-      <TrTrainTimeDetailDialog open={open} setOpen={setOpen} data={data} />
+      <TrTrainTimeDetailDialog
+        open={open}
+        setOpen={setOpen}
+        data={trTrainTimeTable}
+      />
     </div>
   );
 };

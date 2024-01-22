@@ -10,7 +10,8 @@ import Layout from "../components/Layout";
 import Loading from "../components/Loading";
 import SearchArea from "../components/search-area/SearchArea";
 import NoTrainData from "../components/train-time-table/NoTrainData";
-import TrainTimeTable from "../components/train-time-table/TrainTimeTable";
+import ThsrTrainTimeTable from "../components/train-time-table/THSR/ThsrTrainTimeTable";
+import TrTrainTimeTable from "../components/train-time-table/TR/TrTrainTimeTable";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
@@ -21,6 +22,7 @@ import {
   SearchAreaLayerEnum,
 } from "../enums/SearchAreaParamsEnum";
 import fetchData from "../services/fetch-data";
+import { JsyThsrTrainTimeTable } from "../types/thsr-train-time-table";
 import {
   JsyTrTrainTimeTable,
   TrDailyTrainTimetable,
@@ -113,6 +115,8 @@ export default function Search({ page = PageEnum.TR }) {
 
   const [trainTimeTable, setTrainTimeTable] =
     useState<JsyTrTrainTimeTable[]>(null);
+  const [thsrTrainTimeTable, setThsrTrainTimeTable] =
+    useState<JsyThsrTrainTimeTable>(null);
 
   // 初始化搜尋區域參數 from URL
   const initSearchAreaParams = () => {
@@ -181,14 +185,14 @@ export default function Search({ page = PageEnum.TR }) {
         });
 
         const data = result;
-        if (data?.TrainTimetables?.length >= 0) {
-          // setTrainTimeTable([...data.TrainTimetables]);
+        if (data) {
+          setThsrTrainTimeTable({ ...data });
         } else {
-          // setTrainTimeTable([]);
+          setThsrTrainTimeTable(null);
         }
         setIsApiHealth(true);
       } catch (error) {
-        // setTrainTimeTable([]);
+        setThsrTrainTimeTable(null);
 
         setIsApiHealth(false);
 
@@ -240,19 +244,22 @@ export default function Search({ page = PageEnum.TR }) {
         <MuiThemeProvider theme={muiTheme}>
           <SearchArea page={page} />
 
-          {/* 有列車資料 */}
-          {trainTimeTable?.length > 0 && (
-            <div className="mt-7">
-              <TrainTimeTable page={page} dataList={trainTimeTable} />
-            </div>
-          )}
+          <div className="mt-7">
+            {/* [台鐵] 有列車資料 */}
+            {trainTimeTable?.length > 0 && (
+              <TrTrainTimeTable page={page} dataList={trainTimeTable} />
+            )}
 
-          {/* 無列車資料 */}
-          {trainTimeTable?.length <= 0 && (
-            <div className="mt-7">
+            {/* [高鐵] 有列車資料 */}
+            {thsrTrainTimeTable && (
+              <ThsrTrainTimeTable page={page} data={thsrTrainTimeTable} />
+            )}
+
+            {/* 無列車資料 */}
+            {trainTimeTable?.length <= 0 && !thsrTrainTimeTable && (
               <NoTrainData isApiHealth={isApiHealth} alertMsg={alertMsg} />
-            </div>
-          )}
+            )}
+          </div>
 
           <CommonDialog
             open={alertOpen}

@@ -74,6 +74,18 @@ img {
   ring-neutral-400/70 focus:ring dark:ring-neutral-300/70;
 }
 
+.common-babel {
+  @apply bg-neutral-500 text-white px-2 py-0.5 rounded-2xl
+  transition duration-150 ease-out
+  dark:bg-neutral-600;
+}
+
+.common-babel-light {
+  @apply bg-neutral-500/80 text-white px-2 py-0.5 rounded-2xl
+  transition duration-150 ease-out
+  dark:bg-neutral-500;
+}
+
 .common-select {
   @apply cursor-pointer rounded-md border border-zinc-300 px-1.5 py-1 text-sm text-zinc-700 outline-none 
   transition duration-150 ease-out

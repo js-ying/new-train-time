@@ -1,25 +1,42 @@
 import { useTranslation } from "next-i18next";
 import { PageEnum } from "../../enums/Page";
+import { JsyThsrTrainTimeTable } from "../../types/thsr-train-time-table";
 import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
-import ThsrPriceInfo from "./THSR/ThsrTickedPrice";
+import ThsrPriceInfo from "./THSR/ThsrPriceInfo";
 import TrTrainTypeFilter from "./TR/TrTrainTypeFilter";
 
 /** 時刻表長度計算 */
 const TableLengthCount = ({
-  dataList,
-  filterDataList,
+  page,
+  totalCount,
+  filterCount,
 }: {
-  dataList: JsyTrTrainTimeTable[];
-  filterDataList: JsyTrTrainTimeTable[];
+  page: PageEnum;
+  totalCount: number;
+  filterCount: number;
 }) => {
   const { t } = useTranslation();
+  const isTr = page === PageEnum.TR;
+  const isThsr = page === PageEnum.THSR;
 
   return (
     <div className="">
-      {t("trainTableLengthCount", {
-        filter: filterDataList.length,
-        total: dataList.length,
-      })}
+      {isTr && (
+        <span className="whitespace-nowrap">
+          {t("trainTableLengthCount", {
+            filter: filterCount,
+            total: totalCount,
+          })}
+        </span>
+      )}
+
+      {isThsr && (
+        <span className="whitespace-nowrap">
+          {t("thsrTrainTableLengthCount", {
+            total: totalCount,
+          })}
+        </span>
+      )}
     </div>
   );
 };
@@ -27,14 +44,16 @@ const TableLengthCount = ({
 /** 列車時刻導覽列 */
 const TrainTimeNavbar = ({
   page,
-  dataList,
-  filterDataList,
-  setFilterDataList,
+  trTrainTimeTable,
+  filterTrTrainTimeTable,
+  setFilterTrTrainTimeTable,
+  thsrTrainTimeTable,
 }: {
   page: PageEnum;
-  dataList: JsyTrTrainTimeTable[];
-  filterDataList: JsyTrTrainTimeTable[];
-  setFilterDataList: Function;
+  trTrainTimeTable: JsyTrTrainTimeTable[];
+  filterTrTrainTimeTable: JsyTrTrainTimeTable[];
+  setFilterTrTrainTimeTable: Function;
+  thsrTrainTimeTable: JsyThsrTrainTimeTable;
 }) => {
   const isTr = page === PageEnum.TR;
   const isThsr = page === PageEnum.THSR;
@@ -43,14 +62,20 @@ const TrainTimeNavbar = ({
     <div className="flex items-center justify-between text-sm">
       {isTr && (
         <TrTrainTypeFilter
-          dataList={dataList}
-          setFilterDataList={setFilterDataList}
+          dataList={trTrainTimeTable}
+          setFilterDataList={setFilterTrTrainTimeTable}
         />
       )}
 
-      {isThsr && <ThsrPriceInfo />}
+      {isThsr && <ThsrPriceInfo dataList={thsrTrainTimeTable.fareList} />}
 
-      <TableLengthCount dataList={dataList} filterDataList={filterDataList} />
+      <TableLengthCount
+        page={page}
+        totalCount={
+          trTrainTimeTable?.length || thsrTrainTimeTable?.timeTable?.length
+        }
+        filterCount={filterTrTrainTimeTable?.length || null}
+      />
     </div>
   );
 };

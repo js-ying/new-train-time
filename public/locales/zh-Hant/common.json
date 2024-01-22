@@ -24,6 +24,7 @@
   "trainTypeFilterReserved": "對號列車",
   "trainTypeFilterNonReserved": "非對號列車",
   "trainTableLengthCount": "共 {{ filter }} / {{ total }} 筆",
+  "thsrTrainTableLengthCount": "共 {{ total }} 筆",
   "trainInfoTimeDiff": "{{hour}} 時 {{min}} 分",
   "trainServiceWheelChairFlag": "身障旅客專用座位車",
   "trainServicePackageServiceFlag": "行李服務",
@@ -52,5 +53,6 @@
   "noTrainStopBetweenStationsMsg": "兩站間無停靠列車。",
   "noTrainDataDueToApiErrorMsg": "系統異常，請稍後再試，或通知系統管理員。",
   "trDisclaimerMsg": "本站所提供之資訊僅供參考，請依照現場鐵路狀況或臺鐵官方相關管理單位所公佈之資訊為準。",
-  "thsrDisclaimerMsg": "本站所提供之資訊僅供參考，請依照現場鐵路狀況或高鐵官方相關管理單位所公佈之資訊為準。"
+  "thsrDisclaimerMsg": "本站所提供之資訊僅供參考，請依照現場鐵路狀況或高鐵官方相關管理單位所公佈之資訊為準。",
+  "otherBtn": "其它"
 }
