@@ -244,21 +244,20 @@ export default function Search({ page = PageEnum.TR }) {
         <MuiThemeProvider theme={muiTheme}>
           <SearchArea page={page} />
 
+          {/* [台鐵] 有列車資料 */}
           <div className="mt-7">
-            {/* [台鐵] 有列車資料 */}
             {trainTimeTable?.length > 0 && (
               <TrTrainTimeTable page={page} dataList={trainTimeTable} />
             )}
-
             {/* [高鐵] 有列車資料 */}
             {thsrTrainTimeTable && (
               <ThsrTrainTimeTable page={page} data={thsrTrainTimeTable} />
             )}
-
             {/* 無列車資料 */}
-            {trainTimeTable?.length <= 0 && !thsrTrainTimeTable && (
-              <NoTrainData isApiHealth={isApiHealth} alertMsg={alertMsg} />
-            )}
+            {(isTr && trainTimeTable?.length <= 0) ||
+              (isThsr && thsrTrainTimeTable?.timeTable?.length <= 0 && (
+                <NoTrainData isApiHealth={isApiHealth} alertMsg={alertMsg} />
+              ))}
           </div>
 
           <CommonDialog

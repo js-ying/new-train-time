@@ -56,7 +56,10 @@ const ThsrPriceInfo = ({ dataList }: { dataList: ThsrOdFare[] }) => {
     <div className="flex flex-wrap gap-2">
       {adultFares.map((fare) => {
         return (
-          <span className="common-babel text-sm">
+          <span
+            className="common-babel text-sm"
+            key={`${fare.TicketType}${fare.FareClass}${fare.CabinClass}`}
+          >
             {fareMap.fareClassMap[fare.FareClass][getTdxLang(i18n.language)]}{" "}
             {fareMap.cabinClassMap[fare.CabinClass][getTdxLang(i18n.language)]}{" "}
             {fare.Price}
@@ -67,7 +70,10 @@ const ThsrPriceInfo = ({ dataList }: { dataList: ThsrOdFare[] }) => {
       {isShowOtherFareList &&
         otherFareList.map((fare) => {
           return (
-            <span className="common-babel text-sm">
+            <span
+              className="common-babel text-sm"
+              key={`${fare.TicketType}${fare.FareClass}${fare.CabinClass}`}
+            >
               {fareMap.fareClassMap[fare.FareClass][getTdxLang(i18n.language)]}{" "}
               {
                 fareMap.cabinClassMap[fare.CabinClass][
