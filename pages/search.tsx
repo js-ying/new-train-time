@@ -188,11 +188,11 @@ export default function Search({ page = PageEnum.TR }) {
         if (data) {
           setThsrTrainTimeTable({ ...data });
         } else {
-          setThsrTrainTimeTable(null);
+          setThsrTrainTimeTable({ ...thsrTrainTimeTable, timeTable: [] });
         }
         setIsApiHealth(true);
       } catch (error) {
-        setThsrTrainTimeTable(null);
+        setThsrTrainTimeTable({ ...thsrTrainTimeTable, timeTable: [] });
 
         setIsApiHealth(false);
 
@@ -244,20 +244,20 @@ export default function Search({ page = PageEnum.TR }) {
         <MuiThemeProvider theme={muiTheme}>
           <SearchArea page={page} />
 
-          {/* [台鐵] 有列車資料 */}
           <div className="mt-7">
+            {/* [台鐵] 有列車資料 */}
             {trainTimeTable?.length > 0 && (
               <TrTrainTimeTable page={page} dataList={trainTimeTable} />
             )}
             {/* [高鐵] 有列車資料 */}
-            {thsrTrainTimeTable && (
+            {thsrTrainTimeTable?.timeTable?.length > 0 && (
               <ThsrTrainTimeTable page={page} data={thsrTrainTimeTable} />
             )}
             {/* 無列車資料 */}
-            {(isTr && trainTimeTable?.length <= 0) ||
-              (isThsr && thsrTrainTimeTable?.timeTable?.length <= 0 && (
-                <NoTrainData isApiHealth={isApiHealth} alertMsg={alertMsg} />
-              ))}
+            {((isTr && trainTimeTable?.length <= 0) ||
+              (isThsr && thsrTrainTimeTable?.timeTable?.length <= 0)) && (
+              <NoTrainData isApiHealth={isApiHealth} alertMsg={alertMsg} />
+            )}
           </div>
 
           <CommonDialog
