@@ -5,13 +5,7 @@ import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import { getTimeDiff } from "../../../utils/train-info-utils";
 import TrDelay from "./TrDelay";
 
-const TrTimeInfoMidArea = ({
-  data,
-  lang,
-}: {
-  data: JsyTrTrainTimeTable;
-  lang: string;
-}) => {
+const TrTimeInfoMidArea = ({ data }: { data: JsyTrTrainTimeTable }) => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const timeDiff = getTimeDiff(

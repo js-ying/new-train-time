@@ -54,5 +54,7 @@
   "noTrainDataDueToApiErrorMsg": "System anomaly, please try again later or notify the system administrator.",
   "trDisclaimerMsg": "The information provided on this site is for reference only. Please refer to the actual railway conditions or information published by the official Taiwan Railways Administration for accuracy.",
   "thsrDisclaimerMsg": "The information provided on this site is for reference only. Please refer to the actual railway conditions or information published by the official Taiwan High Speed Railways Administration for accuracy.",
-  "otherBtn": "Other"
+  "otherBtn": "Other",
+  "freeSeating": "Free Seating",
+  "confirmOnSiteMsg": "Please confirm on-site"
 }

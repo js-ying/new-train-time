@@ -1,5 +1,6 @@
 import { PageEnum } from "../../../enums/Page";
 import { JsyThsrTrainTimeTable } from "../../../types/thsr-train-time-table";
+import TrainTimeInfo from "../TrainTimeInfo";
 import TrainTimeNavbar from "../TrainTimeNavbar";
 
 /** 列車時刻表 */
@@ -23,11 +24,16 @@ const ThsrTrainTimeTable = ({
       </div>
 
       <div className="flex flex-col gap-4">
-        {/* {filterTrTrainTimeTable.map((data) => (
-          <div key={data.TrainInfo.TrainNo}>
-            <TrainTimeInfo page={page} data={data} />
+        {data.timeTable.map((timeTable) => (
+          <div key={timeTable.DailyTrainInfo.TrainNo}>
+            <TrainTimeInfo
+              page={page}
+              trTrainTimeTable={null}
+              thsrTrainTimeTable={timeTable}
+              thsrDailyFreeSeatingCar={data.dailyFreeSeatingCar}
+            />
           </div>
-        ))} */}
+        ))}
       </div>
     </>
   );

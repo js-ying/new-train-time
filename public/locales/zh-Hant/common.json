@@ -54,5 +54,7 @@
   "noTrainDataDueToApiErrorMsg": "系統異常，請稍後再試，或通知系統管理員。",
   "trDisclaimerMsg": "本站所提供之資訊僅供參考，請依照現場鐵路狀況或臺鐵官方相關管理單位所公佈之資訊為準。",
   "thsrDisclaimerMsg": "本站所提供之資訊僅供參考，請依照現場鐵路狀況或高鐵官方相關管理單位所公佈之資訊為準。",
-  "otherBtn": "其它"
+  "otherBtn": "其它",
+  "freeSeating": "自由座",
+  "confirmOnSiteMsg": "請於現場確認"
 }
