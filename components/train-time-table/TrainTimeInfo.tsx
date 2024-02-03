@@ -8,6 +8,7 @@ import {
 } from "../../types/thsr-train-time-table";
 import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
 import DateUtils from "../../utils/date-utils";
+import ThsrServiceDay from "./THSR/ThsrServiceDay";
 import ThsrTimeInfoLeftArea from "./THSR/ThsrTimeInfoLeftArea";
 import ThsrTimeInfoMidArea from "./THSR/ThsrTimeInfoMidArea";
 import ThsrTimeInfoRightArea from "./THSR/ThsrTimeInfoRightArea";
@@ -45,11 +46,13 @@ const TrainTimeInfo = ({
   trTrainTimeTable,
   thsrTrainTimeTable,
   thsrDailyFreeSeatingCar,
+  thsrGeneralTimeTable,
 }: {
   page: PageEnum;
   trTrainTimeTable: JsyTrTrainTimeTable;
   thsrTrainTimeTable: ThsrDailyTimetable;
   thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
+  thsrGeneralTimeTable: any[];
 }) => {
   const { i18n } = useTranslation();
   const isTr = page === PageEnum.TR;
@@ -104,7 +107,13 @@ const TrainTimeInfo = ({
         </div>
       </div>
       <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-        {trTrainTimeTable?.TrainInfo.Note}
+        {isTr && trTrainTimeTable.TrainInfo.Note}
+        {isThsr && (
+          <ThsrServiceDay
+            trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
+            generalTimeTable={thsrGeneralTimeTable}
+          />
+        )}
       </div>
 
       {trTrainTimeTable && (

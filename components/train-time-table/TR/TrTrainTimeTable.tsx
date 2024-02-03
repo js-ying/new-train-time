@@ -38,6 +38,8 @@ const TrTrainTimeTable = ({
               page={page}
               trTrainTimeTable={data}
               thsrTrainTimeTable={null}
+              thsrDailyFreeSeatingCar={null}
+              thsrGeneralTimeTable={null}
             />
           </div>
         ))}

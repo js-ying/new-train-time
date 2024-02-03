@@ -31,6 +31,7 @@ const ThsrTrainTimeTable = ({
               trTrainTimeTable={null}
               thsrTrainTimeTable={timeTable}
               thsrDailyFreeSeatingCar={data.dailyFreeSeatingCar}
+              thsrGeneralTimeTable={data.generalTimeTable}
             />
           </div>
         ))}
