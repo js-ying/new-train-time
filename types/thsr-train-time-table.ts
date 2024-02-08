@@ -2,7 +2,7 @@ export interface JsyThsrTrainTimeTable {
   timeTable: ThsrDailyTimetable[];
   fareList: ThsrOdFare[];
   dailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
-  generalTimeTable: any[];
+  generalTimeTable: ThsrTdxGeneralTimeTable[];
 }
 
 export interface ThsrDailyTimetable {
@@ -83,4 +83,50 @@ export interface ThsrFreeSeatingCar {
   TrainNo: string;
   CarConfig: string;
   Cars: number[];
+}
+
+export interface ThsrTdxGeneralTimeTable {
+  UpdateTime: string;
+  EffectiveDate: string;
+  ExpiringDate: string;
+  VersionID: number;
+  GeneralTimetable: ThsrGeneralTimeTable;
+}
+
+export interface ThsrGeneralTimeTable {
+  GeneralTrainInfo: {
+    TrainNo: string;
+    Direction: number;
+    StartingStationID: string;
+    StartingStationName: {
+      Zh_tw: string;
+      En: string;
+    };
+    EndingStationID: string;
+    EndingStationName: {
+      Zh_tw: string;
+      En: string;
+    };
+    Note: {};
+  };
+  StopTimes: {
+    StopSequence: number;
+    StationID: string;
+    StationName: {
+      Zh_tw: string;
+      En: string;
+    };
+    DepartureTime?: string;
+    ArrivalTime?: string;
+  }[];
+  ServiceDay: {
+    Monday: number;
+    Tuesday: number;
+    Wednesday: number;
+    Thursday: number;
+    Friday: number;
+    Saturday: number;
+    Sunday: number;
+  };
+  SrcUpdateTime: string;
 }

@@ -1,3 +1,7 @@
+import {
+  ThsrGeneralTimeTable,
+  ThsrTdxGeneralTimeTable,
+} from "../types/thsr-train-time-table";
 import { getTdxLang } from "./locale-utils";
 
 /**
@@ -122,4 +126,25 @@ export const getTimeDiff = (
     hour: hours.toString(),
     min: minutes.toString(),
   };
+};
+
+/**
+ * 取得高鐵列車資訊 by 定期時刻表
+ * @param generalTimeTable
+ * @param trainNo
+ * @returns
+ */
+export const getThsrGeneralTrainInfo = (
+  generalTimeTable: ThsrTdxGeneralTimeTable[],
+  trainNo?: string,
+): ThsrGeneralTimeTable | null => {
+  if (!trainNo) return null;
+
+  if (generalTimeTable.length > 0) {
+    return generalTimeTable.find((gtt) => {
+      return gtt.GeneralTimetable.GeneralTrainInfo.TrainNo === trainNo;
+    })?.GeneralTimetable;
+  }
+
+  return null;
 };

@@ -1,5 +1,7 @@
 import { useTranslation } from "next-i18next";
+import { ThsrTdxGeneralTimeTable } from "../../../types/thsr-train-time-table";
 import { getTdxLang } from "../../../utils/locale-utils";
+import { getThsrGeneralTrainInfo } from "../../../utils/train-info-utils";
 
 const getServiceDaysMsg = (lang: string, data?): string => {
   if (!data) return "";
@@ -75,27 +77,16 @@ const getServiceDaysMsg = (lang: string, data?): string => {
   }
 };
 
-const getGeneralTrainInfo = (generalTimeTable: any[], trainNo?: string) => {
-  if (!trainNo) return null;
-
-  if (generalTimeTable.length > 0) {
-    return generalTimeTable.find((gtt) => {
-      return gtt.GeneralTimetable.GeneralTrainInfo.TrainNo === trainNo;
-    })?.GeneralTimetable;
-  }
-
-  return null;
-};
-
 const ThsrServiceDay = ({
   trainNo,
   generalTimeTable,
 }: {
   trainNo: string;
-  generalTimeTable: any[];
+  generalTimeTable: ThsrTdxGeneralTimeTable[];
 }) => {
   const { i18n } = useTranslation();
-  const serviceDay = getGeneralTrainInfo(generalTimeTable, trainNo)?.ServiceDay;
+  const serviceDay = getThsrGeneralTrainInfo(generalTimeTable, trainNo)
+    ?.ServiceDay;
   return <div>{getServiceDaysMsg(getTdxLang(i18n.language), serviceDay)}</div>;
 };
 

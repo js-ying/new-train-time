@@ -78,11 +78,11 @@ const StopTimesTable = ({ data }: { data: JsyTrTrainTimeTable }) => {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex font-bold">
         {["stationName", "arrivalTime", "leaveTime"].map((title) => {
           return (
             <div
-              className="border- dark:border-gamboge dark:text-gamboge flex-1 border-y border-grayBlue py-2 text-center text-grayBlue"
+              className="border- flex-1 border-y border-grayBlue py-2 text-center text-grayBlue dark:border-gamboge dark:text-gamboge"
               key={title}
             >
               {t(title)}

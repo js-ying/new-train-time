@@ -39,7 +39,13 @@ export const fareMap = {
 };
 
 /** [高鐵] 票價資訊 */
-const ThsrPriceInfo = ({ dataList }: { dataList: ThsrOdFare[] }) => {
+const ThsrPriceInfo = ({
+  dataList,
+  showAll = false,
+}: {
+  dataList: ThsrOdFare[];
+  showAll: boolean;
+}) => {
   const { t, i18n } = useTranslation();
 
   let adultFares: ThsrFare[] = dataList[0].Fares.filter(
@@ -50,7 +56,7 @@ const ThsrPriceInfo = ({ dataList }: { dataList: ThsrOdFare[] }) => {
     (fare) => fare.FareClass !== 1 && fare.TicketType === 1,
   );
 
-  const [isShowOtherFareList, setIsShowOtherFareList] = useState(false);
+  const [isShowOtherFareList, setIsShowOtherFareList] = useState(showAll);
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -85,12 +91,14 @@ const ThsrPriceInfo = ({ dataList }: { dataList: ThsrOdFare[] }) => {
           );
         })}
 
-      <div
-        className="common-babel-light cursor-pointer text-sm"
-        onClick={() => setIsShowOtherFareList(!isShowOtherFareList)}
-      >
-        {isShowOtherFareList ? "-" : "+"} {t("otherBtn")}
-      </div>
+      {!showAll && (
+        <div
+          className="common-babel-light cursor-pointer text-sm"
+          onClick={() => setIsShowOtherFareList(!isShowOtherFareList)}
+        >
+          {isShowOtherFareList ? "-" : "+"} {t("otherBtn")}
+        </div>
+      )}
     </div>
   );
 };

@@ -5,6 +5,8 @@ import { PageEnum } from "../../enums/Page";
 import {
   ThsrDailyFreeSeatingCar,
   ThsrDailyTimetable,
+  ThsrOdFare,
+  ThsrTdxGeneralTimeTable,
 } from "../../types/thsr-train-time-table";
 import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
 import DateUtils from "../../utils/date-utils";
@@ -12,6 +14,7 @@ import ThsrServiceDay from "./THSR/ThsrServiceDay";
 import ThsrTimeInfoLeftArea from "./THSR/ThsrTimeInfoLeftArea";
 import ThsrTimeInfoMidArea from "./THSR/ThsrTimeInfoMidArea";
 import ThsrTimeInfoRightArea from "./THSR/ThsrTimeInfoRightArea";
+import ThsrTrainTimeDetailDialog from "./THSR/ThsrTrainTimeDetailDialog";
 import TrTimeInfoLeftArea from "./TR/TrTimeInfoLeftArea";
 import TrTimeInfoMidArea from "./TR/TrTimeInfoMidArea";
 import TrTimeInfoRightArea from "./TR/TrTimeInfoRightArea";
@@ -46,13 +49,15 @@ const TrainTimeInfo = ({
   trTrainTimeTable,
   thsrTrainTimeTable,
   thsrDailyFreeSeatingCar,
-  thsrGeneralTimeTable,
+  thsrTdxGeneralTimeTable,
+  thsrOdFare,
 }: {
   page: PageEnum;
   trTrainTimeTable: JsyTrTrainTimeTable;
   thsrTrainTimeTable: ThsrDailyTimetable;
   thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
-  thsrGeneralTimeTable: any[];
+  thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
+  thsrOdFare: ThsrOdFare[];
 }) => {
   const { i18n } = useTranslation();
   const isTr = page === PageEnum.TR;
@@ -111,7 +116,7 @@ const TrainTimeInfo = ({
         {isThsr && (
           <ThsrServiceDay
             trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
-            generalTimeTable={thsrGeneralTimeTable}
+            generalTimeTable={thsrTdxGeneralTimeTable}
           />
         )}
       </div>
@@ -121,6 +126,17 @@ const TrainTimeInfo = ({
           open={open}
           setOpen={setOpen}
           data={trTrainTimeTable}
+        />
+      )}
+
+      {thsrTrainTimeTable && (
+        <ThsrTrainTimeDetailDialog
+          open={open}
+          setOpen={setOpen}
+          thsrTrainTimeTable={thsrTrainTimeTable}
+          thsrDailyFreeSeatingCar={thsrDailyFreeSeatingCar}
+          thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
+          thsrOdFare={thsrOdFare}
         />
       )}
     </div>
