@@ -21,6 +21,7 @@ import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../enums/SearchAreaParamsEnum";
+import useParamsValidation from "../hooks/useParamsValidationHook";
 import fetchData from "../services/fetch-data";
 import { JsyThsrTrainTimeTable } from "../types/thsr-train-time-table";
 import {
@@ -37,50 +38,6 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-
-/** 參數是否合法 */
-export const isParamsValid = (
-  startStationId: string,
-  endStationId: string,
-  date: string,
-  setAlertMsg: Function,
-  setAlertOpen: Function,
-): boolean => {
-  if (!startStationId && !endStationId) {
-    setAlertMsg("bothStationAreBlankMsg");
-    setAlertOpen(true);
-    return false;
-  }
-
-  if (!startStationId) {
-    setAlertMsg("startStationIsBlankMsg");
-    setAlertOpen(true);
-    return false;
-  }
-
-  if (!endStationId) {
-    setAlertMsg("endStationIsBlankMsg");
-    setAlertOpen(true);
-    return false;
-  }
-
-  if (startStationId === endStationId) {
-    setAlertMsg("sameStationMsg");
-    setAlertOpen(true);
-    return false;
-  }
-
-  if (
-    DateUtils.isBefore(date, DateUtils.getCurrentDate()) ||
-    DateUtils.isAfter(date, DateUtils.addMonth(DateUtils.getCurrentDate(), 2))
-  ) {
-    setAlertMsg("datetimeNotAllowMsg");
-    setAlertOpen(true);
-    return false;
-  }
-
-  return true;
-};
 
 /** [頁面] 查詢 */
 export default function Search({ page = PageEnum.TR }) {
@@ -107,8 +64,7 @@ export default function Search({ page = PageEnum.TR }) {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMsg, setAlertMsg] = useState(null);
+  const { isParamsValid, alertOptions } = useParamsValidation();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isApiHealth, setIsApiHealth] = useState(true);
@@ -214,8 +170,6 @@ export default function Search({ page = PageEnum.TR }) {
           updatedParams.startStationId,
           updatedParams.endStationId,
           updatedParams.date,
-          setAlertMsg,
-          setAlertOpen,
         )
       ) {
         getTrainTimeTable(
@@ -256,14 +210,17 @@ export default function Search({ page = PageEnum.TR }) {
             {/* 無列車資料 */}
             {((isTr && trainTimeTable?.length <= 0) ||
               (isThsr && thsrTrainTimeTable?.timeTable?.length <= 0)) && (
-              <NoTrainData isApiHealth={isApiHealth} alertMsg={alertMsg} />
+              <NoTrainData
+                isApiHealth={isApiHealth}
+                alertMsg={alertOptions.alertMsg}
+              />
             )}
           </div>
 
           <CommonDialog
-            open={alertOpen}
-            setOpen={setAlertOpen}
-            alertMsg={alertMsg}
+            open={alertOptions.alertOpen}
+            setOpen={alertOptions.setAlertOpen}
+            alertMsg={alertOptions.alertMsg}
           />
 
           {isLoading && <Loading />}

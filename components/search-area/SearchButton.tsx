@@ -1,10 +1,10 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { SearchAreaContext } from "../../contexts/SearchAreaContext";
 import { PageEnum } from "../../enums/Page";
 import { PathEnum } from "../../enums/Path";
-import { isParamsValid } from "../../pages/search";
+import useParamsValidation from "../../hooks/useParamsValidationHook";
 import { getStationNameById } from "../../utils/station-utils";
 import CommonDialog from "../CommonDialog";
 
@@ -18,8 +18,8 @@ const SearchButton = ({ page }: { page: PageEnum }) => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMsg, setAlertMsg] = useState(null);
+  const { isParamsValid, alertOptions } = useParamsValidation();
+
   const localStorageKey = `${page}HistoryList`;
 
   const saveHistory = ({ startStationId, endStationId }: HistoryInquiry) => {
@@ -60,15 +60,7 @@ const SearchButton = ({ page }: { page: PageEnum }) => {
   };
 
   const handleSearch = () => {
-    if (
-      !isParamsValid(
-        params.startStationId,
-        params.endStationId,
-        params.date,
-        setAlertMsg,
-        setAlertOpen,
-      )
-    )
+    if (!isParamsValid(params.startStationId, params.endStationId, params.date))
       return;
 
     saveHistory({
@@ -102,9 +94,9 @@ const SearchButton = ({ page }: { page: PageEnum }) => {
         {t("searchBtn")}
       </button>
       <CommonDialog
-        open={alertOpen}
-        setOpen={setAlertOpen}
-        alertMsg={alertMsg}
+        open={alertOptions.alertOpen}
+        setOpen={alertOptions.setAlertOpen}
+        alertMsg={alertOptions.alertMsg}
       />
     </>
   );

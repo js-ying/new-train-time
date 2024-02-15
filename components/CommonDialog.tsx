@@ -26,7 +26,13 @@ const ErrorIcon = () => {
   );
 };
 
-const CommonDialog = ({ open, setOpen, alertMsg }) => {
+interface CommonDialogProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  alertMsg: string;
+}
+
+const CommonDialog = ({ open, setOpen, alertMsg }: CommonDialogProps) => {
   const { t } = useTranslation();
 
   return (
