@@ -5,11 +5,11 @@ import {
   SearchAreaParams,
   SearchAreaUpdateContext,
 } from "../../contexts/SearchAreaContext";
-import { PageEnum } from "../../enums/Page";
 import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../../enums/SearchAreaParamsEnum";
+import usePage from "../../hooks/usePageHook";
 import {
   ThsrStationData,
   TrStationData,
@@ -284,9 +284,8 @@ const SelectThsrStation = () => {
 };
 
 /** 車站選擇器 */
-const SelectStation = ({ page }: { page: PageEnum }) => {
-  const isTr = page === PageEnum.TR;
-  const isThsr = page === PageEnum.THSR;
+const SelectStation = () => {
+  const { isTr, isThsr } = usePage();
 
   return (
     <>

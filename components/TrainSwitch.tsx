@@ -5,17 +5,17 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
-import { PageEnum } from "../enums/Page";
-import { PathEnum } from "../enums/Path";
+import { PageEnum } from "../enums/PageEnum";
+import { PathEnum } from "../enums/PathEnum";
 import { SearchAreaActiveIndexEnum } from "../enums/SearchAreaParamsEnum";
+import usePage from "../hooks/usePageHook";
 import DateUtils from "../utils/date-utils";
 
 /** 台鐵/高鐵切換器 */
-const TrainSwitch = ({ page = PageEnum.TR }) => {
+const TrainSwitch = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const isTr = page === PageEnum.TR;
-  const isThsr = page === PageEnum.THSR;
+  const { isTr, isThsr } = usePage();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
@@ -44,13 +44,13 @@ const TrainSwitch = ({ page = PageEnum.TR }) => {
 
   return (
     <div
-      className="dark:bg-gamboge cursor-pointer
-        rounded-md bg-grayBlue px-1 py-0.5 text-sm text-white
-        transition duration-150 ease-out dark:text-zinc-900"
+      className="cursor-pointer rounded-md
+        bg-grayBlue px-1 py-0.5 text-sm text-white transition
+        duration-150 ease-out dark:bg-gamboge dark:text-zinc-900"
       onClick={toggleTrainPage}
     >
-      {isTr && t(PageEnum.THSR + "Toggle")}
-      {isThsr && t(PageEnum.TR + "Toggle")}
+      {isTr && t(`${PageEnum.THSR}Toggle`)}
+      {isThsr && t(`${PageEnum.TR}Toggle`)}
     </div>
   );
 };

@@ -1,7 +1,6 @@
-import { useTranslation } from "next-i18next";
 import { useContext, useState } from "react";
 import { SearchAreaContext } from "../../contexts/SearchAreaContext";
-import { PageEnum } from "../../enums/Page";
+import usePage from "../../hooks/usePageHook";
 import {
   ThsrDailyFreeSeatingCar,
   ThsrDailyTimetable,
@@ -45,23 +44,19 @@ const isTrainPass = (
  * 列車時刻資訊
  */
 const TrainTimeInfo = ({
-  page,
   trTrainTimeTable,
   thsrTrainTimeTable,
   thsrDailyFreeSeatingCar,
   thsrTdxGeneralTimeTable,
   thsrOdFare,
 }: {
-  page: PageEnum;
   trTrainTimeTable: JsyTrTrainTimeTable;
   thsrTrainTimeTable: ThsrDailyTimetable;
   thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
   thsrOdFare: ThsrOdFare[];
 }) => {
-  const { i18n } = useTranslation();
-  const isTr = page === PageEnum.TR;
-  const isThsr = page === PageEnum.THSR;
+  const { isTr, isThsr } = usePage();
 
   const params = useContext(SearchAreaContext);
 

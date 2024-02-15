@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { PageEnum } from "../../enums/Page";
+import usePage from "../../hooks/usePageHook";
 import { JsyThsrTrainTimeTable } from "../../types/thsr-train-time-table";
 import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
 import ThsrPriceInfo from "./THSR/ThsrPriceInfo";
@@ -7,17 +7,14 @@ import TrTrainTypeFilter from "./TR/TrTrainTypeFilter";
 
 /** 時刻表長度計算 */
 const TableLengthCount = ({
-  page,
   totalCount,
   filterCount,
 }: {
-  page: PageEnum;
   totalCount: number;
   filterCount: number;
 }) => {
   const { t } = useTranslation();
-  const isTr = page === PageEnum.TR;
-  const isThsr = page === PageEnum.THSR;
+  const { isTr, isThsr } = usePage();
 
   return (
     <div className="">
@@ -43,20 +40,17 @@ const TableLengthCount = ({
 
 /** 列車時刻導覽列 */
 const TrainTimeNavbar = ({
-  page,
   trTrainTimeTable,
   filterTrTrainTimeTable,
   setFilterTrTrainTimeTable,
   thsrTrainTimeTable,
 }: {
-  page: PageEnum;
   trTrainTimeTable: JsyTrTrainTimeTable[];
   filterTrTrainTimeTable: JsyTrTrainTimeTable[];
   setFilterTrTrainTimeTable: Function;
   thsrTrainTimeTable: JsyThsrTrainTimeTable;
 }) => {
-  const isTr = page === PageEnum.TR;
-  const isThsr = page === PageEnum.THSR;
+  const { isTr, isThsr } = usePage();
 
   return (
     <div className="flex items-center justify-between text-sm">
@@ -67,10 +61,11 @@ const TrainTimeNavbar = ({
         />
       )}
 
-      {isThsr && <ThsrPriceInfo dataList={thsrTrainTimeTable.fareList} />}
+      {isThsr && (
+        <ThsrPriceInfo dataList={thsrTrainTimeTable.fareList} showAll={false} />
+      )}
 
       <TableLengthCount
-        page={page}
         totalCount={
           trTrainTimeTable?.length || thsrTrainTimeTable?.timeTable?.length
         }

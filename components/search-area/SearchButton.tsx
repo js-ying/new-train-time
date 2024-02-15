@@ -2,8 +2,7 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { SearchAreaContext } from "../../contexts/SearchAreaContext";
-import { PageEnum } from "../../enums/Page";
-import { PathEnum } from "../../enums/Path";
+import usePage from "../../hooks/usePageHook";
 import useParamsValidation from "../../hooks/useParamsValidationHook";
 import { getStationNameById } from "../../utils/station-utils";
 import CommonDialog from "../CommonDialog";
@@ -14,13 +13,13 @@ export interface HistoryInquiry {
 }
 
 /** 搜尋按鈕 */
-const SearchButton = ({ page }: { page: PageEnum }) => {
+const SearchButton = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const { isParamsValid, alertOptions } = useParamsValidation();
 
-  const localStorageKey = `${page}HistoryList`;
+  const { localStorageKey, searchPath, page } = usePage();
 
   const saveHistory = ({ startStationId, endStationId }: HistoryInquiry) => {
     let historyList: HistoryInquiry[] = [];
@@ -69,7 +68,7 @@ const SearchButton = ({ page }: { page: PageEnum }) => {
     });
 
     router.push({
-      pathname: `${PathEnum[page + "Search"]}`,
+      pathname: searchPath,
       query: {
         s: getStationNameById(page, params.startStationId, i18n.language),
         e: getStationNameById(page, params.endStationId, i18n.language),

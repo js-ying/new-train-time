@@ -1,4 +1,4 @@
-import { PageEnum } from "../enums/Page";
+import { PageEnum } from "../enums/PageEnum";
 import {
   thsrStationDataList,
   trStationDataList,

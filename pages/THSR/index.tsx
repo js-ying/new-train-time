@@ -1,5 +1,4 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { PageEnum } from "../../enums/Page";
 import Home from "../index";
 
 export async function getStaticProps({ locale }) {
@@ -11,7 +10,7 @@ export async function getStaticProps({ locale }) {
 }
 
 const ThsrHome = () => {
-  return <Home page={PageEnum.THSR} />;
+  return <Home />;
 };
 
 export default ThsrHome;

@@ -16,11 +16,11 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
-import { PageEnum } from "../enums/Page";
 import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../enums/SearchAreaParamsEnum";
+import usePage from "../hooks/usePageHook";
 import useParamsValidation from "../hooks/useParamsValidationHook";
 import fetchData from "../services/fetch-data";
 import { JsyThsrTrainTimeTable } from "../types/thsr-train-time-table";
@@ -40,7 +40,7 @@ export async function getStaticProps({ locale }) {
 }
 
 /** [頁面] 查詢 */
-export default function Search({ page = PageEnum.TR }) {
+export default function Search() {
   const { t, i18n } = useTranslation();
   const { theme } = useTheme();
   const muiTheme = useMemo(
@@ -58,8 +58,7 @@ export default function Search({ page = PageEnum.TR }) {
   );
 
   const router = useRouter();
-  const isTr = page === PageEnum.TR;
-  const isThsr = page === PageEnum.THSR;
+  const { isTr, isThsr, page } = usePage();
 
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -127,7 +126,7 @@ export default function Search({ page = PageEnum.TR }) {
 
         setIsApiHealth(false);
 
-        setAlertMsg(error);
+        alertOptions.setAlertMsg(error);
       }
     }
 
@@ -152,7 +151,7 @@ export default function Search({ page = PageEnum.TR }) {
 
         setIsApiHealth(false);
 
-        setAlertMsg(error);
+        alertOptions.setAlertMsg(error);
       }
     }
 
@@ -194,18 +193,18 @@ export default function Search({ page = PageEnum.TR }) {
         <title>{t(page + "Title")}</title>
       </Head>
 
-      <Layout title={t(page + "Title")} page={page}>
+      <Layout title={t(page + "Title")}>
         <MuiThemeProvider theme={muiTheme}>
-          <SearchArea page={page} />
+          <SearchArea />
 
           <div className="mt-7">
             {/* [台鐵] 有列車資料 */}
             {trainTimeTable?.length > 0 && (
-              <TrTrainTimeTable page={page} dataList={trainTimeTable} />
+              <TrTrainTimeTable dataList={trainTimeTable} />
             )}
             {/* [高鐵] 有列車資料 */}
             {thsrTrainTimeTable?.timeTable?.length > 0 && (
-              <ThsrTrainTimeTable page={page} data={thsrTrainTimeTable} />
+              <ThsrTrainTimeTable data={thsrTrainTimeTable} />
             )}
             {/* 無列車資料 */}
             {((isTr && trainTimeTable?.length <= 0) ||

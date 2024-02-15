@@ -4,11 +4,11 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../../contexts/SearchAreaContext";
-import { PageEnum } from "../../enums/Page";
 import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../../enums/SearchAreaParamsEnum";
+import usePage from "../../hooks/usePageHook";
 import { getStationNameById } from "../../utils/station-utils";
 import SearchButton, { HistoryInquiry } from "./SearchButton";
 import SelectDatetime from "./SelectDatetime";
@@ -68,11 +68,11 @@ const SwitchButton = ({ className = "" }) => {
 };
 
 /** 搜尋區域 */
-const SearchArea = ({ page }: { page: PageEnum }) => {
+const SearchArea = () => {
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const localStorageKey = `${page}HistoryList`;
+  const { localStorageKey, page } = usePage();
 
   // 處理預設車站
   const handleDefaultStation = () => {
@@ -211,10 +211,10 @@ const SearchArea = ({ page }: { page: PageEnum }) => {
       </div>
       <div className="mt-6">
         {params.activeIndex === SearchAreaActiveIndexEnum.START_STATION && (
-          <SelectStation page={page} />
+          <SelectStation />
         )}
         {params.activeIndex === SearchAreaActiveIndexEnum.END_STATION && (
-          <SelectStation page={page} />
+          <SelectStation />
         )}
         {params.activeIndex === SearchAreaActiveIndexEnum.DATE_TIME && (
           <div className="flex justify-center">
@@ -223,7 +223,7 @@ const SearchArea = ({ page }: { page: PageEnum }) => {
         )}
       </div>
       <div className="mt-7 flex items-center justify-center">
-        <SearchButton page={page} />
+        <SearchButton />
       </div>
     </>
   );

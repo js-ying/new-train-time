@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { PageEnum } from "../enums/Page";
+import usePage from "../hooks/usePageHook";
 import { getStationIdByName, getStationNameById } from "../utils/station-utils";
 
 const LocaleIcon = ({ isRotated }) => {
@@ -111,10 +111,11 @@ const LocaleChangeByDropdown = () => {
 /**
  * 語系變更（Switch 版）
  */
-const LocaleChangeBySwitch = (page: PageEnum) => {
+const LocaleChangeBySwitch = () => {
   const { i18n } = useTranslation();
   const router = useRouter();
   const [isRotated, setIsRotated] = useState(true);
+  const { page } = usePage();
 
   const handleChange = () => {
     setIsRotated(false);
@@ -164,8 +165,8 @@ const LocaleChangeBySwitch = (page: PageEnum) => {
 /**
  * 語系變更
  */
-const LocaleChange = ({ page }: { page: PageEnum }) => {
-  return LocaleChangeBySwitch(page);
+const LocaleChange = () => {
+  return LocaleChangeBySwitch();
 };
 
 export default LocaleChange;

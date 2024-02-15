@@ -4,7 +4,7 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../../contexts/SearchAreaContext";
-import { PageEnum } from "../../enums/Page";
+import usePage from "../../hooks/usePageHook";
 import { getStationNameById } from "../../utils/station-utils";
 import { HistoryInquiry } from "./SearchButton";
 
@@ -29,12 +29,13 @@ const CloseButton = () => {
 };
 
 /** 歷史查詢 */
-const SearchHistory = ({ page }: { page: PageEnum }) => {
+const SearchHistory = () => {
   const [historyList, setHistoryList] = useState<HistoryInquiry[]>([]);
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const localStorageKey = `${page}HistoryList`;
+
+  const { localStorageKey, page } = usePage();
 
   useEffect(() => {
     const valueString = window.localStorage.getItem(localStorageKey);

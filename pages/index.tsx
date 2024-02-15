@@ -8,7 +8,7 @@ import Disclaimer from "../components/Disclaimer";
 import Layout from "../components/Layout";
 import SearchArea from "../components/search-area/SearchArea";
 import SearchHistory from "../components/search-area/SearchHistory";
-import { PageEnum } from "../enums/Page";
+import usePage from "../hooks/usePageHook";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -19,7 +19,7 @@ export async function getStaticProps({ locale }) {
 }
 
 /** [頁面] 首頁 */
-export default function Home({ page = PageEnum.TR }) {
+export default function Home() {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const muiTheme = useMemo(
@@ -36,20 +36,22 @@ export default function Home({ page = PageEnum.TR }) {
     [theme],
   );
 
+  const { page } = usePage();
+
   return (
     <>
       <Head>
-        <title>{t(page + "Title")}</title>
+        <title>{t(`${page}Title`)}</title>
       </Head>
 
-      <Layout title={t(page + "Title")} page={page}>
+      <Layout title={t(`${page}Title`)}>
         <MuiThemeProvider theme={muiTheme}>
-          <SearchArea page={page} />
+          <SearchArea />
           <div className="mt-7">
-            <SearchHistory page={page} />
+            <SearchHistory />
           </div>
           <div className="mt-7">
-            <Disclaimer page={page} />
+            <Disclaimer />
           </div>
         </MuiThemeProvider>
       </Layout>

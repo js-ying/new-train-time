@@ -1,5 +1,4 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { PageEnum } from "../../enums/Page";
 import Search from "../search";
 
 export async function getStaticProps({ locale }) {
@@ -11,7 +10,7 @@ export async function getStaticProps({ locale }) {
 }
 
 const ThsrSearch = () => {
-  return <Search page={PageEnum.THSR} />;
+  return <Search />;
 };
 
 export default ThsrSearch;
