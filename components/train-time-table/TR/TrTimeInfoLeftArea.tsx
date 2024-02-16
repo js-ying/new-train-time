@@ -1,11 +1,16 @@
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
-import { getTdxLang } from "../../../utils/locale-utils";
-import { getTrTrainTypeNameByCode } from "../../../utils/train-info-utils";
+import { getTdxLang } from "../../../utils/LocaleUtils";
+import { getTrTrainTypeNameByCode } from "../../../utils/TrainInfoUtils";
 import TrTrainType from "./TrTrainType";
 import TrTripLine from "./TrTripLine";
 
-const TrTimeInfoLeftArea = ({ data }: { data: JsyTrTrainTimeTable }) => {
+interface TrTimeInfoLeftAreaProps {
+  data: JsyTrTrainTimeTable;
+}
+
+const TrTimeInfoLeftArea: FC<TrTimeInfoLeftAreaProps> = ({ data }) => {
   const { i18n } = useTranslation();
 
   return (

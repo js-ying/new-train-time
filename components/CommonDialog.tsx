@@ -6,8 +6,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grow from "@mui/material/Grow";
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 
-const ErrorIcon = () => {
+const ErrorIcon: FC = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +33,7 @@ interface CommonDialogProps {
   alertMsg: string;
 }
 
-const CommonDialog = ({ open, setOpen, alertMsg }: CommonDialogProps) => {
+const CommonDialog: FC<CommonDialogProps> = ({ open, setOpen, alertMsg }) => {
   const { t } = useTranslation();
 
   return (

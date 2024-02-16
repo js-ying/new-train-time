@@ -1,9 +1,14 @@
+import { FC } from "react";
 import { JsyThsrTrainTimeTable } from "../../../types/thsr-train-time-table";
 import TrainTimeInfo from "../TrainTimeInfo";
 import TrainTimeNavbar from "../TrainTimeNavbar";
 
+interface ThsrTrainTimeTableProps {
+  data: JsyThsrTrainTimeTable;
+}
+
 /** 列車時刻表 */
-const ThsrTrainTimeTable = ({ data }: { data: JsyThsrTrainTimeTable }) => {
+const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
   return (
     <>
       <div className="mb-4">

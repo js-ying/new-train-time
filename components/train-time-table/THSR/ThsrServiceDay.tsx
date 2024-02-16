@@ -1,7 +1,8 @@
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 import { ThsrTdxGeneralTimeTable } from "../../../types/thsr-train-time-table";
-import { getTdxLang } from "../../../utils/locale-utils";
-import { getThsrGeneralTrainInfo } from "../../../utils/train-info-utils";
+import { getTdxLang } from "../../../utils/LocaleUtils";
+import { getThsrGeneralTrainInfo } from "../../../utils/TrainInfoUtils";
 
 const getServiceDaysMsg = (lang: string, data?): string => {
   if (!data) return "";
@@ -77,12 +78,14 @@ const getServiceDaysMsg = (lang: string, data?): string => {
   }
 };
 
-const ThsrServiceDay = ({
-  trainNo,
-  generalTimeTable,
-}: {
+interface ThsrServiceDayProps {
   trainNo: string;
   generalTimeTable: ThsrTdxGeneralTimeTable[];
+}
+
+const ThsrServiceDay: FC<ThsrServiceDayProps> = ({
+  trainNo,
+  generalTimeTable,
 }) => {
   const { i18n } = useTranslation();
   const serviceDay = getThsrGeneralTrainInfo(generalTimeTable, trainNo)

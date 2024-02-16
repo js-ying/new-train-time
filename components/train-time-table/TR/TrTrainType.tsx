@@ -1,4 +1,11 @@
-const TrTrainType = ({ code, trainTypeName }) => {
+import { FC } from "react";
+
+interface TrTrainTypeProps {
+  code: string;
+  trainTypeName: string;
+}
+
+const TrTrainType: FC<TrTrainTypeProps> = ({ code, trainTypeName }) => {
   return (
     <>
       {/* 自強 */}

@@ -6,15 +6,20 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
-import { getTdxLang } from "../../../utils/locale-utils";
+import { getTdxLang } from "../../../utils/LocaleUtils";
 import {
   getTrTrainTypeNameByCode,
   getTrTripLineNameByValue,
-} from "../../../utils/train-info-utils";
+} from "../../../utils/TrainInfoUtils";
 import { trTrainServiceList } from "./TrTrainServices";
 
-const TrainDetail = ({ data }: { data: JsyTrTrainTimeTable }) => {
+interface TrainDetailProps {
+  data: JsyTrTrainTimeTable;
+}
+
+const TrainDetail: FC<TrainDetailProps> = ({ data }) => {
   const { t, i18n } = useTranslation();
 
   return (
@@ -73,7 +78,11 @@ const TrainDetail = ({ data }: { data: JsyTrTrainTimeTable }) => {
   );
 };
 
-const StopTimesTable = ({ data }: { data: JsyTrTrainTimeTable }) => {
+interface StopTimesTableProps {
+  data: JsyTrTrainTimeTable;
+}
+
+const StopTimesTable: FC<StopTimesTableProps> = ({ data }) => {
   const { t, i18n } = useTranslation();
 
   return (
@@ -105,14 +114,16 @@ const StopTimesTable = ({ data }: { data: JsyTrTrainTimeTable }) => {
   );
 };
 
-const TrTrainTimeDetailDialog = ({
-  open,
-  setOpen,
-  data,
-}: {
+interface TrTrainTimeDetailDialogProps {
   open: boolean;
   setOpen: Function;
   data: JsyTrTrainTimeTable;
+}
+
+const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
+  open,
+  setOpen,
+  data,
 }) => {
   const { t, i18n } = useTranslation();
 

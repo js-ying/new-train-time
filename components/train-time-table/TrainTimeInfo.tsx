@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { SearchAreaContext } from "../../contexts/SearchAreaContext";
 import usePage from "../../hooks/usePageHook";
 import {
@@ -8,7 +8,7 @@ import {
   ThsrTdxGeneralTimeTable,
 } from "../../types/thsr-train-time-table";
 import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
-import DateUtils from "../../utils/date-utils";
+import DateUtils from "../../utils/DateUtils";
 import ThsrServiceDay from "./THSR/ThsrServiceDay";
 import ThsrTimeInfoLeftArea from "./THSR/ThsrTimeInfoLeftArea";
 import ThsrTimeInfoMidArea from "./THSR/ThsrTimeInfoMidArea";
@@ -40,21 +40,23 @@ const isTrainPass = (
   return false;
 };
 
-/**
- * 列車時刻資訊
- */
-const TrainTimeInfo = ({
-  trTrainTimeTable,
-  thsrTrainTimeTable,
-  thsrDailyFreeSeatingCar,
-  thsrTdxGeneralTimeTable,
-  thsrOdFare,
-}: {
+interface TrainTimeInfoProps {
   trTrainTimeTable: JsyTrTrainTimeTable;
   thsrTrainTimeTable: ThsrDailyTimetable;
   thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
   thsrOdFare: ThsrOdFare[];
+}
+
+/**
+ * 列車時刻資訊
+ */
+const TrainTimeInfo: FC<TrainTimeInfoProps> = ({
+  trTrainTimeTable,
+  thsrTrainTimeTable,
+  thsrDailyFreeSeatingCar,
+  thsrTdxGeneralTimeTable,
+  thsrOdFare,
 }) => {
   const { isTr, isThsr } = usePage();
 

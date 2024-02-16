@@ -6,6 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 import {
   ThsrDailyFreeSeatingCar,
   ThsrDailyTimetable,
@@ -13,23 +14,25 @@ import {
   ThsrOdFare,
   ThsrTdxGeneralTimeTable,
 } from "../../../types/thsr-train-time-table";
-import { getTdxLang } from "../../../utils/locale-utils";
-import { getThsrGeneralTrainInfo } from "../../../utils/train-info-utils";
+import { getTdxLang } from "../../../utils/LocaleUtils";
+import { getThsrGeneralTrainInfo } from "../../../utils/TrainInfoUtils";
 import Dot from "../../Dot";
 import ThsrFreeSeat from "./ThsrFreeSeat";
 import ThsrPriceInfo from "./ThsrPriceInfo";
 import ThsrServiceDay from "./ThsrServiceDay";
 
-const TrainDetail = ({
-  thsrTrainTimeTable,
-  thsrDailyFreeSeatingCar,
-  thsrOdFare,
-  thsrTdxGeneralTimeTable,
-}: {
+interface TrainDetailProps {
   thsrTrainTimeTable: ThsrDailyTimetable;
   thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
   thsrOdFare: ThsrOdFare[];
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
+}
+
+const TrainDetail: FC<TrainDetailProps> = ({
+  thsrTrainTimeTable,
+  thsrDailyFreeSeatingCar,
+  thsrOdFare,
+  thsrTdxGeneralTimeTable,
 }) => {
   const { t, i18n } = useTranslation();
 
@@ -86,14 +89,16 @@ const TrainDetail = ({
   );
 };
 
-const StopTimesTable = ({
-  data,
-  startStationId,
-  endStationId,
-}: {
+interface StopTimesTableProps {
   data: ThsrGeneralTimeTable | null;
   startStationId: string;
   endStationId: string;
+}
+
+const StopTimesTable: FC<StopTimesTableProps> = ({
+  data,
+  startStationId,
+  endStationId,
 }) => {
   const { t, i18n } = useTranslation();
 
@@ -136,20 +141,22 @@ const StopTimesTable = ({
   );
 };
 
-const ThsrTrainTimeDetailDialog = ({
-  open,
-  setOpen,
-  thsrTrainTimeTable,
-  thsrDailyFreeSeatingCar,
-  thsrTdxGeneralTimeTable,
-  thsrOdFare,
-}: {
+interface ThsrTrainTimeDetailDialogProps {
   open: boolean;
   setOpen: Function;
   thsrTrainTimeTable: ThsrDailyTimetable;
   thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
   thsrOdFare: ThsrOdFare[];
+}
+
+const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
+  open,
+  setOpen,
+  thsrTrainTimeTable,
+  thsrDailyFreeSeatingCar,
+  thsrTdxGeneralTimeTable,
+  thsrOdFare,
 }) => {
   const { t, i18n } = useTranslation();
 

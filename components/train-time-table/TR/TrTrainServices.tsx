@@ -1,6 +1,7 @@
 import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
+import { FC } from "react";
 import { TrTrainInfo } from "../../../types/tr-train-time-table";
 
 export const trTrainServiceList = [
@@ -36,7 +37,11 @@ export const trTrainServiceList = [
   },
 ];
 
-const TrTrainService = ({ data }: { data: TrTrainInfo }) => {
+interface TrTrainServiceProps {
+  data: TrTrainInfo;
+}
+
+const TrTrainService: FC<TrTrainServiceProps> = ({ data }) => {
   const { t } = useTranslation();
 
   return (

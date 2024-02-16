@@ -1,15 +1,15 @@
 import { useTranslation } from "next-i18next";
-import { useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../../contexts/SearchAreaContext";
 import usePage from "../../hooks/usePageHook";
-import { getStationNameById } from "../../utils/station-utils";
+import { getStationNameById } from "../../utils/StationUtils";
 import { HistoryInquiry } from "./SearchButton";
 
 /** 關閉按鈕 */
-const CloseButton = () => {
+const CloseButton: FC = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@ const CloseButton = () => {
 };
 
 /** 歷史查詢 */
-const SearchHistory = () => {
+const SearchHistory: FC = () => {
   const [historyList, setHistoryList] = useState<HistoryInquiry[]>([]);
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);

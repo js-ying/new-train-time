@@ -1,13 +1,16 @@
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 import { ThsrDailyFreeSeatingCar } from "../../../types/thsr-train-time-table";
 import ThsrFreeSeat from "./ThsrFreeSeat";
 
-const ThsrTimeInfoRightArea = ({
-  trainNo,
-  freeSeatData,
-}: {
+interface ThsrTimeInfoRightAreaProps {
   trainNo: string;
   freeSeatData: ThsrDailyFreeSeatingCar;
+}
+
+const ThsrTimeInfoRightArea: FC<ThsrTimeInfoRightAreaProps> = ({
+  trainNo,
+  freeSeatData,
 }) => {
   const { t } = useTranslation();
 

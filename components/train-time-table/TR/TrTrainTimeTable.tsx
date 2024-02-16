@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import TrainTimeInfo from "../TrainTimeInfo";
 import TrainTimeNavbar from "../TrainTimeNavbar";
 
-/** 列車時刻表 */
-const TrTrainTimeTable = ({
-  dataList,
-}: {
+interface TrTrainTimeTableProps {
   dataList: JsyTrTrainTimeTable[];
-}) => {
+}
+
+/** 列車時刻表 */
+const TrTrainTimeTable: FC<TrTrainTimeTableProps> = ({ dataList }) => {
   const [filterTrTrainTimeTable, setFilterTrTrainTimeTable] =
     useState(dataList);
 

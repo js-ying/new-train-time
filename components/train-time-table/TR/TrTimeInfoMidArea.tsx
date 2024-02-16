@@ -1,11 +1,15 @@
 import { useTranslation } from "next-i18next";
-import { useContext } from "react";
+import { FC, useContext } from "react";
 import { SearchAreaContext } from "../../../contexts/SearchAreaContext";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
-import { getTimeDiff } from "../../../utils/train-info-utils";
+import { getTimeDiff } from "../../../utils/TrainInfoUtils";
 import TrDelay from "./TrDelay";
 
-const TrTimeInfoMidArea = ({ data }: { data: JsyTrTrainTimeTable }) => {
+interface TrTimeInfoMidAreaProps {
+  data: JsyTrTrainTimeTable;
+}
+
+const TrTimeInfoMidArea: FC<TrTimeInfoMidAreaProps> = ({ data }) => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const timeDiff = getTimeDiff(

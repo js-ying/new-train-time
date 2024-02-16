@@ -5,6 +5,12 @@ import {
   ThsrFreeSeatingCar,
 } from "../../../types/thsr-train-time-table";
 
+interface FreeSeatingCarNo {
+  startCar: string;
+  endCar: string;
+  trainNo: string;
+}
+
 const getFreeSeatGroupListByTrainNo = (
   dataList: ThsrFreeSeatingCar[],
   trainNo: string,
@@ -19,6 +25,7 @@ const getFreeSeatGroupListByTrainNo = (
         return {
           startCar: group.split("-")[0].padStart(1, "0"),
           endCar: group.split("-")[1].padStart(1, "0"),
+          trainNo: trainNo,
         };
       });
     }
@@ -27,18 +34,12 @@ const getFreeSeatGroupListByTrainNo = (
   return [];
 };
 
-interface FreeSeatingCarNo {
-  startCar: string;
-  endCar: string;
-  trainNo: string;
-}
-
-interface ThsrFreeSeatProp {
+interface ThsrFreeSeatProps {
   freeSeatData: ThsrDailyFreeSeatingCar;
   trainNo: string;
 }
 
-const ThsrFreeSeat: FC<ThsrFreeSeatProp> = ({ freeSeatData, trainNo }) => {
+const ThsrFreeSeat: FC<ThsrFreeSeatProps> = ({ freeSeatData, trainNo }) => {
   const { t } = useTranslation();
   const freeSeatGroupList = useMemo(() => {
     return getFreeSeatGroupListByTrainNo(freeSeatData.FreeSeatingCars, trainNo);

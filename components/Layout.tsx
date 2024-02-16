@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { FC, useContext } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
 import { SearchAreaActiveIndexEnum } from "../enums/SearchAreaParamsEnum";
 import usePage from "../hooks/usePageHook";
-import DateUtils from "../utils/date-utils";
+import DateUtils from "../utils/DateUtils";
 import LocaleChange from "./LocaleChange";
 import ThemeSwitch from "./ThemeSwitch";
 import TrainSwitch from "./TrainSwitch";
@@ -16,7 +16,7 @@ interface LayoutProps {
   title?: string;
 }
 
-export default function Layout({ children, title = "" }: LayoutProps) {
+const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
   const router = useRouter();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -58,4 +58,6 @@ export default function Layout({ children, title = "" }: LayoutProps) {
       {children}
     </div>
   );
-}
+};
+
+export default Layout;

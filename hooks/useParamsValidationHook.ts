@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DateUtils from "../utils/date-utils";
+import DateUtils from "../utils/DateUtils";
 
 interface UseParamsValidationResult {
   isParamsValid: (

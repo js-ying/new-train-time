@@ -1,10 +1,10 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { FC, useContext } from "react";
 import { SearchAreaContext } from "../../contexts/SearchAreaContext";
 import usePage from "../../hooks/usePageHook";
 import useParamsValidation from "../../hooks/useParamsValidationHook";
-import { getStationNameById } from "../../utils/station-utils";
+import { getStationNameById } from "../../utils/StationUtils";
 import CommonDialog from "../CommonDialog";
 
 export interface HistoryInquiry {
@@ -13,7 +13,7 @@ export interface HistoryInquiry {
 }
 
 /** 搜尋按鈕 */
-const SearchButton = () => {
+const SearchButton: FC = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);

@@ -1,14 +1,14 @@
 import { Alert } from "@mui/material";
 import { useTranslation } from "next-i18next";
-import DateUtils from "../../utils/date-utils";
+import { FC } from "react";
+import DateUtils from "../../utils/DateUtils";
 
-const NoTrainData = ({
-  isApiHealth,
-  alertMsg,
-}: {
+interface NoTrainDataProps {
   isApiHealth: boolean;
   alertMsg: string;
-}) => {
+}
+
+const NoTrainData: FC<NoTrainDataProps> = ({ isApiHealth, alertMsg }) => {
   const { t, i18n } = useTranslation();
 
   return (

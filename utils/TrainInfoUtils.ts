@@ -2,7 +2,7 @@ import {
   ThsrGeneralTimeTable,
   ThsrTdxGeneralTimeTable,
 } from "../types/thsr-train-time-table";
-import { getTdxLang } from "./locale-utils";
+import { getTdxLang } from "./LocaleUtils";
 
 /**
  * 取得 [台鐵] 山海線名稱 by Value

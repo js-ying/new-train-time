@@ -1,9 +1,9 @@
 import { createContext, useState } from "react";
-import DateUtils from "../utils/date-utils";
 import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../enums/SearchAreaParamsEnum";
+import DateUtils from "../utils/DateUtils";
 export interface SearchAreaParams {
   startStationId: string;
   endStationId: string;

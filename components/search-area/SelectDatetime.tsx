@@ -3,15 +3,15 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment-timezone";
 import "moment/locale/zh-tw";
 import { useTranslation } from "next-i18next";
-import { useContext, useMemo } from "react";
+import { FC, useContext, useMemo } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../../contexts/SearchAreaContext";
 import { DaySegmentEnum } from "../../enums/DateEnum";
-import DateUtils from "../../utils/date-utils";
+import DateUtils from "../../utils/DateUtils";
 
-const NowTimeButton = () => {
+const NowTimeButton: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
@@ -25,7 +25,7 @@ const NowTimeButton = () => {
 
   return (
     <label
-      className="dark:text-gamboge dark:active:text-gamboge/80 cursor-pointer text-grayBlue active:text-grayBlue/80"
+      className="cursor-pointer text-grayBlue active:text-grayBlue/80 dark:text-gamboge dark:active:text-gamboge/80"
       onClick={resetDateTime}
     >
       此刻
@@ -33,13 +33,12 @@ const NowTimeButton = () => {
   );
 };
 
-const AmPmPicker = ({
-  daySeg,
-  handleAmPmClick,
-}: {
+interface AmPmPickerProps {
   daySeg: DaySegmentEnum;
-  handleAmPmClick: Function;
-}) => {
+  handleAmPmClick: (item: string) => void;
+}
+
+const AmPmPicker: FC<AmPmPickerProps> = ({ daySeg, handleAmPmClick }) => {
   const itemList = useMemo(() => {
     return [DaySegmentEnum.AM, DaySegmentEnum.PM];
   }, []);
@@ -51,7 +50,7 @@ const AmPmPicker = ({
           <div
             className={`cursor-pointer rounded-md p-1 text-sm transition ${
               item === daySeg
-                ? "dark:bg-gamboge bg-grayBlue text-white dark:text-black"
+                ? "bg-grayBlue text-white dark:bg-gamboge dark:text-black"
                 : ""
             }`}
             key={item}
@@ -65,7 +64,7 @@ const AmPmPicker = ({
   );
 };
 
-const TimePicker = () => {
+const TimePicker: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
   const generateOptions = (start: number, end: number): string[] => {
@@ -137,7 +136,7 @@ const TimePicker = () => {
   );
 };
 
-const DatePicker = () => {
+const DatePicker: FC = () => {
   const { i18n } = useTranslation();
   moment.locale(i18n.language === "en" ? "en" : "zh-tw");
 
@@ -173,7 +172,7 @@ const DatePicker = () => {
 };
 
 /** 日期選擇器 */
-const SelectDatetime = () => {
+const SelectDatetime: FC = () => {
   return (
     <div className="flex select-none flex-col">
       <div className="rounded-md border border-zinc-300">

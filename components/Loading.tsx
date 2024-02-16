@@ -1,12 +1,13 @@
-// Loading 元素的樣式可以根據您的需求進行調整
-const Loading = () => {
+import { FC } from "react";
+
+const Loading: FC = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div role="status" className="flex flex-col justify-center gap-2">
         <div className="flex justify-center">
           <svg
             aria-hidden="true"
-            className="dark:fill-gamboge h-8 w-8 animate-spin fill-grayBlue text-gray-200"
+            className="h-8 w-8 animate-spin fill-grayBlue text-gray-200 dark:fill-gamboge"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

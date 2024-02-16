@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { useContext, useEffect } from "react";
+import { FC, ReactNode, useContext, useEffect } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
@@ -9,13 +9,25 @@ import {
   SearchAreaLayerEnum,
 } from "../../enums/SearchAreaParamsEnum";
 import usePage from "../../hooks/usePageHook";
-import { getStationNameById } from "../../utils/station-utils";
+import { getStationNameById } from "../../utils/StationUtils";
 import SearchButton, { HistoryInquiry } from "./SearchButton";
 import SelectDatetime from "./SelectDatetime";
 import SelectStation from "./SelectStation";
 
+interface AreaProps {
+  children: ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+  className?: string;
+}
+
 /** 區域 */
-const Area = ({ children, isActive, onClick, className = "" }) => {
+const Area: FC<AreaProps> = ({
+  children,
+  isActive,
+  onClick,
+  className = "",
+}) => {
   return (
     <div
       className={`flex h-16 cursor-pointer flex-col items-center justify-center rounded-md
@@ -30,8 +42,12 @@ const Area = ({ children, isActive, onClick, className = "" }) => {
   );
 };
 
+interface SwitchButtonProps {
+  className?: string;
+}
+
 /** 車站互換按鈕 */
-const SwitchButton = ({ className = "" }) => {
+const SwitchButton: FC<SwitchButtonProps> = ({ className = "" }) => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
@@ -68,7 +84,7 @@ const SwitchButton = ({ className = "" }) => {
 };
 
 /** 搜尋區域 */
-const SearchArea = () => {
+const SearchArea: FC = () => {
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);

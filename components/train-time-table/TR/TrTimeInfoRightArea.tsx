@@ -1,6 +1,11 @@
+import { FC } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 
-const TrTimeInfoRightArea = ({ data }: { data: JsyTrTrainTimeTable }) => {
+interface TrTimeInfoRightAreaProps {
+  data: JsyTrTrainTimeTable;
+}
+
+const TrTimeInfoRightArea: FC<TrTimeInfoRightAreaProps> = ({ data }) => {
   return (
     <>
       <span title="全票票價" className="text-sm">

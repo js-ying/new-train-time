@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTheme } from "next-themes";
 import Head from "next/head";
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import Disclaimer from "../components/Disclaimer";
 import Layout from "../components/Layout";
 import SearchArea from "../components/search-area/SearchArea";
@@ -19,7 +19,7 @@ export async function getStaticProps({ locale }) {
 }
 
 /** [頁面] 首頁 */
-export default function Home() {
+const Home: FC = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const muiTheme = useMemo(
@@ -57,4 +57,6 @@ export default function Home() {
       </Layout>
     </>
   );
-}
+};
+
+export default Home;

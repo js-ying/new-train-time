@@ -1,10 +1,14 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import usePage from "../hooks/usePageHook";
-import { getStationIdByName, getStationNameById } from "../utils/station-utils";
+import { getStationIdByName, getStationNameById } from "../utils/StationUtils";
 
-const LocaleIcon = ({ isRotated }) => {
+interface LocaleIconProps {
+  isRotated: boolean;
+}
+
+const LocaleIcon: FC<LocaleIconProps> = ({ isRotated }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +28,12 @@ const LocaleIcon = ({ isRotated }) => {
   );
 };
 
-const LocaleDropdown = ({ open, setOpen }) => {
+interface LocaleDropdownProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
+
+const LocaleDropdown: FC<LocaleDropdownProps> = ({ open, setOpen }) => {
   const dropdownRef = useRef(null);
   const router = useRouter();
 
@@ -111,7 +120,7 @@ const LocaleChangeByDropdown = () => {
 /**
  * 語系變更（Switch 版）
  */
-const LocaleChangeBySwitch = () => {
+const LocaleChangeBySwitch: FC = () => {
   const { i18n } = useTranslation();
   const router = useRouter();
   const [isRotated, setIsRotated] = useState(true);
@@ -165,8 +174,8 @@ const LocaleChangeBySwitch = () => {
 /**
  * 語系變更
  */
-const LocaleChange = () => {
-  return LocaleChangeBySwitch();
+const LocaleChange: FC = () => {
+  return <LocaleChangeBySwitch />;
 };
 
 export default LocaleChange;

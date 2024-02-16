@@ -1,8 +1,13 @@
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 import { ThsrDailyTimetable } from "../../../types/thsr-train-time-table";
-import { getTdxLang } from "../../../utils/locale-utils";
+import { getTdxLang } from "../../../utils/LocaleUtils";
 
-const ThsrTimeInfoLeftArea = ({ data }: { data: ThsrDailyTimetable }) => {
+interface ThsrTimeInfoLeftAreaProps {
+  data: ThsrDailyTimetable;
+}
+
+const ThsrTimeInfoLeftArea: FC<ThsrTimeInfoLeftAreaProps> = ({ data }) => {
   const { i18n } = useTranslation();
 
   return (

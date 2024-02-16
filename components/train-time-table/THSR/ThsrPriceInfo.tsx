@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { ThsrFare, ThsrOdFare } from "../../../types/thsr-train-time-table";
-import { getTdxLang } from "../../../utils/locale-utils";
+import { getTdxLang } from "../../../utils/LocaleUtils";
 
 export const ticketTypeMap = {
   1: "一般票",
@@ -38,13 +38,15 @@ export const fareMap = {
   cabinClassMap,
 };
 
-/** [高鐵] 票價資訊 */
-const ThsrPriceInfo = ({
-  dataList,
-  showAll = false,
-}: {
+interface ThsrPriceInfoProps {
   dataList: ThsrOdFare[];
   showAll: boolean;
+}
+
+/** [高鐵] 票價資訊 */
+const ThsrPriceInfo: FC<ThsrPriceInfoProps> = ({
+  dataList,
+  showAll = false,
 }) => {
   const { t, i18n } = useTranslation();
 

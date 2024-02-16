@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { FC, useContext } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
@@ -9,10 +9,10 @@ import { PageEnum } from "../enums/PageEnum";
 import { PathEnum } from "../enums/PathEnum";
 import { SearchAreaActiveIndexEnum } from "../enums/SearchAreaParamsEnum";
 import usePage from "../hooks/usePageHook";
-import DateUtils from "../utils/date-utils";
+import DateUtils from "../utils/DateUtils";
 
 /** 台鐵/高鐵切換器 */
-const TrainSwitch = () => {
+const TrainSwitch: FC = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { isTr, isThsr } = usePage();

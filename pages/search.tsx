@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTheme } from "next-themes";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { FC, useContext, useEffect, useMemo, useState } from "react";
 import CommonDialog from "../components/CommonDialog";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
@@ -28,8 +28,8 @@ import {
   JsyTrTrainTimeTable,
   TrDailyTrainTimetable,
 } from "../types/tr-train-time-table";
-import DateUtils from "../utils/date-utils";
-import { getStationIdByName } from "../utils/station-utils";
+import DateUtils from "../utils/DateUtils";
+import { getStationIdByName } from "../utils/StationUtils";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -40,7 +40,7 @@ export async function getStaticProps({ locale }) {
 }
 
 /** [頁面] 查詢 */
-export default function Search() {
+const Search: FC = () => {
   const { t, i18n } = useTranslation();
   const { theme } = useTheme();
   const muiTheme = useMemo(
@@ -227,4 +227,6 @@ export default function Search() {
       </Layout>
     </>
   );
-}
+};
+
+export default Search;

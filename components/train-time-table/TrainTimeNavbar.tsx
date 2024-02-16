@@ -1,17 +1,20 @@
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 import usePage from "../../hooks/usePageHook";
 import { JsyThsrTrainTimeTable } from "../../types/thsr-train-time-table";
 import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
 import ThsrPriceInfo from "./THSR/ThsrPriceInfo";
 import TrTrainTypeFilter from "./TR/TrTrainTypeFilter";
 
-/** 時刻表長度計算 */
-const TableLengthCount = ({
-  totalCount,
-  filterCount,
-}: {
+interface TableLengthCountProps {
   totalCount: number;
   filterCount: number;
+}
+
+/** 時刻表長度計算 */
+const TableLengthCount: FC<TableLengthCountProps> = ({
+  totalCount,
+  filterCount,
 }) => {
   const { t } = useTranslation();
   const { isTr, isThsr } = usePage();
@@ -38,17 +41,19 @@ const TableLengthCount = ({
   );
 };
 
-/** 列車時刻導覽列 */
-const TrainTimeNavbar = ({
-  trTrainTimeTable,
-  filterTrTrainTimeTable,
-  setFilterTrTrainTimeTable,
-  thsrTrainTimeTable,
-}: {
+interface TrainTimeNavbarProps {
   trTrainTimeTable: JsyTrTrainTimeTable[];
   filterTrTrainTimeTable: JsyTrTrainTimeTable[];
   setFilterTrTrainTimeTable: Function;
   thsrTrainTimeTable: JsyThsrTrainTimeTable;
+}
+
+/** 列車時刻導覽列 */
+const TrainTimeNavbar: FC<TrainTimeNavbarProps> = ({
+  trTrainTimeTable,
+  filterTrTrainTimeTable,
+  setFilterTrTrainTimeTable,
+  thsrTrainTimeTable,
 }) => {
   const { isTr, isThsr } = usePage();
 

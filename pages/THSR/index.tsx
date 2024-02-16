@@ -1,4 +1,5 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { FC } from "react";
 import Home from "../index";
 
 export async function getStaticProps({ locale }) {
@@ -9,7 +10,7 @@ export async function getStaticProps({ locale }) {
   };
 }
 
-const ThsrHome = () => {
+const ThsrHome: FC = () => {
   return <Home />;
 };
 

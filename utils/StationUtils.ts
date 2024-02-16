@@ -3,7 +3,7 @@ import {
   thsrStationDataList,
   trStationDataList,
 } from "../public/data/stationsData";
-import { getTdxLang } from "./locale-utils";
+import { getTdxLang } from "./LocaleUtils";
 
 /**
  * 取得車站名稱 by ID

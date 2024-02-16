@@ -1,7 +1,8 @@
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 import usePage from "../hooks/usePageHook";
 
-const Disclaimer = () => {
+const Disclaimer: FC = () => {
   const { t } = useTranslation();
   const { page } = usePage();
 

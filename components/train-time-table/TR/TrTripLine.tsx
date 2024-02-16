@@ -1,13 +1,13 @@
 import { useTranslation } from "next-i18next";
-import { getTrTripLineNameByValue } from "../../../utils/train-info-utils";
+import { FC } from "react";
+import { getTrTripLineNameByValue } from "../../../utils/TrainInfoUtils";
 
-const TrTripLine = ({
-  trainNo,
-  tripLine,
-}: {
+interface TrTripLineProps {
   trainNo: string;
   tripLine: number;
-}) => {
+}
+
+const TrTripLine: FC<TrTripLineProps> = ({ trainNo, tripLine }) => {
   const { i18n } = useTranslation();
 
   return (

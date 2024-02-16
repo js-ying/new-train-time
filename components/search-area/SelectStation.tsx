@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { useContext, useState } from "react";
+import { FC, useContext, useState } from "react";
 import {
   SearchAreaContext,
   SearchAreaParams,
@@ -17,7 +17,7 @@ import {
   trMainLines,
   trStationDataList,
 } from "../../public/data/stationsData";
-import { getTdxLang } from "../../utils/locale-utils";
+import { getTdxLang } from "../../utils/LocaleUtils";
 
 /** 車站是否在指定縣市轄區內 (僅台鐵) */
 const isStationBelowMainLine = (
@@ -76,7 +76,7 @@ const handleStationSelect = (
 };
 
 /** [台鐵] 車站輸入框 */
-const TrStationInput = () => {
+const TrStationInput: FC = () => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -129,7 +129,7 @@ const TrStationInput = () => {
 };
 
 /** [高鐵] 車站輸入框 */
-const ThsrStationInput = () => {
+const ThsrStationInput: FC = () => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -172,8 +172,13 @@ const ThsrStationInput = () => {
   );
 };
 
+interface StationButtonProps {
+  text: string;
+  onClick: () => void;
+}
+
 /** 車站按鈕 */
-const StationButton = ({ text, onClick }) => {
+const StationButton: FC<StationButtonProps> = ({ text, onClick }) => {
   return (
     <div className="common-button px-3 py-2" onClick={onClick}>
       {text}
@@ -182,7 +187,7 @@ const StationButton = ({ text, onClick }) => {
 };
 
 /** [台鐵] 車站選擇 */
-const SelectTrStation = () => {
+const SelectTrStation: FC = () => {
   const { i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -244,7 +249,7 @@ const SelectTrStation = () => {
 };
 
 /** [高鐵] 車站選擇 */
-const SelectThsrStation = () => {
+const SelectThsrStation: FC = () => {
   const { i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -284,7 +289,7 @@ const SelectThsrStation = () => {
 };
 
 /** 車站選擇器 */
-const SelectStation = () => {
+const SelectStation: FC = () => {
   const { isTr, isThsr } = usePage();
 
   return (

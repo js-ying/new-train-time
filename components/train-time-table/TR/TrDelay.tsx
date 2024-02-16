@@ -1,7 +1,12 @@
 import { useTranslation } from "next-i18next";
+import { FC } from "react";
 import { TrDelayInfo } from "../../../types/tr-train-time-table";
 
-const TrDelay = ({ dataList }: { dataList: TrDelayInfo[] }) => {
+interface TrDelayProps {
+  dataList: TrDelayInfo[];
+}
+
+const TrDelay: FC<TrDelayProps> = ({ dataList }) => {
   const { t } = useTranslation();
 
   return (

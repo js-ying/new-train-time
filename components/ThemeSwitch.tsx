@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
-const LightModeIcon = () => {
+const LightModeIcon: FC = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@ const LightModeIcon = () => {
   );
 };
 
-const DarkModeIcon = () => {
+const DarkModeIcon: FC = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ const DarkModeIcon = () => {
 };
 
 /** 亮暗色主題切換器 */
-const ThemeSwitch = () => {
+const ThemeSwitch: FC = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
