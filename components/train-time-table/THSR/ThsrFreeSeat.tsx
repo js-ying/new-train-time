@@ -46,7 +46,7 @@ const ThsrFreeSeat: FC<ThsrFreeSeatProps> = ({ freeSeatData, trainNo }) => {
   }, [freeSeatData, trainNo]);
 
   return (
-    <>
+    <div className="flex flex-col gap-1">
       {freeSeatGroupList.length > 0 ? (
         freeSeatGroupList.map((group) => {
           return (
@@ -77,7 +77,7 @@ const ThsrFreeSeat: FC<ThsrFreeSeatProps> = ({ freeSeatData, trainNo }) => {
           {t("confirmOnSiteMsg")}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
