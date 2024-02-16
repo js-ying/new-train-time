@@ -1,13 +1,13 @@
-import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTheme } from "next-themes";
 import Head from "next/head";
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import Disclaimer from "../components/Disclaimer";
 import Layout from "../components/Layout";
 import SearchArea from "../components/search-area/SearchArea";
 import SearchHistory from "../components/search-area/SearchHistory";
+import useMuiTheme from "../hooks/useMuiThemeHook";
 import usePage from "../hooks/usePageHook";
 
 export async function getStaticProps({ locale }) {
@@ -21,21 +21,7 @@ export async function getStaticProps({ locale }) {
 /** [頁面] 首頁 */
 const Home: FC = () => {
   const { t } = useTranslation();
-  const { theme } = useTheme();
-  const muiTheme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          primary: {
-            main: `${theme === "light" ? "#6490c4" : "#f59e0b"}`,
-            dark: `${theme === "light" ? "#6490c4" : "#f59e0b"}`,
-          },
-          mode: theme as "light" | "dark",
-        },
-      }),
-    [theme],
-  );
-
+  const muiTheme = useMuiTheme();
   const { page } = usePage();
 
   return (
