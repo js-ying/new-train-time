@@ -20,8 +20,8 @@ export async function getStaticProps({ locale }) {
 
 /** [頁面] 首頁 */
 const Home: FC = () => {
-  const { t } = useTranslation();
   const muiTheme = useMuiTheme();
+  const { t } = useTranslation();
   const { page } = usePage();
 
   return (

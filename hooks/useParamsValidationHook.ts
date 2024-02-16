@@ -1,18 +1,20 @@
 import { useState } from "react";
 import DateUtils from "../utils/DateUtils";
 
+export interface AlertOptions {
+  alertMsg: string;
+  setAlertMsg: (msg: string) => void;
+  alertOpen: boolean;
+  setAlertOpen: (open: boolean) => void;
+}
+
 interface UseParamsValidationResult {
   isParamsValid: (
     startStationId: string,
     endStationId: string,
     date: string,
   ) => boolean;
-  alertOptions: {
-    alertMsg: string;
-    setAlertMsg: (msg: string) => void;
-    alertOpen: boolean;
-    setAlertOpen: (open: boolean) => void;
-  };
+  alertOptions: AlertOptions;
 }
 
 const useParamsValidation = (): UseParamsValidationResult => {

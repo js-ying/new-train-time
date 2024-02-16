@@ -4,7 +4,6 @@ import { FC, useContext } from "react";
 import { SearchAreaContext } from "../../contexts/SearchAreaContext";
 import usePage from "../../hooks/usePageHook";
 import useParamsValidation from "../../hooks/useParamsValidationHook";
-import { getStationNameById } from "../../utils/StationUtils";
 import CommonDialog from "../CommonDialog";
 
 export interface HistoryInquiry {
@@ -70,8 +69,8 @@ const SearchButton: FC = () => {
     router.push({
       pathname: searchPath,
       query: {
-        s: getStationNameById(page, params.startStationId, i18n.language),
-        e: getStationNameById(page, params.endStationId, i18n.language),
+        s: params.startStationId,
+        e: params.endStationId,
         d: params.date,
         t: params.time.replace(":", ""),
       },

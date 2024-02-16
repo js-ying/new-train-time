@@ -2,7 +2,6 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import usePage from "../hooks/usePageHook";
-import { getStationIdByName, getStationNameById } from "../utils/StationUtils";
 
 interface LocaleIconProps {
   isRotated: boolean;
@@ -134,30 +133,12 @@ const LocaleChangeBySwitch: FC = () => {
 
     const locale = i18n.language === "en" ? "zh-Hant" : "en";
 
-    let urlParams = router.query;
-    if (urlParams && Object.keys(urlParams).length > 0) {
-      // 翻譯 url 中的車站名稱
-      urlParams = {
-        ...urlParams,
-        s: getStationNameById(
-          page,
-          getStationIdByName(page, urlParams.s as string, i18n.language),
-          locale,
-        ),
-        e: getStationNameById(
-          page,
-          getStationIdByName(page, urlParams.e as string, i18n.language),
-          locale,
-        ),
-      };
-    }
-
     // 改變語系不會改變 pathname，若使用 router.push，同 pathname 的話會無法觸發 query 的改變
     // 所以使用 router.replace
     router.replace(
       {
         pathname: router.pathname,
-        query: urlParams,
+        query: router.query,
       },
       undefined,
       { locale: locale },

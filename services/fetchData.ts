@@ -1,4 +1,4 @@
-export async function fetchData(url = "", data = {}, method = "POST") {
+const fetchData = async (url = "", data = {}, method = "POST") => {
   const options = {
     method,
     headers: {
@@ -19,6 +19,6 @@ export async function fetchData(url = "", data = {}, method = "POST") {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export default fetchData;
