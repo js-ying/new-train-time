@@ -1,10 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import usePage from "../../hooks/usePageHook";
-import { JsyThsrTrainTimeTable } from "../../types/thsr-train-time-table";
-import { JsyTrTrainTimeTable } from "../../types/tr-train-time-table";
-import ThsrPriceInfo from "./THSR/ThsrPriceInfo";
-import TrTrainTypeFilter from "./TR/TrTrainTypeFilter";
 
 interface TableLengthCountProps {
   totalCount: number;
@@ -42,40 +38,22 @@ const TableLengthCount: FC<TableLengthCountProps> = ({
 };
 
 interface TrainTimeNavbarProps {
-  trTrainTimeTable: JsyTrTrainTimeTable[];
-  filterTrTrainTimeTable: JsyTrTrainTimeTable[];
-  setFilterTrTrainTimeTable: Function;
-  thsrTrainTimeTable: JsyThsrTrainTimeTable;
+  totalCount: number;
+  filterCount: number;
+  children: React.ReactNode;
 }
 
 /** 列車時刻導覽列 */
 const TrainTimeNavbar: FC<TrainTimeNavbarProps> = ({
-  trTrainTimeTable,
-  filterTrTrainTimeTable,
-  setFilterTrTrainTimeTable,
-  thsrTrainTimeTable,
+  totalCount,
+  filterCount,
+  children,
 }) => {
-  const { isTr, isThsr } = usePage();
-
   return (
     <div className="flex items-center justify-between text-sm">
-      {isTr && (
-        <TrTrainTypeFilter
-          dataList={trTrainTimeTable}
-          setFilterDataList={setFilterTrTrainTimeTable}
-        />
-      )}
+      {children}
 
-      {isThsr && (
-        <ThsrPriceInfo dataList={thsrTrainTimeTable.fareList} showAll={false} />
-      )}
-
-      <TableLengthCount
-        totalCount={
-          trTrainTimeTable?.length || thsrTrainTimeTable?.timeTable?.length
-        }
-        filterCount={filterTrTrainTimeTable?.length || null}
-      />
+      <TableLengthCount totalCount={totalCount} filterCount={filterCount} />
     </div>
   );
 };

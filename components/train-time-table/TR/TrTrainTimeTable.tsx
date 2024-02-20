@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import TrainTimeInfo from "../TrainTimeInfo";
 import TrainTimeNavbar from "../TrainTimeNavbar";
+import TrTrainTypeFilter from "./TrTrainTypeFilter";
 
 interface TrTrainTimeTableProps {
   dataList: JsyTrTrainTimeTable[];
@@ -20,11 +21,14 @@ const TrTrainTimeTable: FC<TrTrainTimeTableProps> = ({ dataList }) => {
     <>
       <div className="mb-4">
         <TrainTimeNavbar
-          trTrainTimeTable={dataList}
-          filterTrTrainTimeTable={filterTrTrainTimeTable}
-          setFilterTrTrainTimeTable={setFilterTrTrainTimeTable}
-          thsrTrainTimeTable={null}
-        />
+          totalCount={dataList.length}
+          filterCount={filterTrTrainTimeTable.length}
+        >
+          <TrTrainTypeFilter
+            dataList={dataList}
+            setFilterDataList={setFilterTrTrainTimeTable}
+          />
+        </TrainTimeNavbar>
       </div>
 
       <div className="flex flex-col gap-4">

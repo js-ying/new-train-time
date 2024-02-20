@@ -2,6 +2,7 @@ import { FC } from "react";
 import { JsyThsrTrainTimeTable } from "../../../types/thsr-train-time-table";
 import TrainTimeInfo from "../TrainTimeInfo";
 import TrainTimeNavbar from "../TrainTimeNavbar";
+import ThsrPriceInfo from "./ThsrPriceInfo";
 
 interface ThsrTrainTimeTableProps {
   data: JsyThsrTrainTimeTable;
@@ -12,12 +13,9 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
   return (
     <>
       <div className="mb-4">
-        <TrainTimeNavbar
-          trTrainTimeTable={null}
-          filterTrTrainTimeTable={null}
-          setFilterTrTrainTimeTable={null}
-          thsrTrainTimeTable={data}
-        />
+        <TrainTimeNavbar totalCount={data.timeTable.length} filterCount={null}>
+          <ThsrPriceInfo dataList={data.fareList} showAll={false} />
+        </TrainTimeNavbar>
       </div>
 
       <div className="flex flex-col gap-4">

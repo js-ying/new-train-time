@@ -8,7 +8,7 @@ import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../../enums/SearchAreaParamsEnum";
-import useDefaultStationHandling from "../../hooks/useDefaultStationHandling";
+import useDefaultStationHandling from "../../hooks/useDefaultStationHandlingHook";
 import usePage from "../../hooks/usePageHook";
 import { getStationNameById } from "../../utils/StationUtils";
 import SearchButton from "./SearchButton";
