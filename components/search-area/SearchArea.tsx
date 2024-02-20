@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { FC, ReactNode, useContext, useEffect } from "react";
+import { FC, ReactNode, useContext } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
@@ -8,9 +8,10 @@ import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "../../enums/SearchAreaParamsEnum";
+import useDefaultStationHandling from "../../hooks/useDefaultStationHandling";
 import usePage from "../../hooks/usePageHook";
 import { getStationNameById } from "../../utils/StationUtils";
-import SearchButton, { HistoryInquiry } from "./SearchButton";
+import SearchButton from "./SearchButton";
 import SelectDatetime from "./SelectDatetime";
 import SelectStation from "./SelectStation";
 
@@ -88,42 +89,12 @@ const SearchArea: FC = () => {
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const { localStorageKey, page } = usePage();
+  const { page } = usePage();
 
   // 處理預設車站
-  const handleDefaultStation = () => {
-    const alreadyMountedKey = `alreadyMounted`;
-    const alreadyMounted = localStorage.getItem(alreadyMountedKey);
+  useDefaultStationHandling();
 
-    // 僅第一次載入時執行
-    // 元件 re-mounted (切換 page 時) 也不執行
-    if (!alreadyMounted || alreadyMounted === "false") {
-      const valueString = window.localStorage.getItem(localStorageKey);
-      if (valueString) {
-        const value: HistoryInquiry[] = JSON.parse(valueString);
-        if (Array.isArray(value) && value.length > 0) {
-          setParams({
-            ...params,
-            startStationId: value[value.length - 1].startStationId,
-            endStationId: value[value.length - 1].endStationId,
-          });
-        }
-      }
-
-      // 設定 localStorage，表示已經執行過
-      localStorage.setItem(alreadyMountedKey, "true");
-
-      // 關閉瀏覽器分頁時，刪除 localStorage 中的值，以便下次進入此系統時可預設車站
-      window.addEventListener("beforeunload", () => {
-        localStorage.setItem(alreadyMountedKey, "false");
-      });
-    }
-  };
-
-  useEffect(() => {
-    handleDefaultStation();
-  }, []);
-
+  // 處理車站區域點擊
   const handleStationAreaClick = (
     clickIndex: number,
     activeIndex: SearchAreaActiveIndexEnum,
