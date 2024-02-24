@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { JsyThsrTrainTimeTable } from "../../../types/thsr-train-time-table";
-import TrainTimeInfo from "../TrainTimeInfo";
 import TrainTimeNavbar from "../TrainTimeNavbar";
 import ThsrPriceInfo from "./ThsrPriceInfo";
+import ThsrTrainTimeInfo from "./ThsrTrainTimeInfo";
 
 interface ThsrTrainTimeTableProps {
   data: JsyThsrTrainTimeTable;
@@ -21,8 +21,7 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
       <div className="flex flex-col gap-4">
         {data.timeTable.map((timeTable) => (
           <div key={timeTable.DailyTrainInfo.TrainNo}>
-            <TrainTimeInfo
-              trTrainTimeTable={null}
+            <ThsrTrainTimeInfo
               thsrTrainTimeTable={timeTable}
               thsrDailyFreeSeatingCar={data.dailyFreeSeatingCar}
               thsrTdxGeneralTimeTable={data.generalTimeTable}

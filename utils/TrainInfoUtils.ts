@@ -4,6 +4,26 @@ import {
 } from "../types/thsr-train-time-table";
 import { getTdxLang } from "./LocaleUtils";
 
+export const isTrainPass = (
+  date: string,
+  currentDate: string,
+  departureTime: string,
+): boolean => {
+  // 若查詢日期與當下日期相同
+  if (date === currentDate) {
+    const trainDatetime = new Date(
+      `${date.replace(/-/g, "/")} ${departureTime}`,
+    );
+    const nowDatetime = new Date();
+    // 若火車時間小於當下時間則代表火車已過時
+    if (trainDatetime < nowDatetime) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 /**
  * 取得 [台鐵] 山海線名稱 by Value
  * @param tripLineValue

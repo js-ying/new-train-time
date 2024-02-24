@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
-import TrainTimeInfo from "../TrainTimeInfo";
 import TrainTimeNavbar from "../TrainTimeNavbar";
+import TrTrainTimeInfo from "./TrTrainTimeInfo";
 import TrTrainTypeFilter from "./TrTrainTypeFilter";
 
 interface TrTrainTimeTableProps {
@@ -34,13 +34,7 @@ const TrTrainTimeTable: FC<TrTrainTimeTableProps> = ({ dataList }) => {
       <div className="flex flex-col gap-4">
         {filterTrTrainTimeTable.map((data) => (
           <div key={data.TrainInfo.TrainNo}>
-            <TrainTimeInfo
-              trTrainTimeTable={data}
-              thsrTrainTimeTable={null}
-              thsrDailyFreeSeatingCar={null}
-              thsrTdxGeneralTimeTable={null}
-              thsrOdFare={null}
-            />
+            <TrTrainTimeInfo trTrainTimeTable={data} />
           </div>
         ))}
       </div>
