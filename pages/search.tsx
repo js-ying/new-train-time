@@ -44,10 +44,10 @@ const Search: FC = () => {
   return (
     <>
       <Head>
-        <title>{t(page + "Title")}</title>
+        <title>{`${t(page)}${t("title")}`}</title>
       </Head>
 
-      <Layout title={t(page + "Title")}>
+      <Layout>
         <MuiThemeProvider theme={muiTheme}>
           <SearchArea />
 

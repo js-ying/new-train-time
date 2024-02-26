@@ -11,15 +11,18 @@ import { SearchAreaActiveIndexEnum } from "../enums/SearchAreaParamsEnum";
 import usePage from "../hooks/usePageHook";
 import DateUtils from "../utils/DateUtils";
 
-/** 台鐵/高鐵切換器 */
-const TrainSwitch: FC = () => {
+interface SwitchLabelProps {
+  toPage: PageEnum;
+}
+
+const SwitchLabel: FC<SwitchLabelProps> = ({ toPage }) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const { isTr, isThsr } = usePage();
+  const { page } = usePage();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
-  const toggleTrainPage = () => {
+  const toggleTrainPage = (toPage: PageEnum) => {
     setParams({
       ...params,
       startStationId: null,
@@ -29,28 +32,38 @@ const TrainSwitch: FC = () => {
       activeIndex: SearchAreaActiveIndexEnum.EMPTY,
     });
 
-    if (isTr) {
-      router.push({
-        pathname: `${PathEnum[PageEnum.THSR + "Home"]}`,
-      });
-    }
-
-    if (isThsr) {
+    if (toPage === PageEnum.TR) {
       router.push({
         pathname: `${PathEnum[PageEnum.TR + "Home"]}`,
+      });
+    }
+    if (toPage === PageEnum.THSR) {
+      router.push({
+        pathname: `${PathEnum[PageEnum.THSR + "Home"]}`,
       });
     }
   };
 
   return (
-    <div
-      className="cursor-pointer rounded-md
-        bg-grayBlue px-1 py-0.5 text-sm text-white transition
-        duration-150 ease-out dark:bg-gamboge dark:text-zinc-900"
-      onClick={toggleTrainPage}
+    <span
+      className={`${
+        page === toPage
+          ? "border bg-grayBlue px-1 text-white dark:bg-gamboge"
+          : ""
+      } cursor-pointer rounded-md border border-grayBlue px-1 dark:border-gamboge`}
+      onClick={() => toggleTrainPage(toPage)}
     >
-      {isTr && t(`${PageEnum.THSR}Toggle`)}
-      {isThsr && t(`${PageEnum.TR}Toggle`)}
+      {t(toPage)}
+    </span>
+  );
+};
+
+/** 台鐵/高鐵切換器 */
+const TrainSwitch: FC = () => {
+  return (
+    <div className="flex items-center gap-1">
+      <SwitchLabel toPage={PageEnum.TR} />
+      <SwitchLabel toPage={PageEnum.THSR} />
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
 import {
@@ -20,15 +21,15 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
   const router = useRouter();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
+  const { t } = useTranslation();
   const { homePath } = usePage();
+  const { page } = usePage();
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="relative mb-6">
-        <div className="absolute left-0 top-0.5">
+        <h2 className="flex items-center justify-center gap-1">
           <TrainSwitch />
-        </div>
-        <h1 className="text-center">
           <span
             className="cursor-pointer"
             onClick={() => {
@@ -45,9 +46,9 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
               });
             }}
           >
-            {title}
+            {t("title")}
           </span>
-        </h1>
+        </h2>
         <div className="absolute right-0 top-0.5">
           <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-200">
             <LocaleChange />
