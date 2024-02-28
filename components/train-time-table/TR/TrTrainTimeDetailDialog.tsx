@@ -13,6 +13,7 @@ import {
   getTrTrainTypeNameByCode,
   getTrTripLineNameByValue,
 } from "../../../utils/TrainInfoUtils";
+import Dot from "../../Dot";
 import { trTrainServiceList } from "./TrTrainServices";
 
 interface TrainDetailProps {
@@ -99,10 +100,18 @@ const StopTimesTable: FC<StopTimesTableProps> = ({ data }) => {
           );
         })}
       </div>
-      {data.StopTimes.map((stopTime) => {
+      {data.StopTimes.map((stopTime, index) => {
         return (
-          <div className="mt-2 flex" key={stopTime.StationID}>
-            <div className="flex-1 text-center">
+          <div
+            className={`mt-2 flex ${
+              index === 0 || index === data.StopTimes.length - 1
+                ? "font-bold text-grayBlue dark:text-gamboge"
+                : ""
+            }`}
+            key={stopTime.StationID}
+          >
+            <div className="relative flex-1 text-center">
+              {(index === 0 || index === data.StopTimes.length - 1) && <Dot />}
               {stopTime.StationName[getTdxLang(i18n.language)]}
             </div>
             <div className="flex-1 text-center">{stopTime.ArrivalTime}</div>
