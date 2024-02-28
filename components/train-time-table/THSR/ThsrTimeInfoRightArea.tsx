@@ -18,7 +18,11 @@ const ThsrTimeInfoRightArea: FC<ThsrTimeInfoRightAreaProps> = ({
     <div className="text-sm">
       <div className="mb-1">{t("freeSeating")}</div>
 
-      <ThsrFreeSeat freeSeatData={freeSeatData} trainNo={trainNo} />
+      <ThsrFreeSeat
+        freeSeatData={freeSeatData}
+        trainNo={trainNo}
+        showLabel={true}
+      />
     </div>
   );
 };

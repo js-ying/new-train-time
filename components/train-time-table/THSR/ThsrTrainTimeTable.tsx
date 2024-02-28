@@ -14,7 +14,7 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
     <>
       <div className="mb-4">
         <TrainTimeNavbar totalCount={data.timeTable.length} filterCount={null}>
-          <ThsrPriceInfo dataList={data.fareList} showAll={false} />
+          <ThsrPriceInfo dataList={data.fareList} showLabel={true} />
         </TrainTimeNavbar>
       </div>
 

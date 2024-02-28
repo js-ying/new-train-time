@@ -64,7 +64,7 @@ const TrainDetail: FC<TrainDetailProps> = ({
       <div className="flex gap-2">
         <Chip label={t("ticketFare")} size="small" color="primary" />
         <div className="flex items-center text-sm">
-          <ThsrPriceInfo dataList={thsrOdFare} showAll={true} />
+          <ThsrPriceInfo dataList={thsrOdFare} showLabel={false} />
         </div>
       </div>
       <div className="flex gap-2">
@@ -73,6 +73,7 @@ const TrainDetail: FC<TrainDetailProps> = ({
           <ThsrFreeSeat
             trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
             freeSeatData={thsrDailyFreeSeatingCar}
+            showLabel={false}
           />
         </div>
       </div>

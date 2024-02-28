@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { ThsrFare, ThsrOdFare } from "../../../types/thsr-train-time-table";
 import { getTdxLang } from "../../../utils/LocaleUtils";
 
@@ -38,34 +38,24 @@ export const fareMap = {
   cabinClassMap,
 };
 
-interface ThsrPriceInfoProps {
-  dataList: ThsrOdFare[];
-  showAll: boolean;
+interface LabelPriceInfoProps {
+  adultFares: ThsrFare[];
+  otherFareList: ThsrFare[];
 }
 
-/** [高鐵] 票價資訊 */
-const ThsrPriceInfo: FC<ThsrPriceInfoProps> = ({
-  dataList,
-  showAll = false,
+const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
+  adultFares,
+  otherFareList,
 }) => {
   const { t, i18n } = useTranslation();
-
-  let adultFares: ThsrFare[] = dataList[0].Fares.filter(
-    (fare) => fare.FareClass === 1 && fare.TicketType === 1,
-  );
-
-  let otherFareList: ThsrFare[] = dataList[0].Fares.filter(
-    (fare) => fare.FareClass !== 1 && fare.TicketType === 1,
-  );
-
-  const [isShowOtherFareList, setIsShowOtherFareList] = useState(showAll);
+  const [isShowOtherFareList, setIsShowOtherFareList] = useState(false);
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className={`flex flex-wrap gap-2`}>
       {adultFares.map((fare) => {
         return (
           <span
-            className="common-babel text-sm"
+            className={`common-babel text-sm`}
             key={`${fare.TicketType}${fare.FareClass}${fare.CabinClass}`}
           >
             {fareMap.fareClassMap[fare.FareClass][getTdxLang(i18n.language)]}{" "}
@@ -76,10 +66,10 @@ const ThsrPriceInfo: FC<ThsrPriceInfoProps> = ({
       })}
 
       {isShowOtherFareList &&
-        otherFareList.map((fare) => {
+        otherFareList.map((fare, index) => {
           return (
             <span
-              className="common-babel text-sm"
+              className={`common-babel text-sm`}
               key={`${fare.TicketType}${fare.FareClass}${fare.CabinClass}`}
             >
               {fareMap.fareClassMap[fare.FareClass][getTdxLang(i18n.language)]}{" "}
@@ -93,15 +83,64 @@ const ThsrPriceInfo: FC<ThsrPriceInfoProps> = ({
           );
         })}
 
-      {!showAll && (
+      {
         <div
           className="common-babel-light cursor-pointer text-sm"
           onClick={() => setIsShowOtherFareList(!isShowOtherFareList)}
         >
           {isShowOtherFareList ? "-" : "+"} {t("otherBtn")}
         </div>
-      )}
+      }
     </div>
+  );
+};
+
+interface TextPriceInfoProps {
+  fareList: ThsrFare[];
+}
+
+const TextPriceInfo: FC<TextPriceInfoProps> = ({ fareList }) => {
+  const { t, i18n } = useTranslation();
+  const textFareList = fareList.map((fare) => {
+    return (
+      fareMap.fareClassMap[fare.FareClass][getTdxLang(i18n.language)] +
+      " " +
+      fareMap.cabinClassMap[fare.CabinClass][getTdxLang(i18n.language)] +
+      " " +
+      fare.Price
+    );
+  });
+
+  return textFareList.join(t("comma"));
+};
+
+interface ThsrPriceInfoProps {
+  dataList: ThsrOdFare[];
+  showLabel: boolean;
+}
+
+/** [高鐵] 票價資訊 */
+const ThsrPriceInfo: FC<ThsrPriceInfoProps> = ({ dataList, showLabel }) => {
+  let adultFares: ThsrFare[] = useMemo(
+    () =>
+      dataList[0].Fares.filter(
+        (fare) => fare.FareClass === 1 && fare.TicketType === 1,
+      ),
+    [dataList],
+  );
+
+  let otherFareList: ThsrFare[] = useMemo(
+    () =>
+      dataList[0].Fares.filter(
+        (fare) => fare.FareClass !== 1 && fare.TicketType === 1,
+      ),
+    [dataList],
+  );
+
+  return showLabel ? (
+    <LabelPriceInfo adultFares={adultFares} otherFareList={otherFareList} />
+  ) : (
+    <TextPriceInfo fareList={[...adultFares, ...otherFareList]} />
   );
 };
 

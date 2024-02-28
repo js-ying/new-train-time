@@ -34,16 +34,31 @@ const getFreeSeatGroupListByTrainNo = (
   return [];
 };
 
-interface ThsrFreeSeatProps {
-  freeSeatData: ThsrDailyFreeSeatingCar;
-  trainNo: string;
+interface TextFreeSeatProps {
+  freeSeatGroupList: FreeSeatingCarNo[];
 }
 
-const ThsrFreeSeat: FC<ThsrFreeSeatProps> = ({ freeSeatData, trainNo }) => {
+const TextFreeSeat: FC<TextFreeSeatProps> = ({ freeSeatGroupList }) => {
   const { t } = useTranslation();
-  const freeSeatGroupList = useMemo(() => {
-    return getFreeSeatGroupListByTrainNo(freeSeatData.FreeSeatingCars, trainNo);
-  }, [freeSeatData, trainNo]);
+  const textFreeSeatGroupList = freeSeatGroupList.map((group) => {
+    return group.startCar + "-" + group.endCar;
+  });
+
+  return (
+    <div>
+      {textFreeSeatGroupList.length > 0
+        ? textFreeSeatGroupList.join(t("comma"))
+        : t("confirmOnSiteMsg")}
+    </div>
+  );
+};
+
+interface LabelFreeSeatProps {
+  freeSeatGroupList: FreeSeatingCarNo[];
+}
+
+const LabelFreeSeat: FC<LabelFreeSeatProps> = ({ freeSeatGroupList }) => {
+  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col gap-1">
@@ -78,6 +93,28 @@ const ThsrFreeSeat: FC<ThsrFreeSeatProps> = ({ freeSeatData, trainNo }) => {
         </div>
       )}
     </div>
+  );
+};
+
+interface ThsrFreeSeatProps {
+  freeSeatData: ThsrDailyFreeSeatingCar;
+  trainNo: string;
+  showLabel: boolean;
+}
+
+const ThsrFreeSeat: FC<ThsrFreeSeatProps> = ({
+  freeSeatData,
+  trainNo,
+  showLabel,
+}) => {
+  const freeSeatGroupList = useMemo(() => {
+    return getFreeSeatGroupListByTrainNo(freeSeatData.FreeSeatingCars, trainNo);
+  }, [freeSeatData, trainNo]);
+
+  return showLabel ? (
+    <LabelFreeSeat freeSeatGroupList={freeSeatGroupList} />
+  ) : (
+    <TextFreeSeat freeSeatGroupList={freeSeatGroupList} />
   );
 };
 
