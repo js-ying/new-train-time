@@ -19,6 +19,7 @@
   "endStationIsBlankMsg": "Please select 'Arrival Station'.",
   "sameStationMsg": "'Departure Station' and 'Arrival Station' cannot be the same.",
   "datetimeNotAllowMsg": "'Departure Time' can only be selected within today and the next two months.",
+  "sameQueryMsg": "Duplicate query. Please selecting a different station or departure time!",
   "closeBtn": "Close",
   "historyInquiry": "History Inquiry: {{nowLength}} / 5",
   "trainTypeFilterAll": "All",

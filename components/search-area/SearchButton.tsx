@@ -14,11 +14,11 @@ export interface HistoryInquiry {
 /** 搜尋按鈕 */
 const SearchButton: FC = () => {
   const router = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const { isParamsValid, alertOptions } = useParamsValidation();
 
-  const { localStorageKey, searchPath, page } = usePage();
+  const { localStorageKey, searchPath } = usePage();
 
   const saveHistory = ({ startStationId, endStationId }: HistoryInquiry) => {
     let historyList: HistoryInquiry[] = [];
@@ -61,6 +61,17 @@ const SearchButton: FC = () => {
     if (!isParamsValid(params.startStationId, params.endStationId, params.date))
       return;
 
+    if (
+      params.startStationId === router.query?.s &&
+      params.endStationId === router.query?.e &&
+      params.date === router.query?.d &&
+      params.time.replace(":", "") === router.query?.t
+    ) {
+      alertOptions.setAlertMsg(t("sameQueryMsg"));
+      alertOptions.setAlertOpen(true);
+      return;
+    }
+
     saveHistory({
       startStationId: params.startStationId,
       endStationId: params.endStationId,
@@ -85,7 +96,7 @@ const SearchButton: FC = () => {
             cursor-pointer rounded-md bg-zinc-700 px-4 py-2 text-white
             ring-zinc-400/70 transition duration-150 
             ease-out hover:bg-zinc-700/80 focus:ring
-            dark:bg-grayBlue dark:ring-grayBlue/60 hover:dark:bg-grayBlue/80
+            dark:bg-grayBlue dark:ring-grayBlue/50 hover:dark:bg-blue-300/80
             "
         onClick={() => handleSearch()}
       >
