@@ -1,4 +1,3 @@
-import { Grow } from "@mui/material";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Dialog from "@mui/material/Dialog";
@@ -144,13 +143,12 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
       aria-describedby="alert-dialog-description"
       fullWidth
       maxWidth="sm"
-      TransitionComponent={Grow}
       PaperProps={{
         style: { borderRadius: 20 },
       }}
     >
       <DialogTitle id="alert-dialog-title">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-lg">
           {data.TrainInfo.TrainNo}{" "}
           {getTrTripLineNameByValue(data.TrainInfo.TripLine, i18n.language)}{" "}
           {getTrTrainTypeNameByCode(
@@ -161,16 +159,14 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
           {data.TrainInfo.EndingStationName[getTdxLang(i18n.language)]}
         </div>
       </DialogTitle>
-      <DialogContent className="text-sm">
+      <DialogContent>
         <TrainDetail data={data} />
         <div className="mt-6">
           <StopTimesTable data={data} />
         </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpen(false)} autoFocus>
-          {t("closeBtn")}
-        </Button>
+        <Button onClick={() => setOpen(false)}>{t("closeBtn")}</Button>
       </DialogActions>
     </Dialog>
   );

@@ -1,4 +1,3 @@
-import { Grow } from "@mui/material";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Dialog from "@mui/material/Dialog";
@@ -169,13 +168,12 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
       aria-describedby="alert-dialog-description"
       fullWidth
       maxWidth="sm"
-      TransitionComponent={Grow}
       PaperProps={{
         style: { borderRadius: 20 },
       }}
     >
       <DialogTitle id="alert-dialog-title">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-lg">
           {thsrTrainTimeTable.DailyTrainInfo.TrainNo}{" "}
           {
             thsrTrainTimeTable.DailyTrainInfo.StartingStationName[
