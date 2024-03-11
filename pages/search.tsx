@@ -51,7 +51,7 @@ const Search: FC = () => {
         <MuiThemeProvider theme={muiTheme}>
           <SearchArea />
 
-          <div className="mt-7">
+          <div className="mt-5">
             {/* [台鐵] 有列車資料 */}
             {hasTrData && <TrTrainTimeTable dataList={trainTimeTable} />}
 

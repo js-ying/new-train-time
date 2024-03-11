@@ -12,7 +12,7 @@ interface ThsrTrainTimeTableProps {
 const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
   return (
     <>
-      <div className="mb-4">
+      <div className="sticky top-0 z-50 mb-2 bg-white pb-2 pt-2 dark:bg-grayBlack">
         <TrainTimeNavbar totalCount={data.timeTable.length} filterCount={null}>
           <ThsrPriceInfo dataList={data.fareList} showLabel={true} />
         </TrainTimeNavbar>

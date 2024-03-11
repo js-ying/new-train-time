@@ -19,7 +19,7 @@ const TrTrainTimeTable: FC<TrTrainTimeTableProps> = ({ dataList }) => {
 
   return (
     <>
-      <div className="mb-4">
+      <div className="mb-2 pb-2 pt-2">
         <TrainTimeNavbar
           totalCount={dataList.length}
           filterCount={filterTrTrainTimeTable.length}
