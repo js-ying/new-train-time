@@ -16,7 +16,7 @@ const TableLengthCount: FC<TableLengthCountProps> = ({
   const { isTr, isThsr } = usePage();
 
   return (
-    <div className="">
+    <div className="text-sm">
       {isTr && (
         <span className="whitespace-nowrap">
           {t("trainTableLengthCount", {

@@ -53,7 +53,7 @@ const TrTrainTypeFilter: FC<TrTrainTypeFilterProps> = ({
           className={`cursor-pointer bg-neutral-500 px-3 py-1.5 dark:bg-neutral-600
               ${index === 0 ? "rounded-l" : ""}
               ${index === trainTypeList.length - 1 ? "rounded-r" : ""}
-              text-center text-white ring-neutral-400/70 transition
+              text-center text-sm text-white ring-neutral-400/70 transition
               duration-150 ease-out hover:bg-neutral-600
               focus:ring dark:ring-neutral-300/70 dark:hover:bg-neutral-700 
               ${

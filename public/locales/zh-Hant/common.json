@@ -5,8 +5,7 @@
   "tr": "台鐵",
   "thsr": "高鐵",
   "title": "時刻查詢",
-  "trToggle": "查台鐵",
-  "thsrToggle": "查高鐵",
+  "trTitle": "台鐵時刻查詢",
   "startStation": "出發車站",
   "endStation": "抵達車站",
   "datetime": "出發時間",
@@ -58,5 +57,8 @@
   "thsrDisclaimerMsg": "本站所提供之資訊僅供參考，請依照現場鐵路狀況或高鐵官方相關管理單位所公佈之資訊為準。",
   "otherBtn": "其它",
   "freeSeating": "自由座",
-  "confirmOnSiteMsg": "請於現場確認"
+  "confirmOnSiteMsg": "請於現場確認",
+  "featureIntroductionMenu": "特色介紹",
+  "UpdateAnnouncementsMenu": "更新公告",
+  "contactMeMenu": "與我聯絡"
 }

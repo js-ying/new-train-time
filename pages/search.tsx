@@ -47,8 +47,8 @@ const Search: FC = () => {
         <title>{`${t(page)}${t("title")}`}</title>
       </Head>
 
-      <Layout>
-        <MuiThemeProvider theme={muiTheme}>
+      <MuiThemeProvider theme={muiTheme}>
+        <Layout>
           <SearchArea />
 
           <div className="mt-5">
@@ -74,8 +74,8 @@ const Search: FC = () => {
           />
 
           {isLoading && <Loading />}
-        </MuiThemeProvider>
-      </Layout>
+        </Layout>
+      </MuiThemeProvider>
     </>
   );
 };

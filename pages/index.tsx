@@ -30,8 +30,8 @@ const Home: FC = () => {
         <title>{`${t(page)}${t("title")}`}</title>
       </Head>
 
-      <Layout>
-        <MuiThemeProvider theme={muiTheme}>
+      <MuiThemeProvider theme={muiTheme}>
+        <Layout>
           <SearchArea />
           <div className="mt-7">
             <SearchHistory />
@@ -39,8 +39,8 @@ const Home: FC = () => {
           <div className="mt-7">
             <Disclaimer />
           </div>
-        </MuiThemeProvider>
-      </Layout>
+        </Layout>
+      </MuiThemeProvider>
     </>
   );
 };

@@ -5,8 +5,7 @@
   "tr": "TR",
   "thsr": "THSR",
   "title": "Schedule Inquiry",
-  "trToggle": "TR",
-  "thsrToggle": "THSR",
+  "trTitle": "TR Schedule Inquiry",
   "startStation": "Departure Station",
   "endStation": "Arrival Station",
   "datetime": "Departure Time",
@@ -58,5 +57,8 @@
   "thsrDisclaimerMsg": "The information provided on this site is for reference only. Please refer to the actual railway conditions or information published by the official Taiwan High Speed Railways Administration for accuracy.",
   "otherBtn": "Other",
   "freeSeating": "Free Seating",
-  "confirmOnSiteMsg": "Please confirm on-site"
+  "confirmOnSiteMsg": "Please confirm on-site",
+  "featureIntroductionMenu": "Feature Introduction",
+  "UpdateAnnouncementsMenu": "Update Announcements",
+  "contactMeMenu": "Contact Me"
 }
