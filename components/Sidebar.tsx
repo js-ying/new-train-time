@@ -60,7 +60,7 @@ const DrawerList: FC = () => {
 
       case "UpdateAnnouncementsMenu":
         router.push({
-          pathname: "updates",
+          pathname: "/updates",
         });
         break;
 
