@@ -11,6 +11,8 @@ import {
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
+import { updatesData } from "../public/data/updatesData";
+import ContactDialog from "./ContactDailog";
 
 const SidebarIcon: FC = () => {
   return (
@@ -52,6 +54,8 @@ const DrawerList: FC = () => {
     ];
   }, []);
 
+  const [open, setOpen] = useState(false);
+
   const handleClick = (text: string) => {
     switch (text) {
       case "featureIntroductionMenu":
@@ -65,6 +69,7 @@ const DrawerList: FC = () => {
         break;
 
       case "contactMeMenu":
+        setOpen(true);
         break;
 
       default:
@@ -73,51 +78,56 @@ const DrawerList: FC = () => {
   };
 
   return (
-    <Box sx={{ width: 250 }} role="presentation">
-      <List>
-        <ListItem>
-          <ListItemIcon sx={{ minWidth: "40px" }}>
-            <span className="text-sm text-grayBlue dark:text-gamboge">JSY</span>
-          </ListItemIcon>
-          <ListItemText primary={t("trTitle")}></ListItemText>
-        </ListItem>
-        {list.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton onClick={() => handleClick(item.text)}>
-              <ListItemIcon sx={{ minWidth: "40px" }}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d={item.icon}
-                  />
-                </svg>
-              </ListItemIcon>
-              <ListItemText
-                primary={t(item.text)}
-                primaryTypographyProps={{ fontSize: "0.9rem" }}
-              />
-            </ListItemButton>
+    <>
+      <Box sx={{ width: 250 }} role="presentation">
+        <List>
+          <ListItem>
+            <ListItemIcon sx={{ minWidth: "40px" }}>
+              <span className="text-sm text-grayBlue dark:text-gamboge">
+                JSY
+              </span>
+            </ListItemIcon>
+            <ListItemText primary={t("trTitle")}></ListItemText>
           </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        <ListItemButton disabled={true}>
-          <ListItemText
-            primary={"ver. 8"}
-            primaryTypographyProps={{ fontSize: "0.9rem" }}
-          />
-        </ListItemButton>
-      </List>
-    </Box>
+          {list.map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton onClick={() => handleClick(item.text)}>
+                <ListItemIcon sx={{ minWidth: "40px" }}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d={item.icon}
+                    />
+                  </svg>
+                </ListItemIcon>
+                <ListItemText
+                  primary={t(item.text)}
+                  primaryTypographyProps={{ fontSize: "0.9rem" }}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          <ListItemButton disabled={true}>
+            <ListItemText
+              primary={`ver. ${updatesData.length}`}
+              primaryTypographyProps={{ fontSize: "0.9rem" }}
+            />
+          </ListItemButton>
+        </List>
+      </Box>
+      <ContactDialog open={open} setOpen={setOpen} />
+    </>
   );
 };
 
