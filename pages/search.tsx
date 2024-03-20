@@ -1,7 +1,6 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Head from "next/head";
 import { FC } from "react";
 import CommonDialog from "../components/CommonDialog";
 import Layout from "../components/Layout";
@@ -42,41 +41,35 @@ const Search: FC = () => {
     (isThsr && thsrTrainTimeTable?.timeTable?.length <= 0);
 
   return (
-    <>
-      <Head>
-        <title>{`${t(page)}${t("title")}`}</title>
-      </Head>
+    <MuiThemeProvider theme={muiTheme}>
+      <Layout>
+        <SearchArea />
 
-      <MuiThemeProvider theme={muiTheme}>
-        <Layout>
-          <SearchArea />
+        <div className="mt-5">
+          {/* [台鐵] 有列車資料 */}
+          {hasTrData && <TrTrainTimeTable dataList={trainTimeTable} />}
 
-          <div className="mt-5">
-            {/* [台鐵] 有列車資料 */}
-            {hasTrData && <TrTrainTimeTable dataList={trainTimeTable} />}
+          {/* [高鐵] 有列車資料 */}
+          {hasThsrData && <ThsrTrainTimeTable data={thsrTrainTimeTable} />}
 
-            {/* [高鐵] 有列車資料 */}
-            {hasThsrData && <ThsrTrainTimeTable data={thsrTrainTimeTable} />}
+          {/* 無列車資料 */}
+          {noData && (
+            <NoTrainData
+              isApiHealth={isApiHealth}
+              alertMsg={alertOptions.alertMsg}
+            />
+          )}
+        </div>
 
-            {/* 無列車資料 */}
-            {noData && (
-              <NoTrainData
-                isApiHealth={isApiHealth}
-                alertMsg={alertOptions.alertMsg}
-              />
-            )}
-          </div>
+        <CommonDialog
+          open={alertOptions.alertOpen}
+          setOpen={alertOptions.setAlertOpen}
+          alertMsg={alertOptions.alertMsg}
+        />
 
-          <CommonDialog
-            open={alertOptions.alertOpen}
-            setOpen={alertOptions.setAlertOpen}
-            alertMsg={alertOptions.alertMsg}
-          />
-
-          {isLoading && <Loading />}
-        </Layout>
-      </MuiThemeProvider>
-    </>
+        {isLoading && <Loading />}
+      </Layout>
+    </MuiThemeProvider>
   );
 };
 

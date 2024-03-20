@@ -1,7 +1,6 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Head from "next/head";
 import { FC } from "react";
 import Disclaimer from "../components/Disclaimer";
 import Layout from "../components/Layout";
@@ -25,23 +24,17 @@ const Home: FC = () => {
   const { page } = usePage();
 
   return (
-    <>
-      <Head>
-        <title>{`${t(page)}${t("title")}`}</title>
-      </Head>
-
-      <MuiThemeProvider theme={muiTheme}>
-        <Layout>
-          <SearchArea />
-          <div className="mt-7">
-            <SearchHistory />
-          </div>
-          <div className="mt-7">
-            <Disclaimer />
-          </div>
-        </Layout>
-      </MuiThemeProvider>
-    </>
+    <MuiThemeProvider theme={muiTheme}>
+      <Layout>
+        <SearchArea />
+        <div className="mt-7">
+          <SearchHistory />
+        </div>
+        <div className="mt-7">
+          <Disclaimer />
+        </div>
+      </Layout>
+    </MuiThemeProvider>
   );
 };
 
