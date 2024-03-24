@@ -1,3 +1,4 @@
+import { Button, ButtonGroup } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
@@ -47,25 +48,21 @@ const TrTrainTypeFilter: FC<TrTrainTypeFilterProps> = ({
 
   return (
     <div className="flex">
-      {trainTypeList.map((trainType, index) => (
-        <button
-          key={trainType}
-          className={`cursor-pointer bg-neutral-500 px-3 py-1.5 dark:bg-neutral-600
-              ${index === 0 ? "rounded-l" : ""}
-              ${index === trainTypeList.length - 1 ? "rounded-r" : ""}
-              text-center text-sm text-white ring-neutral-400/70 transition
-              duration-150 ease-out hover:bg-neutral-600
-              focus:ring dark:ring-neutral-300/70 dark:hover:bg-neutral-700 
-              ${
-                activeIndex === index
-                  ? " z-10 bg-neutral-600 dark:bg-neutral-700"
-                  : ""
-              }`}
-          onClick={() => handleFilter(trainType, index)}
-        >
-          {t(trainType)}
-        </button>
-      ))}
+      <ButtonGroup radius="sm">
+        {trainTypeList.map((trainType, index) => (
+          <Button
+            key={trainType}
+            className={`h-10 min-w-fit bg-neutral-500 text-sm text-zinc-300 dark:text-zinc-400 ${
+              activeIndex === index
+                ? "font-bold text-white dark:text-white"
+                : ""
+            } dark:bg-neutral-600`}
+            onClick={() => handleFilter(trainType, index)}
+          >
+            {t(trainType)}
+          </Button>
+        ))}
+      </ButtonGroup>
     </div>
   );
 };

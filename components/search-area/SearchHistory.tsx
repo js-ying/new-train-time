@@ -1,3 +1,4 @@
+import { Button } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC, useContext, useEffect, useState } from "react";
 import {
@@ -71,15 +72,17 @@ const SearchHistory: FC = () => {
             <div className="flex flex-col gap-2.5">
               {historyList.map((history) => {
                 return (
-                  <button
-                    className="common-button px-2 py-1 text-sm"
-                    key={`${history.startStationId}-${history.endStationId}`}
+                  <Button
+                    className="h-8 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
+                    size="sm"
+                    radius="sm"
                     onClick={() =>
                       handleHistoryClick(
                         history.startStationId,
                         history.endStationId,
                       )
                     }
+                    key={`${history.startStationId}-${history.endStationId}`}
                   >
                     {getStationNameById(
                       page,
@@ -92,7 +95,7 @@ const SearchHistory: FC = () => {
                       history.endStationId,
                       i18n.language,
                     )}
-                  </button>
+                  </Button>
                 );
               })}
 

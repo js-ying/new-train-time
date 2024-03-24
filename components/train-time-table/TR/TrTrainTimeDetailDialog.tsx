@@ -91,7 +91,7 @@ const StopTimesTable: FC<StopTimesTableProps> = ({ data }) => {
         {["stationName", "arrivalTime", "leaveTime"].map((title) => {
           return (
             <div
-              className="border- flex-1 border-y border-grayBlue py-2 text-center text-grayBlue dark:border-gamboge dark:text-gamboge"
+              className="border- border-silverLakeBlue-500 text-silverLakeBlue-500 dark:border-gamboge-500 dark:text-gamboge-500 flex-1 border-y py-2 text-center"
               key={title}
             >
               {t(title)}
@@ -104,7 +104,7 @@ const StopTimesTable: FC<StopTimesTableProps> = ({ data }) => {
           <div
             className={`mt-2 flex ${
               index === 0 || index === data.StopTimes.length - 1
-                ? "font-bold text-grayBlue dark:text-gamboge"
+                ? "text-silverLakeBlue-500 dark:text-gamboge-500 font-bold"
                 : ""
             }`}
             key={stopTime.StationID}

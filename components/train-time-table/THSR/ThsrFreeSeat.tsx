@@ -70,17 +70,17 @@ const LabelFreeSeat: FC<LabelFreeSeatProps> = ({ freeSeatGroupList }) => {
               key={`${group.trainNo}${group.startCar}-${group.endCar}`}
             >
               <span
-                className="h-5 w-5 rounded-md bg-grayBlue text-sm
-                leading-5 text-white transition duration-150
-                ease-out dark:bg-gamboge dark:text-zinc-900"
+                className="bg-silverLakeBlue-500 dark:bg-gamboge-500 h-5 w-5 rounded-md
+                text-sm leading-5 text-white transition
+                duration-150 ease-out dark:text-zinc-900"
               >
                 {group.startCar}
               </span>
               -
               <span
-                className="h-5 w-5 rounded-md bg-grayBlue text-sm
-                leading-5 text-white transition duration-150
-                ease-out dark:bg-gamboge dark:text-zinc-900"
+                className="bg-silverLakeBlue-500 dark:bg-gamboge-500 h-5 w-5 rounded-md
+                text-sm leading-5 text-white transition
+                duration-150 ease-out dark:text-zinc-900"
               >
                 {group.endCar}
               </span>

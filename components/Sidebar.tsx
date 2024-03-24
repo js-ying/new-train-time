@@ -83,7 +83,7 @@ const DrawerList: FC = () => {
         <List>
           <ListItem>
             <ListItemIcon sx={{ minWidth: "40px" }}>
-              <span className="text-sm text-grayBlue dark:text-gamboge">
+              <span className="text-silverLakeBlue-500 dark:text-gamboge-500 text-sm">
                 JSY
               </span>
             </ListItemIcon>

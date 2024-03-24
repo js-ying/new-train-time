@@ -1,8 +1,9 @@
 import { appWithTranslation, useTranslation } from "next-i18next";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { AppProps } from "next/app";
 import { SearchAreaProvider } from "../contexts/SearchAreaContext";
 
+import { NextUIProvider } from "@nextui-org/react";
 import Head from "next/head";
 import usePage from "../hooks/usePageHook";
 import "../styles/global.scss";
@@ -17,11 +18,13 @@ function App({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" href="/images/logo.png" />
         <title>{`${t(page)}${t("title")}`}</title>
       </Head>
-      <ThemeProvider attribute="class">
-        <SearchAreaProvider>
-          <Component {...pageProps} />
-        </SearchAreaProvider>
-      </ThemeProvider>
+      <NextUIProvider>
+        <NextThemesProvider attribute="class">
+          <SearchAreaProvider>
+            <Component {...pageProps} />
+          </SearchAreaProvider>
+        </NextThemesProvider>
+      </NextUIProvider>
     </>
   );
 }

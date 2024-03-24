@@ -1,3 +1,4 @@
+import { Button } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
@@ -90,18 +91,13 @@ const SearchButton: FC = () => {
 
   return (
     <>
-      <button
-        type="button"
-        className="
-            cursor-pointer rounded-md bg-zinc-700 px-4 py-2 text-white
-            ring-zinc-400/70 transition duration-150 
-            ease-out hover:bg-zinc-700/80 focus:ring
-            dark:bg-grayBlue dark:ring-grayBlue/50 hover:dark:bg-blue-300/80
-            "
+      <Button
+        className="text-md h-10 min-w-fit bg-zinc-700 text-white dark:bg-silverLakeBlue-500"
+        radius="sm"
         onClick={() => handleSearch()}
       >
         {t("searchBtn")}
-      </button>
+      </Button>
       <CommonDialog
         open={alertOptions.alertOpen}
         setOpen={alertOptions.setAlertOpen}

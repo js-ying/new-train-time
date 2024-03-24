@@ -33,9 +33,9 @@ const Area: FC<AreaProps> = ({
     <div
       className={`flex h-16 cursor-pointer flex-col items-center justify-center rounded-md
         border border-solid border-zinc-700 p-2 dark:border-zinc-200 ${className}
-        transition duration-150 ease-out
-        hover:bg-zinc-700 hover:text-white dark:hover:bg-grayBlue
-        ${isActive && " bg-zinc-700 text-white dark:bg-grayBlue"}`}
+        dark:hover:bg-silverLakeBlue-500 transition duration-150
+        ease-out hover:bg-zinc-700 hover:text-white
+        ${isActive && " dark:bg-silverLakeBlue-500 bg-zinc-700 text-white"}`}
       onClick={onClick}
     >
       {children}

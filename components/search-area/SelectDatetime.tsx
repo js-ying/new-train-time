@@ -25,7 +25,7 @@ const NowTimeButton: FC = () => {
 
   return (
     <label
-      className="cursor-pointer text-grayBlue active:text-grayBlue/80 dark:text-gamboge dark:active:text-gamboge/80"
+      className="text-silverLakeBlue-500 active:text-silverLakeBlue-500/80 dark:text-gamboge-500 dark:active:text-gamboge-500/80 cursor-pointer"
       onClick={resetDateTime}
     >
       此刻
@@ -50,7 +50,7 @@ const AmPmPicker: FC<AmPmPickerProps> = ({ daySeg, handleAmPmClick }) => {
           <div
             className={`cursor-pointer rounded-md p-1 text-sm transition ${
               item === daySeg
-                ? "bg-grayBlue text-white dark:bg-gamboge dark:text-black"
+                ? "bg-silverLakeBlue-500 dark:bg-gamboge-500 text-white dark:text-black"
                 : ""
             }`}
             key={item}

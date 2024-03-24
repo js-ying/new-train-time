@@ -1,3 +1,4 @@
+import { Button } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC, useContext, useState } from "react";
 import {
@@ -180,9 +181,13 @@ interface StationButtonProps {
 /** 車站按鈕 */
 const StationButton: FC<StationButtonProps> = ({ text, onClick }) => {
   return (
-    <div className="common-button px-3 py-2" onClick={onClick}>
+    <Button
+      className="text-md bg-neutral-500 text-white dark:bg-neutral-600"
+      radius="sm"
+      onClick={onClick}
+    >
       {text}
-    </div>
+    </Button>
   );
 };
 

@@ -48,9 +48,9 @@ const SwitchLabel: FC<SwitchLabelProps> = ({ toPage }) => {
     <span
       className={`${
         page === toPage
-          ? "border bg-grayBlue px-1 text-white dark:bg-gamboge"
+          ? "bg-silverLakeBlue-500 dark:bg-gamboge-500 border px-1 text-white"
           : ""
-      } cursor-pointer rounded-md border border-grayBlue px-1 dark:border-gamboge`}
+      } border-silverLakeBlue-500 dark:border-gamboge-500 cursor-pointer rounded-md border px-1`}
       onClick={() => toggleTrainPage(toPage)}
     >
       {t(toPage)}

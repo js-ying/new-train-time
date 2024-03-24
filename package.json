@@ -10,6 +10,8 @@
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.20",
     "@mui/x-date-pickers": "^6.18.3",
+    "@nextui-org/react": "^2.2.10",
+    "framer-motion": "^11.0.16",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "next": "latest",

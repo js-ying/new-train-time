@@ -25,7 +25,7 @@ const UpdateList: FC = () => {
       {dataList.map((data, index) => {
         return (
           <div className="">
-            <div className="font-bold text-grayBlue dark:text-gamboge">{`Ver.${
+            <div className="text-silverLakeBlue-500 dark:text-gamboge-500 font-bold">{`Ver.${
               dataList.length - index
             }【${
               data.type === "tr"
