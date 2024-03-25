@@ -1,5 +1,6 @@
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { Button } from "@nextui-org/react";
 import moment from "moment-timezone";
 import "moment/locale/zh-tw";
 import { useTranslation } from "next-i18next";
@@ -12,6 +13,7 @@ import { DaySegmentEnum } from "../../enums/DateEnum";
 import DateUtils from "../../utils/DateUtils";
 
 const NowTimeButton: FC = () => {
+  const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
@@ -24,12 +26,14 @@ const NowTimeButton: FC = () => {
   };
 
   return (
-    <label
-      className="text-silverLakeBlue-500 active:text-silverLakeBlue-500/80 dark:text-gamboge-500 dark:active:text-gamboge-500/80 cursor-pointer"
+    <Button
+      className="text-md min-w-fit text-silverLakeBlue-500 dark:text-gamboge-500"
+      variant="light"
+      size="sm"
       onClick={resetDateTime}
     >
-      此刻
-    </label>
+      {t("nowTimeBtn")}
+    </Button>
   );
 };
 
@@ -50,7 +54,7 @@ const AmPmPicker: FC<AmPmPickerProps> = ({ daySeg, handleAmPmClick }) => {
           <div
             className={`cursor-pointer rounded-md p-1 text-sm transition ${
               item === daySeg
-                ? "bg-silverLakeBlue-500 dark:bg-gamboge-500 text-white dark:text-black"
+                ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-black"
                 : ""
             }`}
             key={item}
@@ -129,7 +133,7 @@ const TimePicker: FC = () => {
       <div className="ml-2">
         <AmPmPicker daySeg={daySeg} handleAmPmClick={handleAmPmClick} />
       </div>
-      <div className="absolute -right-10 text-sm">
+      <div className="absolute -right-14 text-sm">
         <NowTimeButton />
       </div>
     </div>

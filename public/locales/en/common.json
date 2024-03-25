@@ -60,5 +60,6 @@
   "confirmOnSiteMsg": "Please confirm on-site",
   "featureIntroductionMenu": "Feature Introduction",
   "UpdateAnnouncementsMenu": "Update Announcements",
-  "contactMeMenu": "Contact Me"
+  "contactMeMenu": "Contact Me",
+  "nowTimeBtn": "Now"
 }
