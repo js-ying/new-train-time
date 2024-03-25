@@ -1,5 +1,6 @@
 import { FC, useContext, useState } from "react";
 import { SearchAreaContext } from "../../../contexts/SearchAreaContext";
+import useLang from "../../../hooks/useLangHook";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
 import { isTrainPass } from "../../../utils/TrainInfoUtils";
@@ -23,6 +24,8 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
   const openDetail = () => {
     setOpen(true);
   };
+
+  const { isTw } = useLang();
 
   return (
     <div
@@ -56,8 +59,9 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
           <TrTrainService data={trTrainTimeTable.TrainInfo} />
         </div>
       </div>
+
       <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-        {trTrainTimeTable.TrainInfo.Note}
+        {isTw && trTrainTimeTable.TrainInfo.Note}
       </div>
 
       {trTrainTimeTable && (

@@ -8,6 +8,7 @@ import {
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
+import useLang from "../../../hooks/useLangHook";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import { getTdxLang } from "../../../utils/LocaleUtils";
 import {
@@ -23,6 +24,7 @@ interface TrainDetailProps {
 
 const TrainDetail: FC<TrainDetailProps> = ({ data }) => {
   const { t, i18n } = useTranslation();
+  const { isTw } = useLang();
 
   return (
     <div className="flex flex-col gap-2">
@@ -72,10 +74,12 @@ const TrainDetail: FC<TrainDetailProps> = ({ data }) => {
           ).length === 0 && t("none")}
         </div>
       </div>
-      <div className="flex gap-2">
-        <Chip label={t("note")} size="small" color="primary" />
-        <div className="flex items-center">{data.TrainInfo.Note}</div>
-      </div>
+      {isTw && (
+        <div className="flex gap-2">
+          <Chip label={t("note")} size="small" color="primary" />
+          <div className="flex items-center">{data.TrainInfo.Note}</div>
+        </div>
+      )}
     </div>
   );
 };
