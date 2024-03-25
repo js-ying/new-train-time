@@ -1,9 +1,11 @@
-import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import {
@@ -108,7 +110,7 @@ const StopTimesTable: FC<StopTimesTableProps> = ({
         {["stationName", "arrivalTime", "leaveTime"].map((title) => {
           return (
             <div
-              className="border- border-silverLakeBlue-500 text-silverLakeBlue-500 dark:border-gamboge-500 dark:text-gamboge-500 flex-1 border-y py-2 text-center"
+              className="border- flex-1 border-y border-silverLakeBlue-500 py-2 text-center text-silverLakeBlue-500 dark:border-gamboge-500 dark:text-gamboge-500"
               key={title}
             >
               {t(title)}
@@ -121,7 +123,7 @@ const StopTimesTable: FC<StopTimesTableProps> = ({
           <div
             className={`mt-2 flex ${
               [startStationId, endStationId].includes(stopTime.StationID)
-                ? "text-silverLakeBlue-500 dark:text-gamboge-500 font-bold"
+                ? "font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
                 : ""
             }`}
             key={stopTime.StationID}
@@ -143,7 +145,7 @@ const StopTimesTable: FC<StopTimesTableProps> = ({
 
 interface ThsrTrainTimeDetailDialogProps {
   open: boolean;
-  setOpen: Function;
+  setOpen: (open: boolean) => void;
   thsrTrainTimeTable: ThsrDailyTimetable;
   thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
@@ -161,57 +163,61 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
   const { t, i18n } = useTranslation();
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => setOpen(false)}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      fullWidth
-      maxWidth="sm"
-      PaperProps={{
-        style: { borderRadius: 20 },
+    <Modal
+      isOpen={open}
+      onOpenChange={setOpen}
+      classNames={{
+        base: "bg-white dark:bg-neutral-600",
+        header: "flex items-center justify-center gap-2",
       }}
+      scrollBehavior="inside"
     >
-      <DialogTitle id="alert-dialog-title">
-        <div className="flex items-center gap-2 text-lg">
-          {thsrTrainTimeTable.DailyTrainInfo.TrainNo}{" "}
-          {
-            thsrTrainTimeTable.DailyTrainInfo.StartingStationName[
-              getTdxLang(i18n.language)
-            ]
-          }{" "}
-          -{" "}
-          {
-            thsrTrainTimeTable.DailyTrainInfo.EndingStationName[
-              getTdxLang(i18n.language)
-            ]
-          }
-        </div>
-      </DialogTitle>
-      <DialogContent className="text-sm">
-        <TrainDetail
-          thsrTrainTimeTable={thsrTrainTimeTable}
-          thsrDailyFreeSeatingCar={thsrDailyFreeSeatingCar}
-          thsrOdFare={thsrOdFare}
-          thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
-        />
-        <div className="mt-6">
-          <StopTimesTable
-            data={getThsrGeneralTrainInfo(
-              thsrTdxGeneralTimeTable,
-              thsrTrainTimeTable.DailyTrainInfo.TrainNo,
-            )}
-            startStationId={thsrTrainTimeTable.OriginStopTime.StationID}
-            endStationId={thsrTrainTimeTable.DestinationStopTime.StationID}
-          />
-        </div>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpen(false)} autoFocus>
-          {t("closeBtn")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader>
+              {thsrTrainTimeTable.DailyTrainInfo.TrainNo}{" "}
+              {
+                thsrTrainTimeTable.DailyTrainInfo.StartingStationName[
+                  getTdxLang(i18n.language)
+                ]
+              }{" "}
+              -{" "}
+              {
+                thsrTrainTimeTable.DailyTrainInfo.EndingStationName[
+                  getTdxLang(i18n.language)
+                ]
+              }
+            </ModalHeader>
+            <ModalBody>
+              <TrainDetail
+                thsrTrainTimeTable={thsrTrainTimeTable}
+                thsrDailyFreeSeatingCar={thsrDailyFreeSeatingCar}
+                thsrOdFare={thsrOdFare}
+                thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
+              />
+              <div className="mt-6">
+                <StopTimesTable
+                  data={getThsrGeneralTrainInfo(
+                    thsrTdxGeneralTimeTable,
+                    thsrTrainTimeTable.DailyTrainInfo.TrainNo,
+                  )}
+                  startStationId={thsrTrainTimeTable.OriginStopTime.StationID}
+                  endStationId={
+                    thsrTrainTimeTable.DestinationStopTime.StationID
+                  }
+                />
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              {/* <Button color="primary" onPress={onClose}>
+                {t("closeBtn")}
+              </Button> */}
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   );
 };
 

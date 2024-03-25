@@ -1,9 +1,10 @@
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 
@@ -36,31 +37,30 @@ const CommonDialog: FC<CommonDialogProps> = ({ open, setOpen, alertMsg }) => {
   const { t } = useTranslation();
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => setOpen(false)}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      PaperProps={{
-        style: { borderRadius: 20 },
+    <Modal
+      isOpen={open}
+      onOpenChange={setOpen}
+      size="sm"
+      classNames={{
+        base: "bg-white dark:bg-neutral-600",
+        header: "flex items-center justify-center gap-2",
+        body: "text-center",
       }}
     >
-      <DialogTitle id="alert-dialog-title">
-        <div className="flex items-center gap-2">
-          {<ErrorIcon />} {t("errorAlertTitle")}
-        </div>
-      </DialogTitle>
-      <DialogContent className="min-w-[300px]">
-        <DialogContentText id="alert-dialog-description">
-          {t(alertMsg) || alertMsg}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpen(false)} autoFocus>
-          {t("closeBtn")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader>{t("errorAlertTitle")}</ModalHeader>
+            <ModalBody>{t(alertMsg) || alertMsg}</ModalBody>
+            <ModalFooter>
+              {/* <Button color="primary" onPress={onClose}>
+                {t("closeBtn")}
+              </Button> */}
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   );
 };
 

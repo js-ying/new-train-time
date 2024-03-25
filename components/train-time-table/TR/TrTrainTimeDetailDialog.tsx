@@ -1,9 +1,11 @@
-import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
@@ -91,7 +93,7 @@ const StopTimesTable: FC<StopTimesTableProps> = ({ data }) => {
         {["stationName", "arrivalTime", "leaveTime"].map((title) => {
           return (
             <div
-              className="border- border-silverLakeBlue-500 text-silverLakeBlue-500 dark:border-gamboge-500 dark:text-gamboge-500 flex-1 border-y py-2 text-center"
+              className="border- flex-1 border-y border-silverLakeBlue-500 py-2 text-center text-silverLakeBlue-500 dark:border-gamboge-500 dark:text-gamboge-500"
               key={title}
             >
               {t(title)}
@@ -104,7 +106,7 @@ const StopTimesTable: FC<StopTimesTableProps> = ({ data }) => {
           <div
             className={`mt-2 flex ${
               index === 0 || index === data.StopTimes.length - 1
-                ? "text-silverLakeBlue-500 dark:text-gamboge-500 font-bold"
+                ? "font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
                 : ""
             }`}
             key={stopTime.StationID}
@@ -124,7 +126,7 @@ const StopTimesTable: FC<StopTimesTableProps> = ({ data }) => {
 
 interface TrTrainTimeDetailDialogProps {
   open: boolean;
-  setOpen: Function;
+  setOpen: (open: boolean) => void;
   data: JsyTrTrainTimeTable;
 }
 
@@ -136,39 +138,44 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
   const { t, i18n } = useTranslation();
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => setOpen(false)}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      fullWidth
-      maxWidth="sm"
-      PaperProps={{
-        style: { borderRadius: 20 },
+    <Modal
+      isOpen={open}
+      onOpenChange={setOpen}
+      classNames={{
+        base: "bg-white dark:bg-neutral-600",
+        header: "flex items-center justify-center gap-2",
       }}
+      scrollBehavior="inside"
+      size="2xl"
     >
-      <DialogTitle id="alert-dialog-title">
-        <div className="flex items-center gap-2 text-lg">
-          {data.TrainInfo.TrainNo}{" "}
-          {getTrTripLineNameByValue(data.TrainInfo.TripLine, i18n.language)}{" "}
-          {getTrTrainTypeNameByCode(
-            data.TrainInfo.TrainTypeCode,
-            i18n.language,
-          )}{" "}
-          {data.TrainInfo.StartingStationName[getTdxLang(i18n.language)]} -{" "}
-          {data.TrainInfo.EndingStationName[getTdxLang(i18n.language)]}
-        </div>
-      </DialogTitle>
-      <DialogContent>
-        <TrainDetail data={data} />
-        <div className="mt-6">
-          <StopTimesTable data={data} />
-        </div>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpen(false)}>{t("closeBtn")}</Button>
-      </DialogActions>
-    </Dialog>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader>
+              {data.TrainInfo.TrainNo}{" "}
+              {getTrTripLineNameByValue(data.TrainInfo.TripLine, i18n.language)}{" "}
+              {getTrTrainTypeNameByCode(
+                data.TrainInfo.TrainTypeCode,
+                i18n.language,
+              )}{" "}
+              {data.TrainInfo.StartingStationName[getTdxLang(i18n.language)]} -{" "}
+              {data.TrainInfo.EndingStationName[getTdxLang(i18n.language)]}
+            </ModalHeader>
+            <ModalBody>
+              <TrainDetail data={data} />
+              <div className="mt-6">
+                <StopTimesTable data={data} />
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              {/* <Button color="primary" onPress={onClose}>
+                {t("closeBtn")}
+              </Button> */}
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   );
 };
 

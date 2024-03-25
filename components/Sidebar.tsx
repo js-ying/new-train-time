@@ -83,7 +83,7 @@ const DrawerList: FC = () => {
         <List>
           <ListItem>
             <ListItemIcon sx={{ minWidth: "40px" }}>
-              <span className="text-silverLakeBlue-500 dark:text-gamboge-500 text-sm">
+              <span className="text-sm text-silverLakeBlue-500 dark:text-gamboge-500">
                 JSY
               </span>
             </ListItemIcon>
@@ -148,6 +148,7 @@ const Sidebar: FC = () => {
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
+        className="z-10"
       >
         <DrawerList />
       </SwipeableDrawer>
