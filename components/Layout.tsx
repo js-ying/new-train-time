@@ -6,6 +6,7 @@ import {
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
 import { SearchAreaActiveIndexEnum } from "../enums/SearchAreaParamsEnum";
+import useLang from "../hooks/useLangHook";
 import usePage from "../hooks/usePageHook";
 import DateUtils from "../utils/DateUtils";
 import LocaleChange from "./LocaleChange";
@@ -23,6 +24,7 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
   const { t } = useTranslation();
+  const { isTw } = useLang();
   const { homePath } = usePage();
 
   return (
@@ -36,7 +38,9 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
         <h2 className="flex items-center justify-center gap-1">
           <TrainSwitch />
           <span
-            className="cursor-pointer"
+            className={`cursor-pointer ${
+              isTw ? "text-lg" : "text-base sm:text-lg "
+            }`}
             onClick={() => {
               setParams({
                 ...params,
@@ -55,7 +59,7 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
           </span>
         </h2>
         <div className="absolute right-0 top-0.5">
-          <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-200">
+          <div className="fade-in flex items-center gap-2 text-zinc-700 dark:text-zinc-200">
             <LocaleChange />
             <ThemeSwitch />
           </div>

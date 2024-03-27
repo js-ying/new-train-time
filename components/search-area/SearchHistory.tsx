@@ -9,23 +9,34 @@ import usePage from "../../hooks/usePageHook";
 import { getStationNameById } from "../../utils/StationUtils";
 import { HistoryInquiry } from "./SearchButton";
 
+interface CloseButtonProps {
+  onClick: () => void;
+}
+
 /** 關閉按鈕 */
-const CloseButton: FC = () => {
+const CloseButton: FC<CloseButtonProps> = ({ onClick }) => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="h-6 w-6"
+    <Button
+      size="sm"
+      variant="light"
+      className="min-w-fit px-0 text-zinc-700 dark:text-zinc-200 sm:px-1.5"
+      onClick={onClick}
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-      />
-    </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="h-6 w-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    </Button>
   );
 };
 
@@ -64,7 +75,7 @@ const SearchHistory: FC = () => {
   return (
     <div className="text-center">
       {historyList.length > 0 && (
-        <>
+        <div className="fade-in">
           <div className="mb-2.5 text-sm text-zinc-500 dark:text-zinc-400">
             {t("historyInquiry", { nowLength: historyList.length })}
           </div>
@@ -100,16 +111,11 @@ const SearchHistory: FC = () => {
               })}
 
               <div className="flex justify-center">
-                <div
-                  onClick={clearHistoryList}
-                  className="cursor-pointer text-zinc-700 dark:text-zinc-200"
-                >
-                  <CloseButton />
-                </div>
+                <CloseButton onClick={clearHistoryList} />
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

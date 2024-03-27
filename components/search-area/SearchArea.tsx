@@ -1,3 +1,4 @@
+import { Button } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC, ReactNode, useContext } from "react";
 import {
@@ -33,9 +34,9 @@ const Area: FC<AreaProps> = ({
     <div
       className={`flex h-16 cursor-pointer flex-col items-center justify-center rounded-md
         border border-solid border-zinc-700 p-2 dark:border-zinc-200 ${className}
-        dark:hover:bg-silverLakeBlue-500 transition duration-150
-        ease-out hover:bg-zinc-700 hover:text-white
-        ${isActive && " dark:bg-silverLakeBlue-500 bg-zinc-700 text-white"}`}
+        transition duration-150 ease-out
+        hover:bg-zinc-700 hover:text-white dark:hover:bg-silverLakeBlue-500
+        ${isActive && " bg-zinc-700 text-white dark:bg-silverLakeBlue-500"}`}
       onClick={onClick}
     >
       {children}
@@ -53,11 +54,10 @@ const SwitchButton: FC<SwitchButtonProps> = ({ className = "" }) => {
   const setParams = useContext(SearchAreaUpdateContext);
 
   return (
-    <div
-      className={`
-          cursor-pointer ${className}
-          text-zinc-700 dark:text-zinc-200
-        `}
+    <Button
+      size="sm"
+      variant="light"
+      className="min-w-fit px-0 text-zinc-700 dark:text-zinc-200 sm:px-1.5"
       onClick={() =>
         setParams({
           ...params,
@@ -80,7 +80,7 @@ const SwitchButton: FC<SwitchButtonProps> = ({ className = "" }) => {
           d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
         />
       </svg>
-    </div>
+    </Button>
   );
 };
 

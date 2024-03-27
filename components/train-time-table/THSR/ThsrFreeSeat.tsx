@@ -53,6 +53,22 @@ const TextFreeSeat: FC<TextFreeSeatProps> = ({ freeSeatGroupList }) => {
   );
 };
 
+interface LabelFreeSeatSpanProps {
+  carNo: string;
+}
+
+const LabelFreeSeatSpan: FC<LabelFreeSeatSpanProps> = ({ carNo }) => {
+  return (
+    <span
+      className="h-5 w-5 rounded-md bg-silverLakeBlue-500 text-sm
+      leading-5 text-white transition duration-150
+      ease-out dark:bg-gamboge-500 dark:text-zinc-900"
+    >
+      {carNo}
+    </span>
+  );
+};
+
 interface LabelFreeSeatProps {
   freeSeatGroupList: FreeSeatingCarNo[];
 }
@@ -69,21 +85,9 @@ const LabelFreeSeat: FC<LabelFreeSeatProps> = ({ freeSeatGroupList }) => {
               className="flex items-center justify-center gap-1 text-center"
               key={`${group.trainNo}${group.startCar}-${group.endCar}`}
             >
-              <span
-                className="bg-silverLakeBlue-500 dark:bg-gamboge-500 h-5 w-5 rounded-md
-                text-sm leading-5 text-white transition
-                duration-150 ease-out dark:text-zinc-900"
-              >
-                {group.startCar}
-              </span>
+              <LabelFreeSeatSpan carNo={group.startCar} />
               -
-              <span
-                className="bg-silverLakeBlue-500 dark:bg-gamboge-500 h-5 w-5 rounded-md
-                text-sm leading-5 text-white transition
-                duration-150 ease-out dark:text-zinc-900"
-              >
-                {group.endCar}
-              </span>
+              <LabelFreeSeatSpan carNo={group.endCar} />
             </div>
           );
         })

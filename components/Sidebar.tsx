@@ -9,6 +9,7 @@ import {
   SwipeableDrawer,
 } from "@mui/material";
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
 import { updatesData } from "../public/data/updatesData";
@@ -83,11 +84,21 @@ const DrawerList: FC = () => {
         <List>
           <ListItem>
             <ListItemIcon sx={{ minWidth: "40px" }}>
-              <span className="text-sm text-silverLakeBlue-500 dark:text-gamboge-500">
-                JSY
-              </span>
+              <Image
+                src={`/images/logo.png`}
+                alt="traintime-logo"
+                width={25}
+                height={25}
+                className="rounded"
+              />
             </ListItemIcon>
-            <ListItemText primary={t("trTitle")}></ListItemText>
+            <ListItemText
+              primary={`${t("trTitle")}`}
+              primaryTypographyProps={{
+                fontWeight: "700",
+              }}
+              className="text-silverLakeBlue-500 dark:text-gamboge-500"
+            ></ListItemText>
           </ListItem>
           {list.map((item) => (
             <ListItem key={item.text} disablePadding>
@@ -110,7 +121,10 @@ const DrawerList: FC = () => {
                 </ListItemIcon>
                 <ListItemText
                   primary={t(item.text)}
-                  primaryTypographyProps={{ fontSize: "0.9rem" }}
+                  primaryTypographyProps={{
+                    fontSize: "0.9rem",
+                    fontWeight: "400",
+                  }}
                 />
               </ListItemButton>
             </ListItem>
@@ -149,6 +163,9 @@ const Sidebar: FC = () => {
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         className="z-10"
+        classes={{
+          paper: "dark:bg-neutral-700 dark:bg-none",
+        }}
       >
         <DrawerList />
       </SwipeableDrawer>

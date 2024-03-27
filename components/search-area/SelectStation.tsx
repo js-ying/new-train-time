@@ -124,7 +124,6 @@ const TrStationInput: FC = () => {
       className="common-input"
       placeholder={placeholder}
       onKeyDown={handleInputEnter}
-      autoFocus
     ></input>
   );
 };
@@ -168,7 +167,6 @@ const ThsrStationInput: FC = () => {
       className="common-input"
       placeholder={placeholder}
       onKeyDown={handleInputEnter}
-      autoFocus
     ></input>
   );
 };
@@ -176,13 +174,23 @@ const ThsrStationInput: FC = () => {
 interface StationButtonProps {
   text: string;
   onClick: () => void;
+  isTopStation?: boolean;
 }
 
 /** 車站按鈕 */
-const StationButton: FC<StationButtonProps> = ({ text, onClick }) => {
+const StationButton: FC<StationButtonProps> = ({
+  text,
+  onClick,
+  isTopStation,
+}) => {
   return (
     <Button
-      className="text-md bg-neutral-500 text-white dark:bg-neutral-600"
+      className={`text-md text-white 
+        ${
+          isTopStation
+            ? "bg-gradient-to-r from-silverLakeBlue-300 via-silverLakeBlue-500 to-silverLakeBlue-300 dark:from-gamboge-400 dark:via-gamboge-600 dark:to-gamboge-400"
+            : "bg-neutral-500 dark:bg-neutral-600"
+        }`}
       radius="sm"
       onClick={onClick}
     >
@@ -204,14 +212,7 @@ const SelectTrStation: FC = () => {
   };
 
   const getStationName = (trStationData: TrStationData): string => {
-    const stationName = trStationData.StationName[getTdxLang(i18n.language)];
-
-    // top level station
-    if (["0", "1"].includes(trStationData.StationClass)) {
-      return `※ ${stationName} ※`;
-    }
-
-    return stationName;
+    return trStationData.StationName[getTdxLang(i18n.language)];
   };
 
   return (
@@ -246,6 +247,7 @@ const SelectTrStation: FC = () => {
                     setParams,
                   )
                 }
+                isTopStation={["0", "1"].includes(trStationData.StationClass)}
               />
             );
           })}

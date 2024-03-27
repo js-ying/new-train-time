@@ -55,17 +55,21 @@ img {
   }
 }
 
-@keyframes fadeInOut {
-  0%, 100% {
+.rotate {
+  animation: rotate 0.7s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
     opacity: 0;
   }
-  50% {
+  100% {
     opacity: 1;
   }
 }
 
-.rotate {
-  animation: rotate 0.5s ease-out forwards;
+.fade-in {
+  animation: fadeIn 0.5s ease-in forwards;
 }
 
 .common-input {
@@ -92,6 +96,15 @@ img {
   transition duration-150 ease-out
   focus:border-zinc-400 focus:ring-2 focus:ring-zinc-300
   dark:bg-transparent dark:text-white dark:focus:border-zinc-600 dark:focus:ring-zinc-500;
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .dot {
