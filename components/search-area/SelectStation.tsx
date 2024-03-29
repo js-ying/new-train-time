@@ -11,6 +11,7 @@ import {
   SearchAreaLayerEnum,
 } from "../../enums/SearchAreaParamsEnum";
 import usePage from "../../hooks/usePageHook";
+import useRwd from "../../hooks/useRwdHook";
 import {
   ThsrStationData,
   TrStationData,
@@ -81,6 +82,7 @@ const TrStationInput: FC = () => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
+  const { isMobile } = useRwd();
 
   const placeholder =
     params.activeIndex === SearchAreaActiveIndexEnum.START_STATION
@@ -124,6 +126,7 @@ const TrStationInput: FC = () => {
       className="common-input"
       placeholder={placeholder}
       onKeyDown={handleInputEnter}
+      autoFocus={!isMobile ? true : false}
     ></input>
   );
 };
@@ -133,6 +136,7 @@ const ThsrStationInput: FC = () => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
+  const { isMobile } = useRwd();
 
   const placeholder =
     params.activeIndex === SearchAreaActiveIndexEnum.START_STATION
@@ -167,6 +171,7 @@ const ThsrStationInput: FC = () => {
       className="common-input"
       placeholder={placeholder}
       onKeyDown={handleInputEnter}
+      autoFocus={!isMobile ? true : false}
     ></input>
   );
 };
