@@ -24,8 +24,8 @@ const UpdateList: FC = () => {
     <>
       {dataList.map((data, index) => {
         return (
-          <div className="">
-            <div className="text-silverLakeBlue-500 dark:text-gamboge-500 font-bold">{`Ver.${
+          <div className="" key={data.items[0]}>
+            <div className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500">{`Ver.${
               dataList.length - index
             }【${
               data.type === "tr"
@@ -33,10 +33,10 @@ const UpdateList: FC = () => {
                 : data.type === "thsr"
                   ? "高鐵"
                   : "雙鐵"
-            }】版本更新 (${data.date})`}</div>
+            }】版本 (${data.date})`}</div>
             <ol className="list-inside list-decimal whitespace-pre-line">
               {data.items.map((item) => {
-                return <li>{item}</li>;
+                return <li key={item}>{item}</li>;
               })}
             </ol>
           </div>

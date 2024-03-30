@@ -39,7 +39,7 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
           <TrainSwitch />
           <span
             className={`cursor-pointer ${
-              isTw ? "text-lg" : "text-base sm:text-lg "
+              isTw ? "text-lg" : "text-sm sm:text-lg "
             }`}
             onClick={() => {
               setParams({
@@ -55,7 +55,7 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
               });
             }}
           >
-            {t("title")}
+            {t("scheduleInquiry")}
           </span>
         </h2>
         <div className="absolute right-0 top-0.5">

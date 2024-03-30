@@ -16,7 +16,8 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <link rel="shortcut icon" href="/images/logo.png" />
-        <title>{`${t(page)}${t("title")}`}</title>
+        <title>{`${t(page + "Title")}｜${t("subTitle")}`}</title>
+        <meta name="description" content={t("webDescription")}></meta>
       </Head>
       <NextUIProvider>
         <NextThemesProvider attribute="class">

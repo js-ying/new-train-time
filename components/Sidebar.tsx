@@ -34,7 +34,11 @@ const SidebarIcon: FC = () => {
   );
 };
 
-const DrawerList: FC = () => {
+interface DrawerListProps {
+  setSidebarOpen: (open: boolean) => void;
+}
+
+const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -67,6 +71,7 @@ const DrawerList: FC = () => {
         router.push({
           pathname: "/updates",
         });
+        setSidebarOpen(false);
         break;
 
       case "contactMeMenu":
@@ -93,7 +98,7 @@ const DrawerList: FC = () => {
               />
             </ListItemIcon>
             <ListItemText
-              primary={`${t("trTitle")}`}
+              primary={`${t("title")}`}
               primaryTypographyProps={{
                 fontWeight: "700",
               }}
@@ -167,7 +172,7 @@ const Sidebar: FC = () => {
           paper: "dark:bg-neutral-700 dark:bg-none",
         }}
       >
-        <DrawerList />
+        <DrawerList setSidebarOpen={setOpen} />
       </SwipeableDrawer>
     </>
   );
