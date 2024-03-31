@@ -1,5 +1,6 @@
 import Chip from "@mui/material/Chip";
 import {
+  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -160,7 +161,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
   thsrTdxGeneralTimeTable,
   thsrOdFare,
 }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <Modal
@@ -210,10 +211,14 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
                 />
               </div>
             </ModalBody>
-            <ModalFooter>
-              {/* <Button color="primary" onPress={onClose}>
+            <ModalFooter className="mt-1 justify-center">
+              <Button
+                size="sm"
+                className="bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                onPress={onClose}
+              >
                 {t("closeBtn")}
-              </Button> */}
+              </Button>
             </ModalFooter>
           </>
         )}
