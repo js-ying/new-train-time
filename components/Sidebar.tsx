@@ -98,7 +98,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
               />
             </ListItemIcon>
             <ListItemText
-              primary={`${t("title")}`}
+              primary={`${t("trTitle")}`}
               primaryTypographyProps={{
                 fontWeight: "700",
               }}

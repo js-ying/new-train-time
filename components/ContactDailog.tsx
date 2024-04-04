@@ -20,7 +20,7 @@ const ContactDialog: FC<ContactDialogProps> = ({ open, setOpen }) => {
       onOpenChange={setOpen}
       size="sm"
       classNames={{
-        base: "bg-white dark:bg-neutral-600",
+        base: "bg-white dark:bg-neutral-700",
         header: "flex items-center justify-center gap-2",
         body: "text-center",
       }}
