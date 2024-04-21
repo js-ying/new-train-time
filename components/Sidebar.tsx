@@ -64,7 +64,10 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const handleClick = (text: string) => {
     switch (text) {
       case "featureIntroductionMenu":
-        window.open("https://blog.jsy.tw/1525/", "_blank");
+        router.push({
+          pathname: "/features",
+        });
+        setSidebarOpen(false);
         break;
 
       case "UpdateAnnouncementsMenu":
