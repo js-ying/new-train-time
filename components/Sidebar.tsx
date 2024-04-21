@@ -63,6 +63,13 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
 
   const handleClick = (text: string) => {
     switch (text) {
+      case "home":
+        router.push({
+          pathname: "/",
+        });
+        setSidebarOpen(false);
+        break;
+
       case "featureIntroductionMenu":
         router.push({
           pathname: "/features",
@@ -105,7 +112,8 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
               primaryTypographyProps={{
                 fontWeight: "700",
               }}
-              className="text-silverLakeBlue-500 dark:text-gamboge-500"
+              className="cursor-pointer text-silverLakeBlue-500 dark:text-gamboge-500"
+              onClick={() => handleClick("home")}
             ></ListItemText>
           </ListItem>
           {list.map((item) => (

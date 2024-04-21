@@ -40,7 +40,7 @@ const ContactDialog: FC<ContactDialogProps> = ({ open, setOpen }) => {
                 />
               </div>
               <div className="mb-2 text-center text-xl font-bold">JS Ying</div>
-              <div className="text-zinc-500 dark:text-zinc-300">
+              <div className="text-zinc-500 dark:text-zinc-400">
                 <div className="flex items-center gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

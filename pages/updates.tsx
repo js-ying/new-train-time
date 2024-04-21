@@ -178,10 +178,7 @@ const Updates: FC = () => {
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto max-w-2xl">
-            <div className="flex flex-col gap-2 pt-4">
-              <Introduction />
-            </div>
-            <div className="mt-6 flex flex-col gap-6">
+            <div className="mt-8 flex flex-col gap-6">
               <UpdateList />
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <ShowOldUpdateListButtons

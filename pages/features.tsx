@@ -3,7 +3,7 @@ import { Button, Image } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Layout from "../components/Layout";
@@ -59,12 +59,15 @@ const WebIntroduction: FC = () => {
 };
 
 const FeaturesGallery: FC = () => {
-  const viewerList = featureImgList.map((img) => {
-    return {
-      src: `https://jsying1994.s3.amazonaws.com/traintime/features/${img.imgName}`,
-      description: `${img.title}`,
-    };
-  });
+  const slideList = useMemo(
+    () =>
+      featureImgList.map((img) => {
+        return {
+          src: `https://jsying1994.s3.amazonaws.com/traintime/features/${img.imgName}`,
+        };
+      }),
+    [],
+  );
 
   const [activeIndex, setActiveIndex] = useState(-1);
 
@@ -91,11 +94,12 @@ const FeaturesGallery: FC = () => {
       ))}
 
       <Lightbox
-        slides={viewerList}
+        slides={slideList}
         open={activeIndex >= 0}
         index={activeIndex}
         close={() => setActiveIndex(-1)}
         animation={{ swipe: 350 }}
+        controller={{ closeOnBackdropClick: true }}
         // enable optional lightbox plugins
         plugins={[Counter, Thumbnails, Zoom]}
         thumbnails={{ border: 0, gap: 0, padding: 0, width: 80 }}
