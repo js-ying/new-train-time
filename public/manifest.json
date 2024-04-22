@@ -1,0 +1,28 @@
+{
+  "name": "台鐵時刻查詢",
+  "short_name": "台鐵時刻查詢",
+  "description": "查詢台鐵/高鐵時刻，簡單又快速。即時誤點和歷史快查功能，讓每日通勤不再煩惱。新功能提供台鐵/高鐵、中文/英文和暗色主題的一鍵切換，查詢體驗再度提升。",
+  "icons": [
+    {
+      "src": "/images/logos/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/logos/logo-384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/logos/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "TRA Schedule Inquiry",
+  "short_name": "TRA Schedule Inquiry",
+  "description": "Check TRA/THSR schedules easily and quickly. Instant delay information and historical search function make daily commuting hassle-free. New features provide one-click switching between TRA/THSR, Chinese/English, and dark mode themes, enhancing the query experience once again.",
+  "icons": [
+    {
+      "src": "/images/logos/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/logos/logo-384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/logos/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

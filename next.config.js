@@ -1,6 +1,10 @@
 const { i18n } = require("./next-i18next.config");
 
-module.exports = {
+const withPWA = require("next-pwa")({
+  dest: "public",
+});
+
+module.exports = withPWA({
   i18n,
   images: {
     remotePatterns: [
@@ -10,4 +14,4 @@ module.exports = {
       },
     ],
   },
-};
+});

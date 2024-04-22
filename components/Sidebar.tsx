@@ -100,7 +100,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
           <ListItem>
             <ListItemIcon sx={{ minWidth: "40px" }}>
               <Image
-                src={`/images/logo.png`}
+                src={`/images/logos/logo-32.png`}
                 alt="traintime-logo"
                 width={25}
                 height={25}

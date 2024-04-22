@@ -53,8 +53,10 @@ const ThemeSwitch: FC = () => {
 
     if (storedTheme) {
       setTheme(storedTheme);
+      setMetaThemeColor(storedTheme);
     } else {
       setTheme(userPrefersDark ? "dark" : "light");
+      setMetaThemeColor(userPrefersDark ? "dark" : "light");
     }
 
     setMounted(true);
@@ -63,7 +65,15 @@ const ThemeSwitch: FC = () => {
   const toggleTheme = () => {
     const mode = theme === "light" ? "dark" : "light";
     setTheme(mode);
+    setMetaThemeColor(mode);
     localStorage.setItem("theme", mode);
+  };
+
+  // 設定 META 主題顏色（for PWA 時工具列的背景顏色）
+  const setMetaThemeColor = (mode: string) => {
+    document
+      .querySelector("meta[name='theme-color']")
+      .setAttribute("content", mode === "light" ? "#FFFFFF" : "#212529");
   };
 
   if (!mounted) {
