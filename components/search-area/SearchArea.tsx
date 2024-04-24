@@ -191,7 +191,7 @@ const SearchArea: FC = () => {
           }
         >
           {t("datetime")}
-          <div>
+          <div suppressHydrationWarning>
             {params.date} {params.time}
           </div>
         </Area>
