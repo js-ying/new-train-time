@@ -13,6 +13,15 @@ const useMuiTheme = () => {
             dark: `${theme === "light" ? "#6490c4" : "#f59e0b"}`,
           },
           mode: theme as "light" | "dark",
+          background: {
+            paper: "#FFFFFF",
+          },
+          text: {
+            primary: `${theme === "light" ? "#000000" : "#FFFFFF"}`,
+          },
+          action: {
+            focus: null,
+          },
         },
       }),
     [theme],

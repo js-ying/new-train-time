@@ -65,5 +65,10 @@
   "featureIntroductionMenu": "Feature Introduction",
   "UpdateAnnouncementsMenu": "Update Announcements",
   "contactMeMenu": "Contact Me",
-  "nowTimeBtn": "Now"
+  "nowTimeBtn": "Now",
+  "installToDesktop": "Install APP",
+  "pwaIntro": "Install the APP in just a few simple steps and experience the improvement! Plus, it won't take up space on your phone.",
+  "pwaStep1": "Tap the 'Share' button at the bottom of the browser.",
+  "pwaStep2": "Tap 'Add to Home Screen'.",
+  "pwaStep3": "Installation successful."
 }

@@ -15,6 +15,7 @@ import "yet-another-react-lightbox/plugins/counter.css";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import PwaTipDialog from "../components/PwaTipDialog";
 import { featureImgList } from "../public/data/featuresData";
 
 export async function getStaticProps({ locale }) {
@@ -27,34 +28,36 @@ export async function getStaticProps({ locale }) {
 
 const WebIntroduction: FC = () => {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+
   return (
-    <>
-      <div className="grid grid-cols-3 gap-4 pt-4">
-        <Image
-          src={`https://jsying1994.s3.amazonaws.com/traintime/logo/logo-lg.png`}
-          alt="traintime-logo"
-          width={200}
-          height={200}
-        />
-        <div className="col-span-2 grid content-between gap-2">
-          <div>
-            <div className="text-lg font-bold">{t("trTitle")}</div>
-            <div className="text-zinc-500 dark:text-zinc-400">
-              {t("webDescription")}
-            </div>
-          </div>
-          <div>
-            <Button
-              radius="full"
-              size="sm"
-              className="bg-neutral-500 text-white dark:bg-neutral-600"
-            >
-              安裝到桌面
-            </Button>
+    <div className="grid grid-cols-3 gap-4 pt-4">
+      <Image
+        src={`https://jsying1994.s3.amazonaws.com/traintime/logo/logo-lg.png`}
+        alt="traintime-logo"
+        width={200}
+        height={200}
+      />
+      <div className="col-span-2 grid content-between gap-2">
+        <div>
+          <div className="text-lg font-bold">{t("trTitle")}</div>
+          <div className="text-zinc-500 dark:text-zinc-400">
+            {t("webDescription")}
           </div>
         </div>
+        <div>
+          <Button
+            radius="full"
+            size="sm"
+            className="bg-neutral-500 text-white dark:bg-neutral-600"
+            onClick={() => setOpen(true)}
+          >
+            {t("installToDesktop")}
+          </Button>
+          <PwaTipDialog open={open} setOpen={setOpen} />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

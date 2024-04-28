@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
-import usePage from "../hooks/usePageHook";
 
 interface LocaleIconProps {
   isRotated: boolean;
@@ -123,7 +122,6 @@ const LocaleChangeBySwitch: FC = () => {
   const { i18n } = useTranslation();
   const router = useRouter();
   const [isRotated, setIsRotated] = useState(true);
-  const { page } = usePage();
 
   const handleChange = () => {
     setIsRotated(false);
