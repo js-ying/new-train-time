@@ -2,19 +2,28 @@ import { useEffect, useState } from "react";
 
 interface UseDeviceDetectResult {
   isIOS: boolean;
+  isSafari: boolean;
 }
 
 const useDeviceDetect = (): UseDeviceDetectResult => {
-  const [isIOS, setIsIOS] = useState(false);
+  const [deviceDetect, setDeviceDetect] = useState({
+    isIOS: false,
+    isSafari: false,
+  });
 
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
+    console.log(userAgent);
     const isIOS = /iphone|ipad|ipod/g.test(userAgent);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
 
-    setIsIOS(isIOS);
+    setDeviceDetect({
+      isIOS,
+      isSafari,
+    });
   }, []);
 
-  return { isIOS };
+  return deviceDetect;
 };
 
 export default useDeviceDetect;

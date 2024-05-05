@@ -172,7 +172,7 @@ const Updates: FC = () => {
   return (
     <>
       <Head>
-        <title>{t("UpdateAnnouncementsMenu")}</title>
+        <title>{`${t("UpdateAnnouncementsMenu")} - ${t("trTitle")}`}</title>
       </Head>
 
       <MuiThemeProvider theme={muiTheme}>

@@ -67,8 +67,11 @@
   "contactMeMenu": "與我聯絡",
   "nowTimeBtn": "此刻",
   "installToDesktop": "安裝 APP",
-  "pwaIntro": "簡單幾個步驟安裝 APP，體驗再提升！而且不會佔據你的手機容量。",
-  "pwaStep1": "點選瀏覽器底部的「分享」按鈕。",
-  "pwaStep2": "點選「加入主畫面」。",
-  "pwaStep3": "安裝成功。"
+  "installedBtn": "已安裝",
+  "pwaIntro": "不會占用儲存空間，體驗再提升。",
+  "pwaIOSStep1": "點選瀏覽器的「分享」按鈕。",
+  "pwaIOSStep2": "點選「加入主畫面」。",
+  "pwaChromeStep1": "點選瀏覽器的「安裝」按鈕。",
+  "pwaChromeStep2": "點選「選單」按鈕。",
+  "installedSuccessfullyMsg": "安裝成功。"
 }

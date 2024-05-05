@@ -52,11 +52,7 @@ const CommonDialog: FC<CommonDialogProps> = ({ open, setOpen, alertMsg }) => {
           <>
             <ModalHeader>{t("errorAlertTitle")}</ModalHeader>
             <ModalBody>{t(alertMsg) || alertMsg}</ModalBody>
-            <ModalFooter>
-              {/* <Button color="primary" onPress={onClose}>
-                {t("closeBtn")}
-              </Button> */}
-            </ModalFooter>
+            <ModalFooter></ModalFooter>
           </>
         )}
       </ModalContent>

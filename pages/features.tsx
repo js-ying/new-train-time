@@ -1,5 +1,5 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
-import { Button, Image } from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
@@ -15,7 +15,7 @@ import "yet-another-react-lightbox/plugins/counter.css";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import PwaTipDialog from "../components/PwaTipDialog";
+import PWAInstallButton from "../components/pwa-promot/PWAInstallButton";
 import { featureImgList } from "../public/data/featuresData";
 
 export async function getStaticProps({ locale }) {
@@ -28,7 +28,6 @@ export async function getStaticProps({ locale }) {
 
 const WebIntroduction: FC = () => {
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
 
   return (
     <div className="grid grid-cols-3 gap-4 pt-4">
@@ -46,15 +45,7 @@ const WebIntroduction: FC = () => {
           </div>
         </div>
         <div>
-          <Button
-            radius="full"
-            size="sm"
-            className="bg-neutral-500 text-white dark:bg-neutral-600"
-            onClick={() => setOpen(true)}
-          >
-            {t("installToDesktop")}
-          </Button>
-          <PwaTipDialog open={open} setOpen={setOpen} />
+          <PWAInstallButton />
         </div>
       </div>
     </div>
@@ -87,7 +78,7 @@ const FeaturesGallery: FC = () => {
           classNames={{
             img: "border cursor-pointer",
             wrapper: `inline-block ${
-              index === featureImgList.length - 1 ? "" : "mr-8"
+              index === featureImgList.length - 1 ? "" : "mr-4 md:mr-8"
             }`,
           }}
           onClick={() => {
@@ -118,14 +109,14 @@ const Features: FC = () => {
   return (
     <>
       <Head>
-        <title>{t("featureIntroductionMenu")}</title>
+        <title>{`${t("featureIntroductionMenu")} - ${t("trTitle")}`}</title>
       </Head>
 
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto max-w-3xl">
             <WebIntroduction />
-            <div className="mt-8">
+            <div className="mt-4 md:mt-8">
               <FeaturesGallery />
             </div>
           </div>

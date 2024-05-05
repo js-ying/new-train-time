@@ -67,8 +67,11 @@
   "contactMeMenu": "Contact Me",
   "nowTimeBtn": "Now",
   "installToDesktop": "Install APP",
+  "installedBtn": "Installed",
   "pwaIntro": "Install the APP in just a few simple steps and experience the improvement! Plus, it won't take up space on your phone.",
-  "pwaStep1": "Tap the 'Share' button at the bottom of the browser.",
-  "pwaStep2": "Tap 'Add to Home Screen'.",
-  "pwaStep3": "Installation successful."
+  "pwaIOSStep1": "Tap the 'Share' button in the browser",
+  "pwaIOSStep2": "Select 'Add to Home Screen'",
+  "pwaChromeStep1": "Tap the 'Install' in the browser",
+  "pwaChromeStep2": "Tap the 'Menu' in the browser",
+  "installedSuccessfullyMsg": "Installed successfully"
 }
