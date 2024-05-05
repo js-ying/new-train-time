@@ -1,5 +1,4 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC } from "react";
 import CommonDialog from "../components/CommonDialog";
@@ -24,8 +23,7 @@ export async function getStaticProps({ locale }) {
 /** [頁面] 查詢 */
 const Search: FC = () => {
   const muiTheme = useMuiTheme();
-  const { t } = useTranslation();
-  const { isTr, isThsr, page } = usePage();
+  const { isTr, isThsr } = usePage();
   const {
     isLoading,
     isApiHealth,

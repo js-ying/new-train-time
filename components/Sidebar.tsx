@@ -138,7 +138,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                   primary={t(item.text)}
                   primaryTypographyProps={{
                     fontSize: "0.9rem",
-                    fontWeight: "400",
+                    fontWeight: "500",
                   }}
                 />
               </ListItemButton>
@@ -150,7 +150,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
           <ListItemButton disabled={true}>
             <ListItemText
               primary={`ver. ${updatesData.length}`}
-              primaryTypographyProps={{ fontSize: "0.9rem" }}
+              primaryTypographyProps={{ fontSize: "0.9rem", fontWeight: "500" }}
             />
           </ListItemButton>
         </List>

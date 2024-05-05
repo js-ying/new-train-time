@@ -60,7 +60,7 @@ const ThemeSwitch: FC = () => {
     }
 
     setMounted(true);
-  }, [setTheme]);
+  }, []);
 
   const toggleTheme = () => {
     const mode = theme === "light" ? "dark" : "light";

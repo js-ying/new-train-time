@@ -49,7 +49,7 @@ const TrainDetail: FC<TrainDetailProps> = ({ data }) => {
       </div>
       <div className="flex gap-2">
         <Chip label={t("ticketFare")} size="small" color="primary" />
-        <div className="flex items-center">
+        <div className="items-center">
           <span>
             {t("adultPrice")} NTD{" "}
             {data.fareList.length > 0 && data.fareList[0].Price}
@@ -64,7 +64,7 @@ const TrainDetail: FC<TrainDetailProps> = ({ data }) => {
       </div>
       <div className="flex gap-2">
         <Chip label={t("trainServices")} size="small" color="primary" />
-        <div className="flex items-center">
+        <div>
           {trTrainServiceList
             .filter((service) => data.TrainInfo[service.flagName] === 1)
             .map((service) => t(`trainService${service.flagName}`))
