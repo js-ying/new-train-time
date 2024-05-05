@@ -71,9 +71,8 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         break;
 
       case "featureIntroductionMenu":
-        router.push({
-          pathname: "/features",
-        });
+        // router.push 無法正確觸發 beforeinstallprompt，所以改用 window.location.href
+        window.location.href = "/features";
         setSidebarOpen(false);
         break;
 

@@ -7,27 +7,31 @@ import PWATipDialog from "./PWATipDialog";
 const PWAPromotableButton: FC = () => {
   const { t } = useTranslation();
   const [installPrompt, setInstallPrompt] = useState(null);
-  const [open, setOpen] = useState(false);
 
   const handleBeforeInstallPrompt = useCallback((event) => {
     event.preventDefault();
     setInstallPrompt(event);
   }, []);
 
+  const handleAfterInstallPrompt = useCallback(() => {
+    setInstallPrompt(null);
+  }, []);
+
   useEffect(() => {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAfterInstallPrompt);
 
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
         handleBeforeInstallPrompt,
       );
+      window.removeEventListener("appinstalled", handleAfterInstallPrompt);
     };
   }, []);
 
   const triggerPromot = async () => {
     if (!installPrompt) {
-      setOpen(true);
       return;
     }
     await installPrompt.prompt();
@@ -35,15 +39,25 @@ const PWAPromotableButton: FC = () => {
 
   return (
     <>
-      <Button
-        radius="full"
-        size="sm"
-        className="bg-neutral-500 text-white dark:bg-neutral-600"
-        onClick={triggerPromot}
-      >
-        {t("installToDesktop")}
-      </Button>
-      <PWATipDialog open={open} setOpen={setOpen} />
+      {installPrompt == null ? (
+        <Button
+          radius="full"
+          size="sm"
+          className="bg-neutral-500 text-white dark:bg-neutral-600"
+          isDisabled={true}
+        >
+          {t("installedBtn")}
+        </Button>
+      ) : (
+        <Button
+          radius="full"
+          size="sm"
+          className="bg-neutral-500 text-white dark:bg-neutral-600"
+          onClick={triggerPromot}
+        >
+          {t("installToDesktopBtn")}
+        </Button>
+      )}
     </>
   );
 };
@@ -60,7 +74,7 @@ const NonPWAPromotableButton: FC = () => {
         className="bg-neutral-500 text-white dark:bg-neutral-600"
         onClick={() => setOpen(true)}
       >
-        {t("installToDesktop")}
+        {t("installToDesktopBtn")}
       </Button>
       <PWATipDialog open={open} setOpen={setOpen} />
     </>
@@ -68,11 +82,11 @@ const NonPWAPromotableButton: FC = () => {
 };
 
 const PWAInstallButton: FC = () => {
-  const { isIOS, isSafari } = useDeviceDetect();
+  const { isPWAPromotable } = useDeviceDetect();
 
   return (
     <>
-      {isIOS || isSafari ? <NonPWAPromotableButton /> : <PWAPromotableButton />}
+      {isPWAPromotable ? <PWAPromotableButton /> : <NonPWAPromotableButton />}
     </>
   );
 };

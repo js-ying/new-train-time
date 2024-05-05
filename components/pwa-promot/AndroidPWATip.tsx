@@ -2,17 +2,17 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { FC } from "react";
 import AddToScreenIcon from "../icons/AddToScreenIcon";
-import ShareIcon from "../icons/ShareIcon";
+import MenuIcon from "../icons/MenuIcon";
 
-const IOSandSafariPWATip: FC = () => {
+const AndroidPWATip: FC = () => {
   const { t } = useTranslation();
 
   return (
     <>
       <ol>
         <li className="mb-1 flex items-center">
-          <ShareIcon />
-          <div>1. {t("pwaIOSStep1")}</div>
+          <MenuIcon />
+          <div>1. {t("pwaAndroidStep1")}</div>
         </li>
         <li className="mb-1 flex items-center">
           <AddToScreenIcon />
@@ -35,4 +35,4 @@ const IOSandSafariPWATip: FC = () => {
   );
 };
 
-export default IOSandSafariPWATip;
+export default AndroidPWATip;

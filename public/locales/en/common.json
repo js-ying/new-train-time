@@ -66,12 +66,11 @@
   "UpdateAnnouncementsMenu": "Update Announcements",
   "contactMeMenu": "Contact Me",
   "nowTimeBtn": "Now",
-  "installToDesktop": "Install APP",
+  "installToDesktopBtn": "Install APP",
   "installedBtn": "Installed",
-  "pwaIntro": "Install the APP in just a few simple steps and experience the improvement! Plus, it won't take up space on your phone.",
-  "pwaIOSStep1": "Tap the 'Share' button in the browser",
-  "pwaIOSStep2": "Select 'Add to Home Screen'",
-  "pwaChromeStep1": "Tap the 'Install' in the browser",
-  "pwaChromeStep2": "Tap the 'Menu' in the browser",
-  "installedSuccessfullyMsg": "Installed successfully"
+  "pwaIOSStep1": "Tap the 'Share' button in the browser.",
+  "pwaStep2": "Select 'Add to Home Screen'.",
+  "pwaChromeStep1": "Tap the 'Install' in the browser.",
+  "pwaAndroidStep1": "Tap the 'Menu' in the browser.",
+  "installedSuccessfullyMsg": "Installed successfully."
 }

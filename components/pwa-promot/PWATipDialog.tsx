@@ -1,8 +1,15 @@
-import { Modal, ModalContent } from "@nextui-org/react";
-import { FC } from "react";
-import useDeviceDetect from "../../hooks/useDeviceDetectHook";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+} from "@nextui-org/react";
+import { useTranslation } from "next-i18next";
+import { FC, useState } from "react";
+import AndroidPWATip from "./AndroidPWATip";
 import IOSandSafariPWATip from "./IOSandSafariPWATip";
-import NonIOSPWATip from "./NonIOSPWATip";
+import PCPWATip from "./PCPWATip";
 
 interface PWATipDialogProps {
   open: boolean;
@@ -10,7 +17,9 @@ interface PWATipDialogProps {
 }
 
 const PWATipDialog: FC<PWATipDialogProps> = ({ open, setOpen }) => {
-  const { isIOS, isSafari } = useDeviceDetect();
+  const { t } = useTranslation();
+  const [tabList] = useState(["iOS", "Android", "PC"]);
+  const [active, setActive] = useState("iOS");
 
   return (
     <Modal
@@ -25,7 +34,36 @@ const PWATipDialog: FC<PWATipDialogProps> = ({ open, setOpen }) => {
     >
       <ModalContent>
         {(onClose) => (
-          <>{isIOS || isSafari ? <IOSandSafariPWATip /> : <NonIOSPWATip />}</>
+          <>
+            <ModalHeader className="pb-2">
+              {t("installToDesktopBtn")}
+            </ModalHeader>
+            <ModalBody className="mb-2">
+              <div className="mb-2 flex justify-center gap-4">
+                {tabList.map((item) => {
+                  return (
+                    <Button
+                      className={`
+                  ${
+                    active === item
+                      ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                      : "bg-neutral-500 text-white dark:bg-neutral-600"
+                  }`}
+                      radius="full"
+                      size="sm"
+                      onClick={() => setActive(item)}
+                    >
+                      {item}
+                    </Button>
+                  );
+                })}
+              </div>
+
+              {active === "iOS" && <IOSandSafariPWATip />}
+              {active === "Android" && <AndroidPWATip />}
+              {active === "PC" && <PCPWATip />}
+            </ModalBody>
+          </>
         )}
       </ModalContent>
     </Modal>
