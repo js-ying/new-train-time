@@ -1,5 +1,5 @@
 import { appWithTranslation, useTranslation } from "next-i18next";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 import { AppProps } from "next/app";
 import { SearchAreaProvider } from "../contexts/SearchAreaContext";
 
@@ -13,6 +13,7 @@ function App({ Component, pageProps }: AppProps) {
   const { t } = useTranslation();
   const { isTw } = useLang();
   const { page } = usePage();
+  const { theme } = useTheme();
 
   return (
     <>
@@ -36,7 +37,10 @@ function App({ Component, pageProps }: AppProps) {
           rel="manifest"
           href={`${isTw ? "/manifest.json" : "/manifest.en.json"}`}
         />
-        <meta name="theme-color" content="#FFFFFF" />
+        <meta
+          name="theme-color"
+          content={theme === "light" ? "#FFFFFF" : "#212529"}
+        />
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
