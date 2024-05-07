@@ -1,4 +1,4 @@
-export const updatesData = [
+export const updateDataList = [
   {
     date: "2024-04",
     type: "both",
@@ -12,10 +12,11 @@ export const updatesData = [
   },
 ];
 
-export const oldTrUpdatesData = [
+export const oldTrUpdateDataList = [
   {
     date: "2023-10",
     type: "tr",
+    ver: "7",
     items: [
       "增設後台程式進行資料介接與處理，提高系統穩定度與彈性，並避免原先的流量上限問題",
       "因應台鐵資料即將收費的政策，本站以新增廣告區域的作法來減少部份負擔，還請見諒\n（您的順手點擊廣告，可給予網站作者一臂之力，繼續提供優質的使用體驗給大家）",
@@ -24,6 +25,7 @@ export const oldTrUpdatesData = [
   {
     date: "2023-08",
     type: "tr",
+    ver: "6",
     items: [
       "移除 觀光列車資訊，避免使用者誤會",
       "新增 API 介接失敗提示訊息",
@@ -33,6 +35,7 @@ export const oldTrUpdatesData = [
   {
     date: "2023-07",
     type: "tr",
+    ver: "5",
     items: [
       "新增 列車票價資訊",
       "更新 配合票價資訊的新增，調整列車服務圖示位置",
@@ -41,6 +44,7 @@ export const oldTrUpdatesData = [
   {
     date: "2023-02",
     type: "tr",
+    ver: "4",
     items: [
       "新增 文字快速篩選車站功能",
       "修正 列車詳細資訊被快取的問題",
@@ -50,11 +54,13 @@ export const oldTrUpdatesData = [
   {
     date: "2021-11",
     type: "tr",
+    ver: "3",
     items: ["更新 日期選擇方式", "新增 列車誤點資訊", "新增 當日過期火車特效"],
   },
   {
     date: "2020-08",
     type: "tr",
+    ver: "2",
     items: [
       "更新 出發日期選擇方式",
       "新增 首頁歷史查詢記錄功能",
@@ -65,6 +71,7 @@ export const oldTrUpdatesData = [
   {
     date: "2020-04",
     type: "tr",
+    ver: "1",
     items: [
       "選擇車站只要用點的就行",
       "查詢結果可透過按鈕篩選「對號列車」或「非對號列車」",
@@ -75,10 +82,11 @@ export const oldTrUpdatesData = [
   },
 ];
 
-export const oldThsrUpdatesData = [
+export const oldThsrUpdateDataList = [
   {
     date: "2024-01",
     type: "thsr",
+    ver: "3",
     items: [
       "增設後台程式進行資料介接與處理，提高系統穩定度與彈性，並避免原先的流量上限問題",
       "因應台鐵資料即將收費的政策，本站以新增廣告區域的作法來減少部份負擔，還請見諒\n（您的順手點擊廣告，可給予網站作者一臂之力，繼續提供優質的使用體驗給大家）",
@@ -87,6 +95,7 @@ export const oldThsrUpdatesData = [
   {
     date: "2023-08",
     type: "thsr",
+    ver: "2",
     items: [
       "新增 自由座車箱",
       "新增 API 介接失敗提示訊息",
@@ -96,6 +105,7 @@ export const oldThsrUpdatesData = [
   {
     date: "2021-11",
     type: "thsr",
+    ver: "1",
     items: [
       "快速查詢：打字或點擊即可篩選車站",
       "歷史查詢：最新六筆查詢紀錄",

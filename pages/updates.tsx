@@ -8,9 +8,9 @@ import Layout from "../components/Layout";
 import { PageEnum } from "../enums/PageEnum";
 import useMuiTheme from "../hooks/useMuiThemeHook";
 import {
-  oldThsrUpdatesData,
-  oldTrUpdatesData,
-  updatesData,
+  oldThsrUpdateDataList,
+  oldTrUpdateDataList,
+  updateDataList,
 } from "../public/data/updatesData";
 
 export async function getStaticProps({ locale }) {
@@ -20,19 +20,6 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-
-const Introduction: FC = () => {
-  return (
-    <>
-      <p>
-        歡迎來到「台鐵時刻查詢」，或是「高鐵時刻查詢」。總之現在兩個鐵都可以一起查了。以前分開來的兩套系統，現在合而為一。
-      </p>
-      <p>
-        由於涉及整個系統的重構，我決定重置更新版號，並只列出新系統的公告。如果對舊系統的更新記錄有興趣，也可以點選下方的按鈕查看。
-      </p>
-    </>
-  );
-};
 
 interface ShowOldUpdateListButtonsProps {
   selected: PageEnum;
@@ -44,113 +31,52 @@ const ShowOldUpdateListButtons: FC<ShowOldUpdateListButtonsProps> = ({
   setSelected,
 }) => {
   return (
-    <>
-      <div className="flex justify-center">
-        <Button
-          className="bg-neutral-500 text-white dark:bg-neutral-600"
-          onClick={() =>
-            selected === PageEnum.TR
-              ? setSelected(null)
-              : setSelected(PageEnum.TR)
-          }
-        >
-          查看原台鐵時刻查詢更新記錄
-        </Button>
-      </div>
-      <div className="flex justify-center">
-        <Button
-          className="bg-neutral-500 text-white dark:bg-neutral-600"
-          onClick={() =>
-            selected === PageEnum.THSR
-              ? setSelected(null)
-              : setSelected(PageEnum.THSR)
-          }
-        >
-          查看原高鐵時刻查詢更新記錄
-        </Button>
-      </div>
-    </>
+    <div className="flex justify-center gap-6 md:gap-10">
+      <Button
+        className="bg-neutral-500 text-white dark:bg-neutral-600"
+        onClick={() =>
+          selected === PageEnum.TR
+            ? setSelected(null)
+            : setSelected(PageEnum.TR)
+        }
+      >
+        原台鐵更新歷程
+      </Button>
+      <Button
+        className="bg-neutral-500 text-white dark:bg-neutral-600"
+        onClick={() =>
+          selected === PageEnum.THSR
+            ? setSelected(null)
+            : setSelected(PageEnum.THSR)
+        }
+      >
+        原高鐵更新歷程
+      </Button>
+    </div>
   );
 };
 
-const UpdateList: FC = () => {
-  const dataList = useMemo(() => {
-    return updatesData.reverse();
-  }, []);
+interface UpdateListProps {
+  dataList: {
+    date: string;
+    type: string;
+    ver: string;
+    items: string[];
+  }[];
+}
 
+const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
   return (
     <>
       {dataList.map((data) => {
         return (
           <div
             className="rounded-md border border-solid border-zinc-700 p-4 dark:border-zinc-200"
-            key={data.ver}
-          >
-            <div className="mb-2 flex justify-between">
-              <div className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500">{`${data.ver} 版本更新`}</div>
-              <div className="text-silverLakeBlue-500 dark:text-gamboge-500">{`${data.date}`}</div>
-            </div>
-            <ol className="list-inside list-decimal whitespace-pre-line text-sm">
-              {data.items.map((item) => {
-                return <li key={item}>{item}</li>;
-              })}
-            </ol>
-          </div>
-        );
-      })}
-    </>
-  );
-};
-
-const TrUpdateList: FC = () => {
-  const dataList = useMemo(() => {
-    return oldTrUpdatesData;
-  }, []);
-
-  return (
-    <>
-      {dataList.map((data, index) => {
-        return (
-          <div
-            className="rounded-md border border-solid border-zinc-700 p-4 dark:border-zinc-200"
             key={data.date}
           >
             <div className="mb-2 flex justify-between">
-              <div className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500">{`Ver. ${
-                dataList.length - index
-              } 版本更新`}</div>
-              <div className="text-silverLakeBlue-500 dark:text-gamboge-500">{`${data.date}`}</div>
-            </div>
-            <ol className="list-inside list-decimal whitespace-pre-line text-sm">
-              {data.items.map((item) => {
-                return <li key={item}>{item}</li>;
-              })}
-            </ol>
-          </div>
-        );
-      })}
-    </>
-  );
-};
-
-const ThsrUpdateList: FC = () => {
-  const dataList = useMemo(() => {
-    return oldThsrUpdatesData;
-  }, []);
-
-  return (
-    <>
-      {dataList.map((data, index) => {
-        return (
-          <div
-            className="rounded-md border border-solid border-zinc-700 p-4 dark:border-zinc-200"
-            key={data.date}
-          >
-            <div className="mb-2 flex justify-between">
-              <div className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500">{`Ver. ${
-                dataList.length - index
-              } 版本更新`}</div>
-              <div className="text-silverLakeBlue-500 dark:text-gamboge-500">{`${data.date}`}</div>
+              <div className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500">{`Ver. ${data.ver} 版本更新`}</div>
+              <div className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500">{`${data.date}`}</div>
             </div>
             <ol className="list-inside list-decimal whitespace-pre-line text-sm">
               {data.items.map((item) => {
@@ -169,6 +95,18 @@ const Updates: FC = () => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState(null);
 
+  const dataList = useMemo(() => {
+    return updateDataList;
+  }, []);
+
+  const oldTrDatalist = useMemo(() => {
+    return oldTrUpdateDataList;
+  }, []);
+
+  const oldThsrDataList = useMemo(() => {
+    return oldThsrUpdateDataList;
+  }, []);
+
   return (
     <>
       <Head>
@@ -179,15 +117,19 @@ const Updates: FC = () => {
         <Layout>
           <div className="mx-auto max-w-2xl">
             <div className="mt-8 flex flex-col gap-6">
-              <UpdateList />
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <ShowOldUpdateListButtons
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-              </div>
-              {selected === PageEnum.TR && <TrUpdateList />}
-              {selected === PageEnum.THSR && <ThsrUpdateList />}
+              <UpdateList dataList={dataList} />
+
+              <ShowOldUpdateListButtons
+                selected={selected}
+                setSelected={setSelected}
+              />
+
+              {selected === PageEnum.TR && (
+                <UpdateList dataList={oldTrDatalist} />
+              )}
+              {selected === PageEnum.THSR && (
+                <UpdateList dataList={oldThsrDataList} />
+              )}
             </div>
           </div>
         </Layout>
