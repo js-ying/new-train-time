@@ -27,7 +27,7 @@ const PWATipDialog: FC<PWATipDialogProps> = ({ open, setOpen }) => {
       onOpenChange={setOpen}
       size="md"
       classNames={{
-        base: "bg-white dark:bg-neutral-700",
+        base: "bg-white dark:bg-eerieBlack-500",
         header: "flex items-center justify-center gap-2",
         body: "text-center",
       }}
@@ -52,6 +52,7 @@ const PWATipDialog: FC<PWATipDialogProps> = ({ open, setOpen }) => {
                       radius="full"
                       size="sm"
                       onClick={() => setActive(item)}
+                      key={item}
                     >
                       {item}
                     </Button>

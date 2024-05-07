@@ -19,15 +19,17 @@ const useDeviceDetect = (): UseDeviceDetectResult => {
 
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
-    console.log(userAgent);
     const isIOS = /iphone|ipad|ipod/g.test(userAgent);
     const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
     const isFirefox = /firefox|fxios/i.test(userAgent);
+
+    // isArc 判斷方法待調整
     const isArc = getComputedStyle(document.documentElement).getPropertyValue(
       "--arc-palette-background",
     )
       ? true
       : false;
+
     const isNonPWAPromotable = isIOS || isSafari || isFirefox || isArc;
     const isPWAPromotable = !isNonPWAPromotable;
 

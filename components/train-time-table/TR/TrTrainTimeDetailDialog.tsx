@@ -147,7 +147,7 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
       isOpen={open}
       onOpenChange={setOpen}
       classNames={{
-        base: "bg-white dark:bg-neutral-700",
+        base: "bg-white dark:bg-eerieBlack-500",
         header: "flex items-center justify-center gap-2",
       }}
       scrollBehavior="inside"

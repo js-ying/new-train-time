@@ -12,7 +12,7 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
-import { updatesData } from "../public/data/updatesData";
+import { updateDataList } from "../public/data/updatesData";
 import ContactDialog from "./ContactDailog";
 
 const SidebarIcon: FC = () => {
@@ -110,8 +110,9 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
               primary={`${t("trTitle")}`}
               primaryTypographyProps={{
                 fontWeight: "700",
+                fontSize: "1.125rem",
               }}
-              className="cursor-pointer text-silverLakeBlue-500 dark:text-gamboge-500"
+              className="cursor-pointer font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
               onClick={() => handleClick("home")}
             ></ListItemText>
           </ListItem>
@@ -136,10 +137,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                 </ListItemIcon>
                 <ListItemText
                   primary={t(item.text)}
-                  primaryTypographyProps={{
-                    fontSize: "0.9rem",
-                    fontWeight: "500",
-                  }}
+                  primaryTypographyProps={{}}
                 />
               </ListItemButton>
             </ListItem>
@@ -149,8 +147,8 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         <List>
           <ListItemButton disabled={true}>
             <ListItemText
-              primary={`ver. ${updatesData.length}`}
-              primaryTypographyProps={{ fontSize: "0.9rem", fontWeight: "500" }}
+              primary={`ver. ${updateDataList[0].ver}`}
+              primaryTypographyProps={{}}
             />
           </ListItemButton>
         </List>
@@ -179,7 +177,7 @@ const Sidebar: FC = () => {
         onClose={() => setOpen(false)}
         className="z-10"
         classes={{
-          paper: "dark:bg-neutral-700 dark:bg-none",
+          paper: "dark:bg-eerieBlack-500 dark:bg-none",
         }}
       >
         <DrawerList setSidebarOpen={setOpen} />
