@@ -9,15 +9,16 @@ const fetchData = async (url = "", data = {}, method = "POST") => {
 
   try {
     const response = await fetch(url, options);
+    const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(response.statusText);
+      throw result;
     }
 
-    const responseData = await response.json();
-    return responseData;
+    return result;
   } catch (error) {
-    throw error;
+    // 有 error.code 表示為後端回傳可預期錯誤，若無則表示網路錯誤
+    throw error.code ? error.message : error;
   }
 };
 

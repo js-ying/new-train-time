@@ -18,10 +18,14 @@ export default async function handler(req, res) {
       },
     );
 
-    const data = await response.json();
-    res.status(200).json(data);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw result;
+    }
+
+    res.status(200).json(result);
   } catch (error) {
-    console.error("Error fetching data:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json(error);
   }
 }
