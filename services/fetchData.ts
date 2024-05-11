@@ -18,7 +18,7 @@ const fetchData = async (url = "", data = {}, method = "POST") => {
     return result;
   } catch (error) {
     // 有 error.code 表示為後端回傳可預期錯誤，若無則表示網路錯誤
-    throw error.code ? error.message : error;
+    throw error.code ? `${error.code} ${error.message}` : error;
   }
 };
 
