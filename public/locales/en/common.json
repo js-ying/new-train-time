@@ -72,5 +72,6 @@
   "pwaStep2": "Select 'Add to Home Screen'.",
   "pwaChromeStep1": "Tap the 'Install' in the browser.",
   "pwaAndroidStep1": "Tap the 'Menu' in the browser.",
-  "installedSuccessfullyMsg": "Installed successfully."
+  "installedSuccessfullyMsg": "Installed successfully.",
+  "arcNotSupport": "Arc not supported"
 }

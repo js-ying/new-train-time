@@ -40,7 +40,7 @@ const ShowOldUpdateListButtons: FC<ShowOldUpdateListButtonsProps> = ({
             : setSelected(PageEnum.TR)
         }
       >
-        原台鐵更新歷程
+        台鐵(舊)
       </Button>
       <Button
         className="bg-neutral-500 text-white dark:bg-neutral-600"
@@ -50,7 +50,7 @@ const ShowOldUpdateListButtons: FC<ShowOldUpdateListButtonsProps> = ({
             : setSelected(PageEnum.THSR)
         }
       >
-        原高鐵更新歷程
+        高鐵(舊)
       </Button>
     </div>
   );
@@ -115,7 +115,7 @@ const Updates: FC = () => {
 
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
-          <div className="mx-auto max-w-2xl">
+          <div className="mx-auto max-w-3xl">
             <div className="mt-8 flex flex-col gap-6">
               <UpdateList dataList={dataList} />
 

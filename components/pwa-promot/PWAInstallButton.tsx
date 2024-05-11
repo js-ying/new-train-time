@@ -49,14 +49,19 @@ const PWAPromotableButton: FC = () => {
           {t("installedBtn")}
         </Button>
       ) : (
-        <Button
-          radius="full"
-          size="sm"
-          className="bg-neutral-500 text-white dark:bg-neutral-600"
-          onClick={triggerPromot}
-        >
-          {t("installToDesktopBtn")}
-        </Button>
+        <>
+          <Button
+            radius="full"
+            size="sm"
+            className="bg-neutral-500 text-white dark:bg-neutral-600"
+            onClick={triggerPromot}
+          >
+            {t("installToDesktopBtn")}
+          </Button>
+          <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
+            {t("arcNotSupport")}
+          </span>
+        </>
       )}
     </>
   );

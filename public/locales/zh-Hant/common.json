@@ -72,5 +72,6 @@
   "pwaAndroidStep1": "點選瀏覽器的「選單」按鈕。",
   "pwaStep2": "點選「加入主畫面」。",
   "pwaChromeStep1": "點選瀏覽器的「安裝」按鈕。",
-  "installedSuccessfullyMsg": "安裝成功。"
+  "installedSuccessfullyMsg": "安裝成功。",
+  "arcNotSupport": "Arc 不支援"
 }
