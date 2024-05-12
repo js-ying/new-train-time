@@ -2,6 +2,7 @@ import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { Button } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTheme } from "next-themes";
 import Head from "next/head";
 import { FC, useMemo, useState } from "react";
 import Layout from "../components/Layout";
@@ -94,6 +95,7 @@ const Updates: FC = () => {
   const muiTheme = useMuiTheme();
   const { t } = useTranslation();
   const [selected, setSelected] = useState(null);
+  const { theme } = useTheme();
 
   const dataList = useMemo(() => {
     return updateDataList;
@@ -111,6 +113,10 @@ const Updates: FC = () => {
     <>
       <Head>
         <title>{`${t("UpdateAnnouncementsMenu")} - ${t("trTitle")}`}</title>
+        <meta
+          name="theme-color"
+          content={theme === "light" ? "#FFFFFF" : "#212529"}
+        />
       </Head>
 
       <MuiThemeProvider theme={muiTheme}>

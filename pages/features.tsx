@@ -2,7 +2,6 @@ import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { Image } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Head from "next/head";
 import { FC, useMemo, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -10,6 +9,8 @@ import Layout from "../components/Layout";
 import useMuiTheme from "../hooks/useMuiThemeHook";
 
 // import optional lightbox plugins
+import { useTheme } from "next-themes";
+import Head from "next/head";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/plugins/counter.css";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
@@ -105,11 +106,16 @@ const FeaturesGallery: FC = () => {
 const Features: FC = () => {
   const { t } = useTranslation();
   const muiTheme = useMuiTheme();
+  const { theme } = useTheme();
 
   return (
     <>
       <Head>
         <title>{`${t("featureIntroductionMenu")} - ${t("trTitle")}`}</title>
+        <meta
+          name="theme-color"
+          content={theme === "light" ? "#FFFFFF" : "#212529"}
+        />
       </Head>
 
       <MuiThemeProvider theme={muiTheme}>
