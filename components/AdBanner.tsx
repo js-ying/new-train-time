@@ -20,7 +20,7 @@ const AdBanner: FC = () => {
           data-ad-slot="1622239321"
         ></ins>
       </div>
-      <div className="mt-1 whitespace-pre-line text-sm text-zinc-500 dark:text-zinc-400">
+      <div className="mt-1 whitespace-pre-line text-xs text-zinc-500 dark:text-zinc-400">
         {t("adMsg")}
       </div>
     </>
