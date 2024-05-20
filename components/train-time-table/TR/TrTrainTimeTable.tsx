@@ -1,5 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import AdUtils from "../../../utils/AdUtils";
+import AdBanner from "../../AdBanner";
 import TrainTimeNavbar from "../TrainTimeNavbar";
 import TrTrainTimeInfo from "./TrTrainTimeInfo";
 import TrTrainTypeFilter from "./TrTrainTypeFilter";
@@ -32,9 +34,15 @@ const TrTrainTimeTable: FC<TrTrainTimeTableProps> = ({ dataList }) => {
       </div>
 
       <div className="flex flex-col gap-4">
-        {filterTrTrainTimeTable.map((data) => (
+        {filterTrTrainTimeTable.map((data, index) => (
           <div key={data.TrainInfo.TrainNo}>
             <TrTrainTimeInfo trTrainTimeTable={data} />
+
+            {AdUtils.showAd(filterTrTrainTimeTable.length, index) && (
+              <div className="mt-4">
+                <AdBanner />
+              </div>
+            )}
           </div>
         ))}
       </div>
