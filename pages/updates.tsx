@@ -75,11 +75,11 @@ const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
             className="rounded-md border border-solid border-zinc-700 p-4 dark:border-zinc-200"
             key={data.date}
           >
-            <div className="mb-2 flex justify-between">
-              <div className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500">{`Ver. ${data.ver} 版本更新`}</div>
-              <div className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500">{`${data.date}`}</div>
+            <div className="mb-2 flex justify-between font-bold text-silverLakeBlue-500 dark:text-gamboge-500">
+              <div>{`Ver. ${data.ver} 版本更新`}</div>
+              <div>{`${data.date}`}</div>
             </div>
-            <ol className="list-inside list-decimal whitespace-pre-line text-sm">
+            <ol className="list-inside list-decimal whitespace-pre-line">
               {data.items.map((item) => {
                 return <li key={item}>{item}</li>;
               })}
