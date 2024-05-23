@@ -1,6 +1,7 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC } from "react";
+import AdBanner from "../components/AdBanner";
 import CommonDialog from "../components/CommonDialog";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
@@ -52,10 +53,16 @@ const Search: FC = () => {
 
           {/* 無列車資料 */}
           {noData && (
-            <NoTrainData
-              isApiHealth={isApiHealth}
-              alertMsg={alertOptions.alertMsg}
-            />
+            <>
+              <NoTrainData
+                isApiHealth={isApiHealth}
+                alertMsg={alertOptions.alertMsg}
+              />
+
+              <div className="mt-4">
+                <AdBanner />
+              </div>
+            </>
           )}
         </div>
 

@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { JsyThsrTrainTimeTable } from "../../../types/thsr-train-time-table";
+import AdUtils from "../../../utils/AdUtils";
+import AdBanner from "../../AdBanner";
 import TrainTimeNavbar from "../TrainTimeNavbar";
 import ThsrPriceInfo from "./ThsrPriceInfo";
 import ThsrTrainTimeInfo from "./ThsrTrainTimeInfo";
@@ -19,7 +21,7 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
       </div>
 
       <div className="flex flex-col gap-4">
-        {data.timeTable.map((timeTable) => (
+        {data.timeTable.map((timeTable, index) => (
           <div key={timeTable.DailyTrainInfo.TrainNo}>
             <ThsrTrainTimeInfo
               thsrTrainTimeTable={timeTable}
@@ -27,6 +29,12 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
               thsrTdxGeneralTimeTable={data.generalTimeTable}
               thsrOdFare={data.fareList}
             />
+
+            {AdUtils.showAd(data.timeTable.length, index) && (
+              <div className="mt-4">
+                <AdBanner />
+              </div>
+            )}
           </div>
         ))}
       </div>
