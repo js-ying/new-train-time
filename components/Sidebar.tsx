@@ -175,9 +175,9 @@ const Sidebar: FC = () => {
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        className="z-10"
+        className="!z-10"
         classes={{
-          paper: "dark:bg-eerieBlack-500 dark:bg-none",
+          paper: "!z-10 dark:bg-eerieBlack-500 dark:bg-none",
         }}
       >
         <DrawerList setSidebarOpen={setOpen} />
