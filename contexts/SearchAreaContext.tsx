@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
@@ -22,12 +22,20 @@ export function SearchAreaProvider({ children }) {
   const [searchAreaParams, setSearchAreaParams] = useState({
     startStationId: null,
     endStationId: null,
-    date: DateUtils.getCurrentDate(),
-    time: DateUtils.getCurrentTime(),
+    date: null,
+    time: null,
     activeIndex: SearchAreaActiveIndexEnum.EMPTY,
     layer: SearchAreaLayerEnum.FIRST_LAYER,
     inputValue: "",
   });
+
+  useEffect(() => {
+    setSearchAreaParams({
+      ...searchAreaParams,
+      date: DateUtils.getCurrentDate(),
+      time: DateUtils.getCurrentTime(),
+    });
+  }, []);
 
   return (
     <SearchAreaContext.Provider value={searchAreaParams}>
