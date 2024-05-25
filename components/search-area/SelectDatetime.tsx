@@ -10,6 +10,7 @@ import {
   SearchAreaUpdateContext,
 } from "../../contexts/SearchAreaContext";
 import { DaySegmentEnum } from "../../enums/DateEnum";
+import usePage from "../../hooks/usePageHook";
 import DateUtils from "../../utils/DateUtils";
 
 const NowTimeButton: FC = () => {
@@ -147,6 +148,8 @@ const DatePicker: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
+  const { isTr } = usePage();
+
   // 為了讓 <此刻> 按鈕方便運作，這邊不使用 useState，而是每次 re-render 時直接取得 params 最新值即可
   const selectedDate = moment(params.date);
 
@@ -166,7 +169,7 @@ const DatePicker: FC = () => {
         onChange={(datetime) => setDate(datetime)}
         views={["day"]}
         disablePast={true}
-        maxDate={moment().add(59, "days")}
+        maxDate={moment().add(isTr ? 59 : 28, "days")}
         reduceAnimations={true}
         timezone={"Asia/Taipei"}
         dayOfWeekFormatter={(_day, weekday) => `${_day}`}
