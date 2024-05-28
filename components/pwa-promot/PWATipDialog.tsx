@@ -39,6 +39,7 @@ const PWATipDialog: FC<PWATipDialogProps> = ({ open, setOpen }) => {
               {t("installToDesktopBtn")}
             </ModalHeader>
             <ModalBody className="mb-2">
+              <div className="mb-2">{t("pwaIntro")}</div>
               <div className="mb-2 flex justify-center gap-4">
                 {tabList.map((item) => {
                   return (
