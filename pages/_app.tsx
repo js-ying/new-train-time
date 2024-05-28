@@ -31,7 +31,10 @@ function App({ Component, pageProps }: AppProps) {
         <meta property="og:description" content={`${t("subTitle")}`} />
         <meta property="og:site_name" content={`${t(page + "Title")}`} />
         <meta property="og:url" content="https://traintime.jsy.tw" />
-        <meta property="og:image" content="/images/logos/logo-192.png" />
+        <meta
+          property="og:image"
+          content="https://jsying1994.s3.amazonaws.com/traintime/logo/og-new-train-time-v2.png"
+        />
 
         {/* PWA */}
         <link
