@@ -9,7 +9,6 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../../contexts/SearchAreaContext";
-import { DaySegmentEnum } from "../../enums/DateEnum";
 import usePage from "../../hooks/usePageHook";
 import DateUtils from "../../utils/DateUtils";
 
@@ -38,79 +37,47 @@ const NowTimeButton: FC = () => {
   );
 };
 
-interface AmPmPickerProps {
-  daySeg: DaySegmentEnum;
-  handleAmPmClick: (item: string) => void;
-}
-
-const AmPmPicker: FC<AmPmPickerProps> = ({ daySeg, handleAmPmClick }) => {
-  const itemList = useMemo(() => {
-    return [DaySegmentEnum.AM, DaySegmentEnum.PM];
-  }, []);
-
-  return (
-    <div className="flex gap-0.5">
-      {itemList.map((item) => {
-        return (
-          <div
-            className={`cursor-pointer rounded-md p-1 text-sm transition ${
-              item === daySeg
-                ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-black"
-                : ""
-            }`}
-            key={item}
-            onClick={() => handleAmPmClick(item)}
-          >
-            {item.toUpperCase()}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
 const TimePicker: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const generateOptions = (start: number, end: number): string[] => {
+  const generateOptions = (
+    start: number,
+    end: number,
+    step: number = 1,
+  ): string[] => {
     const options = [];
-    for (let i = start; i <= end; i++) {
+    for (let i = start; i <= end; i += step) {
       options.push(i.toString().padStart(2, "0"));
     }
     return options;
   };
-  const hourOptions = useMemo(() => generateOptions(0, 11), []);
+
+  const hourOptions = useMemo(() => generateOptions(0, 24), []);
   const minOptions = useMemo(() => generateOptions(0, 59), []);
 
   // 為了讓 <AM/PM> 和 <此刻> 按鈕方便運作，這邊不使用 useState，而是每次 re-render 時直接取得 params 最新值即可
-  const hour24 = params.time?.split(":")[0];
-  const hour12 = DateUtils.getHour12ByHour24(hour24);
-  const daySeg = DateUtils.getDaySeg(hour24);
+  const hour = params.time?.split(":")[0];
   const min = params.time?.split(":")[1];
 
-  const setHour = (hour12: string, daySeg: DaySegmentEnum) => {
+  const setHour = (hour: string) => {
     setParams({
       ...params,
-      time: `${DateUtils.getHour24ByDaySeg(hour12, daySeg)}:${min}`,
+      time: `${hour}:${min}`,
     });
   };
 
   const setMin = (min: string) => {
     setParams({
       ...params,
-      time: `${hour24}:${min}`,
+      time: `${hour}:${min}`,
     });
-  };
-
-  const handleAmPmClick = (daySeg: DaySegmentEnum) => {
-    setHour(hour12, daySeg);
   };
 
   return (
     <div className="relative flex items-center">
       <select
-        value={hour12}
-        onChange={(e) => setHour(e.target.value, daySeg)}
+        value={hour}
+        onChange={(e) => setHour(e.target.value)}
         className="common-select"
       >
         {hourOptions.map((hour) => (
@@ -131,9 +98,6 @@ const TimePicker: FC = () => {
           </option>
         ))}
       </select>
-      <div className="ml-2">
-        <AmPmPicker daySeg={daySeg} handleAmPmClick={handleAmPmClick} />
-      </div>
       <div className="absolute -right-14 text-sm">
         <NowTimeButton />
       </div>
