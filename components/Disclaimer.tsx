@@ -7,7 +7,7 @@ const Disclaimer: FC = () => {
   const { page } = usePage();
 
   return (
-    <div className="text-center text-sm text-zinc-500 dark:text-zinc-400">
+    <div className="whitespace-pre-line text-center text-sm text-zinc-500 dark:text-zinc-400">
       {t(page + "DisclaimerMsg")}
     </div>
   );

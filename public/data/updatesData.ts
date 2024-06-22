@@ -2,6 +2,12 @@ export const updateDataList = [
   {
     date: "2024-06",
     type: "both",
+    ver: "1.0.1",
+    items: ["出發時間下拉選單改為 24 時制", "增加資料來源文字說明"],
+  },
+  {
+    date: "2024-06",
+    type: "both",
     ver: "1.0.0",
     items: [
       "新功能：台鐵 / 高鐵時刻 一鍵切換",
