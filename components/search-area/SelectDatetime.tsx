@@ -52,7 +52,7 @@ const TimePicker: FC = () => {
     return options;
   };
 
-  const hourOptions = useMemo(() => generateOptions(0, 24), []);
+  const hourOptions = useMemo(() => generateOptions(0, 23), []);
   const minOptions = useMemo(() => generateOptions(0, 59), []);
 
   // 為了讓 <AM/PM> 和 <此刻> 按鈕方便運作，這邊不使用 useState，而是每次 re-render 時直接取得 params 最新值即可
