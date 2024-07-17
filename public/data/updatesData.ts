@@ -1,5 +1,14 @@
 export const updateDataList = [
   {
+    date: "2024-07",
+    type: "both",
+    ver: "1.0.2",
+    items: [
+      "修正點選「特色介紹」會強制回到中文語系的問題",
+      "舊版更新公告呈現方式調整",
+    ],
+  },
+  {
     date: "2024-06",
     type: "both",
     ver: "1.0.1",
