@@ -9,7 +9,7 @@
     "@mui/material": "^5.14.20",
     "@mui/x-date-pickers": "^6.18.3",
     "@next/third-parties": "^14.2.3",
-    "@nextui-org/react": "^2.2.10",
+    "@nextui-org/react": "^2.4.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "next": "latest",
