@@ -7,6 +7,7 @@ import Head from "next/head";
 import { FC, useMemo, useState } from "react";
 import Layout from "../components/Layout";
 import { PageEnum } from "../enums/PageEnum";
+import useLang from "../hooks/useLangHook";
 import useMuiTheme from "../hooks/useMuiThemeHook";
 import {
   oldThsrUpdateDataList,
@@ -94,6 +95,7 @@ const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
 const Updates: FC = () => {
   const muiTheme = useMuiTheme();
   const { t } = useTranslation();
+  const { isTw } = useLang();
   const [selected, setSelected] = useState(null);
   const { theme } = useTheme();
 
@@ -122,6 +124,11 @@ const Updates: FC = () => {
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto max-w-3xl">
+            {!isTw && (
+              <p className="text-center text-zinc-500 dark:text-zinc-400">
+                {t("pageOnlyTwMsg")}
+              </p>
+            )}
             <div className="mt-8 flex flex-col gap-6">
               <UpdateList dataList={dataList} />
 

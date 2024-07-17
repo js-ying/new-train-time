@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
 import { LocaleEnum } from "../enums/LocaleEnum";
 import { updateDataList } from "../public/data/updatesData";
-import ContactDialog from "./ContactDailog";
+import ContactDialog from "./ContactDialog";
 
 const SidebarIcon: FC = () => {
   return (
