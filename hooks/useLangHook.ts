@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next";
+import { LocaleEnum } from "../enums/LocaleEnum";
 
 interface UseLangResult {
   isTw: boolean;
@@ -7,8 +8,8 @@ interface UseLangResult {
 
 const useLang = (): UseLangResult => {
   const { i18n } = useTranslation();
-  const isTw = i18n.language === "zh-Hant";
-  const isEn = i18n.language === "en";
+  const isTw = i18n.language === LocaleEnum.TW;
+  const isEn = i18n.language === LocaleEnum.EN;
 
   return {
     isTw,

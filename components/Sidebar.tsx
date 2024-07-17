@@ -12,6 +12,7 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
+import { LocaleEnum } from "../enums/LocaleEnum";
 import { updateDataList } from "../public/data/updatesData";
 import ContactDialog from "./ContactDailog";
 
@@ -39,7 +40,7 @@ interface DrawerListProps {
 }
 
 const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const router = useRouter();
 
   const list = useMemo(() => {
@@ -72,7 +73,11 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
 
       case "featureIntroductionMenu":
         // router.push 無法正確觸發 beforeinstallprompt，所以改用 window.location.href
-        window.location.href = "/features";
+        if (i18n.language === LocaleEnum.TW) {
+          window.location.href = "/features";
+        } else {
+          window.location.href = `/${i18n.language}/features`;
+        }
         setSidebarOpen(false);
         break;
 

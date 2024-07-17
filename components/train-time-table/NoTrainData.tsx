@@ -1,6 +1,7 @@
 import { Alert } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
+import { LocaleEnum } from "../../enums/LocaleEnum";
 import DateUtils from "../../utils/DateUtils";
 
 interface NoTrainDataProps {
@@ -27,7 +28,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({ isApiHealth, alertMsg }) => {
         <Alert severity="error" variant="outlined">
           <div className="font-bold">
             {t("noTrainDataDueToApiErrorMsg")}
-            {`${i18n.language === "zh-Hant" ? "" : " "}`}
+            {`${i18n.language === LocaleEnum.TW ? "" : " "}`}
             {`(${DateUtils.getCurrentDatetime()})`}
           </div>
           <div>{alertMsg.toString()}</div>

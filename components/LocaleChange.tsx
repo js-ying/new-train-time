@@ -1,6 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { LocaleEnum } from "../enums/LocaleEnum";
 
 interface LocaleIconProps {
   isRotated: boolean;
@@ -37,8 +38,8 @@ const LocaleDropdown: FC<LocaleDropdownProps> = ({ open, setOpen }) => {
 
   const localeOptions = useMemo(
     () => [
-      { label: "繁體中文", value: "zh-Hant" },
-      { label: "English", value: "en" },
+      { label: "繁體中文", value: LocaleEnum.TW },
+      { label: "English", value: LocaleEnum.EN },
     ],
     [],
   );
@@ -129,7 +130,8 @@ const LocaleChangeBySwitch: FC = () => {
       setIsRotated(true);
     });
 
-    const locale = i18n.language === "en" ? "zh-Hant" : "en";
+    const locale =
+      i18n.language === LocaleEnum.EN ? LocaleEnum.TW : LocaleEnum.EN;
 
     // 改變語系不會改變 pathname，若使用 router.push，同 pathname 的話會無法觸發 query 的改變
     // 所以使用 router.replace
