@@ -1,12 +1,11 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
-import { Button } from "@nextui-org/react";
+import { Switch, Tab, Tabs } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTheme } from "next-themes";
 import Head from "next/head";
 import { FC, useMemo, useState } from "react";
 import Layout from "../components/Layout";
-import { PageEnum } from "../enums/PageEnum";
 import useLang from "../hooks/useLangHook";
 import useMuiTheme from "../hooks/useMuiThemeHook";
 import {
@@ -23,37 +22,37 @@ export async function getStaticProps({ locale }) {
   };
 }
 
-interface ShowOldUpdateListButtonsProps {
-  selected: PageEnum;
-  setSelected: (selected: PageEnum) => void;
-}
+const OldUpdateList: FC = () => {
+  const [open, setOpen] = useState(false);
 
-const ShowOldUpdateListButtons: FC<ShowOldUpdateListButtonsProps> = ({
-  selected,
-  setSelected,
-}) => {
+  const oldTrDatalist = useMemo(() => {
+    return oldTrUpdateDataList;
+  }, []);
+
+  const oldThsrDataList = useMemo(() => {
+    return oldThsrUpdateDataList;
+  }, []);
+
   return (
-    <div className="flex justify-center gap-6 md:gap-10">
-      <Button
-        className="bg-neutral-500 text-white dark:bg-neutral-600"
-        onClick={() =>
-          selected === PageEnum.TR
-            ? setSelected(null)
-            : setSelected(PageEnum.TR)
-        }
-      >
-        台鐵(舊)
-      </Button>
-      <Button
-        className="bg-neutral-500 text-white dark:bg-neutral-600"
-        onClick={() =>
-          selected === PageEnum.THSR
-            ? setSelected(null)
-            : setSelected(PageEnum.THSR)
-        }
-      >
-        高鐵(舊)
-      </Button>
+    <div className="flex flex-col justify-center">
+      <Switch onValueChange={(val) => setOpen(val)} size="sm" color="default">
+        舊系統公告
+      </Switch>
+
+      {open && (
+        <Tabs variant="underlined" className="flex justify-center">
+          <Tab key="oldTr" title="台鐵">
+            <div className="flex flex-col gap-6">
+              <UpdateList dataList={oldTrDatalist} />
+            </div>
+          </Tab>
+          <Tab key="oldThsr" title="高鐵">
+            <div className="flex flex-col gap-6">
+              <UpdateList dataList={oldThsrDataList} />
+            </div>
+          </Tab>
+        </Tabs>
+      )}
     </div>
   );
 };
@@ -74,7 +73,7 @@ const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
         return (
           <div
             className="rounded-md border border-solid border-zinc-700 p-4 dark:border-zinc-200"
-            key={data.date}
+            key={data.ver}
           >
             <div className="mb-2 flex justify-between font-bold text-silverLakeBlue-500 dark:text-gamboge-500">
               <div>{`Ver. ${data.ver} 版本更新`}</div>
@@ -96,19 +95,10 @@ const Updates: FC = () => {
   const muiTheme = useMuiTheme();
   const { t } = useTranslation();
   const { isTw } = useLang();
-  const [selected, setSelected] = useState(null);
   const { theme } = useTheme();
 
   const dataList = useMemo(() => {
     return updateDataList;
-  }, []);
-
-  const oldTrDatalist = useMemo(() => {
-    return oldTrUpdateDataList;
-  }, []);
-
-  const oldThsrDataList = useMemo(() => {
-    return oldThsrUpdateDataList;
   }, []);
 
   return (
@@ -132,17 +122,7 @@ const Updates: FC = () => {
             <div className="mt-8 flex flex-col gap-6">
               <UpdateList dataList={dataList} />
 
-              <ShowOldUpdateListButtons
-                selected={selected}
-                setSelected={setSelected}
-              />
-
-              {selected === PageEnum.TR && (
-                <UpdateList dataList={oldTrDatalist} />
-              )}
-              {selected === PageEnum.THSR && (
-                <UpdateList dataList={oldThsrDataList} />
-              )}
+              <OldUpdateList />
             </div>
           </div>
         </Layout>
