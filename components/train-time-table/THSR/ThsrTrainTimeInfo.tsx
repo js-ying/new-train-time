@@ -41,7 +41,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
     <div
       className={`${
         isTrainPass(
-          params.date,
+          thsrTrainTimeTable.TrainDate,
           DateUtils.getCurrentDate(),
           thsrTrainTimeTable?.OriginStopTime.DepartureTime,
         )

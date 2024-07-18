@@ -40,7 +40,7 @@ const OldUpdateList: FC = () => {
       </Switch>
 
       {open && (
-        <Tabs variant="underlined" className="flex justify-center">
+        <Tabs variant="underlined" className="flex justify-center" size="lg">
           <Tab key="oldTr" title="台鐵">
             <div className="flex flex-col gap-6">
               <UpdateList dataList={oldTrDatalist} />

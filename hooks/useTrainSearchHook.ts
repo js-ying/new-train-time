@@ -58,7 +58,14 @@ const useTrainSearch = (): UseTrainSearchResult => {
 
         const data: TrDailyTrainTimetable = result;
         if (data?.TrainTimetables?.length >= 0) {
-          setTrainTimeTable([...data.TrainTimetables]);
+          const jsyTrTrainTimeTables: JsyTrTrainTimeTable[] = [
+            ...data.TrainTimetables,
+          ];
+          jsyTrTrainTimeTables.forEach(
+            (table: JsyTrTrainTimeTable) =>
+              (table["trainDate"] = data.TrainDate),
+          );
+          setTrainTimeTable(jsyTrTrainTimeTables);
         } else {
           setTrainTimeTable([]);
         }

@@ -21,16 +21,16 @@
   "startStationIsBlankMsg": "Please select 'Departure Station'.",
   "endStationIsBlankMsg": "Please select 'Arrival Station'.",
   "sameStationMsg": "'Departure Station' and 'Arrival Station' cannot be the same.",
-  "datetimeNotAllowMsg": "'Departure Time' can only be selected within today and the next two months.",
+  "datetimeNotAllowMsg": "Only dates within today to the next two months are allowed.",
   "sameQueryMsg": "Duplicate query. Please selecting a different station or departure time.",
   "closeBtn": "Close",
-  "historyInquiry": "History Inquiry: {{nowLength}} / 5",
+  "historyInquiry": "History Inquiry: {{ nowLength }} / 5",
   "trainTypeFilterAll": "All",
   "trainTypeFilterReserved": "Reserved",
   "trainTypeFilterNonReserved": "Non Reserved",
   "trainTableLengthCount": "{{ filter }} / {{ total }}",
   "thsrTrainTableLengthCount": "Total: {{ total }}",
-  "trainInfoTimeDiff": "{{hour}} hour(s) {{min}} min(s)",
+  "trainInfoTimeDiff": "{{ hour }} hour(s) {{ min }} min(s)",
   "trainServiceWheelChairFlag": "Disability seat service",
   "trainServicePackageServiceFlag": "Luggage Service",
   "trainServiceDiningFlag": "Lunchbox order service",
@@ -78,5 +78,6 @@
   "adMsg": "Taiwan Railways/High-Speed Rail data is now being charged. We use ads to reduce some of the burden, and we ask for your understanding.\nYour simple click on the ads can greatly support the website author, enabling them to continue providing a high-quality user experience for everyone.",
   "email": "E-mail",
   "personalWebsite": "Personal Website",
-  "pageOnlyTwMsg": "This page is temporarily unavailable in languages other than Traditional Chinese."
+  "pageOnlyTwMsg": "This page is temporarily unavailable in languages other than Traditional Chinese.",
+  "order": "ORDER"
 }

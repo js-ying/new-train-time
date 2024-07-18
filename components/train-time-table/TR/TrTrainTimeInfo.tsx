@@ -1,5 +1,4 @@
-import { FC, useContext, useState } from "react";
-import { SearchAreaContext } from "../../../contexts/SearchAreaContext";
+import { FC, useState } from "react";
 import useLang from "../../../hooks/useLangHook";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
@@ -7,8 +6,8 @@ import { isTrainPass } from "../../../utils/TrainInfoUtils";
 import TrTimeInfoLeftArea from "../TR/TrTimeInfoLeftArea";
 import TrTimeInfoMidArea from "../TR/TrTimeInfoMidArea";
 import TrTimeInfoRightArea from "../TR/TrTimeInfoRightArea";
-import TrTrainService from "../TR/TrTrainServices";
 import TrTrainTimeDetailDialog from "../TR/TrTrainTimeDetailDialog";
+import TrTrainService from "./TrTrainServices";
 
 interface TrTrainTimeInfoProps {
   trTrainTimeTable: JsyTrTrainTimeTable;
@@ -18,8 +17,6 @@ interface TrTrainTimeInfoProps {
  * [台鐵] 列車時刻資訊
  */
 const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
-  const params = useContext(SearchAreaContext);
-
   const [open, setOpen] = useState(false);
   const openDetail = () => {
     setOpen(true);
@@ -31,7 +28,7 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
     <div
       className={`${
         isTrainPass(
-          params.date,
+          trTrainTimeTable.trainDate,
           DateUtils.getCurrentDate(),
           trTrainTimeTable?.StopTimes[0].DepartureTime,
         )

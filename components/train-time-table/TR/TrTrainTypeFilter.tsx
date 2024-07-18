@@ -2,6 +2,10 @@ import { Button, ButtonGroup } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import {
+  isTrTrainNonReserved,
+  isTrTrainReserved,
+} from "../../../utils/TrainInfoUtils";
 
 interface TrTrainTypeFilterProps {
   dataList: JsyTrTrainTimeTable[];
@@ -32,15 +36,13 @@ const TrTrainTypeFilter: FC<TrTrainTypeFilterProps> = ({
     } else if (trainType === "trainTypeFilterReserved") {
       setFilterDataList(
         dataList.filter((data) =>
-          ["1", "2", "3", "4", "5", "11"].includes(
-            data.TrainInfo.TrainTypeCode,
-          ),
+          isTrTrainReserved(data.TrainInfo.TrainTypeCode),
         ),
       );
     } else {
       setFilterDataList(
         dataList.filter((data) =>
-          ["6", "7", "10"].includes(data.TrainInfo.TrainTypeCode),
+          isTrTrainNonReserved(data.TrainInfo.TrainTypeCode),
         ),
       );
     }

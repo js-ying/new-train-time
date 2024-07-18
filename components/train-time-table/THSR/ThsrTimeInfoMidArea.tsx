@@ -1,6 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { FC, useContext } from "react";
-import { SearchAreaContext } from "../../../contexts/SearchAreaContext";
+import { FC } from "react";
 import { ThsrDailyTimetable } from "../../../types/thsr-train-time-table";
 import { getTimeDiff } from "../../../utils/TrainInfoUtils";
 
@@ -10,11 +9,10 @@ interface ThsrTimeInfoMidAreaProps {
 
 const ThsrTimeInfoMidArea: FC<ThsrTimeInfoMidAreaProps> = ({ data }) => {
   const { t } = useTranslation();
-  const params = useContext(SearchAreaContext);
   const timeDiff = getTimeDiff(
     data.OriginStopTime.DepartureTime,
     data.DestinationStopTime.ArrivalTime,
-    params.date,
+    data.TrainDate,
   );
 
   return (

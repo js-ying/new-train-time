@@ -4,10 +4,13 @@ import {
 } from "../types/thsr-train-time-table";
 import { getTdxLang } from "./LocaleUtils";
 
+/**
+ * 列車是否已發車
+ */
 export const isTrainPass = (
   date: string,
   currentDate: string,
-  departureTime: string,
+  departureTime: string, // mm:ss
 ): boolean => {
   // 若查詢日期與當下日期相同
   if (date === currentDate) {
@@ -23,6 +26,11 @@ export const isTrainPass = (
 
   return false;
 };
+
+/**
+ * [台鐵] 是否可訂票
+ */
+export const isTrTrainOrderable = () => {};
 
 /**
  * 取得 [台鐵] 山海線名稱 by Value
@@ -107,6 +115,20 @@ export const getTrTrainTypeNameByCode = (trainTypeCode, lang): string => {
 };
 
 /**
+ * [台鐵] 車種是否為對號列車
+ */
+export const isTrTrainReserved = (trainTypeCode: string): boolean => {
+  return ["1", "2", "3", "4", "5", "11"].includes(trainTypeCode);
+};
+
+/**
+ * [台鐵] 車種是否為非對號列車
+ */
+export const isTrTrainNonReserved = (trainTypeCode: string): boolean => {
+  return ["6", "7", "10"].includes(trainTypeCode);
+};
+
+/**
  * 取得列車行駛時間
  * @param startTime HH:mm
  * @param endTime HH:mm
@@ -149,7 +171,7 @@ export const getTimeDiff = (
 };
 
 /**
- * 取得高鐵列車資訊 by 定期時刻表
+ * 取得 [高鐵] 列車資訊 by 定期時刻表
  * @param generalTimeTable
  * @param trainNo
  * @returns

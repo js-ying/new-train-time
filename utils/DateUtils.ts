@@ -21,6 +21,17 @@ const DateUtils = {
   isAfter: (date1: string, date2: string): boolean => {
     return moment(date1).isAfter(date2);
   },
+  isWithinMinutes: (datetimeA: string, datetimeB: string, minutes) => {
+    const momentA = moment(datetimeA);
+    const momentB = moment(datetimeB);
+    console.log(momentA, momentB);
+
+    // 獲取時間 B 往前推 30 分鐘的時間
+    const timeBMinus30Minutes = momentB.clone().subtract(minutes, "minutes");
+
+    // 檢查時間 A 是否在時間 B 減去 30 分鐘的時間和時間 B 之間
+    return momentA.isBetween(timeBMinus30Minutes, momentB, null, "[]");
+  },
   /**
    * 取得時間 by Url 參數
    * @param urlTimeParam mmss
@@ -73,6 +84,9 @@ const DateUtils = {
     return Number(hour24) >= 13 && Number(hour24) <= 24
       ? DaySegmentEnum.PM
       : DaySegmentEnum.AM;
+  },
+  dateFormatter: (date: string, formatter: string) => {
+    return moment(date).format(formatter);
   },
 };
 

@@ -21,16 +21,16 @@
   "startStationIsBlankMsg": "請選擇「出發車站」。",
   "endStationIsBlankMsg": "請選擇「抵達車站」。",
   "sameStationMsg": "「出發車站」和「抵達車站」不得相同。",
-  "datetimeNotAllowMsg": "「出發時間」只可選擇今日至未來兩個月內的範圍。",
+  "datetimeNotAllowMsg": "只可查詢今天 ~ 未來兩個月內的日期。",
   "sameQueryMsg": "重覆查詢，請選擇別的車站或出發時間。",
   "closeBtn": "關閉",
-  "historyInquiry": "歷史查詢：共 {{nowLength}} / 5 筆",
+  "historyInquiry": "歷史查詢：共 {{ nowLength }} / 5 筆",
   "trainTypeFilterAll": "全部",
   "trainTypeFilterReserved": "對號列車",
   "trainTypeFilterNonReserved": "非對號列車",
   "trainTableLengthCount": "共 {{ filter }} / {{ total }} 筆",
   "thsrTrainTableLengthCount": "共 {{ total }} 筆",
-  "trainInfoTimeDiff": "{{hour}} 時 {{min}} 分",
+  "trainInfoTimeDiff": "{{ hour }} 時 {{ min }} 分",
   "trainServiceWheelChairFlag": "身障旅客專用座位車",
   "trainServicePackageServiceFlag": "行李服務",
   "trainServiceDiningFlag": "訂便當服務",
@@ -78,5 +78,6 @@
   "adMsg": "台鐵/高鐵資料已開始收費。以廣告減少部份負擔，請見諒。\n您的順手點擊廣告，可給予網站作者一臂之力，繼續提供優質的使用體驗給大家。",
   "email": "信箱",
   "personalWebsite": "個人網站",
-  "pageOnlyTwMsg": "本頁面暫時不提供繁體中文以外的語言。"
+  "pageOnlyTwMsg": "本頁面暫時不提供繁體中文以外的語言。",
+  "order": "訂票"
 }

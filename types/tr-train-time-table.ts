@@ -12,6 +12,7 @@ export interface JsyTrTrainTimeTable {
   StopTimes: TrStopTime[];
   fareList: TrOfFare[];
   delayInfo: TrDelayInfo[];
+  trainDate: string;
 }
 
 export interface TrTrainInfo {

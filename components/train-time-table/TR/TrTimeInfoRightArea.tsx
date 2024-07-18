@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import TrOrder, { isShowTrOrderBtn } from "./TrOrder";
 
 interface TrTimeInfoRightAreaProps {
   data: JsyTrTrainTimeTable;
@@ -7,11 +8,17 @@ interface TrTimeInfoRightAreaProps {
 
 const TrTimeInfoRightArea: FC<TrTimeInfoRightAreaProps> = ({ data }) => {
   return (
-    <>
-      <span title="全票票價" className="text-sm">
+    <div
+      className={`flex flex-col gap-0.5 ${
+        isShowTrOrderBtn(data) ? "my-4" : ""
+      }`}
+    >
+      <span className="text-sm">
         NTD {data.fareList.length > 0 && data.fareList[0].Price}
       </span>
-    </>
+
+      {isShowTrOrderBtn(data) && <TrOrder data={data} />}
+    </div>
   );
 };
 

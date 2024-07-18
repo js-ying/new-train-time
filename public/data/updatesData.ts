@@ -2,6 +2,12 @@ export const updateDataList = [
   {
     date: "2024-07",
     type: "both",
+    ver: "1.0.3",
+    items: ["新增台鐵訂票功能（導頁至台鐵官網訂票）"],
+  },
+  {
+    date: "2024-07",
+    type: "both",
     ver: "1.0.2",
     items: [
       "修正點選「特色介紹」會強制回到中文語系的問題",
