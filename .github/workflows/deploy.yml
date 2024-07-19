@@ -33,8 +33,8 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             echo "Connected to server"
+            source ~/.zshrc
             cd /var/www/html/jsy.tw/fullstack/new-train-time
-            nvm use v20
             node -v
             pm2 --version
             npm install
