@@ -34,9 +34,11 @@ jobs:
           script: |
             echo "Connected to server"
             source ~/.zshrc
-            cd /var/www/html/jsy.tw/fullstack/new-train-time
+            nvm use v20
             node -v
             pm2 --version
+            cd /var/www/html/jsy.tw/fullstack/new-train-time
+            git pull origin main
             npm install
             npm run build
             pm2 restart new-train-time
