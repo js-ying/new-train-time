@@ -32,12 +32,13 @@ const WebIntroduction: FC = () => {
 
   return (
     <div className="grid grid-cols-3 gap-4 pt-4">
-      <Image
-        src={`https://jsying1994.s3.amazonaws.com/traintime/logo/logo-lg.png`}
-        alt="traintime-logo"
-        width={200}
-        height={200}
-      />
+      <div className="max-h-[200px] max-w-[200px]">
+        <Image
+          src={`https://jsying1994.s3.amazonaws.com/traintime/logo/logo-lg.png`}
+          alt="traintime-logo"
+          sizes="100vw"
+        />
+      </div>
       <div className="col-span-2 grid content-between gap-2">
         <div>
           <div className="text-lg font-bold">{t("trTitle")}</div>
