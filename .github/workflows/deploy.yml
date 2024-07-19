@@ -34,8 +34,8 @@ jobs:
           script: |
             echo "Connected to server"
             cd /var/www/html/jsy.tw/fullstack/new-train-time
+            nvm use v20
             node -v
-            npm -v
             pm2 --version
             npm install
             npm run build
