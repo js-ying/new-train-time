@@ -32,7 +32,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            echo "Connected to server"
             cd /var/www/html/jsy.tw/fullstack/new-train-time
+            node -v
+            npm -v
+            pm2 --version
             npm install
             npm run build
             pm2 restart new-train-time
