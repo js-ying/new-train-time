@@ -24,7 +24,6 @@ const DateUtils = {
   isWithinMinutes: (datetimeA: string, datetimeB: string, minutes) => {
     const momentA = moment(datetimeA);
     const momentB = moment(datetimeB);
-    console.log(momentA, momentB);
 
     // 獲取時間 B 往前推 30 分鐘的時間
     const timeBMinus30Minutes = momentB.clone().subtract(minutes, "minutes");

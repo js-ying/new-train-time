@@ -101,7 +101,7 @@ const SearchButton: FC = () => {
       <CommonDialog
         open={alertOptions.alertOpen}
         setOpen={alertOptions.setAlertOpen}
-        alertMsg={alertOptions.alertMsg}
+        msg={alertOptions.alertMsg}
       />
     </>
   );

@@ -3,9 +3,11 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC, useEffect, useState } from "react";
 import Disclaimer from "../components/Disclaimer";
 import Layout from "../components/Layout";
+import TrOrderDescription from "../components/TrOrderDescription";
 import SearchArea from "../components/search-area/SearchArea";
 import SearchHistory from "../components/search-area/SearchHistory";
 import useMuiTheme from "../hooks/useMuiThemeHook";
+import usePage from "../hooks/usePageHook";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -18,6 +20,7 @@ export async function getStaticProps({ locale }) {
 /** [頁面] 首頁 */
 const Home: FC = () => {
   const muiTheme = useMuiTheme();
+  const { isTr } = usePage();
 
   const [showDisclaimer, setShowDisclaimer] = useState(false);
 
@@ -33,6 +36,8 @@ const Home: FC = () => {
           <SearchHistory />
         </div>
         <div className="mt-7">{showDisclaimer && <Disclaimer />}</div>
+
+        {isTr && showDisclaimer && <TrOrderDescription />}
       </Layout>
     </MuiThemeProvider>
   );

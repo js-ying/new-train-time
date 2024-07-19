@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   Modal,
   ModalBody,
   ModalContent,
@@ -6,53 +7,83 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
-import { FC } from "react";
-
-const ErrorIcon: FC = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="h-6 w-6"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
-      />
-    </svg>
-  );
-};
+import { FC, useState } from "react";
 
 interface CommonDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  alertMsg: string;
+  msg: string;
+
+  // 標題 -> 預設 "錯誤訊息"
+  title?: string | "errorAlertTitle";
+
+  // 尺寸 -> 預設 "sm"
+  size?:
+    | "sm"
+    | "lg"
+    | "md"
+    | "xl"
+    | "2xl"
+    | "xs"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "full";
+
+  // 內容對齊 -> 預設置中
+  bodyTextAlign?: "text-center" | "text-left" | "text-right";
+
+  // 啟用 "不再顯示" checkbox -> 預設 false
+  enableDoNotShowAgainCheckbox?: boolean;
 }
 
-const CommonDialog: FC<CommonDialogProps> = ({ open, setOpen, alertMsg }) => {
+/**
+ * 通用彈窗
+ */
+const CommonDialog: FC<CommonDialogProps> = (props) => {
   const { t } = useTranslation();
+  const [doNotShowAgain, setDoNotShowAgain] = useState(false);
+
+  const customCloseEvent = () => {
+    if (props.enableDoNotShowAgainCheckbox) {
+      if (doNotShowAgain) {
+        window.localStorage.setItem(`${props.msg}_disabled`, "true");
+      }
+    }
+  };
 
   return (
     <Modal
-      isOpen={open}
-      onOpenChange={setOpen}
-      size="sm"
+      isOpen={props.open}
+      onOpenChange={props.setOpen}
+      size={props.size || "sm"}
       classNames={{
         base: "bg-white dark:bg-eerieBlack-500",
         header: "flex items-center justify-center gap-2",
-        body: "text-center",
+        body: props.bodyTextAlign || "text-center",
       }}
+      isDismissable={!props.enableDoNotShowAgainCheckbox}
+      isKeyboardDismissDisabled={props.enableDoNotShowAgainCheckbox}
+      onClose={customCloseEvent}
     >
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>{t("errorAlertTitle")}</ModalHeader>
-            <ModalBody>{t(alertMsg) || alertMsg}</ModalBody>
-            <ModalFooter></ModalFooter>
+            <ModalHeader>
+              {t(props.title) || props.title || t("errorAlertTitle")}
+            </ModalHeader>
+            <ModalBody>{t(props.msg) || props.msg}</ModalBody>
+
+            <ModalFooter>
+              {props.enableDoNotShowAgainCheckbox && (
+                <Checkbox
+                  isSelected={doNotShowAgain}
+                  onValueChange={setDoNotShowAgain}
+                >
+                  {t("doNotShowAgainMsg")}
+                </Checkbox>
+              )}
+            </ModalFooter>
           </>
         )}
       </ModalContent>

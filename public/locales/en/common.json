@@ -17,6 +17,10 @@
   "endStationInputPlaceholder": "Arrival Station (e.g. Taipei)",
   "searchBtn": "Search",
   "errorAlertTitle": "Error Message",
+  "announcementTitle": "Announcement",
+  "doNotShowAgainMsg": "Don't show again",
+  "trOrderDescription": "Ticket Booking Description",
+  "announcementTrOrderV1": "Starting today, we offer a 'guidance' service for TRA ticket booking, helping users navigate to the Taiwan Railways website with train information automatically filled in. However, the presence of a booking button does not guarantee available seats. The final booking result is subject to the Taiwan Railways website.",
   "bothStationAreBlankMsg": "Please select 'Departure Station' and 'Arrival Station'.",
   "startStationIsBlankMsg": "Please select 'Departure Station'.",
   "endStationIsBlankMsg": "Please select 'Arrival Station'.",
@@ -79,5 +83,5 @@
   "email": "E-mail",
   "personalWebsite": "Personal Website",
   "pageOnlyTwMsg": "This page is temporarily unavailable in languages other than Traditional Chinese.",
-  "order": "ORDER"
+  "order": "BOOKING"
 }
