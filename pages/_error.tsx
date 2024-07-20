@@ -8,7 +8,7 @@ const Error = ({ statusCode }) => {
       </Head>
       <div className="flex h-screen w-full items-center justify-center">
         <div className="text-center">
-          <div className="mb-4 text-2xl">
+          <div className="mb-4 text-2xl font-bold">
             {statusCode === 404
               ? `404 Not Found`
               : `${statusCode || ""} Sorry, something went wrong.`}
