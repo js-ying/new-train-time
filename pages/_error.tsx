@@ -4,7 +4,7 @@ const Error = ({ statusCode }) => {
   return (
     <>
       <Head>
-        <title>{"Error Page"}</title>
+        <title>{"錯誤頁面 - 台鐵時刻查詢"}</title>
       </Head>
       <div className="flex h-screen w-full items-center justify-center">
         <div className="text-center">

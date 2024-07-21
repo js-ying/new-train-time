@@ -10,7 +10,7 @@ const TrTimeInfoRightArea: FC<TrTimeInfoRightAreaProps> = ({ data }) => {
   return (
     <div
       className={`flex flex-col gap-0.5 ${
-        isShowTrOrderBtn(data) ? "my-4" : ""
+        isShowTrOrderBtn(data) ? "my-5" : ""
       }`}
     >
       <span className="text-sm">
