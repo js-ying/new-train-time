@@ -45,9 +45,11 @@ const Search: FC = () => {
       <Layout>
         <SearchArea />
 
-        <div className="mt-7">
-          <TyphoonAlert />
-        </div>
+        {(hasTrData || hasThsrData || noData) && (
+          <div className="mt-7">
+            <TyphoonAlert />
+          </div>
+        )}
 
         <div className="mt-5">
           {/* [台鐵] 有列車資料 */}
