@@ -83,5 +83,6 @@
   "email": "信箱",
   "personalWebsite": "個人網站",
   "pageOnlyTwMsg": "本頁面暫時不提供繁體中文以外的語言。",
-  "order": "訂票"
+  "order": "訂票",
+  "typhoonAlertMsg": "由於颱風影響，列車行/停駛的最新消息請參考台鐵/高鐵官方最新公告。"
 }

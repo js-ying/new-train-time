@@ -5,6 +5,7 @@ import AdBanner from "../components/AdBanner";
 import CommonDialog from "../components/CommonDialog";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
+import TyphoonAlert from "../components/TyphoonAlert";
 import SearchArea from "../components/search-area/SearchArea";
 import NoTrainData from "../components/train-time-table/NoTrainData";
 import ThsrTrainTimeTable from "../components/train-time-table/THSR/ThsrTrainTimeTable";
@@ -43,6 +44,10 @@ const Search: FC = () => {
     <MuiThemeProvider theme={muiTheme}>
       <Layout>
         <SearchArea />
+
+        <div className="mt-7">
+          <TyphoonAlert />
+        </div>
 
         <div className="mt-5">
           {/* [台鐵] 有列車資料 */}
