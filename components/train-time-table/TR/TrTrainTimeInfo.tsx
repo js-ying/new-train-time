@@ -7,6 +7,7 @@ import TrTimeInfoLeftArea from "../TR/TrTimeInfoLeftArea";
 import TrTimeInfoMidArea from "../TR/TrTimeInfoMidArea";
 import TrTimeInfoRightArea from "../TR/TrTimeInfoRightArea";
 import TrTrainTimeDetailDialog from "../TR/TrTrainTimeDetailDialog";
+import { isShowTrOrderBtn } from "./TrOrder";
 import TrTrainService from "./TrTrainServices";
 
 interface TrTrainTimeInfoProps {
@@ -37,10 +38,12 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
       }`}
     >
       <div
-        className="relative grid cursor-pointer grid-cols-4 items-center
+        className={`relative grid cursor-pointer grid-cols-4 items-center
           justify-between rounded-md border border-solid border-zinc-700 p-2
           transition duration-150 ease-out
-          dark:border-zinc-200"
+          dark:border-zinc-200 ${
+            isShowTrOrderBtn(trTrainTimeTable) ? "h-[108px] md:h-fit" : ""
+          }`}
         onClick={openDetail}
       >
         <div className="text-center">

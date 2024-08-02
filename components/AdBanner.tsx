@@ -11,8 +11,8 @@ const AdBanner: FC = () => {
   return (
     <>
       <div
-        className="relative h-[268px] rounded-md border border-solid border-zinc-700
-        p-2 transition duration-150 ease-out dark:border-zinc-200"
+        className="relative h-[268px] rounded-md border border-solid border-zinc-700 p-2
+        transition duration-150 ease-out dark:border-zinc-200 md:h-[108px]"
       >
         <ins
           className="adsbygoogle block h-full w-full"

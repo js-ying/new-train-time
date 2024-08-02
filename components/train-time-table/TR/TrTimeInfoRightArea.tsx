@@ -8,11 +8,7 @@ interface TrTimeInfoRightAreaProps {
 
 const TrTimeInfoRightArea: FC<TrTimeInfoRightAreaProps> = ({ data }) => {
   return (
-    <div
-      className={`flex flex-col gap-0.5 ${
-        isShowTrOrderBtn(data) ? "my-5" : ""
-      }`}
-    >
+    <div className={`flex flex-col gap-0.5`}>
       <span className="text-sm">
         NTD {data.fareList.length > 0 && data.fareList[0].Price}
       </span>
