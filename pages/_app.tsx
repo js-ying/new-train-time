@@ -20,7 +20,7 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <link rel="shortcut icon" href="/images/logos/logo-32.png" />
-        <title>{`${t(page + "Title")}｜${t("subTitle")}`}</title>
+        <title>{`${t(page + "Title")}`}</title>
         <meta name="description" content={t("webDescription")}></meta>
         <meta
           name="viewport"
