@@ -9,11 +9,11 @@ const TrOrderDescription: FC = () => {
     useState(false);
 
   useEffect(() => {
-    setOpenAnnouncementCheckbox(
-      window.localStorage.getItem("announcementTrOrderV1_disabled")
-        ? false
-        : true,
-    );
+    // setOpenAnnouncementCheckbox(
+    //   window.localStorage.getItem("announcementTrOrderV1_disabled")
+    //     ? false
+    //     : true,
+    // );
   }, []);
 
   return (

@@ -2,6 +2,12 @@ export const updateDataList = [
   {
     date: "2024-07",
     type: "both",
+    ver: "1.1.1",
+    items: ["移除首頁訂票公告的自動彈窗", "縮小電腦版廣告橫幅"],
+  },
+  {
+    date: "2024-07",
+    type: "both",
     ver: "1.1.0",
     items: [
       "提供台鐵訂票「導頁」服務（協助使用者跳轉至台鐵官網並自動填入車次資料）",
