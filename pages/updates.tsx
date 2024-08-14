@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import Head from "next/head";
 import { FC, useMemo, useState } from "react";
 import Layout from "../components/Layout";
+import { GaEnum } from "../enums/GaEnum";
 import useLang from "../hooks/useLangHook";
 import useMuiTheme from "../hooks/useMuiThemeHook";
 import {
@@ -13,6 +14,7 @@ import {
   oldTrUpdateDataList,
   updateDataList,
 } from "../public/data/updatesData";
+import { gaClickEvent } from "../utils/GaUtils";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -35,7 +37,14 @@ const OldUpdateList: FC = () => {
 
   return (
     <div className="flex flex-col justify-center">
-      <Switch onValueChange={(val) => setOpen(val)} size="sm" color="default">
+      <Switch
+        onValueChange={(val) => {
+          gaClickEvent(GaEnum.OLD_SYSTEM_ANNOUNCEMENT);
+          setOpen(val);
+        }}
+        size="sm"
+        color="default"
+      >
         舊系統公告
       </Switch>
 

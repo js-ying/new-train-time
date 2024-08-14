@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC, useState } from "react";
+import { GaEnum } from "../../../enums/GaEnum";
 import {
   ThsrDailyFreeSeatingCar,
   ThsrDailyTimetable,
@@ -17,6 +18,7 @@ import {
   ThsrOdFare,
   ThsrTdxGeneralTimeTable,
 } from "../../../types/thsr-train-time-table";
+import { gaClickEvent } from "../../../utils/GaUtils";
 import { getTdxLang } from "../../../utils/LocaleUtils";
 import { getThsrGeneralTrainInfo } from "../../../utils/TrainInfoUtils";
 import Dot from "../../Dot";
@@ -183,6 +185,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
 
   const capture = () => {
     setCapturing(true);
+    gaClickEvent(GaEnum.THSR_TRAIN_DETAIL_CAPTURE);
     setTimeout(() => {
       downloadPng();
     }, 1000);

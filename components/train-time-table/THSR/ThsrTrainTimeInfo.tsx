@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { GaEnum } from "../../../enums/GaEnum";
 import {
   ThsrDailyFreeSeatingCar,
   ThsrDailyTimetable,
@@ -6,6 +7,7 @@ import {
   ThsrTdxGeneralTimeTable,
 } from "../../../types/thsr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
+import { gaClickEvent } from "../../../utils/GaUtils";
 import { isTrainPass } from "../../../utils/TrainInfoUtils";
 import ThsrServiceDay from "../THSR/ThsrServiceDay";
 import ThsrTimeInfoLeftArea from "../THSR/ThsrTimeInfoLeftArea";
@@ -31,6 +33,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const openDetail = () => {
+    gaClickEvent(GaEnum.THSR_TRAIN_INFO);
     setOpen(true);
   };
 

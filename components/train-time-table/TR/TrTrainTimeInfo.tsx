@@ -1,7 +1,9 @@
 import { FC, useState } from "react";
+import { GaEnum } from "../../../enums/GaEnum";
 import useLang from "../../../hooks/useLangHook";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
+import { gaClickEvent } from "../../../utils/GaUtils";
 import { isTrainPass } from "../../../utils/TrainInfoUtils";
 import TrTimeInfoLeftArea from "../TR/TrTimeInfoLeftArea";
 import TrTimeInfoMidArea from "../TR/TrTimeInfoMidArea";
@@ -20,6 +22,7 @@ interface TrTrainTimeInfoProps {
 const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
   const [open, setOpen] = useState(false);
   const openDetail = () => {
+    gaClickEvent(GaEnum.TR_TRAIN_INFO);
     setOpen(true);
   };
 

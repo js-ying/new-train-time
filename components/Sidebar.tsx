@@ -12,8 +12,10 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
+import { GaEnum } from "../enums/GaEnum";
 import { LocaleEnum } from "../enums/LocaleEnum";
 import { updateDataList } from "../public/data/updatesData";
+import { gaClickEvent } from "../utils/GaUtils";
 import ContactDialog from "./ContactDialog";
 
 const SidebarIcon: FC = () => {
@@ -89,6 +91,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         break;
 
       case "contactMeMenu":
+        gaClickEvent(GaEnum.CONTACT_ME);
         setOpen(true);
         break;
 

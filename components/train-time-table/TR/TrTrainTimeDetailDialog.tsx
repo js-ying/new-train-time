@@ -10,8 +10,10 @@ import {
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC, useState } from "react";
+import { GaEnum } from "../../../enums/GaEnum";
 import useLang from "../../../hooks/useLangHook";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { gaClickEvent } from "../../../utils/GaUtils";
 import { getTdxLang } from "../../../utils/LocaleUtils";
 import {
   getTrTrainTypeNameByCode,
@@ -161,6 +163,7 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
 
   const capture = () => {
     setCapturing(true);
+    gaClickEvent(GaEnum.TR_TRAIN_DETAIL_CAPTURE);
     setTimeout(() => {
       downloadPng();
     }, 1000);

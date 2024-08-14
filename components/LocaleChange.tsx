@@ -1,7 +1,9 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { GaEnum } from "../enums/GaEnum";
 import { LocaleEnum } from "../enums/LocaleEnum";
+import { gaClickEvent } from "../utils/GaUtils";
 
 interface LocaleIconProps {
   isRotated: boolean;
@@ -132,6 +134,10 @@ const LocaleChangeBySwitch: FC = () => {
 
     const locale =
       i18n.language === LocaleEnum.EN ? LocaleEnum.TW : LocaleEnum.EN;
+
+    gaClickEvent(
+      i18n.language === LocaleEnum.EN ? GaEnum.CH_LANG : GaEnum.EN_LANG,
+    );
 
     // 改變語系不會改變 pathname，若使用 router.push，同 pathname 的話會無法觸發 query 的改變
     // 所以使用 router.replace

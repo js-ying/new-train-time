@@ -1,5 +1,7 @@
 import { useTheme } from "next-themes";
 import { FC, useEffect, useState } from "react";
+import { GaEnum } from "../enums/GaEnum";
+import { gaClickEvent } from "../utils/GaUtils";
 
 const LightModeIcon: FC = () => {
   return (
@@ -67,6 +69,7 @@ const ThemeSwitch: FC = () => {
     setTheme(mode);
     setMetaThemeColor(mode);
     localStorage.setItem("theme", mode);
+    gaClickEvent(mode === "light" ? GaEnum.LIGHT_MODE : GaEnum.DARK_MODE);
   };
 
   // 設定 META 主題顏色（for PWA 時工具列的背景顏色）
