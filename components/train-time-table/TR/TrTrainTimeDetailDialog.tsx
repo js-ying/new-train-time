@@ -164,7 +164,11 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
         };
 
         if (navigator.canShare(shareData)) {
-          await navigator.share(shareData);
+          try {
+            await navigator.share(shareData);
+          } catch {
+            setCapturing(false);
+          }
         }
       } else {
         const link = document.createElement("a");
