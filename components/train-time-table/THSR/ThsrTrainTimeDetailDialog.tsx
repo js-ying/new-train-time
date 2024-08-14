@@ -221,7 +221,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
           base: "bg-white dark:bg-eerieBlack-500",
           header: "flex items-center justify-center gap-2",
         }}
-        scrollBehavior="inside"
+        scrollBehavior={capturing ? "outside" : "inside"}
         size="2xl"
         hideCloseButton={capturing ? true : false}
       >
