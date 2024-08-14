@@ -3,6 +3,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "dev-ssl": "next dev --experimental-https",
     "start": "next start"
   },
   "dependencies": {
