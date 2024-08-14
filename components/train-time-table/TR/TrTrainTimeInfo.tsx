@@ -28,6 +28,7 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
   return (
     <div
       className={`${
+        !open &&
         isTrainPass(
           trTrainTimeTable.trainDate,
           DateUtils.getCurrentDate(),

@@ -1,5 +1,4 @@
-import { FC, useContext, useState } from "react";
-import { SearchAreaContext } from "../../../contexts/SearchAreaContext";
+import { FC, useState } from "react";
 import {
   ThsrDailyFreeSeatingCar,
   ThsrDailyTimetable,
@@ -30,8 +29,6 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
   thsrTdxGeneralTimeTable,
   thsrOdFare,
 }) => {
-  const params = useContext(SearchAreaContext);
-
   const [open, setOpen] = useState(false);
   const openDetail = () => {
     setOpen(true);
@@ -40,6 +37,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
   return (
     <div
       className={`${
+        !open &&
         isTrainPass(
           thsrTrainTimeTable.TrainDate,
           DateUtils.getCurrentDate(),
