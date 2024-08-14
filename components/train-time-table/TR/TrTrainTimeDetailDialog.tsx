@@ -152,11 +152,27 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
   const [_, downloadPng] = useToPng<HTMLDivElement>({
     selector: ".tr-detail-dialog",
     quality: 0.8,
-    onSuccess: (imageSrc) => {
-      const link = document.createElement("a");
-      link.download = `${data.trainDate}_${data.TrainInfo.TrainNo}`;
-      link.href = imageSrc;
-      link.click();
+    onSuccess: async (base64Image: string) => {
+      const imageName = `${data.trainDate}_${data.TrainInfo.TrainNo}`;
+
+      if (navigator.canShare) {
+        const response = await fetch(base64Image);
+        const blob = await response.blob();
+
+        const shareData = {
+          files: [new File([blob], `${imageName}.png`, { type: "image/png" })],
+        };
+
+        if (navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+        }
+      } else {
+        const link = document.createElement("a");
+        link.download = `${imageName}`;
+        link.href = base64Image;
+        link.click();
+      }
+
       setCapturing(false);
     },
   });
