@@ -1,5 +1,14 @@
 export const updateDataList = [
   {
+    date: "2024-08",
+    type: "both",
+    ver: "1.1.2",
+    items: [
+      "新增詳細時刻表彈窗的拍照截圖功能",
+      "修正英文版台鐵時刻表於手機上會跑版的問題",
+    ],
+  },
+  {
     date: "2024-07",
     type: "both",
     ver: "1.1.1",
