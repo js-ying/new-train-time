@@ -2,12 +2,12 @@ import { FC } from "react";
 
 const Loading: FC = () => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
       <div role="status" className="flex flex-col justify-center gap-2">
         <div className="flex justify-center">
           <svg
             aria-hidden="true"
-            className="fill-silverLakeBlue-500 dark:fill-gamboge-500 h-8 w-8 animate-spin text-gray-200"
+            className="h-8 w-8 animate-spin fill-silverLakeBlue-500 text-gray-200 dark:fill-gamboge-500"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

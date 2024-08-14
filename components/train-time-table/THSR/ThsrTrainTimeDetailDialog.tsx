@@ -1,3 +1,4 @@
+import { useToPng } from "@hugocxl/react-to-image";
 import Chip from "@mui/material/Chip";
 import {
   Button,
@@ -8,7 +9,7 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   ThsrDailyFreeSeatingCar,
   ThsrDailyTimetable,
@@ -19,6 +20,8 @@ import {
 import { getTdxLang } from "../../../utils/LocaleUtils";
 import { getThsrGeneralTrainInfo } from "../../../utils/TrainInfoUtils";
 import Dot from "../../Dot";
+import Loading from "../../Loading";
+import CaptureIcon from "../../icons/CaptureIcon";
 import ThsrFreeSeat from "./ThsrFreeSeat";
 import ThsrPriceInfo from "./ThsrPriceInfo";
 import ThsrServiceDay from "./ThsrServiceDay";
@@ -59,6 +62,7 @@ const TrainDetail: FC<TrainDetailProps> = ({
       <div className="flex gap-2">
         <Chip label={t("timeRange")} size="small" color="primary" />
         <div className="flex items-center">
+          {thsrTrainTimeTable.TrainDate}{" "}
           {thsrTrainTimeTable.OriginStopTime.DepartureTime} -{" "}
           {thsrTrainTimeTable.DestinationStopTime.ArrivalTime}
         </div>
@@ -163,67 +167,105 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
 }) => {
   const { t, i18n } = useTranslation();
 
+  const [capturing, setCapturing] = useState(false);
+
+  const [_, downloadPng] = useToPng<HTMLDivElement>({
+    selector: ".thsr-detail-dialog",
+    quality: 0.8,
+    onSuccess: (imageSrc) => {
+      const link = document.createElement("a");
+      link.download = `${thsrTrainTimeTable.TrainDate}_${thsrTrainTimeTable.DailyTrainInfo.TrainNo}.jpeg`;
+      link.href = imageSrc;
+      link.click();
+      setCapturing(false);
+    },
+  });
+
+  const capture = () => {
+    setCapturing(true);
+    setTimeout(() => {
+      downloadPng();
+    }, 1000);
+  };
+
   return (
-    <Modal
-      isOpen={open}
-      onOpenChange={setOpen}
-      classNames={{
-        base: "bg-white dark:bg-eerieBlack-500",
-        header: "flex items-center justify-center gap-2",
-      }}
-      scrollBehavior="inside"
-      size="2xl"
-    >
-      <ModalContent>
-        {(onClose) => (
-          <>
-            <ModalHeader>
-              {thsrTrainTimeTable.DailyTrainInfo.TrainNo}{" "}
-              {
-                thsrTrainTimeTable.DailyTrainInfo.StartingStationName[
-                  getTdxLang(i18n.language)
-                ]
-              }{" "}
-              -{" "}
-              {
-                thsrTrainTimeTable.DailyTrainInfo.EndingStationName[
-                  getTdxLang(i18n.language)
-                ]
-              }
-            </ModalHeader>
-            <ModalBody>
-              <TrainDetail
-                thsrTrainTimeTable={thsrTrainTimeTable}
-                thsrDailyFreeSeatingCar={thsrDailyFreeSeatingCar}
-                thsrOdFare={thsrOdFare}
-                thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
-              />
-              <div className="mt-6">
-                <StopTimesTable
-                  data={getThsrGeneralTrainInfo(
-                    thsrTdxGeneralTimeTable,
-                    thsrTrainTimeTable.DailyTrainInfo.TrainNo,
-                  )}
-                  startStationId={thsrTrainTimeTable.OriginStopTime.StationID}
-                  endStationId={
-                    thsrTrainTimeTable.DestinationStopTime.StationID
-                  }
+    <>
+      <Modal
+        isOpen={open}
+        onOpenChange={setOpen}
+        classNames={{
+          wrapper: `thsr-detail-dialog ${capturing ? "h-fit" : ""}`,
+          base: "bg-white dark:bg-eerieBlack-500",
+          header: "flex items-center justify-center gap-2",
+        }}
+        scrollBehavior="inside"
+        size="2xl"
+        hideCloseButton={capturing ? true : false}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader>
+                {thsrTrainTimeTable.DailyTrainInfo.TrainNo}{" "}
+                {
+                  thsrTrainTimeTable.DailyTrainInfo.StartingStationName[
+                    getTdxLang(i18n.language)
+                  ]
+                }{" "}
+                -{" "}
+                {
+                  thsrTrainTimeTable.DailyTrainInfo.EndingStationName[
+                    getTdxLang(i18n.language)
+                  ]
+                }
+              </ModalHeader>
+              <ModalBody>
+                <TrainDetail
+                  thsrTrainTimeTable={thsrTrainTimeTable}
+                  thsrDailyFreeSeatingCar={thsrDailyFreeSeatingCar}
+                  thsrOdFare={thsrOdFare}
+                  thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
                 />
-              </div>
-            </ModalBody>
-            <ModalFooter className="mt-1 justify-center">
-              <Button
-                size="sm"
-                className="bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
-                onPress={onClose}
-              >
-                {t("closeBtn")}
-              </Button>
-            </ModalFooter>
-          </>
-        )}
-      </ModalContent>
-    </Modal>
+                <div className="mt-6">
+                  <StopTimesTable
+                    data={getThsrGeneralTrainInfo(
+                      thsrTdxGeneralTimeTable,
+                      thsrTrainTimeTable.DailyTrainInfo.TrainNo,
+                    )}
+                    startStationId={thsrTrainTimeTable.OriginStopTime.StationID}
+                    endStationId={
+                      thsrTrainTimeTable.DestinationStopTime.StationID
+                    }
+                  />
+                </div>
+              </ModalBody>
+              <ModalFooter className="justify-center">
+                {!capturing && (
+                  <div className="mt-1">
+                    <Button
+                      size="sm"
+                      className="bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                      onPress={onClose}
+                    >
+                      {t("closeBtn")}
+                    </Button>
+                    <Button
+                      variant="light"
+                      size="sm"
+                      onClick={capture}
+                      className="absolute ml-1"
+                    >
+                      <CaptureIcon />
+                    </Button>
+                  </div>
+                )}
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      {capturing && <Loading />}
+    </>
   );
 };
 

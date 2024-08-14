@@ -1,3 +1,4 @@
+import { useToPng } from "@hugocxl/react-to-image";
 import Chip from "@mui/material/Chip";
 import {
   Button,
@@ -8,7 +9,7 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
-import { FC } from "react";
+import { FC, useState } from "react";
 import useLang from "../../../hooks/useLangHook";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import { getTdxLang } from "../../../utils/LocaleUtils";
@@ -17,6 +18,8 @@ import {
   getTrTripLineNameByValue,
 } from "../../../utils/TrainInfoUtils";
 import Dot from "../../Dot";
+import Loading from "../../Loading";
+import CaptureIcon from "../../icons/CaptureIcon";
 import { trTrainServiceList } from "./TrTrainServices";
 
 interface TrainDetailProps {
@@ -43,7 +46,7 @@ const TrainDetail: FC<TrainDetailProps> = ({ data }) => {
       <div className="flex gap-2">
         <Chip label={t("timeRange")} size="small" color="primary" />
         <div className="flex items-center">
-          {data.StopTimes[0].DepartureTime} -{" "}
+          {data.trainDate} {data.StopTimes[0].DepartureTime} -{" "}
           {data.StopTimes[data.StopTimes.length - 1].ArrivalTime}
         </div>
       </div>
@@ -142,49 +145,90 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
 }) => {
   const { t, i18n } = useTranslation();
 
+  const [capturing, setCapturing] = useState(false);
+
+  const [_, downloadPng] = useToPng<HTMLDivElement>({
+    selector: ".tr-detail-dialog",
+    quality: 0.8,
+    onSuccess: (imageSrc) => {
+      const link = document.createElement("a");
+      link.download = `${data.trainDate}_${data.TrainInfo.TrainNo}.jpeg`;
+      link.href = imageSrc;
+      link.click();
+      setCapturing(false);
+    },
+  });
+
+  const capture = () => {
+    setCapturing(true);
+    setTimeout(() => {
+      downloadPng();
+    }, 1000);
+  };
+
   return (
-    <Modal
-      isOpen={open}
-      onOpenChange={setOpen}
-      classNames={{
-        base: "bg-white dark:bg-eerieBlack-500",
-        header: "flex items-center justify-center gap-2",
-      }}
-      scrollBehavior="inside"
-      size="2xl"
-    >
-      <ModalContent>
-        {(onClose) => (
-          <>
-            <ModalHeader>
-              {data.TrainInfo.TrainNo}{" "}
-              {getTrTripLineNameByValue(data.TrainInfo.TripLine, i18n.language)}{" "}
-              {getTrTrainTypeNameByCode(
-                data.TrainInfo.TrainTypeCode,
-                i18n.language,
-              )}{" "}
-              {data.TrainInfo.StartingStationName[getTdxLang(i18n.language)]} -{" "}
-              {data.TrainInfo.EndingStationName[getTdxLang(i18n.language)]}
-            </ModalHeader>
-            <ModalBody>
-              <TrainDetail data={data} />
-              <div className="mt-6">
-                <StopTimesTable data={data} />
-              </div>
-            </ModalBody>
-            <ModalFooter className="mt-1 justify-center">
-              <Button
-                size="sm"
-                className="bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
-                onPress={onClose}
-              >
-                {t("closeBtn")}
-              </Button>
-            </ModalFooter>
-          </>
-        )}
-      </ModalContent>
-    </Modal>
+    <>
+      <Modal
+        isOpen={open}
+        onOpenChange={setOpen}
+        classNames={{
+          wrapper: `tr-detail-dialog ${capturing ? "h-fit" : ""}`,
+          base: "bg-white dark:bg-eerieBlack-500",
+          header: "flex items-center justify-center gap-2",
+        }}
+        scrollBehavior={capturing ? "outside" : "inside"}
+        size="2xl"
+        hideCloseButton={capturing ? true : false}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader>
+                {data.TrainInfo.TrainNo}{" "}
+                {getTrTripLineNameByValue(
+                  data.TrainInfo.TripLine,
+                  i18n.language,
+                )}{" "}
+                {getTrTrainTypeNameByCode(
+                  data.TrainInfo.TrainTypeCode,
+                  i18n.language,
+                )}{" "}
+                {data.TrainInfo.StartingStationName[getTdxLang(i18n.language)]}{" "}
+                - {data.TrainInfo.EndingStationName[getTdxLang(i18n.language)]}
+              </ModalHeader>
+              <ModalBody>
+                <TrainDetail data={data} />
+                <div className="mt-6">
+                  <StopTimesTable data={data} />
+                </div>
+              </ModalBody>
+              <ModalFooter className="justify-center">
+                {!capturing && (
+                  <div className="mt-1">
+                    <Button
+                      size="sm"
+                      className="bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                      onPress={onClose}
+                    >
+                      {t("closeBtn")}
+                    </Button>
+                    <Button
+                      variant="light"
+                      size="sm"
+                      onClick={capture}
+                      className="absolute ml-1"
+                    >
+                      <CaptureIcon />
+                    </Button>
+                  </div>
+                )}
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      {capturing && <Loading />}
+    </>
   );
 };
 
