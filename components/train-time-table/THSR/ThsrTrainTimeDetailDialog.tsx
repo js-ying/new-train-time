@@ -174,7 +174,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
     quality: 0.8,
     onSuccess: (imageSrc) => {
       const link = document.createElement("a");
-      link.download = `${thsrTrainTimeTable.TrainDate}_${thsrTrainTimeTable.DailyTrainInfo.TrainNo}.jpeg`;
+      link.download = `${thsrTrainTimeTable.TrainDate}_${thsrTrainTimeTable.DailyTrainInfo.TrainNo}`;
       link.href = imageSrc;
       link.click();
       setCapturing(false);
