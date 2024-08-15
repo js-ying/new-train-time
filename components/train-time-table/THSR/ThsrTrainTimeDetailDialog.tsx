@@ -1,6 +1,7 @@
 import { useToPng } from "@hugocxl/react-to-image";
 import Chip from "@mui/material/Chip";
 import {
+  Badge,
   Button,
   Modal,
   ModalBody,
@@ -264,7 +265,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
               </ModalBody>
               <ModalFooter className="justify-center">
                 {!capturing && (
-                  <div className="mt-1">
+                  <div className="relative mt-1 flex justify-center">
                     <Button
                       size="sm"
                       className="bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
@@ -272,14 +273,19 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
                     >
                       {t("closeBtn")}
                     </Button>
-                    <Button
-                      variant="light"
-                      size="sm"
-                      onClick={capture}
-                      className="absolute ml-1"
-                    >
-                      <CaptureIcon />
-                    </Button>
+                    <div className="absolute left-[65px]">
+                      <Badge
+                        content="new"
+                        color="danger"
+                        size="sm"
+                        showOutline={false}
+                        className="bg-rose-500 dark:bg-rose-500/80"
+                      >
+                        <Button variant="light" size="sm" onClick={capture}>
+                          <CaptureIcon />
+                        </Button>
+                      </Badge>
+                    </div>
                   </div>
                 )}
               </ModalFooter>
