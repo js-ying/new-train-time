@@ -5,7 +5,9 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../../contexts/SearchAreaContext";
+import { GaEnum } from "../../enums/GaEnum";
 import usePage from "../../hooks/usePageHook";
+import { gaClickEvent } from "../../utils/GaUtils";
 import { getStationNameById } from "../../utils/StationUtils";
 import { HistoryInquiry } from "./SearchButton";
 
@@ -60,6 +62,7 @@ const SearchHistory: FC = () => {
   }, [localStorageKey]);
 
   const handleHistoryClick = (startStationId: string, endStationId: string) => {
+    gaClickEvent(GaEnum.HISTORY);
     setParams({
       ...params,
       startStationId: startStationId,

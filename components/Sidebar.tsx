@@ -67,6 +67,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const handleClick = (text: string) => {
     switch (text) {
       case "home":
+        gaClickEvent(GaEnum.HOME);
         router.push({
           pathname: "/",
         });
@@ -74,6 +75,8 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         break;
 
       case "featureIntroductionMenu":
+        gaClickEvent(GaEnum.FEATURES);
+
         // router.push 無法正確觸發 beforeinstallprompt，所以改用 window.location.href
         if (i18n.language === LocaleEnum.TW) {
           window.location.href = "/features";
@@ -84,6 +87,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         break;
 
       case "UpdateAnnouncementsMenu":
+        gaClickEvent(GaEnum.UPDATES);
         router.push({
           pathname: "/updates",
         });

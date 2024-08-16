@@ -1,8 +1,8 @@
 import { sendGAEvent } from "@next/third-parties/google";
 import { GaEnum } from "../enums/GaEnum";
 
-const gaClickEvent = (value: GaEnum) => {
-  sendGAEvent("event", "buttonClicked", { value: value });
+const gaClickEvent = (target: GaEnum) => {
+  sendGAEvent("event", "jsy_click", { target: target });
 };
 
 export { gaClickEvent };

@@ -1,5 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useState } from "react";
+import { GaEnum } from "../enums/GaEnum";
+import { gaClickEvent } from "../utils/GaUtils";
 import CommonDialog from "./CommonDialog";
 
 const TrOrderDescription: FC = () => {
@@ -22,7 +24,10 @@ const TrOrderDescription: FC = () => {
         <span
           className="cursor-pointer whitespace-pre-line text-center text-sm
           text-zinc-500 underline dark:text-zinc-400"
-          onClick={() => setOpenAnnouncement(true)}
+          onClick={() => {
+            gaClickEvent(GaEnum.TR_ORDER_DESCRIPTION);
+            setOpenAnnouncement(true);
+          }}
         >
           {t("trOrderDescription")}
         </span>

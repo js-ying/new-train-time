@@ -5,10 +5,12 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
+import { GaEnum } from "../enums/GaEnum";
 import { SearchAreaActiveIndexEnum } from "../enums/SearchAreaParamsEnum";
 import useLang from "../hooks/useLangHook";
 import usePage from "../hooks/usePageHook";
 import DateUtils from "../utils/DateUtils";
+import { gaClickEvent } from "../utils/GaUtils";
 import LocaleChange from "./LocaleChange";
 import Sidebar from "./Sidebar";
 import ThemeSwitch from "./ThemeSwitch";
@@ -42,6 +44,7 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
               isTw ? "text-lg" : "text-sm sm:text-lg "
             }`}
             onClick={() => {
+              gaClickEvent(GaEnum.TITLE);
               setParams({
                 ...params,
                 startStationId: null,

@@ -6,12 +6,14 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "../contexts/SearchAreaContext";
+import { GaEnum } from "../enums/GaEnum";
 import { PageEnum } from "../enums/PageEnum";
 import { PathEnum } from "../enums/PathEnum";
 import { SearchAreaActiveIndexEnum } from "../enums/SearchAreaParamsEnum";
 import useLang from "../hooks/useLangHook";
 import usePage from "../hooks/usePageHook";
 import DateUtils from "../utils/DateUtils";
+import { gaClickEvent } from "../utils/GaUtils";
 
 interface SwitchLabelProps {
   toPage: PageEnum;
@@ -37,11 +39,13 @@ const SwitchLabel: FC<SwitchLabelProps> = ({ toPage }) => {
       });
 
       if (toPage === PageEnum.TR) {
+        gaClickEvent(GaEnum.TR_TITLE);
         router.push({
           pathname: `${PathEnum[PageEnum.TR + "Home"]}`,
         });
       }
       if (toPage === PageEnum.THSR) {
+        gaClickEvent(GaEnum.THSR_TITLE);
         router.push({
           pathname: `${PathEnum[PageEnum.THSR + "Home"]}`,
         });
