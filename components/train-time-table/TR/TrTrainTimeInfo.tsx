@@ -46,7 +46,9 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
           justify-between rounded-md border border-solid border-zinc-700 p-2
           transition duration-150 ease-out
           dark:border-zinc-200 ${
-            isShowTrOrderBtn(trTrainTimeTable) ? "min-h-[108px] md:h-fit" : ""
+            isShowTrOrderBtn(trTrainTimeTable)
+              ? "min-h-[108px] md:min-h-fit"
+              : ""
           }`}
         onClick={openDetail}
       >
