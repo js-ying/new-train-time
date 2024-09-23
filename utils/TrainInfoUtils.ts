@@ -129,6 +129,14 @@ export const isTrTrainNonReserved = (trainTypeCode: string): boolean => {
 };
 
 /**
+ * [台鐵] 車種是否持票才可上車
+ * 太魯閣、普悠碼、新自強、觀光列車、團體列車
+ */
+export const isTrTrainOnlyTicket = (trainTypeCode: string): boolean => {
+  return ["1", "2", "11"].includes(trainTypeCode);
+};
+
+/**
  * 取得列車行駛時間
  * @param startTime HH:mm
  * @param endTime HH:mm

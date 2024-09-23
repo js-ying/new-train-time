@@ -1,5 +1,11 @@
 export const updateDataList = [
   {
+    date: "2024-09",
+    type: "both",
+    ver: "1.1.3",
+    items: ["更新：部份對號列車新增不可使用電子票證上車的提示訊息"],
+  },
+  {
     date: "2024-08",
     type: "both",
     ver: "1.1.2",

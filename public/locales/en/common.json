@@ -84,5 +84,6 @@
   "personalWebsite": "Personal Website",
   "pageOnlyTwMsg": "This page is temporarily unavailable in languages other than Traditional Chinese.",
   "order": "BOOKING",
-  "typhoonAlertMsg": "Due to the impact of the typhoon, please refer to the latest announcements from Taiwan Railways and High-Speed Rail for the latest updates on train operations and suspensions."
+  "typhoonAlertMsg": "Due to the impact of the typhoon, please refer to the latest announcements from Taiwan Railways and High-Speed Rail for the latest updates on train operations and suspensions.",
+  "eTicketAlertMsg": "Do not board with electronic tickets (such as EasyCard/iPASS) or periodic tickets."
 }
