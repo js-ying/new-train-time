@@ -14,9 +14,11 @@ import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
 import { GaEnum } from "../enums/GaEnum";
 import { LocaleEnum } from "../enums/LocaleEnum";
+import useSettingHook from "../hooks/useSettingHook";
 import { updateDataList } from "../public/data/updatesData";
 import { gaClickEvent } from "../utils/GaUtils";
 import ContactDialog from "./ContactDialog";
+import IOSSwitchSetting from "./IOSSwitchSetting";
 
 const SidebarIcon: FC = () => {
   return (
@@ -63,6 +65,9 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   }, []);
 
   const [open, setOpen] = useState(false);
+
+  const [showTrTrainNote, setShowTrTrainNote] =
+    useSettingHook("showTrTrainNote");
 
   const handleClick = (text: string) => {
     switch (text) {
@@ -154,6 +159,15 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
               </ListItemButton>
             </ListItem>
           ))}
+        </List>
+        <Divider />
+        <List className="ml-4 mr-1 text-sm">
+          <IOSSwitchSetting
+            value={showTrTrainNote}
+            setValue={setShowTrTrainNote}
+            label={t("showTrTrainNoteSwitch")}
+            color="primary"
+          />
         </List>
         <Divider />
         <List>

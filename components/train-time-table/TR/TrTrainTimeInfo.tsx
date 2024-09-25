@@ -1,5 +1,6 @@
 import { useTranslation } from "next-i18next";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
+import { SettingContext } from "../../../contexts/SettingContext";
 import { GaEnum } from "../../../enums/GaEnum";
 import useLang from "../../../hooks/useLangHook";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
@@ -32,6 +33,7 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
 
   const { isTw } = useLang();
   const { t } = useTranslation();
+  const { showTrTrainNote } = useContext(SettingContext);
 
   return (
     <div
@@ -77,9 +79,11 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
         </div>
       )}
 
-      <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-        {isTw && trTrainTimeTable.TrainInfo.Note}
-      </div>
+      {isTw && showTrTrainNote && (
+        <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+          {isTw && trTrainTimeTable.TrainInfo.Note}
+        </div>
+      )}
 
       {trTrainTimeTable && (
         <TrTrainTimeDetailDialog

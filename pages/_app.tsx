@@ -6,6 +6,7 @@ import { SearchAreaProvider } from "../contexts/SearchAreaContext";
 import { NextUIProvider } from "@nextui-org/react";
 import Head from "next/head";
 import GoogleScript from "../components/GoogleScript";
+import { SettingProvider } from "../contexts/SettingContext";
 import useLang from "../hooks/useLangHook";
 import usePage from "../hooks/usePageHook";
 import "../styles/global.scss";
@@ -70,9 +71,11 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <NextUIProvider>
         <NextThemesProvider attribute="class">
-          <SearchAreaProvider>
-            <Component {...pageProps} />
-          </SearchAreaProvider>
+          <SettingProvider>
+            <SearchAreaProvider>
+              <Component {...pageProps} />
+            </SearchAreaProvider>
+          </SettingProvider>
         </NextThemesProvider>
       </NextUIProvider>
       <GoogleScript />

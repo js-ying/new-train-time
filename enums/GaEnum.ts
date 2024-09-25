@@ -17,4 +17,5 @@ export enum GaEnum {
   EN_LANG = "英語介面",
   TR_ORDER_DESCRIPTION = "台鐵訂票說明",
   HISTORY = "歷史查詢",
+  SHOW_TR_TRAIN_NOTE = "顯示台鐵列車註記",
 }
