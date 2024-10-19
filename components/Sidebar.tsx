@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
 import { GaEnum } from "../enums/GaEnum";
 import { LocaleEnum } from "../enums/LocaleEnum";
+import useDeviceDetect from "../hooks/useDeviceDetectHook";
 import useSettingHook from "../hooks/useSettingHook";
 import { updateDataList } from "../public/data/updatesData";
 import { gaClickEvent } from "../utils/GaUtils";
@@ -69,6 +70,8 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const [showTrTrainNote, setShowTrTrainNote] =
     useSettingHook("showTrTrainNote");
 
+  const { isPWAPromotable } = useDeviceDetect();
+
   const handleClick = (text: string) => {
     switch (text) {
       case "home":
@@ -82,12 +85,19 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
       case "featureIntroductionMenu":
         gaClickEvent(GaEnum.FEATURES);
 
-        // router.push 無法正確觸發 beforeinstallprompt，所以改用 window.location.href
-        if (i18n.language === LocaleEnum.TW) {
-          window.location.href = "/features";
+        if (!isPWAPromotable) {
+          router.push({
+            pathname: "/features",
+          });
         } else {
-          window.location.href = `/${i18n.language}/features`;
+          // router.push 無法正確觸發 beforeinstallprompt，所以改用 window.location.href
+          if (i18n.language === LocaleEnum.TW) {
+            window.location.href = "/features";
+          } else {
+            window.location.href = `/${i18n.language}/features`;
+          }
         }
+
         setSidebarOpen(false);
         break;
 
