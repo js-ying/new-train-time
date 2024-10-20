@@ -1,8 +1,10 @@
 import { Button } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
+import { GaEnum } from "../../../enums/GaEnum";
 import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
+import { gaClickEvent } from "../../../utils/GaUtils";
 import { isTrTrainReserved, isTrainPass } from "../../../utils/TrainInfoUtils";
 
 /**
@@ -98,6 +100,7 @@ const TrOrder: FC<TrOrderProps> = ({ data }) => {
         className="h-6 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
         size="sm"
         radius="sm"
+        onClick={() => gaClickEvent(GaEnum.TR_ORDER)}
       >
         {t("order")}
       </Button>
