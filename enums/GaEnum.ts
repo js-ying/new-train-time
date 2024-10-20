@@ -18,4 +18,5 @@ export enum GaEnum {
   TR_ORDER_DESCRIPTION = "台鐵訂票說明",
   HISTORY = "歷史查詢",
   SHOW_TR_TRAIN_NOTE = "顯示台鐵列車註記",
+  BOTTOM_AD_CLOSE = "下方廣告關閉",
 }

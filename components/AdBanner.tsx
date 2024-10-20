@@ -1,5 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useState } from "react";
+import { GaEnum } from "../enums/GaEnum";
+import { gaClickEvent } from "../utils/GaUtils";
 
 const BottomBanner: FC = () => {
   useEffect(() => {
@@ -17,6 +19,7 @@ const BottomBanner: FC = () => {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
+    gaClickEvent(GaEnum.BOTTOM_AD_CLOSE);
     setOpen(false);
   };
 
