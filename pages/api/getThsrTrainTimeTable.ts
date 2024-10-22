@@ -1,5 +1,18 @@
-export default async function handler(req, res) {
+import { NextApiRequest, NextApiResponse } from "next";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { startStationId, endStationId, date, time } = req.body;
+
+  const clientIp =
+    (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
+  console.log(
+    "THSRclientIp:",
+    req.headers["x-forwarded-for"],
+    req.socket.remoteAddress,
+  );
 
   try {
     const response = await fetch(
@@ -8,6 +21,7 @@ export default async function handler(req, res) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-forwarded-for": clientIp,
         },
         body: JSON.stringify({
           startStationId,
