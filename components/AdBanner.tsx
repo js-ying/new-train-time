@@ -25,8 +25,8 @@ const BottomBanner: FC = () => {
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-10 mx-auto max-w-[728px] p-4 transition-all duration-300 ease-out"
-      style={{ opacity: open ? 1 : 0 }}
+      className="fixed bottom-0 left-0 right-0 mx-auto max-w-[728px] p-4 transition-all duration-300 ease-out"
+      style={{ opacity: open ? 1 : 0, zIndex: open ? 10 : -1000 }}
     >
       <div
         className="relative h-[108px] rounded-md border border-solid border-zinc-700 p-2
