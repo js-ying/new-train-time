@@ -13,6 +13,7 @@ interface UseParamsValidationResult {
     startStationId: string,
     endStationId: string,
     date: string,
+    time: string,
   ) => boolean;
   alertOptions: AlertOptions;
 }
@@ -25,6 +26,7 @@ const useParamsValidation = (): UseParamsValidationResult => {
     startStationId: string,
     endStationId: string,
     date: string,
+    time: string,
   ): boolean => {
     if (!startStationId && !endStationId) {
       setAlertMsg("bothStationAreBlankMsg");
@@ -55,6 +57,12 @@ const useParamsValidation = (): UseParamsValidationResult => {
       DateUtils.isAfter(date, DateUtils.addMonth(DateUtils.getCurrentDate(), 2))
     ) {
       setAlertMsg("datetimeNotAllowMsg");
+      setAlertOpen(true);
+      return false;
+    }
+
+    if (!date || !time) {
+      setAlertMsg("paramsErrorMsg");
       setAlertOpen(true);
       return false;
     }

@@ -26,6 +26,7 @@
   "endStationIsBlankMsg": "請選擇「抵達車站」。",
   "sameStationMsg": "「出發車站」和「抵達車站」不得相同。",
   "datetimeNotAllowMsg": "只可查詢今天 ~ 未來兩個月內的日期。",
+  "paramsErrorMsg": "傳入參數有問題。",
   "sameQueryMsg": "重覆查詢，請選擇別的車站或出發時間。",
   "closeBtn": "關閉",
   "historyInquiry": "歷史查詢：共 {{ nowLength }} / 5 筆",

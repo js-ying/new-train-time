@@ -118,6 +118,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
           updatedParams.startStationId,
           updatedParams.endStationId,
           updatedParams.date,
+          updatedParams.time,
         )
       ) {
         getTrainTimeTable(

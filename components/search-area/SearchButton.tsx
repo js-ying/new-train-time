@@ -59,7 +59,14 @@ const SearchButton: FC = () => {
   };
 
   const handleSearch = () => {
-    if (!isParamsValid(params.startStationId, params.endStationId, params.date))
+    if (
+      !isParamsValid(
+        params.startStationId,
+        params.endStationId,
+        params.date,
+        params.time,
+      )
+    )
       return;
 
     if (
