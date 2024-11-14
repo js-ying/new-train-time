@@ -52,6 +52,15 @@ module.exports = {
         },
       },
     },
+    fontFamily: {
+      body: [
+        "PingFang TC",
+        "Microsoft JhengHei",
+        "Heiti TC",
+        "Arial",
+        "sans-serif",
+      ],
+    },
   },
   plugins: [
     nextui({

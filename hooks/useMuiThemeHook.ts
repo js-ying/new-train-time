@@ -23,6 +23,15 @@ const useMuiTheme = () => {
             focus: null,
           },
         },
+        typography: {
+          fontFamily: [
+            "PingFang TC",
+            "Microsoft JhengHei",
+            "Heiti TC",
+            "Arial",
+            "sans-serif",
+          ].join(","),
+        },
       }),
     [theme],
   );
