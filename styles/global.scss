@@ -4,7 +4,14 @@
 
 body {
   @apply m-0 min-h-screen bg-white dark:bg-eerieBlack-500 transition-background;
-  font-family: "PingFang TC", "Microsoft JhengHei", "Heiti TC", "Arial", sans-serif;
+  font-family:
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "PingFang TC",
+    "Roboto",
+    "Microsoft YaHei",
+    "Arial",
+    "sans-serif";
 }
 
 h1 {

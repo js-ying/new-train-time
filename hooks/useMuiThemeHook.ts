@@ -25,9 +25,11 @@ const useMuiTheme = () => {
         },
         typography: {
           fontFamily: [
+            "-apple-system",
+            "BlinkMacSystemFont",
             "PingFang TC",
-            "Microsoft JhengHei",
-            "Heiti TC",
+            "Roboto",
+            "Microsoft YaHei",
             "Arial",
             "sans-serif",
           ].join(","),

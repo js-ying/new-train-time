@@ -54,9 +54,11 @@ module.exports = {
     },
     fontFamily: {
       body: [
+        "-apple-system",
+        "BlinkMacSystemFont",
         "PingFang TC",
-        "Microsoft JhengHei",
-        "Heiti TC",
+        "Roboto",
+        "Microsoft YaHei",
         "Arial",
         "sans-serif",
       ],
