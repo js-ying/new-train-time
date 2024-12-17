@@ -8,11 +8,6 @@ export default async function handler(
 
   const clientIp =
     (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
-  console.log(
-    "THSRclientIp:",
-    req.headers["x-forwarded-for"],
-    req.socket.remoteAddress,
-  );
 
   try {
     const response = await fetch(
