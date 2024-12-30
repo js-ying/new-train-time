@@ -1,7 +1,6 @@
 import { useToPng } from "@hugocxl/react-to-image";
 import Chip from "@mui/material/Chip";
 import {
-  Badge,
   Button,
   Modal,
   ModalBody,
@@ -237,17 +236,9 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
                       {t("closeBtn")}
                     </Button>
                     <div className="absolute left-[65px]">
-                      <Badge
-                        content="new"
-                        color="danger"
-                        size="sm"
-                        showOutline={false}
-                        className="bg-rose-500 dark:bg-rose-500/80"
-                      >
-                        <Button variant="light" size="sm" onClick={capture}>
-                          <CaptureIcon />
-                        </Button>
-                      </Badge>
+                      <Button variant="light" size="sm" onClick={capture}>
+                        <CaptureIcon />
+                      </Button>
                     </div>
                   </div>
                 )}
