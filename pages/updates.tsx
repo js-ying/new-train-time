@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTheme } from "next-themes";
 import Head from "next/head";
 import { FC, useMemo, useState } from "react";
-import Layout from "../components/Layout";
+import Layout from "../components/layout/Layout";
 import { GaEnum } from "../enums/GaEnum";
 import useLang from "../hooks/useLangHook";
 import useMuiTheme from "../hooks/useMuiThemeHook";

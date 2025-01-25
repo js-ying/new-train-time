@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import { LocaleEnum } from "../../enums/LocaleEnum";
 import DateUtils from "../../utils/DateUtils";
-import TdxAlert from "../TdxAlert";
+import TdxAlert from "../alerts/TdxAlert";
 
 interface NoTrainDataProps {
   isApiHealth: boolean;

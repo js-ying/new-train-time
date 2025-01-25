@@ -5,7 +5,7 @@ import { FC, useContext } from "react";
 import { SearchAreaContext } from "../../contexts/SearchAreaContext";
 import usePage from "../../hooks/usePageHook";
 import useParamsValidation from "../../hooks/useParamsValidationHook";
-import CommonDialog from "../CommonDialog";
+import CommonDialog from "../modals/CommonDialog";
 
 export interface HistoryInquiry {
   startStationId: string;

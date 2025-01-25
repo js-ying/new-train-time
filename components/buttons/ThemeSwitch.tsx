@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import { FC, useEffect, useState } from "react";
-import { GaEnum } from "../enums/GaEnum";
-import { gaClickEvent } from "../utils/GaUtils";
+import { GaEnum } from "../../enums/GaEnum";
+import { gaClickEvent } from "../../utils/GaUtils";
 
 const LightModeIcon: FC = () => {
   return (

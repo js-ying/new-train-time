@@ -1,4 +1,6 @@
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
 import { FC } from "react";
 import Home from "../index";
 
@@ -11,7 +13,15 @@ export async function getStaticProps({ locale }) {
 }
 
 const ThsrHome: FC = () => {
-  return <Home />;
+  const { t } = useTranslation();
+  return (
+    <>
+      <Head>
+        <title>{`${t("thsrTitle")} - ${t("trTitle")}`}</title>
+      </Head>
+      <Home />
+    </>
+  );
 };
 
 export default ThsrHome;

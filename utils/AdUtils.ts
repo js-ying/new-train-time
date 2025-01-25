@@ -1,5 +1,7 @@
 const AdUtils = {
   showAd: (timetablesLength: number, index: number) => {
+    if (process.env.NODE_ENV !== "production") return;
+
     if (timetablesLength >= 3 && index === 2) {
       return true;
     }

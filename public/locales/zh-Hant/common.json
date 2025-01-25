@@ -4,9 +4,11 @@
   "none": "無",
   "tr": "台鐵",
   "thsr": "高鐵",
+  "tymc": "桃園捷運",
   "title": "雙鐵時刻查詢",
   "trTitle": "台鐵時刻查詢",
   "thsrTitle": "高鐵時刻查詢",
+  "tymcTitle": "桃園捷運時刻查詢",
   "scheduleInquiry": "時刻查詢",
   "subTitle": "專為通勤族設計的時刻表",
   "webDescription": "查詢台鐵火車/高鐵時刻，簡單又快速。即時誤點、歷史快查和訂票導頁功能，讓通勤不再煩惱。新功能提供台鐵火車/高鐵、中文/英文和暗色主題的一鍵切換，查詢體驗再度提升。",
@@ -15,6 +17,8 @@
   "datetime": "出發時間",
   "startStationInputPlaceholder": "出發車站（e.g. 新竹）",
   "endStationInputPlaceholder": "抵達車站（e.g. 台北）",
+  "tymcStartStationInputPlaceholder": "出發車站（e.g. 台北車站）",
+  "tymcEndStationInputPlaceholder": "抵達車站（e.g. 機場第二航廈站）",
   "searchBtn": "搜尋",
   "errorAlertTitle": "錯誤訊息",
   "announcementTitle": "公告",
@@ -62,8 +66,7 @@
   "noTrainInThisTimeMsg": "出發時間設定太晚，已無班次。",
   "noTrainStopBetweenStationsMsg": "兩站間無停靠列車。",
   "noTrainDataDueToApiErrorMsg": "系統異常，請稍後再試，或通知系統管理員。",
-  "trDisclaimerMsg": "資料介接「交通部 TDX 平臺」。本站提供之資訊僅供參考，實際情況請以臺鐵官方公佈的資訊為主。",
-  "thsrDisclaimerMsg": "資料介接「交通部 TDX 平臺」。本站提供之資訊僅供參考，實際情況請以高鐵官方公佈的資訊為主。",
+  "disclaimerMsg": "資料介接「交通部 TDX 平臺」。本站提供之資訊僅供參考，實際情況請以官方公佈的資訊為主。",
   "otherBtn": "其它",
   "freeSeating": "自由座",
   "confirmOnSiteMsg": "請於現場確認。",
@@ -87,5 +90,6 @@
   "order": "訂票",
   "typhoonAlertMsg": "由於颱風影響，列車行/停駛的最新消息請參考台鐵/高鐵官方最新公告。",
   "eTicketAlertMsg": "持電子票證（如悠遊卡/一卡通）及定期票的旅客請勿搭乘。",
-  "showTrTrainNoteSwitch": "顯示台鐵列車註記"
+  "showTrTrainNoteSwitch": "顯示台鐵列車註記",
+  "pleaseSelect": "請選擇"
 }

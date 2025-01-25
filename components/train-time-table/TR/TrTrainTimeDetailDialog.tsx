@@ -19,9 +19,9 @@ import {
   getTrTrainTypeNameByCode,
   getTrTripLineNameByValue,
 } from "../../../utils/TrainInfoUtils";
-import Dot from "../../Dot";
-import Loading from "../../Loading";
 import CaptureIcon from "../../icons/CaptureIcon";
+import Loading from "../../layout/Loading";
+import Dot from "../Dot";
 import { trTrainServiceList } from "./TrTrainServices";
 
 interface TrainDetailProps {

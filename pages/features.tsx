@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC, useMemo, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
-import Layout from "../components/Layout";
+import Layout from "../components/layout/Layout";
 import useMuiTheme from "../hooks/useMuiThemeHook";
 
 // import optional lightbox plugins

@@ -7,6 +7,7 @@ export enum GaEnum {
   TR_TITLE = "台鐵標題",
   THSR_TITLE = "高鐵標題",
   HOME = "首頁 (sidebar)",
+  TYMC_MENU = "桃園捷運 MENU",
   FEATURES = "特色介紹",
   UPDATES = "更新公告",
   CONTACT_ME = "與我聯絡",

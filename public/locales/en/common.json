@@ -4,9 +4,11 @@
   "none": "None",
   "tr": "TRA",
   "thsr": "THSR",
+  "tymc": "ToYuan Metro",
   "title": "Railways Schedule Inquiry",
   "trTitle": "TRA Schedule Inquiry",
   "thsrTitle": "THSR Schedule Inquiry",
+  "tymcTitle": "ToYuan Metro Schedule Inquiry",
   "scheduleInquiry": "Schedule Inquiry",
   "subTitle": "Timetable designed for commuters",
   "webDescription": "Check TRA/THSR schedules easily and quickly. Instant delay information, historical search and booking redirect function make commuting hassle-free. New features provide one-click switching between TRA/THSR, Chinese/English, and dark mode themes, enhancing the query experience once again.",
@@ -15,6 +17,8 @@
   "datetime": "Departure Time",
   "startStationInputPlaceholder": "Departure Station (e.g. Hsinchu)",
   "endStationInputPlaceholder": "Arrival Station (e.g. Taipei)",
+  "tymcStartStationInputPlaceholder": "Departure Station (e.g. Taipei Main Station)",
+  "tymcEndStationInputPlaceholder": "Arrival Station (e.g. Airport Terminal 2 Station)",
   "searchBtn": "Search",
   "errorAlertTitle": "Error Message",
   "announcementTitle": "Announcement",
@@ -62,8 +66,7 @@
   "noTrainInThisTimeMsg": "The departure time set is too late and there are no more scheduled trips.",
   "noTrainStopBetweenStationsMsg": "There are no trains stopping between these two stations.",
   "noTrainDataDueToApiErrorMsg": "System anomaly, please try again later or notify the system administrator.",
-  "trDisclaimerMsg": "The data is sourced from the 'TDX Platform'. The information provided on this site is for reference only. Please refer to the official announcements from Taiwan Railways for accurate details.",
-  "thsrDisclaimerMsg": "The data is sourced from the 'TDX Platform'. The information provided on this site is for reference only. Please refer to the official announcements from Taiwan High Speed Rail for accurate details.",
+  "disclaimerMsg": "The data is sourced from the 'TDX Platform'. The information provided on this site is for reference only. Please refer to the official announcements for accurate details.",
   "otherBtn": "Other",
   "freeSeating": "Free Seating",
   "confirmOnSiteMsg": "Please confirm on-site.",
@@ -87,5 +90,6 @@
   "order": "BOOKING",
   "typhoonAlertMsg": "Due to the impact of the typhoon, please refer to the latest announcements from Taiwan Railways and High-Speed Rail for the latest updates on train operations and suspensions.",
   "eTicketAlertMsg": "Do not board with electronic tickets (such as EasyCard/iPASS) or periodic tickets.",
-  "showTrTrainNoteSwitch": "Show TRA Note"
+  "showTrTrainNoteSwitch": "Show TRA Note",
+  "pleaseSelect": "Please select"
 }

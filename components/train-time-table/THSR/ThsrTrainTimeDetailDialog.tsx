@@ -21,9 +21,9 @@ import {
 import { gaClickEvent } from "../../../utils/GaUtils";
 import { getTdxLang } from "../../../utils/LocaleUtils";
 import { getThsrGeneralTrainInfo } from "../../../utils/TrainInfoUtils";
-import Dot from "../../Dot";
-import Loading from "../../Loading";
 import CaptureIcon from "../../icons/CaptureIcon";
+import Loading from "../../layout/Loading";
+import Dot from "../Dot";
 import ThsrFreeSeat from "./ThsrFreeSeat";
 import ThsrPriceInfo from "./ThsrPriceInfo";
 import ThsrServiceDay from "./ThsrServiceDay";

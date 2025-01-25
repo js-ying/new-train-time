@@ -12,14 +12,14 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
-import { GaEnum } from "../enums/GaEnum";
-import { LocaleEnum } from "../enums/LocaleEnum";
-import useDeviceDetect from "../hooks/useDeviceDetectHook";
-import useSettingHook from "../hooks/useSettingHook";
-import { updateDataList } from "../public/data/updatesData";
-import { gaClickEvent } from "../utils/GaUtils";
-import ContactDialog from "./ContactDialog";
-import IOSSwitchSetting from "./IOSSwitchSetting";
+import { GaEnum } from "../../enums/GaEnum";
+import { LocaleEnum } from "../../enums/LocaleEnum";
+import useDeviceDetect from "../../hooks/useDeviceDetectHook";
+import useSettingHook from "../../hooks/useSettingHook";
+import { updateDataList } from "../../public/data/updatesData";
+import { gaClickEvent } from "../../utils/GaUtils";
+import IOSSwitchSetting from "../buttons/IOSSwitchSetting";
+import ContactDialog from "../modals/ContactDialog";
 
 const SidebarIcon: FC = () => {
   return (
@@ -221,5 +221,4 @@ const Sidebar: FC = () => {
     </>
   );
 };
-
 export default Sidebar;

@@ -34,3 +34,4 @@ yarn-error.log*
 # custom
 memo.md
 certificates
+ecosystem.config.js
