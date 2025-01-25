@@ -2,6 +2,7 @@ import { PageEnum } from "../enums/PageEnum";
 import {
   thsrStationDataList,
   trStationDataList,
+  tymcStationDataList,
 } from "../public/data/stationsData";
 import { getTdxLang } from "./LocaleUtils";
 
@@ -25,6 +26,10 @@ export const getStationNameById = (
     return getThsrStationNameById(stationId, lang);
   }
 
+  if (page === PageEnum.TYMC) {
+    return getTymcStationNameById(stationId, lang);
+  }
+
   return "";
 };
 
@@ -46,6 +51,10 @@ export const getStationIdByName = (
 
   if (page === PageEnum.THSR) {
     return getThsrStationIdByName(stationName, lang);
+  }
+
+  if (page === PageEnum.TYMC) {
+    return getTymcStationIdByName(stationName, lang);
   }
 
   return "";
@@ -132,6 +141,46 @@ export const getThsrStationIdByName = (stationName: string, lang: string) => {
 
   if (station) {
     return station.StationID;
+  }
+
+  return null;
+};
+
+/**
+ * 取得 [桃園捷運] 車站名稱 by ID
+ * @param stationId
+ * @param lang
+ * @returns
+ */
+export const getTymcStationNameById = (stationId: string, lang: string) => {
+  if (!stationId || !lang) return null;
+
+  const station = tymcStationDataList.find(
+    (station) => station.StationID === stationId,
+  );
+
+  if (station) {
+    return `${station.StationID} ${station.StationName[getTdxLang(lang)]}`;
+  }
+
+  return null;
+};
+
+/**
+ * 取得 [桃園捷運] 車站 ID by 名稱
+ * @param stationName
+ * @param lang
+ * @returns
+ */
+export const getTymcStationIdByName = (stationName: string, lang: string) => {
+  if (!stationName || !lang) return null;
+
+  const station = tymcStationDataList.find(
+    (station) => station.StationName[getTdxLang(lang)] === stationName,
+  );
+
+  if (station) {
+    return `${station.StationID} ${station.StationName[getTdxLang(lang)]}`;
   }
 
   return null;

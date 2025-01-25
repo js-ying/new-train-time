@@ -15,9 +15,11 @@ import useRwd from "../../hooks/useRwdHook";
 import {
   ThsrStationData,
   TrStationData,
+  TymcStationData,
   thsrStationDataList,
   trMainLines,
   trStationDataList,
+  tymcStationDataList,
 } from "../../public/data/stationsData";
 import { getTdxLang } from "../../utils/LocaleUtils";
 
@@ -34,20 +36,24 @@ const isStationBelowMainLine = (
 
 /** 車站名稱是否符合輸入框內容 */
 const isStationNameIncludesInput = (
-  trStationData: TrStationData | ThsrStationData,
+  stationData: TrStationData | ThsrStationData | TymcStationData,
   inputValue: string,
 ): boolean => {
   const excludeStationList = ["1001"]; // 排除環島之星列車
 
-  const enFilter = trStationData.StationName.En.toLowerCase().includes(
+  const enFilter = stationData.StationName.En.toLowerCase().includes(
     inputValue.toLowerCase(),
   );
-  const zhHantFilter =
-    trStationData.StationName.Zh_tw.includes(inputValue) ||
-    trStationData.StationName.Zh_tw.replace("臺", "台").includes(inputValue);
-  const excludeFilter = !excludeStationList.includes(trStationData.StationID);
 
-  return (enFilter || zhHantFilter) && excludeFilter;
+  const zhHantFilter =
+    stationData.StationName.Zh_tw.includes(inputValue) ||
+    stationData.StationName.Zh_tw.replace("臺", "台").includes(inputValue);
+
+  const idFilter = stationData.StationID.includes(inputValue);
+
+  const excludeFilter = !excludeStationList.includes(stationData.StationID);
+
+  return (enFilter || zhHantFilter || idFilter) && excludeFilter;
 };
 
 /** 處理車站選擇 */
@@ -146,6 +152,51 @@ const ThsrStationInput: FC = () => {
   const handleInputEnter = (e) => {
     if (e.key === "Enter") {
       const filterStationDataList = thsrStationDataList.filter(
+        (stationData) => {
+          return params.inputValue
+            ? isStationNameIncludesInput(stationData, params.inputValue)
+            : true;
+        },
+      );
+
+      if (filterStationDataList.length === 1) {
+        handleStationSelect(
+          filterStationDataList[0].StationID,
+          params,
+          setParams,
+        );
+      }
+    }
+  };
+
+  return (
+    <input
+      type="input"
+      value={params.inputValue}
+      onChange={(e) => setParams({ ...params, inputValue: e.target.value })}
+      className="common-input"
+      placeholder={placeholder}
+      onKeyDown={handleInputEnter}
+      autoFocus={!isMobile ? true : false}
+    ></input>
+  );
+};
+
+/** [桃園捷運] 車站輸入框 */
+const TymcStationInput: FC = () => {
+  const { t } = useTranslation();
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+  const { isMobile } = useRwd();
+
+  const placeholder =
+    params.activeIndex === SearchAreaActiveIndexEnum.START_STATION
+      ? t("tymcStartStationInputPlaceholder")
+      : t("tymcEndStationInputPlaceholder");
+
+  const handleInputEnter = (e) => {
+    if (e.key === "Enter") {
+      const filterStationDataList = tymcStationDataList.filter(
         (stationData) => {
           return params.inputValue
             ? isStationNameIncludesInput(stationData, params.inputValue)
@@ -300,9 +351,49 @@ const SelectThsrStation: FC = () => {
   );
 };
 
+/** [桃園捷運] 車站選擇 */
+const SelectTymcStation: FC = () => {
+  const { i18n } = useTranslation();
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
+  const getStationName = (tymcStationData: TymcStationData): string => {
+    const stationName = `${tymcStationData.StationID} ${tymcStationData.StationName[getTdxLang(i18n.language)]}`;
+    return stationName;
+  };
+
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+      {/* 第 0 層：車站 (若有輸入文字篩選，則顯示篩選結果；否則顯示位於指定縣市下的車站) */}
+      {(params.layer === 0 || params.inputValue) &&
+        tymcStationDataList
+          .filter((tymcStationData) => {
+            return params.inputValue
+              ? isStationNameIncludesInput(tymcStationData, params.inputValue)
+              : true;
+          })
+          .map((tymcStationData) => {
+            return (
+              <StationButton
+                text={getStationName(tymcStationData)}
+                key={tymcStationData.StationName.En}
+                onClick={() =>
+                  handleStationSelect(
+                    tymcStationData.StationID,
+                    params,
+                    setParams,
+                  )
+                }
+              />
+            );
+          })}
+    </div>
+  );
+};
+
 /** 車站選擇器 */
 const SelectStation: FC = () => {
-  const { isTr, isThsr } = usePage();
+  const { isTr, isThsr, isTymc } = usePage();
 
   return (
     <>
@@ -310,9 +401,13 @@ const SelectStation: FC = () => {
 
       {isThsr && <ThsrStationInput />}
 
+      {isTymc && <TymcStationInput />}
+
       {isTr && <SelectTrStation />}
 
       {isThsr && <SelectThsrStation />}
+
+      {isTymc && <SelectTymcStation />}
     </>
   );
 };
