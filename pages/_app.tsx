@@ -3,7 +3,7 @@ import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 import { AppProps } from "next/app";
 import { SearchAreaProvider } from "../contexts/SearchAreaContext";
 
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import Head from "next/head";
 import GoogleScript from "../components/GoogleScript";
 import { SettingProvider } from "../contexts/SettingContext";
@@ -67,7 +67,7 @@ function App({ Component, pageProps }: AppProps) {
         />
         <link rel="mask-icon" href="/images/logos/logo-32.png" />
       </Head>
-      <NextUIProvider>
+      <HeroUIProvider>
         <NextThemesProvider attribute="class">
           <SettingProvider>
             <SearchAreaProvider>
@@ -75,7 +75,7 @@ function App({ Component, pageProps }: AppProps) {
             </SearchAreaProvider>
           </SettingProvider>
         </NextThemesProvider>
-      </NextUIProvider>
+      </HeroUIProvider>
       <GoogleScript />
     </>
   );

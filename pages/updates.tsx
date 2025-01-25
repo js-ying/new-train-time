@@ -1,5 +1,5 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
-import { Switch, Tab, Tabs } from "@nextui-org/react";
+import { Switch, Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTheme } from "next-themes";

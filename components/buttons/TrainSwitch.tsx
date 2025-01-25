@@ -1,14 +1,13 @@
 import {
   Button,
-  Modal,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "@nextui-org/react";
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC, useContext, useState } from "react";
+import { FC, useContext } from "react";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
@@ -91,59 +90,40 @@ const SwitchLabel: FC<SwitchLabelProps> = ({ toPage }) => {
 /** 大眾運輸切換器 */
 const TrainSwitch: FC = () => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
 
   const pages = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC];
-  const paths = [PathEnum.trHome, PathEnum.thsrHome, PathEnum.tymcHome];
+
+  const router = useRouter();
 
   return (
     <>
       <div className="flex items-center gap-1">
-        <Button
-          className={`h-5 min-w-fit bg-silverLakeBlue-500 px-1.5
-        text-sm text-white dark:bg-gamboge-500 dark:text-eerieBlack-500`}
-          radius="sm"
-          onClick={() => setIsOpen(true)}
-        >
-          切換
-        </Button>
+        <Dropdown backdrop="blur">
+          <DropdownTrigger>
+            <Button
+              className={`h-5 min-w-fit bg-silverLakeBlue-500 px-1.5
+              text-sm text-white dark:bg-gamboge-500 dark:text-eerieBlack-500`}
+              radius="sm"
+            >
+              切換
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Static Actions">
+            {pages.map((page, index) => (
+              <DropdownItem
+                key={page}
+                onPress={() => {
+                  router.push({
+                    pathname: `${PathEnum[page + "Home"]}`,
+                  });
+                }}
+              >
+                {t(page)}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </Dropdown>
       </div>
-
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={setIsOpen}
-        size={"md"}
-        classNames={{
-          base: "bg-white dark:bg-eerieBlack-500",
-          header: "flex items-center justify-center gap-2",
-          body: "text-center",
-        }}
-        backdrop="blur"
-        hideCloseButton={true}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>{t("pleaseSelect")}</ModalHeader>
-              <div className="mb-6 flex justify-evenly">
-                {pages.map((page, index) => (
-                  <Link href={paths[index]} passHref key={page}>
-                    <Button
-                      className="flex h-20 w-20 items-center justify-center whitespace-pre-line
-                        rounded-md bg-silverLakeBlue-500 text-center text-lg
-                         text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {t(page)}
-                    </Button>
-                  </Link>
-                ))}
-              </div>
-            </>
-          )}
-        </ModalContent>
-        <ModalFooter></ModalFooter>
-      </Modal>
     </>
   );
 };

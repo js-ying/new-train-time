@@ -1,4 +1,4 @@
-import { Switch } from "@nextui-org/react";
+import { Switch } from "@heroui/react";
 import { FC } from "react";
 import { GaEnum } from "../../enums/GaEnum";
 import { gaClickEvent } from "../../utils/GaUtils";

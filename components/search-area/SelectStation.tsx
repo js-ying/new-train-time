@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useContext, useState } from "react";
 import {
@@ -28,10 +28,7 @@ const isStationBelowMainLine = (
   trStationData: TrStationData,
   mainLine: string,
 ): boolean => {
-  return (
-    trStationData.StationAddress.replace(/[0-9]/g, "").substring(0, 3) ===
-    mainLine
-  );
+  return (trStationData.StationAddress.replace(/[0-9]/g, "").substring(0, 3) === mainLine);
 };
 
 /** 車站名稱是否符合輸入框內容 */
