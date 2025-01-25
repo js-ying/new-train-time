@@ -17,7 +17,7 @@ const ThsrSearch: FC = () => {
   return (
     <>
       <Head>
-        <title>{`${t("thsrTitle")} - ${t("trTitle")}`}</title>
+        <title>{`${t("thsr")} - ${t("trTitle")}`}</title>
       </Head>
       <Search />
     </>

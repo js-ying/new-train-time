@@ -17,7 +17,7 @@ const TymcHome: FC = () => {
   return (
     <>
       <Head>
-        <title>{`${t("tymcTitle")} - ${t("trTitle")}`}</title>
+        <title>{`${t("tymc")} - ${t("trTitle")}`}</title>
       </Head>
       <Home />
     </>
