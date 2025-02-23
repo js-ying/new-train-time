@@ -7,24 +7,24 @@
     "start": "next start"
   },
   "dependencies": {
-    "@emotion/react": "^11.12.0",
-    "@emotion/styled": "^11.12.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@heroui/react": "2.6.14",
     "@hugocxl/react-to-image": "^0.0.9",
-    "@mui/material": "^5.14.20",
-    "@mui/x-date-pickers": "^6.18.3",
-    "@next/third-parties": "^14.2.3",
-    "moment": "^2.29.4",
-    "moment-timezone": "^0.5.43",
-    "next": "^14.2.5",
-    "next-i18next": "^15.1.1",
+    "@mui/material": "^5.16.14",
+    "@mui/x-date-pickers": "^6.20.2",
+    "@next/third-parties": "^14.2.24",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.47",
+    "next": "^14.2.24",
+    "next-i18next": "^15.4.2",
     "next-pwa": "^5.6.0",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "sass": "^1.69.5",
-    "sharp": "^0.33.4",
-    "yet-another-react-lightbox": "^3.17.3"
+    "sass": "^1.85.0",
+    "sharp": "^0.33.5",
+    "yet-another-react-lightbox": "^3.21.7"
   },
   "engines": {
     "node": ">=18"
@@ -32,12 +32,12 @@
   "devDependencies": {
     "@types/node": "20.10.4",
     "@types/react": "18.2.42",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^8.55.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
     "eslint-config-react-app": "^7.0.1",
-    "postcss": "^8.4.32",
-    "prettier": "^3.1.0",
-    "prettier-plugin-tailwindcss": "^0.5.9",
-    "tailwindcss": "^3.3.6"
+    "postcss": "^8.5.3",
+    "prettier": "^3.5.2",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tailwindcss": "^3.4.17"
   }
 }
