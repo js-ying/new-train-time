@@ -183,16 +183,19 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         setOpen={setFeedbackOpen}
         title={t("feedbackMenu")}
       >
-        <div className="flex justify-center">
-          <Button
-            color="primary"
-            className="w-fit bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
-            onPress={() =>
-              window.open("https://forms.gle/y9VGhdMwMhbiZVW88", "_blank")
-            }
-          >
-            {t("feedbackBtn")}
-          </Button>
+        <div className="flex flex-col justify-center">
+          <div className="mb-6 text-left">{t("feedbackDescription")}</div>
+          <div>
+            <Button
+              color="primary"
+              className="w-fit bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+              onPress={() =>
+                window.open("https://forms.gle/y9VGhdMwMhbiZVW88", "_blank")
+              }
+            >
+              {t("feedbackBtn")}
+            </Button>
+          </div>
         </div>
       </CommonDialog>
     </>

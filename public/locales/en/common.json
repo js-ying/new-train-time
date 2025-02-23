@@ -84,6 +84,7 @@
   "featureIntroductionMenu": "Feature Introduction",
   "updateAnnouncementsMenu": "Update Announcements",
   "feedbackMenu": "Feedback",
+  "feedbackDescription": "This system is a personal development project that provides multi-rail timetable inquiries. If you find any incorrect data or have any suggestions, please click the button below to fill out the form.",
   "feedbackBtn": "Go to Google Form",
   "nowTimeBtn": "Now",
   "installToDesktopBtn": "Install to desktop",

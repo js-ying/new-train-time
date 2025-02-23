@@ -85,6 +85,7 @@
   "featureIntroductionMenu": "特色介紹",
   "updateAnnouncementsMenu": "更新公告",
   "feedbackMenu": "意見反應",
+  "feedbackDescription": "本系統為個人開發專案，提供多鐵時刻查詢的服務。若發現資料有誤或是有任何建議，歡迎點擊下方按鈕填寫表單。",
   "feedbackBtn": "前往 Google 表單",
   "nowTimeBtn": "此刻",
   "installToDesktopBtn": "安裝到桌面",
