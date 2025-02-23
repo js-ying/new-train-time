@@ -19,9 +19,7 @@ jobs:
           node-version: "20" # 根據需要選擇 Node.js 版本
 
       - name: Install dependencies
-        run: |
-          npm install --save-dev typescript @types/node @types/react @types/react-dom
-          npm install --legacy-peer-deps
+        run: npm install
 
       - name: Build project
         run: npm run build
@@ -41,6 +39,6 @@ jobs:
             pm2 --version
             cd /var/www/html/jsy.tw/fullstack/new-train-time
             git pull origin main
-            npm install --legacy-peer-deps
+            npm install
             npm run build
             pm2 restart new-train-time
