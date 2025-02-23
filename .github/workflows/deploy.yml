@@ -42,6 +42,5 @@ jobs:
             rm -rf .next
             rm -rf node_modules
             npm install
-            export NODE_OPTIONS="--max-old-space-size=4096"
             npm run build
             pm2 restart new-train-time
