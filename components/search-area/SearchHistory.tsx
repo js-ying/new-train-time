@@ -7,6 +7,7 @@ import {
 } from "../../contexts/SearchAreaContext";
 import { GaEnum } from "../../enums/GaEnum";
 import usePage from "../../hooks/usePageHook";
+import useRwd from "../../hooks/useRwdHook";
 import { gaClickEvent } from "../../utils/GaUtils";
 import { getStationNameById } from "../../utils/StationUtils";
 import { HistoryInquiry } from "./SearchButton";
@@ -49,7 +50,9 @@ const SearchHistory: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
-  const { localStorageKey, page } = usePage();
+  const { localStorageKey, page, isTymc } = usePage();
+  const { isMobile } = useRwd();
+  const onlyShowStationId = isTymc && isMobile;
 
   useEffect(() => {
     const valueString = window.localStorage.getItem(localStorageKey);
@@ -90,7 +93,7 @@ const SearchHistory: FC = () => {
                     className="h-8 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
                     size="sm"
                     radius="sm"
-                    onClick={() =>
+                    onPress={() =>
                       handleHistoryClick(
                         history.startStationId,
                         history.endStationId,
@@ -98,16 +101,22 @@ const SearchHistory: FC = () => {
                     }
                     key={`${history.startStationId}-${history.endStationId}`}
                   >
-                    {getStationNameById(
-                      page,
-                      history.startStationId,
-                      i18n.language,
-                    )}{" "}
-                    →{" "}
-                    {getStationNameById(
-                      page,
-                      history.endStationId,
-                      i18n.language,
+                    {onlyShowStationId ? (
+                      `${history.startStationId} → ${history.endStationId}`
+                    ) : (
+                      <>
+                        {getStationNameById(
+                          page,
+                          history.startStationId,
+                          i18n.language,
+                        )}{" "}
+                        →{" "}
+                        {getStationNameById(
+                          page,
+                          history.endStationId,
+                          i18n.language,
+                        )}
+                      </>
                     )}
                   </Button>
                 );

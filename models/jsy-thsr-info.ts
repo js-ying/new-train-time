@@ -1,7 +1,7 @@
-export interface JsyThsrTrainTimeTable {
+export interface JsyThsrInfo {
   timeTable: ThsrDailyTimetable[];
   fareList: ThsrOdFare[];
-  dailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
+  freeSeatingCars: ThsrFreeSeatingCar[];
   generalTimeTable: ThsrTdxGeneralTimeTable[];
 }
 
@@ -129,4 +129,64 @@ export interface ThsrGeneralTimeTable {
     Sunday: number;
   };
   SrcUpdateTime: string;
+}
+
+export interface ThsrAlertInfo {
+  /** 通阻訊息代碼 */
+  AlertID: string;
+
+  /** 通阻訊息標題 */
+  Title: string;
+
+  /** 通阻訊息說明 */
+  Description: string;
+
+  /** 營運狀況 = ['空白: 正常' or '▲: 其他的異常狀態' or 'X: 全線停止運行'] */
+  Status: string;
+
+  /** 影響範圍 */
+  Scope: {
+    /** 影響路段資訊 */
+    LineSections: Array<{
+      LineID: string;
+      StartingStationID: string;
+      StartingStationName: string;
+      EndingStationID: string;
+      EndingStationName: string;
+      Description: string;
+    }>;
+  };
+
+  /** 影響方向 : [0:'南下',1:'北上',2:'雙向'] */
+  Direction: number;
+
+  /** 影響等級程度 : [1:'重度',2:'中度',3:'輕度'] */
+  Level: number;
+
+  /** 影響說明 */
+  Effect: string;
+
+  /** 影響原因 */
+  Reason: string;
+
+  /** 通阻訊息網址連結 */
+  AlertURL: string;
+
+  /** 發生日期時間 */
+  OccuredTime: string;
+
+  /** 訊息起始日期時間 */
+  StartTime: string;
+
+  /** 訊息結束日期時間 */
+  EndTime: string;
+
+  /** 訊息發布日期時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz) */
+  PublishTime: string;
+
+  /** 來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz) */
+  SrcUpdateTime: string;
+
+  /** 本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz) */
+  UpdateTime: string;
 }

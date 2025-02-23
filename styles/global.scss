@@ -112,3 +112,14 @@ img {
   left: -0.8rem;
   transform: translateY(-50%);
 }
+
+.dot-static {
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: -0.8rem;
+  transform: translateY(-50%);
+}

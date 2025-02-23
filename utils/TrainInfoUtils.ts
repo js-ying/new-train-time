@@ -1,7 +1,7 @@
 import {
   ThsrGeneralTimeTable,
   ThsrTdxGeneralTimeTable,
-} from "../types/thsr-train-time-table";
+} from "../models/jsy-thsr-info";
 import { getTdxLang } from "./LocaleUtils";
 
 /**
@@ -197,4 +197,18 @@ export const getThsrGeneralTrainInfo = (
   }
 
   return null;
+};
+
+/**
+ * [桃園捷運] 車種是否為直達車
+ */
+export const isTymcTrainDirect = (trainTypeCode: number): boolean => {
+  return [0, 2].includes(trainTypeCode);
+};
+
+/**
+ * [桃園捷運] 車種是否為普通車
+ */
+export const isTymcTrainNormal = (trainTypeCode: number): boolean => {
+  return [0, 1].includes(trainTypeCode);
 };

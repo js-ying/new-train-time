@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { JsyThsrTrainTimeTable } from "../../../types/thsr-train-time-table";
+import { JsyThsrInfo } from "../../../models/jsy-thsr-info";
 import AdUtils from "../../../utils/AdUtils";
 import AdBanner from "../../AdBanner";
 import TrainTimeNavbar from "../TrainTimeNavbar";
@@ -7,7 +7,7 @@ import ThsrPriceInfo from "./ThsrPriceInfo";
 import ThsrTrainTimeInfo from "./ThsrTrainTimeInfo";
 
 interface ThsrTrainTimeTableProps {
-  data: JsyThsrTrainTimeTable;
+  data: JsyThsrInfo;
 }
 
 /** 列車時刻表 */
@@ -25,7 +25,7 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
           <div key={timeTable.DailyTrainInfo.TrainNo}>
             <ThsrTrainTimeInfo
               thsrTrainTimeTable={timeTable}
-              thsrDailyFreeSeatingCar={data.dailyFreeSeatingCar}
+              thsrFreeSeatingCars={data.freeSeatingCars}
               thsrTdxGeneralTimeTable={data.generalTimeTable}
               thsrOdFare={data.fareList}
             />

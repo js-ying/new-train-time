@@ -28,7 +28,10 @@ const isStationBelowMainLine = (
   trStationData: TrStationData,
   mainLine: string,
 ): boolean => {
-  return (trStationData.StationAddress.replace(/[0-9]/g, "").substring(0, 3) === mainLine);
+  return (
+    trStationData.StationAddress.replace(/[0-9]/g, "").substring(0, 3) ===
+    mainLine
+  );
 };
 
 /** 車站名稱是否符合輸入框內容 */
@@ -238,7 +241,7 @@ const StationButton: FC<StationButtonProps> = ({
 }) => {
   return (
     <Button
-      className={`text-md text-white 
+      className={`text-md h-auto min-h-10 whitespace-pre-line text-white
         ${
           isTopStation
             ? "bg-gradient-to-r from-silverLakeBlue-300 via-silverLakeBlue-500 to-silverLakeBlue-300 dark:from-gamboge-400 dark:via-gamboge-600 dark:to-gamboge-400"
@@ -360,7 +363,7 @@ const SelectTymcStation: FC = () => {
   };
 
   return (
-    <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+    <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-4">
       {/* 第 0 層：車站 (若有輸入文字篩選，則顯示篩選結果；否則顯示位於指定縣市下的車站) */}
       {(params.layer === 0 || params.inputValue) &&
         tymcStationDataList

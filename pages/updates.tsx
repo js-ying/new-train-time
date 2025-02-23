@@ -1,5 +1,5 @@
+import { Chip, Switch, Tab, Tabs } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
-import { Switch, Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTheme } from "next-themes";
@@ -71,11 +71,30 @@ interface UpdateListProps {
     date: string;
     type: string;
     ver: string;
-    items: string[];
+    items: { type: string; content: string }[] | string[];
   }[];
 }
 
 const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
+  const chipColorMap = {
+    new: {
+      color: "bg-rose-500 text-white dark:bg-rose-500/80",
+      desc: "新增",
+    },
+    fix: {
+      color: "bg-sky-500 text-white dark:bg-sky-500/80",
+      desc: "修正",
+    },
+    refactor: {
+      color: "bg-indigo-500 text-white dark:bg-indigo-500/80",
+      desc: "重構",
+    },
+    update: {
+      color: "bg-teal-500 text-white dark:bg-teal-500/80",
+      desc: "更新",
+    },
+  } as const;
+
   return (
     <>
       {dataList.map((data) => {
@@ -88,11 +107,23 @@ const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
               <div>{`Ver. ${data.ver} 版本更新`}</div>
               <div>{`${data.date}`}</div>
             </div>
-            <ol className="list-inside list-decimal whitespace-pre-line">
+            <div className="flex list-inside list-decimal flex-col gap-1.5 whitespace-pre-line">
               {data.items.map((item) => {
-                return <li key={item}>{item}</li>;
+                return (
+                  <div
+                    key={item.content || item}
+                    className="flex items-center gap-2"
+                  >
+                    {item.type && (
+                      <Chip className={chipColorMap[item.type].color} size="sm">
+                        {chipColorMap[item.type].desc}
+                      </Chip>
+                    )}
+                    {item.content || item}
+                  </div>
+                );
               })}
-            </ol>
+            </div>
           </div>
         );
       })}
@@ -113,7 +144,7 @@ const Updates: FC = () => {
   return (
     <>
       <Head>
-        <title>{`${t("UpdateAnnouncementsMenu")} - ${t("trTitle")}`}</title>
+        <title>{`${t("updateAnnouncementsMenu")} - ${t("trTitle")}`}</title>
         <meta
           name="theme-color"
           content={theme === "light" ? "#FFFFFF" : "#212529"}

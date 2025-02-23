@@ -1,5 +1,3 @@
-import { useToPng } from "@hugocxl/react-to-image";
-import Chip from "@mui/material/Chip";
 import {
   Button,
   Modal,
@@ -8,16 +6,18 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/react";
+import { useToPng } from "@hugocxl/react-to-image";
+import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC, useState } from "react";
 import { GaEnum } from "../../../enums/GaEnum";
 import {
-  ThsrDailyFreeSeatingCar,
+  JsyThsrInfo,
   ThsrDailyTimetable,
   ThsrGeneralTimeTable,
   ThsrOdFare,
   ThsrTdxGeneralTimeTable,
-} from "../../../types/thsr-train-time-table";
+} from "../../../models/jsy-thsr-info";
 import { gaClickEvent } from "../../../utils/GaUtils";
 import { getTdxLang } from "../../../utils/LocaleUtils";
 import { getThsrGeneralTrainInfo } from "../../../utils/TrainInfoUtils";
@@ -30,14 +30,14 @@ import ThsrServiceDay from "./ThsrServiceDay";
 
 interface TrainDetailProps {
   thsrTrainTimeTable: ThsrDailyTimetable;
-  thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
+  thsrFreeSeatingCars: JsyThsrInfo["freeSeatingCars"];
   thsrOdFare: ThsrOdFare[];
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
 }
 
 const TrainDetail: FC<TrainDetailProps> = ({
   thsrTrainTimeTable,
-  thsrDailyFreeSeatingCar,
+  thsrFreeSeatingCars,
   thsrOdFare,
   thsrTdxGeneralTimeTable,
 }) => {
@@ -80,7 +80,7 @@ const TrainDetail: FC<TrainDetailProps> = ({
         <div className="flex items-center">
           <ThsrFreeSeat
             trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
-            freeSeatData={thsrDailyFreeSeatingCar}
+            freeSeatData={thsrFreeSeatingCars}
             showLabel={false}
           />
         </div>
@@ -154,7 +154,7 @@ interface ThsrTrainTimeDetailDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   thsrTrainTimeTable: ThsrDailyTimetable;
-  thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
+  thsrFreeSeatingCars: JsyThsrInfo["freeSeatingCars"];
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
   thsrOdFare: ThsrOdFare[];
 }
@@ -163,7 +163,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
   open,
   setOpen,
   thsrTrainTimeTable,
-  thsrDailyFreeSeatingCar,
+  thsrFreeSeatingCars,
   thsrTdxGeneralTimeTable,
   thsrOdFare,
 }) => {
@@ -245,7 +245,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
               <ModalBody>
                 <TrainDetail
                   thsrTrainTimeTable={thsrTrainTimeTable}
-                  thsrDailyFreeSeatingCar={thsrDailyFreeSeatingCar}
+                  thsrFreeSeatingCars={thsrFreeSeatingCars}
                   thsrOdFare={thsrOdFare}
                   thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
                 />

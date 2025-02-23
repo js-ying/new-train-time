@@ -101,15 +101,16 @@ const SearchButton: FC = () => {
       <Button
         className="text-md h-10 min-w-fit bg-zinc-700 text-white dark:bg-silverLakeBlue-500"
         radius="sm"
-        onClick={() => handleSearch()}
+        onPress={() => handleSearch()}
       >
         {t("searchBtn")}
       </Button>
       <CommonDialog
         open={alertOptions.alertOpen}
         setOpen={alertOptions.setAlertOpen}
-        msg={alertOptions.alertMsg}
-      />
+      >
+        {t(alertOptions.alertMsg)}
+      </CommonDialog>
     </>
   );
 };

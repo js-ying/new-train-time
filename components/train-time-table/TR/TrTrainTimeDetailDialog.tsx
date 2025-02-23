@@ -1,5 +1,3 @@
-import { useToPng } from "@hugocxl/react-to-image";
-import Chip from "@mui/material/Chip";
 import {
   Button,
   Modal,
@@ -8,11 +6,13 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/react";
+import { useToPng } from "@hugocxl/react-to-image";
+import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC, useState } from "react";
 import { GaEnum } from "../../../enums/GaEnum";
 import useLang from "../../../hooks/useLangHook";
-import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
 import { gaClickEvent } from "../../../utils/GaUtils";
 import { getTdxLang } from "../../../utils/LocaleUtils";
 import {

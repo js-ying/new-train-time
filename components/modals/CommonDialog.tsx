@@ -12,7 +12,7 @@ import { FC, useState } from "react";
 interface CommonDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  msg: string;
+  children: React.ReactNode;
 
   // 標題 -> 預設 "錯誤訊息"
   title?: string | "errorAlertTitle";
@@ -33,6 +33,9 @@ interface CommonDialogProps {
   // 內容對齊 -> 預設置中
   bodyTextAlign?: "text-center" | "text-left" | "text-right";
 
+  // 捲動行為
+  scrollBehavior?: "inside" | "outside";
+
   // 啟用 "不再顯示" checkbox -> 預設 false
   enableDoNotShowAgainCheckbox?: boolean;
 }
@@ -47,7 +50,7 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
   const customCloseEvent = () => {
     if (props.enableDoNotShowAgainCheckbox) {
       if (doNotShowAgain) {
-        window.localStorage.setItem(`${props.msg}_disabled`, "true");
+        window.localStorage.setItem(`${props.children}_disabled`, "true");
       }
     }
   };
@@ -63,6 +66,7 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
         body: props.bodyTextAlign || "text-center",
       }}
       isDismissable={!props.enableDoNotShowAgainCheckbox}
+      scrollBehavior={props.scrollBehavior || "inside"}
       isKeyboardDismissDisabled={props.enableDoNotShowAgainCheckbox}
       onClose={customCloseEvent}
     >
@@ -72,7 +76,7 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
             <ModalHeader>
               {t(props.title) || props.title || t("errorAlertTitle")}
             </ModalHeader>
-            <ModalBody>{t(props.msg) || props.msg}</ModalBody>
+            <ModalBody>{props.children}</ModalBody>
 
             <ModalFooter>
               {props.enableDoNotShowAgainCheckbox && (

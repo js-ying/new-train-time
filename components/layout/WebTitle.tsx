@@ -24,7 +24,7 @@ const WebTitle: FC = () => {
   return (
     <>
       <span
-        className={`cursor-pointer font-bold ${isTw ? "text-lg" : "text-sm sm:text-lg"}`}
+        className={`cursor-pointer font-bold ${isTw ? "text-lg" : "text-md"}`}
         onClick={() => {
           gaClickEvent(GaEnum.TITLE);
           setParams({
@@ -40,11 +40,7 @@ const WebTitle: FC = () => {
           });
         }}
       >
-        <span
-          className={`${isTw ? "" : "pr-1"} text-silverLakeBlue-500 dark:text-gamboge-500`}
-        >
-          {t(page)}
-        </span>
+        <span className={`${isTw ? "" : "pr-1"}`}>{t(page)}</span>
         {t("scheduleInquiry")}
       </span>
       <TrainSwitch />

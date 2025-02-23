@@ -1,3 +1,4 @@
+import { Button } from "@heroui/react";
 import {
   Box,
   Divider,
@@ -13,13 +14,11 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
 import { GaEnum } from "../../enums/GaEnum";
-import { LocaleEnum } from "../../enums/LocaleEnum";
-import useDeviceDetect from "../../hooks/useDeviceDetectHook";
 import useSettingHook from "../../hooks/useSettingHook";
 import { updateDataList } from "../../public/data/updatesData";
 import { gaClickEvent } from "../../utils/GaUtils";
 import IOSSwitchSetting from "../buttons/IOSSwitchSetting";
-import ContactDialog from "../modals/ContactDialog";
+import CommonDialog from "../modals/CommonDialog";
 
 const SidebarIcon: FC = () => {
   return (
@@ -45,7 +44,7 @@ interface DrawerListProps {
 }
 
 const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const router = useRouter();
 
   const list = useMemo(() => {
@@ -55,22 +54,20 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         icon: "M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18",
       },
       {
-        text: "UpdateAnnouncementsMenu",
+        text: "updateAnnouncementsMenu",
         icon: "m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z",
       },
       {
-        text: "contactMeMenu",
+        text: "feedbackMenu",
         icon: "M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75",
       },
     ];
   }, []);
 
-  const [open, setOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   const [showTrTrainNote, setShowTrTrainNote] =
     useSettingHook("showTrTrainNote");
-
-  const { isPWAPromotable } = useDeviceDetect();
 
   const handleClick = (text: string) => {
     switch (text) {
@@ -85,23 +82,14 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
       case "featureIntroductionMenu":
         gaClickEvent(GaEnum.FEATURES);
 
-        if (!isPWAPromotable) {
-          router.push({
-            pathname: "/features",
-          });
-        } else {
-          // router.push 無法正確觸發 beforeinstallprompt，所以改用 window.location.href
-          if (i18n.language === LocaleEnum.TW) {
-            window.location.href = "/features";
-          } else {
-            window.location.href = `/${i18n.language}/features`;
-          }
-        }
+        router.push({
+          pathname: "/features",
+        });
 
         setSidebarOpen(false);
         break;
 
-      case "UpdateAnnouncementsMenu":
+      case "updateAnnouncementsMenu":
         gaClickEvent(GaEnum.UPDATES);
         router.push({
           pathname: "/updates",
@@ -109,9 +97,9 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         setSidebarOpen(false);
         break;
 
-      case "contactMeMenu":
+      case "feedbackMenu":
         gaClickEvent(GaEnum.CONTACT_ME);
-        setOpen(true);
+        setFeedbackOpen(true);
         break;
 
       default:
@@ -171,7 +159,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
           ))}
         </List>
         <Divider />
-        <List className="ml-4 mr-1 text-sm">
+        <List className="ml-4 mr-2 text-sm">
           <IOSSwitchSetting
             value={showTrTrainNote}
             setValue={setShowTrTrainNote}
@@ -189,7 +177,24 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
           </ListItemButton>
         </List>
       </Box>
-      <ContactDialog open={open} setOpen={setOpen} />
+
+      <CommonDialog
+        open={feedbackOpen}
+        setOpen={setFeedbackOpen}
+        title={t("feedbackMenu")}
+      >
+        <div className="flex justify-center">
+          <Button
+            color="primary"
+            className="w-fit bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+            onPress={() =>
+              window.open("https://forms.gle/y9VGhdMwMhbiZVW88", "_blank")
+            }
+          >
+            {t("feedbackBtn")}
+          </Button>
+        </div>
+      </CommonDialog>
     </>
   );
 };

@@ -20,6 +20,7 @@ import useLang from "../../hooks/useLangHook";
 import usePage from "../../hooks/usePageHook";
 import DateUtils from "../../utils/DateUtils";
 import { gaClickEvent } from "../../utils/GaUtils";
+import RefreshIcon from "../icons/RefreshIcon";
 
 interface SwitchLabelProps {
   toPage: PageEnum;
@@ -95,17 +96,23 @@ const TrainSwitch: FC = () => {
 
   const router = useRouter();
 
+  const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
+
   return (
     <>
       <div className="flex items-center gap-1">
-        <Dropdown backdrop="blur">
+        <Dropdown
+          backdrop="blur"
+          classNames={{ content: "dark:bg-eerieBlack-500 dark:bg-none" }}
+        >
           <DropdownTrigger>
             <Button
               className={`h-5 min-w-fit bg-silverLakeBlue-500 px-1.5
               text-sm text-white dark:bg-gamboge-500 dark:text-eerieBlack-500`}
               radius="sm"
             >
-              切換
+              <RefreshIcon className="size-4" />
             </Button>
           </DropdownTrigger>
           <DropdownMenu aria-label="Static Actions">
@@ -113,12 +120,20 @@ const TrainSwitch: FC = () => {
               <DropdownItem
                 key={page}
                 onPress={() => {
+                  setParams({
+                    ...params,
+                    startStationId: null,
+                    endStationId: null,
+                    date: DateUtils.getCurrentDate(),
+                    time: DateUtils.getCurrentTime(),
+                    activeIndex: SearchAreaActiveIndexEnum.EMPTY,
+                  });
                   router.push({
                     pathname: `${PathEnum[page + "Home"]}`,
                   });
                 }}
               >
-                {t(page)}
+                {t(`${page}FullName`)}
               </DropdownItem>
             ))}
           </DropdownMenu>

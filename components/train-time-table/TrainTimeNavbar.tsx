@@ -13,11 +13,11 @@ const TableLengthCount: FC<TableLengthCountProps> = ({
   filterCount,
 }) => {
   const { t } = useTranslation();
-  const { isTr, isThsr } = usePage();
+  const { isTr, isThsr, isTymc } = usePage();
 
   return (
     <div className="text-sm">
-      {isTr && (
+      {(isTr || isTymc) && (
         <span className="whitespace-nowrap">
           {t("trainTableLengthCount", {
             filter: filterCount,
@@ -52,7 +52,6 @@ const TrainTimeNavbar: FC<TrainTimeNavbarProps> = ({
   return (
     <div className="flex items-center justify-between">
       {children}
-
       <TableLengthCount totalCount={totalCount} filterCount={filterCount} />
     </div>
   );

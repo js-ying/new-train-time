@@ -1,9 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC, useMemo } from "react";
-import {
-  ThsrDailyFreeSeatingCar,
-  ThsrFreeSeatingCar,
-} from "../../../types/thsr-train-time-table";
+import { ThsrFreeSeatingCar } from "../../../models/jsy-thsr-info";
 
 interface FreeSeatingCarNo {
   startCar: string;
@@ -101,7 +98,7 @@ const LabelFreeSeat: FC<LabelFreeSeatProps> = ({ freeSeatGroupList }) => {
 };
 
 interface ThsrFreeSeatProps {
-  freeSeatData: ThsrDailyFreeSeatingCar;
+  freeSeatData: ThsrFreeSeatingCar[];
   trainNo: string;
   showLabel: boolean;
 }
@@ -112,7 +109,7 @@ const ThsrFreeSeat: FC<ThsrFreeSeatProps> = ({
   showLabel,
 }) => {
   const freeSeatGroupList = useMemo(() => {
-    return getFreeSeatGroupListByTrainNo(freeSeatData.FreeSeatingCars, trainNo);
+    return getFreeSeatGroupListByTrainNo(freeSeatData, trainNo);
   }, [freeSeatData, trainNo]);
 
   return showLabel ? (

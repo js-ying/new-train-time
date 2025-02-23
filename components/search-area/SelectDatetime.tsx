@@ -1,6 +1,6 @@
+import { Button } from "@heroui/react";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { Button } from "@heroui/react";
 import moment from "moment-timezone";
 import "moment/locale/zh-tw";
 import { useTranslation } from "next-i18next";
@@ -30,7 +30,7 @@ const NowTimeButton: FC = () => {
       className="text-md min-w-fit text-silverLakeBlue-500 dark:text-gamboge-500"
       variant="light"
       size="sm"
-      onClick={resetDateTime}
+      onPress={resetDateTime}
     >
       {t("nowTimeBtn")}
     </Button>
@@ -112,7 +112,7 @@ const DatePicker: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
-  const { isTr } = usePage();
+  const { isThsr } = usePage();
 
   // 為了讓 <此刻> 按鈕方便運作，這邊不使用 useState，而是每次 re-render 時直接取得 params 最新值即可
   const selectedDate = moment(params.date);
@@ -133,7 +133,7 @@ const DatePicker: FC = () => {
         onChange={(datetime) => setDate(datetime)}
         views={["day"]}
         disablePast={true}
-        maxDate={moment().add(isTr ? 59 : 28, "days")}
+        maxDate={moment().add(isThsr ? 28 : 59, "days")}
         reduceAnimations={true}
         timezone={"Asia/Taipei"}
         dayOfWeekFormatter={(_day, weekday) => `${_day}`}

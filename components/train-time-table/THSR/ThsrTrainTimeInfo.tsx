@@ -5,7 +5,7 @@ import {
   ThsrDailyTimetable,
   ThsrOdFare,
   ThsrTdxGeneralTimeTable,
-} from "../../../types/thsr-train-time-table";
+} from "../../../models/jsy-thsr-info";
 import DateUtils from "../../../utils/DateUtils";
 import { gaClickEvent } from "../../../utils/GaUtils";
 import { isTrainPass } from "../../../utils/TrainInfoUtils";
@@ -17,7 +17,7 @@ import ThsrTrainTimeDetailDialog from "../THSR/ThsrTrainTimeDetailDialog";
 
 interface ThsrTrainTimeInfoProps {
   thsrTrainTimeTable: ThsrDailyTimetable;
-  thsrDailyFreeSeatingCar: ThsrDailyFreeSeatingCar;
+  thsrFreeSeatingCars: ThsrDailyFreeSeatingCar["FreeSeatingCars"];
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
   thsrOdFare: ThsrOdFare[];
 }
@@ -27,7 +27,7 @@ interface ThsrTrainTimeInfoProps {
  */
 const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
   thsrTrainTimeTable,
-  thsrDailyFreeSeatingCar,
+  thsrFreeSeatingCars,
   thsrTdxGeneralTimeTable,
   thsrOdFare,
 }) => {
@@ -66,7 +66,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
         <div className="text-center">
           <ThsrTimeInfoRightArea
             trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
-            freeSeatData={thsrDailyFreeSeatingCar}
+            freeSeatData={thsrFreeSeatingCars}
           />
         </div>
       </div>
@@ -82,7 +82,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           open={open}
           setOpen={setOpen}
           thsrTrainTimeTable={thsrTrainTimeTable}
-          thsrDailyFreeSeatingCar={thsrDailyFreeSeatingCar}
+          thsrFreeSeatingCars={thsrFreeSeatingCars}
           thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
           thsrOdFare={thsrOdFare}
         />

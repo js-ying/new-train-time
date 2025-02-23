@@ -6,6 +6,7 @@ import { SearchAreaProvider } from "../contexts/SearchAreaContext";
 import { HeroUIProvider } from "@heroui/react";
 import Head from "next/head";
 import GoogleScript from "../components/GoogleScript";
+import { PwaProvider } from "../contexts/PwaContext";
 import { SettingProvider } from "../contexts/SettingContext";
 import useLang from "../hooks/useLangHook";
 import "../styles/global.scss";
@@ -67,15 +68,17 @@ function App({ Component, pageProps }: AppProps) {
         />
         <link rel="mask-icon" href="/images/logos/logo-32.png" />
       </Head>
-      <HeroUIProvider>
-        <NextThemesProvider attribute="class">
-          <SettingProvider>
-            <SearchAreaProvider>
-              <Component {...pageProps} />
-            </SearchAreaProvider>
-          </SettingProvider>
-        </NextThemesProvider>
-      </HeroUIProvider>
+      <PwaProvider>
+        <HeroUIProvider>
+          <NextThemesProvider attribute="class">
+            <SettingProvider>
+              <SearchAreaProvider>
+                <Component {...pageProps} />
+              </SearchAreaProvider>
+            </SettingProvider>
+          </NextThemesProvider>
+        </HeroUIProvider>
+      </PwaProvider>
       <GoogleScript />
     </>
   );

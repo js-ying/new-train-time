@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
 import TrOrder, { isShowTrOrderBtn } from "./TrOrder";
 
 interface TrTimeInfoRightAreaProps {

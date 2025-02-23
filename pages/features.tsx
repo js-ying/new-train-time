@@ -1,5 +1,5 @@
-import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { Image } from "@heroui/react";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC, useMemo, useState } from "react";

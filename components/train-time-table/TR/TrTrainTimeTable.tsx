@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
 import AdUtils from "../../../utils/AdUtils";
 import AdBanner from "../../AdBanner";
 import TrainTimeNavbar from "../TrainTimeNavbar";

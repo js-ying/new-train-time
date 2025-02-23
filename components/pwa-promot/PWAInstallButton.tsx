@@ -1,39 +1,23 @@
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { usePwaPrompt } from "../../contexts/PwaContext";
 import useDeviceDetect from "../../hooks/useDeviceDetectHook";
 import PWATipDialog from "./PWATipDialog";
 
 const PWAPromotableButton: FC = () => {
   const { t } = useTranslation();
-  const [installPrompt, setInstallPrompt] = useState(null);
-
-  const handleBeforeInstallPrompt = useCallback((event) => {
-    event.preventDefault();
-    setInstallPrompt(event);
-  }, []);
-
-  const handleAfterInstallPrompt = useCallback(() => {
-    setInstallPrompt(null);
-  }, []);
+  const deferredPrompt = usePwaPrompt();
+  const [installPrompt, setInstallPrompt] = useState(deferredPrompt);
 
   useEffect(() => {
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    window.addEventListener("appinstalled", handleAfterInstallPrompt);
-
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt,
-      );
-      window.removeEventListener("appinstalled", handleAfterInstallPrompt);
-    };
-  }, []);
+    if (deferredPrompt) {
+      setInstallPrompt(deferredPrompt);
+    }
+  }, [deferredPrompt]);
 
   const triggerPromot = async () => {
-    if (!installPrompt) {
-      return;
-    }
+    if (!installPrompt) return;
     await installPrompt.prompt();
   };
 
@@ -54,13 +38,10 @@ const PWAPromotableButton: FC = () => {
             radius="full"
             size="sm"
             className="bg-neutral-500 text-white dark:bg-neutral-600"
-            onClick={triggerPromot}
+            onPress={triggerPromot}
           >
             {t("installToDesktopBtn")}
           </Button>
-          <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
-            {t("arcNotSupport")}
-          </span>
         </>
       )}
     </>

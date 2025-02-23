@@ -11,6 +11,7 @@ import {
 } from "../../enums/SearchAreaParamsEnum";
 import useDefaultStationHandling from "../../hooks/useDefaultStationHandlingHook";
 import usePage from "../../hooks/usePageHook";
+import useRwd from "../../hooks/useRwdHook";
 import { getStationNameById } from "../../utils/StationUtils";
 import SearchButton from "./SearchButton";
 import SelectDatetime from "./SelectDatetime";
@@ -32,7 +33,7 @@ const Area: FC<AreaProps> = ({
 }) => {
   return (
     <div
-      className={`flex h-16 cursor-pointer flex-col items-center justify-center rounded-md
+      className={`flex min-h-16 cursor-pointer flex-col items-center justify-center rounded-md
         border border-solid border-zinc-700 p-2 dark:border-zinc-200 ${className}
         transition duration-150 ease-out
         hover:bg-zinc-700 hover:text-white dark:hover:bg-silverLakeBlue-500
@@ -89,7 +90,9 @@ const SearchArea: FC = () => {
   const { t, i18n } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const { page } = usePage();
+  const { page, isTymc } = usePage();
+  const { isMobile } = useRwd();
+  const onlyShowStationId = isTymc && isMobile;
 
   // 處理預設車站
   useDefaultStationHandling();
@@ -142,9 +145,13 @@ const SearchArea: FC = () => {
           }
         >
           {t("startStation")}
-          <div>
-            {getStationNameById(page, params.startStationId, i18n.language)}
-          </div>
+          {onlyShowStationId ? (
+            <div>{params.startStationId}</div>
+          ) : (
+            <div>
+              {getStationNameById(page, params.startStationId, i18n.language)}
+            </div>
+          )}
         </Area>
         <SwitchButton />
         <Area
@@ -160,9 +167,13 @@ const SearchArea: FC = () => {
           }
         >
           {t("endStation")}
-          <div>
-            {getStationNameById(page, params.endStationId, i18n.language)}
-          </div>
+          {onlyShowStationId ? (
+            <div>{params.endStationId}</div>
+          ) : (
+            <div>
+              {getStationNameById(page, params.endStationId, i18n.language)}
+            </div>
+          )}
         </Area>
         <Area
           className="ml-6 hidden flex-1 md:flex"

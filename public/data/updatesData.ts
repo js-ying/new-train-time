@@ -1,11 +1,44 @@
 export const updateDataList = [
   {
+    date: "2025-02",
+    type: "both",
+    ver: "2.1.1",
+    items: [
+      {
+        type: "new",
+        content: "桃園捷運時刻查詢功能上線",
+      },
+      {
+        type: "new",
+        content: "台鐵/高鐵/桃園捷運加入即時營運通阻訊息",
+      },
+      {
+        type: "update",
+        content: "原台鐵/高鐵一鍵切換調整為下拉選單",
+      },
+      {
+        type: "update",
+        content: "調整「更新公告」排版",
+      },
+      {
+        type: "refactor",
+        content: "重構後端系統，改善效能及穩定性",
+      },
+    ],
+  },
+  {
     date: "2024-09",
     type: "both",
     ver: "1.1.3",
     items: [
-      "新功能：選單中新增「顯示台鐵列車註記」切換按鈕，使用者可將台鐵時刻表的灰字註記隱藏或顯示",
-      "新功能：符合條件的台鐵列車下方新增「持電子票證及定期票的旅客請勿搭乘」的提醒文字",
+      {
+        type: "new",
+        content: "選單加入台鐵列車註記的顯示/隱藏按鈕",
+      },
+      {
+        type: "new",
+        content: "台鐵加入特定列車的電子票證使用限制提醒",
+      },
     ],
   },
   {
@@ -13,23 +46,44 @@ export const updateDataList = [
     type: "both",
     ver: "1.1.2",
     items: [
-      "新功能：詳細時刻表彈窗的「拍照截圖」按鈕",
-      "修正：解決英文版台鐵時刻表於手機上會跑版的問題",
+      {
+        type: "new",
+        content: "列車詳細資訊截圖功能上線",
+      },
+      {
+        type: "fix",
+        content: "解決英文版台鐵時刻表在手機版的排版問題",
+      },
     ],
   },
   {
     date: "2024-07",
     type: "both",
     ver: "1.1.1",
-    items: ["更新：移除首頁的自動彈窗", "更新：縮小電腦版廣告尺寸"],
+    items: [
+      {
+        type: "update",
+        content: "移除首頁自動彈窗",
+      },
+      {
+        type: "update",
+        content: "調整電腦版廣告區塊尺寸",
+      },
+    ],
   },
   {
     date: "2024-07",
     type: "both",
     ver: "1.1.0",
     items: [
-      "新功能：台鐵訂票「導頁」服務（協助使用者跳轉至台鐵官網並自動填入車次資料）",
-      "更新：首頁增加自動彈窗以說明訂票功能",
+      {
+        type: "new",
+        content: "台鐵訂票導頁功能上線，導頁後自動填入車次資料",
+      },
+      {
+        type: "update",
+        content: "台鐵首頁新增訂票功能說明彈窗",
+      },
     ],
   },
   {
@@ -37,8 +91,14 @@ export const updateDataList = [
     type: "both",
     ver: "1.0.2",
     items: [
-      "修正：解決英文版點選「特色介紹」會強制回到中文版的問題",
-      "更新：調整舊版更新公告呈現方式",
+      {
+        type: "fix",
+        content: "解決特色介紹頁面在英文版強制跳轉中文版的問題",
+      },
+      {
+        type: "update",
+        content: "調整更新公告頁面的呈現方式",
+      },
     ],
   },
   {
@@ -46,8 +106,14 @@ export const updateDataList = [
     type: "both",
     ver: "1.0.1",
     items: [
-      "更新：出發時間下拉選單改為 24 時制",
-      "更新：增加資料來源的文字說明於首頁",
+      {
+        type: "update",
+        content: "出發時間選單調整為 24 時制",
+      },
+      {
+        type: "update",
+        content: "首頁下方新增資料來源說明",
+      },
     ],
   },
   {
@@ -55,10 +121,23 @@ export const updateDataList = [
     type: "both",
     ver: "1.0.0",
     items: [
-      "新功能：台鐵 / 高鐵時刻 一鍵切換",
-      "新功能：亮色 / 暗色佈景 一鍵切換",
-      "新功能：繁中 / 英文語言 一鍵切換",
-      "Dev 說明：以 Next.js 取代 Vue，重構整個前端系統，讓台鐵和高鐵時刻可以在同一個系統、相似的畫面下進行查詢；以 Tailwind CSS 復刻舊系統畫面，並做一些微小調整，在不影響使用者習慣的前提之下，盡可能提升使用體驗。",
+      {
+        type: "new",
+        content: "台鐵/高鐵時刻一鍵切換",
+      },
+      {
+        type: "new",
+        content: "亮色/暗色佈景一鍵切換",
+      },
+      {
+        type: "new",
+        content: "繁中/英文語言一鍵切換",
+      },
+      {
+        type: "refactor",
+        content:
+          "重構前端系統，整合台鐵和高鐵時刻查詢功能，以不影響原使用者的習慣為前提，盡可能優化使用者體驗",
+      },
     ],
   },
 ];

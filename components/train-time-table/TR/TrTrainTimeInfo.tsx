@@ -3,7 +3,7 @@ import { FC, useContext, useState } from "react";
 import { SettingContext } from "../../../contexts/SettingContext";
 import { GaEnum } from "../../../enums/GaEnum";
 import useLang from "../../../hooks/useLangHook";
-import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
 import { gaClickEvent } from "../../../utils/GaUtils";
 import {

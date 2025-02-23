@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
-import { ThsrFare, ThsrOdFare } from "../../../types/thsr-train-time-table";
+import { ThsrFare, ThsrOdFare } from "../../../models/jsy-thsr-info";
 import { getTdxLang } from "../../../utils/LocaleUtils";
 
 export const ticketTypeMap = {

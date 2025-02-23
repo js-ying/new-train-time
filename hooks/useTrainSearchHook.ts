@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { SearchAreaUpdateContext } from "../contexts/SearchAreaContext";
-import fetchData from "../services/fetchData";
-import { JsyThsrTrainTimeTable } from "../types/thsr-train-time-table";
+import { JsyThsrInfo } from "../models/jsy-thsr-info";
+import { JsyTymcInfo } from "../models/jsy-tymc-info";
 import {
   JsyTrTrainTimeTable,
   TrDailyTrainTimetable,
-} from "../types/tr-train-time-table";
+} from "../models/tr-train-time-table";
+import fetchData from "../services/fetchData";
 import usePage from "./usePageHook";
 import useParamsValidation, { AlertOptions } from "./useParamsValidationHook";
 import useSearchAreaParams from "./useSearchAreaParamsHook";
@@ -16,12 +17,13 @@ interface UseTrainSearchResult {
   isApiHealth: boolean;
   alertOptions: AlertOptions;
   trainTimeTable: JsyTrTrainTimeTable[];
-  thsrTrainTimeTable: JsyThsrTrainTimeTable;
+  jsyThsrInfo: JsyThsrInfo;
+  jsyTymcInfo: JsyTymcInfo;
 }
 
 const useTrainSearch = (): UseTrainSearchResult => {
   const router = useRouter();
-  const { isTr, isThsr } = usePage();
+  const { isTr, isThsr, isTymc } = usePage();
   const setParams = useContext(SearchAreaUpdateContext);
 
   const { isParamsValid, alertOptions } = useParamsValidation();
@@ -31,8 +33,8 @@ const useTrainSearch = (): UseTrainSearchResult => {
 
   const [trainTimeTable, setTrainTimeTable] =
     useState<JsyTrTrainTimeTable[]>(null);
-  const [thsrTrainTimeTable, setThsrTrainTimeTable] =
-    useState<JsyThsrTrainTimeTable>(null);
+  const [jsyThsrInfo, setJsyThsrInfo] = useState<JsyThsrInfo>(null);
+  const [jsyTymcInfo, setJsyTymcInfo] = useState<JsyTymcInfo>(null);
 
   // 初始化搜尋區域參數 from URL
   const { urlSearchAreaParams } = useSearchAreaParams();
@@ -81,7 +83,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
 
     if (isThsr) {
       try {
-        const result = await fetchData("/api/getThsrTrainTimeTable", {
+        const result = await fetchData("/api/getJsyThsrInfo", {
           startStationId,
           endStationId,
           date,
@@ -90,13 +92,38 @@ const useTrainSearch = (): UseTrainSearchResult => {
 
         const data = result;
         if (data) {
-          setThsrTrainTimeTable({ ...data });
+          setJsyThsrInfo({ ...data });
         } else {
-          setThsrTrainTimeTable({ ...thsrTrainTimeTable, timeTable: [] });
+          setJsyThsrInfo({ ...jsyThsrInfo, timeTable: [] });
         }
         setIsApiHealth(true);
       } catch (error) {
-        setThsrTrainTimeTable({ ...thsrTrainTimeTable, timeTable: [] });
+        setJsyThsrInfo({ ...jsyThsrInfo, timeTable: [] });
+
+        setIsApiHealth(false);
+
+        alertOptions.setAlertMsg(error);
+      }
+    }
+
+    if (isTymc) {
+      try {
+        const result = await fetchData("/api/getJsyTymcInfo", {
+          startStationId,
+          endStationId,
+          date,
+          time,
+        });
+
+        const data = result;
+        if (data) {
+          setJsyTymcInfo({ ...data });
+        } else {
+          setJsyTymcInfo({ ...jsyTymcInfo, timeTables: [] });
+        }
+        setIsApiHealth(true);
+      } catch (error) {
+        setJsyTymcInfo({ ...jsyTymcInfo, timeTables: [] });
 
         setIsApiHealth(false);
 
@@ -142,7 +169,8 @@ const useTrainSearch = (): UseTrainSearchResult => {
     isApiHealth,
     alertOptions,
     trainTimeTable,
-    thsrTrainTimeTable,
+    jsyThsrInfo,
+    jsyTymcInfo,
   };
 };
 

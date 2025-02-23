@@ -4,26 +4,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { startStationId, endStationId, date, time } = req.body;
-
   const clientIp =
     (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
 
   try {
     const response = await fetch(
-      `${process.env.THSR_TRAIN_TIME_BACKEND_ENDPOINT}/api/getHsTrainTimeTable`,
+      `${process.env.THSR_TRAIN_TIME_BACKEND_ENDPOINT}/api/getJsyTrAlert`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-forwarded-for": clientIp,
         },
-        body: JSON.stringify({
-          startStationId,
-          endStationId,
-          date,
-          time,
-        }),
       },
     );
 

@@ -1,7 +1,9 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC } from "react";
 import AdBanner from "../components/AdBanner";
+import OperationAlert from "../components/alerts/OperationAlert";
 import Layout from "../components/layout/Layout";
 import Loading from "../components/layout/Loading";
 import CommonDialog from "../components/modals/CommonDialog";
@@ -9,9 +11,11 @@ import SearchArea from "../components/search-area/SearchArea";
 import NoTrainData from "../components/train-time-table/NoTrainData";
 import ThsrTrainTimeTable from "../components/train-time-table/THSR/ThsrTrainTimeTable";
 import TrTrainTimeTable from "../components/train-time-table/TR/TrTrainTimeTable";
+import TymcTimeTable from "../components/train-time-table/TYMC/TymcTimeTable";
 import useMuiTheme from "../hooks/useMuiThemeHook";
 import usePage from "../hooks/usePageHook";
 import useTrainSearch from "../hooks/useTrainSearchHook";
+import AdUtils from "../utils/AdUtils";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -24,32 +28,45 @@ export async function getStaticProps({ locale }) {
 /** [頁面] 查詢 */
 const Search: FC = () => {
   const muiTheme = useMuiTheme();
-  const { isTr, isThsr } = usePage();
+  const { isTr, isThsr, isTymc } = usePage();
   const {
     isLoading,
     isApiHealth,
     alertOptions,
     trainTimeTable,
-    thsrTrainTimeTable,
+    jsyThsrInfo,
+    jsyTymcInfo,
   } = useTrainSearch();
+  const { t } = useTranslation();
 
   const hasTrData = isTr && trainTimeTable?.length > 0;
-  const hasThsrData = isThsr && thsrTrainTimeTable?.timeTable?.length > 0;
+  const hasThsrData = isThsr && jsyThsrInfo?.timeTable?.length > 0;
+  const hasTymcData = isTymc && jsyTymcInfo?.timeTables?.length > 0;
   const noData =
     (isTr && trainTimeTable?.length <= 0) ||
-    (isThsr && thsrTrainTimeTable?.timeTable?.length <= 0);
+    (isThsr && jsyThsrInfo?.timeTable?.length <= 0) ||
+    (isTymc && jsyTymcInfo?.timeTables?.length <= 0);
 
   return (
     <MuiThemeProvider theme={muiTheme}>
       <Layout>
-        <SearchArea />
+        <div className="relative">
+          <SearchArea />
+
+          <div className="absolute bottom-1 left-3">
+            <OperationAlert />
+          </div>
+        </div>
 
         <div className="mt-5">
           {/* [台鐵] 有列車資料 */}
           {hasTrData && <TrTrainTimeTable dataList={trainTimeTable} />}
 
           {/* [高鐵] 有列車資料 */}
-          {hasThsrData && <ThsrTrainTimeTable data={thsrTrainTimeTable} />}
+          {hasThsrData && <ThsrTrainTimeTable data={jsyThsrInfo} />}
+
+          {/* [桃園捷運] 有列車資料 */}
+          {hasTymcData && <TymcTimeTable data={jsyTymcInfo} />}
 
           {/* 無列車資料 */}
           {noData && (
@@ -59,9 +76,11 @@ const Search: FC = () => {
                 alertMsg={alertOptions.alertMsg}
               />
 
-              <div className="mt-4">
-                <AdBanner />
-              </div>
+              {AdUtils.showAd(0, 0) && (
+                <div className="mt-4">
+                  <AdBanner />
+                </div>
+              )}
             </>
           )}
         </div>
@@ -69,8 +88,9 @@ const Search: FC = () => {
         <CommonDialog
           open={alertOptions.alertOpen}
           setOpen={alertOptions.setAlertOpen}
-          msg={alertOptions.alertMsg}
-        />
+        >
+          {t(alertOptions.alertMsg)}
+        </CommonDialog>
 
         {isLoading && <Loading />}
       </Layout>

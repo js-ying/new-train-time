@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface UseRwdResult {
   isMobile: boolean;
 }
 
 const useRwd = (): UseRwdResult => {
-  const [width] = useState<number>(window.innerWidth);
-  const isMobile = width <= 768;
+  const [width, setWidth] = useState<number>(0);
 
-  return {
-    isMobile,
-  };
+  useEffect(() => {
+    setWidth(window.innerWidth);
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return { isMobile: width <= 768 };
 };
 
 export default useRwd;

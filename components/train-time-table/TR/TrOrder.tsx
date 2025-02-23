@@ -2,7 +2,7 @@ import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import { GaEnum } from "../../../enums/GaEnum";
-import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
 import { gaClickEvent } from "../../../utils/GaUtils";
 import { isTrTrainReserved, isTrainPass } from "../../../utils/TrainInfoUtils";

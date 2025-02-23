@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { TrDelayInfo } from "../../../types/tr-train-time-table";
+import { TrDelayInfo } from "../../../models/tr-train-time-table";
 
 interface DelayDotProps {
   isGreen: boolean;

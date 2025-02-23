@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { ThsrTdxGeneralTimeTable } from "../../../types/thsr-train-time-table";
+import { ThsrTdxGeneralTimeTable } from "../../../models/jsy-thsr-info";
 import { getTdxLang } from "../../../utils/LocaleUtils";
 import { getThsrGeneralTrainInfo } from "../../../utils/TrainInfoUtils";
 
@@ -88,8 +88,10 @@ const ThsrServiceDay: FC<ThsrServiceDayProps> = ({
   generalTimeTable,
 }) => {
   const { i18n } = useTranslation();
-  const serviceDay = getThsrGeneralTrainInfo(generalTimeTable, trainNo)
-    ?.ServiceDay;
+  const serviceDay = getThsrGeneralTrainInfo(
+    generalTimeTable,
+    trainNo,
+  )?.ServiceDay;
   return <div>{getServiceDaysMsg(getTdxLang(i18n.language), serviceDay)}</div>;
 };
 

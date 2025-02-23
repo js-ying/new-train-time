@@ -2,7 +2,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { FC } from "react";
-import { TrTrainInfo } from "../../../types/tr-train-time-table";
+import { TrTrainInfo } from "../../../models/tr-train-time-table";
 
 export const trTrainServiceList = [
   {

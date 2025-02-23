@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { JsyTrTrainTimeTable } from "../../../types/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
 import { getTimeDiff } from "../../../utils/TrainInfoUtils";
 import TrDelay from "./TrDelay";
 

@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { ThsrDailyTimetable } from "../../../types/thsr-train-time-table";
+import { ThsrDailyTimetable } from "../../../models/jsy-thsr-info";
 import { getTimeDiff } from "../../../utils/TrainInfoUtils";
 
 interface ThsrTimeInfoMidAreaProps {

@@ -38,17 +38,21 @@ const TrOrderDescription: FC = () => {
         open={openAnnouncement}
         setOpen={setOpenAnnouncement}
         title="trOrderDescription"
-        msg="announcementTrOrderV1"
-      />
+        bodyTextAlign="text-left"
+      >
+        {t("announcementTrOrderV1")}
+      </CommonDialog>
 
       {/* 有 checkbox 版 (公告) */}
       <CommonDialog
         open={openAnnouncementCheckbox}
         setOpen={setOpenAnnouncementCheckbox}
         title="announcementTitle"
-        msg="announcementTrOrderV1"
+        bodyTextAlign="text-left"
         enableDoNotShowAgainCheckbox={true}
-      />
+      >
+        {t("announcementTrOrderV1")}
+      </CommonDialog>
     </>
   );
 };

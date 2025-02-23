@@ -1,11 +1,11 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { ThsrDailyFreeSeatingCar } from "../../../types/thsr-train-time-table";
+import { JsyThsrInfo } from "../../../models/jsy-thsr-info";
 import ThsrFreeSeat from "./ThsrFreeSeat";
 
 interface ThsrTimeInfoRightAreaProps {
   trainNo: string;
-  freeSeatData: ThsrDailyFreeSeatingCar;
+  freeSeatData: JsyThsrInfo["freeSeatingCars"];
 }
 
 const ThsrTimeInfoRightArea: FC<ThsrTimeInfoRightAreaProps> = ({

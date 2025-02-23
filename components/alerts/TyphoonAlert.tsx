@@ -1,6 +1,6 @@
 import { Alert } from "@mui/material";
 import { useTranslation } from "next-i18next";
-import usePage from "../hooks/usePageHook";
+import usePage from "../../hooks/usePageHook";
 
 const TyphoonAlert = () => {
   const { t } = useTranslation();
