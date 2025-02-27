@@ -93,9 +93,13 @@ const OperationAlert: FC = () => {
                   </div>
                 )}
                 <div className="whitespace-pre-line">
-                  {alert.title}{" "}
-                  {alert.startTime &&
-                    `${DateUtils.dateFormatter(alert.startTime, "YYYY-MM-DD")}-${DateUtils.dateFormatter(alert.endTime, "YYYY-MM-DD")}`}
+                  <span
+                    className={`font-bold ${statusColorMap.get(jsyOperationAlert.status).text}`}
+                  >
+                    {alert.title}{" "}
+                    {alert.startTime &&
+                      `${DateUtils.dateFormatter(alert.startTime, "YYYY-MM-DD")}-${DateUtils.dateFormatter(alert.endTime, "YYYY-MM-DD")}`}
+                  </span>
                   {alert.desc && `\n${alert.desc}`}
                 </div>
               </div>
