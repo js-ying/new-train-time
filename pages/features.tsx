@@ -17,6 +17,7 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import PWAInstallButton from "../components/pwa-promot/PWAInstallButton";
+import { localeUrlList } from "../enums/LocaleEnum";
 import { featureImgList } from "../public/data/featuresData";
 
 export async function getStaticProps({ locale }) {
@@ -113,12 +114,26 @@ const Features: FC = () => {
     <>
       <Head>
         <title>{`${t("featureIntroductionMenu")} - ${t("trTitle")}`}</title>
+        <meta name="description" content={t("featuresPageDescription")} />
+        <meta name="keywords" content="system features, train schedule" />
         <meta
-          name="theme-color"
-          content={theme === "light" ? "#FFFFFF" : "#212529"}
+          property="og:title"
+          content={`${t("featureIntroductionMenu")} - ${t("trTitle")}`}
         />
+        <meta
+          property="og:site_name"
+          content={`${t("featureIntroductionMenu")} - ${t("trTitle")}`}
+        />
+        {localeUrlList.map((loc) => (
+          <link
+            key={loc.locale}
+            rel="alternate"
+            hrefLang={loc.locale}
+            href={`${loc.url}/features`}
+          />
+        ))}
       </Head>
-
+      <h1 className="hidden">{t("featureIntroductionMenu")}</h1>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto max-w-3xl">

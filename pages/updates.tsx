@@ -7,6 +7,7 @@ import Head from "next/head";
 import { FC, useMemo, useState } from "react";
 import Layout from "../components/layout/Layout";
 import { GaEnum } from "../enums/GaEnum";
+import { localeUrlList } from "../enums/LocaleEnum";
 import useLang from "../hooks/useLangHook";
 import useMuiTheme from "../hooks/useMuiThemeHook";
 import {
@@ -145,12 +146,26 @@ const Updates: FC = () => {
     <>
       <Head>
         <title>{`${t("updateAnnouncementsMenu")} - ${t("trTitle")}`}</title>
+        <meta name="description" content={t("updatesPageDescription")} />
+        <meta name="keywords" content="system updates, train schedule" />
         <meta
-          name="theme-color"
-          content={theme === "light" ? "#FFFFFF" : "#212529"}
+          property="og:title"
+          content={`${t("updateAnnouncementsMenu")} - ${t("trTitle")}`}
         />
+        <meta
+          property="og:site_name"
+          content={`${t("updateAnnouncementsMenu")} - ${t("trTitle")}`}
+        />
+        {localeUrlList.map((loc) => (
+          <link
+            key={loc.locale}
+            rel="alternate"
+            hrefLang={loc.locale}
+            href={`${loc.url}/updates`}
+          />
+        ))}
       </Head>
-
+      <h1 className="hidden">{t("updateAnnouncementsMenu")}</h1>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto max-w-3xl">

@@ -133,7 +133,7 @@ const TrainSwitch: FC = () => {
                   });
                 }}
               >
-                {t(`${page}FullName`)}
+                {t(`${page}Dropdown`)}
               </DropdownItem>
             ))}
           </DropdownMenu>

@@ -8,6 +8,7 @@ import Head from "next/head";
 import GoogleScript from "../components/GoogleScript";
 import { PwaProvider } from "../contexts/PwaContext";
 import { SettingProvider } from "../contexts/SettingContext";
+import { localeUrlList } from "../enums/LocaleEnum";
 import useLang from "../hooks/useLangHook";
 import "../styles/global.scss";
 
@@ -22,6 +23,10 @@ function App({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" href="/images/logos/logo-32.png" />
         <title>{`${t("trTitle")}`}</title>
         <meta name="description" content={t("webDescription")}></meta>
+        <meta
+          name="keywords"
+          content="TRA, Taiwan Railway, THSR, Taiwan High Speed Rail, TYMC, TaoYuan Metro, TaoYuan Airport MRT, train schedule"
+        />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
@@ -67,6 +72,15 @@ function App({ Component, pageProps }: AppProps) {
           href="/images/logos/logo-192.png"
         />
         <link rel="mask-icon" href="/images/logos/logo-32.png" />
+
+        {localeUrlList.map((loc) => (
+          <link
+            key={loc.locale}
+            rel="alternate"
+            hrefLang={loc.locale}
+            href={loc.url}
+          />
+        ))}
       </Head>
       <PwaProvider>
         <HeroUIProvider>
