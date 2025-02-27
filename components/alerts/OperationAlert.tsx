@@ -1,15 +1,24 @@
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
+import { GaEnum } from "../../enums/GaEnum";
+import { PageEnum } from "../../enums/PageEnum";
 import useOperationAlert from "../../hooks/useOpreationAlertHook";
+import usePage from "../../hooks/usePageHook";
 import DateUtils from "../../utils/DateUtils";
+import { gaClickEvent } from "../../utils/GaUtils";
 import CommonDialog from "../modals/CommonDialog";
 
 const OperationAlert: FC = () => {
   const { t } = useTranslation();
   const jsyOperationAlert = useOperationAlert();
-
+  const { page } = usePage();
   const [open, setOpen] = useState(false);
+  const map = {
+    [PageEnum.TR]: GaEnum.TR_OPERATION_ALERT,
+    [PageEnum.THSR]: GaEnum.THSR_OPERATION_ALERT,
+    [PageEnum.TYMC]: GaEnum.TYMC_OPERATION_ALERT,
+  };
 
   const statusColorMap = useMemo(() => {
     const map = new Map<
@@ -51,7 +60,10 @@ const OperationAlert: FC = () => {
               className={`-left-2.5 min-w-fit text-sm ${statusColorMap.get(jsyOperationAlert.status).text}`}
               variant="light"
               size="sm"
-              onPress={() => setOpen(true)}
+              onPress={() => {
+                gaClickEvent(map[page]);
+                setOpen(true);
+              }}
             >
               {t(statusColorMap.get(jsyOperationAlert.status).i18n)}
             </Button>
@@ -66,7 +78,7 @@ const OperationAlert: FC = () => {
           >
             {jsyOperationAlert.alerts.map((alert, index) => (
               <div
-                key={`${alert.title}-${alert.publishTime}`}  // 使用組合鍵以確保唯一性
+                key={`${alert.title}-${alert.publishTime}`} // 使用組合鍵以確保唯一性
                 className={`
                   border-l-4 pl-4 ${statusColorMap.get(alert.status).border}
                   ${index < jsyOperationAlert.alerts.length - 1 ? " mb-4 " : ""}

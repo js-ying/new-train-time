@@ -22,4 +22,7 @@ export enum GaEnum {
   HISTORY = "歷史查詢",
   SHOW_TR_TRAIN_NOTE = "顯示台鐵列車註記",
   BOTTOM_AD_CLOSE = "下方廣告關閉",
+  TR_OPERATION_ALERT = "台鐵營運通阻",
+  THSR_OPERATION_ALERT = "高鐵營運通阻",
+  TYMC_OPERATION_ALERT = "桃捷營運通阻",
 }
