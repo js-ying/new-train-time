@@ -7,7 +7,7 @@ const ArrowDownIcon: FC = () => {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={2}
-      className="fade-in h-4 w-4 stroke-white dark:stroke-black"
+      className="h-4 w-4 stroke-white dark:stroke-black"
     >
       <path
         strokeLinecap="round"
