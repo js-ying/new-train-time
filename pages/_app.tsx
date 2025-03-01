@@ -1,15 +1,14 @@
+import GoogleScript from "@/components/GoogleScript";
+import { PwaProvider } from "@/contexts/PwaContext";
+import { SearchAreaProvider } from "@/contexts/SearchAreaContext";
+import { SettingProvider } from "@/contexts/SettingContext";
+import { localeUrlList } from "@/enums/LocaleEnum";
+import useLang from "@/hooks/useLangHook";
+import { HeroUIProvider } from "@heroui/react";
 import { appWithTranslation, useTranslation } from "next-i18next";
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 import { AppProps } from "next/app";
-import { SearchAreaProvider } from "../contexts/SearchAreaContext";
-
-import { HeroUIProvider } from "@heroui/react";
 import Head from "next/head";
-import GoogleScript from "../components/GoogleScript";
-import { PwaProvider } from "../contexts/PwaContext";
-import { SettingProvider } from "../contexts/SettingContext";
-import { localeUrlList } from "../enums/LocaleEnum";
-import useLang from "../hooks/useLangHook";
 import "../styles/global.scss";
 
 function App({ Component, pageProps }: AppProps) {

@@ -1,22 +1,23 @@
+import AdBanner from "@/components/AdBanner";
+import Layout from "@/components/layout/Layout";
+import Loading from "@/components/layout/Loading";
+
+import OperationAlert from "@/components/alerts/OperationAlert";
+import CommonDialog from "@/components/modals/CommonDialog";
+import SearchArea from "@/components/search-area/SearchArea";
+import NoTrainData from "@/components/train-time-table/NoTrainData";
+import ThsrTrainTimeTable from "@/components/train-time-table/THSR/ThsrTrainTimeTable";
+import TrTrainTimeTable from "@/components/train-time-table/TR/TrTrainTimeTable";
+import TymcTimeTable from "@/components/train-time-table/TYMC/TymcTimeTable";
+import useMuiTheme from "@/hooks/useMuiThemeHook";
+import usePage from "@/hooks/usePageHook";
+import useTrainSearch from "@/hooks/useTrainSearchHook";
+import AdUtils from "@/utils/AdUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { FC } from "react";
-import AdBanner from "../components/AdBanner";
-import OperationAlert from "../components/alerts/OperationAlert";
-import Layout from "../components/layout/Layout";
-import Loading from "../components/layout/Loading";
-import CommonDialog from "../components/modals/CommonDialog";
-import SearchArea from "../components/search-area/SearchArea";
-import NoTrainData from "../components/train-time-table/NoTrainData";
-import ThsrTrainTimeTable from "../components/train-time-table/THSR/ThsrTrainTimeTable";
-import TrTrainTimeTable from "../components/train-time-table/TR/TrTrainTimeTable";
-import TymcTimeTable from "../components/train-time-table/TYMC/TymcTimeTable";
-import useMuiTheme from "../hooks/useMuiThemeHook";
-import usePage from "../hooks/usePageHook";
-import useTrainSearch from "../hooks/useTrainSearchHook";
-import AdUtils from "../utils/AdUtils";
 
 export async function getStaticProps({ locale }) {
   return {

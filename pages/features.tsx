@@ -5,20 +5,20 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC, useMemo, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
-import Layout from "../components/layout/Layout";
-import useMuiTheme from "../hooks/useMuiThemeHook";
 
 // import optional lightbox plugins
+import Layout from "@/components/layout/Layout";
+import PWAInstallButton from "@/components/pwa-promot/PWAInstallButton";
+import { localeUrlList } from "@/enums/LocaleEnum";
+import useMuiTheme from "@/hooks/useMuiThemeHook";
 import { useTheme } from "next-themes";
 import Head from "next/head";
+import { featureImgList } from "public/data/featuresData";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/plugins/counter.css";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import PWAInstallButton from "../components/pwa-promot/PWAInstallButton";
-import { localeUrlList } from "../enums/LocaleEnum";
-import { featureImgList } from "../public/data/featuresData";
 
 export async function getStaticProps({ locale }) {
   return {

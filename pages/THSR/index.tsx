@@ -1,8 +1,8 @@
+import { localeUrlList } from "@/enums/LocaleEnum";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { FC } from "react";
-import { localeUrlList } from "../../enums/LocaleEnum";
 import Home from "../index";
 
 export async function getStaticProps({ locale }) {

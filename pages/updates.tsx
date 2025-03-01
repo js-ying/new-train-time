@@ -1,21 +1,21 @@
+import Layout from "@/components/layout/Layout";
+import { GaEnum } from "@/enums/GaEnum";
+import { localeUrlList } from "@/enums/LocaleEnum";
+import useLang from "@/hooks/useLangHook";
+import useMuiTheme from "@/hooks/useMuiThemeHook";
+import { gaClickEvent } from "@/utils/GaUtils";
 import { Chip, Switch, Tab, Tabs } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTheme } from "next-themes";
 import Head from "next/head";
-import { FC, useMemo, useState } from "react";
-import Layout from "../components/layout/Layout";
-import { GaEnum } from "../enums/GaEnum";
-import { localeUrlList } from "../enums/LocaleEnum";
-import useLang from "../hooks/useLangHook";
-import useMuiTheme from "../hooks/useMuiThemeHook";
 import {
   oldThsrUpdateDataList,
   oldTrUpdateDataList,
   updateDataList,
-} from "../public/data/updatesData";
-import { gaClickEvent } from "../utils/GaUtils";
+} from "public/data/updatesData";
+import { FC, useMemo, useState } from "react";
 
 export async function getStaticProps({ locale }) {
   return {
