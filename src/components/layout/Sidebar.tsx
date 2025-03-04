@@ -210,7 +210,11 @@ const Sidebar: FC = () => {
 
   return (
     <>
-      <div className="custom-cursor-pointer" onClick={() => setOpen(true)}>
+      <div
+        role="button"
+        className="custom-cursor-pointer"
+        onClick={() => setOpen(true)}
+      >
         <SidebarIcon />
       </div>
       <SwipeableDrawer
