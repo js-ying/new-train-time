@@ -28,7 +28,7 @@ const BottomBanner: FC = () => {
       className="fixed bottom-0 left-0 right-0 mx-auto max-w-[728px] px-4 py-2 transition-all duration-300 ease-out"
       style={{ opacity: open ? 1 : 0, zIndex: open ? 10 : -1000 }}
     >
-      <div className="relative h-[72px] rounded-md border border-solid border-zinc-700 p-1 transition duration-150 ease-out dark:border-zinc-200 md:h-[102px]">
+      <div className="relative h-[72px] rounded-md border border-solid border-zinc-700 p-1 transition duration-150 ease-out dark:border-zinc-200">
         <button
           onClick={handleClose}
           className="absolute -right-3 -top-3 flex h-6 w-6 items-center justify-center rounded-full
