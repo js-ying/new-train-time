@@ -85,7 +85,14 @@ const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
 
       {
         <div
-          className="common-babel-light cursor-pointer text-sm"
+          tabIndex={0}
+          role="button"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              setIsShowOtherFareList(!isShowOtherFareList);
+            }
+          }}
+          className="common-babel-light custom-cursor-pointer text-sm"
           onClick={() => setIsShowOtherFareList(!isShowOtherFareList)}
         >
           {isShowOtherFareList ? "-" : "+"} {t("otherBtn")}

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { PageEnum } from "../enums/PageEnum";
+import { notTransportPage, PageEnum } from "../enums/PageEnum";
 import { PathEnum } from "../enums/PathEnum";
 
 interface UsePageResult {
@@ -36,7 +36,7 @@ const usePage = (): UsePageResult => {
 
   const localStorageKey = `${page}HistoryList`;
   const searchPath = `${PathEnum[`${page}Search`]}`;
-  const homePath = `${PathEnum[`${page}Home`]}`;
+  const homePath = `${notTransportPage.includes(page) ? PathEnum[`${PageEnum.TR}Home`] : PathEnum[`${page}Home`]}`;
 
   return {
     isTr,

@@ -26,7 +26,7 @@ const TrainSwitch: FC = () => {
   const router = useRouter();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const pages = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC];
+  const trains = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC];
 
   const toggleTrainPage = (toPage: PageEnum) => {
     setParams({
@@ -76,14 +76,14 @@ const TrainSwitch: FC = () => {
             </Button>
           </DropdownTrigger>
           <DropdownMenu aria-label="train-switch-dropdown-menu">
-            {pages.map((page) => (
+            {trains.map((train) => (
               <DropdownItem
-                key={page}
+                key={train}
                 onPress={() => {
-                  toggleTrainPage(page);
+                  toggleTrainPage(train);
                 }}
               >
-                {t(`${page}Dropdown`)}
+                {t(`${train}Dropdown`)}
               </DropdownItem>
             ))}
           </DropdownMenu>

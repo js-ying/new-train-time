@@ -78,17 +78,14 @@ const LocaleDropdown: FC<LocaleDropdownProps> = ({ open, setOpen }) => {
     <div
       ref={dropdownRef}
       className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md
-    bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-      role="menu"
-      aria-orientation="vertical"
-      aria-labelledby="menu-button"
-      tabIndex={-1}
+      bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+      aria-labelledby="translate-btn"
     >
       <div className="py-1" role="none">
         {localeOptions.map((locale) => {
           return (
             <div
-              className="block cursor-pointer px-4 py-2 text-sm text-zinc-700
+              className="custom-cursor-pointer block px-4 py-2 text-sm text-zinc-700
             transition hover:bg-zinc-200"
               role="menuitem"
               tabIndex={-1}
@@ -111,7 +108,10 @@ const LocaleChangeByDropdown = () => {
   const [open, setOpen] = useState(null);
 
   return (
-    <div className="inline-block cursor-pointer" onClick={() => setOpen(!open)}>
+    <div
+      className="custom-cursor-pointer inline-block"
+      onClick={() => setOpen(!open)}
+    >
       <LocaleIcon isRotated={true} />
       {open && <LocaleDropdown open={open} setOpen={setOpen} />}
     </div>
@@ -152,7 +152,17 @@ const LocaleChangeBySwitch: FC = () => {
   };
 
   return (
-    <div className="inline-block cursor-pointer" onClick={handleChange}>
+    <div
+      tabIndex={0}
+      role="button"
+      className="custom-cursor-pointer inline-block"
+      onClick={handleChange}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleChange();
+        }
+      }}
+    >
       <LocaleIcon isRotated={isRotated} />
     </div>
   );

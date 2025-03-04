@@ -1,4 +1,4 @@
-import { PageEnum } from "@/enums/PageEnum";
+import { notTransportPage, PageEnum } from "@/enums/PageEnum";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
@@ -25,7 +25,25 @@ const WebTitle: FC = () => {
   return (
     <>
       <span
-        className={`cursor-pointer font-bold ${isTw ? "text-lg" : "text-md"}`}
+        tabIndex={0}
+        role="button"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            gaClickEvent(GaEnum.TITLE);
+            setParams({
+              ...params,
+              startStationId: null,
+              endStationId: null,
+              date: DateUtils.getCurrentDate(),
+              time: DateUtils.getCurrentTime(),
+              activeIndex: SearchAreaActiveIndexEnum.EMPTY,
+            });
+            router.push({
+              pathname: homePath,
+            });
+          }
+        }}
+        className={`custom-cursor-pointer font-bold ${isTw ? "text-lg" : "text-md"}`}
         onClick={() => {
           gaClickEvent(GaEnum.TITLE);
           setParams({
@@ -42,9 +60,7 @@ const WebTitle: FC = () => {
         }}
       >
         <span className={`${isTw ? "" : "pr-1"}`}>
-          {[PageEnum.FEATURES, PageEnum.UPDATES].includes(page)
-            ? t(PageEnum.TR)
-            : t(page)}
+          {notTransportPage.includes(page) ? t(PageEnum.TR) : t(page)}
         </span>
         {t("scheduleInquiry")}
       </span>

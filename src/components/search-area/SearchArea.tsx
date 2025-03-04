@@ -33,12 +33,19 @@ const Area: FC<AreaProps> = ({
 }) => {
   return (
     <div
-      className={`flex min-h-16 cursor-pointer flex-col items-center justify-center rounded-md
+      tabIndex={0}
+      role="button"
+      className={`custom-cursor-pointer flex min-h-16 flex-col items-center justify-center rounded-md
         border border-solid border-zinc-700 p-2 dark:border-zinc-200 ${className}
         transition duration-150 ease-out
         hover:bg-zinc-700 hover:text-white dark:hover:bg-silverLakeBlue-500
         ${isActive && " bg-zinc-700 text-white dark:bg-silverLakeBlue-500"}`}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          onClick();
+        }
+      }}
     >
       {children}
     </div>

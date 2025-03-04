@@ -5,3 +5,5 @@ export enum PageEnum {
   FEATURES = "features",
   UPDATES = "updates",
 }
+
+export const notTransportPage = [PageEnum.FEATURES, PageEnum.UPDATES];

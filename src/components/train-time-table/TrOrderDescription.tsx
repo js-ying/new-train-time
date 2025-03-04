@@ -22,7 +22,15 @@ const TrOrderDescription: FC = () => {
     <>
       <div className="text-center">
         <span
-          className="cursor-pointer whitespace-pre-line text-center text-sm
+          tabIndex={0}
+          role="button"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              gaClickEvent(GaEnum.TR_ORDER_DESCRIPTION);
+              setOpenAnnouncement(true);
+            }
+          }}
+          className="custom-cursor-pointer whitespace-pre-line text-center text-sm
           text-zinc-500 underline dark:text-zinc-400"
           onClick={() => {
             gaClickEvent(GaEnum.TR_ORDER_DESCRIPTION);

@@ -84,7 +84,17 @@ const ThemeSwitch: FC = () => {
   }
 
   return (
-    <div className="inline-block cursor-pointer" onClick={toggleTheme}>
+    <div
+      tabIndex={0}
+      role="button"
+      className="custom-cursor-pointer inline-block"
+      onClick={toggleTheme}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          toggleTheme();
+        }
+      }}
+    >
       {theme === "dark" && <LightModeIcon />}
       {theme === "light" && <DarkModeIcon />}
     </div>

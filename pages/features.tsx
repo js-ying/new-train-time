@@ -77,7 +77,7 @@ const FeaturesGallery: FC = () => {
           width={248}
           height={534}
           classNames={{
-            img: "border cursor-pointer",
+            img: "border custom-cursor-pointer",
             wrapper: `inline-block ${
               index === featureImgList.length - 1 ? "" : "mr-4 md:mr-8"
             }`,

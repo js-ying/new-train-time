@@ -127,7 +127,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                 fontWeight: "700",
                 fontSize: "1.125rem",
               }}
-              className="cursor-pointer font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
+              className="custom-cursor-pointer font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
               onClick={() => handleClick("home")}
             ></ListItemText>
           </ListItem>
@@ -210,7 +210,7 @@ const Sidebar: FC = () => {
 
   return (
     <>
-      <div className="cursor-pointer" onClick={() => setOpen(true)}>
+      <div className="custom-cursor-pointer" onClick={() => setOpen(true)}>
         <SidebarIcon />
       </div>
       <SwipeableDrawer

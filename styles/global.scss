@@ -36,8 +36,8 @@ img {
   @apply h-auto max-w-full;
 }
 
-.cursor-pointer {
-  @apply select-none;
+.custom-cursor-pointer {
+  @apply select-none focus:outline-offset-4 dark:focus:outline-gamboge-500 focus:outline-silverLakeBlue-500 focus:outline-2;
 }
 
 @keyframes rotate {
@@ -86,7 +86,7 @@ img {
 }
 
 .common-select {
-  @apply cursor-pointer rounded-md border border-zinc-300 px-1.5 py-1 text-sm text-zinc-700 outline-none 
+  @apply rounded-md border border-zinc-300 px-1.5 py-1 text-sm text-zinc-700 outline-none 
   transition duration-150 ease-out
   focus:border-zinc-400 focus:ring-2 focus:ring-zinc-300
   dark:bg-transparent dark:text-white dark:focus:border-zinc-600 dark:focus:ring-zinc-500;

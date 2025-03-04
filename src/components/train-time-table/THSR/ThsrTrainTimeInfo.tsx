@@ -51,7 +51,14 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
       }`}
     >
       <div
-        className="relative grid cursor-pointer grid-cols-4 items-center
+        tabIndex={0}
+        role="button"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            openDetail();
+          }
+        }}
+        className="custom-cursor-pointer relative grid grid-cols-4 items-center
           justify-between rounded-md border border-solid border-zinc-700 p-2
           transition duration-150 ease-out
           dark:border-zinc-200"
