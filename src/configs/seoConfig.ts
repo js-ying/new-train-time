@@ -21,7 +21,7 @@ export interface SeoConfig {
 
 export const seoConfigs: Record<PageEnum, SeoConfig> = {
   [PageEnum.TR]: {
-    title: (t) => `${t("trTitle")}${t("colon")}${t("subTitle")}`,
+    title: (t) => `${t("trTitle")}`,
     description: (t) => t("webDescription"),
     ogTitle: (t) => t("trTitle"),
     ogDescription: (t) => t("subTitle"),
@@ -32,7 +32,7 @@ export const seoConfigs: Record<PageEnum, SeoConfig> = {
     localeUrl: "/",
   },
   [PageEnum.THSR]: {
-    title: (t) => `${t("thsrTitle")}${t("colon")}${t("subTitle")}`,
+    title: (t) => `${t("thsrTitle")}`,
     description: (t) => t("thsrPageDescription"),
     ogTitle: (t) => t("thsrTitle"),
     ogDescription: (t) => t("subTitle"),
@@ -43,7 +43,7 @@ export const seoConfigs: Record<PageEnum, SeoConfig> = {
     ogImage: defaultSeoConfig.ogImage,
   },
   [PageEnum.TYMC]: {
-    title: (t) => `${t("tymcTitle")}${t("colon")}${t("subTitle")}`,
+    title: (t) => `${t("tymcTitle")}`,
     description: (t) => t("tymcPageDescription"),
     ogTitle: (t) => t("tymcTitle"),
     ogDescription: (t) => t("subTitle"),
