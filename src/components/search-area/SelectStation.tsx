@@ -248,7 +248,7 @@ const StationButton: FC<StationButtonProps> = ({
             : "bg-neutral-500 dark:bg-neutral-600"
         }`}
       radius="sm"
-      onClick={onClick}
+      onPress={onClick}
     >
       {text}
     </Button>

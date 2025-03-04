@@ -23,7 +23,8 @@ const CloseButton: FC<CloseButtonProps> = ({ onClick }) => {
       size="sm"
       variant="light"
       className="min-w-fit px-0 text-zinc-700 dark:text-zinc-200 sm:px-1.5"
-      onClick={onClick}
+      onPress={onClick}
+      aria-label="close-btn"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

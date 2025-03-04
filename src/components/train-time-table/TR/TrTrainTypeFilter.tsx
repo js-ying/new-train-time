@@ -59,7 +59,7 @@ const TrTrainTypeFilter: FC<TrTrainTypeFilterProps> = ({
                 ? "font-bold text-white dark:text-white"
                 : ""
             } dark:bg-neutral-600`}
-            onClick={() => handleFilter(trainType, index)}
+            onPress={() => handleFilter(trainType, index)}
           >
             {t(trainType)}
           </Button>

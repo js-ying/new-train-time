@@ -236,7 +236,12 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
                       {t("closeBtn")}
                     </Button>
                     <div className="absolute left-[65px]">
-                      <Button variant="light" size="sm" onClick={capture}>
+                      <Button
+                        variant="light"
+                        size="sm"
+                        onPress={capture}
+                        aria-label="capture-btn"
+                      >
                         <CaptureIcon />
                       </Button>
                     </div>

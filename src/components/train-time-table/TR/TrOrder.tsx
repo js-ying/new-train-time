@@ -100,7 +100,7 @@ const TrOrder: FC<TrOrderProps> = ({ data }) => {
         className="h-6 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
         size="sm"
         radius="sm"
-        onClick={() => gaClickEvent(GaEnum.TR_ORDER)}
+        onPress={() => gaClickEvent(GaEnum.TR_ORDER)}
       >
         {t("order")}
       </Button>

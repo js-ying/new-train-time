@@ -59,13 +59,14 @@ const SwitchButton: FC<SwitchButtonProps> = ({ className = "" }) => {
       size="sm"
       variant="light"
       className="min-w-fit px-0 text-zinc-700 dark:text-zinc-200 sm:px-1.5"
-      onClick={() =>
+      onPress={() =>
         setParams({
           ...params,
           startStationId: params.endStationId,
           endStationId: params.startStationId,
         })
       }
+      aria-label="station-switch-btn"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

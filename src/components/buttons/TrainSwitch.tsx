@@ -70,11 +70,12 @@ const TrainSwitch: FC = () => {
               className={`h-5 min-w-fit bg-silverLakeBlue-500 px-1.5
               text-sm text-white dark:bg-gamboge-500 dark:text-eerieBlack-500`}
               radius="md"
+              aria-label="train-switch-btn"
             >
               <ArrowDownIcon />
             </Button>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Static Actions">
+          <DropdownMenu aria-label="train-switch-dropdown-menu">
             {pages.map((page) => (
               <DropdownItem
                 key={page}
