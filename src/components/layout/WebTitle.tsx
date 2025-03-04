@@ -1,3 +1,4 @@
+import { PageEnum } from "@/enums/PageEnum";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
@@ -40,7 +41,11 @@ const WebTitle: FC = () => {
           });
         }}
       >
-        <span className={`${isTw ? "" : "pr-1"}`}>{t(page)}</span>
+        <span className={`${isTw ? "" : "pr-1"}`}>
+          {[PageEnum.FEATURES, PageEnum.UPDATES].includes(page)
+            ? t(PageEnum.TR)
+            : t(page)}
+        </span>
         {t("scheduleInquiry")}
       </span>
       <TrainSwitch />

@@ -1,7 +1,6 @@
-import { localeUrlList } from "@/enums/LocaleEnum";
+import PageHead from "@/components/layout/PageHead";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Head from "next/head";
 import { FC } from "react";
 import Home from "../index";
 
@@ -17,27 +16,7 @@ const TymcHome: FC = () => {
   const { t } = useTranslation();
   return (
     <>
-      <Head>
-        <title>{`${t("tymc")} - ${t("trTitle")}`}</title>
-        <meta name="description" content={t("tymcPageDescription")} />
-        <meta
-          name="keywords"
-          content="TYMC, TaoYuan Metro, TaoYuan Airport MRT, train schedule"
-        />
-        <meta property="og:title" content={`${t("tymc")} - ${t("trTitle")}`} />
-        <meta
-          property="og:site_name"
-          content={`${t("tymc")} - ${t("trTitle")}`}
-        />
-        {localeUrlList.map((loc) => (
-          <link
-            key={loc.locale}
-            rel="alternate"
-            hrefLang={loc.locale}
-            href={`${loc.url}/TYMC`}
-          />
-        ))}
-      </Head>
+      <PageHead />
       <h1 className="hidden">{t("tymcTitle")}</h1>
       <Home />
     </>

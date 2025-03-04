@@ -16,7 +16,6 @@ import AdUtils from "@/utils/AdUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Head from "next/head";
 import { FC } from "react";
 
 export async function getStaticProps({ locale }) {
@@ -52,9 +51,6 @@ const Search: FC = () => {
   return (
     <MuiThemeProvider theme={muiTheme}>
       <Layout>
-        <Head>
-          <meta name="description" content={t("searchDescription")} />
-        </Head>
         <div className="relative">
           <SearchArea />
 

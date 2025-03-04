@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/Layout";
+import PageHead from "@/components/layout/PageHead";
 import { GaEnum } from "@/enums/GaEnum";
-import { localeUrlList } from "@/enums/LocaleEnum";
 import useLang from "@/hooks/useLangHook";
 import useMuiTheme from "@/hooks/useMuiThemeHook";
 import { gaClickEvent } from "@/utils/GaUtils";
@@ -8,8 +8,6 @@ import { Chip, Switch, Tab, Tabs } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTheme } from "next-themes";
-import Head from "next/head";
 import {
   oldThsrUpdateDataList,
   oldTrUpdateDataList,
@@ -136,7 +134,6 @@ const Updates: FC = () => {
   const muiTheme = useMuiTheme();
   const { t } = useTranslation();
   const { isTw } = useLang();
-  const { theme } = useTheme();
 
   const dataList = useMemo(() => {
     return updateDataList;
@@ -144,27 +141,7 @@ const Updates: FC = () => {
 
   return (
     <>
-      <Head>
-        <title>{`${t("updateAnnouncementsMenu")} - ${t("trTitle")}`}</title>
-        <meta name="description" content={t("updatesPageDescription")} />
-        <meta name="keywords" content="system updates, train schedule" />
-        <meta
-          property="og:title"
-          content={`${t("updateAnnouncementsMenu")} - ${t("trTitle")}`}
-        />
-        <meta
-          property="og:site_name"
-          content={`${t("updateAnnouncementsMenu")} - ${t("trTitle")}`}
-        />
-        {localeUrlList.map((loc) => (
-          <link
-            key={loc.locale}
-            rel="alternate"
-            hrefLang={loc.locale}
-            href={`${loc.url}/updates`}
-          />
-        ))}
-      </Head>
+      <PageHead />
       <h1 className="hidden">{t("updateAnnouncementsMenu")}</h1>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>

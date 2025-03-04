@@ -8,11 +8,9 @@ import "yet-another-react-lightbox/styles.css";
 
 // import optional lightbox plugins
 import Layout from "@/components/layout/Layout";
+import PageHead from "@/components/layout/PageHead";
 import PWAInstallButton from "@/components/pwa-promot/PWAInstallButton";
-import { localeUrlList } from "@/enums/LocaleEnum";
 import useMuiTheme from "@/hooks/useMuiThemeHook";
-import { useTheme } from "next-themes";
-import Head from "next/head";
 import { featureImgList } from "public/data/featuresData";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/plugins/counter.css";
@@ -108,31 +106,10 @@ const FeaturesGallery: FC = () => {
 const Features: FC = () => {
   const { t } = useTranslation();
   const muiTheme = useMuiTheme();
-  const { theme } = useTheme();
 
   return (
     <>
-      <Head>
-        <title>{`${t("featureIntroductionMenu")} - ${t("trTitle")}`}</title>
-        <meta name="description" content={t("featuresPageDescription")} />
-        <meta name="keywords" content="system features, train schedule" />
-        <meta
-          property="og:title"
-          content={`${t("featureIntroductionMenu")} - ${t("trTitle")}`}
-        />
-        <meta
-          property="og:site_name"
-          content={`${t("featureIntroductionMenu")} - ${t("trTitle")}`}
-        />
-        {localeUrlList.map((loc) => (
-          <link
-            key={loc.locale}
-            rel="alternate"
-            hrefLang={loc.locale}
-            href={`${loc.url}/features`}
-          />
-        ))}
-      </Head>
+      <PageHead />
       <h1 className="hidden">{t("featureIntroductionMenu")}</h1>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>

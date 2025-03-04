@@ -17,13 +17,19 @@ const usePage = (): UsePageResult => {
 
   const isThsr = pathname.toLowerCase().includes(PageEnum.THSR);
   const isTymc = pathname.toLowerCase().includes(PageEnum.TYMC);
-  const isTr = !isThsr && !isTymc;
+  const isUpdates = pathname.toLowerCase().includes(PageEnum.UPDATES);
+  const isFeatures = pathname.toLowerCase().includes(PageEnum.FEATURES);
+  const isTr = !isThsr && !isTymc && !isUpdates && !isFeatures;
 
   let page: PageEnum;
   if (isThsr) {
     page = PageEnum.THSR;
   } else if (isTymc) {
     page = PageEnum.TYMC;
+  } else if (isUpdates) {
+    page = PageEnum.UPDATES;
+  } else if (isFeatures) {
+    page = PageEnum.FEATURES;
   } else {
     page = PageEnum.TR;
   }
