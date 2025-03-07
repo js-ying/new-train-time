@@ -1,5 +1,4 @@
 import GoogleScript from "@/components/GoogleScript";
-import PageHead from "@/components/layout/PageHead";
 import { PwaProvider } from "@/contexts/PwaContext";
 import { SearchAreaProvider } from "@/contexts/SearchAreaContext";
 import { SettingProvider } from "@/contexts/SettingContext";
@@ -12,7 +11,6 @@ import "../styles/global.scss";
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <PageHead />
       <PwaProvider>
         <HeroUIProvider>
           <NextThemesProvider attribute="class">

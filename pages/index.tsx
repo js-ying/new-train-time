@@ -1,5 +1,6 @@
 import Disclaimer from "@/components/layout/Disclaimer";
 import Layout from "@/components/layout/Layout";
+import PageHead from "@/components/layout/PageHead";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchHistory from "@/components/search-area/SearchHistory";
 import TrOrderDescription from "@/components/train-time-table/TrOrderDescription";
@@ -29,17 +30,20 @@ const Home: FC = () => {
   }, []);
 
   return (
-    <MuiThemeProvider theme={muiTheme}>
-      <Layout>
-        <SearchArea />
-        <div className="mt-7">
-          <SearchHistory />
-        </div>
-        <div className="mt-7">{showDisclaimer && <Disclaimer />}</div>
+    <>
+      <PageHead />
+      <MuiThemeProvider theme={muiTheme}>
+        <Layout>
+          <SearchArea />
+          <div className="mt-7">
+            <SearchHistory />
+          </div>
+          <div className="mt-7">{showDisclaimer && <Disclaimer />}</div>
 
-        {isTr && showDisclaimer && <TrOrderDescription />}
-      </Layout>
-    </MuiThemeProvider>
+          {isTr && showDisclaimer && <TrOrderDescription />}
+        </Layout>
+      </MuiThemeProvider>
+    </>
   );
 };
 

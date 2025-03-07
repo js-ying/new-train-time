@@ -3,6 +3,7 @@ import Layout from "@/components/layout/Layout";
 import Loading from "@/components/layout/Loading";
 
 import OperationAlert from "@/components/alerts/OperationAlert";
+import PageHead from "@/components/layout/PageHead";
 import CommonDialog from "@/components/modals/CommonDialog";
 import SearchArea from "@/components/search-area/SearchArea";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
@@ -49,53 +50,56 @@ const Search: FC = () => {
     (isTymc && jsyTymcInfo?.timeTables?.length <= 0);
 
   return (
-    <MuiThemeProvider theme={muiTheme}>
-      <Layout>
-        <div className="relative">
-          <SearchArea />
+    <>
+      <PageHead />
+      <MuiThemeProvider theme={muiTheme}>
+        <Layout>
+          <div className="relative">
+            <SearchArea />
 
-          <div className="absolute bottom-1 left-3">
-            <OperationAlert />
+            <div className="absolute bottom-1 left-3">
+              <OperationAlert />
+            </div>
           </div>
-        </div>
 
-        <div className="mt-5">
-          {/* [台鐵] 有列車資料 */}
-          {hasTrData && <TrTrainTimeTable dataList={trainTimeTable} />}
+          <div className="mt-5">
+            {/* [台鐵] 有列車資料 */}
+            {hasTrData && <TrTrainTimeTable dataList={trainTimeTable} />}
 
-          {/* [高鐵] 有列車資料 */}
-          {hasThsrData && <ThsrTrainTimeTable data={jsyThsrInfo} />}
+            {/* [高鐵] 有列車資料 */}
+            {hasThsrData && <ThsrTrainTimeTable data={jsyThsrInfo} />}
 
-          {/* [桃園捷運] 有列車資料 */}
-          {hasTymcData && <TymcTimeTable data={jsyTymcInfo} />}
+            {/* [桃園捷運] 有列車資料 */}
+            {hasTymcData && <TymcTimeTable data={jsyTymcInfo} />}
 
-          {/* 無列車資料 */}
-          {noData && (
-            <>
-              <NoTrainData
-                isApiHealth={isApiHealth}
-                alertMsg={alertOptions.alertMsg}
-              />
+            {/* 無列車資料 */}
+            {noData && (
+              <>
+                <NoTrainData
+                  isApiHealth={isApiHealth}
+                  alertMsg={alertOptions.alertMsg}
+                />
 
-              {AdUtils.showAd(0, 0) && (
-                <div className="mt-4">
-                  <AdBanner />
-                </div>
-              )}
-            </>
-          )}
-        </div>
+                {AdUtils.showAd(0, 0) && (
+                  <div className="mt-4">
+                    <AdBanner />
+                  </div>
+                )}
+              </>
+            )}
+          </div>
 
-        <CommonDialog
-          open={alertOptions.alertOpen}
-          setOpen={alertOptions.setAlertOpen}
-        >
-          {t(alertOptions.alertMsg)}
-        </CommonDialog>
+          <CommonDialog
+            open={alertOptions.alertOpen}
+            setOpen={alertOptions.setAlertOpen}
+          >
+            {t(alertOptions.alertMsg)}
+          </CommonDialog>
 
-        {isLoading && <Loading />}
-      </Layout>
-    </MuiThemeProvider>
+          {isLoading && <Loading />}
+        </Layout>
+      </MuiThemeProvider>
+    </>
   );
 };
 
