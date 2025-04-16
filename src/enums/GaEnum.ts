@@ -25,4 +25,6 @@ export enum GaEnum {
   TR_OPERATION_ALERT = "台鐵營運通阻",
   THSR_OPERATION_ALERT = "高鐵營運通阻",
   TYMC_OPERATION_ALERT = "桃捷營運通阻",
+  BROWSE_FROM_PWA = "從 PWA 瀏覽",
+  BROWSE_FROM_WEB = "從網頁瀏覽",
 }
