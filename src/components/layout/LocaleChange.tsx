@@ -1,9 +1,9 @@
+import { GaEnum } from "@/enums/GaEnum";
+import { LocaleEnum } from "@/enums/LocaleEnum";
+import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
-import { GaEnum } from "../../enums/GaEnum";
-import { LocaleEnum } from "../../enums/LocaleEnum";
-import { gaClickEvent } from "../../utils/GaUtils";
 
 interface LocaleIconProps {
   isRotated: boolean;

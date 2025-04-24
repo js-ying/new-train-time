@@ -1,4 +1,4 @@
-import CommonDialog from "@/components/modals/CommonDialog";
+import CommonDialog from "@/components/CommonDialog";
 import { Button } from "@heroui/react";
 import {
   Box,
@@ -18,7 +18,7 @@ import { updateDataList } from "../../../public/data/updatesData";
 import { GaEnum } from "../../enums/GaEnum";
 import useSettingHook from "../../hooks/useSettingHook";
 import { gaClickEvent } from "../../utils/GaUtils";
-import IOSSwitchSetting from "../buttons/IOSSwitchSetting";
+import IOSSwitchSetting from "./IOSSwitchSetting";
 
 const SidebarIcon: FC = () => {
   return (

@@ -1,3 +1,4 @@
+import ArrowDownIcon from "@/components/icons/ArrowDownIcon";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
@@ -18,7 +19,6 @@ import {
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
-import ArrowDownIcon from "../icons/ArrowDownIcon";
 
 /** 列車切換器 */
 const TrainSwitch: FC = () => {

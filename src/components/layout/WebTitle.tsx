@@ -12,7 +12,7 @@ import useLang from "../../hooks/useLangHook";
 import usePage from "../../hooks/usePageHook";
 import DateUtils from "../../utils/DateUtils";
 import { gaClickEvent } from "../../utils/GaUtils";
-import TrainSwitch from "../buttons/TrainSwitch";
+import TrainSwitch from "./TrainSwitch";
 
 const WebTitle: FC = () => {
   const router = useRouter();

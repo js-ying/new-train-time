@@ -5,7 +5,7 @@ import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
-import CommonDialog from "../modals/CommonDialog";
+import CommonDialog from "../CommonDialog";
 
 export interface HistoryInquiry {
   startStationId: string;

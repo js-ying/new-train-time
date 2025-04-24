@@ -2,9 +2,9 @@ import AdBanner from "@/components/AdBanner";
 import Layout from "@/components/layout/Layout";
 import Loading from "@/components/layout/Loading";
 
-import OperationAlert from "@/components/alerts/OperationAlert";
-import PageHead from "@/components/layout/PageHead";
-import CommonDialog from "@/components/modals/CommonDialog";
+import CommonDialog from "@/components/CommonDialog";
+import PageHead from "@/components/PageHead";
+import OperationAlert from "@/components/search-area/alerts/OperationAlert";
 import SearchArea from "@/components/search-area/SearchArea";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
 import ThsrTrainTimeTable from "@/components/train-time-table/THSR/ThsrTrainTimeTable";

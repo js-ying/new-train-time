@@ -1,6 +1,6 @@
 import Disclaimer from "@/components/layout/Disclaimer";
 import Layout from "@/components/layout/Layout";
-import PageHead from "@/components/layout/PageHead";
+import PageHead from "@/components/PageHead";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchHistory from "@/components/search-area/SearchHistory";
 import TrOrderDescription from "@/components/train-time-table/TrOrderDescription";

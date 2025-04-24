@@ -8,7 +8,7 @@ import "yet-another-react-lightbox/styles.css";
 
 // import optional lightbox plugins
 import Layout from "@/components/layout/Layout";
-import PageHead from "@/components/layout/PageHead";
+import PageHead from "@/components/PageHead";
 import PWAInstallButton from "@/components/pwa-promot/PWAInstallButton";
 import useMuiTheme from "@/hooks/useMuiThemeHook";
 import { featureImgList } from "public/data/featuresData";

@@ -1,4 +1,4 @@
-import CommonDialog from "@/components/modals/CommonDialog";
+import CommonDialog from "@/components/CommonDialog";
 import { GaEnum } from "@/enums/GaEnum";
 import { PageEnum } from "@/enums/PageEnum";
 import useOperationAlert from "@/hooks/useOpreationAlertHook";

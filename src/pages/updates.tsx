@@ -1,5 +1,5 @@
 import Layout from "@/components/layout/Layout";
-import PageHead from "@/components/layout/PageHead";
+import PageHead from "@/components/PageHead";
 import { GaEnum } from "@/enums/GaEnum";
 import useLang from "@/hooks/useLangHook";
 import useMuiTheme from "@/hooks/useMuiThemeHook";

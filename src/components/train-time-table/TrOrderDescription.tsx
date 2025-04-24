@@ -2,7 +2,7 @@ import { GaEnum } from "@/enums/GaEnum";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useState } from "react";
-import CommonDialog from "../modals/CommonDialog";
+import CommonDialog from "../CommonDialog";
 
 const TrOrderDescription: FC = () => {
   const { t } = useTranslation();

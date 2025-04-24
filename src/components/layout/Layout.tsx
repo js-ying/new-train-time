@@ -1,7 +1,7 @@
 import { FC } from "react";
-import LocaleChange from "../buttons/LocaleChange";
-import ThemeSwitch from "../buttons/ThemeSwitch";
-import Sidebar from "./Sidebar";
+import Sidebar from "../sidebar/Sidebar";
+import LocaleChange from "./LocaleChange";
+import ThemeSwitch from "./ThemeSwitch";
 import WebTitle from "./WebTitle";
 
 interface LayoutProps {

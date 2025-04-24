@@ -1,4 +1,4 @@
-import PageHead from "@/components/layout/PageHead";
+import PageHead from "@/components/PageHead";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC } from "react";
 import Search from "../search";
