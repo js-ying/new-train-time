@@ -35,7 +35,7 @@ const Area: FC<AreaProps> = ({
     <Button
       color="default"
       variant="light"
-      className={`${className} text-md flex min-h-16 flex-col items-center justify-center gap-0
+      className={`${className} text-md min-h-16 flex-col items-center justify-center gap-0
         border-1 border-zinc-700 hover:text-white 
       data-[hover=true]:bg-zinc-700 dark:border-zinc-200 dark:data-[hover=true]:bg-silverLakeBlue-500
         ${isActive && " bg-zinc-700 text-white dark:bg-silverLakeBlue-500"}
@@ -49,24 +49,6 @@ const Area: FC<AreaProps> = ({
     >
       {children}
     </Button>
-
-    // <div
-    //   tabIndex={0}
-    //   role="button"
-    //   className={`custom-cursor-pointer flex min-h-16 flex-col items-center justify-center rounded-md
-    //     border border-solid border-zinc-700 p-2 dark:border-zinc-200 ${className}
-    //     transition duration-150 ease-out
-    //     hover:bg-zinc-700 hover:text-white dark:hover:bg-silverLakeBlue-500
-    //     ${isActive && " bg-zinc-700 text-white dark:bg-silverLakeBlue-500"}`}
-    //   onClick={onClick}
-    //   onKeyDown={(e) => {
-    //     if (e.key === "Enter" || e.key === " ") {
-    //       onClick();
-    //     }
-    //   }}
-    // >
-    //   {children}
-    // </div>
   );
 };
 
@@ -217,8 +199,9 @@ const SearchArea: FC = () => {
           </div>
         </Area>
       </div>
-      <div className="mt-4 block md:hidden">
+      <div className="mt-4 flex md:hidden">
         <Area
+          className="flex-1"
           isActive={params.activeIndex === SearchAreaActiveIndexEnum.DATE_TIME}
           onClick={() =>
             handleStationAreaClick(
