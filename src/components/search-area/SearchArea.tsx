@@ -32,15 +32,15 @@ const Area: FC<AreaProps> = ({
   className = "",
 }) => {
   return (
-    <div
-      tabIndex={0}
-      role="button"
-      className={`custom-cursor-pointer flex min-h-16 flex-col items-center justify-center rounded-md
-        border border-solid border-zinc-700 p-2 dark:border-zinc-200 ${className}
-        transition duration-150 ease-out
-        hover:bg-zinc-700 hover:text-white dark:hover:bg-silverLakeBlue-500
-        ${isActive && " bg-zinc-700 text-white dark:bg-silverLakeBlue-500"}`}
-      onClick={onClick}
+    <Button
+      color="default"
+      variant="light"
+      className={`${className} text-md flex min-h-16 flex-col items-center justify-center gap-0
+        border-1 border-zinc-700 hover:text-white 
+      data-[hover=true]:bg-zinc-700 dark:border-zinc-200 dark:data-[hover=true]:bg-silverLakeBlue-500
+        ${isActive && " bg-zinc-700 text-white dark:bg-silverLakeBlue-500"}
+      `}
+      onPress={onClick}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           onClick();
@@ -48,7 +48,25 @@ const Area: FC<AreaProps> = ({
       }}
     >
       {children}
-    </div>
+    </Button>
+
+    // <div
+    //   tabIndex={0}
+    //   role="button"
+    //   className={`custom-cursor-pointer flex min-h-16 flex-col items-center justify-center rounded-md
+    //     border border-solid border-zinc-700 p-2 dark:border-zinc-200 ${className}
+    //     transition duration-150 ease-out
+    //     hover:bg-zinc-700 hover:text-white dark:hover:bg-silverLakeBlue-500
+    //     ${isActive && " bg-zinc-700 text-white dark:bg-silverLakeBlue-500"}`}
+    //   onClick={onClick}
+    //   onKeyDown={(e) => {
+    //     if (e.key === "Enter" || e.key === " ") {
+    //       onClick();
+    //     }
+    //   }}
+    // >
+    //   {children}
+    // </div>
   );
 };
 

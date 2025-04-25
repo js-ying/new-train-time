@@ -37,6 +37,27 @@ const NowTimeButton: FC = () => {
   );
 };
 
+const TimeSelect: FC<{
+  value: string;
+  options: { key: string; label: string }[];
+  onSelect: (val: string) => void;
+  ariaLabel: string;
+}> = ({ value, options, onSelect, ariaLabel }) => {
+  return (
+    <select
+      className="common-select"
+      value={value}
+      onChange={(item) => onSelect(item.target.value)}
+    >
+      {options.map((opt) => (
+        <option key={opt.key} value={opt.label}>
+          {opt.label}
+        </option>
+      ))}
+    </select>
+  );
+};
+
 const TimePicker: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -44,10 +65,13 @@ const TimePicker: FC = () => {
     start: number,
     end: number,
     step: number = 1,
-  ): string[] => {
+  ): { key: string; label: string }[] => {
     const options = [];
     for (let i = start; i <= end; i += step) {
-      options.push(i.toString().padStart(2, "0"));
+      options.push({
+        key: i.toString().padStart(2, "0"),
+        label: i.toString().padStart(2, "0"),
+      });
     }
     return options;
   };
@@ -75,29 +99,19 @@ const TimePicker: FC = () => {
 
   return (
     <div className="relative flex items-center">
-      <select
+      <TimeSelect
         value={hour}
-        onChange={(e) => setHour(e.target.value)}
-        className="common-select"
-      >
-        {hourOptions.map((hour) => (
-          <option value={hour} key={hour}>
-            {hour}
-          </option>
-        ))}
-      </select>
+        options={hourOptions}
+        onSelect={setHour}
+        ariaLabel="select hour"
+      />
       <span className="mx-1">:</span>
-      <select
+      <TimeSelect
         value={min}
-        onChange={(e) => setMin(e.target.value)}
-        className="common-select"
-      >
-        {minOptions.map((min) => (
-          <option value={min} key={min}>
-            {min}
-          </option>
-        ))}
-      </select>
+        options={minOptions}
+        onSelect={setMin}
+        ariaLabel="select minute"
+      />
       <div className="absolute -right-14 text-sm">
         <NowTimeButton />
       </div>
