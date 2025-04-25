@@ -23,15 +23,15 @@ module.exports = {
           900: "#060A13",
         },
         silverLakeBlue: {
-          100: "#E3F3FC",
-          200: "#C8E5F9",
-          300: "#A7CDED",
-          400: "#8AB3DB",
-          500: "#6490C4",
-          600: "#4970A8",
-          700: "#32538D",
-          800: "#1F3A71",
-          900: "#13275E",
+          100: "#DCF0FC",
+          200: "#BBE0F9",
+          300: "#95C6EE",
+          400: "#76AADE",
+          500: "#4c85c9",
+          600: "#3767AC",
+          700: "#264D90",
+          800: "#183574",
+          900: "#0E2460",
         },
         gamboge: {
           100: "#FEF3CD",
@@ -65,10 +65,10 @@ module.exports = {
           colors: {
             background: "#ffffff",
             primary: {
-              DEFAULT: "#6490C4",
+              DEFAULT: "#4c85c9",
               foreground: "#000000",
             },
-            focus: "#6490C4",
+            focus: "#4c85c9",
           },
         },
         dark: {
