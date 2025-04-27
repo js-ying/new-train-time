@@ -1,24 +1,39 @@
 export const updateDataList = [
   {
+    date: "2025-05",
+    type: "both",
+    ver: "2.1.2",
+    items: [
+      {
+        type: "update",
+        content: "加深主視覺藍的顏色，並增加點擊車站時的動畫效果",
+      },
+      {
+        type: "update",
+        content: "「特色介紹」頁面的介紹圖片翻新",
+      },
+    ],
+  },
+  {
     date: "2025-02",
     type: "both",
     ver: "2.1.1",
     items: [
       {
         type: "new",
-        content: "桃園捷運時刻查詢功能上線",
+        content: "新功能「桃園捷運時刻查詢」上線",
       },
       {
         type: "new",
-        content: "台鐵/高鐵/桃園捷運加入即時營運通阻訊息",
+        content: "新功能「即時營運通阻訊息」上線",
       },
       {
         type: "update",
-        content: "原台鐵/高鐵一鍵切換調整為下拉選單",
+        content: "原台鐵/高鐵一鍵切換調整為下拉選單格式",
       },
       {
         type: "update",
-        content: "調整「更新公告」排版",
+        content: "調整「更新公告」頁面的排版",
       },
       {
         type: "refactor",
@@ -33,11 +48,11 @@ export const updateDataList = [
     items: [
       {
         type: "new",
-        content: "選單加入台鐵列車註記的顯示/隱藏按鈕",
+        content: "左側選單加入「台鐵列車註記」的顯示/隱藏按鈕",
       },
       {
         type: "new",
-        content: "台鐵加入特定列車的電子票證使用限制提醒",
+        content: "台鐵加入特定列車的「電子票證使用限制」提醒",
       },
     ],
   },
@@ -48,7 +63,7 @@ export const updateDataList = [
     items: [
       {
         type: "new",
-        content: "列車詳細資訊截圖功能上線",
+        content: "新功能「列車詳細資訊截圖」上線",
       },
       {
         type: "fix",
@@ -78,11 +93,11 @@ export const updateDataList = [
     items: [
       {
         type: "new",
-        content: "台鐵訂票導頁功能上線，導頁後自動填入車次資料",
+        content: "台鐵新功能「訂票導頁」上線，導頁後自動填入車次資料",
       },
       {
         type: "update",
-        content: "台鐵首頁新增訂票功能說明彈窗",
+        content: "台鐵首頁新增「訂票功能說明」彈窗",
       },
     ],
   },
@@ -93,11 +108,11 @@ export const updateDataList = [
     items: [
       {
         type: "fix",
-        content: "解決特色介紹頁面在英文版強制跳轉中文版的問題",
+        content: "解決「特色介紹」頁面在英文版強制跳轉中文版的問題",
       },
       {
         type: "update",
-        content: "調整更新公告頁面的呈現方式",
+        content: "調整「更新公告」頁面的呈現方式",
       },
     ],
   },
@@ -108,11 +123,11 @@ export const updateDataList = [
     items: [
       {
         type: "update",
-        content: "出發時間選單調整為 24 時制",
+        content: "「出發時間」選單調整為 24 時制",
       },
       {
         type: "update",
-        content: "首頁下方新增資料來源說明",
+        content: "首頁下方新增「資料來源」說明",
       },
     ],
   },

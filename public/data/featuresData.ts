@@ -1,35 +1,43 @@
 const featureImgList = [
   {
-    imgName: "features-01.png",
-    title: "亮色/暗色主題 一鍵切換",
+    imgName: "jsy_traintime_feature_01-light-dark-mode.png",
+    title: "light-dark-mode",
   },
   {
-    imgName: "features-02.png",
-    title: "繁中/英語 一鍵切換",
+    imgName: "jsy_traintime_feature_02-ch-en-lang.png",
+    title: "ch-en-lang",
   },
   {
-    imgName: "features-03.png",
-    title: "台鐵/高鐵 一鍵切換",
+    imgName: "jsy_traintime_feature_03-multi-rail-switch.png",
+    title: "multi-rail-switch",
   },
   {
-    imgName: "features-04.png",
-    title: "台鐵即時誤點資訊",
+    imgName: "jsy_traintime_feature_04-tra-delay-info.png",
+    title: "tra-delay-info",
   },
   {
-    imgName: "features-05.png",
-    title: "歷史查詢 一鍵選擇",
+    imgName: "jsy_traintime_feature_05-realtime-operation-message.png",
+    title: "realtime-operation-message",
   },
   {
-    imgName: "features-06.png",
-    title: "選擇車站 可選可打",
+    imgName: "jsy_traintime_feature_06-install-to-desktop.png",
+    title: "install-to-desktop",
   },
   {
-    imgName: "features-07.png",
-    title: "選擇時間 簡單快速",
+    imgName: "jsy_traintime_feature_07-pwa.png",
+    title: "pwa",
   },
   {
-    imgName: "features-08.png",
-    title: "列車詳細資訊 清楚明瞭",
+    imgName: "jsy_traintime_feature_08-hisotry-inquiry.png",
+    title: "hisotry-inquiry",
+  },
+  {
+    imgName: "jsy_traintime_feature_09-station-select.png",
+    title: "station-select",
+  },
+  {
+    imgName: "jsy_traintime_feature_10-traininfo-detail.png",
+    title: "traininfo-detail",
   },
 ];
 

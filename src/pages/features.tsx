@@ -58,7 +58,7 @@ const FeaturesGallery: FC = () => {
     () =>
       featureImgList.map((img) => {
         return {
-          src: `https://jsying1994.s3.amazonaws.com/traintime/features/${img.imgName}`,
+          src: `https://jsying1994.s3.amazonaws.com/traintime/features/v2/${img.imgName}`,
         };
       }),
     [],
@@ -70,7 +70,7 @@ const FeaturesGallery: FC = () => {
     <div className="overflow-x-auto whitespace-nowrap">
       {featureImgList.map((img, index) => (
         <Image
-          src={`https://jsying1994.s3.amazonaws.com/traintime/features/${img.imgName}`}
+          src={`https://jsying1994.s3.amazonaws.com/traintime/features/v2/${img.imgName}`}
           alt={`${img.title}`}
           key={img.imgName}
           loading="lazy"
