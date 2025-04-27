@@ -36,8 +36,8 @@ const Area: FC<AreaProps> = ({
       color="default"
       variant="light"
       className={`${className} text-md min-h-16 flex-col items-center justify-center gap-0
-        border-1 border-zinc-700 hover:text-white 
-      data-[hover=true]:bg-zinc-700 dark:border-zinc-200 dark:data-[hover=true]:bg-silverLakeBlue-500
+        border-1 border-zinc-700 data-[hover=true]:bg-zinc-700
+        data-[hover]:text-white dark:border-zinc-200 dark:data-[hover=true]:bg-silverLakeBlue-500
         ${isActive && " bg-zinc-700 text-white dark:bg-silverLakeBlue-500"}
       `}
       onPress={onClick}
