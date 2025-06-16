@@ -22,8 +22,7 @@ const usePage = (): UsePageResult => {
   const isFeatures = pathname.toLowerCase().includes(PageEnum.FEATURES);
   const isTr = !isThsr && !isTymc && !isUpdates && !isFeatures;
   const isHome =
-    (isTr || isThsr || isTymc) &&
-    !pathname.toLowerCase().includes(PageEnum.SEARCH);
+    (isTr || isThsr || isTymc) && !pathname.toLowerCase().includes("search");
 
   let page: PageEnum;
   if (isThsr) {
