@@ -23,7 +23,7 @@ const IOSSwitchSetting: FC<IOSSwitchSettingProps> = ({
   setValue,
 }) => {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between gap-2">
       {label}
       <Switch
         isSelected={value}

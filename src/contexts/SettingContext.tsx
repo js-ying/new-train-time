@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 export interface SettingParams {
   showTrTrainNote: boolean;
+  autoRedirectLastUsedPage: boolean;
 }
 
 export const SettingContext = createContext<SettingParams>(null);
@@ -10,12 +11,15 @@ export const SettingUpdateContext = createContext(null);
 export function SettingProvider({ children }) {
   const [searchAreaParams, setSettingParams] = useState({
     showTrTrainNote: false,
+    autoRedirectLastUsedPage: false,
   });
 
   useEffect(() => {
     setSettingParams({
       ...searchAreaParams,
       showTrTrainNote: localStorage.getItem("showTrTrainNote") === "true",
+      autoRedirectLastUsedPage:
+        localStorage.getItem("autoRedirectLastUsedPage") === "true",
     });
   }, []);
 

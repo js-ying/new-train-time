@@ -2,18 +2,30 @@ export const updateDataList = [
   {
     date: "2025-06",
     type: "both",
-    ver: "2.0.3",
+    ver: "2.1.0",
     items: [
       {
+        type: "new",
+        content: "新功能：自動跳轉至上次使用頁面（當重新進入本系統時）",
+      },
+      {
+        type: "new",
+        content: "新功能：側邊欄加入「啟用/關閉自動跳轉至上次使用頁面」的開關",
+      },
+      {
         type: "update",
-        content: "新增台鐵車站「鳳鳴」",
+        content: "更新台鐵車站清單，新增「鳳鳴」車站",
+      },
+      {
+        type: "fix",
+        content: "修正側邊欄中的「開關」沒有正確顯示上次儲存狀態的問題",
       },
     ],
   },
   {
     date: "2025-05",
     type: "both",
-    ver: "2.0.2",
+    ver: "2.0.1",
     items: [
       {
         type: "update",
@@ -28,7 +40,7 @@ export const updateDataList = [
   {
     date: "2025-02",
     type: "both",
-    ver: "2.0.1",
+    ver: "2.0.0",
     items: [
       {
         type: "new",
@@ -55,11 +67,11 @@ export const updateDataList = [
   {
     date: "2024-09",
     type: "both",
-    ver: "1.1.3",
+    ver: "1.3.0",
     items: [
       {
         type: "new",
-        content: "新功能：顯示/隱藏台鐵列車註記的開關",
+        content: "新功能：側邊欄加入「顯示/隱藏台鐵列車註記」的開關",
       },
       {
         type: "new",
@@ -70,7 +82,7 @@ export const updateDataList = [
   {
     date: "2024-08",
     type: "both",
-    ver: "1.1.2",
+    ver: "1.2.0",
     items: [
       {
         type: "new",

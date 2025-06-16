@@ -5,10 +5,10 @@ import {
 } from "@/contexts/SearchAreaContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { PageEnum } from "@/enums/PageEnum";
-import { PathEnum } from "@/enums/PathEnum";
 import { SearchAreaActiveIndexEnum } from "@/enums/SearchAreaParamsEnum";
 import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
+import { getHomePath, recordLastUsedPage } from "@/utils/PageUtils";
 import {
   Button,
   Dropdown,
@@ -40,22 +40,20 @@ const TrainSwitch: FC = () => {
 
     if (toPage === PageEnum.TR) {
       gaClickEvent(GaEnum.TR_TITLE);
-      router.push({
-        pathname: `${PathEnum[PageEnum.TR + "Home"]}`,
-      });
+      recordLastUsedPage(PageEnum.TR);
     }
     if (toPage === PageEnum.THSR) {
       gaClickEvent(GaEnum.THSR_TITLE);
-      router.push({
-        pathname: `${PathEnum[PageEnum.THSR + "Home"]}`,
-      });
+      recordLastUsedPage(PageEnum.THSR);
     }
     if (toPage === PageEnum.TYMC) {
       gaClickEvent(GaEnum.TYMC_TITLE);
-      router.push({
-        pathname: `${PathEnum[PageEnum.TYMC + "Home"]}`,
-      });
+      recordLastUsedPage(PageEnum.TYMC);
     }
+
+    router.push({
+      pathname: getHomePath(toPage),
+    });
   };
 
   return (

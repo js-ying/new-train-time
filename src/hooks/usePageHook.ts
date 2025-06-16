@@ -6,6 +6,7 @@ interface UsePageResult {
   isTr: boolean;
   isThsr: boolean;
   isTymc: boolean;
+  isHome: boolean;
   localStorageKey: string;
   searchPath: string;
   homePath: string;
@@ -20,6 +21,9 @@ const usePage = (): UsePageResult => {
   const isUpdates = pathname.toLowerCase().includes(PageEnum.UPDATES);
   const isFeatures = pathname.toLowerCase().includes(PageEnum.FEATURES);
   const isTr = !isThsr && !isTymc && !isUpdates && !isFeatures;
+  const isHome =
+    (isTr || isThsr || isTymc) &&
+    !pathname.toLowerCase().includes(PageEnum.SEARCH);
 
   let page: PageEnum;
   if (isThsr) {
@@ -42,6 +46,7 @@ const usePage = (): UsePageResult => {
     isTr,
     isThsr,
     isTymc,
+    isHome,
     localStorageKey,
     searchPath,
     page,
