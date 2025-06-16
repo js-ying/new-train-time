@@ -103,14 +103,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Keelung",
     },
     StationPosition: {
-      PositionLat: 25.13401,
-      PositionLon: 121.74013,
+      PositionLon: 121.73837,
+      PositionLat: 25.13191,
     },
-    StationAddress: "104基隆市中山區民治里1鄰中山一路16之 1號",
+    StationAddress: "203001基隆市中山區中山一路 16 之 1 號",
     StationPhone: "02-24263743",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0900",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0900",
   },
   {
     StationUID: "TRA-0910",
@@ -120,14 +120,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Sankeng",
     },
     StationPosition: {
-      PositionLat: 25.12305,
       PositionLon: 121.74202,
+      PositionLat: 25.12305,
     },
-    StationAddress: "20045基隆市仁愛區德厚里龍安街 206 號",
+    StationAddress: "200006基隆市仁愛區德厚里龍安街 206 號",
     StationPhone: "02-24230289",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0910",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0910",
   },
   {
     StationUID: "TRA-0920",
@@ -137,14 +137,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Badu",
     },
     StationPosition: {
-      PositionLat: 25.10843,
-      PositionLon: 121.72898,
+      PositionLon: 121.72905,
+      PositionLat: 25.10835,
     },
-    StationAddress: "20541基隆市暖暖區八南里八堵路 142 號",
+    StationAddress: "205001基隆市暖暖區八南里八堵路 142 號",
     StationPhone: "02-24560841",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0920",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0920",
   },
   {
     StationUID: "TRA-0930",
@@ -154,14 +154,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Qidu",
     },
     StationPosition: {
-      PositionLat: 25.09294,
       PositionLon: 121.71415,
+      PositionLat: 25.09294,
     },
-    StationAddress: "20646基隆市七堵區長興里東新街 2 號",
+    StationAddress: "206006基隆市七堵區長興里東新街 2 號",
     StationPhone: "02-24553426",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0930",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0930",
   },
   {
     StationUID: "TRA-0940",
@@ -171,14 +171,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Baifu",
     },
     StationPosition: {
-      PositionLat: 25.07803,
-      PositionLon: 121.69373,
+      PositionLon: 121.69379,
+      PositionLat: 25.07795,
     },
-    StationAddress: "20651基隆市七堵區堵南里明德三路 1 之 1 號",
+    StationAddress: "206011基隆市七堵區堵南里明德三路 1 之 1 號",
     StationPhone: "02-24528372",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0940",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0940",
   },
   {
     StationUID: "TRA-0950",
@@ -188,14 +188,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Wudu",
     },
     StationPosition: {
-      PositionLat: 25.07784,
-      PositionLon: 121.66764,
+      PositionLon: 121.66758,
+      PositionLat: 25.07799,
     },
-    StationAddress: "22178新北市汐止區長安里長安路 17 號",
+    StationAddress: "221041新北市汐止區長安里長安路 17 號",
     StationPhone: "02-86476200",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0950",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0950",
   },
   {
     StationUID: "TRA-0960",
@@ -205,14 +205,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xizhi",
     },
     StationPosition: {
-      PositionLat: 25.06894,
-      PositionLon: 121.66244,
+      PositionLon: 121.66113,
+      PositionLat: 25.0679,
     },
-    StationAddress: "22166新北市汐止區信望里信義路 1 號",
+    StationAddress: "221029新北市汐止區信望里信義路 1 號",
     StationPhone: "02-26415096",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0960",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0960",
   },
   {
     StationUID: "TRA-0970",
@@ -222,14 +222,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xike",
     },
     StationPosition: {
-      PositionLat: 25.06241,
-      PositionLon: 121.64669,
+      PositionLon: 121.64966,
+      PositionLat: 25.06322,
     },
-    StationAddress: "22184新北市汐止區大同里大同路二段 182 號",
-    StationPhone: "02-23815226#8730",
+    StationAddress: "221026新北市汐止區大同里大同路二段 182 號",
+    StationPhone: "02-26499817#8730",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0970",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0970",
   },
   {
     StationUID: "TRA-0980",
@@ -239,14 +239,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Nangang",
     },
     StationPosition: {
-      PositionLat: 25.05348,
       PositionLon: 121.60706,
+      PositionLat: 25.05306,
     },
-    StationAddress: "115臺北市南港區南港里南港路一段 313 號",
+    StationAddress: "115018臺北市南港區南港里南港路一段 313 號 B2",
     StationPhone: "02-27838645",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0980",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0980",
   },
   {
     StationUID: "TRA-0990",
@@ -256,14 +256,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Songshan",
     },
     StationPosition: {
-      PositionLat: 25.04936,
-      PositionLon: 121.57807,
+      PositionLon: 121.57906,
+      PositionLat: 25.04927,
     },
-    StationAddress: "11088臺北市信義區永吉里松山路 11 號",
+    StationAddress: "110417臺北市信義區松山路 11 號B1",
     StationPhone: "02-27673819",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0990",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/0990",
   },
   {
     StationUID: "TRA-1000",
@@ -273,14 +273,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Taipei",
     },
     StationPosition: {
-      PositionLat: 25.04771,
-      PositionLon: 121.51784,
+      PositionLon: 121.51711,
+      PositionLat: 25.04775,
     },
-    StationAddress: "100臺北市中正區黎明里北平西路 3 號",
+    StationAddress: "100230臺北市中正區黎明里北平西路 3 號",
     StationPhone: "02-23713558",
     StationClass: "0",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1000",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1000",
   },
   {
     StationUID: "TRA-1001",
@@ -290,14 +290,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Taipei Surround Island",
     },
     StationPosition: {
-      PositionLat: 25.04811,
-      PositionLon: 121.51793,
+      PositionLon: 121.51711,
+      PositionLat: 25.04774,
     },
-    StationAddress: "",
+    StationAddress: "100230臺北市中正區",
     StationPhone: "",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1001",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1001",
   },
   {
     StationUID: "TRA-1010",
@@ -307,14 +307,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Wanhua",
     },
     StationPosition: {
-      PositionLat: 25.03352,
-      PositionLon: 121.49991,
+      PositionLon: 121.50081,
+      PositionLat: 25.03342,
     },
-    StationAddress: "10855臺北市萬華區富福里康定路 382 號",
+    StationAddress: "108220臺北市萬華區富福里康定路 382 號",
     StationPhone: "02-23020481",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1010",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1010",
   },
   {
     StationUID: "TRA-1020",
@@ -324,14 +324,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Banqiao",
     },
     StationPosition: {
-      PositionLat: 25.01469,
-      PositionLon: 121.46352,
+      PositionLon: 121.46374,
+      PositionLat: 25.01434,
     },
-    StationAddress: "220新北市板橋區新民里站前路",
+    StationAddress: "220227新北市板橋區新民里縣民大道二段 7 號　",
     StationPhone: "02-89691036",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1020",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1020",
   },
   {
     StationUID: "TRA-1030",
@@ -341,14 +341,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fuzhou",
     },
     StationPosition: {
-      PositionLat: 25.00419,
       PositionLon: 121.44477,
+      PositionLat: 25.00419,
     },
     StationAddress: "22058新北市板橋區僑中里僑中二街 156 號",
     StationPhone: "02-23815226#4665",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1030",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1030",
   },
   {
     StationUID: "TRA-1040",
@@ -358,14 +358,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shulin",
     },
     StationPosition: {
-      PositionLat: 24.99121,
-      PositionLon: 121.42481,
+      PositionLon: 121.42442,
+      PositionLat: 24.99123,
     },
-    StationAddress: "23845新北市樹林區樹北里鎮前街 112 號",
+    StationAddress: "238005新北市樹林區樹北里鎮前街 112 號",
     StationPhone: "02-26812052",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1040",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1040",
   },
   {
     StationUID: "TRA-1050",
@@ -375,14 +375,14 @@ export const trStationDataList: TrStationData[] = [
       En: "South Shulin",
     },
     StationPosition: {
-      PositionLat: 24.98034,
       PositionLon: 121.40891,
+      PositionLat: 24.98034,
     },
     StationAddress: "23846新北市樹林區東山里中山路二段 230 號",
     StationPhone: "02-26812052",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1050",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1050",
   },
   {
     StationUID: "TRA-1060",
@@ -392,14 +392,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shanjia",
     },
     StationPosition: {
-      PositionLat: 24.97233,
-      PositionLon: 121.39273,
+      PositionLon: 121.39254,
+      PositionLat: 24.97273,
     },
-    StationAddress: "23852新北市樹林區中山里山佳街 28 號",
+    StationAddress: "238012新北市樹林區中山路三段108號",
     StationPhone: "02-26808874",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1060",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1060",
   },
   {
     StationUID: "TRA-1070",
@@ -409,14 +409,31 @@ export const trStationDataList: TrStationData[] = [
       En: "Yingge",
     },
     StationPosition: {
-      PositionLat: 24.95432,
-      PositionLon: 121.35535,
+      PositionLon: 121.35517,
+      PositionLat: 24.95455,
     },
-    StationAddress: "23942新北市鶯歌區東鶯里文化路 68 號",
+    StationAddress: "239005新北市鶯歌區東鶯里文化路 68-1號",
     StationPhone: "02-26792004",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1070",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1070",
+  },
+  {
+    StationUID: "TRA-1075",
+    StationID: "1075",
+    StationName: {
+      Zh_tw: "鳳鳴",
+      En: "Fengming",
+    },
+    StationPosition: {
+      PositionLon: 121.33669,
+      PositionLat: 24.97241,
+    },
+    StationAddress: "239013新北市鶯歌區鳳鳴里鳳一路 2 號",
+    StationPhone: "",
+    StationClass: "4",
+    StationURL:
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1075",
   },
   {
     StationUID: "TRA-1080",
@@ -426,14 +443,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Taoyuan",
     },
     StationPosition: {
-      PositionLat: 24.98935,
-      PositionLon: 121.31445,
+      PositionLon: 121.314,
+      PositionLat: 24.98902,
     },
-    StationAddress: "33041桃園市桃園區武陵里中正路 1 號",
+    StationAddress: "330002桃園市桃園區武陵里中正路 1 號",
     StationPhone: "03-3767050",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1080",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1080",
   },
   {
     StationUID: "TRA-1090",
@@ -443,31 +460,31 @@ export const trStationDataList: TrStationData[] = [
       En: "Neili",
     },
     StationPosition: {
-      PositionLat: 24.97287,
-      PositionLon: 121.25814,
+      PositionLon: 121.25826,
+      PositionLat: 24.97281,
     },
-    StationAddress: "32072桃園市中壢區中原里中華路一段 267 號",
+    StationAddress: "320070桃園市中壢區中原里中華路一段 267 號",
     StationPhone: "03-4559725",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1090",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1090",
   },
   {
     StationUID: "TRA-1100",
     StationID: "1100",
     StationName: {
       Zh_tw: "中壢",
-      En: "Zhongli (Taoyuan)",
+      En: "Zhongli_Taoyuan",
     },
     StationPosition: {
-      PositionLat: 24.95382,
-      PositionLon: 121.22571,
+      PositionLon: 121.22531,
+      PositionLat: 24.95321,
     },
-    StationAddress: "32041桃園市中壢區石頭里中和路 139 號",
+    StationAddress: "320001桃園市中壢區石頭里中和路 139 號",
     StationPhone: "03-4223235",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1100",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1100",
   },
   {
     StationUID: "TRA-1110",
@@ -477,14 +494,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Puxin",
     },
     StationPosition: {
-      PositionLat: 24.91945,
-      PositionLon: 121.18366,
+      PositionLon: 121.18321,
+      PositionLat: 24.9197,
     },
-    StationAddress: "32653桃園市楊梅區埔心里永美路 208 號",
+    StationAddress: "326009桃園市楊梅區埔心里永美路 208 號",
     StationPhone: "03-4827100",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1110",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1110",
   },
   {
     StationUID: "TRA-1120",
@@ -494,14 +511,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Yangmei",
     },
     StationPosition: {
-      PositionLat: 24.91391,
-      PositionLon: 121.14634,
+      PositionLon: 121.14637,
+      PositionLat: 24.91427,
     },
-    StationAddress: "32643桃園市楊梅區楊梅里大成路 256 號",
+    StationAddress: "326101桃園市楊梅區楊梅里大成路 256 號",
     StationPhone: "03-4782893",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1120",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1120",
   },
   {
     StationUID: "TRA-1130",
@@ -511,14 +528,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fugang",
     },
     StationPosition: {
-      PositionLat: 24.93462,
-      PositionLon: 121.08313,
+      PositionLon: 121.08308,
+      PositionLat: 24.93445,
     },
-    StationAddress: "32649桃園市楊梅區富岡里成功路 37 號",
+    StationAddress: "326019桃園市楊梅區富岡里成功路 37 號",
     StationPhone: "03-4723754",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1130",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1130",
   },
   {
     StationUID: "TRA-1140",
@@ -528,14 +545,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xinfu",
     },
     StationPosition: {
-      PositionLat: 24.93107,
-      PositionLon: 121.06759,
+      PositionLon: 121.06721,
+      PositionLat: 24.93106,
     },
-    StationAddress: "32649桃園市楊梅區富豐里富全街 1 號",
+    StationAddress: "326019桃園市楊梅區富豐里新明街",
     StationPhone: "03-4723754",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1140",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1140",
   },
   {
     StationUID: "TRA-1150",
@@ -545,14 +562,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Beihu",
     },
     StationPosition: {
-      PositionLat: 24.92191,
-      PositionLon: 121.05586,
+      PositionLon: 121.05575,
+      PositionLat: 24.92218,
     },
-    StationAddress: "30371新竹縣湖口鄉東興村北湖路 1 號",
+    StationAddress: "303118新竹縣湖口鄉東興村北湖路 1 號",
     StationPhone: "03-5993850",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1150",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1150",
   },
   {
     StationUID: "TRA-1160",
@@ -562,14 +579,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Hukou",
     },
     StationPosition: {
-      PositionLat: 24.90292,
-      PositionLon: 121.04412,
+      PositionLon: 121.04385,
+      PositionLat: 24.903,
     },
-    StationAddress: "30342新竹縣湖口鄉仁勢村中山路二段 121 號",
+    StationAddress: "303032新竹縣湖口鄉仁勢村中山路二段 121 號",
     StationPhone: "03-5992192",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1160",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1160",
   },
   {
     StationUID: "TRA-1170",
@@ -579,14 +596,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xinfeng",
     },
     StationPosition: {
-      PositionLat: 24.86961,
-      PositionLon: 120.99654,
+      PositionLon: 120.99626,
+      PositionLat: 24.86939,
     },
-    StationAddress: "30442新竹縣新豐鄉山崎村新興路 202 號",
+    StationAddress: "304114新竹縣新豐鄉山崎村新興路 202 號",
     StationPhone: "03-5596314",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1170",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1170",
   },
   {
     StationUID: "TRA-1180",
@@ -596,14 +613,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhubei",
     },
     StationPosition: {
-      PositionLat: 24.83892,
-      PositionLon: 121.00936,
+      PositionLon: 121.00921,
+      PositionLat: 24.83904,
     },
     StationAddress: "30265新竹縣竹北市竹義里和平街 59 號",
     StationPhone: "03-5552024",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1180",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1180",
   },
   {
     StationUID: "TRA-1190",
@@ -613,14 +630,14 @@ export const trStationDataList: TrStationData[] = [
       En: "North Hsinchu",
     },
     StationPosition: {
-      PositionLat: 24.80876,
-      PositionLon: 120.98385,
+      PositionLon: 120.98381,
+      PositionLat: 24.80875,
     },
-    StationAddress: "30060新竹市 東區東園里中華路一段 291 之 2 號",
+    StationAddress: "300002新竹市 東區東園里中華路一段 291 之 2 號",
     StationPhone: "03-5237441",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1190",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1190",
   },
   {
     StationUID: "TRA-1191",
@@ -630,14 +647,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Qianjia",
     },
     StationPosition: {
-      PositionLat: 24.80669,
-      PositionLon: 121.00301,
+      PositionLon: 121.0034,
+      PositionLat: 24.80657,
     },
-    StationAddress: "30059新竹市 東區水源里千甲路 142 號",
+    StationAddress: "300053新竹市 東區水源里千甲路 142 號",
     StationPhone: "03-5237441",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1191",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1191",
   },
   {
     StationUID: "TRA-1192",
@@ -647,14 +664,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xinzhuang",
     },
     StationPosition: {
-      PositionLat: 24.78819,
-      PositionLon: 121.02182,
+      PositionLon: 121.02196,
+      PositionLat: 24.78811,
     },
-    StationAddress: "30073新竹市 東區新莊里關東路 310 號",
+    StationAddress: "300051新竹市 東區新莊里關東路 310 號",
     StationPhone: "03-5237441",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1192",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1192",
   },
   {
     StationUID: "TRA-1193",
@@ -664,14 +681,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhuzhong",
     },
     StationPosition: {
-      PositionLat: 24.78125,
-      PositionLon: 121.03117,
+      PositionLon: 121.03103,
+      PositionLat: 24.78144,
     },
-    StationAddress: "31061新竹縣竹東鎮頭重里竹中路 145 號",
+    StationAddress: "310019新竹縣竹東鎮頭重里竹中路 145 號",
     StationPhone: "03-5962042",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1193",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1193",
   },
   {
     StationUID: "TRA-1194",
@@ -681,14 +698,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Liujia",
     },
     StationPosition: {
-      PositionLat: 24.80751,
-      PositionLon: 121.03921,
+      PositionLon: 121.03941,
+      PositionLat: 24.80766,
     },
-    StationAddress: "30273新竹縣竹北市隘口里復興三路二段 229 號",
+    StationAddress: "302052新竹縣竹北市隘口里復興三路二段 229 號",
     StationPhone: "03-5962042",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1194",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1194",
   },
   {
     StationUID: "TRA-1201",
@@ -698,14 +715,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shangyuan",
     },
     StationPosition: {
-      PositionLat: 24.77797,
-      PositionLon: 121.05554,
+      PositionLon: 121.05582,
+      PositionLat: 24.77776,
     },
-    StationAddress: "310新竹縣竹東鎮上員里光明路 (無站房)",
+    StationAddress: "310021新竹縣竹東鎮上員里光明路 (無站房)",
     StationPhone: "03-5962042",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1201",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1201",
   },
   {
     StationUID: "TRA-1202",
@@ -715,14 +732,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Ronghua",
     },
     StationPosition: {
-      PositionLat: 24.74851,
-      PositionLon: 121.08296,
+      PositionLon: 121.08319,
+      PositionLat: 24.74839,
     },
-    StationAddress: "310新竹縣竹東鎮仁愛里北興路 (無站房)",
+    StationAddress: "310008新竹縣竹東鎮仁愛里北興路 (無站房)",
     StationPhone: "03-5962042",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1202",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1202",
   },
   {
     StationUID: "TRA-1203",
@@ -732,14 +749,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhudong",
     },
     StationPosition: {
-      PositionLat: 24.73811,
-      PositionLon: 121.09465,
+      PositionLon: 121.09472,
+      PositionLat: 24.73823,
     },
-    StationAddress: "31047新竹縣竹東鎮雞林里東林路 196 號",
+    StationAddress: "310007新竹縣竹東鎮雞林里東林路 196 號",
     StationPhone: "03-5962042",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1203",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1203",
   },
   {
     StationUID: "TRA-1204",
@@ -749,14 +766,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Hengshan",
     },
     StationPosition: {
-      PositionLat: 24.72051,
-      PositionLon: 121.11657,
+      PositionLon: 121.11772,
+      PositionLat: 24.72041,
     },
-    StationAddress: "31241新竹縣橫山鄉橫山村橫山路 97 號 (無站房)",
+    StationAddress: "312001新竹縣橫山鄉橫山村橫山路 97 號 (無站房)",
     StationPhone: "03-5962042",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1204",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1204",
   },
   {
     StationUID: "TRA-1205",
@@ -766,14 +783,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jiuzantou",
     },
     StationPosition: {
-      PositionLat: 24.72068,
-      PositionLon: 121.13621,
+      PositionLon: 121.13622,
+      PositionLat: 24.72062,
     },
-    StationAddress: "31242新竹縣橫山鄉大肚村中豐路二段 286 巷 29 號",
+    StationAddress: "312002新竹縣橫山鄉大肚村中豐路二段 286 巷 29 號",
     StationPhone: "03-5962042",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1205",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1205",
   },
   {
     StationUID: "TRA-1206",
@@ -783,14 +800,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Hexing",
     },
     StationPosition: {
-      PositionLat: 24.71649,
-      PositionLon: 121.15434,
+      PositionLon: 121.15437,
+      PositionLat: 24.71667,
     },
-    StationAddress: "31243新竹縣橫山鄉力行村中山街一段 17 號",
+    StationAddress: "312003新竹縣橫山鄉力行村中山街一段 17 號",
     StationPhone: "03-5962042",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1206",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1206",
   },
   {
     StationUID: "TRA-1207",
@@ -800,14 +817,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fugui",
     },
     StationPosition: {
-      PositionLat: 24.71553,
-      PositionLon: 121.16729,
+      PositionLon: 121.16743,
+      PositionLat: 24.71551,
     },
-    StationAddress: "312新竹縣橫山鄉豐田村中山街一段 (無站房)",
+    StationAddress: "312003新竹縣橫山鄉豐田村中山街一段 (無站房)",
     StationPhone: "03-5962042",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1207",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1207",
   },
   {
     StationUID: "TRA-1208",
@@ -817,14 +834,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Neiwan",
     },
     StationPosition: {
-      PositionLat: 24.70526,
-      PositionLon: 121.18247,
+      PositionLon: 121.18255,
+      PositionLat: 24.70535,
     },
-    StationAddress: "31243新竹縣橫山鄉內灣村中正路 6 號",
+    StationAddress: "312003新竹縣橫山鄉內灣村中正路 6 號",
     StationPhone: "03-5962042",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1208",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1208",
   },
   {
     StationUID: "TRA-1210",
@@ -834,14 +851,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Hsinchu",
     },
     StationPosition: {
-      PositionLat: 24.80169,
-      PositionLon: 120.97156,
+      PositionLon: 120.97155,
+      PositionLat: 24.80164,
     },
-    StationAddress: "30060新竹市 東區榮光里中華路二段 445 號",
+    StationAddress: "300003新竹市 東區榮光里中華路二段 445 號",
     StationPhone: "03-5237441",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1210",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1210",
   },
   {
     StationUID: "TRA-1220",
@@ -851,14 +868,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Sanxingqiao",
     },
     StationPosition: {
-      PositionLat: 24.78723,
-      PositionLon: 120.92838,
+      PositionLon: 120.92844,
+      PositionLat: 24.78731,
     },
-    StationAddress: "30093新竹市 香山區香山里元培街 32 巷 30 號",
+    StationAddress: "300109新竹市 香山區香山里元培街 32 巷 30 號",
     StationPhone: "03-5237441",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1220",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1220",
   },
   {
     StationUID: "TRA-1230",
@@ -868,14 +885,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xiangshan",
     },
     StationPosition: {
-      PositionLat: 24.76321,
-      PositionLon: 120.91391,
+      PositionLon: 120.91388,
+      PositionLat: 24.76311,
     },
-    StationAddress: "30094新竹市 香山區朝山里中華路五段 347 巷 2 弄 27 號",
+    StationAddress: "300111新竹市 香山區朝山里中華路五段 347 巷 2 弄 27 號",
     StationPhone: "03-5237441",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1230",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1230",
   },
   {
     StationUID: "TRA-1240",
@@ -885,14 +902,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Qiding",
     },
     StationPosition: {
-      PositionLat: 24.72281,
-      PositionLon: 120.87213,
+      PositionLon: 120.87183,
+      PositionLat: 24.72291,
     },
     StationAddress: "35054苗栗縣竹南鎮崎頂里北戶 55 號",
     StationPhone: "037-472030",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1240",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1240",
   },
   {
     StationUID: "TRA-1250",
@@ -902,14 +919,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhunan",
     },
     StationPosition: {
-      PositionLat: 24.68663,
-      PositionLon: 120.88041,
+      PositionLon: 120.88077,
+      PositionLat: 24.68643,
     },
-    StationAddress: "35041苗栗縣竹南鎮竹南里中山路 166 號",
+    StationAddress: "350007苗栗縣竹南鎮竹南里中山路 166 號",
     StationPhone: "037-472030",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1250",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1250",
   },
   {
     StationUID: "TRA-2110",
@@ -919,14 +936,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Tanwen",
     },
     StationPosition: {
-      PositionLat: 24.65641,
       PositionLon: 120.85825,
+      PositionLat: 24.65641,
     },
     StationAddress: "36143苗栗縣造橋鄉談文村仁愛路 29 號",
     StationPhone: "037-472030",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2110",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2110",
   },
   {
     StationUID: "TRA-2120",
@@ -936,14 +953,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dashan",
     },
     StationPosition: {
-      PositionLat: 24.64565,
       PositionLon: 120.80376,
+      PositionLat: 24.64565,
     },
     StationAddress: "35658苗栗縣後龍鎮大山里明山路 180 號",
-    StationPhone: "037-728616",
+    StationPhone: "037-431208",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2120",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2120",
   },
   {
     StationUID: "TRA-2130",
@@ -953,14 +970,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Houlong",
     },
     StationPosition: {
-      PositionLat: 24.61621,
       PositionLon: 120.78731,
+      PositionLat: 24.61621,
     },
     StationAddress: "35641苗栗縣後龍鎮北龍里車站街 127-2 號",
     StationPhone: "037-728616",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2130",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2130",
   },
   {
     StationUID: "TRA-2140",
@@ -970,14 +987,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Longgang",
     },
     StationPosition: {
-      PositionLat: 24.61169,
       PositionLon: 120.75812,
+      PositionLat: 24.61169,
     },
     StationAddress: "35668苗栗縣後龍鎮龍京里公司寮 85 號",
     StationPhone: "037-728616",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2140",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2140",
   },
   {
     StationUID: "TRA-2150",
@@ -987,14 +1004,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Baishatun",
     },
     StationPosition: {
-      PositionLat: 24.56481,
       PositionLon: 120.70824,
+      PositionLat: 24.56481,
     },
     StationAddress: "35742苗栗縣通霄鎮白西里白西 131 號",
     StationPhone: "037-793066",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2150",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2150",
   },
   {
     StationUID: "TRA-2160",
@@ -1004,14 +1021,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xinpu",
     },
     StationPosition: {
-      PositionLat: 24.54018,
       PositionLon: 120.69518,
+      PositionLat: 24.54018,
     },
     StationAddress: "35742苗栗縣通霄鎮新埔里新埔 57 號",
-    StationPhone: "037-793066",
+    StationPhone: "037-793930",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2160",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2160",
   },
   {
     StationUID: "TRA-2170",
@@ -1021,14 +1038,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Tongxiao",
     },
     StationPosition: {
-      PositionLat: 24.49141,
       PositionLon: 120.67843,
+      PositionLat: 24.49141,
     },
-    StationAddress: "35741苗栗縣通霄鎮通西里中正路 109 號",
+    StationAddress: "357006苗栗縣通霄鎮通西里中正路 109 號",
     StationPhone: "037-758300",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2170",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2170",
   },
   {
     StationUID: "TRA-2180",
@@ -1038,14 +1055,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Yuanli",
     },
     StationPosition: {
-      PositionLat: 24.44344,
       PositionLon: 120.65146,
+      PositionLat: 24.44344,
     },
-    StationAddress: "35841苗栗縣苑裡鎮苑北里中山路 165 號",
+    StationAddress: "358011苗栗縣苑裡鎮苑北里中山路 165 號",
     StationPhone: "037-851013",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2180",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2180",
   },
   {
     StationUID: "TRA-2190",
@@ -1055,14 +1072,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Rinan",
     },
     StationPosition: {
-      PositionLat: 24.37805,
-      PositionLon: 120.65412,
+      PositionLon: 120.6541,
+      PositionLat: 24.37825,
     },
-    StationAddress: "43771臺中市大甲區孟春里中山路二段 140 巷 8 號",
+    StationAddress: "437105臺中市大甲區孟春里中山路二段 140 巷 8 號",
     StationPhone: "04-26816113",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2190",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2190",
   },
   {
     StationUID: "TRA-2200",
@@ -1072,14 +1089,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dajia",
     },
     StationPosition: {
-      PositionLat: 24.34455,
-      PositionLon: 120.62703,
+      PositionLon: 120.62702,
+      PositionLat: 24.34448,
     },
-    StationAddress: "43744臺中市大甲區大甲里中山路一段 828 號",
+    StationAddress: "437003臺中市大甲區大甲里中山路一段 828 號",
     StationPhone: "04-26872022",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2200",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2200",
   },
   {
     StationUID: "TRA-2210",
@@ -1089,14 +1106,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Taichung Port",
     },
     StationPosition: {
-      PositionLat: 24.30441,
       PositionLon: 120.60231,
+      PositionLat: 24.30441,
     },
     StationAddress: "43642臺中市清水區頂湳里甲南路 2 號",
     StationPhone: "04-26225374",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2210",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2210",
   },
   {
     StationUID: "TRA-2220",
@@ -1106,14 +1123,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Qingshui",
     },
     StationPosition: {
-      PositionLat: 24.26364,
       PositionLon: 120.56918,
+      PositionLat: 24.26364,
     },
-    StationAddress: "43653臺中市清水區南社里中正街 115 號",
+    StationAddress: "436109臺中市清水區南社里中正街 115 號",
     StationPhone: "04-26222021",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2220",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2220",
   },
   {
     StationUID: "TRA-2230",
@@ -1123,14 +1140,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shalu",
     },
     StationPosition: {
-      PositionLat: 24.23702,
       PositionLon: 120.55752,
+      PositionLat: 24.23702,
     },
     StationAddress: "43353臺中市沙鹿區沙鹿里中正街 94 號",
     StationPhone: "04-26625057",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2230",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2230",
   },
   {
     StationUID: "TRA-2240",
@@ -1140,14 +1157,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Longjing",
     },
     StationPosition: {
-      PositionLat: 24.19745,
-      PositionLon: 120.54336,
+      PositionLon: 120.54335,
+      PositionLat: 24.19748,
     },
     StationAddress: "43450臺中市龍井區龍泉里龍新路 1 號",
     StationPhone: "04-26355578",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2240",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2240",
   },
   {
     StationUID: "TRA-2250",
@@ -1157,14 +1174,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dadu",
     },
     StationPosition: {
-      PositionLat: 24.15401,
-      PositionLon: 120.54255,
+      PositionLon: 120.54249,
+      PositionLat: 24.15417,
     },
     StationAddress: "43242臺中市大肚區頂街里平和街 121 號",
     StationPhone: "04-26992523",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2250",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2250",
   },
   {
     StationUID: "TRA-2260",
@@ -1174,14 +1191,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhuifen",
     },
     StationPosition: {
-      PositionLat: 24.12061,
-      PositionLon: 120.57014,
+      PositionLon: 120.57018,
+      PositionLat: 24.12051,
     },
     StationAddress: "43245臺中市大肚區王田里追分街 13 號",
     StationPhone: "04-26933106",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2260",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/2260",
   },
   {
     StationUID: "TRA-3140",
@@ -1191,14 +1208,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zaoqiao",
     },
     StationPosition: {
-      PositionLat: 24.64206,
-      PositionLon: 120.86719,
+      PositionLon: 120.86721,
+      PositionLat: 24.64186,
     },
     StationAddress: "36144苗栗縣造橋鄉造橋村平仁路 54 號",
     StationPhone: "037-472030",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3140",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3140",
   },
   {
     StationUID: "TRA-3150",
@@ -1208,14 +1225,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fengfu",
     },
     StationPosition: {
-      PositionLat: 24.60131,
-      PositionLon: 120.82357,
+      PositionLon: 120.82637,
+      PositionLat: 24.60429,
     },
-    StationAddress: "35648苗栗縣後龍鎮校椅里高鐵一路 66 號",
+    StationAddress: "356002苗栗縣後龍鎮校椅里高鐵一路 66 號",
     StationPhone: "037-726700",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3150",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3150",
   },
   {
     StationUID: "TRA-3160",
@@ -1225,14 +1242,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Miaoli",
     },
     StationPosition: {
-      PositionLat: 24.57002,
-      PositionLon: 120.82264,
+      PositionLon: 120.82233,
+      PositionLat: 24.57001,
     },
-    StationAddress: "36043苗栗縣苗栗市上苗里為公路 1 號",
+    StationAddress: "360003苗栗縣苗栗市上苗里為公路 1 號",
     StationPhone: "037-260031",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3160",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3160",
   },
   {
     StationUID: "TRA-3170",
@@ -1242,14 +1259,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Nanshi",
     },
     StationPosition: {
-      PositionLat: 24.52234,
-      PositionLon: 120.79157,
+      PositionLon: 120.79154,
+      PositionLat: 24.52246,
     },
-    StationAddress: "36063苗栗縣苗栗市新英里南勢 39 號",
+    StationAddress: "360023苗栗縣苗栗市新英里南勢 39 號",
     StationPhone: "037-260031",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3170",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3170",
   },
   {
     StationUID: "TRA-3180",
@@ -1259,14 +1276,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Tongluo",
     },
     StationPosition: {
-      PositionLat: 24.48648,
-      PositionLon: 120.78616,
+      PositionLon: 120.78617,
+      PositionLat: 24.48634,
     },
     StationAddress: "36641苗栗縣銅鑼鄉銅鑼村大同路 13 號",
     StationPhone: "037-983838",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3180",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3180",
   },
   {
     StationUID: "TRA-3190",
@@ -1276,14 +1293,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Sanyi",
     },
     StationPosition: {
-      PositionLat: 24.42066,
       PositionLon: 120.77393,
+      PositionLat: 24.42066,
     },
-    StationAddress: "36741苗栗縣三義鄉雙湖村雙湖 90 號",
+    StationAddress: "367001苗栗縣三義鄉雙湖村雙湖 90 號",
     StationPhone: "037-874763",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3190",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3190",
   },
   {
     StationUID: "TRA-3210",
@@ -1293,14 +1310,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Tai'an",
     },
     StationPosition: {
-      PositionLat: 24.33146,
       PositionLon: 120.74181,
+      PositionLat: 24.33146,
     },
     StationAddress: "42156臺中市后里區泰安里安眉路 37 之 12 號",
     StationPhone: "04-25586540",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3210",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3210",
   },
   {
     StationUID: "TRA-3220",
@@ -1310,14 +1327,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Houli",
     },
     StationPosition: {
-      PositionLat: 24.30933,
       PositionLon: 120.73288,
+      PositionLat: 24.30933,
     },
     StationAddress: "42142臺中市后里區義里里甲后路一段 1 號",
     StationPhone: "04-25562038",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3220",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3220",
   },
   {
     StationUID: "TRA-3230",
@@ -1327,14 +1344,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fengyuan",
     },
     StationPosition: {
-      PositionLat: 24.25413,
-      PositionLon: 120.72291,
+      PositionLon: 120.72374,
+      PositionLat: 24.25438,
     },
-    StationAddress: "42056臺中市豐原區豐原里中正路 1 號",
+    StationAddress: "420020臺中市豐原區豐原里中正路 1-1號",
     StationPhone: "04-25207950#32",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3230",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3230",
   },
   {
     StationUID: "TRA-3240",
@@ -1344,14 +1361,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Lilin",
     },
     StationPosition: {
-      PositionLat: 24.23481,
-      PositionLon: 120.71069,
+      PositionLon: 120.7106,
+      PositionLat: 24.23461,
     },
-    StationAddress: "427臺中市潭子區潭豐路二段747號",
+    StationAddress: "427001臺中市潭子區潭豐路二段747號",
     StationPhone: "04-25391401",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3240",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3240",
   },
   {
     StationUID: "TRA-3250",
@@ -1361,14 +1378,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Tanzi",
     },
     StationPosition: {
-      PositionLat: 24.21283,
-      PositionLon: 120.70557,
+      PositionLon: 120.70564,
+      PositionLat: 24.21214,
     },
     StationAddress: "42751臺中市潭子區中山路二段352-1號",
     StationPhone: "04-25363852",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3250",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3250",
   },
   {
     StationUID: "TRA-3260",
@@ -1378,14 +1395,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Toujiacuo",
     },
     StationPosition: {
-      PositionLat: 24.19572,
       PositionLon: 120.70398,
+      PositionLat: 24.19572,
     },
-    StationAddress: "427臺中市潭子區頭張東路43巷8號",
+    StationAddress: "42745臺中市潭子區頭張東路43巷8號",
     StationPhone: "04-25391426",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3260",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3260",
   },
   {
     StationUID: "TRA-3270",
@@ -1395,14 +1412,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Songzhu",
     },
     StationPosition: {
-      PositionLat: 24.17983,
-      PositionLon: 120.70197,
+      PositionLon: 120.70193,
+      PositionLat: 24.18035,
     },
-    StationAddress: "406臺中市北屯區舊社里松竹路一段1473巷100號",
+    StationAddress: "406015臺中市北屯區舊社里松竹路一段1473巷100號",
     StationPhone: "04-22473033",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3270",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3270",
   },
   {
     StationUID: "TRA-3280",
@@ -1412,14 +1429,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Taiyuan",
     },
     StationPosition: {
-      PositionLat: 24.16413,
-      PositionLon: 120.69981,
+      PositionLon: 120.69988,
+      PositionLat: 24.16449,
     },
-    StationAddress: "40645臺中市北屯區北興里東光路 665 號",
+    StationAddress: "406008臺中市北屯區北興里東光路 665 號",
     StationPhone: "04-22313926",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3280",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3280",
   },
   {
     StationUID: "TRA-3290",
@@ -1429,14 +1446,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jingwu",
     },
     StationPosition: {
-      PositionLat: 24.14917,
-      PositionLon: 120.69773,
+      PositionLon: 120.69784,
+      PositionLat: 24.14887,
     },
-    StationAddress: "40151臺中市東區東南里東光路 161號",
+    StationAddress: "401005臺中市東區東南里東光路 161號",
     StationPhone: "04-23606501",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3290",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3290",
   },
   {
     StationUID: "TRA-3300",
@@ -1446,14 +1463,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Taichung",
     },
     StationPosition: {
-      PositionLat: 24.13661,
-      PositionLon: 120.68527,
+      PositionLon: 120.68505,
+      PositionLat: 24.13765,
     },
-    StationAddress: "40043臺中市中區綠川里臺灣大道一段 1 號",
-    StationPhone: "04-22216492",
+    StationAddress: "400005臺中市中區綠川里臺灣大道一段 1 號",
+    StationPhone: "04-22227236",
     StationClass: "0",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3300",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3300",
   },
   {
     StationUID: "TRA-3310",
@@ -1463,14 +1480,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Wuquan",
     },
     StationPosition: {
+      PositionLon: 120.66654,
       PositionLat: 24.12877,
-      PositionLon: 120.66644,
     },
-    StationAddress: "402臺中市南區建國南路二段201號\t\t",
+    StationAddress: "402019臺中市南區建國南路二段201號",
     StationPhone: "04-22601636",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3310",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3310",
   },
   {
     StationUID: "TRA-3320",
@@ -1480,14 +1497,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Daqing",
     },
     StationPosition: {
-      PositionLat: 24.11891,
-      PositionLon: 120.64791,
+      PositionLon: 120.64795,
+      PositionLat: 24.11911,
     },
-    StationAddress: "40242臺中市南區樹德里7鄰大慶街2段130號\t",
+    StationAddress: "402026臺中市南區樹德里7鄰大慶街2段130號",
     StationPhone: "04-22637940",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3320",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3320",
   },
   {
     StationUID: "TRA-3330",
@@ -1497,14 +1514,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Wuri",
     },
     StationPosition: {
-      PositionLat: 24.10867,
       PositionLon: 120.62244,
+      PositionLat: 24.10867,
     },
     StationAddress: "41442臺中市烏日區烏日里三民街 258 號",
     StationPhone: "04-23381071",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3330",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3330",
   },
   {
     StationUID: "TRA-3340",
@@ -1514,14 +1531,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xinwuri",
     },
     StationPosition: {
-      PositionLat: 24.10976,
-      PositionLon: 120.61429,
+      PositionLon: 120.61421,
+      PositionLat: 24.10937,
     },
     StationAddress: "41456臺中市烏日區三和里高鐵東一路 26 號",
     StationPhone: "04-23376883",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3340",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3340",
   },
   {
     StationUID: "TRA-3350",
@@ -1531,14 +1548,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Chenggong",
     },
     StationPosition: {
-      PositionLat: 24.11424,
       PositionLon: 120.59021,
+      PositionLat: 24.11424,
     },
-    StationAddress: "41453臺中市烏日區榮泉里中山路三段 550 號",
+    StationAddress: "414012臺中市烏日區榮泉里中山路三段 550 號",
     StationPhone: "04-23371986",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3350",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3350",
   },
   {
     StationUID: "TRA-3360",
@@ -1548,14 +1565,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Changhua",
     },
     StationPosition: {
-      PositionLat: 24.08142,
-      PositionLon: 120.53835,
+      PositionLon: 120.53854,
+      PositionLat: 24.08177,
     },
-    StationAddress: "50043彰化縣彰化市長樂里三民路 1 號",
+    StationAddress: "500003彰化縣彰化市長樂里三民路 1 號",
     StationPhone: "04-7274218#11",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3360",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3360",
   },
   {
     StationUID: "TRA-3370",
@@ -1565,14 +1582,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Huatan",
     },
     StationPosition: {
-      PositionLat: 24.02501,
-      PositionLon: 120.53738,
+      PositionLon: 120.53742,
+      PositionLat: 24.02502,
     },
-    StationAddress: "50341彰化縣花壇鄉花壇村中正路 370 號",
+    StationAddress: "503009彰化縣花壇鄉花壇村中正路 370 號",
     StationPhone: "04-7881418",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3370",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3370",
   },
   {
     StationUID: "TRA-3380",
@@ -1582,14 +1599,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dacun",
     },
     StationPosition: {
-      PositionLat: 23.99003,
-      PositionLon: 120.56068,
+      PositionLon: 120.56062,
+      PositionLat: 23.99002,
     },
-    StationAddress: "515彰化縣大村鄉過溝村福進路 100 號",
+    StationAddress: "515002彰化縣大村鄉過溝村福進路 100 號",
     StationPhone: "04-8525148",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3380",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3380",
   },
   {
     StationUID: "TRA-3390",
@@ -1599,14 +1616,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Yuanlin",
     },
     StationPosition: {
-      PositionLat: 23.95933,
-      PositionLon: 120.56995,
+      PositionLon: 120.56968,
+      PositionLat: 23.95948,
     },
-    StationAddress: "51041彰化縣員林市和平里民權街 55 號",
-    StationPhone: "04-8320544",
+    StationAddress: "510001彰化縣員林市和平里民權街 55 號",
+    StationPhone: "04-8320544#14",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3390",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3390",
   },
   {
     StationUID: "TRA-3400",
@@ -1616,14 +1633,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Yongjing",
     },
     StationPosition: {
-      PositionLat: 23.92811,
-      PositionLon: 120.57165,
+      PositionLon: 120.57173,
+      PositionLat: 23.92808,
     },
-    StationAddress: "51241彰化縣永靖鄉崙子村永崙路 25 號",
-    StationPhone: "04-8320544",
+    StationAddress: "512001彰化縣永靖鄉崙子村崙饒路25 號",
+    StationPhone: "04-8320544#15",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3400",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3400",
   },
   {
     StationUID: "TRA-3410",
@@ -1633,14 +1650,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shetou",
     },
     StationPosition: {
-      PositionLat: 23.89571,
-      PositionLon: 120.58082,
+      PositionLon: 120.58077,
+      PositionLat: 23.89573,
     },
-    StationAddress: "51155彰化縣社頭鄉廣興村社站路 10 號",
+    StationAddress: "511009彰化縣社頭鄉廣興村社站路 10 號",
     StationPhone: "04-8711646",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3410",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3410",
   },
   {
     StationUID: "TRA-3420",
@@ -1650,14 +1667,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Tianzhong",
     },
     StationPosition: {
-      PositionLat: 23.85827,
-      PositionLon: 120.59121,
+      PositionLon: 120.59146,
+      PositionLat: 23.85843,
     },
-    StationAddress: "52042彰化縣田中鎮中路里中州路一段 1 號",
+    StationAddress: "520022彰化縣田中鎮中路里中州路一段 1 號",
     StationPhone: "04-8742142",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3420",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3420",
   },
   {
     StationUID: "TRA-3430",
@@ -1667,14 +1684,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Ershui",
     },
     StationPosition: {
-      PositionLat: 23.81321,
       PositionLon: 120.61805,
+      PositionLat: 23.81321,
     },
-    StationAddress: "53042彰化縣二水鄉光化村光文路 1 號",
+    StationAddress: "530018彰化縣二水鄉光化村光文路 1 號",
     StationPhone: "04-8792027",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3430",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3430",
   },
   {
     StationUID: "TRA-3431",
@@ -1684,14 +1701,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Yuanquan",
     },
     StationPosition: {
-      PositionLat: 23.79846,
-      PositionLon: 120.64208,
+      PositionLon: 120.64211,
+      PositionLat: 23.79845,
     },
-    StationAddress: "530彰化縣二水鄉合興村英義路 (無站房)",
+    StationAddress: "530017彰化縣二水鄉合興村英義路 (無站房)",
     StationPhone: "04-8792027",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3431",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3431",
   },
   {
     StationUID: "TRA-3432",
@@ -1701,14 +1718,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhuoshui",
     },
     StationPosition: {
-      PositionLat: 23.83467,
       PositionLon: 120.70467,
+      PositionLat: 23.83467,
     },
-    StationAddress: "55141南投縣名間鄉濁水村車站路 15 號",
+    StationAddress: "551001南投縣名間鄉濁水村車站路 15 號",
     StationPhone: "049-2735850",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3432",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3432",
   },
   {
     StationUID: "TRA-3433",
@@ -1718,14 +1735,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Longquan",
     },
     StationPosition: {
-      PositionLat: 23.83521,
-      PositionLon: 120.74996,
+      PositionLon: 120.74991,
+      PositionLat: 23.83528,
     },
-    StationAddress: "552南投縣集集鎮隘寮村龍泉巷 (無站房)",
+    StationAddress: "552003南投縣集集鎮隘寮村龍泉巷 (無站房)",
     StationPhone: "04-8792027",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3433",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3433",
   },
   {
     StationUID: "TRA-3434",
@@ -1735,14 +1752,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jiji",
     },
     StationPosition: {
-      PositionLat: 23.82653,
-      PositionLon: 120.78491,
+      PositionLon: 120.78495,
+      PositionLat: 23.82647,
     },
-    StationAddress: "55241南投縣集集鎮吳厝里民生路 75 號",
+    StationAddress: "552001南投縣集集鎮吳厝里民生路 75 號",
     StationPhone: "049-2762546",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3434",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3434",
   },
   {
     StationUID: "TRA-3435",
@@ -1752,14 +1769,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shuili",
     },
     StationPosition: {
-      PositionLat: 23.81844,
-      PositionLon: 120.85333,
+      PositionLon: 120.85332,
+      PositionLat: 23.81845,
     },
-    StationAddress: "55353南投縣水里鄉水里村民生路 440 號",
+    StationAddress: "553001南投縣水里鄉水里村民生路 440 號",
     StationPhone: "049-2770015",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3435",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3435",
   },
   {
     StationUID: "TRA-3436",
@@ -1769,14 +1786,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Checheng",
     },
     StationPosition: {
-      PositionLat: 23.83263,
       PositionLon: 120.86572,
+      PositionLat: 23.83263,
     },
-    StationAddress: "55345南投縣水里鄉車埕村民權巷 2 號",
+    StationAddress: "553004南投縣水里鄉車埕村民權巷 2 號",
     StationPhone: "049-2774749",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3436",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3436",
   },
   {
     StationUID: "TRA-3450",
@@ -1786,14 +1803,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Linnei",
     },
     StationPosition: {
-      PositionLat: 23.75967,
       PositionLon: 120.61499,
+      PositionLat: 23.75967,
     },
-    StationAddress: "64341雲林縣林內鄉林中村中山路 42 號",
+    StationAddress: "643001雲林縣林內鄉林中村中山路 42 號",
     StationPhone: "05-5892040",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3450",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3450",
   },
   {
     StationUID: "TRA-3460",
@@ -1803,14 +1820,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shiliu",
     },
     StationPosition: {
-      PositionLat: 23.73167,
       PositionLon: 120.57998,
+      PositionLat: 23.73167,
     },
-    StationAddress: "64071雲林縣斗六市榴北里文明路 31 號",
+    StationAddress: "640155雲林縣斗六市榴北里文明路 31 號",
     StationPhone: "05-5332900",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3460",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3460",
   },
   {
     StationUID: "TRA-3470",
@@ -1820,14 +1837,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Douliu",
     },
     StationPosition: {
-      PositionLat: 23.71157,
-      PositionLon: 120.54117,
+      PositionLon: 120.54099,
+      PositionLat: 23.71184,
     },
-    StationAddress: "64050雲林縣斗六市信義里民生路 187 號",
+    StationAddress: "640010雲林縣斗六市信義里民生路 187 號",
     StationPhone: "05-5332900",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3470",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3470",
   },
   {
     StationUID: "TRA-3480",
@@ -1837,14 +1854,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dounan",
     },
     StationPosition: {
-      PositionLat: 23.67302,
-      PositionLon: 120.48082,
+      PositionLon: 120.48089,
+      PositionLat: 23.67257,
     },
-    StationAddress: "63042雲林縣斗南鎮南昌里中山路 2 號",
+    StationAddress: "630042雲林縣斗南鎮南昌里中山路 2 號",
     StationPhone: "05-5972039",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3480",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3480",
   },
   {
     StationUID: "TRA-3490",
@@ -1854,14 +1871,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shigui",
     },
     StationPosition: {
-      PositionLat: 23.63951,
       PositionLon: 120.47106,
+      PositionLat: 23.63951,
     },
     StationAddress: "630雲林縣斗南鎮石龜里",
     StationPhone: "05-5972039",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3490",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/3490",
   },
   {
     StationUID: "TRA-4050",
@@ -1871,14 +1888,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dalin",
     },
     StationPosition: {
-      PositionLat: 23.60112,
-      PositionLon: 120.45585,
+      PositionLon: 120.45597,
+      PositionLat: 23.60089,
     },
-    StationAddress: "62242嘉義縣大林鎮吉林里中山路 2 號",
+    StationAddress: "622002嘉義縣大林鎮吉林里中山路 2 號",
     StationPhone: "05-2654804",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4050",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4050",
   },
   {
     StationUID: "TRA-4060",
@@ -1888,14 +1905,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Minxiong",
     },
     StationPosition: {
-      PositionLat: 23.55502,
-      PositionLon: 120.43136,
+      PositionLon: 120.43165,
+      PositionLat: 23.55522,
     },
-    StationAddress: "62142嘉義縣民雄鄉東榮村和平路 2 號",
+    StationAddress: "621002嘉義縣民雄鄉東榮村和平路 2 號",
     StationPhone: "05-2264272",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4060",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4060",
   },
   {
     StationUID: "TRA-4070",
@@ -1905,14 +1922,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jiabei",
     },
     StationPosition: {
-      PositionLat: 23.49985,
-      PositionLon: 120.44852,
+      PositionLon: 120.44851,
+      PositionLat: 23.49981,
     },
-    StationAddress: "60079嘉義市 東區後湖里保建街 110 號",
+    StationAddress: "600050嘉義市 東區後湖里保建街 110 號",
     StationPhone: "05-2334584",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4070",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4070",
   },
   {
     StationUID: "TRA-4080",
@@ -1922,14 +1939,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Chiayi",
     },
     StationPosition: {
-      PositionLat: 23.47902,
-      PositionLon: 120.44124,
+      PositionLon: 120.44061,
+      PositionLat: 23.47927,
     },
-    StationAddress: "60041嘉義市 西區番社里中山路 528 號",
+    StationAddress: "600006嘉義市 西區番社里中山路 528 號",
     StationPhone: "05-2228904",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4080",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4080",
   },
   {
     StationUID: "TRA-4090",
@@ -1939,14 +1956,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shuishang",
     },
     StationPosition: {
-      PositionLat: 23.43389,
-      PositionLon: 120.39961,
+      PositionLon: 120.39971,
+      PositionLat: 23.43398,
     },
-    StationAddress: "60841嘉義縣水上鄉下寮村鴿溪寮 49 號",
+    StationAddress: "608001嘉義縣水上鄉粗溪村68號",
     StationPhone: "05-2228904",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4090",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4090",
   },
   {
     StationUID: "TRA-4100",
@@ -1956,14 +1973,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Nanjing",
     },
     StationPosition: {
-      PositionLat: 23.41346,
-      PositionLon: 120.38647,
+      PositionLon: 120.38654,
+      PositionLat: 23.41344,
     },
-    StationAddress: "60859嘉義縣水上鄉三鎮村三鎮路 26 號",
+    StationAddress: "608009嘉義縣水上鄉三鎮村三鎮路 26 號",
     StationPhone: "05-2601232",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4100",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4100",
   },
   {
     StationUID: "TRA-4110",
@@ -1973,14 +1990,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Houbi",
     },
     StationPosition: {
-      PositionLat: 23.36626,
       PositionLon: 120.36058,
+      PositionLat: 23.36626,
     },
-    StationAddress: "73143臺南市後壁區後壁里後壁 77 號",
+    StationAddress: "731022臺南市後壁區後壁里後壁 77 號",
     StationPhone: "06-6872055",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4110",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4110",
   },
   {
     StationUID: "TRA-4120",
@@ -1990,14 +2007,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xinying",
     },
     StationPosition: {
-      PositionLat: 23.30672,
-      PositionLon: 120.32304,
+      PositionLon: 120.32307,
+      PositionLat: 23.30673,
     },
-    StationAddress: "73045臺南市新營區中營里中山路 1 號",
+    StationAddress: "730005臺南市新營區中營里中山路 1 號",
     StationPhone: "06-6322104",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4120",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4120",
   },
   {
     StationUID: "TRA-4130",
@@ -2007,14 +2024,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Liuying",
     },
     StationPosition: {
-      PositionLat: 23.27762,
       PositionLon: 120.32252,
+      PositionLat: 23.27762,
     },
-    StationAddress: "73657臺南市柳營區東昇里建國路 1 號",
+    StationAddress: "736002臺南市柳營區東昇里建國路 1 號",
     StationPhone: "06-6226450",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4130",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4130",
   },
   {
     StationUID: "TRA-4140",
@@ -2024,14 +2041,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Linfengying",
     },
     StationPosition: {
-      PositionLat: 23.24259,
       PositionLon: 120.32107,
+      PositionLat: 23.24259,
     },
-    StationAddress: "73444臺南市六甲區中社里林鳳營 16 號",
+    StationAddress: "734004臺南市六甲區中社里林鳳營 16 號",
     StationPhone: "06-6986086",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4140",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4140",
   },
   {
     StationUID: "TRA-4150",
@@ -2041,14 +2058,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Longtian",
     },
     StationPosition: {
-      PositionLat: 23.19271,
       PositionLon: 120.31917,
+      PositionLat: 23.19271,
     },
-    StationAddress: "72041臺南市官田區隆田里中山路一段 1 號",
+    StationAddress: "720001臺南市官田區隆田里中山路一段 1 號",
     StationPhone: "06-5791664",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4150",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4150",
   },
   {
     StationUID: "TRA-4160",
@@ -2058,14 +2075,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Balin",
     },
     StationPosition: {
-      PositionLat: 23.17287,
-      PositionLon: 120.32117,
+      PositionLon: 120.32125,
+      PositionLat: 23.17284,
     },
-    StationAddress: "72044臺南市官田區拔林里拔子林 83 之 1 號",
+    StationAddress: "720004臺南市官田區拔林里拔子林 83 之 1 號",
     StationPhone: "06-5791664",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4160",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4160",
   },
   {
     StationUID: "TRA-4170",
@@ -2075,14 +2092,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shanhua",
     },
     StationPosition: {
-      PositionLat: 23.13333,
       PositionLon: 120.30653,
+      PositionLat: 23.13333,
     },
-    StationAddress: "74154臺南市善化區光文里中山路 1 號",
+    StationAddress: "741001臺南市善化區光文里中山路 1 號",
     StationPhone: "06-5837301",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4170",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4170",
   },
   {
     StationUID: "TRA-4180",
@@ -2092,14 +2109,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Nanke",
     },
     StationPosition: {
-      PositionLat: 23.10714,
-      PositionLon: 120.30175,
+      PositionLon: 120.30202,
+      PositionLat: 23.10726,
     },
-    StationAddress: "74443臺南市新市區大營里大營 287-300 號",
+    StationAddress: "744008臺南市新市區大營里大營 287-300 號",
     StationPhone: "06-5896356",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4180",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4180",
   },
   {
     StationUID: "TRA-4190",
@@ -2109,14 +2126,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xinshi",
     },
     StationPosition: {
-      PositionLat: 23.06816,
       PositionLon: 120.29004,
+      PositionLat: 23.06823,
     },
-    StationAddress: "74448臺南市新市區新和里中華路 1 號",
+    StationAddress: "744004臺南市新市區新和里中華路 1 號",
     StationPhone: "06-5996911",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4190",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4190",
   },
   {
     StationUID: "TRA-4200",
@@ -2126,14 +2143,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Yongkang",
     },
     StationPosition: {
-      PositionLat: 23.03832,
-      PositionLon: 120.25354,
+      PositionLon: 120.25347,
+      PositionLat: 23.03825,
     },
-    StationAddress: "71090臺南市永康區埔園里中山路 459 號",
+    StationAddress: "710017臺南市永康區埔園里中山路 459 號",
     StationPhone: "06-2323305",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4200",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4200",
   },
   {
     StationUID: "TRA-4210",
@@ -2143,14 +2160,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Daqiao",
     },
     StationPosition: {
-      PositionLat: 23.01951,
-      PositionLon: 120.22449,
+      PositionLon: 120.22429,
+      PositionLat: 23.01923,
     },
-    StationAddress: "71049臺南市永康區西橋里中華路 835 號",
+    StationAddress: "710009臺南市永康區西橋里中華路 835 號",
     StationPhone: "06-3021755",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4210",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4210",
   },
   {
     StationUID: "TRA-4220",
@@ -2160,14 +2177,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Tainan",
     },
     StationPosition: {
-      PositionLat: 22.99719,
-      PositionLon: 120.21231,
+      PositionLon: 120.21295,
+      PositionLat: 22.99681,
     },
-    StationAddress: "70146臺南市東區成大里北門路二段 4 號",
+    StationAddress: "701014臺南市東區成大里北門路二段4號",
     StationPhone: "06-2261314",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4220",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4220",
   },
   {
     StationUID: "TRA-4250",
@@ -2177,14 +2194,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Bao'an",
     },
     StationPosition: {
-      PositionLat: 22.93289,
-      PositionLon: 120.23143,
+      PositionLon: 120.23158,
+      PositionLat: 22.93296,
     },
-    StationAddress: "71755臺南市仁德區保安里文賢路一段 529 巷 10 號",
+    StationAddress: "717015臺南市仁德區保安里文賢路一段 529 巷 10 號",
     StationPhone: "06-2665988",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4250",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4250",
   },
   {
     StationUID: "TRA-4260",
@@ -2194,14 +2211,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Rende",
     },
     StationPosition: {
-      PositionLat: 22.92364,
-      PositionLon: 120.24061,
+      PositionLon: 120.24054,
+      PositionLat: 22.92354,
     },
-    StationAddress: "71750臺南市仁德區保安里永德路 10 號",
+    StationAddress: "717010臺南市仁德區保安里永德路 10 號",
     StationPhone: "06-2669383",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4260",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4260",
   },
   {
     StationUID: "TRA-4270",
@@ -2211,14 +2228,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhongzhou",
     },
     StationPosition: {
-      PositionLat: 22.90466,
-      PositionLon: 120.25286,
+      PositionLon: 120.25284,
+      PositionLat: 22.90446,
     },
-    StationAddress: "71754臺南市仁德區中洲五街236號",
+    StationAddress: "717014臺南市仁德區中洲五街236號",
     StationPhone: "06-2667191",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4270",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4270",
   },
   {
     StationUID: "TRA-4271",
@@ -2228,14 +2245,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Chang Jung Christian University",
     },
     StationPosition: {
-      PositionLat: 22.90735,
-      PositionLon: 120.27274,
+      PositionLon: 120.27263,
+      PositionLat: 22.90729,
     },
-    StationAddress: "71150臺南市歸仁區大潭里長大路15 號",
+    StationAddress: "711010臺南市歸仁區大潭里長大路15 號",
     StationPhone: "06-2782615",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4271",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4271",
   },
   {
     StationUID: "TRA-4272",
@@ -2245,14 +2262,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shalun",
     },
     StationPosition: {
-      PositionLat: 22.92419,
-      PositionLon: 120.28635,
+      PositionLon: 120.28622,
+      PositionLat: 22.92407,
     },
-    StationAddress: "71151臺南市歸仁區沙崙里歸仁大道 102 號",
+    StationAddress: "711010臺南市歸仁區沙崙里歸仁大道 102 號",
     StationPhone: "06-3032686",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4272",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4272",
   },
   {
     StationUID: "TRA-4290",
@@ -2262,14 +2279,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dahu",
     },
     StationPosition: {
-      PositionLat: 22.87821,
       PositionLon: 120.25384,
+      PositionLat: 22.87821,
     },
-    StationAddress: "82144高雄市路竹區甲南里天祐路 24 號",
+    StationAddress: "821004高雄市路竹區甲南里天祐路 24 號",
     StationPhone: "07-6932127",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4290",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4290",
   },
   {
     StationUID: "TRA-4300",
@@ -2279,14 +2296,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Luzhu",
     },
     StationPosition: {
-      PositionLat: 22.85404,
       PositionLon: 120.26619,
+      PositionLat: 22.85404,
     },
-    StationAddress: "82146高雄市路竹區竹南里中正路 288 號",
+    StationAddress: "821006高雄市路竹區竹南里中正路 288 號",
     StationPhone: "07-6072723",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4300",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4300",
   },
   {
     StationUID: "TRA-4310",
@@ -2296,14 +2313,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Gangshan",
     },
     StationPosition: {
-      PositionLat: 22.79225,
-      PositionLon: 120.29981,
+      PositionLon: 120.29997,
+      PositionLat: 22.79224,
     },
-    StationAddress: "82065高雄市岡山區碧紅里岡燕路 111 號",
+    StationAddress: "820102高雄市岡山區碧紅里岡燕路 111 號",
     StationPhone: "07-6212074",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4310",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4310",
   },
   {
     StationUID: "TRA-4320",
@@ -2313,14 +2330,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Qiaotou",
     },
     StationPosition: {
-      PositionLat: 22.76081,
-      PositionLon: 120.31017,
+      PositionLon: 120.31011,
+      PositionLat: 22.76098,
     },
-    StationAddress: "82548高雄市橋頭區橋頭里站前街 14 號",
+    StationAddress: "825008高雄市橋頭區橋頭里站前街 14 號",
     StationPhone: "07-6115424",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4320",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4320",
   },
   {
     StationUID: "TRA-4330",
@@ -2330,14 +2347,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Nanzi",
     },
     StationPosition: {
-      PositionLat: 22.72717,
-      PositionLon: 120.32453,
+      PositionLon: 120.32425,
+      PositionLat: 22.72696,
     },
-    StationAddress: "81162高雄市楠梓區惠楠里建楠路 229 號",
+    StationAddress: "811022高雄市楠梓區惠楠里建楠路 229 號",
     StationPhone: "07-3510175",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4330",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4330",
   },
   {
     StationUID: "TRA-4340",
@@ -2347,14 +2364,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xinzuoying",
     },
     StationPosition: {
-      PositionLat: 22.68721,
-      PositionLon: 120.30721,
+      PositionLon: 120.30678,
+      PositionLat: 22.68754,
     },
-    StationAddress: "81354高雄市左營區尾北里站前北路 1 號",
+    StationAddress: "813014高雄市左營區尾北里站前北路 1 號",
     StationPhone: "07-5887825",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4340",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4340",
   },
   {
     StationUID: "TRA-4350",
@@ -2364,14 +2381,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zuoying",
     },
     StationPosition: {
-      PositionLat: 22.67441,
-      PositionLon: 120.29441,
+      PositionLon: 120.29401,
+      PositionLat: 22.67445,
     },
-    StationAddress: "81351高雄市左營區翠華路1050號地下1層",
+    StationAddress: "813014高雄市左營區翠華路1050號地下1層",
     StationPhone: "07-5887835",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4350",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4350",
   },
   {
     StationUID: "TRA-4360",
@@ -2381,14 +2398,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Neiwei",
     },
     StationPosition: {
-      PositionLat: 22.66611,
-      PositionLon: 120.28691,
+      PositionLon: 120.28701,
+      PositionLat: 22.66589,
     },
-    StationAddress: "804高雄市鼓山區翠華路500號地下1層",
+    StationAddress: "804056高雄市鼓山區翠華路500號地下1層",
     StationPhone: "07-5886119",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4360",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4360",
   },
   {
     StationUID: "TRA-4370",
@@ -2398,14 +2415,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Museum of Fine Arts",
     },
     StationPosition: {
-      PositionLat: 22.65298,
-      PositionLon: 120.28163,
+      PositionLon: 120.28148,
+      PositionLat: 22.65185,
     },
-    StationAddress: "80460高雄市鼓山區翠華路246號",
+    StationAddress: "804016高雄市鼓山區翠華路246號",
     StationPhone: "07-5215147",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4370",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4370",
   },
   {
     StationUID: "TRA-4380",
@@ -2415,14 +2432,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Gushan",
     },
     StationPosition: {
-      PositionLat: 22.64169,
       PositionLon: 120.28071,
+      PositionLat: 22.64181,
     },
-    StationAddress: "80445高雄市鼓山區鐵路街20巷6號",
+    StationAddress: "804005高雄市鼓山區鐵路街20巷6號",
     StationPhone: "07-5217014",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4380",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4380",
   },
   {
     StationUID: "TRA-4390",
@@ -2432,14 +2449,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Sankuaicuo",
     },
     StationPosition: {
-      PositionLat: 22.63901,
-      PositionLon: 120.29381,
+      PositionLon: 120.29414,
+      PositionLat: 22.63931,
     },
-    StationAddress: "80748高雄市三民區德北里6鄰康平街1號",
+    StationAddress: "807008高雄市三民區德北里6鄰康平街1號",
     StationPhone: "07-2856234",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4390",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4390",
   },
   {
     StationUID: "TRA-4400",
@@ -2449,14 +2466,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Kaohsiung",
     },
     StationPosition: {
-      PositionLat: 22.63801,
-      PositionLon: 120.30313,
+      PositionLon: 120.30292,
+      PositionLat: 22.63946,
     },
-    StationAddress: "80750高雄市三民區港西里建國二路 318 號",
+    StationAddress: "807001高雄市三民區港西里建國二路 318 號",
     StationPhone: "07-2352376",
     StationClass: "0",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4400",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4400",
   },
   {
     StationUID: "TRA-4410",
@@ -2466,14 +2483,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Minzu",
     },
     StationPosition: {
-      PositionLat: 22.63881,
-      PositionLon: 120.31479,
+      PositionLon: 120.31494,
+      PositionLat: 22.63879,
     },
-    StationAddress: "807高雄市三民區博惠里14鄰凱旋一路260號",
+    StationAddress: "807027高雄市三民區博惠里14鄰凱旋一路260號",
     StationPhone: "07-2231492",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4410",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4410",
   },
   {
     StationUID: "TRA-4420",
@@ -2483,14 +2500,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Science And Technology Museum",
     },
     StationPosition: {
-      PositionLat: 22.63702,
-      PositionLon: 120.32663,
+      PositionLon: 120.32603,
+      PositionLat: 22.63709,
     },
-    StationAddress: "807高雄市三民區寶盛里15鄰大順三路307號",
+    StationAddress: "807031高雄市三民區寶盛里15鄰大順三路307號",
     StationPhone: "07-2234778",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4420",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4420",
   },
   {
     StationUID: "TRA-4430",
@@ -2500,31 +2517,31 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhengyi",
     },
     StationPosition: {
-      PositionLat: 22.63425,
       PositionLon: 120.34245,
+      PositionLat: 22.63425,
     },
-    StationAddress: "807高雄市三民區建軍里正義路 308 巷",
-    StationPhone: "",
+    StationAddress: "802001高雄市苓雅區建軍里正義路 308 號 B1",
+    StationPhone: "07-7999818",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4430",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4430",
   },
   {
     StationUID: "TRA-4440",
     StationID: "4440",
     StationName: {
       Zh_tw: "鳳山",
-      En: "Fengshan",
+      En: "Fongshan",
     },
     StationPosition: {
-      PositionLat: 22.63131,
-      PositionLon: 120.35746,
+      PositionLon: 120.35745,
+      PositionLat: 22.63145,
     },
-    StationAddress: "83064高雄市鳳山區曹公里曹公路 137 號",
+    StationAddress: "830025高雄市鳳山區曹公里曹公路 137 號",
     StationPhone: "07-7460423",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4440",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4440",
   },
   {
     StationUID: "TRA-4450",
@@ -2534,14 +2551,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Houzhuang",
     },
     StationPosition: {
-      PositionLat: 22.64013,
-      PositionLon: 120.39132,
+      PositionLon: 120.39131,
+      PositionLat: 22.64016,
     },
-    StationAddress: "83143高雄市大寮區後庄里民慶街 9 號",
+    StationAddress: "831115高雄市大寮區後庄里民慶街 9 號",
     StationPhone: "07-7020149",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4450",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4450",
   },
   {
     StationUID: "TRA-4460",
@@ -2551,14 +2568,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jiuqutang",
     },
     StationPosition: {
-      PositionLat: 22.65658,
-      PositionLon: 120.42072,
+      PositionLon: 120.42089,
+      PositionLat: 22.65641,
     },
-    StationAddress: "84041高雄市大樹區久堂里久堂路鐵路巷 15 號",
+    StationAddress: "840001高雄市大樹區久堂里久堂路鐵路巷 15 號",
     StationPhone: "07-6512020",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4460",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4460",
   },
   {
     StationUID: "TRA-4470",
@@ -2568,14 +2585,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Liukuaicuo",
     },
     StationPosition: {
-      PositionLat: 22.66619,
-      PositionLon: 120.46491,
+      PositionLon: 120.46497,
+      PositionLat: 22.66597,
     },
-    StationAddress: "90082屏東縣屏東市長安里光復路 392 號",
+    StationAddress: "900008屏東縣屏東市長安里光復路 392 號",
     StationPhone: "08-7515140",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4470",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/4470",
   },
   {
     StationUID: "TRA-5000",
@@ -2585,14 +2602,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Pingtung",
     },
     StationPosition: {
-      PositionLat: 22.66961,
-      PositionLon: 120.48627,
+      PositionLon: 120.48617,
+      PositionLat: 22.66905,
     },
-    StationAddress: "90078屏東縣屏東市擇仁里公勇路 62 號",
+    StationAddress: "900011屏東縣屏東市建國里公勇路 62 號",
     StationPhone: "08-7515140",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5000",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5000",
   },
   {
     StationUID: "TRA-5010",
@@ -2602,14 +2619,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Guilai",
     },
     StationPosition: {
-      PositionLat: 22.65214,
-      PositionLon: 120.50294,
+      PositionLon: 120.50283,
+      PositionLat: 22.65218,
     },
-    StationAddress: "90043屏東縣屏東市歸來里歸仁路 5 之 4 號",
+    StationAddress: "900002屏東縣屏東市歸心里歸仁路 5 之 4 號",
     StationPhone: "08-7515140",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5010",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5010",
   },
   {
     StationUID: "TRA-5020",
@@ -2619,14 +2636,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Linluo",
     },
     StationPosition: {
-      PositionLat: 22.63478,
-      PositionLon: 120.51446,
+      PositionLon: 120.51432,
+      PositionLat: 22.63481,
     },
-    StationAddress: "90941屏東縣麟洛鄉田道村中華路站前巷 15 號",
+    StationAddress: "909141屏東縣麟洛鄉田道村中華路站前巷 15 號",
     StationPhone: "08-7515140",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5020",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5020",
   },
   {
     StationUID: "TRA-5030",
@@ -2636,14 +2653,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xishi",
     },
     StationPosition: {
-      PositionLat: 22.61661,
-      PositionLon: 120.52677,
+      PositionLon: 120.52649,
+      PositionLat: 22.61637,
     },
-    StationAddress: "91142屏東縣竹田鄉西勢村西豐路 2 號",
+    StationAddress: "911165屏東縣竹田鄉西勢村西豐路 2 號",
     StationPhone: "08-7784521",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5030",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5030",
   },
   {
     StationUID: "TRA-5040",
@@ -2653,14 +2670,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhutian",
     },
     StationPosition: {
-      PositionLat: 22.58648,
       PositionLon: 120.54009,
+      PositionLat: 22.58648,
     },
-    StationAddress: "91144屏東縣竹田鄉履豐村豐明路 27 之 1 號",
+    StationAddress: "911165屏東縣竹田鄉履豐村豐明路29 號",
     StationPhone: "08-7711002",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5040",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5040",
   },
   {
     StationUID: "TRA-5050",
@@ -2670,14 +2687,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Chaozhou",
     },
     StationPosition: {
-      PositionLat: 22.55007,
-      PositionLon: 120.53662,
+      PositionLon: 120.53603,
+      PositionLat: 22.55008,
     },
-    StationAddress: "92045屏東縣潮州鎮新榮里信義路 111 號",
+    StationAddress: "920004屏東縣潮州鎮新榮里信義路 111 號",
     StationPhone: "08-7882739",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5050",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5050",
   },
   {
     StationUID: "TRA-5060",
@@ -2687,14 +2704,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Kanding",
     },
     StationPosition: {
-      PositionLat: 22.51311,
       PositionLon: 120.51481,
+      PositionLat: 22.51311,
     },
-    StationAddress: "92442屏東縣崁頂鄉崁頂村中正路 122 號",
+    StationAddress: "924003屏東縣崁頂鄉崁頂村田寮路",
     StationPhone: "08-7882739",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5060",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5060",
   },
   {
     StationUID: "TRA-5070",
@@ -2704,14 +2721,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Nanzhou",
     },
     StationPosition: {
-      PositionLat: 22.49203,
-      PositionLon: 120.51159,
+      PositionLon: 120.51174,
+      PositionLat: 22.49207,
     },
-    StationAddress: "92643屏東縣南州鄉仁里村仁里路 86 號",
+    StationAddress: "926003屏東縣南州鄉仁里村仁里路 86 號",
     StationPhone: "08-8642942",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5070",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5070",
   },
   {
     StationUID: "TRA-5080",
@@ -2721,14 +2738,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhen'an",
     },
     StationPosition: {
+      PositionLon: 120.51129,
       PositionLat: 22.45794,
-      PositionLon: 120.51151,
     },
-    StationAddress: "92748屏東縣林邊鄉鎮安村永和路 4 號",
+    StationAddress: "927005屏東縣林邊鄉鎮安村永和路 4 號",
     StationPhone: "08-8642942",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5080",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5080",
   },
   {
     StationUID: "TRA-5090",
@@ -2738,14 +2755,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Linbian",
     },
     StationPosition: {
-      PositionLat: 22.43141,
-      PositionLon: 120.51538,
+      PositionLon: 120.51529,
+      PositionLat: 22.43135,
     },
-    StationAddress: "92744屏東縣林邊鄉仁和村仁愛路 33 號",
+    StationAddress: "927001屏東縣林邊鄉仁和村仁愛路 33 號",
     StationPhone: "08-8751475",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5090",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5090",
   },
   {
     StationUID: "TRA-5100",
@@ -2755,14 +2772,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jiadong",
     },
     StationPosition: {
-      PositionLat: 22.41416,
-      PositionLon: 120.54782,
+      PositionLon: 120.54774,
+      PositionLat: 22.41409,
     },
-    StationAddress: "931屏東縣佳冬鄉六根村復興路21號",
+    StationAddress: "931006屏東縣佳冬鄉六根村復興路21號",
     StationPhone: "08-8662939",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5100",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5100",
   },
   {
     StationUID: "TRA-5110",
@@ -2772,14 +2789,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Donghai",
     },
     StationPosition: {
-      PositionLat: 22.39903,
-      PositionLon: 120.57252,
+      PositionLon: 120.57236,
+      PositionLat: 22.39897,
     },
-    StationAddress: "94042屏東縣枋寮鄉東海村西安路 92 號",
+    StationAddress: "940002屏東縣枋寮鄉東海村西安路 92 號",
     StationPhone: "08-8782041",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5110",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5110",
   },
   {
     StationUID: "TRA-5120",
@@ -2789,14 +2806,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fangliao",
     },
     StationPosition: {
-      PositionLat: 22.36786,
-      PositionLon: 120.59501,
+      PositionLon: 120.59511,
+      PositionLat: 22.36802,
     },
-    StationAddress: "94043屏東縣枋寮鄉枋寮村儲運路 18 號",
+    StationAddress: "940003屏東縣枋寮鄉枋寮村儲運路 18 號",
     StationPhone: "08-8782041",
-    StationClass: "3",
+    StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5120",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5120",
   },
   {
     StationUID: "TRA-5130",
@@ -2806,14 +2823,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jialu",
     },
     StationPosition: {
-      PositionLat: 22.33085,
       PositionLon: 120.62445,
+      PositionLat: 22.33085,
     },
-    StationAddress: "94145屏東縣枋山鄉加祿村會社 53 號",
+    StationAddress: "941005屏東縣枋山鄉加祿村會社 53 號",
     StationPhone: "08-8720791",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5130",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5130",
   },
   {
     StationUID: "TRA-5140",
@@ -2823,14 +2840,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Neishi",
     },
     StationPosition: {
-      PositionLat: 22.30615,
-      PositionLon: 120.64322,
+      PositionLon: 120.64331,
+      PositionLat: 22.30617,
     },
-    StationAddress: "94150屏東縣枋山鄉加祿村南和 43 號",
+    StationAddress: "941010屏東縣枋山鄉加祿村南和 43 號",
     StationPhone: "08-8720791",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5140",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5140",
   },
   {
     StationUID: "TRA-5160",
@@ -2840,14 +2857,31 @@ export const trStationDataList: TrStationData[] = [
       En: "Fangshan",
     },
     StationPosition: {
-      PositionLat: 22.26677,
-      PositionLon: 120.65968,
+      PositionLon: 120.65947,
+      PositionLat: 22.26704,
     },
-    StationAddress: "94350屏東縣獅子鄉內獅村內獅巷 84 號",
+    StationAddress: "943010屏東縣獅子鄉內獅村內獅巷 84 號",
     StationPhone: "08-8720791",
-    StationClass: "5",
+    StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5160",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5160",
+  },
+  {
+    StationUID: "TRA-5170",
+    StationID: "5170",
+    StationName: {
+      Zh_tw: "枋野",
+      En: "Fangye",
+    },
+    StationPosition: {
+      PositionLon: 120.71709,
+      PositionLat: 22.28091,
+    },
+    StationAddress: "94350屏東縣獅子鄉內獅村內獅巷 88 號",
+    StationPhone: "08-8761953",
+    StationClass: "3",
+    StationURL:
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5170",
   },
   {
     StationUID: "TRA-5190",
@@ -2857,14 +2891,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dawu",
     },
     StationPosition: {
-      PositionLat: 22.36537,
-      PositionLon: 120.90091,
+      PositionLon: 120.90094,
+      PositionLat: 22.36526,
     },
-    StationAddress: "96541臺東縣大武鄉大鳥村和平部落 33 號",
+    StationAddress: "965003臺東縣大武鄉大鳥村和平部落 33 號",
     StationPhone: "089-792056",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5190",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5190",
   },
   {
     StationUID: "TRA-5200",
@@ -2874,14 +2908,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Longxi",
     },
     StationPosition: {
-      PositionLat: 22.46072,
-      PositionLon: 120.94188,
+      PositionLon: 120.94176,
+      PositionLat: 22.46102,
     },
-    StationAddress: "96345臺東縣太麻里鄉多良村大溪 37 號",
+    StationAddress: "963006臺東縣太麻里鄉多良村大溪 37 號",
     StationPhone: "089-761482",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5200",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5200",
   },
   {
     StationUID: "TRA-5210",
@@ -2891,14 +2925,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jinlun",
     },
     StationPosition: {
-      PositionLat: 22.53161,
       PositionLon: 120.96721,
+      PositionLat: 22.53161,
     },
-    StationAddress: "96344臺東縣太麻里鄉金崙村金崙 47 之 17 號",
+    StationAddress: "963005臺東縣太麻里鄉金崙村金崙 47 之 17 號",
     StationPhone: "089-771068",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5210",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5210",
   },
   {
     StationUID: "TRA-5220",
@@ -2908,14 +2942,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Taimali",
     },
     StationPosition: {
+      PositionLon: 121.00501,
       PositionLat: 22.61879,
-      PositionLon: 121.00505,
     },
-    StationAddress: "96346臺東縣太麻里鄉大王村站前路 2 號",
+    StationAddress: "963004臺東縣太麻里鄉大王村站前路 2 號",
     StationPhone: "089-781544",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5220",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5220",
   },
   {
     StationUID: "TRA-5230",
@@ -2925,14 +2959,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhiben",
     },
     StationPosition: {
-      PositionLat: 22.71008,
-      PositionLon: 121.06128,
+      PositionLon: 121.06068,
+      PositionLat: 22.71022,
     },
-    StationAddress: "95093臺東縣臺東市知本里知本路二段 900 巷 85 號",
+    StationAddress: "950103臺東縣臺東市知本里知本路二段 900 巷 85 號",
     StationPhone: "089-514482",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5230",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5230",
   },
   {
     StationUID: "TRA-5240",
@@ -2942,14 +2976,31 @@ export const trStationDataList: TrStationData[] = [
       En: "Kangle",
     },
     StationPosition: {
-      PositionLat: 22.76406,
-      PositionLon: 121.09338,
+      PositionLon: 121.09356,
+      PositionLat: 22.76426,
     },
-    StationAddress: "95060臺東縣臺東市康樂里博物館路 51 巷 131 號",
+    StationAddress: "950029臺東縣臺東市康樂里博物館路 51 巷 131 號",
     StationPhone: "089-383107",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5240",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5240",
+  },
+  {
+    StationUID: "TRA-5998",
+    StationID: "5998",
+    StationName: {
+      Zh_tw: "南方小站",
+      En: "South",
+    },
+    StationPosition: {
+      PositionLon: 120.53658,
+      PositionLat: 22.52755,
+    },
+    StationAddress: "92013屏東縣潮州鎮光復路 461 號",
+    StationPhone: "",
+    StationClass: "4",
+    StationURL:
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5998",
   },
   {
     StationUID: "TRA-5999",
@@ -2959,14 +3010,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Chaozhou Railway Workshop",
     },
     StationPosition: {
-      PositionLat: 22.52231,
       PositionLon: 120.52642,
+      PositionLat: 22.52231,
     },
     StationAddress: "92054屏東縣潮州鎮光春里光復路 616 號",
     StationPhone: "08-7889880",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5999",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/5999",
   },
   {
     StationUID: "TRA-6000",
@@ -2976,14 +3027,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Taitung",
     },
     StationPosition: {
-      PositionLat: 22.79375,
-      PositionLon: 121.12326,
+      PositionLon: 121.12337,
+      PositionLat: 22.79371,
     },
-    StationAddress: "95058臺東縣臺東市岩灣里岩灣路 101 巷 598 號",
+    StationAddress: "950030臺東縣臺東市岩灣里岩灣路 101 巷 598 號",
     StationPhone: "089-229687",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6000",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6000",
   },
   {
     StationUID: "TRA-6010",
@@ -2993,14 +3044,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shanli",
     },
     StationPosition: {
-      PositionLat: 22.86194,
       PositionLon: 121.13778,
+      PositionLat: 22.86194,
     },
-    StationAddress: "95443臺東縣卑南鄉嘉豐村山里路 108 號",
+    StationAddress: "954003臺東縣卑南鄉嘉豐村山里路 108 號",
     StationPhone: "089-572370",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6010",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6010",
   },
   {
     StationUID: "TRA-6020",
@@ -3010,14 +3061,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Luye",
     },
     StationPosition: {
-      PositionLat: 22.91251,
-      PositionLon: 121.13696,
+      PositionLon: 121.13701,
+      PositionLat: 22.91249,
     },
-    StationAddress: "95542臺東縣鹿野鄉鹿野村中正路 38 號",
+    StationAddress: "955002臺東縣鹿野鄉鹿野村中正路 38 號",
     StationPhone: "089-550217",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6020",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6020",
   },
   {
     StationUID: "TRA-6030",
@@ -3027,14 +3078,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Ruiyuan",
     },
     StationPosition: {
-      PositionLat: 22.95613,
-      PositionLon: 121.15902,
+      PositionLon: 121.15896,
+      PositionLat: 22.95601,
     },
-    StationAddress: "95543臺東縣鹿野鄉瑞源村瑞景路一段 336 巷 8 號 之 1",
+    StationAddress: "955003臺東縣鹿野鄉瑞源村瑞景路一段 336 巷 8 號 之 1",
     StationPhone: "089-580159",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6030",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6030",
   },
   {
     StationUID: "TRA-6040",
@@ -3044,14 +3095,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Ruihe",
     },
     StationPosition: {
-      PositionLat: 22.98001,
-      PositionLon: 121.15573,
+      PositionLon: 121.15584,
+      PositionLat: 22.98111,
     },
-    StationAddress: "95543臺東縣鹿野鄉瑞和村瑞景路三段 1 之 1 號",
+    StationAddress: "955003臺東縣鹿野鄉瑞和村瑞景路三段 1 之 1 號",
     StationPhone: "089-580159",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6040",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6040",
   },
   {
     StationUID: "TRA-6050",
@@ -3061,14 +3112,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Guanshan",
     },
     StationPosition: {
-      PositionLat: 23.04564,
-      PositionLon: 121.16441,
+      PositionLon: 121.1643,
+      PositionLat: 23.04566,
     },
-    StationAddress: "95662臺東縣關山鎮里壠里博愛路 2 號",
+    StationAddress: "956004臺東縣關山鎮里壠里博愛路 2 號",
     StationPhone: "089-811033",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6050",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6050",
   },
   {
     StationUID: "TRA-6060",
@@ -3078,14 +3129,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Haiduan",
     },
     StationPosition: {
-      PositionLat: 23.10257,
-      PositionLon: 121.17695,
+      PositionLon: 121.17676,
+      PositionLat: 23.10292,
     },
-    StationAddress: "95664臺東縣關山鎮德高里西莊 49 號",
+    StationAddress: "956004臺東縣關山鎮德高里西莊 49 號",
     StationPhone: "089-811033",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6060",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6060",
   },
   {
     StationUID: "TRA-6070",
@@ -3095,14 +3146,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Chishang",
     },
     StationPosition: {
-      PositionLat: 23.12628,
-      PositionLon: 121.21945,
+      PositionLon: 121.21956,
+      PositionLat: 23.12605,
     },
-    StationAddress: "95862臺東縣池上鄉福文村鐵花路 30 號",
+    StationAddress: "958003臺東縣池上鄉福文村鐵花路 30 號",
     StationPhone: "089-862097",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6070",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6070",
   },
   {
     StationUID: "TRA-6080",
@@ -3112,14 +3163,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fuli",
     },
     StationPosition: {
-      PositionLat: 23.17935,
       PositionLon: 121.24864,
+      PositionLat: 23.17924,
     },
-    StationAddress: "98341花蓮縣富里鄉富里村車站街 56 號",
+    StationAddress: "983001花蓮縣富里鄉富里村車站街 56 號",
     StationPhone: "03-8831771",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6080",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6080",
   },
   {
     StationUID: "TRA-6090",
@@ -3129,14 +3180,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dongzhu",
     },
     StationPosition: {
-      PositionLat: 23.22612,
-      PositionLon: 121.27844,
+      PositionLon: 121.27842,
+      PositionLat: 23.22605,
     },
-    StationAddress: "98391花蓮縣富里鄉新興村新興 26 號",
+    StationAddress: "983005花蓮縣富里鄉新興村新興 26 號",
     StationPhone: "03-8821504",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6090",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6090",
   },
   {
     StationUID: "TRA-6100",
@@ -3146,14 +3197,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dongli",
     },
     StationPosition: {
-      PositionLat: 23.27127,
-      PositionLon: 121.30575,
+      PositionLon: 121.30418,
+      PositionLat: 23.27234,
     },
-    StationAddress: "98392花蓮縣富里鄉東里村大莊路 15 之 6 號",
+    StationAddress: "983004花蓮縣富里鄉東里村大莊路 15 之 6 號",
     StationPhone: "03-8861005",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6100",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6100",
   },
   {
     StationUID: "TRA-6110",
@@ -3163,14 +3214,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Yuli",
     },
     StationPosition: {
-      PositionLat: 23.33161,
-      PositionLon: 121.31181,
+      PositionLon: 121.31172,
+      PositionLat: 23.33155,
     },
-    StationAddress: "98143花蓮縣玉里鎮中城里康樂街 39 號",
+    StationAddress: "981003花蓮縣玉里鎮中城里康樂街 39 號",
     StationPhone: "03-8882020",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6110",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6110",
   },
   {
     StationUID: "TRA-6120",
@@ -3180,14 +3231,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Sanmin",
     },
     StationPosition: {
-      PositionLat: 23.42463,
-      PositionLon: 121.34561,
+      PositionLon: 121.34539,
+      PositionLat: 23.42458,
     },
-    StationAddress: "98191花蓮縣玉里鎮三民里三民 10 號",
+    StationAddress: "981010花蓮縣玉里鎮三民里三民 10 號",
     StationPhone: "03-8841847",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6120",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6120",
   },
   {
     StationUID: "TRA-6130",
@@ -3197,14 +3248,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Ruisui",
     },
     StationPosition: {
-      PositionLat: 23.49739,
-      PositionLon: 121.37689,
+      PositionLon: 121.37657,
+      PositionLat: 23.49775,
     },
-    StationAddress: "97841花蓮縣瑞穗鄉瑞穗村四維街 13 號",
+    StationAddress: "978001花蓮縣瑞穗鄉瑞穗村四維街 13 號",
     StationPhone: "03-8875039",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6130",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6130",
   },
   {
     StationUID: "TRA-6140",
@@ -3214,14 +3265,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fuyuan",
     },
     StationPosition: {
-      PositionLat: 23.58028,
-      PositionLon: 121.38003,
+      PositionLon: 121.38008,
+      PositionLat: 23.58031,
     },
-    StationAddress: "97843花蓮縣瑞穗鄉富源村富源路 2 號",
+    StationAddress: "978003花蓮縣瑞穗鄉富源村富源路 2 號",
     StationPhone: "03-8811824",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6140",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6140",
   },
   {
     StationUID: "TRA-6150",
@@ -3231,14 +3282,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dafu",
     },
     StationPosition: {
-      PositionLat: 23.60572,
-      PositionLon: 121.38969,
+      PositionLon: 121.38963,
+      PositionLat: 23.60571,
     },
-    StationAddress: "97644花蓮縣光復鄉大富村明德路 1 號",
+    StationAddress: "976007花蓮縣光復鄉大富村明德路 1 號",
     StationPhone: "03-8811824",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6150",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6150",
   },
   {
     StationUID: "TRA-6160",
@@ -3248,14 +3299,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Guangfu",
     },
     StationPosition: {
-      PositionLat: 23.66633,
-      PositionLon: 121.42125,
+      PositionLon: 121.42117,
+      PositionLat: 23.66631,
     },
-    StationAddress: "97645花蓮縣光復鄉大安村中正路一段 2 之 1 號",
+    StationAddress: "976007花蓮縣光復鄉大安村中正路一段 2 之 1 號",
     StationPhone: "03-8704143",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6160",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6160",
   },
   {
     StationUID: "TRA-6170",
@@ -3265,14 +3316,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Wanrong",
     },
     StationPosition: {
-      PositionLat: 23.71199,
       PositionLon: 121.41907,
+      PositionLat: 23.71199,
     },
-    StationAddress: "97543花蓮縣鳳林鎮長橋里長德街 17 號",
+    StationAddress: "975003花蓮縣鳳林鎮長橋里長德街 17 號",
     StationPhone: "03-8752175",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6170",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6170",
   },
   {
     StationUID: "TRA-6180",
@@ -3282,14 +3333,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fenglin",
     },
     StationPosition: {
-      PositionLat: 23.74625,
-      PositionLon: 121.44708,
+      PositionLon: 121.44701,
+      PositionLat: 23.74634,
     },
-    StationAddress: "97545花蓮縣鳳林鎮鳳智里中山路 43 號",
+    StationAddress: "975005花蓮縣鳳林鎮鳳智里中山路 43 號",
     StationPhone: "03-8762004",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6180",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6180",
   },
   {
     StationUID: "TRA-6190",
@@ -3299,14 +3350,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Nanping",
     },
     StationPosition: {
-      PositionLat: 23.78228,
-      PositionLon: 121.45833,
+      PositionLon: 121.45824,
+      PositionLat: 23.78231,
     },
-    StationAddress: "97542花蓮縣鳳林鎮南平里自強路 233 號",
+    StationAddress: "975002花蓮縣鳳林鎮南平里自強路 233 號",
     StationPhone: "03-8771597",
-    StationClass: "3",
+    StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6190",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6190",
   },
   {
     StationUID: "TRA-6200",
@@ -3316,14 +3367,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Linrong Shin Kong",
     },
     StationPosition: {
-      PositionLat: 23.80167,
-      PositionLon: 121.46166,
+      PositionLon: 121.46205,
+      PositionLat: 23.80225,
     },
-    StationAddress: "97542花蓮縣鳳林鎮兆豐路800號",
+    StationAddress: "975002花蓮縣鳳林鎮兆豐路800號",
     StationPhone: "03-8772677",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6200",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6200",
   },
   {
     StationUID: "TRA-6210",
@@ -3333,14 +3384,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fengtian",
     },
     StationPosition: {
-      PositionLat: 23.84836,
-      PositionLon: 121.49619,
+      PositionLon: 121.49618,
+      PositionLat: 23.84842,
     },
-    StationAddress: "97451花蓮縣壽豐鄉豐山村站前街 36 號",
+    StationAddress: "974006花蓮縣壽豐鄉豐山村站前街 36 號",
     StationPhone: "03-8654251",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6210",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6210",
   },
   {
     StationUID: "TRA-6220",
@@ -3350,14 +3401,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shoufeng",
     },
     StationPosition: {
-      PositionLat: 23.86901,
       PositionLon: 121.51064,
+      PositionLat: 23.86901,
     },
-    StationAddress: "97442花蓮縣壽豐鄉壽豐村壽山路 1 號",
+    StationAddress: "974002花蓮縣壽豐鄉壽豐村壽山路 1 號",
     StationPhone: "03-8653706",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6220",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6220",
   },
   {
     StationUID: "TRA-6230",
@@ -3367,14 +3418,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Pinghe",
     },
     StationPosition: {
-      PositionLat: 23.88275,
-      PositionLon: 121.52036,
+      PositionLon: 121.52045,
+      PositionLat: 23.88279,
     },
-    StationAddress: "97445花蓮縣壽豐鄉平和村平和路 1 號",
+    StationAddress: "974004花蓮縣壽豐鄉平和村平和路 1 號",
     StationPhone: "03-8653706",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6230",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6230",
   },
   {
     StationUID: "TRA-6240",
@@ -3384,14 +3435,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Zhixue",
     },
     StationPosition: {
-      PositionLat: 23.90751,
-      PositionLon: 121.52947,
+      PositionLon: 121.5295,
+      PositionLat: 23.90769,
     },
-    StationAddress: "97443花蓮縣壽豐鄉志學村中正路 1 號",
+    StationAddress: "974003花蓮縣壽豐鄉志學村中正路 1 號",
     StationPhone: "03-8662966",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6240",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6240",
   },
   {
     StationUID: "TRA-6250",
@@ -3401,14 +3452,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Ji'an",
     },
     StationPosition: {
-      PositionLat: 23.96825,
-      PositionLon: 121.58261,
+      PositionLon: 121.58266,
+      PositionLat: 23.96823,
     },
-    StationAddress: "97350花蓮縣吉安鄉南昌村南昌路 200 號",
+    StationAddress: "973039花蓮縣吉安鄉南昌村南昌路1號",
     StationPhone: "03-8539423",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6250",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/6250",
   },
   {
     StationUID: "TRA-7000",
@@ -3418,14 +3469,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Hualien",
     },
     StationPosition: {
-      PositionLat: 23.99264,
-      PositionLon: 121.60158,
+      PositionLon: 121.6008,
+      PositionLat: 23.99325,
     },
-    StationAddress: "97055花蓮縣花蓮市國聯里國聯一路 100 號",
+    StationAddress: "970015花蓮縣花蓮市國聯里國聯一路 100 號",
     StationPhone: "03-8355941",
     StationClass: "0",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7000",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7000",
   },
   {
     StationUID: "TRA-7010",
@@ -3435,14 +3486,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Beipu",
     },
     StationPosition: {
-      PositionLat: 24.03251,
-      PositionLon: 121.60189,
+      PositionLon: 121.60166,
+      PositionLat: 24.03253,
     },
-    StationAddress: "97147花蓮縣新城鄉北埔村自強街 113 號",
+    StationAddress: "971066花蓮縣新城鄉北埔村自強街 113 號",
     StationPhone: "03-8263809",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7010",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7010",
   },
   {
     StationUID: "TRA-7020",
@@ -3452,14 +3503,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jingmei",
     },
     StationPosition: {
-      PositionLat: 24.09039,
-      PositionLon: 121.61103,
+      PositionLon: 121.61078,
+      PositionLat: 24.09048,
     },
-    StationAddress: "97243花蓮縣秀林鄉景美村加灣 178 之 1 號",
+    StationAddress: "972067花蓮縣秀林鄉景美村加灣 178 之 1 號",
     StationPhone: "03-8611237",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7020",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7020",
   },
   {
     StationUID: "TRA-7030",
@@ -3469,14 +3520,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xincheng",
     },
     StationPosition: {
-      PositionLat: 24.12761,
-      PositionLon: 121.64103,
+      PositionLon: 121.64086,
+      PositionLat: 24.12756,
     },
-    StationAddress: "97163花蓮縣新城鄉新城村新興一路 73 號",
+    StationAddress: "971001花蓮縣新城鄉新城村新興一路 73 號",
     StationPhone: "03-8611237",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7030",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7030",
   },
   {
     StationUID: "TRA-7040",
@@ -3486,14 +3537,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Chongde",
     },
     StationPosition: {
-      PositionLat: 24.17111,
-      PositionLon: 121.65555,
+      PositionLon: 121.65536,
+      PositionLat: 24.17199,
     },
-    StationAddress: "97253花蓮縣秀林鄉崇德村海濱路 96 號",
+    StationAddress: "972003花蓮縣秀林鄉崇德村海濱路 96 號",
     StationPhone: "03-8621365",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7040",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7040",
   },
   {
     StationUID: "TRA-7050",
@@ -3503,14 +3554,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Heren",
     },
     StationPosition: {
-      PositionLat: 24.24219,
-      PositionLon: 121.71192,
+      PositionLon: 121.71182,
+      PositionLat: 24.24225,
     },
-    StationAddress: "97291花蓮縣秀林鄉和平村和仁 71 號",
+    StationAddress: "972005花蓮縣秀林鄉和平村和仁 71 號",
     StationPhone: "03-8681221",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7050",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7050",
   },
   {
     StationUID: "TRA-7060",
@@ -3520,14 +3571,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Heping",
     },
     StationPosition: {
-      PositionLat: 24.29825,
-      PositionLon: 121.75322,
+      PositionLon: 121.75327,
+      PositionLat: 24.29826,
     },
-    StationAddress: "97291花蓮縣秀林鄉和平村和平 276 號",
+    StationAddress: "972005花蓮縣秀林鄉和平村和平 276 號",
     StationPhone: "03-8681009",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7060",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7060",
   },
   {
     StationUID: "TRA-7070",
@@ -3537,14 +3588,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Hanben",
     },
     StationPosition: {
-      PositionLat: 24.33541,
-      PositionLon: 121.76827,
+      PositionLon: 121.76829,
+      PositionLat: 24.33545,
     },
-    StationAddress: "27247宜蘭縣南澳鄉澳花村蘇花路一段 56 號",
+    StationAddress: "272019宜蘭縣南澳鄉澳花村蘇花路一段 56 號",
     StationPhone: "03-9985238",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7070",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7070",
   },
   {
     StationUID: "TRA-7080",
@@ -3554,14 +3605,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Wuta",
     },
     StationPosition: {
-      PositionLat: 24.44879,
       PositionLon: 121.77601,
+      PositionLat: 24.44879,
     },
-    StationAddress: "27245宜蘭縣南澳鄉武塔村新溪路 18 號",
+    StationAddress: "272017宜蘭縣南澳鄉武塔村新溪路 18 號",
     StationPhone: "03-9981971",
-    StationClass: "5",
+    StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7080",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7080",
   },
   {
     StationUID: "TRA-7090",
@@ -3571,14 +3622,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Nan'ao",
     },
     StationPosition: {
-      PositionLat: 24.46342,
       PositionLon: 121.80103,
+      PositionLat: 24.46342,
     },
-    StationAddress: "27092宜蘭縣蘇澳鎮南強里大通路 22 號",
+    StationAddress: "270010宜蘭縣蘇澳鎮南強里大通路 22 號",
     StationPhone: "03-9981971",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7090",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7090",
   },
   {
     StationUID: "TRA-7100",
@@ -3588,14 +3639,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dong'ao",
     },
     StationPosition: {
-      PositionLat: 24.51828,
-      PositionLon: 121.83071,
+      PositionLon: 121.83072,
+      PositionLat: 24.51827,
     },
-    StationAddress: "27291宜蘭縣南澳鄉東岳村東岳路 1 號",
+    StationAddress: "272006宜蘭縣南澳鄉東岳村東岳路 1 號",
     StationPhone: "03-9986053",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7100",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7100",
   },
   {
     StationUID: "TRA-7110",
@@ -3605,14 +3656,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Yongle",
     },
     StationPosition: {
-      PositionLat: 24.56843,
       PositionLon: 121.84458,
+      PositionLat: 24.56843,
     },
-    StationAddress: "27046宜蘭縣蘇澳鎮永樂里圳頭路 60 號",
+    StationAddress: "270011宜蘭縣蘇澳鎮永樂里圳頭路 60 號",
     StationPhone: "03-9961889",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7110",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7110",
   },
   {
     StationUID: "TRA-7120",
@@ -3622,14 +3673,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Su'ao",
     },
     StationPosition: {
-      PositionLat: 24.59521,
-      PositionLon: 121.85144,
+      PositionLon: 121.85143,
+      PositionLat: 24.59516,
     },
-    StationAddress: "27048宜蘭縣蘇澳鎮蘇南里太平路 1 號",
+    StationAddress: "270001宜蘭縣蘇澳鎮蘇南里太平路 1 號",
     StationPhone: "03-9962028",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7120",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7120",
   },
   {
     StationUID: "TRA-7130",
@@ -3639,14 +3690,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Su'aoxin",
     },
     StationPosition: {
+      PositionLon: 121.82735,
       PositionLat: 24.60852,
-      PositionLon: 121.82719,
     },
-    StationAddress: "27048宜蘭縣蘇澳鎮聖愛里中山路二段 238 之 1 號 ",
+    StationAddress: "270013宜蘭縣蘇澳鎮聖愛里中山路二段 238 號",
     StationPhone: "03-9961004",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7130",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7130",
   },
   {
     StationUID: "TRA-7140",
@@ -3656,14 +3707,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Xinma",
     },
     StationPosition: {
-      PositionLat: 24.61535,
-      PositionLon: 121.82292,
+      PositionLon: 121.8229,
+      PositionLat: 24.61564,
     },
-    StationAddress: "27048宜蘭縣蘇澳鎮新城里中山路二段 322 號",
+    StationAddress: "270013宜蘭縣蘇澳鎮新城里中山路二段 322 號",
     StationPhone: "03-9961004",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7140",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7140",
   },
   {
     StationUID: "TRA-7150",
@@ -3673,14 +3724,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dongshan",
     },
     StationPosition: {
-      PositionLat: 24.63627,
-      PositionLon: 121.79212,
+      PositionLon: 121.79211,
+      PositionLat: 24.63633,
     },
-    StationAddress: "26946宜蘭縣冬山鄉冬山村中正路 1 號",
+    StationAddress: "269027宜蘭縣冬山鄉冬山村中正路 1 -1號",
     StationPhone: "03-9594221",
-    StationClass: "2",
+    StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7150",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7150",
   },
   {
     StationUID: "TRA-7160",
@@ -3690,31 +3741,31 @@ export const trStationDataList: TrStationData[] = [
       En: "Luodong",
     },
     StationPosition: {
-      PositionLat: 24.67795,
-      PositionLon: 121.77424,
+      PositionLon: 121.77464,
+      PositionLat: 24.67791,
     },
-    StationAddress: "26550宜蘭縣羅東鎮大新里公正路 2 號",
+    StationAddress: "265010宜蘭縣羅東鎮大新里公正路 2 號",
     StationPhone: "03-9542117",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7160",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7160",
   },
   {
     StationUID: "TRA-7170",
     StationID: "7170",
     StationName: {
       Zh_tw: "中里",
-      En: "Zhongli (Yilan)",
+      En: "Zhongli_Yilan",
     },
     StationPosition: {
-      PositionLat: 24.69415,
       PositionLon: 121.77526,
+      PositionLat: 24.69415,
     },
-    StationAddress: "26844宜蘭縣五結鄉中興村台興路 10 號",
+    StationAddress: "268018宜蘭縣五結鄉中里路",
     StationPhone: "03-9542117",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7170",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7170",
   },
   {
     StationUID: "TRA-7180",
@@ -3724,14 +3775,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Erjie",
     },
     StationPosition: {
-      PositionLat: 24.70529,
-      PositionLon: 121.77411,
+      PositionLon: 121.77409,
+      PositionLat: 24.70528,
     },
-    StationAddress: "26843宜蘭縣五結鄉五結中路三段658巷8號",
+    StationAddress: "268016宜蘭縣五結鄉五結中路三段658巷8號",
     StationPhone: "03-9650304",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7180",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7180",
   },
   {
     StationUID: "TRA-7190",
@@ -3741,14 +3792,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Yilan",
     },
     StationPosition: {
-      PositionLat: 24.75462,
-      PositionLon: 121.75791,
+      PositionLon: 121.75839,
+      PositionLat: 24.75443,
     },
-    StationAddress: "26043宜蘭縣宜蘭市和睦里光復路 1 號",
+    StationAddress: "260003宜蘭縣宜蘭市和睦里光復路 1 號",
     StationPhone: "03-9323801",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7190",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7190",
   },
   {
     StationUID: "TRA-7200",
@@ -3758,14 +3809,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Sicheng",
     },
     StationPosition: {
-      PositionLat: 24.78684,
-      PositionLon: 121.76268,
+      PositionLon: 121.76271,
+      PositionLat: 24.78681,
     },
-    StationAddress: "26245宜蘭縣礁溪鄉吳沙村站前路 24 號",
+    StationAddress: "262005宜蘭縣礁溪鄉吳沙村站前路 24 號",
     StationPhone: "03-9282449",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7200",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7200",
   },
   {
     StationUID: "TRA-7210",
@@ -3775,14 +3826,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jiaoxi",
     },
     StationPosition: {
-      PositionLat: 24.82705,
-      PositionLon: 121.77523,
+      PositionLon: 121.77535,
+      PositionLat: 24.82703,
     },
-    StationAddress: "26248宜蘭縣礁溪鄉德陽村溫泉路 1 號",
+    StationAddress: "262001宜蘭縣礁溪鄉德陽村溫泉路 1 號",
     StationPhone: "03-9886940",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7210",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7210",
   },
   {
     StationUID: "TRA-7220",
@@ -3792,14 +3843,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dingpu",
     },
     StationPosition: {
-      PositionLat: 24.84383,
-      PositionLon: 121.80918,
+      PositionLon: 121.80913,
+      PositionLat: 24.84391,
     },
-    StationAddress: "26142宜蘭縣頭城鎮下埔里下埔路 4 之 8 號",
-    StationPhone: "03-9886940",
+    StationAddress: "261002宜蘭縣頭城鎮下埔里下埔路 4 之 8 號",
+    StationPhone: "03-9771429",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7220",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7220",
   },
   {
     StationUID: "TRA-7230",
@@ -3809,14 +3860,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Toucheng",
     },
     StationPosition: {
-      PositionLat: 24.85903,
-      PositionLon: 121.82251,
+      PositionLon: 121.82256,
+      PositionLat: 24.85891,
     },
-    StationAddress: "26146宜蘭縣頭城鎮城北里纘祥路 59 號",
+    StationAddress: "261006宜蘭縣頭城鎮纘祥路 59 號",
     StationPhone: "03-9771429",
-    StationClass: "3",
+    StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7230",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7230",
   },
   {
     StationUID: "TRA-7240",
@@ -3826,14 +3877,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Wai'ao",
     },
     StationPosition: {
-      PositionLat: 24.88371,
-      PositionLon: 121.84575,
+      PositionLon: 121.84572,
+      PositionLat: 24.88375,
     },
-    StationAddress: "26144宜蘭縣頭城鎮外澳里濱海路二段 217 號",
+    StationAddress: "261004宜蘭縣頭城鎮濱海路二段 217 號",
     StationPhone: "03-9771429",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7240",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7240",
   },
   {
     StationUID: "TRA-7250",
@@ -3843,14 +3894,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Guishan",
     },
     StationPosition: {
-      PositionLat: 24.90481,
-      PositionLon: 121.86886,
+      PositionLon: 121.8689,
+      PositionLat: 24.90484,
     },
-    StationAddress: "26144宜蘭縣頭城鎮更新里濱海路三段 261 號",
+    StationAddress: "261004宜蘭縣頭城鎮更新里濱海路三段 261 號",
     StationPhone: "03-9770351",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7250",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7250",
   },
   {
     StationUID: "TRA-7260",
@@ -3860,14 +3911,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Daxi",
     },
     StationPosition: {
-      PositionLat: 24.93834,
-      PositionLon: 121.88987,
+      PositionLon: 121.88983,
+      PositionLat: 24.93836,
     },
-    StationAddress: "26145宜蘭縣頭城鎮大溪里濱海路五段 63 號",
+    StationAddress: "261005宜蘭縣頭城鎮濱海路五段 63 號",
     StationPhone: "03-9771429",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7260",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7260",
   },
   {
     StationUID: "TRA-7270",
@@ -3877,14 +3928,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dali",
     },
     StationPosition: {
-      PositionLat: 24.96682,
-      PositionLon: 121.92251,
+      PositionLon: 121.92253,
+      PositionLat: 24.96677,
     },
-    StationAddress: "26145宜蘭縣頭城鎮大里里濱海路六段 326 號",
+    StationAddress: "261005宜蘭縣頭城鎮大里里濱海路六段 326 號",
     StationPhone: "03-9781171",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7270",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7270",
   },
   {
     StationUID: "TRA-7280",
@@ -3894,14 +3945,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shicheng",
     },
     StationPosition: {
-      PositionLat: 24.97842,
-      PositionLon: 121.94524,
+      PositionLon: 121.94507,
+      PositionLat: 24.97832,
     },
-    StationAddress: "26145宜蘭縣頭城鎮石城里濱海路七段 230 號",
+    StationAddress: "261006宜蘭縣頭城鎮濱海路七段 230 號",
     StationPhone: "03-9771429",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7280",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7280",
   },
   {
     StationUID: "TRA-7290",
@@ -3911,14 +3962,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Fulong",
     },
     StationPosition: {
-      PositionLat: 25.01598,
       PositionLon: 121.94471,
+      PositionLat: 25.01595,
     },
-    StationAddress: "22841新北市貢寮區福隆里福隆街 2 號",
+    StationAddress: "228001新北市貢寮區福隆里福隆街 2 號",
     StationPhone: "02-24991800",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7290",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7290",
   },
   {
     StationUID: "TRA-7300",
@@ -3928,14 +3979,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Gongliao",
     },
     StationPosition: {
-      PositionLat: 25.02209,
-      PositionLon: 121.90867,
+      PositionLon: 121.90879,
+      PositionLat: 25.02197,
     },
-    StationAddress: "22843新北市貢寮區貢寮里朝陽街 33 號",
+    StationAddress: "228003新北市貢寮區貢寮里朝陽街 33 號",
     StationPhone: "02-24941500",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7300",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7300",
   },
   {
     StationUID: "TRA-7310",
@@ -3945,14 +3996,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shuangxi",
     },
     StationPosition: {
-      PositionLat: 25.03858,
-      PositionLon: 121.86645,
+      PositionLon: 121.86654,
+      PositionLat: 25.03851,
     },
-    StationAddress: "22744新北市雙溪區新基里朝陽街 1 號",
+    StationAddress: "227004新北市雙溪區新基里朝陽街 1 號",
     StationPhone: "02-24932980",
     StationClass: "2",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7310",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7310",
   },
   {
     StationUID: "TRA-7320",
@@ -3962,14 +4013,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Mudan",
     },
     StationPosition: {
-      PositionLat: 25.05877,
-      PositionLon: 121.85194,
+      PositionLon: 121.85197,
+      PositionLat: 25.05871,
     },
-    StationAddress: "22741新北市雙溪區牡丹里51號",
+    StationAddress: "227001新北市雙溪區牡丹里51號",
     StationPhone: "02-24932980",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7320",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7320",
   },
   {
     StationUID: "TRA-7330",
@@ -3979,14 +4030,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Sandiaoling",
     },
     StationPosition: {
-      PositionLat: 25.06555,
-      PositionLon: 121.82259,
+      PositionLon: 121.82263,
+      PositionLat: 25.06556,
     },
-    StationAddress: "22446新北市瑞芳區碩仁里魚寮路 1 號",
+    StationAddress: "224006新北市瑞芳區碩仁里魚寮路 1 號",
     StationPhone: "02-24977896",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7330",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7330",
   },
   {
     StationUID: "TRA-7331",
@@ -3996,14 +4047,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Dahua",
     },
     StationPosition: {
-      PositionLat: 25.04993,
-      PositionLon: 121.79751,
+      PositionLon: 121.79732,
+      PositionLat: 25.04998,
     },
-    StationAddress: "22643新北市平溪區南山里六分 12 之 1 號",
+    StationAddress: "226003新北市平溪區南山里六分 12 之 1 號",
     StationPhone: "02-24972033",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7331",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7331",
   },
   {
     StationUID: "TRA-7332",
@@ -4013,14 +4064,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Shifen",
     },
     StationPosition: {
-      PositionLat: 25.04111,
       PositionLon: 121.77514,
+      PositionLat: 25.04111,
     },
-    StationAddress: "22643新北市平溪區十分里十分街 51 號",
+    StationAddress: "226003新北市平溪區十分里十分街 51 號",
     StationPhone: "02-24958307",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7332",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7332",
   },
   {
     StationUID: "TRA-7333",
@@ -4030,14 +4081,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Wanggu",
     },
     StationPosition: {
-      PositionLat: 25.03445,
       PositionLon: 121.76349,
+      PositionLat: 25.03445,
     },
-    StationAddress: "226新北市平溪區望古里 (無站房)",
+    StationAddress: "226003新北市平溪區望古里 (無站房)",
     StationPhone: "02-24972033",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7333",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7333",
   },
   {
     StationUID: "TRA-7334",
@@ -4047,14 +4098,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Lingjiao",
     },
     StationPosition: {
+      PositionLon: 121.74794,
       PositionLat: 25.03021,
-      PositionLon: 121.74784,
     },
-    StationAddress: "22641新北市平溪區嶺腳里嶺腳寮 22 號",
+    StationAddress: "226001新北市平溪區嶺腳里嶺腳寮 22 號",
     StationPhone: "02-24972033",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7334",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7334",
   },
   {
     StationUID: "TRA-7335",
@@ -4064,14 +4115,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Pingxi",
     },
     StationPosition: {
-      PositionLat: 25.02552,
-      PositionLon: 121.73994,
+      PositionLon: 121.74019,
+      PositionLat: 25.02571,
     },
-    StationAddress: "22641新北市平溪區平溪里中華街 12 號",
+    StationAddress: "226001新北市平溪區平溪里中華街 12 號",
     StationPhone: "02-24972033",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7335",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7335",
   },
   {
     StationUID: "TRA-7336",
@@ -4081,14 +4132,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Jingtong",
     },
     StationPosition: {
-      PositionLat: 25.02384,
-      PositionLon: 121.72394,
+      PositionLon: 121.72391,
+      PositionLat: 25.02391,
     },
-    StationAddress: "22642新北市平溪區菁桐里菁桐街 52 號",
+    StationAddress: "226002新北市平溪區菁桐里菁桐街 52 號",
     StationPhone: "02-24972033",
     StationClass: "4",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7336",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7336",
   },
   {
     StationUID: "TRA-7350",
@@ -4098,14 +4149,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Houtong",
     },
     StationPosition: {
-      PositionLat: 25.08697,
-      PositionLon: 121.82749,
+      PositionLon: 121.82743,
+      PositionLat: 25.08702,
     },
-    StationAddress: "22446新北市瑞芳區光復里柴寮路 70 號",
+    StationAddress: "224006新北市瑞芳區光復里柴寮路 70 號",
     StationPhone: "02-24977747",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7350",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7350",
   },
   {
     StationUID: "TRA-7360",
@@ -4115,14 +4166,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Ruifang",
     },
     StationPosition: {
-      PositionLat: 25.10861,
-      PositionLon: 121.80596,
+      PositionLon: 121.80624,
+      PositionLat: 25.10893,
     },
-    StationAddress: "22441新北市瑞芳區龍潭里明燈路三段 82 號",
+    StationAddress: "224001新北市瑞芳區龍潭里明燈路三段 82 號",
     StationPhone: "02-24972033",
     StationClass: "1",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7360",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7360",
   },
   {
     StationUID: "TRA-7361",
@@ -4132,14 +4183,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Haikeguan",
     },
     StationPosition: {
-      PositionLat: 25.13768,
-      PositionLon: 121.80003,
+      PositionLon: 121.79997,
+      PositionLat: 25.13754,
     },
-    StationAddress: "202基隆市中正區長潭里",
+    StationAddress: "202010基隆市中正區長潭里",
     StationPhone: "02-24972033",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7361",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7361",
   },
   {
     StationUID: "TRA-7362",
@@ -4149,15 +4200,15 @@ export const trStationDataList: TrStationData[] = [
       En: "Badouzi",
     },
     StationPosition: {
-      PositionLat: 25.13534,
-      PositionLon: 121.80285,
+      PositionLon: 121.80261,
+      PositionLat: 25.13545,
     },
     StationAddress:
-      "202基隆市中正區砂子里省道臺 2 線 (與新北市瑞芳區交界處、無站房)",
+      "224007新北市瑞芳區建基路2段121號隔壁 砂子里省道臺 2 線 (與新北市瑞芳區交界處、無站房)",
     StationPhone: "02-24972033",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7362",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7362",
   },
   {
     StationUID: "TRA-7380",
@@ -4167,14 +4218,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Sijiaoting",
     },
     StationPosition: {
+      PositionLon: 121.76195,
       PositionLat: 25.10281,
-      PositionLon: 121.76192,
     },
     StationAddress: "22449新北市瑞芳區吉慶里中央路 65 號",
     StationPhone: "02-24579346",
     StationClass: "3",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7380",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7380",
   },
   {
     StationUID: "TRA-7390",
@@ -4184,14 +4235,14 @@ export const trStationDataList: TrStationData[] = [
       En: "Nuannuan",
     },
     StationPosition: {
-      PositionLat: 25.10224,
-      PositionLon: 121.74048,
+      PositionLon: 121.74031,
+      PositionLat: 25.10231,
     },
-    StationAddress: "205基隆市暖暖區暖暖里暖暖街 51 號",
-    StationPhone: "02-24972033",
+    StationAddress: "20544基隆市暖暖區暖暖里暖暖街 51 號",
+    StationPhone: "02-24560841",
     StationClass: "5",
     StationURL:
-      "http://tip.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7390",
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/7390",
   },
 ];
 
@@ -4229,12 +4280,12 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "台北市南港區南港路一段313號",
     OperatorID: "THSR",
-    UpdateTime: "2017-04-11T11:05:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 25.05318832397461,
-      PositionLon: 121.60706329345703,
-      GeoHash: "wsqqx0z93",
+      PositionLon: 121.60709,
+      PositionLat: 25.053704,
+      GeoHash: "wsqqx0zs6",
     },
     LocationCity: "臺北市",
     LocationCityCode: "TPE",
@@ -4251,11 +4302,11 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "台北市北平西路3號",
     OperatorID: "THSR",
-    UpdateTime: "2017-04-11T11:05:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 25.047670364379883,
-      PositionLon: 121.51698303222656,
+      PositionLon: 121.516983,
+      PositionLat: 25.04767,
       GeoHash: "wsqqmpvcq",
     },
     LocationCity: "臺北市",
@@ -4273,12 +4324,12 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "新北市板橋區縣民大道二段7號",
     OperatorID: "THSR",
-    UpdateTime: "2017-04-11T11:05:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 25.013870239257812,
-      PositionLon: 121.46459197998047,
-      GeoHash: "wsqq7cxu6",
+      PositionLon: 121.4638,
+      PositionLat: 25.014214,
+      GeoHash: "wsqq7cxnr",
     },
     LocationCity: "新北市",
     LocationCityCode: "NWT",
@@ -4295,11 +4346,11 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "桃園市中壢區高鐵北路一段6號",
     OperatorID: "THSR",
-    UpdateTime: "2017-04-11T11:05:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 25.012861251831055,
-      PositionLon: 121.21472930908203,
+      PositionLon: 121.214729,
+      PositionLat: 25.012861,
       GeoHash: "wsqnq33y7",
     },
     LocationCity: "桃園市",
@@ -4317,11 +4368,11 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "新竹縣竹北市高鐵七路6號",
     OperatorID: "THSR",
-    UpdateTime: "2017-04-11T11:05:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 24.808441162109375,
-      PositionLon: 121.0402603149414,
+      PositionLon: 121.04026,
+      PositionLat: 24.808441,
       GeoHash: "wsqj4k4zd",
     },
     LocationCity: "新竹縣",
@@ -4339,11 +4390,11 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "苗栗縣後龍鎮高鐵三路268號",
     OperatorID: "THSR",
-    UpdateTime: "2017-04-11T11:05:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 24.60544776916504,
-      PositionLon: 120.82527160644531,
+      PositionLon: 120.825272,
+      PositionLat: 24.605448,
       GeoHash: "wsmgvrq30",
     },
     LocationCity: "苗栗縣",
@@ -4361,11 +4412,11 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "台中市烏日區站區二路8號",
     OperatorID: "THSR",
-    UpdateTime: "2017-04-11T11:05:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 24.112483978271484,
-      PositionLon: 120.615966796875,
+      PositionLon: 120.615967,
+      PositionLat: 24.112484,
       GeoHash: "wsmc0ttc7",
     },
     LocationCity: "臺中市",
@@ -4383,12 +4434,12 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "彰化縣田中鎮站區路二段99號",
     OperatorID: "THSR",
-    UpdateTime: "2017-06-28T00:00:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 23.874326705932617,
-      PositionLon: 120.5746078491211,
-      GeoHash: "wsjxzdpwp",
+      PositionLon: 120.574608,
+      PositionLat: 23.874327,
+      GeoHash: "wsjxzdpy0",
     },
     LocationCity: "彰化縣",
     LocationCityCode: "CHA",
@@ -4405,11 +4456,11 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "雲林縣虎尾鎮站前東路301號",
     OperatorID: "THSR",
-    UpdateTime: "2017-06-28T00:00:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 23.736230850219727,
-      PositionLon: 120.41651153564453,
+      PositionLon: 120.416512,
+      PositionLat: 23.736231,
       GeoHash: "wsjxh1h9s",
     },
     LocationCity: "雲林縣",
@@ -4427,11 +4478,11 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "嘉義縣太保市高鐵西路168號",
     OperatorID: "THSR",
-    UpdateTime: "2017-06-28T00:00:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 23.45950698852539,
-      PositionLon: 120.32325744628906,
+      PositionLon: 120.323257,
+      PositionLat: 23.459507,
       GeoHash: "wsjt6n8tx",
     },
     LocationCity: "嘉義縣",
@@ -4449,11 +4500,11 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "台南市歸仁區歸仁大道100號",
     OperatorID: "THSR",
-    UpdateTime: "2017-04-11T11:05:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 22.925077438354492,
-      PositionLon: 120.28620147705078,
+      PositionLon: 120.286201,
+      PositionLat: 22.925077,
       GeoHash: "wsjd3jmsr",
     },
     LocationCity: "臺南市",
@@ -4471,11 +4522,11 @@ export const thsrStationDataList: ThsrStationData[] = [
     },
     StationAddress: "高雄市左營區高鐵路105號",
     OperatorID: "THSR",
-    UpdateTime: "2017-06-28T00:00:00+08:00",
-    VersionID: 1,
+    UpdateTime: "2023-10-17T00:00:00+08:00",
+    VersionID: 2,
     StationPosition: {
-      PositionLat: 22.68739128112793,
-      PositionLon: 120.30748748779297,
+      PositionLon: 120.307487,
+      PositionLat: 22.687391,
       GeoHash: "wsj91dj5x",
     },
     LocationCity: "高雄市",

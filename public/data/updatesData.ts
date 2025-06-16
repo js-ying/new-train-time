@@ -1,43 +1,54 @@
 export const updateDataList = [
   {
-    date: "2025-05",
+    date: "2025-06",
     type: "both",
-    ver: "2.1.2",
+    ver: "2.0.3",
     items: [
       {
         type: "update",
-        content: "加深主視覺藍的顏色，並增加點擊車站時的動畫效果",
+        content: "新增台鐵車站「鳳鳴」",
+      },
+    ],
+  },
+  {
+    date: "2025-05",
+    type: "both",
+    ver: "2.0.2",
+    items: [
+      {
+        type: "update",
+        content: "調整主視覺藍色，加強顏色深度並新增點擊動畫效果",
       },
       {
         type: "update",
-        content: "「特色介紹」頁面的介紹圖片翻新",
+        content: "更新「特色介紹」頁面圖片",
       },
     ],
   },
   {
     date: "2025-02",
     type: "both",
-    ver: "2.1.1",
+    ver: "2.0.1",
     items: [
       {
         type: "new",
-        content: "新功能「桃園捷運時刻查詢」上線",
+        content: "新功能：桃園捷運時刻查詢",
       },
       {
         type: "new",
-        content: "新功能「即時營運通阻訊息」上線",
+        content: "新功能：即時營運通阻訊息",
       },
       {
         type: "update",
-        content: "原台鐵/高鐵一鍵切換調整為下拉選單格式",
+        content: "調整台鐵/高鐵切換方式，改為下拉選單形式",
       },
       {
         type: "update",
-        content: "調整「更新公告」頁面的排版",
+        content: "調整「更新公告」頁面排版",
       },
       {
         type: "refactor",
-        content: "重構後端系統，改善效能及穩定性",
+        content: "重構後端系統，提升效能與穩定性",
       },
     ],
   },
@@ -48,11 +59,11 @@ export const updateDataList = [
     items: [
       {
         type: "new",
-        content: "左側選單加入「台鐵列車註記」的顯示/隱藏按鈕",
+        content: "新功能：顯示/隱藏台鐵列車註記的開關",
       },
       {
         type: "new",
-        content: "台鐵加入特定列車的「電子票證使用限制」提醒",
+        content: "新功能：提醒特定台鐵列車的電子票證使用限制",
       },
     ],
   },
@@ -63,11 +74,11 @@ export const updateDataList = [
     items: [
       {
         type: "new",
-        content: "新功能「列車詳細資訊截圖」上線",
+        content: "新功能：列車詳細資訊一鍵截圖",
       },
       {
         type: "fix",
-        content: "解決英文版台鐵時刻表在手機版的排版問題",
+        content: "修正英文版台鐵時刻表在手機版的排版問題",
       },
     ],
   },
@@ -82,7 +93,7 @@ export const updateDataList = [
       },
       {
         type: "update",
-        content: "調整電腦版廣告區塊尺寸",
+        content: "調整桌機版廣告區塊尺寸",
       },
     ],
   },
@@ -93,11 +104,11 @@ export const updateDataList = [
     items: [
       {
         type: "new",
-        content: "台鐵新功能「訂票導頁」上線，導頁後自動填入車次資料",
+        content: "新功能：台鐵訂票導頁，可自動帶入車次資料",
       },
       {
         type: "update",
-        content: "台鐵首頁新增「訂票功能說明」彈窗",
+        content: "新增彈窗：台鐵首頁「訂票功能說明」",
       },
     ],
   },
@@ -108,11 +119,11 @@ export const updateDataList = [
     items: [
       {
         type: "fix",
-        content: "解決「特色介紹」頁面在英文版強制跳轉中文版的問題",
+        content: "修正「特色介紹」頁面在英文版自動跳轉中文版的問題",
       },
       {
         type: "update",
-        content: "調整「更新公告」頁面的呈現方式",
+        content: "調整「更新公告」頁面顯示方式",
       },
     ],
   },
@@ -123,11 +134,11 @@ export const updateDataList = [
     items: [
       {
         type: "update",
-        content: "「出發時間」選單調整為 24 時制",
+        content: "「出發時間」選單改為 24 小時制",
       },
       {
         type: "update",
-        content: "首頁下方新增「資料來源」說明",
+        content: "新增首頁下方「資料來源」說明",
       },
     ],
   },
@@ -138,20 +149,19 @@ export const updateDataList = [
     items: [
       {
         type: "new",
-        content: "台鐵/高鐵時刻一鍵切換",
+        content: "新功能：台鐵/高鐵時刻一鍵切換",
       },
       {
         type: "new",
-        content: "亮色/暗色佈景一鍵切換",
+        content: "新功能：亮色/暗色佈景一鍵切換",
       },
       {
         type: "new",
-        content: "繁中/英文語言一鍵切換",
+        content: "新功能：繁中/英文語言一鍵切換",
       },
       {
         type: "refactor",
-        content:
-          "重構前端系統，整合台鐵和高鐵時刻查詢功能，以不影響原使用者的習慣為前提，盡可能優化使用者體驗",
+        content: "重構前端系統，整合台鐵與高鐵查詢，提升使用者體驗",
       },
     ],
   },

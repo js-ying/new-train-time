@@ -87,7 +87,7 @@
   "featureIntroductionMenu": "Feature Introduction",
   "updateAnnouncementsMenu": "Update Announcements",
   "feedbackMenu": "Feedback",
-  "feedbackDescription": "This system is a personal development project that provides multi-rail timetable inquiries. If you find any incorrect data or have any suggestions, please click the button below to fill out the form.",
+  "feedbackDescription": "This system is independently developed and aims to provide a simple and fast timetable lookup service for various railways. It is not an official platform. If you have any questions or suggestions regarding the system, feel free to click the button below to submit feedback.",
   "feedbackBtn": "Go to Google Form",
   "nowTimeBtn": "Now",
   "installToDesktopBtn": "Install to desktop",
