@@ -17,7 +17,9 @@ const ThsrHome: FC = () => {
   return (
     <>
       <PageHead />
-      <h1 className="hidden">{t("thsrTitle")}</h1>
+      <h1 className="sr-only" aria-hidden="false">
+        {t("thsrTitle")}
+      </h1>
       <Home />
     </>
   );

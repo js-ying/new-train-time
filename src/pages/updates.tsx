@@ -142,7 +142,9 @@ const Updates: FC = () => {
   return (
     <>
       <PageHead />
-      <h1 className="hidden">{t("updateAnnouncementsMenu")}</h1>
+      <h1 className="sr-only" aria-hidden="false">
+        {t("updateAnnouncementsMenu")}
+      </h1>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto max-w-3xl">

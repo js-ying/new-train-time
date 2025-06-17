@@ -1,3 +1,5 @@
+import { LocaleEnum } from "@/enums/LocaleEnum";
+
 /**
  * 取得 TDX 語言
  *
@@ -11,4 +13,18 @@ export const getTdxLang = (lang: string) => {
   };
 
   return map[lang] || "Zh_tw";
+};
+
+/**
+ * 取得語系對應 url
+ * @param localeEnum
+ * @returns string
+ */
+export const getLocaleUrl = (localeEnum: LocaleEnum) => {
+  const map = {
+    [LocaleEnum.TW]: "",
+    [LocaleEnum.EN]: "/en",
+  };
+
+  return map[localeEnum];
 };

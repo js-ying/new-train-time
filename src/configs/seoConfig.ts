@@ -1,5 +1,6 @@
 import { LocaleEnum } from "@/enums/LocaleEnum";
 import { PageEnum } from "@/enums/PageEnum";
+import { getLocaleUrl } from "@/utils/LocaleUtils";
 
 export const baseUrl = "https://traintime.jsy.tw";
 
@@ -77,6 +78,6 @@ export const seoConfigs: Record<PageEnum, SeoConfig> = {
 };
 
 export const localeUrlList = [
-  { locale: LocaleEnum.TW, url: baseUrl + "" },
-  { locale: LocaleEnum.EN, url: baseUrl + "/en" },
+  { locale: LocaleEnum.TW, url: baseUrl + getLocaleUrl(LocaleEnum.TW) },
+  { locale: LocaleEnum.EN, url: baseUrl + getLocaleUrl(LocaleEnum.EN) },
 ];

@@ -1,4 +1,5 @@
 import GoogleScript from "@/components/GoogleScript";
+import SiteLinkSection from "@/components/SiteLinkSection";
 import { PwaProvider } from "@/contexts/PwaContext";
 import { SearchAreaProvider } from "@/contexts/SearchAreaContext";
 import { SettingProvider } from "@/contexts/SettingContext";
@@ -11,8 +12,6 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { AppProps } from "next/app";
 
 function App({ Component, pageProps }: AppProps) {
-  console.log("App Rendered", new Date().toISOString());
-
   useTrackBrowseSource();
   useAutoRedirectLastUsedPageHook();
 
@@ -24,6 +23,7 @@ function App({ Component, pageProps }: AppProps) {
             <SettingProvider>
               <SearchAreaProvider>
                 <Component {...pageProps} />
+                <SiteLinkSection />
               </SearchAreaProvider>
             </SettingProvider>
           </NextThemesProvider>

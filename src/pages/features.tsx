@@ -110,7 +110,9 @@ const Features: FC = () => {
   return (
     <>
       <PageHead />
-      <h1 className="hidden">{t("featureIntroductionMenu")}</h1>
+      <h1 className="sr-only" aria-hidden="false">
+        {t("featureIntroductionMenu")}
+      </h1>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto max-w-3xl">

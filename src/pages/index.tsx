@@ -7,6 +7,7 @@ import TrOrderDescription from "@/components/train-time-table/TrOrderDescription
 import useMuiTheme from "@/hooks/useMuiThemeHook";
 import usePage from "@/hooks/usePageHook";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC, useEffect, useState } from "react";
 
@@ -21,6 +22,7 @@ export async function getStaticProps({ locale }) {
 /** [頁面] 首頁 */
 const Home: FC = () => {
   const muiTheme = useMuiTheme();
+  const { t } = useTranslation();
   const { isTr } = usePage();
 
   const [showDisclaimer, setShowDisclaimer] = useState(false);
@@ -32,6 +34,11 @@ const Home: FC = () => {
   return (
     <>
       <PageHead />
+      {isTr && (
+        <h1 className="sr-only" aria-hidden="false">
+          {t("trTitle")}
+        </h1>
+      )}
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <SearchArea />
