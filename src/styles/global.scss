@@ -37,7 +37,7 @@ img {
 }
 
 .custom-cursor-pointer {
-  @apply select-none focus:outline-offset-4 dark:focus:outline-gamboge-500 focus:outline-silverLakeBlue-500 focus:outline-2;
+  @apply select-none cursor-pointer focus:outline-offset-4 dark:focus:outline-gamboge-500 focus:outline-silverLakeBlue-500 focus:outline-2;
 }
 
 @keyframes rotate {
