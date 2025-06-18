@@ -3,7 +3,6 @@ import Layout from "@/components/layout/Layout";
 import Loading from "@/components/layout/Loading";
 
 import CommonDialog from "@/components/CommonDialog";
-import PageHead from "@/components/PageHead";
 import OperationAlert from "@/components/search-area/alerts/OperationAlert";
 import SearchArea from "@/components/search-area/SearchArea";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
@@ -51,7 +50,6 @@ const Search: FC = () => {
 
   return (
     <>
-      <PageHead />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="relative">

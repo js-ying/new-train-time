@@ -23,17 +23,6 @@ const PageHead: FC = () => {
         <meta key="keywords" name="keywords" content={seo.keywords} />
       )}
       <link key="canonical" rel="canonical" href={seo.ogUrl} />
-      <script
-        key="structured-data-site-name"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "JSY",
-          }),
-        }}
-      />
 
       {/* Viewport */}
       <meta

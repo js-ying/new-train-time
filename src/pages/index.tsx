@@ -1,6 +1,5 @@
 import Disclaimer from "@/components/layout/Disclaimer";
 import Layout from "@/components/layout/Layout";
-import PageHead from "@/components/PageHead";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchHistory from "@/components/search-area/SearchHistory";
 import TrOrderDescription from "@/components/train-time-table/TrOrderDescription";
@@ -33,7 +32,6 @@ const Home: FC = () => {
 
   return (
     <>
-      <PageHead />
       {isTr && (
         <h1 className="sr-only" aria-hidden="false">
           {t("trTitle")}

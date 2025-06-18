@@ -1,4 +1,3 @@
-import PageHead from "@/components/PageHead";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC } from "react";
 import Search from "../search";
@@ -14,7 +13,6 @@ export async function getStaticProps({ locale }) {
 const ThsrSearch: FC = () => {
   return (
     <>
-      <PageHead />
       <Search />
     </>
   );

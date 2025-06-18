@@ -1,4 +1,5 @@
 import GoogleScript from "@/components/GoogleScript";
+import PageHead from "@/components/PageHead";
 import SiteLinkSection from "@/components/SiteLinkSection";
 import { PwaProvider } from "@/contexts/PwaContext";
 import { SearchAreaProvider } from "@/contexts/SearchAreaContext";
@@ -22,6 +23,7 @@ function App({ Component, pageProps }: AppProps) {
           <NextThemesProvider attribute="class">
             <SettingProvider>
               <SearchAreaProvider>
+                <PageHead />
                 <Component {...pageProps} />
                 <SiteLinkSection />
               </SearchAreaProvider>

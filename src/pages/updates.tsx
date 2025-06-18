@@ -1,5 +1,4 @@
 import Layout from "@/components/layout/Layout";
-import PageHead from "@/components/PageHead";
 import { GaEnum } from "@/enums/GaEnum";
 import useLang from "@/hooks/useLangHook";
 import useMuiTheme from "@/hooks/useMuiThemeHook";
@@ -141,7 +140,6 @@ const Updates: FC = () => {
 
   return (
     <>
-      <PageHead />
       <h1 className="sr-only" aria-hidden="false">
         {t("updateAnnouncementsMenu")}
       </h1>
