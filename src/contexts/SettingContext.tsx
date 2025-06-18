@@ -5,22 +5,33 @@ export interface SettingParams {
   autoRedirectLastUsedPage: boolean;
 }
 
+export const defaultSetting: SettingParams = {
+  showTrTrainNote: false,
+  autoRedirectLastUsedPage: true,
+};
+
 export const SettingContext = createContext<SettingParams>(null);
 export const SettingUpdateContext = createContext(null);
 
 export function SettingProvider({ children }) {
-  const [searchAreaParams, setSettingParams] = useState({
-    showTrTrainNote: false,
-    autoRedirectLastUsedPage: true,
-  });
+  const [searchAreaParams, setSettingParams] =
+    useState<SettingParams>(defaultSetting);
 
   useEffect(() => {
-    setSettingParams({
-      ...searchAreaParams,
-      showTrTrainNote: localStorage.getItem("showTrTrainNote") === "true",
-      autoRedirectLastUsedPage:
-        localStorage.getItem("autoRedirectLastUsedPage") === "true",
+    const newSettings: SettingParams = { ...defaultSetting };
+
+    Object.entries(defaultSetting).forEach(([key, defaultVal]) => {
+      const val = localStorage.getItem(key);
+      console.log(key, val);
+      if (val === null) {
+        // 如果 localStorage 沒有，就補上預設值
+        localStorage.setItem(key, defaultVal.toString());
+      } else {
+        newSettings[key] = val === "true";
+      }
     });
+
+    setSettingParams(newSettings);
   }, []);
 
   return (
