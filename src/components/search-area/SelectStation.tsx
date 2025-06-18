@@ -21,7 +21,7 @@ import {
   trStationDataList,
   tymcStationDataList,
 } from "public/data/stationsData";
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 
 /** 車站是否在指定縣市轄區內 (僅台鐵) */
 const isStationBelowMainLine = (
@@ -47,7 +47,8 @@ const isStationNameIncludesInput = (
 
   const zhHantFilter =
     stationData.StationName.Zh_tw.includes(inputValue) ||
-    stationData.StationName.Zh_tw.replace("臺", "台").includes(inputValue);
+    stationData.StationName.Zh_tw.includes(inputValue.replace("台", "臺")) ||
+    stationData.StationName.Zh_tw.includes(inputValue.replace("臺", "台"));
 
   const idFilter = stationData.StationID.includes(inputValue);
 
@@ -89,6 +90,7 @@ const TrStationInput: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
   const { isMobile } = useRwd();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const placeholder =
     params.activeIndex === SearchAreaActiveIndexEnum.START_STATION
@@ -124,6 +126,12 @@ const TrStationInput: FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (!isMobile && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isMobile]);
+
   return (
     <input
       type="input"
@@ -132,7 +140,7 @@ const TrStationInput: FC = () => {
       className="common-input"
       placeholder={placeholder}
       onKeyDown={handleInputEnter}
-      autoFocus={!isMobile ? true : false}
+      ref={inputRef}
     ></input>
   );
 };
@@ -143,6 +151,7 @@ const ThsrStationInput: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
   const { isMobile } = useRwd();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const placeholder =
     params.activeIndex === SearchAreaActiveIndexEnum.START_STATION
@@ -169,6 +178,12 @@ const ThsrStationInput: FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (!isMobile && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isMobile]);
+
   return (
     <input
       type="input"
@@ -177,7 +192,7 @@ const ThsrStationInput: FC = () => {
       className="common-input"
       placeholder={placeholder}
       onKeyDown={handleInputEnter}
-      autoFocus={!isMobile ? true : false}
+      ref={inputRef}
     ></input>
   );
 };
@@ -188,6 +203,7 @@ const TymcStationInput: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
   const { isMobile } = useRwd();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const placeholder =
     params.activeIndex === SearchAreaActiveIndexEnum.START_STATION
@@ -214,6 +230,12 @@ const TymcStationInput: FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (!isMobile && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isMobile]);
+
   return (
     <input
       type="input"
@@ -222,7 +244,7 @@ const TymcStationInput: FC = () => {
       className="common-input"
       placeholder={placeholder}
       onKeyDown={handleInputEnter}
-      autoFocus={!isMobile ? true : false}
+      ref={inputRef}
     ></input>
   );
 };
