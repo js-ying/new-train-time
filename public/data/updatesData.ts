@@ -20,6 +20,10 @@ export const updateDataList = [
         type: "fix",
         content: "修正側邊欄中的「開關」沒有正確顯示上次儲存狀態的問題",
       },
+      {
+        type: "fix",
+        content: "修正桌機版選擇車站時游標沒有自動聚焦在輸入框的問題",
+      },
     ],
   },
   {

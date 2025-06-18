@@ -11,7 +11,7 @@ export const SettingUpdateContext = createContext(null);
 export function SettingProvider({ children }) {
   const [searchAreaParams, setSettingParams] = useState({
     showTrTrainNote: false,
-    autoRedirectLastUsedPage: false,
+    autoRedirectLastUsedPage: true,
   });
 
   useEffect(() => {
