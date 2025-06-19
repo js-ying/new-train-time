@@ -6,7 +6,7 @@ export interface SettingParams {
 }
 
 export const defaultSetting: SettingParams = {
-  showTrTrainNote: false,
+  showTrTrainNote: true,
   autoRedirectLastUsedPage: true,
 };
 
