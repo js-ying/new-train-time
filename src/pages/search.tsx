@@ -3,6 +3,7 @@ import Layout from "@/components/layout/Layout";
 import Loading from "@/components/layout/Loading";
 
 import CommonDialog from "@/components/CommonDialog";
+import CommonAlert from "@/components/search-area/alerts/CommonAlert";
 import OperationAlert from "@/components/search-area/alerts/OperationAlert";
 import SearchArea from "@/components/search-area/SearchArea";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
@@ -59,6 +60,12 @@ const Search: FC = () => {
               <OperationAlert />
             </div>
           </div>
+
+          {isTr && (
+            <div className="mt-5">
+              <CommonAlert />
+            </div>
+          )}
 
           <div className="mt-5">
             {/* [台鐵] 有列車資料 */}

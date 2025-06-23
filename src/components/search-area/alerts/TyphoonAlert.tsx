@@ -7,7 +7,7 @@ const TyphoonAlert = () => {
   const { isTr, isThsr } = usePage();
 
   return (
-    <Alert severity="error" variant="outlined">
+    <Alert severity="error" variant="outlined" className="rounded-xl">
       <div className="font-bold">{t("typhoonAlertMsg")}</div>
       <div>
         {isTr && (

@@ -15,7 +15,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({ isApiHealth, alertMsg }) => {
   return (
     <div>
       {isApiHealth && (
-        <Alert severity="warning" variant="outlined">
+        <Alert severity="warning" variant="outlined" className="rounded-xl">
           <div className="mb-3 font-bold">{t("noTrainDataTitleMsg")}</div>
           <div>
             <li>{t("noTrainInThisTimeMsg")}</li>
@@ -26,7 +26,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({ isApiHealth, alertMsg }) => {
 
       {!isApiHealth && (
         <>
-          <Alert severity="error" variant="outlined">
+          <Alert severity="error" variant="outlined" className="rounded-xl">
             <div className="font-bold">
               {t("noTrainDataDueToApiErrorMsg")}
               {`${i18n.language === LocaleEnum.TW ? "" : " "}`}
