@@ -62,7 +62,7 @@ const Search: FC = () => {
           </div>
 
           {isTr && (
-            <div className="mt-5">
+            <div className="mt-7">
               <CommonAlert />
             </div>
           )}
