@@ -7,7 +7,7 @@ export interface SettingParams {
 
 export const defaultSetting: SettingParams = {
   showTrTrainNote: true,
-  autoRedirectLastUsedPage: true,
+  autoRedirectLastUsedPage: false,
 };
 
 export const SettingContext = createContext<SettingParams>(null);
