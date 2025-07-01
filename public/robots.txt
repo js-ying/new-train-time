@@ -1,5 +1,2 @@
 User-agent: *
-Disallow: /search
-Disallow: /THSR/search
-Disallow: /TYMC/search
 Disallow: /jsy.tw/*

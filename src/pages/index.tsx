@@ -32,11 +32,6 @@ const Home: FC = () => {
 
   return (
     <>
-      {isTr && (
-        <h1 className="sr-only" aria-hidden="false">
-          {t("trTitle")}
-        </h1>
-      )}
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <SearchArea />

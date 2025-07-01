@@ -1,4 +1,4 @@
 export enum LocaleEnum {
-  TW = "zh-Hant",
+  TW = "zh-TW",
   EN = "en",
 }

@@ -103,14 +103,10 @@ const FeaturesGallery: FC = () => {
 };
 
 const Features: FC = () => {
-  const { t } = useTranslation();
   const muiTheme = useMuiTheme();
 
   return (
     <>
-      <h1 className="sr-only" aria-hidden="false">
-        {t("featureIntroductionMenu")}
-      </h1>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto max-w-3xl">

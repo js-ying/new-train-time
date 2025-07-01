@@ -1,4 +1,3 @@
-import { localeUrlList } from "@/configs/seoConfig";
 import useLang from "@/hooks/useLangHook";
 import useSeo from "@/hooks/useSeoHook";
 import { useTranslation } from "next-i18next";
@@ -8,28 +7,27 @@ import { FC } from "react";
 
 const PageHead: FC = () => {
   const { t } = useTranslation();
-  const { seo } = useSeo();
+  const { seo, fixedUrl, alternateUrls, ogLocale, ogAlternateLocales } =
+    useSeo();
   const { isTw } = useLang();
   const { theme } = useTheme();
 
   return (
     <Head>
-      <link rel="shortcut icon" href="/images/logos/logo-32.png" />
-
       {/* Title & Description */}
       <title key="title">{seo.title(t)}</title>
       <meta key="description" name="description" content={seo.description(t)} />
-      {seo.keywords && (
-        <meta key="keywords" name="keywords" content={seo.keywords} />
-      )}
-      <link key="canonical" rel="canonical" href={seo.ogUrl} />
+      <link key="canonical" rel="canonical" href={fixedUrl} />
 
-      {/* Viewport */}
-      <meta
-        key="viewport"
-        name="viewport"
-        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-      />
+      {/* Alternate Language URLs */}
+      {alternateUrls.map((loc) => (
+        <link
+          key={`alternate-${loc.locale}`}
+          rel="alternate"
+          hrefLang={loc.locale}
+          href={loc.url}
+        />
+      ))}
 
       {/* Open Graph */}
       <meta key="og:type" property="og:type" content="website" />
@@ -44,10 +42,28 @@ const PageHead: FC = () => {
         property="og:site_name"
         content={seo.ogTitle(t)}
       />
-      <meta key="og:url" property="og:url" content={seo.ogUrl} />
+      <meta key="og:url" property="og:url" content={fixedUrl} />
       {seo.ogImage && (
         <meta key="og:image" property="og:image" content={seo.ogImage} />
       )}
+      <meta key="og:locale" property="og:locale" content={ogLocale} />
+      {ogAlternateLocales.map((loc) => (
+        <meta
+          key={`og:locale:alternate-${loc}`}
+          property="og:locale:alternate"
+          content={loc}
+        />
+      ))}
+
+      {/* Icon */}
+      <link rel="shortcut icon" href="/images/logos/logo-32.png" />
+
+      {/* Viewport */}
+      <meta
+        key="viewport"
+        name="viewport"
+        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+      />
 
       {/* PWA */}
       <link
@@ -103,16 +119,6 @@ const PageHead: FC = () => {
         href="/images/logos/logo-192.png"
       />
       <link key="mask-icon" rel="mask-icon" href="/images/logos/logo-32.png" />
-
-      {/* Alternate Language URLs */}
-      {localeUrlList.map((loc) => (
-        <link
-          key={`alternate-${loc.locale}`}
-          rel="alternate"
-          hrefLang={loc.locale}
-          href={`${loc.url}${seo.localeUrl}`}
-        />
-      ))}
     </Head>
   );
 };

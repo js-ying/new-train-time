@@ -10,6 +10,7 @@
   "trTitle": "台鐵時刻查詢",
   "thsrTitle": "高鐵時刻查詢",
   "tymcTitle": "桃園捷運時刻查詢",
+  "stationToStationTimeTableTitle": "從 {{startStation}} 到 {{endStation}}",
   "subTitle": "查詢多鐵時刻，簡單又快速。",
   "webDescription": "查詢台鐵火車、高鐵、桃園機場捷運時刻表，簡單又快速。即時列車通阻、即時誤點、歷史快查、票價查詢、訂票導頁功能，讓通勤或旅行更優雅。",
   "thsrPageDescription": "查詢台灣高鐵時刻表，簡單又快速。即時列車通阻、歷史快查、票價查詢、自由座車廂標示功能，讓通勤更優雅。",
