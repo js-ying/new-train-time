@@ -90,6 +90,11 @@ const Search: FC = () => {
           <CommonDialog
             open={alertOptions.alertOpen}
             setOpen={alertOptions.setAlertOpen}
+            title={
+              alertOptions.alertMsg === "datetimeNotAllowMsg"
+                ? "reminderAlertTitle"
+                : ""
+            }
           >
             {t(alertOptions.alertMsg)}
           </CommonDialog>

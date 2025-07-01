@@ -22,7 +22,6 @@ export function SettingProvider({ children }) {
 
     Object.entries(defaultSetting).forEach(([key, defaultVal]) => {
       const val = localStorage.getItem(key);
-      console.log(key, val);
       if (val === null) {
         // 如果 localStorage 沒有，就補上預設值
         localStorage.setItem(key, defaultVal.toString());

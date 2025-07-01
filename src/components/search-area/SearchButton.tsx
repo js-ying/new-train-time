@@ -65,7 +65,7 @@ const SearchButton: FC = () => {
         params.endStationId,
         params.date,
         params.time,
-      )
+      ).isValid
     )
       return;
 

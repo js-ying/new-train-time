@@ -1,9 +1,22 @@
 import { useState } from "react";
 import DateUtils from "../utils/DateUtils";
 
+export interface ValidationResult {
+  isValid: boolean;
+  isDateInValid?: boolean;
+}
+
 export interface AlertOptions {
-  alertMsg: string;
-  setAlertMsg: (msg: string) => void;
+  alertMsg:
+    | "bothStationAreBlankMsg"
+    | "startStationIsBlankMsg"
+    | "endStationIsBlankMsg"
+    | "sameStationMsg"
+    | "datetimeNotAllowMsg"
+    | "paramsErrorMsg"
+    | "sameQueryMsg"
+    | "";
+  setAlertMsg: (msg: AlertOptions["alertMsg"]) => void;
   alertOpen: boolean;
   setAlertOpen: (open: boolean) => void;
 }
@@ -14,12 +27,12 @@ interface UseParamsValidationResult {
     endStationId: string,
     date: string,
     time: string,
-  ) => boolean;
+  ) => ValidationResult;
   alertOptions: AlertOptions;
 }
 
 const useParamsValidation = (): UseParamsValidationResult => {
-  const [alertMsg, setAlertMsg] = useState<string>("");
+  const [alertMsg, setAlertMsg] = useState<AlertOptions["alertMsg"]>("");
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
   const isParamsValid = (
@@ -27,29 +40,35 @@ const useParamsValidation = (): UseParamsValidationResult => {
     endStationId: string,
     date: string,
     time: string,
-  ): boolean => {
+  ): ValidationResult => {
     if (!startStationId && !endStationId) {
       setAlertMsg("bothStationAreBlankMsg");
       setAlertOpen(true);
-      return false;
+      return { isValid: false };
     }
 
     if (!startStationId) {
       setAlertMsg("startStationIsBlankMsg");
       setAlertOpen(true);
-      return false;
+      return { isValid: false };
     }
 
     if (!endStationId) {
       setAlertMsg("endStationIsBlankMsg");
       setAlertOpen(true);
-      return false;
+      return { isValid: false };
     }
 
     if (startStationId === endStationId) {
       setAlertMsg("sameStationMsg");
       setAlertOpen(true);
-      return false;
+      return { isValid: false };
+    }
+
+    if (!date || !time) {
+      setAlertMsg("paramsErrorMsg");
+      setAlertOpen(true);
+      return { isValid: false };
     }
 
     if (
@@ -58,16 +77,13 @@ const useParamsValidation = (): UseParamsValidationResult => {
     ) {
       setAlertMsg("datetimeNotAllowMsg");
       setAlertOpen(true);
-      return false;
+      return {
+        isValid: false,
+        isDateInValid: true,
+      };
     }
 
-    if (!date || !time) {
-      setAlertMsg("paramsErrorMsg");
-      setAlertOpen(true);
-      return false;
-    }
-
-    return true;
+    return { isValid: true };
   };
 
   const alertOptions = {

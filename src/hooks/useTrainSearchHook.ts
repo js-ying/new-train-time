@@ -6,6 +6,7 @@ import {
   TrDailyTrainTimetable,
 } from "@/models/tr-train-time-table";
 import fetchData from "@/services/fetchData";
+import DateUtils from "@/utils/DateUtils";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import usePage from "./usePageHook";
@@ -46,7 +47,6 @@ const useTrainSearch = (): UseTrainSearchResult => {
     date: string,
     time: string,
   ) => {
-    console.log("getTrainTimeTable...");
     setIsLoading(true);
 
     if (isTr) {
@@ -140,21 +140,29 @@ const useTrainSearch = (): UseTrainSearchResult => {
       const updatedParams = urlSearchAreaParams;
       setParams(updatedParams);
 
-      if (
-        isParamsValid(
-          updatedParams.startStationId,
-          updatedParams.endStationId,
-          updatedParams.date,
-          updatedParams.time,
-        )
-      ) {
-        getTrainTimeTable(
-          updatedParams.startStationId,
-          updatedParams.endStationId,
-          updatedParams.date,
-          updatedParams.time,
-        );
+      const { isValid, isDateInValid } = isParamsValid(
+        updatedParams.startStationId,
+        updatedParams.endStationId,
+        updatedParams.date,
+        updatedParams.time,
+      );
+
+      if (!isValid) {
+        // 檢核失敗，且非日期錯誤，則不予查詢
+        if (!isDateInValid) return;
+
+        // 檢核失敗，且是日期錯誤，則更新日期時間為當前時間（接續查詢）
+        updatedParams.date = DateUtils.getCurrentDate();
+        updatedParams.time = DateUtils.getCurrentTime();
+        setParams(updatedParams);
       }
+
+      getTrainTimeTable(
+        updatedParams.startStationId,
+        updatedParams.endStationId,
+        updatedParams.date,
+        updatedParams.time,
+      );
     }
   }, [
     router.isReady,

@@ -76,7 +76,9 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
             <ModalHeader>
               {t(props.title) || props.title || t("errorAlertTitle")}
             </ModalHeader>
-            <ModalBody>{props.children}</ModalBody>
+            <ModalBody className="whitespace-pre-line">
+              {props.children}
+            </ModalBody>
 
             <ModalFooter>
               {props.enableDoNotShowAgainCheckbox && (
