@@ -17,13 +17,12 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { FC, useContext } from "react";
 
 /** 列車切換器 */
 const TrainSwitch: FC = () => {
   const { t } = useTranslation();
-  const router = useRouter();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
   const trains = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC];
@@ -50,10 +49,6 @@ const TrainSwitch: FC = () => {
       gaClickEvent(GaEnum.TYMC_TITLE);
       recordLastUsedPage(PageEnum.TYMC);
     }
-
-    router.push({
-      pathname: getHomePath(toPage),
-    });
   };
 
   return (
@@ -75,13 +70,12 @@ const TrainSwitch: FC = () => {
           </DropdownTrigger>
           <DropdownMenu aria-label="train-switch-dropdown-menu">
             {trains.map((train) => (
-              <DropdownItem
-                key={train}
-                onPress={() => {
-                  toggleTrainPage(train);
-                }}
-              >
-                {t(`${train}Dropdown`)}
+              <DropdownItem key={train}>
+                <Link href={getHomePath(train)}>
+                  <div onClick={() => toggleTrainPage(train)}>
+                    {t(`${train}Dropdown`)}
+                  </div>
+                </Link>
               </DropdownItem>
             ))}
           </DropdownMenu>

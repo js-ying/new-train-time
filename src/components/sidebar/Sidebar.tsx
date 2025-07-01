@@ -10,6 +10,7 @@ import {
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
+import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -76,27 +77,16 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
     switch (text) {
       case "home":
         gaClickEvent(GaEnum.HOME);
-        router.push({
-          pathname: "/",
-        });
         setSidebarOpen(false);
         break;
 
       case "featureIntroductionMenu":
         gaClickEvent(GaEnum.FEATURES);
-
-        router.push({
-          pathname: "/features",
-        });
-
         setSidebarOpen(false);
         break;
 
       case "updateAnnouncementsMenu":
         gaClickEvent(GaEnum.UPDATES);
-        router.push({
-          pathname: "/updates",
-        });
         setSidebarOpen(false);
         break;
 
@@ -124,40 +114,75 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                 className="rounded"
               />
             </ListItemIcon>
-            <ListItemText
-              primary={`${t("trTitle")}`}
-              primaryTypographyProps={{
-                fontWeight: "700",
-                fontSize: "1.125rem",
-              }}
+            <ListItemButton
+              component={Link}
+              href="/"
               className="custom-cursor-pointer font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
               onClick={() => handleClick("home")}
-            ></ListItemText>
+              sx={{ width: "100%" }}
+            >
+              <ListItemText
+                primary={`${t("trTitle")}`}
+                primaryTypographyProps={{
+                  fontWeight: "700",
+                  fontSize: "1.125rem",
+                }}
+              />
+            </ListItemButton>
           </ListItem>
           {list.map((item) => (
             <ListItem key={item.text} disablePadding>
-              <ListItemButton onClick={() => handleClick(item.text)}>
-                <ListItemIcon sx={{ minWidth: "40px" }}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d={item.icon}
-                    />
-                  </svg>
-                </ListItemIcon>
-                <ListItemText
-                  primary={t(item.text)}
-                  primaryTypographyProps={{}}
-                />
-              </ListItemButton>
+              {item.text === "feedbackMenu" ? (
+                <ListItemButton onClick={() => handleClick(item.text)}>
+                  <ListItemIcon sx={{ minWidth: "40px" }}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d={item.icon}
+                      />
+                    </svg>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={t(item.text)}
+                    primaryTypographyProps={{}}
+                  />
+                </ListItemButton>
+              ) : (
+                <ListItemButton
+                  component={Link}
+                  href={item.text === "featureIntroductionMenu" ? "/features" : "/updates"}
+                  onClick={() => handleClick(item.text)}
+                >
+                  <ListItemIcon sx={{ minWidth: "40px" }}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d={item.icon}
+                      />
+                    </svg>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={t(item.text)}
+                    primaryTypographyProps={{}}
+                  />
+                </ListItemButton>
+              )}
             </ListItem>
           ))}
         </List>
