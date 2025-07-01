@@ -75,7 +75,7 @@ const SearchButton: FC = () => {
       params.date === router.query?.d &&
       params.time.replace(":", "") === router.query?.t
     ) {
-      alertOptions.setAlertMsg(t("sameQueryMsg"));
+      alertOptions.setAlertMsg("sameQueryMsg");
       alertOptions.setAlertOpen(true);
       return;
     }
