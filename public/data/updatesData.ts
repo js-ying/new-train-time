@@ -1,6 +1,6 @@
 export const updateDataList = [
   {
-    date: "2025-06",
+    date: "2025-07",
     type: "both",
     ver: "2.1.1",
     items: [
