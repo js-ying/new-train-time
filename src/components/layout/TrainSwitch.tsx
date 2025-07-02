@@ -20,14 +20,13 @@ import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { FC, useContext } from "react";
 
-/** 列車切換器 */
 const TrainSwitch: FC = () => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
   const trains = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC];
 
-  const toggleTrainPage = (toPage: PageEnum) => {
+  const handleTrainSwitch = (toPage: PageEnum) => {
     setParams({
       ...params,
       startStationId: null,
@@ -40,12 +39,10 @@ const TrainSwitch: FC = () => {
     if (toPage === PageEnum.TR) {
       gaClickEvent(GaEnum.TR_TITLE);
       recordLastUsedPage(PageEnum.TR);
-    }
-    if (toPage === PageEnum.THSR) {
+    } else if (toPage === PageEnum.THSR) {
       gaClickEvent(GaEnum.THSR_TITLE);
       recordLastUsedPage(PageEnum.THSR);
-    }
-    if (toPage === PageEnum.TYMC) {
+    } else if (toPage === PageEnum.TYMC) {
       gaClickEvent(GaEnum.TYMC_TITLE);
       recordLastUsedPage(PageEnum.TYMC);
     }
@@ -70,12 +67,10 @@ const TrainSwitch: FC = () => {
           </DropdownTrigger>
           <DropdownMenu aria-label="train-switch-dropdown-menu">
             {trains.map((train) => (
-              <DropdownItem key={train}>
-                <Link href={getHomePath(train)}>
-                  <div onClick={() => toggleTrainPage(train)}>
-                    {t(`${train}Dropdown`)}
-                  </div>
-                </Link>
+              <DropdownItem key={train} href={getHomePath(train)} as={Link}>
+                <div onClick={() => handleTrainSwitch(train)}>
+                  {t(`${train}Dropdown`)}
+                </div>
               </DropdownItem>
             ))}
           </DropdownMenu>

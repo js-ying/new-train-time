@@ -10,9 +10,9 @@ import {
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
-import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
 import { updateDataList } from "../../../public/data/updatesData";
@@ -104,16 +104,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
     <>
       <Box sx={{ width: 250 }} role="presentation">
         <List>
-          <ListItem>
-            <ListItemIcon sx={{ minWidth: "40px" }}>
-              <Image
-                src={`/images/logos/logo-32.png`}
-                alt="traintime-logo"
-                width={25}
-                height={25}
-                className="rounded"
-              />
-            </ListItemIcon>
+          <ListItem disablePadding>
             <ListItemButton
               component={Link}
               href="/"
@@ -121,6 +112,15 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
               onClick={() => handleClick("home")}
               sx={{ width: "100%" }}
             >
+              <ListItemIcon sx={{ minWidth: "40px" }}>
+                <Image
+                  src={`/images/logos/logo-32.png`}
+                  alt="traintime-logo"
+                  width={25}
+                  height={25}
+                  className="rounded"
+                />
+              </ListItemIcon>
               <ListItemText
                 primary={`${t("trTitle")}`}
                 primaryTypographyProps={{
@@ -158,7 +158,11 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
               ) : (
                 <ListItemButton
                   component={Link}
-                  href={item.text === "featureIntroductionMenu" ? "/features" : "/updates"}
+                  href={
+                    item.text === "featureIntroductionMenu"
+                      ? "/features"
+                      : "/updates"
+                  }
                   onClick={() => handleClick(item.text)}
                 >
                   <ListItemIcon sx={{ minWidth: "40px" }}>

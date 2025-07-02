@@ -2,6 +2,26 @@ export const updateDataList = [
   {
     date: "2025-06",
     type: "both",
+    ver: "2.1.1",
+    items: [
+      {
+        type: "update",
+        content:
+          "現在查詢出發時間若不符合規則（今日起兩個月內），系統會自動將日期重設為當下再發查",
+      },
+      {
+        type: "update",
+        content: "現在查詢結果頁面，瀏覽器標題會帶出起迄站名",
+      },
+      {
+        type: "refactor",
+        content: "重構台鐵時刻後端系統，提升效能與穩定性",
+      },
+    ],
+  },
+  {
+    date: "2025-06",
+    type: "both",
     ver: "2.1.0",
     items: [
       {
@@ -123,8 +143,8 @@ export const updateDataList = [
         content: "新功能：台鐵訂票導頁，可自動帶入車次資料",
       },
       {
-        type: "update",
-        content: "新增彈窗：台鐵首頁「訂票功能說明」",
+        type: "new",
+        content: "新增自動彈窗：台鐵首頁「訂票功能說明」",
       },
     ],
   },
