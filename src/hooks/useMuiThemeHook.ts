@@ -34,6 +34,19 @@ const useMuiTheme = () => {
             "sans-serif",
           ].join(","),
         },
+        components: {
+          MuiListItemButton: {
+            styleOverrides: {
+              root: {
+                "&:focus-visible": {
+                  outline: "2px solid",
+                  outlineColor: `${theme === "light" ? "#6490c4" : "#f59e0b"}`,
+                  outlineOffset: "2px",
+                },
+              },
+            },
+          },
+        },
       }),
     [theme],
   );

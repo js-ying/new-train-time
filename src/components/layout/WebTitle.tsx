@@ -35,18 +35,12 @@ const WebTitle: FC = () => {
 
   return (
     <>
-      <Link href={homePath}>
-        <span
-          tabIndex={0}
-          role="button"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              handleTitleClick();
-            }
-          }}
-          className={`custom-cursor-pointer font-bold ${isTw ? "text-lg" : "text-md"}`}
-          onClick={handleTitleClick}
-        >
+      <Link
+        href={homePath}
+        onClick={handleTitleClick}
+        className="custom-cursor-pointer"
+      >
+        <span className={`font-bold ${isTw ? "text-lg" : "text-md"}`}>
           <span className={`${isTw ? "" : "pr-1"}`}>
             {notTransportPage.includes(page) ? t(PageEnum.TR) : t(page)}
           </span>

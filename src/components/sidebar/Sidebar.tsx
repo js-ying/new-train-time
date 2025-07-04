@@ -13,7 +13,6 @@ import {
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { FC, useMemo, useState } from "react";
 import { updateDataList } from "../../../public/data/updatesData";
 import { GaEnum } from "../../enums/GaEnum";
@@ -46,7 +45,6 @@ interface DrawerListProps {
 
 const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const { t } = useTranslation();
-  const router = useRouter();
 
   const list = useMemo(() => {
     return [
@@ -108,7 +106,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
             <ListItemButton
               component={Link}
               href="/"
-              className="custom-cursor-pointer font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
+              className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
               onClick={() => handleClick("home")}
               sx={{ width: "100%" }}
             >
@@ -253,8 +251,14 @@ const Sidebar: FC = () => {
     <>
       <div
         role="button"
+        tabIndex={0}
         className="custom-cursor-pointer"
         onClick={() => setOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            setOpen(true);
+          }
+        }}
       >
         <SidebarIcon />
       </div>
