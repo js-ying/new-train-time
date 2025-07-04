@@ -13,6 +13,7 @@ import useMuiTheme from "@/hooks/useMuiThemeHook";
 import usePage from "@/hooks/usePageHook";
 import useTrainSearch from "@/hooks/useTrainSearchHook";
 import AdUtils from "@/utils/AdUtils";
+import DateUtils from "@/utils/DateUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -47,6 +48,12 @@ const Search: FC = () => {
     (isTr && trainTimeTable?.length <= 0) ||
     (isThsr && jsyThsrInfo?.timeTable?.length <= 0) ||
     (isTymc && jsyTymcInfo?.timeTables?.length <= 0);
+
+  const isDatetimeAlert = alertOptions.alertMsg === "datetimeNotAllowMsg";
+  const dialogTitle = isDatetimeAlert ? "reminderAlertTitle" : "";
+  const dialogContent = t(alertOptions.alertMsg, {
+    date: DateUtils.getCurrentDate(),
+  });
 
   return (
     <>
@@ -90,13 +97,9 @@ const Search: FC = () => {
           <CommonDialog
             open={alertOptions.alertOpen}
             setOpen={alertOptions.setAlertOpen}
-            title={
-              alertOptions.alertMsg === "datetimeNotAllowMsg"
-                ? "reminderAlertTitle"
-                : ""
-            }
+            title={dialogTitle}
           >
-            {t(alertOptions.alertMsg)}
+            {dialogContent}
           </CommonDialog>
 
           {isLoading && <Loading />}

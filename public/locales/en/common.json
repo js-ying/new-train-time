@@ -38,7 +38,7 @@
   "startStationIsBlankMsg": "Please select 'Departure Station'.",
   "endStationIsBlankMsg": "Please select 'Arrival Station'.",
   "sameStationMsg": "'Departure Station' and 'Arrival Station' cannot be the same.",
-  "datetimeNotAllowMsg": "Our system only supports schedules from today up to two months ahead. We’ve reset the date to today and reloaded the results based on the current time.",
+  "datetimeNotAllowMsg": "You can only search for timetables within two months from today. The date you selected was out of range, so it has been reset to today. Showing results for {{date}}.",
   "paramsErrorMsg": "There is an issue with the input parameters.",
   "sameQueryMsg": "Duplicate search detected. Please modify the station or departure time.",
   "closeBtn": "Close",

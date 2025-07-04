@@ -59,15 +59,19 @@ const SearchButton: FC = () => {
   };
 
   const handleSearch = () => {
-    if (
-      !isParamsValid(
-        params.startStationId,
-        params.endStationId,
-        params.date,
-        params.time,
-      ).isValid
-    )
-      return;
+    const { isValid, isDateInValid } = isParamsValid(
+      params.startStationId,
+      params.endStationId,
+      params.date,
+      params.time,
+    );
+
+    if (!isValid) {
+      // 檢核失敗，且非日期錯誤，則不予查詢
+      if (!isDateInValid) return;
+
+      // 檢核失敗，且是日期錯誤，直接導頁，由 search 頁面處理
+    }
 
     if (
       params.startStationId === router.query?.s &&
@@ -105,8 +109,13 @@ const SearchButton: FC = () => {
       >
         {t("searchBtn")}
       </Button>
+
+      {/* 搜尋元件不處理日期錯誤彈窗，直接由導頁後的 search 頁面顯示彈窗 */}
       <CommonDialog
-        open={alertOptions.alertOpen}
+        open={
+          alertOptions.alertOpen &&
+          alertOptions.alertMsg !== "datetimeNotAllowMsg"
+        }
         setOpen={alertOptions.setAlertOpen}
       >
         {t(alertOptions.alertMsg)}
