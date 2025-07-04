@@ -42,5 +42,5 @@ jobs:
             rm -rf .next
             rm -rf node_modules
             npm install
-          # npm run build
-          # pm2 restart new-train-time
+            npm run build
+            pm2 restart new-train-time
