@@ -1,6 +1,6 @@
 import moment from "moment-timezone";
 import { DaySegmentEnum } from "../enums/DateEnum";
-moment().tz("Asia/Taipei");
+moment.tz.setDefault("Asia/Taipei");
 
 const DateUtils = {
   getCurrentDate: (): string => {

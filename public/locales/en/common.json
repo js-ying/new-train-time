@@ -22,7 +22,7 @@
   "tymcDropdown": "TaoYuan Metro (TaoYuan Airport MRT)",
   "startStation": "Departure Station",
   "endStation": "Arrival Station",
-  "datetime": "Departure Time",
+  "datetime": "Departure Time (UTC+8)",
   "startStationInputPlaceholder": "Departure Station (e.g. Hsinchu)",
   "endStationInputPlaceholder": "Arrival Station (e.g. Taipei)",
   "tymcStartStationInputPlaceholder": "Departure Station (e.g. Taipei Main Station)",
