@@ -14,8 +14,12 @@ export const updateDataList = [
         content: "現在查詢結果頁面，瀏覽器標題會帶出起迄站名",
       },
       {
+        type: "fix",
+        content: "修正桃園捷運時刻表點擊列車詳細資訊會出錯的問題",
+      },
+      {
         type: "refactor",
-        content: "重構台鐵時刻後端系統，提升效能與穩定性",
+        content: "重構後端系統，提升效能與穩定性",
       },
     ],
   },

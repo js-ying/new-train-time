@@ -13,8 +13,10 @@ enum FareClass {
   FULL = 1, // 全票
   STUDENT = 2, // 學生票
   CHILD = 3, // 孩童票
-  ELDERLY = 4, // 敬老票
-  CHARITY = 5, // 愛心票
+  SENIOR = 4, // 敬老票
+  DISABLED = 5, // 愛心票
+  DISABLED_CHILD = 6, // 愛心票
+  DISABLED_SPECIAL = 7, // 愛心票
   GROUP = 8, // 團體票
 }
 
@@ -23,8 +25,16 @@ const FARE_CLASS_MAP = {
   [FareClass.FULL]: { Zh_tw: "全票", En: "Full Fare" },
   [FareClass.STUDENT]: { Zh_tw: "學生票", En: "Student Fare" },
   [FareClass.CHILD]: { Zh_tw: "孩童票", En: "Child Fare" },
-  [FareClass.ELDERLY]: { Zh_tw: "敬老票", En: "Senior Fare" },
-  [FareClass.CHARITY]: { Zh_tw: "愛心票", En: "Charity Fare" },
+  [FareClass.SENIOR]: { Zh_tw: "敬老票", En: "Senior Fare" },
+  [FareClass.DISABLED]: { Zh_tw: "愛心票", En: "Disabled Fare" },
+  [FareClass.DISABLED_CHILD]: {
+    Zh_tw: "愛心孩童票",
+    En: "Disabled Child Fare",
+  },
+  [FareClass.DISABLED_SPECIAL]: {
+    Zh_tw: "愛心優待/陪伴票",
+    En: "Disabled Special Fare",
+  },
   [FareClass.GROUP]: { Zh_tw: "團體票", En: "Group Fare" },
 };
 
