@@ -1,11 +1,19 @@
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { GaEnum } from "../enums/GaEnum";
 import { gaClickEvent } from "../utils/GaUtils";
 
 const BottomBanner: FC = () => {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
   useEffect(() => {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error("AdSense error:", e);
+    }
 
     const timer = setTimeout(() => {
       setOpen(true);
@@ -14,9 +22,7 @@ const BottomBanner: FC = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, []);
-
-  const [open, setOpen] = useState(false);
+  }, [router.asPath]);
 
   const handleClose = () => {
     gaClickEvent(GaEnum.BOTTOM_AD_CLOSE);
@@ -38,6 +44,7 @@ const BottomBanner: FC = () => {
           ✕
         </button>
         <ins
+          key={router.asPath}
           className="adsbygoogle block h-full w-full"
           data-ad-client="ca-pub-7992139989807299"
           data-ad-slot="1622239321"
@@ -49,10 +56,15 @@ const BottomBanner: FC = () => {
 
 const TrainInfoBanner: FC = () => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   useEffect(() => {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
-  }, []);
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error("AdSense error:", e);
+    }
+  }, [router.asPath]);
 
   return (
     <>
@@ -61,6 +73,7 @@ const TrainInfoBanner: FC = () => {
   transition duration-150 ease-out dark:border-zinc-200 md:h-[108px]"
       >
         <ins
+          key={router.asPath}
           className="adsbygoogle block h-full w-full"
           data-ad-client="ca-pub-7992139989807299"
           data-ad-slot="1622239321"
