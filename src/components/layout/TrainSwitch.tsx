@@ -67,10 +67,13 @@ const TrainSwitch: FC = () => {
           </DropdownTrigger>
           <DropdownMenu aria-label="train-switch-dropdown-menu">
             {trains.map((train) => (
-              <DropdownItem key={train} href={getHomePath(train)} as={Link}>
-                <div onClick={() => handleTrainSwitch(train)}>
-                  {t(`${train}Dropdown`)}
-                </div>
+              <DropdownItem
+                key={train}
+                href={getHomePath(train)}
+                as={Link}
+                onPress={() => handleTrainSwitch(train)}
+              >
+                {t(`${train}Dropdown`)}
               </DropdownItem>
             ))}
           </DropdownMenu>
