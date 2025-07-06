@@ -87,6 +87,7 @@ const ThemeSwitch: FC = () => {
     <div
       tabIndex={0}
       role="button"
+      aria-label="Change theme"
       className="custom-cursor-pointer inline-block"
       onClick={toggleTheme}
       onKeyDown={(e) => {

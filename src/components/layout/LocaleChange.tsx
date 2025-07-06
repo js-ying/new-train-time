@@ -155,6 +155,7 @@ const LocaleChangeBySwitch: FC = () => {
     <div
       tabIndex={0}
       role="button"
+      aria-label="Change locale"
       className="custom-cursor-pointer inline-block"
       onClick={handleChange}
       onKeyDown={(e) => {

@@ -251,6 +251,7 @@ const Sidebar: FC = () => {
     <>
       <div
         role="button"
+        aria-label="Toggle sidebar"
         tabIndex={0}
         className="custom-cursor-pointer"
         onClick={() => setOpen(true)}
