@@ -1,19 +1,13 @@
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { GaEnum } from "../enums/GaEnum";
 import { gaClickEvent } from "../utils/GaUtils";
 
 const BottomBanner: FC = () => {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error("AdSense error:", e);
-    }
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
 
     const timer = setTimeout(() => {
       setOpen(true);
@@ -22,7 +16,7 @@ const BottomBanner: FC = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [router.asPath]);
+  }, []);
 
   const handleClose = () => {
     gaClickEvent(GaEnum.BOTTOM_AD_CLOSE);
@@ -44,7 +38,6 @@ const BottomBanner: FC = () => {
           ✕
         </button>
         <ins
-          key={router.asPath}
           className="adsbygoogle block h-full w-full"
           data-ad-client="ca-pub-7992139989807299"
           data-ad-slot="1622239321"
@@ -56,15 +49,10 @@ const BottomBanner: FC = () => {
 
 const TrainInfoBanner: FC = () => {
   const { t } = useTranslation();
-  const router = useRouter();
 
   useEffect(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error("AdSense error:", e);
-    }
-  }, [router.asPath]);
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }, []);
 
   return (
     <>
@@ -73,10 +61,9 @@ const TrainInfoBanner: FC = () => {
   transition duration-150 ease-out dark:border-zinc-200 md:h-[108px]"
       >
         <ins
-          key={router.asPath}
           className="adsbygoogle block h-full w-full"
           data-ad-client="ca-pub-7992139989807299"
-          data-ad-slot="1622239321"
+          data-ad-slot="1218393453"
         ></ins>
       </div>
       <div className="mt-1 whitespace-pre-line text-xs text-zinc-500 dark:text-zinc-400">
