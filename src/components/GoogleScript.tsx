@@ -1,5 +1,4 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
-import Script from "next/script";
 
 const GoogleScript = () => {
   return (
@@ -7,12 +6,7 @@ const GoogleScript = () => {
       {/* Google Analytics */}
       <GoogleAnalytics gaId="UA-48330157-6" />
 
-      {/* Google AdSense */}
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7992139989807299"
-        crossOrigin="anonymous"
-      />
+      {/* Google AdSense 移至 _document.tsx 維護 */}
     </>
   );
 };
