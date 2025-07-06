@@ -14,6 +14,10 @@ export const updateDataList = [
         content: "現在查詢結果頁面，瀏覽器標題會帶出起迄站名",
       },
       {
+        type: "update",
+        content: "現在即時營運通阻訊息的按鈕會優先顯示是否為颱風或地震影響",
+      },
+      {
         type: "fix",
         content: "修正桃園捷運時刻表點擊列車詳細資訊會出錯的問題",
       },
