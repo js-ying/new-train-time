@@ -46,6 +46,21 @@ const OperationAlert: FC = () => {
     return map;
   }, []);
 
+  const displayBtnName = useMemo(() => {
+    if (!jsyOperationAlert) return "";
+    if (
+      jsyOperationAlert.alerts.some((alert) => alert.title.includes("颱風"))
+    ) {
+      return "typhoonImpact";
+    }
+    if (
+      jsyOperationAlert.alerts.some((alert) => alert.title.includes("地震"))
+    ) {
+      return "earthquakeImpact";
+    }
+    return statusColorMap.get(jsyOperationAlert.status)?.i18n || "";
+  }, [jsyOperationAlert, statusColorMap]);
+
   if (!jsyOperationAlert) return;
 
   return (
@@ -65,7 +80,7 @@ const OperationAlert: FC = () => {
                 setOpen(true);
               }}
             >
-              {t(statusColorMap.get(jsyOperationAlert.status).i18n)}
+              {t(displayBtnName)}
             </Button>
           </div>
 

@@ -46,6 +46,8 @@
   "normalOpStatus": "OPS NORMAL",
   "warningOpStatus": "OPS WARNING",
   "dangerOpStatus": "OPS DISRUPTED",
+  "typhoonImpact": "Typhoon Impact",
+  "earthquakeImpact": "Earthquake Impact",
   "trainTypeFilterAll": "All",
   "trainTypeFilterReserved": "Reserved",
   "trainTypeFilterNonReserved": "Non Reserved",
