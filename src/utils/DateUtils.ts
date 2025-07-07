@@ -87,6 +87,9 @@ const DateUtils = {
   dateFormatter: (date: string, formatter: string) => {
     return moment(date).format(formatter);
   },
+  isValid: (date: string) => {
+    return moment(date).isValid();
+  },
 };
 
 export default DateUtils;

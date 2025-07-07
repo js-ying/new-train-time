@@ -13,7 +13,6 @@ export interface AlertOptions {
     | "endStationIsBlankMsg"
     | "sameStationMsg"
     | "datetimeNotAllowMsg"
-    | "paramsErrorMsg"
     | "sameQueryMsg"
     | "";
   setAlertMsg: (msg: AlertOptions["alertMsg"]) => void;
@@ -65,13 +64,10 @@ const useParamsValidation = (): UseParamsValidationResult => {
       return { isValid: false };
     }
 
-    if (!date || !time) {
-      setAlertMsg("paramsErrorMsg");
-      setAlertOpen(true);
-      return { isValid: false };
-    }
-
     if (
+      !date ||
+      !time ||
+      !DateUtils.isValid(date) ||
       DateUtils.isBefore(date, DateUtils.getCurrentDate()) ||
       DateUtils.isAfter(date, DateUtils.addMonth(DateUtils.getCurrentDate(), 2))
     ) {
