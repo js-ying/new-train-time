@@ -21,17 +21,17 @@ const useSeo = () => {
       .filter((loc) => loc !== i18n.language)
       .map((loc) => getOgLocale(loc));
 
-    // Determine the base path (e.g., "/THSR/search" or "/THSR")
     const basePath = router.pathname;
-
-    // Determine the query string part (e.g., "?s=...&e=...")
     const queryPath =
       startStationId && endStationId
         ? `?s=${startStationId}&e=${endStationId}`
         : "";
 
-    // Construct the fixed URL (always default locale, no locale prefix)
-    const fixedUrl = `${baseUrl}${basePath}${queryPath}`;
+    // Construct the self-referencing URL for the current page (for canonical/og:url)
+    const currentLocale = i18n.language;
+    const selfLocalePrefix =
+      currentLocale === router.defaultLocale ? "" : `/${currentLocale}`;
+    const selfUrl = `${baseUrl}${selfLocalePrefix}${basePath}${queryPath}`;
 
     // Construct alternate URLs for hreflang
     const alternateUrls = router.locales.map((locale) => {
@@ -40,6 +40,13 @@ const useSeo = () => {
         locale,
         url: `${baseUrl}${localePrefix}${basePath}${queryPath}`,
       };
+    });
+
+    // Add x-default for users with unmatched languages
+    const defaultLocaleUrl = `${baseUrl}${basePath}${queryPath}`;
+    alternateUrls.push({
+      locale: "x-default",
+      url: defaultLocaleUrl,
     });
 
     if (startStationId && endStationId) {
@@ -73,7 +80,7 @@ const useSeo = () => {
 
       return {
         seo: dynamicSeo,
-        fixedUrl,
+        selfUrl,
         alternateUrls,
         ogLocale,
         ogAlternateLocales,
@@ -83,7 +90,7 @@ const useSeo = () => {
     // For non-search pages or pages without s/e params
     return {
       seo: { ...seoConfig },
-      fixedUrl,
+      selfUrl,
       alternateUrls,
       ogLocale,
       ogAlternateLocales,

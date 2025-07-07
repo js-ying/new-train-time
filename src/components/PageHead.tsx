@@ -7,7 +7,7 @@ import { FC } from "react";
 
 const PageHead: FC = () => {
   const { t } = useTranslation();
-  const { seo, fixedUrl, alternateUrls, ogLocale, ogAlternateLocales } =
+  const { seo, selfUrl, alternateUrls, ogLocale, ogAlternateLocales } =
     useSeo();
   const { isTw } = useLang();
   const { theme } = useTheme();
@@ -17,7 +17,7 @@ const PageHead: FC = () => {
       {/* Title & Description */}
       <title key="title">{seo.title(t)}</title>
       <meta key="description" name="description" content={seo.description(t)} />
-      <link key="canonical" rel="canonical" href={fixedUrl} />
+      <link key="canonical" rel="canonical" href={selfUrl} />
 
       {/* Alternate Language URLs */}
       {alternateUrls.map((loc) => (
@@ -42,7 +42,7 @@ const PageHead: FC = () => {
         property="og:site_name"
         content={seo.ogTitle(t)}
       />
-      <meta key="og:url" property="og:url" content={fixedUrl} />
+      <meta key="og:url" property="og:url" content={selfUrl} />
       {seo.ogImage && (
         <meta key="og:image" property="og:image" content={seo.ogImage} />
       )}
