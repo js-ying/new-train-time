@@ -48,6 +48,7 @@ const Search: FC = () => {
     (isTr && trainTimeTable?.length <= 0) ||
     (isThsr && jsyThsrInfo?.timeTable?.length <= 0) ||
     (isTymc && jsyTymcInfo?.timeTables?.length <= 0);
+  const hasResult = hasTrData || hasThsrData || hasTymcData || noData;
 
   const isDatetimeAlert = alertOptions.alertMsg === "datetimeNotAllowMsg";
   const dialogTitle = isDatetimeAlert ? "reminderAlertTitle" : "";
@@ -62,9 +63,11 @@ const Search: FC = () => {
           <div className="relative">
             <SearchArea />
 
-            <div className="absolute bottom-1 left-3">
-              <OperationAlert />
-            </div>
+            {hasResult && (
+              <div className="absolute bottom-1 left-3">
+                <OperationAlert />
+              </div>
+            )}
           </div>
 
           <div className="mt-5">
