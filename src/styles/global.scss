@@ -29,7 +29,7 @@ a {
 }
 
 * {
-  @apply box-border;
+  @apply box-border focus-visible:outline-none;
 }
 
 img {
@@ -37,7 +37,7 @@ img {
 }
 
 .custom-cursor-pointer {
-  @apply select-none cursor-pointer rounded-md focus:outline-offset-4 dark:focus:outline-gamboge-500 focus:outline-silverLakeBlue-500 focus:outline-2;
+  @apply select-none cursor-pointer rounded-md focus:outline-offset-4 dark:focus:outline-gamboge-500 focus:outline-silverLakeBlue-500 focus:outline-2 focus-visible:outline;
 }
 
 @keyframes rotate {
