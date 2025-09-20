@@ -1,5 +1,17 @@
 export const updateDataList = [
   {
+    date: "2025-09",
+    type: "both",
+    ver: "2.1.2",
+    items: [
+      {
+        type: "update",
+        content:
+          "調整台鐵誤點資訊的顯示邏輯，從 30 分鐘內發車的列車改為 90 分鐘內發車的列車",
+      },
+    ],
+  },
+  {
     date: "2025-07",
     type: "both",
     ver: "2.1.1",
