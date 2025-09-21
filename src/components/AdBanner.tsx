@@ -73,11 +73,15 @@ const TrainInfoBanner: FC = () => {
   );
 };
 
-const AdBanner: FC = () => {
+interface AdBannerProps {
+  mode?: 'trainInfo' | 'bottom';
+}
+
+const AdBanner: FC<AdBannerProps> = ({ mode = 'trainInfo' }) => {
   return (
     <>
-      <BottomBanner />
-      <TrainInfoBanner />
+      {(mode === 'trainInfo') && <TrainInfoBanner />}
+      {(mode === 'bottom') && <BottomBanner />}
     </>
   );
 };

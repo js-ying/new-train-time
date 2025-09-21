@@ -17,7 +17,7 @@ import DateUtils from "@/utils/DateUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -55,6 +55,12 @@ const Search: FC = () => {
   const dialogContent = t(alertOptions.alertMsg, {
     date: DateUtils.getCurrentDate(),
   });
+
+  const [showBottomAd, setShowBottomAd] = useState(false);
+
+  useEffect(() => {
+    setShowBottomAd(true);
+  }, []);
 
   return (
     <>
@@ -96,6 +102,12 @@ const Search: FC = () => {
               </>
             )}
           </div>
+
+          {AdUtils.showAd(0, 0) && showBottomAd && (
+            <div className="mt-4">
+              <AdBanner mode="bottom" />
+            </div>
+          )}
 
           <CommonDialog
             open={alertOptions.alertOpen}
