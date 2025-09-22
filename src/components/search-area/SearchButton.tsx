@@ -1,10 +1,10 @@
-import { SearchAreaContext } from "@/contexts/SearchAreaContext";
+import { SearchAreaContext, SearchAreaUpdateContext } from "@/contexts/SearchAreaContext";
 import usePage from "@/hooks/usePageHook";
 import useParamsValidation from "@/hooks/useParamsValidationHook";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { FC, useContext } from "react";
+import { FC, useContext, useState } from "react";
 import CommonDialog from "../CommonDialog";
 
 export interface HistoryInquiry {
@@ -17,9 +17,13 @@ const SearchButton: FC = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
+  const setParams = useContext(SearchAreaUpdateContext);
   const { isParamsValid, alertOptions } = useParamsValidation();
 
   const { localStorageKey, searchPath } = usePage();
+
+  const [lastQueryTime, setLastQueryTime] = useState<number | null>(null);
+  const queryInterval = 5000; // 5 seconds
 
   const saveHistory = ({ startStationId, endStationId }: HistoryInquiry) => {
     let historyList: HistoryInquiry[] = [];
@@ -73,31 +77,36 @@ const SearchButton: FC = () => {
       // 檢核失敗，且是日期錯誤，直接導頁，由 search 頁面處理
     }
 
-    if (
-      params.startStationId === router.query?.s &&
-      params.endStationId === router.query?.e &&
-      params.date === router.query?.d &&
-      params.time.replace(":", "") === router.query?.t
-    ) {
-      alertOptions.setAlertMsg("sameQueryMsg");
-      alertOptions.setAlertOpen(true);
-      return;
-    }
-
     saveHistory({
       startStationId: params.startStationId,
       endStationId: params.endStationId,
     });
 
-    router.push({
-      pathname: searchPath,
-      query: {
-        s: params.startStationId,
-        e: params.endStationId,
-        d: params.date,
-        t: params.time.replace(":", ""),
-      },
-    });
+    const isSameQuery =
+      params.startStationId === router.query?.s &&
+      params.endStationId === router.query?.e &&
+      params.date === router.query?.d &&
+      params.time.replace(":", "") === router.query?.t;
+
+    if (isSameQuery) {
+      if (lastQueryTime && Date.now() - lastQueryTime < queryInterval) {
+        alertOptions.setAlertMsg("sameQueryMsg");
+        alertOptions.setAlertOpen(true);
+        return;
+      }
+      setLastQueryTime(Date.now());
+      setParams((prev) => ({ ...prev, uuid: Date.now().toString() }));
+    } else {
+      router.push({
+        pathname: searchPath,
+        query: {
+          s: params.startStationId,
+          e: params.endStationId,
+          d: params.date,
+          t: params.time.replace(":", ""),
+        },
+      });
+    }
   };
 
   return (

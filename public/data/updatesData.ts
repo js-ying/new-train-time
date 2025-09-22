@@ -14,6 +14,11 @@ export const updateDataList = [
         content:
           "減少系統下方廣告的出現次數，以提升使用體驗",
       },
+      {
+        type: "update",
+        content:
+          "開放重覆查詢相同的查詢條件，但需要短暫的時間間隔",
+      },
     ],
   },
   {

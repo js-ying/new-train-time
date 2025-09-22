@@ -22,6 +22,7 @@ const useSearchAreaParams = (): UseSearchAreaParamsResult => {
     activeIndex: SearchAreaActiveIndexEnum.EMPTY,
     layer: SearchAreaLayerEnum.FIRST_LAYER,
     inputValue: "",
+    uuid: ""
   };
 
   return { urlSearchAreaParams };

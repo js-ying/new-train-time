@@ -1,4 +1,4 @@
-import { SearchAreaUpdateContext } from "@/contexts/SearchAreaContext";
+import { SearchAreaContext, SearchAreaUpdateContext } from "@/contexts/SearchAreaContext";
 import { JsyThsrInfo } from "@/models/jsy-thsr-info";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import {
@@ -25,6 +25,7 @@ interface UseTrainSearchResult {
 const useTrainSearch = (): UseTrainSearchResult => {
   const router = useRouter();
   const { isTr, isThsr, isTymc } = usePage();
+  const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
   const { isParamsValid, alertOptions } = useParamsValidation();
@@ -138,7 +139,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
     // 導頁永遠都是 true，直接進入/重新整理頁面一開始是 false，需等待變 true
     if (router.isReady) {
       const updatedParams = urlSearchAreaParams;
-      setParams(updatedParams);
+      setParams((prevParams) => ({ ...prevParams, ...updatedParams }));
 
       const { isValid, isDateInValid } = isParamsValid(
         updatedParams.startStationId,
@@ -154,7 +155,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
         // 檢核失敗，且是日期錯誤，則更新日期時間為當前時間（接續查詢）
         updatedParams.date = DateUtils.getCurrentDate();
         updatedParams.time = DateUtils.getCurrentTime();
-        setParams(updatedParams);
+        setParams((prevParams) => ({ ...prevParams, ...updatedParams }));
       }
 
       getTrainTimeTable(
@@ -170,6 +171,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
     router.query.e,
     router.query.d,
     router.query.t,
+    params?.uuid,
   ]);
 
   return {

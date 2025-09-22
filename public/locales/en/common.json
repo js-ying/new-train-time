@@ -39,7 +39,7 @@
   "endStationIsBlankMsg": "Please select 'Arrival Station'.",
   "sameStationMsg": "'Departure Station' and 'Arrival Station' cannot be the same.",
   "datetimeNotAllowMsg": "You can only search for timetables within two months from today. The date you selected was out of range, so it has been reset to today. Showing results for {{date}}.",
-  "sameQueryMsg": "Duplicate search detected. Please modify the station or departure time.",
+  "sameQueryMsg": "You are querying too fast! Please try again later.",
   "closeBtn": "Close",
   "historyInquiry": "History Inquiry: {{ nowLength }} / 5",
   "normalOpStatus": "OPS NORMAL",

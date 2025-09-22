@@ -13,6 +13,7 @@ export interface SearchAreaParams {
   // 目前只有台鐵的 SelectStation 才有分兩層，其餘皆為一層 (layer = 0)
   layer: SearchAreaLayerEnum;
   inputValue: string;
+  uuid: string;
 }
 
 export const SearchAreaContext = createContext<SearchAreaParams>(null);
@@ -27,6 +28,7 @@ export function SearchAreaProvider({ children }) {
     activeIndex: SearchAreaActiveIndexEnum.EMPTY,
     layer: SearchAreaLayerEnum.FIRST_LAYER,
     inputValue: "",
+    uuid: "",
   });
 
   useEffect(() => {
