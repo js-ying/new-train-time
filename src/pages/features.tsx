@@ -13,7 +13,6 @@ import useMuiTheme from "@/hooks/useMuiThemeHook";
 import { featureImgList } from "public/data/featuresData";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/plugins/counter.css";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
@@ -93,9 +92,15 @@ const FeaturesGallery: FC = () => {
         close={() => setActiveIndex(-1)}
         animation={{ swipe: 350 }}
         controller={{ closeOnBackdropClick: true }}
+        carousel={{ padding: 50 }}
         // enable optional lightbox plugins
-        plugins={[Counter, Thumbnails, Zoom]}
-        thumbnails={{ border: 0, gap: 0, padding: 0, width: 80 }}
+        plugins={[Counter, Zoom]}
+        counter={{
+          style: { fontSize: 12, margin: 0, marginLeft: 10 },
+        }}
+        styles={{
+          icon: { height: 22, width: 22 },
+        }}
       />
     </div>
   );
