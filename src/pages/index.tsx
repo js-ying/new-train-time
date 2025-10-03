@@ -41,12 +41,12 @@ const Home: FC = () => {
           </div>
           <div className="mt-7">{showDisclaimer && <Disclaimer />}</div>
           {isTr && showDisclaimer && (
-            <div className="mt-2">
+            <div className="mt-1">
               <TrOrderDescription />
             </div>
           )}
 
-          <div className="mt-2 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <div className="mt-1 text-center text-sm text-zinc-500 dark:text-zinc-400">
             ver. {updateDataList[0].ver}
           </div>
         </Layout>
