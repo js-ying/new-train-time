@@ -72,7 +72,6 @@ const FeaturesGallery: FC = () => {
           src={`https://jsying1994.s3.amazonaws.com/traintime/features/v2/${img.imgName}`}
           alt={`${img.title}`}
           key={img.imgName}
-          loading="lazy"
           width={248}
           height={534}
           classNames={{
