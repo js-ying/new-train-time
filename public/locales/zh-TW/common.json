@@ -109,6 +109,7 @@
   "typhoonAlertMsg": "由於颱風影響，列車行/停駛的最新消息請參考台鐵/高鐵官方最新公告。",
   "eTicketAlertMsg": "持電子票證（如悠遊卡/一卡通）及定期票的旅客請勿搭乘。",
   "showTrTrainNoteSwitch": "顯示台鐵列車註記",
+  "showThsrTrainNoteSwitch": "顯示高鐵列車註記",
   "autoRedirectLastUsedPageSwitch": "自動跳轉至上次使用頁面",
   "pleaseSelect": "請選擇",
   "trainTypeFilterDirect": "直達車",

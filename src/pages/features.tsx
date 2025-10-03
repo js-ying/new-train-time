@@ -111,7 +111,7 @@ const Features: FC = () => {
         <Layout>
           <div className="mx-auto max-w-3xl">
             <WebIntroduction />
-            <div className="mt-4 md:mt-8">
+            <div className="mt-6 md:mt-8">
               <FeaturesGallery />
             </div>
           </div>

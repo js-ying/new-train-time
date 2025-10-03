@@ -2,11 +2,13 @@ import { createContext, useEffect, useState } from "react";
 
 export interface SettingParams {
   showTrTrainNote: boolean;
+  showThsrTrainNote: boolean;
   autoRedirectLastUsedPage: boolean;
 }
 
 export const defaultSetting: SettingParams = {
   showTrTrainNote: true,
+  showThsrTrainNote: true,
   autoRedirectLastUsedPage: false,
 };
 

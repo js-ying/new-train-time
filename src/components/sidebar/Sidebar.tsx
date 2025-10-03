@@ -68,6 +68,9 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const [showTrTrainNote, setShowTrTrainNote] =
     useSettingHook("showTrTrainNote");
 
+  const [showThsrTrainNote, setShowThsrTrainNote] =
+    useSettingHook("showThsrTrainNote");
+
   const [autoRedirectLastUsedPage, setEnableLastUsedPageRedirect] =
     useSettingHook("autoRedirectLastUsedPage");
 
@@ -194,6 +197,15 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
             value={showTrTrainNote}
             setValue={setShowTrTrainNote}
             label={t("showTrTrainNoteSwitch")}
+            color="primary"
+          />
+        </List>
+        <Divider />
+        <List className="ml-4 mr-2 text-sm">
+          <IOSSwitchSetting
+            value={showThsrTrainNote}
+            setValue={setShowThsrTrainNote}
+            label={t("showThsrTrainNoteSwitch")}
             color="primary"
           />
         </List>

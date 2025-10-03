@@ -88,7 +88,7 @@ const Search: FC = () => {
 
             {/* 無列車資料 */}
             {noData && (
-              <>
+              <div className="pt-2">
                 <NoTrainData
                   isApiHealth={isApiHealth}
                   alertMsg={alertOptions.alertMsg}
@@ -99,12 +99,12 @@ const Search: FC = () => {
                     <AdBanner />
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
 
           {AdUtils.showAd(0, 0) && showBottomAd && (
-            <div className="mt-4">
+            <div>
               <AdBanner mode="bottom" />
             </div>
           )}

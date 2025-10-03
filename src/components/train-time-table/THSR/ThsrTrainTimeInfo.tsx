@@ -1,3 +1,4 @@
+import { SettingContext } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
 import {
   ThsrDailyFreeSeatingCar,
@@ -8,7 +9,7 @@ import {
 import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { isTrainPass } from "@/utils/TrainInfoUtils";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import ThsrServiceDay from "./ThsrServiceDay";
 import ThsrTimeInfoLeftArea from "./ThsrTimeInfoLeftArea";
 import ThsrTimeInfoMidArea from "./ThsrTimeInfoMidArea";
@@ -36,6 +37,8 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
     gaClickEvent(GaEnum.THSR_TRAIN_INFO);
     setOpen(true);
   };
+
+  const { showThsrTrainNote } = useContext(SettingContext);
 
   return (
     <div
@@ -77,12 +80,14 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           />
         </div>
       </div>
-      <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-        <ThsrServiceDay
-          trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
-          generalTimeTable={thsrTdxGeneralTimeTable}
-        />
-      </div>
+      {showThsrTrainNote && (
+        <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <ThsrServiceDay
+            trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
+            generalTimeTable={thsrTdxGeneralTimeTable}
+          />
+        </div>
+      )}
 
       {thsrTrainTimeTable && (
         <ThsrTrainTimeDetailDialog
