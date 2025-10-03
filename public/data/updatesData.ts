@@ -1,5 +1,25 @@
 export const updateDataList = [
   {
+    date: "2025-10",
+    type: "both",
+    ver: "2.2.0",
+    items: [
+      {
+        type: "new",
+        content: "新功能：側邊欄加入「顯示/隱藏高鐵列車註記」的開關",
+      },
+      {
+        type: "update",
+        content: "現在首頁會顯示最新版本號碼了",
+      },
+      {
+        type: "fix",
+        content:
+          "修正「特色介紹」圖片在 Firefox 可能無法顯示的問題，並且調整了 UI 細節",
+      },
+    ],
+  },
+  {
     date: "2025-09",
     type: "both",
     ver: "2.1.2",
@@ -11,13 +31,11 @@ export const updateDataList = [
       },
       {
         type: "update",
-        content:
-          "減少系統下方廣告的出現次數，以提升使用體驗",
+        content: "減少系統下方廣告的出現次數，以提升使用體驗",
       },
       {
         type: "update",
-        content:
-          "開放重覆查詢相同的查詢條件，但需要短暫的時間間隔",
+        content: "開放重覆查詢相同的查詢條件，但需要短暫的時間間隔",
       },
     ],
   },

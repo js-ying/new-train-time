@@ -221,10 +221,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         <Divider />
         <List>
           <ListItemButton disabled={true}>
-            <ListItemText
-              primary={`ver. ${updateDataList[0].ver}`}
-              primaryTypographyProps={{}}
-            />
+            ver. {updateDataList[0].ver}
           </ListItemButton>
         </List>
       </Box>

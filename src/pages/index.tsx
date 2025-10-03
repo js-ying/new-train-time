@@ -8,6 +8,7 @@ import usePage from "@/hooks/usePageHook";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { updateDataList } from "public/data/updatesData";
 import { FC, useEffect, useState } from "react";
 
 export async function getStaticProps({ locale }) {
@@ -39,8 +40,15 @@ const Home: FC = () => {
             <SearchHistory />
           </div>
           <div className="mt-7">{showDisclaimer && <Disclaimer />}</div>
+          {isTr && showDisclaimer && (
+            <div className="mt-2">
+              <TrOrderDescription />
+            </div>
+          )}
 
-          {isTr && showDisclaimer && <TrOrderDescription />}
+          <div className="mt-2 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            ver. {updateDataList[0].ver}
+          </div>
         </Layout>
       </MuiThemeProvider>
     </>

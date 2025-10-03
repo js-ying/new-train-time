@@ -92,7 +92,7 @@ const FeaturesGallery: FC = () => {
         close={() => setActiveIndex(-1)}
         animation={{ swipe: 350 }}
         controller={{ closeOnBackdropClick: true }}
-        carousel={{ padding: 50 }}
+        carousel={{ padding: 55 }}
         // enable optional lightbox plugins
         plugins={[Counter, Zoom]}
         counter={{
