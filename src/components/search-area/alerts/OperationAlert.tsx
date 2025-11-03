@@ -81,6 +81,9 @@ const OperationAlert: FC = () => {
               }}
             >
               {t(displayBtnName)}
+              {jsyOperationAlert.alerts.length > 1
+                ? ` (${jsyOperationAlert.alerts.length})`
+                : ""}
             </Button>
           </div>
 

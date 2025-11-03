@@ -1,5 +1,16 @@
 export const updateDataList = [
   {
+    date: "2025-11",
+    type: "both",
+    ver: "2.2.1",
+    items: [
+      {
+        type: "update",
+        content: "現在即時營運通阻訊息會顯示訊息筆數",
+      },
+    ],
+  },
+  {
     date: "2025-10",
     type: "both",
     ver: "2.2.0",
