@@ -131,6 +131,9 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
               />
             </ListItemButton>
           </ListItem>
+        </List>
+        <Divider />
+        <List>
           {list.map((item) => (
             <ListItem key={item.text} disablePadding>
               {item.text === "feedbackMenu" ? (

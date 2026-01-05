@@ -1,5 +1,16 @@
 export const updateDataList = [
   {
+    date: "2026-01",
+    type: "both",
+    ver: "2.3.0",
+    items: [
+      {
+        type: "update",
+        content: "調整台鐵/高鐵/機捷切換方式，從下拉選單改為頁籤形式",
+      },
+    ],
+  },
+  {
     date: "2025-11",
     type: "both",
     ver: "2.2.1",
