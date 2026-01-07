@@ -2,10 +2,12 @@ import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import { GaEnum } from "../../../enums/GaEnum";
+import useBooking from "../../../hooks/useBookingHook";
 import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
 import { gaClickEvent } from "../../../utils/GaUtils";
-import { isTrTrainReserved, isTrainPass } from "../../../utils/TrainInfoUtils";
+import { isTrainPass, isTrTrainReserved } from "../../../utils/TrainInfoUtils";
+import CommonDialog from "../../CommonDialog";
 
 /**
  * 是否顯示 [台鐵] 訂票按鈕
@@ -46,65 +48,34 @@ interface TrOrderProps {
 }
 
 /**
- * 台鐵訂票
+ * 台鐵訂票 (TDX Deeplink 實作)
  */
 const TrOrder: FC<TrOrderProps> = ({ data }) => {
   const { t } = useTranslation();
+  const { handleTrBooking, loading, bookingAlertOpen, setBookingAlertOpen } =
+    useBooking();
+
+  const handleOrder = async () => {
+    gaClickEvent(GaEnum.TR_ORDER);
+    await handleTrBooking(data);
+  };
 
   return (
-    <form
-      action="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip117/tra2traUrl"
-      method="post"
-      target="_blank"
-    >
-      <input
-        type="hidden"
-        name="queryDate"
-        value={DateUtils.dateFormatter(data.trainDate, "YYYY/MM/DD")}
-      />
-      <input
-        type="hidden"
-        name="transferList[0].startStation.stationCode"
-        value={data.StopTimes[0].StationID}
-      />
-      <input
-        type="hidden"
-        name="transferList[0].endStation.stationCode"
-        value={data.StopTimes[data.StopTimes.length - 1].StationID}
-      />
-      <input
-        type="hidden"
-        name="departureTime"
-        value={`${data.trainDate} ${data.StopTimes[0].DepartureTime}:00.0`}
-      />
-      <input
-        type="hidden"
-        name="transferList[0].trainType.code"
-        value={data.TrainInfo.TrainTypeCode}
-      />
-      <input
-        type="hidden"
-        name="transferList[0].trainType.isReserve"
-        value="true"
-      />
-      <input
-        type="hidden"
-        name="transferList[0].trainNo"
-        value={data.TrainInfo.TrainNo}
-      />
-      <input type="hidden" name="isRealName" value="false" />
-      <input type="hidden" name="realNameTktPkg" value="" />
-      <input type="hidden" name="goToBookingPage" value="NORMAL" />
+    <div>
       <Button
-        type="submit"
         className="h-6 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
         size="sm"
         radius="sm"
-        onPress={() => gaClickEvent(GaEnum.TR_ORDER)}
+        onPress={handleOrder}
+        isLoading={loading}
       >
         {t("order")}
       </Button>
-    </form>
+
+      <CommonDialog open={bookingAlertOpen} setOpen={setBookingAlertOpen}>
+        {t("orderFailMsg")}
+      </CommonDialog>
+    </div>
   );
 };
 

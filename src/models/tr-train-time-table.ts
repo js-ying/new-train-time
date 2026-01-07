@@ -170,3 +170,41 @@ export interface TraAlert {
   /** 資料總筆數 */
   Count: number;
 }
+
+/**
+ * 台鐵 Deeplink Web API 請求參數
+ */
+export interface TraDeeplinkWebParams {
+  start_station: string;
+  end_station: string;
+  departure_date: string;
+  departure_number: string;
+  ticket_type: number;
+  ticket_count: number;
+}
+
+/**
+ * 台鐵 Deeplink Web API 回應參數
+ */
+export interface TraDeeplinkWebResponse {
+  deeplink: string;
+  expired: string; // YYYY-MM-DD HH:mm:ss
+}
+
+/**
+ * 台鐵 Deeplink Direct API 請求參數
+ */
+export interface TraDeeplinkDirectParams {
+  start_station: string;
+  end_station: string;
+  train_date: string;
+  train_number: number;
+}
+
+/**
+ * 台鐵 Deeplink Direct API 回應參數
+ */
+export interface TraDeeplinkDirectResponse {
+  deeplink: string;
+  expired: string; // YYYY-MM-DD HH:mm:ss
+}

@@ -106,6 +106,7 @@
   "personalWebsite": "個人網站",
   "pageOnlyTwMsg": "本頁面暫時不提供繁體中文以外的語言。",
   "order": "訂票",
+  "orderFailMsg": "訂票導頁失敗，請稍後再試。",
   "typhoonAlertMsg": "由於颱風影響，列車行/停駛的最新消息請參考台鐵/高鐵官方最新公告。",
   "eTicketAlertMsg": "持電子票證（如悠遊卡/一卡通）及定期票的旅客請勿搭乘。",
   "showTrTrainNoteSwitch": "顯示台鐵列車註記",
