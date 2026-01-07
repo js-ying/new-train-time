@@ -1,11 +1,9 @@
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { GaEnum } from "../../../enums/GaEnum";
 import useBooking from "../../../hooks/useBookingHook";
 import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
-import { gaClickEvent } from "../../../utils/GaUtils";
 import { isTrainPass, isTrTrainReserved } from "../../../utils/TrainInfoUtils";
 import CommonDialog from "../../CommonDialog";
 
@@ -56,7 +54,6 @@ const TrOrder: FC<TrOrderProps> = ({ data }) => {
     useBooking();
 
   const handleOrder = async () => {
-    gaClickEvent(GaEnum.TR_ORDER);
     await handleTrBooking(data);
   };
 

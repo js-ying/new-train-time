@@ -1,9 +1,11 @@
+import { GaEnum } from "@/enums/GaEnum";
 import {
   JsyTrTrainTimeTable,
   TraDeeplinkDirectParams,
   TraDeeplinkWebParams,
 } from "@/models/tr-train-time-table";
 import fetchData from "@/services/fetchData";
+import { gaClickEvent } from "@/utils/GaUtils";
 import { useState } from "react";
 import useDeviceDetect from "./useDeviceDetectHook";
 
@@ -48,8 +50,10 @@ const useBooking = () => {
 
       if (deeplink) {
         if (isMobile) {
+          gaClickEvent(GaEnum.TR_ORDER_DIRECT);
           window.location.href = deeplink;
         } else {
+          gaClickEvent(GaEnum.TR_ORDER_WEB);
           window.open(deeplink, "_blank");
         }
       }
