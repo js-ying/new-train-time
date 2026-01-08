@@ -1,28 +1,15 @@
-import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { JsyThsrInfo } from "../../../models/jsy-thsr-info";
-import ThsrFreeSeat from "./ThsrFreeSeat";
+import { JsyTimeTable } from "../../../models/jsy-thsr-info";
+import ThsrAvailableSeatStatus from "./ThsrAvailableSeatStatus";
 
 interface ThsrTimeInfoRightAreaProps {
-  trainNo: string;
-  freeSeatData: JsyThsrInfo["freeSeatingCars"];
+  data: JsyTimeTable;
 }
 
-const ThsrTimeInfoRightArea: FC<ThsrTimeInfoRightAreaProps> = ({
-  trainNo,
-  freeSeatData,
-}) => {
-  const { t } = useTranslation();
-
+const ThsrTimeInfoRightArea: FC<ThsrTimeInfoRightAreaProps> = ({ data }) => {
   return (
-    <div className="text-sm">
-      <div className="mb-1">{t("freeSeating")}</div>
-
-      <ThsrFreeSeat
-        freeSeatData={freeSeatData}
-        trainNo={trainNo}
-        showLabel={true}
-      />
+    <div className="my-2 flex justify-center text-xs text-zinc-500 dark:text-zinc-400">
+      <ThsrAvailableSeatStatus timeTable={data} />
     </div>
   );
 };

@@ -57,8 +57,8 @@ interface LabelFreeSeatSpanProps {
 const LabelFreeSeatSpan: FC<LabelFreeSeatSpanProps> = ({ carNo }) => {
   return (
     <span
-      className="h-5 w-5 rounded-md bg-silverLakeBlue-500 text-sm
-      leading-5 text-white transition duration-150
+      className="h-4 w-4 rounded-md bg-silverLakeBlue-500 text-xs
+      leading-4 text-white transition duration-150
       ease-out dark:bg-gamboge-500 dark:text-zinc-900"
     >
       {carNo}
@@ -74,7 +74,7 @@ const LabelFreeSeat: FC<LabelFreeSeatProps> = ({ freeSeatGroupList }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex gap-3">
       {freeSeatGroupList.length > 0 ? (
         freeSeatGroupList.map((group) => {
           return (

@@ -1,8 +1,13 @@
 export interface JsyThsrInfo {
-  timeTable: ThsrDailyTimetable[];
+  timeTable: JsyTimeTable[];
   fareList: ThsrOdFare[];
   freeSeatingCars: ThsrFreeSeatingCar[];
   generalTimeTable: ThsrTdxGeneralTimeTable[];
+}
+
+export interface JsyTimeTable extends ThsrDailyTimetable {
+  standardSeatStatus: "X" | "L" | "O" | null;
+  businessSeatStatus: "X" | "L" | "O" | null;
 }
 
 export interface ThsrDailyTimetable {
@@ -142,7 +147,7 @@ export interface ThsrAlertInfo {
   Description: string;
 
   /** 營運狀況 = ['空白: 正常' or '▲: 其他的異常狀態' or 'X: 全線停止運行'] */
-  Status: string;
+  Status: "" | "▲" | "X";
 
   /** 影響範圍 */
   Scope: {
@@ -189,4 +194,32 @@ export interface ThsrAlertInfo {
 
   /** 本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz) */
   UpdateTime: string;
+}
+
+export interface THSRAvailableSeatStatus {
+  UpdateTime: string;
+  UpdateInterval: number;
+  SrcUpdateTime: string;
+  SrcUpdateInterval: number;
+  Count: number;
+  TrainDate: string;
+  AvailableSeats: THSRAvailableSeat[];
+}
+
+export interface THSRAvailableSeat {
+  TrainNo: string;
+  Direction: number;
+  OriginStationID: string;
+  OriginStationCode: string;
+  OriginStationName: NameType;
+  DestinationStationID: string;
+  DestinationStationCode: string;
+  DestinationStationName: NameType;
+  StandardSeatStatus: "X" | "L" | "O"; // 售完: X, 即將售完: L, 尚有充足座位: O
+  BusinessSeatStatus: "X" | "L" | "O"; // 售完: X, 即將售完: L, 尚有充足座位: O
+}
+
+export interface NameType {
+  Zh_tw: string;
+  En: string;
 }

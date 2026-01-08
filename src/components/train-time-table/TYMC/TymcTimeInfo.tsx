@@ -94,7 +94,7 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
           </div>
         </div>
         {/* Right */}
-        <div className="text-center text-xs">
+        <div className="text-center text-sm">
           NTD{" "}
           {
             fareList.find(
