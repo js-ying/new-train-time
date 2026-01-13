@@ -1,11 +1,11 @@
-import useBooking from "@/hooks/useBookingHook";
+import CommonDialog from "@/components/common/CommonDialog";
+import useBooking from "@/hooks/useBooking";
 import { JsyTimeTable } from "@/models/jsy-thsr-info";
 import DateUtils from "@/utils/DateUtils";
 import { isTrainPass } from "@/utils/TrainInfoUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import React, { useState } from "react";
-import CommonDialog from "../../CommonDialog";
 import { isOnlyBusinessAvailable } from "./ThsrAvailableSeatStatus";
 
 /**

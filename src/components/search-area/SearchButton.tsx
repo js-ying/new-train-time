@@ -1,11 +1,14 @@
-import { SearchAreaContext, SearchAreaUpdateContext } from "@/contexts/SearchAreaContext";
-import usePage from "@/hooks/usePageHook";
-import useParamsValidation from "@/hooks/useParamsValidationHook";
+import {
+  SearchAreaContext,
+  SearchAreaUpdateContext,
+} from "@/contexts/SearchAreaContext";
+import usePage from "@/hooks/usePage";
+import useParamsValidation from "@/hooks/useParamsValidation";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useContext, useState } from "react";
-import CommonDialog from "../CommonDialog";
+import CommonDialog from "../common/CommonDialog";
 
 export interface HistoryInquiry {
   startStationId: string;

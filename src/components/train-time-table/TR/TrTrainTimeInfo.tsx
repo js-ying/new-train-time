@@ -6,7 +6,7 @@ import TrTrainService from "@/components/train-time-table/TR/TrTrainServices";
 import TrTrainTimeDetailDialog from "@/components/train-time-table/TR/TrTrainTimeDetailDialog";
 import { SettingContext } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
-import useLang from "@/hooks/useLangHook";
+import useLang from "@/hooks/useLang";
 import { JsyTrTrainTimeTable } from "@/models/tr-train-time-table";
 import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";

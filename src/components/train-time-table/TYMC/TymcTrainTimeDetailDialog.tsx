@@ -1,8 +1,8 @@
+import Loading from "@/components/common/Loading";
 import CaptureIcon from "@/components/icons/CaptureIcon";
-import Loading from "@/components/layout/Loading";
 import { GaEnum } from "@/enums/GaEnum";
-import useLang from "@/hooks/useLangHook";
-import usePage from "@/hooks/usePageHook";
+import useLang from "@/hooks/useLang";
+import usePage from "@/hooks/usePage";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";

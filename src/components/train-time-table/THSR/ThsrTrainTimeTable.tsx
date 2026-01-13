@@ -1,4 +1,4 @@
-import AdBanner from "@/components/AdBanner";
+import AdBanner from "@/components/common/AdBanner";
 import { JsyThsrInfo } from "@/models/jsy-thsr-info";
 import AdUtils from "@/utils/AdUtils";
 import { FC } from "react";

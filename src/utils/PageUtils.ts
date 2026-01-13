@@ -1,6 +1,6 @@
 import { PageEnum } from "@/enums/PageEnum";
 import { PathEnum } from "@/enums/PathEnum";
-import { LAST_USED_PAGE_KEY } from "@/hooks/useAutoRedirectLastUsedPageHook";
+import { LAST_USED_PAGE_KEY } from "@/hooks/useAutoRedirectLastUsedPage";
 
 const getHomePath = (page: PageEnum | string) => {
   switch (page) {

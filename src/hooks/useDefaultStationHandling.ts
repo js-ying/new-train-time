@@ -3,7 +3,7 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "@/contexts/SearchAreaContext";
-import usePage from "@/hooks/usePageHook";
+import usePage from "@/hooks/usePage";
 import { useContext, useEffect } from "react";
 
 const useDefaultStationHandling = () => {

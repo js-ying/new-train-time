@@ -5,7 +5,7 @@ import {
 } from "@/contexts/SettingContext";
 import { useContext } from "react";
 
-const useSettingHook = (
+const useSetting = (
   itemKey: keyof SettingParams,
 ): [boolean, (val: boolean) => void] => {
   const setting = useContext(SettingContext);
@@ -19,4 +19,4 @@ const useSettingHook = (
   return [setting[itemKey], updateValue];
 };
 
-export default useSettingHook;
+export default useSetting;

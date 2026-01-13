@@ -1,8 +1,8 @@
-import CommonDialog from "@/components/CommonDialog";
+import CommonDialog from "@/components/common/CommonDialog";
 import { GaEnum } from "@/enums/GaEnum";
 import { PageEnum } from "@/enums/PageEnum";
-import useOperationAlert from "@/hooks/useOpreationAlertHook";
-import usePage from "@/hooks/usePageHook";
+import useOperationAlert from "@/hooks/useOperationAlert";
+import usePage from "@/hooks/usePage";
 import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";

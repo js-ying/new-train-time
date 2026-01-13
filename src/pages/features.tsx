@@ -1,7 +1,7 @@
-import CommonLightbox from "@/components/CommonLightbox";
+import CommonLightbox from "@/components/common/CommonLightbox";
 import Layout from "@/components/layout/Layout";
 import PWAInstallButton from "@/components/pwa-promot/PWAInstallButton";
-import useMuiTheme from "@/hooks/useMuiThemeHook";
+import useMuiTheme from "@/hooks/useMuiTheme";
 import { Image } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";

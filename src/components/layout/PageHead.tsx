@@ -1,5 +1,5 @@
-import useLang from "@/hooks/useLangHook";
-import useSeo from "@/hooks/useSeoHook";
+import useLang from "@/hooks/useLang";
+import useSeo from "@/hooks/useSeo";
 import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import Head from "next/head";

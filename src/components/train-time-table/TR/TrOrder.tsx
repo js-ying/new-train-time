@@ -1,11 +1,11 @@
+import CommonDialog from "@/components/common/CommonDialog";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import useBooking from "../../../hooks/useBookingHook";
+import useBooking from "../../../hooks/useBooking";
 import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
 import DateUtils from "../../../utils/DateUtils";
 import { isTrainPass, isTrTrainReserved } from "../../../utils/TrainInfoUtils";
-import CommonDialog from "../../CommonDialog";
 
 /**
  * 是否顯示 [台鐵] 訂票按鈕

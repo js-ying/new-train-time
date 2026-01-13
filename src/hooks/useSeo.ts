@@ -3,8 +3,8 @@ import { getOgLocale } from "@/utils/LocaleUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import usePage from "./usePageHook";
-import useSearchAreaParams from "./useSearchAreaParamsHook";
+import usePage from "./usePage";
+import useSearchAreaParams from "./useSearchAreaParams";
 
 const useSeo = () => {
   const { i18n } = useTranslation();

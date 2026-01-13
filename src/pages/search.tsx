@@ -1,17 +1,17 @@
-import AdBanner from "@/components/AdBanner";
+import AdBanner from "@/components/common/AdBanner";
+import Loading from "@/components/common/Loading";
 import Layout from "@/components/layout/Layout";
-import Loading from "@/components/layout/Loading";
 
-import CommonDialog from "@/components/CommonDialog";
+import CommonDialog from "@/components/common/CommonDialog";
 import OperationAlert from "@/components/search-area/alerts/OperationAlert";
 import SearchArea from "@/components/search-area/SearchArea";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
 import ThsrTrainTimeTable from "@/components/train-time-table/THSR/ThsrTrainTimeTable";
 import TrTrainTimeTable from "@/components/train-time-table/TR/TrTrainTimeTable";
 import TymcTimeTable from "@/components/train-time-table/TYMC/TymcTimeTable";
-import useMuiTheme from "@/hooks/useMuiThemeHook";
-import usePage from "@/hooks/usePageHook";
-import useTrainSearch from "@/hooks/useTrainSearchHook";
+import useTrainSearch from "@/hooks/search/useTrainSearch";
+import useMuiTheme from "@/hooks/useMuiTheme";
+import usePage from "@/hooks/usePage";
 import AdUtils from "@/utils/AdUtils";
 import DateUtils from "@/utils/DateUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";

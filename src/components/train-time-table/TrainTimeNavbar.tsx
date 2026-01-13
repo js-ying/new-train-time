@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import usePage from "../../hooks/usePageHook";
+import usePage from "../../hooks/usePage";
 
 interface TableLengthCountProps {
   totalCount: number;

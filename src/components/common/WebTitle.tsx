@@ -9,8 +9,8 @@ import {
 } from "../../contexts/SearchAreaContext";
 import { GaEnum } from "../../enums/GaEnum";
 import { SearchAreaActiveIndexEnum } from "../../enums/SearchAreaParamsEnum";
-import useLang from "../../hooks/useLangHook";
-import usePage from "../../hooks/usePageHook";
+import useLang from "../../hooks/useLang";
+import usePage from "../../hooks/usePage";
 import DateUtils from "../../utils/DateUtils";
 import { gaClickEvent } from "../../utils/GaUtils";
 import TrainSwitch from "./TrainSwitch";
@@ -64,4 +64,3 @@ const WebTitle: FC = () => {
 };
 
 export default WebTitle;
-

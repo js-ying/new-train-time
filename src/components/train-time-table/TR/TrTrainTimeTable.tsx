@@ -1,4 +1,4 @@
-import AdBanner from "@/components/AdBanner";
+import AdBanner from "@/components/common/AdBanner";
 import { JsyTrTrainTimeTable } from "@/models/tr-train-time-table";
 import AdUtils from "@/utils/AdUtils";
 import { FC, useEffect, useState } from "react";

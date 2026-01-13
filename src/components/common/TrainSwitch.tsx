@@ -5,7 +5,7 @@ import {
 import { GaEnum } from "@/enums/GaEnum";
 import { PageEnum } from "@/enums/PageEnum";
 import { SearchAreaActiveIndexEnum } from "@/enums/SearchAreaParamsEnum";
-import usePage from "@/hooks/usePageHook";
+import usePage from "@/hooks/usePage";
 import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getHomePath, recordLastUsedPage } from "@/utils/PageUtils";

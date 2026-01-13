@@ -6,9 +6,9 @@ import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "@/enums/SearchAreaParamsEnum";
-import useDefaultStationHandling from "@/hooks/useDefaultStationHandlingHook";
-import usePage from "@/hooks/usePageHook";
-import useRwd from "@/hooks/useRwdHook";
+import useDefaultStationHandling from "@/hooks/useDefaultStationHandling";
+import usePage from "@/hooks/usePage";
+import useRwd from "@/hooks/useRwd";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";

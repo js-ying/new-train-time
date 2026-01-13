@@ -1,8 +1,8 @@
 import { FC } from "react";
 import Sidebar from "../sidebar/Sidebar";
-import LocaleChange from "./LocaleChange";
-import ThemeSwitch from "./ThemeSwitch";
-import WebTitle from "./WebTitle";
+import LocaleChange from "@/components/common/LocaleChange";
+import ThemeSwitch from "@/components/common/ThemeSwitch";
+import WebTitle from "@/components/common/WebTitle";
 
 interface LayoutProps {
   children: React.ReactNode;

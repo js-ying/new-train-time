@@ -2,7 +2,7 @@ import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useState } from "react";
 import { usePwaPrompt } from "../../contexts/PwaContext";
-import useDeviceDetect from "../../hooks/useDeviceDetectHook";
+import useDeviceDetect from "../../hooks/useDeviceDetect";
 import PWATipDialog from "./PWATipDialog";
 
 const PWAPromotableButton: FC = () => {

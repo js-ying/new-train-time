@@ -1,7 +1,7 @@
 import { JsyOperationAlert } from "@/models/jsy-operation-alert";
 import fetchData from "@/services/fetchData";
 import { useEffect, useState } from "react";
-import usePage from "./usePageHook";
+import usePage from "./usePage";
 
 const useOperationAlert = (): JsyOperationAlert => {
   const { isTr, isThsr, isTymc } = usePage();

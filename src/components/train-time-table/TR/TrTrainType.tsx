@@ -1,4 +1,4 @@
-import useLang from "@/hooks/useLangHook";
+import useLang from "@/hooks/useLang";
 import { FC } from "react";
 
 interface TrTrainTypeProps {

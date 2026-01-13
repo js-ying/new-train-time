@@ -7,8 +7,8 @@ import {
   SearchAreaActiveIndexEnum,
   SearchAreaLayerEnum,
 } from "@/enums/SearchAreaParamsEnum";
-import usePage from "@/hooks/usePageHook";
-import useRwd from "@/hooks/useRwdHook";
+import usePage from "@/hooks/usePage";
+import useRwd from "@/hooks/useRwd";
 import { getTdxLang } from "@/utils/LocaleUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";

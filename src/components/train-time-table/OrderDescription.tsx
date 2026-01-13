@@ -3,8 +3,8 @@ import { gaClickEvent } from "@/utils/GaUtils";
 import { Image } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useState } from "react";
-import CommonDialog from "../CommonDialog";
-import CommonLightbox from "../CommonLightbox";
+import CommonDialog from "../common/CommonDialog";
+import CommonLightbox from "../common/CommonLightbox";
 
 const OrderDescription: FC = () => {
   const { t } = useTranslation();

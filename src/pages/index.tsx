@@ -1,11 +1,11 @@
-import NewLabel from "@/components/NewLabel";
-import Disclaimer from "@/components/layout/Disclaimer";
+import NewLabel from "@/components/common/NewLabel";
+import Disclaimer from "@/components/common/Disclaimer";
 import Layout from "@/components/layout/Layout";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchHistory from "@/components/search-area/SearchHistory";
 import OrderDescription from "@/components/train-time-table/OrderDescription";
-import useMuiTheme from "@/hooks/useMuiThemeHook";
-import usePage from "@/hooks/usePageHook";
+import useMuiTheme from "@/hooks/useMuiTheme";
+import usePage from "@/hooks/usePage";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { updateDataList } from "public/data/updatesData";

@@ -1,5 +1,6 @@
-import CommonDialog from "@/components/CommonDialog";
-import useDeviceDetect from "@/hooks/useDeviceDetectHook";
+import CommonDialog from "@/components/common/CommonDialog";
+import IOSSwitchSetting from "@/components/common/IOSSwitchSetting";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { Button } from "@heroui/react";
 import {
   Box,
@@ -17,9 +18,8 @@ import Link from "next/link";
 import { FC, useMemo, useState } from "react";
 import { updateDataList } from "../../../public/data/updatesData";
 import { GaEnum } from "../../enums/GaEnum";
-import useSettingHook from "../../hooks/useSettingHook";
+import useSetting from "../../hooks/useSetting";
 import { gaClickEvent } from "../../utils/GaUtils";
-import IOSSwitchSetting from "./IOSSwitchSetting";
 
 const SidebarIcon: FC = () => {
   return (
@@ -66,20 +66,21 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
 
   const [feedbackOpen, setFeedbackOpen] = useState(false);
 
-  const [showTrTrainNote, setShowTrTrainNote] =
-    useSettingHook("showTrTrainNote");
+  const [showTrTrainNote, setShowTrTrainNote] = useSetting("showTrTrainNote");
 
   const [showThsrTrainNote, setShowThsrTrainNote] =
-    useSettingHook("showThsrTrainNote");
+    useSetting("showThsrTrainNote");
 
-  const [autoRedirectLastUsedPage, setEnableLastUsedPageRedirect] =
-    useSettingHook("autoRedirectLastUsedPage");
+  const [autoRedirectLastUsedPage, setEnableLastUsedPageRedirect] = useSetting(
+    "autoRedirectLastUsedPage",
+  );
 
-  const [mobileUseTrDirectBooking, setMobileUseTrDirectBooking] =
-    useSettingHook("mobileUseTrDirectBooking");
+  const [mobileUseTrDirectBooking, setMobileUseTrDirectBooking] = useSetting(
+    "mobileUseTrDirectBooking",
+  );
 
   const [mobileUseThsrDirectBooking, setMobileUseThsrDirectBooking] =
-    useSettingHook("mobileUseThsrDirectBooking");
+    useSetting("mobileUseThsrDirectBooking");
 
   const handleClick = (text: string) => {
     switch (text) {

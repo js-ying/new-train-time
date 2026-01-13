@@ -1,4 +1,4 @@
-import usePageHook from "@/hooks/usePageHook";
+import usePage from "@/hooks/usePage";
 import { getHomePath } from "@/utils/PageUtils";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -6,9 +6,9 @@ import { useEffect } from "react";
 // 上次使用頁面的 localStorage key
 export const LAST_USED_PAGE_KEY = "lastUsedPage";
 
-const useAutoRedirectLastUsedPageHook = () => {
+const useAutoRedirectLastUsedPage = () => {
   const router = useRouter();
-  const { page, isHome } = usePageHook();
+  const { page, isHome } = usePage();
 
   useEffect(() => {
     const autoRedirectLastUsedPage: boolean =
@@ -26,4 +26,4 @@ const useAutoRedirectLastUsedPageHook = () => {
   }, []);
 };
 
-export default useAutoRedirectLastUsedPageHook;
+export default useAutoRedirectLastUsedPage;

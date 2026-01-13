@@ -3,8 +3,8 @@ import {
   SearchAreaUpdateContext,
 } from "@/contexts/SearchAreaContext";
 import { GaEnum } from "@/enums/GaEnum";
-import usePage from "@/hooks/usePageHook";
-import useRwd from "@/hooks/useRwdHook";
+import usePage from "@/hooks/usePage";
+import useRwd from "@/hooks/useRwd";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Button } from "@heroui/react";

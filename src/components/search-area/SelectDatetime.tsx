@@ -2,7 +2,7 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "@/contexts/SearchAreaContext";
-import usePage from "@/hooks/usePageHook";
+import usePage from "@/hooks/usePage";
 import DateUtils from "@/utils/DateUtils";
 import { Button } from "@heroui/react";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";

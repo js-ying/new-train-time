@@ -1,7 +1,7 @@
+import { GaEnum } from "@/enums/GaEnum";
+import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useState } from "react";
-import { GaEnum } from "../enums/GaEnum";
-import { gaClickEvent } from "../utils/GaUtils";
 
 const BottomBanner: FC = () => {
   const [open, setOpen] = useState(false);
@@ -39,8 +39,8 @@ const BottomBanner: FC = () => {
         </button>
         <ins
           className="adsbygoogle block h-full w-full"
-          data-ad-client="ca-pub-7992139989807299"
-          data-ad-slot="1622239321"
+          data-ad-client={process.env.AD_CLIENT}
+          data-ad-slot={process.env.AD_SLOT}
         ></ins>
       </div>
     </div>
@@ -62,8 +62,8 @@ const TrainInfoBanner: FC = () => {
       >
         <ins
           className="adsbygoogle block h-full w-full"
-          data-ad-client="ca-pub-7992139989807299"
-          data-ad-slot="1218393453"
+          data-ad-client={process.env.AD_CLIENT}
+          data-ad-slot={process.env.AD_SLOT}
         ></ins>
       </div>
       <div className="mt-1 whitespace-pre-line text-xs text-zinc-500 dark:text-zinc-400">
@@ -74,14 +74,14 @@ const TrainInfoBanner: FC = () => {
 };
 
 interface AdBannerProps {
-  mode?: 'trainInfo' | 'bottom';
+  mode?: "trainInfo" | "bottom";
 }
 
-const AdBanner: FC<AdBannerProps> = ({ mode = 'trainInfo' }) => {
+const AdBanner: FC<AdBannerProps> = ({ mode = "trainInfo" }) => {
   return (
     <>
-      {(mode === 'trainInfo') && <TrainInfoBanner />}
-      {(mode === 'bottom') && <BottomBanner />}
+      {mode === "trainInfo" && <TrainInfoBanner />}
+      {mode === "bottom" && <BottomBanner />}
     </>
   );
 };

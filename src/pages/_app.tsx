@@ -1,10 +1,10 @@
-import GoogleScript from "@/components/GoogleScript";
-import PageHead from "@/components/PageHead";
+import GoogleScript from "@/components/layout/GoogleScript";
+import PageHead from "@/components/layout/PageHead";
 import { PwaProvider } from "@/contexts/PwaContext";
 import { SearchAreaProvider } from "@/contexts/SearchAreaContext";
 import { SettingProvider } from "@/contexts/SettingContext";
-import useAutoRedirectLastUsedPageHook from "@/hooks/useAutoRedirectLastUsedPageHook";
-import { useTrackBrowseSource } from "@/hooks/useTrackBrowseSourceHook";
+import useAutoRedirectLastUsedPage from "@/hooks/useAutoRedirectLastUsedPage";
+import { useTrackBrowseSource } from "@/hooks/useTrackBrowseSource";
 import "@/styles/global.scss";
 import { HeroUIProvider } from "@heroui/react";
 import { appWithTranslation } from "next-i18next";
@@ -13,7 +13,7 @@ import { AppProps } from "next/app";
 
 function App({ Component, pageProps }: AppProps) {
   useTrackBrowseSource();
-  useAutoRedirectLastUsedPageHook();
+  useAutoRedirectLastUsedPage();
 
   return (
     <>

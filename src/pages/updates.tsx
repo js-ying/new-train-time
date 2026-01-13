@@ -1,7 +1,7 @@
 import Layout from "@/components/layout/Layout";
 import { GaEnum } from "@/enums/GaEnum";
-import useLang from "@/hooks/useLangHook";
-import useMuiTheme from "@/hooks/useMuiThemeHook";
+import useLang from "@/hooks/useLang";
+import useMuiTheme from "@/hooks/useMuiTheme";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Chip, Switch, Tab, Tabs } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";

@@ -4,7 +4,7 @@ const GoogleScript = () => {
   return (
     <>
       {/* Google Analytics */}
-      <GoogleAnalytics gaId="UA-48330157-6" />
+      <GoogleAnalytics gaId={process.env.GA_ID} />
 
       {/* Google AdSense 移至 _document.tsx 維護 */}
     </>

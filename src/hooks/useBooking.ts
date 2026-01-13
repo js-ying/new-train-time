@@ -13,7 +13,7 @@ import {
 import fetchData from "@/services/fetchData";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useContext, useState } from "react";
-import useDeviceDetect from "./useDeviceDetectHook";
+import useDeviceDetect from "./useDeviceDetect";
 
 const useBooking = () => {
   const { isMobile } = useDeviceDetect();
