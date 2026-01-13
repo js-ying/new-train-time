@@ -10,7 +10,11 @@ import {
   TraDeeplinkDirectParams,
   TraDeeplinkWebParams,
 } from "@/models/tr-train-time-table";
-import fetchData from "@/services/fetchData";
+import {
+  getThsrDeeplinkDirect,
+  getThsrDeeplinkWeb,
+} from "@/services/thsrService";
+import { getTrDeeplinkDirect, getTrDeeplinkWeb } from "@/services/trService";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useContext, useState } from "react";
 import useDeviceDetect from "./useDeviceDetect";
@@ -66,30 +70,29 @@ const useBooking = () => {
       data.StopTimes[data.StopTimes.length - 1].StationName.Zh_tw;
 
     try {
-      // 判斷是否使用 App (Direct) 訂票
       const isUseDirect = isMobile && mobileUseTrDirectBooking;
+      let res;
 
-      const endpoint = isUseDirect
-        ? "/api/getTraDeeplinkDirect"
-        : "/api/getTraDeeplinkWeb";
+      if (isUseDirect) {
+        const params: TraDeeplinkDirectParams = {
+          start_station: startStation,
+          end_station: endStation,
+          train_date: data.trainDate,
+          train_number: Number(data.TrainInfo.TrainNo),
+        };
+        res = await getTrDeeplinkDirect(params);
+      } else {
+        const params: TraDeeplinkWebParams = {
+          start_station: startStation,
+          end_station: endStation,
+          departure_date: data.trainDate,
+          departure_number: data.TrainInfo.TrainNo,
+          ticket_type: 1,
+          ticket_count: 1,
+        };
+        res = await getTrDeeplinkWeb(params);
+      }
 
-      const params = isUseDirect
-        ? ({
-            start_station: startStation,
-            end_station: endStation,
-            train_date: data.trainDate,
-            train_number: Number(data.TrainInfo.TrainNo),
-          } as TraDeeplinkDirectParams)
-        : ({
-            start_station: startStation,
-            end_station: endStation,
-            departure_date: data.trainDate,
-            departure_number: data.TrainInfo.TrainNo,
-            ticket_type: 1,
-            ticket_count: 1,
-          } as TraDeeplinkWebParams);
-
-      const res = await fetchData(endpoint, params);
       const deeplink = res.data?.deeplink;
 
       if (deeplink) {
@@ -119,36 +122,35 @@ const useBooking = () => {
     const endStationName = data.DestinationStopTime.StationName.Zh_tw;
 
     try {
-      // 判斷是否使用 App (Direct) 訂票
       const isUseDirect = isMobile && mobileUseThsrDirectBooking;
+      let res;
 
-      const endpoint = isUseDirect
-        ? "/api/getThsrDeeplinkDirect"
-        : "/api/getThsrDeeplinkWeb";
+      if (isUseDirect) {
+        const params: ThsrDeeplinkDirectParams = {
+          start_station: startStationName,
+          end_station: endStationName,
+          train_date: data.TrainDate,
+          train_time: data.OriginStopTime.DepartureTime,
+          train_number: Number(data.DailyTrainInfo.TrainNo),
+        };
+        res = await getThsrDeeplinkDirect(params);
+      } else {
+        const params: ThsrDeeplinkWebParams = {
+          ticket_type: "S",
+          carriage_type: carriageType,
+          adult_ticket: 1,
+          children_ticket: 0,
+          disabled_ticket: 0,
+          senior_ticket: 0,
+          student_ticket: 0,
+          start_station: startStationName,
+          end_station: endStationName,
+          departure_date: data.TrainDate.replace(/-/g, ""), // yyyymmdd
+          departure_number: data.DailyTrainInfo.TrainNo.padStart(4, "0"),
+        };
+        res = await getThsrDeeplinkWeb(params);
+      }
 
-      const params = isUseDirect
-        ? ({
-            start_station: startStationName,
-            end_station: endStationName,
-            train_date: data.TrainDate,
-            train_time: data.OriginStopTime.DepartureTime,
-            train_number: Number(data.DailyTrainInfo.TrainNo),
-          } as ThsrDeeplinkDirectParams)
-        : ({
-            ticket_type: "S",
-            carriage_type: carriageType,
-            adult_ticket: 1,
-            children_ticket: 0,
-            disabled_ticket: 0,
-            senior_ticket: 0,
-            student_ticket: 0,
-            start_station: startStationName,
-            end_station: endStationName,
-            departure_date: data.TrainDate.replace(/-/g, ""), // yyyymmdd
-            departure_number: data.DailyTrainInfo.TrainNo.padStart(4, "0"),
-          } as ThsrDeeplinkWebParams);
-
-      const res = await fetchData(endpoint, params);
       const deeplink = res.data?.deeplink;
 
       if (deeplink) {

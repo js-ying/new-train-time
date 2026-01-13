@@ -4,16 +4,12 @@ import {
 } from "@/contexts/SearchAreaContext";
 import usePage from "@/hooks/usePage";
 import useParamsValidation from "@/hooks/useParamsValidation";
+import { HistoryInquiry } from "@/models/history";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FC, useContext, useState } from "react";
 import CommonDialog from "../common/CommonDialog";
-
-export interface HistoryInquiry {
-  startStationId: string;
-  endStationId: string;
-}
 
 /** 搜尋按鈕 */
 const SearchButton: FC = () => {

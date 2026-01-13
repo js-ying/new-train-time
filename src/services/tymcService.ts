@@ -1,3 +1,4 @@
+import { JsyOperationAlert } from "@/models/jsy-operation-alert";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import fetchData from "./fetchData";
 
@@ -14,4 +15,9 @@ export const getTymcInfo = async (
     date,
     time,
   });
+};
+
+/** 取得桃捷營運告警 */
+export const getTymcAlert = async (): Promise<JsyOperationAlert> => {
+  return await fetchData("/api/getJsyTymcAlert");
 };

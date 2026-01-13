@@ -39,8 +39,8 @@ const BottomBanner: FC = () => {
         </button>
         <ins
           className="adsbygoogle block h-full w-full"
-          data-ad-client={process.env.AD_CLIENT}
-          data-ad-slot={process.env.AD_SLOT}
+          data-ad-client={process.env.NEXT_PUBLIC_AD_CLIENT}
+          data-ad-slot={process.env.NEXT_PUBLIC_AD_SLOT_BOTTOM}
         ></ins>
       </div>
     </div>
@@ -62,8 +62,8 @@ const TrainInfoBanner: FC = () => {
       >
         <ins
           className="adsbygoogle block h-full w-full"
-          data-ad-client={process.env.AD_CLIENT}
-          data-ad-slot={process.env.AD_SLOT}
+          data-ad-client={process.env.NEXT_PUBLIC_AD_CLIENT}
+          data-ad-slot={process.env.NEXT_PUBLIC_AD_SLOT_TRAIN_INFO}
         ></ins>
       </div>
       <div className="mt-1 whitespace-pre-line text-xs text-zinc-500 dark:text-zinc-400">

@@ -1,5 +1,7 @@
 import { JsyOperationAlert } from "@/models/jsy-operation-alert";
-import fetchData from "@/services/fetchData";
+import { getThsrAlert } from "@/services/thsrService";
+import { getTrAlert } from "@/services/trService";
+import { getTymcAlert } from "@/services/tymcService";
 import { useEffect, useState } from "react";
 import usePage from "./usePage";
 
@@ -8,43 +10,29 @@ const useOperationAlert = (): JsyOperationAlert => {
   const [jsyOperationAlert, setJsyOperationAlert] =
     useState<JsyOperationAlert>(null);
 
-  // 取得時刻表
   const getOperationAlert = async () => {
-    if (isTr) {
-      try {
-        const result: JsyOperationAlert = await fetchData("/api/getJsyTrAlert");
-        setJsyOperationAlert(result);
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    try {
+      let result: JsyOperationAlert = null;
 
-    if (isThsr) {
-      try {
-        const result: JsyOperationAlert = await fetchData(
-          "/api/getJsyThsrAlert",
-        );
-        setJsyOperationAlert(result);
-      } catch (error) {
-        console.error(error);
+      if (isTr) {
+        result = await getTrAlert();
+      } else if (isThsr) {
+        result = await getThsrAlert();
+      } else if (isTymc) {
+        result = await getTymcAlert();
       }
-    }
 
-    if (isTymc) {
-      try {
-        const result: JsyOperationAlert = await fetchData(
-          "/api/getJsyTymcAlert",
-        );
+      if (result) {
         setJsyOperationAlert(result);
-      } catch (error) {
-        console.error(error);
       }
+    } catch (error) {
+      console.error("Failed to fetch operation alert:", error);
     }
   };
 
   useEffect(() => {
     getOperationAlert();
-  }, []);
+  }, [isTr, isThsr, isTymc]);
 
   return jsyOperationAlert;
 };

@@ -5,12 +5,12 @@ import {
 import { GaEnum } from "@/enums/GaEnum";
 import usePage from "@/hooks/usePage";
 import useRwd from "@/hooks/useRwd";
+import { HistoryInquiry } from "@/models/history";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useContext, useEffect, useState } from "react";
-import { HistoryInquiry } from "./SearchButton";
 
 interface CloseButtonProps {
   onClick: () => void;

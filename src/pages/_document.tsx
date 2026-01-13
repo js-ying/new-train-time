@@ -7,7 +7,7 @@ export default function Document() {
       <Head>
         <script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7992139989807299"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_AD_CLIENT}`}
           crossOrigin="anonymous"
         ></script>
       </Head>
