@@ -1,5 +1,5 @@
 import { SearchAreaActiveIndexEnum } from "@/enums/SearchAreaParamsEnum";
-import { useSearchAreaNavigation } from "@/hooks/search/useSearchAreaNavigation";
+import { useSearchAreaNavigation } from "@/hooks/station/useSearchAreaNavigation";
 import useDefaultStationHandling from "@/hooks/useDefaultStationHandling";
 import usePage from "@/hooks/usePage";
 import useRwd from "@/hooks/useRwd";

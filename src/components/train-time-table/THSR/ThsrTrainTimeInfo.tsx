@@ -1,14 +1,13 @@
 import { SettingContext } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
+import { useThsrTrainDisplay } from "@/hooks/display/useThsrTrainDisplay";
 import {
   JsyTimeTable,
   ThsrDailyFreeSeatingCar,
   ThsrOdFare,
   ThsrTdxGeneralTimeTable,
 } from "@/models/jsy-thsr-info";
-import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { isTrainPass } from "@/utils/TrainInfoUtils";
 import { useTranslation } from "next-i18next";
 import { FC, useContext, useState } from "react";
 import ThsrFreeSeat from "./ThsrFreeSeat";
@@ -36,25 +35,18 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
 }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const { showThsrTrainNote } = useContext(SettingContext);
+
+  const { isPassed, trainNo, timeRange, durationText } =
+    useThsrTrainDisplay(thsrTrainTimeTable);
+
   const openDetail = () => {
     gaClickEvent(GaEnum.THSR_TRAIN_INFO);
     setOpen(true);
   };
-  const { showThsrTrainNote } = useContext(SettingContext);
 
   return (
-    <div
-      className={`${
-        !open &&
-        isTrainPass(
-          thsrTrainTimeTable.TrainDate,
-          DateUtils.getCurrentDate(),
-          thsrTrainTimeTable?.OriginStopTime.DepartureTime,
-        )
-          ? "opacity-40"
-          : ""
-      }`}
-    >
+    <div className={!open && isPassed ? "opacity-40" : ""}>
       <div
         tabIndex={0}
         role="button"
@@ -73,7 +65,10 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           <ThsrTimeInfoLeftArea data={thsrTrainTimeTable} />
         </div>
         <div className="col-span-2 text-center">
-          <ThsrTimeInfoMidArea data={thsrTrainTimeTable} />
+          <ThsrTimeInfoMidArea
+            timeRange={timeRange}
+            durationText={durationText}
+          />
         </div>
         <div className="text-center">
           <ThsrTimeInfoRightArea data={thsrTrainTimeTable} />
@@ -82,7 +77,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
       <div className="mt-1.5 flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
         <span>{t("freeSeating")}</span>
         <ThsrFreeSeat
-          trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
+          trainNo={trainNo}
           freeSeatData={thsrFreeSeatingCars}
           showLabel={true}
         />
@@ -90,7 +85,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           <>
             <span className="mx-1">|</span>
             <ThsrServiceDay
-              trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
+              trainNo={trainNo}
               generalTimeTable={thsrTdxGeneralTimeTable}
             />
           </>

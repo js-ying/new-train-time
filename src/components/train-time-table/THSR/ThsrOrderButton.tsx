@@ -43,7 +43,8 @@ interface ThsrOrderButtonProps {
 
 const ThsrOrderButton: React.FC<ThsrOrderButtonProps> = ({ timeTable }) => {
   const { t } = useTranslation();
-  const { handleThsrBooking, loading } = useBooking();
+  const { handleThsrBooking, loading, bookingAlertOpen, setBookingAlertOpen } =
+    useBooking();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handlePress = () => {
@@ -76,6 +77,10 @@ const ThsrOrderButton: React.FC<ThsrOrderButtonProps> = ({ timeTable }) => {
         onConfirm={() => handleThsrBooking(timeTable, "J")}
       >
         {t("businessSeatAlertMsg")}
+      </CommonDialog>
+
+      <CommonDialog open={bookingAlertOpen} setOpen={setBookingAlertOpen}>
+        {t("orderFailMsg")}
       </CommonDialog>
     </div>
   );

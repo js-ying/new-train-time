@@ -1,4 +1,3 @@
-import { isShowTrOrderBtn } from "@/components/train-time-table/TR/TrOrder";
 import TrTimeInfoLeftArea from "@/components/train-time-table/TR/TrTimeInfoLeftArea";
 import TrTimeInfoMidArea from "@/components/train-time-table/TR/TrTimeInfoMidArea";
 import TrTimeInfoRightArea from "@/components/train-time-table/TR/TrTimeInfoRightArea";
@@ -6,13 +5,13 @@ import TrTrainService from "@/components/train-time-table/TR/TrTrainServices";
 import TrTrainTimeDetailDialog from "@/components/train-time-table/TR/TrTrainTimeDetailDialog";
 import { SettingContext } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
+import { useTrTrainDisplay } from "@/hooks/display/useTrTrainDisplay";
 import useLang from "@/hooks/useLang";
 import { JsyTrTrainTimeTable } from "@/models/tr-train-time-table";
-import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { isTrainPass, isTrTrainOnlyTicket } from "@/utils/TrainInfoUtils";
 import { useTranslation } from "next-i18next";
 import { FC, useContext, useState } from "react";
+import { isShowTrOrderBtn } from "./TrOrder";
 
 interface TrTrainTimeInfoProps {
   trTrainTimeTable: JsyTrTrainTimeTable;
@@ -23,28 +22,20 @@ interface TrTrainTimeInfoProps {
  */
 const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
   const [open, setOpen] = useState(false);
+  const { isTw } = useLang();
+  const { t } = useTranslation();
+  const { showTrTrainNote } = useContext(SettingContext);
+
+  const { isPassed, isOnlyTicket, note, timeRange, durationText } =
+    useTrTrainDisplay(trTrainTimeTable);
+
   const openDetail = () => {
     gaClickEvent(GaEnum.TR_TRAIN_INFO);
     setOpen(true);
   };
 
-  const { isTw } = useLang();
-  const { t } = useTranslation();
-  const { showTrTrainNote } = useContext(SettingContext);
-
   return (
-    <div
-      className={`${
-        !open &&
-        isTrainPass(
-          trTrainTimeTable.trainDate,
-          DateUtils.getCurrentDate(),
-          trTrainTimeTable?.StopTimes[0].DepartureTime,
-        )
-          ? "opacity-40"
-          : ""
-      }`}
-    >
+    <div className={!open && isPassed ? "opacity-40" : ""}>
       <div
         tabIndex={0}
         role="button"
@@ -67,7 +58,11 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
           <TrTimeInfoLeftArea data={trTrainTimeTable} />
         </div>
         <div className="col-span-2 text-center">
-          <TrTimeInfoMidArea data={trTrainTimeTable} />
+          <TrTimeInfoMidArea
+            timeRange={timeRange}
+            durationText={durationText}
+            delayInfo={trTrainTimeTable.delayInfo}
+          />
         </div>
         <div className="text-center">
           <TrTimeInfoRightArea data={trTrainTimeTable} />
@@ -77,15 +72,15 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
         </div>
       </div>
 
-      {isTrTrainOnlyTicket(trTrainTimeTable.TrainInfo.TrainTypeCode) && (
+      {isOnlyTicket && (
         <div className="mt-1 text-xs text-silverLakeBlue-500 dark:text-gamboge-500">
           {t("eTicketAlertMsg")}
         </div>
       )}
 
-      {isTw && showTrTrainNote && (
+      {isTw && showTrTrainNote && note && (
         <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          {isTw && trTrainTimeTable.TrainInfo.Note}
+          {note}
         </div>
       )}
 

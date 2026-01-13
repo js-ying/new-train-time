@@ -61,6 +61,7 @@ export const useStationSearch = () => {
         startStationId: stationId,
         activeIndex: SearchAreaActiveIndexEnum.EMPTY,
         layer: SearchAreaLayerEnum.FIRST_LAYER,
+        inputValue: "",
       });
     }
 
@@ -71,6 +72,7 @@ export const useStationSearch = () => {
         endStationId: stationId,
         activeIndex: SearchAreaActiveIndexEnum.EMPTY,
         layer: SearchAreaLayerEnum.FIRST_LAYER,
+        inputValue: "",
       });
     }
   };
