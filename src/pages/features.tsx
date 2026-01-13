@@ -3,7 +3,7 @@ import Layout from "@/components/layout/Layout";
 import PWAInstallButton from "@/components/pwa-promot/PWAInstallButton";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import { Image } from "@heroui/react";
-import { ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { featureImgList } from "public/data/featuresData";

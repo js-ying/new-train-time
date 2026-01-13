@@ -2,7 +2,7 @@ import useLang from "@/hooks/useLang";
 import usePage from "@/hooks/usePage";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import { getStationNameById } from "@/utils/StationUtils";
-import { Chip } from "@mui/material";
+import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import TymcFareInfo from "../TymcFareInfo";

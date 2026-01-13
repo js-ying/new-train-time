@@ -1,9 +1,9 @@
-import { HistoryInquiry } from "@/components/search-area/SearchButton";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "@/contexts/SearchAreaContext";
 import usePage from "@/hooks/usePage";
+import { HistoryInquiry } from "@/models/history";
 import { useContext, useEffect } from "react";
 
 const useDefaultStationHandling = () => {

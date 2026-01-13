@@ -4,7 +4,7 @@ import useLang from "@/hooks/useLang";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Chip, Switch, Tab, Tabs } from "@heroui/react";
-import { ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import {

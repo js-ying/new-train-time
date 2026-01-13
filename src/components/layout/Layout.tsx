@@ -1,8 +1,8 @@
-import { FC } from "react";
-import Sidebar from "../sidebar/Sidebar";
 import LocaleChange from "@/components/common/LocaleChange";
 import ThemeSwitch from "@/components/common/ThemeSwitch";
 import WebTitle from "@/components/common/WebTitle";
+import { FC } from "react";
+import Sidebar from "../sidebar/Sidebar";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,9 +18,9 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
             <Sidebar />
           </div>
         </div>
-        <h2 className="flex items-center justify-center gap-1">
+        <div className="flex items-center justify-center gap-1">
           <WebTitle />
-        </h2>
+        </div>
         <div className="absolute right-0 top-0.5">
           <div className="fade-in flex items-center gap-2 text-zinc-700 dark:text-zinc-200">
             <LocaleChange />

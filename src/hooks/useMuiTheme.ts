@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 import { useTheme } from "next-themes";
 import { useMemo } from "react";
 

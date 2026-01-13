@@ -1,4 +1,4 @@
-import { Alert } from "@mui/material";
+import Alert from "@mui/material/Alert";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import { LocaleEnum } from "../../enums/LocaleEnum";

@@ -1,3 +1,4 @@
+import JsonLd from "@/components/layout/JsonLd";
 import useLang from "@/hooks/useLang";
 import useSeo from "@/hooks/useSeo";
 import { useTranslation } from "next-i18next";
@@ -7,8 +8,14 @@ import { FC } from "react";
 
 const PageHead: FC = () => {
   const { t } = useTranslation();
-  const { seo, selfUrl, alternateUrls, ogLocale, ogAlternateLocales } =
-    useSeo();
+  const {
+    seo,
+    selfUrl,
+    alternateUrls,
+    ogLocale,
+    ogAlternateLocales,
+    breadcrumbs,
+  } = useSeo();
   const { isTw } = useLang();
   const { theme } = useTheme();
 
@@ -119,6 +126,13 @@ const PageHead: FC = () => {
         href="/images/logos/logo-192.png"
       />
       <link key="mask-icon" rel="mask-icon" href="/images/logos/logo-32.png" />
+
+      {/* JSON LD */}
+      <JsonLd
+        trTitle={t("trTitle")}
+        webDescription={t("webDescription")}
+        breadcrumbs={breadcrumbs}
+      />
     </Head>
   );
 };

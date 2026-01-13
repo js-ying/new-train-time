@@ -1,4 +1,5 @@
 import { SeoConfig, baseUrl, seoConfigs } from "@/configs/seoConfig";
+import { PageEnum } from "@/enums/PageEnum";
 import { getOgLocale } from "@/utils/LocaleUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { useTranslation } from "next-i18next";
@@ -7,7 +8,7 @@ import usePage from "./usePage";
 import useSearchAreaParams from "./useSearchAreaParams";
 
 const useSeo = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const router = useRouter();
   const { page } = usePage();
   const { urlSearchAreaParams } = useSearchAreaParams();
@@ -49,6 +50,22 @@ const useSeo = () => {
       url: defaultLocaleUrl,
     });
 
+    // 建立 Breadcrumbs 麵包屑導航數據 (供 JSON-LD 使用)
+    const breadcrumbs = [
+      {
+        name: t("tr"), // 麵包屑第一層永遠是「台鐵」
+        item: baseUrl,
+      },
+    ];
+
+    // 第二層是「高鐵」、「桃園捷運」、「特色介紹」、「更新公告」等等
+    if (page !== PageEnum.TR) {
+      breadcrumbs.push({
+        name: t(page),
+        item: selfUrl,
+      });
+    }
+
     if (startStationId && endStationId) {
       const startStationName = getStationNameById(
         page,
@@ -78,22 +95,29 @@ const useSeo = () => {
         ogTitle: (t) => title(t, startStationName, endStationName),
       };
 
+      // 第三層是搜尋結果
+      breadcrumbs.push({
+        name: title(t, startStationName, endStationName),
+        item: selfUrl,
+      });
+
       return {
         seo: dynamicSeo,
         selfUrl,
         alternateUrls,
         ogLocale,
         ogAlternateLocales,
+        breadcrumbs,
       };
     }
 
-    // For non-search pages or pages without s/e params
     return {
       seo: { ...seoConfig },
       selfUrl,
       alternateUrls,
       ogLocale,
       ogAlternateLocales,
+      breadcrumbs,
     };
   };
 

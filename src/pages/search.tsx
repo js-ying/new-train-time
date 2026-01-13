@@ -14,12 +14,13 @@ import useMuiTheme from "@/hooks/useMuiTheme";
 import usePage from "@/hooks/usePage";
 import AdUtils from "@/utils/AdUtils";
 import DateUtils from "@/utils/DateUtils";
-import { ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC, useEffect, useState } from "react";
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
+  // export async function getStaticProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale)),

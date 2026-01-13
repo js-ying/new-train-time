@@ -2,16 +2,14 @@ import CommonDialog from "@/components/common/CommonDialog";
 import IOSSwitchSetting from "@/components/common/IOSSwitchSetting";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { Button } from "@heroui/react";
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  SwipeableDrawer,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";

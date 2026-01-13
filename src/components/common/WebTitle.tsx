@@ -49,12 +49,12 @@ const WebTitle: FC = () => {
         onClick={() => resetParams(page)}
         className="custom-cursor-pointer mb-2"
       >
-        <span className={`font-bold ${isTw ? "text-xl" : "text-lg"}`}>
+        <h1 className={`font-bold ${isTw ? "text-xl" : "text-lg"}`}>
           <span className={`${isTw ? "" : "pr-1"}`}>
             {notTransportPage.includes(page) ? t(PageEnum.TR) : t(page)}
           </span>
           {t("scheduleInquiry")}
-        </span>
+        </h1>
       </Link>
 
       {/* Transport Tabs */}
