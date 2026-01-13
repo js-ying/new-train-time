@@ -1,12 +1,12 @@
+import NewLabel from "@/components/NewLabel";
 import Disclaimer from "@/components/layout/Disclaimer";
 import Layout from "@/components/layout/Layout";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchHistory from "@/components/search-area/SearchHistory";
-import TrOrderDescription from "@/components/train-time-table/TrOrderDescription";
+import OrderDescription from "@/components/train-time-table/OrderDescription";
 import useMuiTheme from "@/hooks/useMuiThemeHook";
 import usePage from "@/hooks/usePageHook";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { updateDataList } from "public/data/updatesData";
 import { FC, useEffect, useState } from "react";
@@ -22,8 +22,7 @@ export async function getStaticProps({ locale }) {
 /** [頁面] 首頁 */
 const Home: FC = () => {
   const muiTheme = useMuiTheme();
-  const { t } = useTranslation();
-  const { isTr } = usePage();
+  const { isTr, isThsr } = usePage();
 
   const [showDisclaimer, setShowDisclaimer] = useState(false);
 
@@ -40,9 +39,14 @@ const Home: FC = () => {
             <SearchHistory />
           </div>
           <div className="mt-7">{showDisclaimer && <Disclaimer />}</div>
-          {isTr && showDisclaimer && (
-            <div className="mt-1">
-              <TrOrderDescription />
+          {(isTr || isThsr) && showDisclaimer && (
+            <div className="mt-1 flex justify-center">
+              <div className="relative">
+                <OrderDescription />
+                <div className="absolute left-full top-1 ml-1.5">
+                  <NewLabel />
+                </div>
+              </div>
             </div>
           )}
 

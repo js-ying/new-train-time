@@ -147,7 +147,7 @@ const DatePicker: FC = () => {
         onChange={(datetime) => setDate(datetime)}
         views={["day"]}
         disablePast={true}
-        maxDate={moment().add(isThsr ? 28 : 58, "days")}
+        maxDate={moment().add(isThsr ? 27 : 58, "days")}
         reduceAnimations={true}
         timezone={"Asia/Taipei"}
         dayOfWeekFormatter={(_day, weekday) => `${_day}`}

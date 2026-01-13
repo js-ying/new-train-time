@@ -1,20 +1,13 @@
+import CommonLightbox from "@/components/CommonLightbox";
+import Layout from "@/components/layout/Layout";
+import PWAInstallButton from "@/components/pwa-promot/PWAInstallButton";
+import useMuiTheme from "@/hooks/useMuiThemeHook";
 import { Image } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { FC, useMemo, useState } from "react";
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
-
-// import optional lightbox plugins
-import Layout from "@/components/layout/Layout";
-import PWAInstallButton from "@/components/pwa-promot/PWAInstallButton";
-import useMuiTheme from "@/hooks/useMuiThemeHook";
 import { featureImgList } from "public/data/featuresData";
-import Counter from "yet-another-react-lightbox/plugins/counter";
-import "yet-another-react-lightbox/plugins/counter.css";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import { FC, useMemo, useState } from "react";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -85,22 +78,11 @@ const FeaturesGallery: FC = () => {
         />
       ))}
 
-      <Lightbox
+      <CommonLightbox
         slides={slideList}
         open={activeIndex >= 0}
         index={activeIndex}
-        close={() => setActiveIndex(-1)}
-        animation={{ swipe: 350 }}
-        controller={{ closeOnBackdropClick: true }}
-        carousel={{ padding: 55 }}
-        // enable optional lightbox plugins
-        plugins={[Counter, Zoom]}
-        counter={{
-          style: { fontSize: 12, margin: 0, marginLeft: 10 },
-        }}
-        styles={{
-          icon: { height: 22, width: 22 },
-        }}
+        onClose={() => setActiveIndex(-1)}
       />
     </div>
   );

@@ -5,8 +5,18 @@ export const updateDataList = [
     ver: "2.3.0",
     items: [
       {
+        type: "new",
+        content:
+          "新功能：台鐵訂票導頁，手機版可跳轉至「台鐵 e 訂通」APP 並自動帶入車次資料",
+      },
+      {
+        type: "new",
+        content:
+          "新功能：全新高鐵訂票導頁，連動高鐵即時剩餘座位，可跳轉至高鐵「官網」或「T-EX 行動購票」APP並自動帶入車次資料",
+      },
+      {
         type: "update",
-        content: "調整台鐵/高鐵/機捷切換方式，從下拉選單改為頁籤形式",
+        content: "調整三鐵切換方式，下拉選單改為頁籤，回歸一鍵切換！",
       },
     ],
   },

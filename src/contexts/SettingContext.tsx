@@ -4,12 +4,16 @@ export interface SettingParams {
   showTrTrainNote: boolean;
   showThsrTrainNote: boolean;
   autoRedirectLastUsedPage: boolean;
+  mobileUseTrDirectBooking: boolean;
+  mobileUseThsrDirectBooking: boolean;
 }
 
 export const defaultSetting: SettingParams = {
   showTrTrainNote: true,
   showThsrTrainNote: true,
   autoRedirectLastUsedPage: false,
+  mobileUseTrDirectBooking: true,
+  mobileUseThsrDirectBooking: true,
 };
 
 export const SettingContext = createContext<SettingParams>(null);

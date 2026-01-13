@@ -1,4 +1,5 @@
 import {
+  Button,
   Checkbox,
   Modal,
   ModalBody,
@@ -38,6 +39,18 @@ interface CommonDialogProps {
 
   // 啟用 "不再顯示" checkbox -> 預設 false
   enableDoNotShowAgainCheckbox?: boolean;
+
+  // 確認按鈕文字 -> 若有值則顯示確認按鈕
+  confirmText?: string;
+  // 確認按鈕回調
+  onConfirm?: () => void;
+  // 取消按鈕文字 -> 若有值則顯示取消按鈕
+  cancelText?: string;
+
+  // 是否可點擊背景關閉
+  isDismissable?: boolean;
+  // 是否可按 Esc 關閉
+  isKeyboardDismissDisabled?: boolean;
 }
 
 /**
@@ -65,9 +78,11 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
         header: "flex items-center justify-center gap-2",
         body: props.bodyTextAlign || "text-center",
       }}
-      isDismissable={!props.enableDoNotShowAgainCheckbox}
+      isDismissable={props.isDismissable ?? !props.enableDoNotShowAgainCheckbox}
       scrollBehavior={props.scrollBehavior || "inside"}
-      isKeyboardDismissDisabled={props.enableDoNotShowAgainCheckbox}
+      isKeyboardDismissDisabled={
+        props.isKeyboardDismissDisabled ?? props.enableDoNotShowAgainCheckbox
+      }
       onClose={customCloseEvent}
     >
       <ModalContent>
@@ -89,6 +104,29 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
                   {t("doNotShowAgainMsg")}
                 </Checkbox>
               )}
+              <div className="flex w-full items-center justify-end gap-2">
+                {props.cancelText && (
+                  <Button
+                    variant="light"
+                    onPress={() => props.setOpen(false)}
+                    className="min-w-fit"
+                  >
+                    {t(props.cancelText)}
+                  </Button>
+                )}
+                {props.confirmText && (
+                  <Button
+                    color="primary"
+                    onPress={() => {
+                      props.onConfirm?.();
+                      props.setOpen(false);
+                    }}
+                    className="min-w-fit"
+                  >
+                    {t(props.confirmText)}
+                  </Button>
+                )}
+              </div>
             </ModalFooter>
           </>
         )}

@@ -223,3 +223,71 @@ export interface NameType {
   Zh_tw: string;
   En: string;
 }
+
+/**
+ * 高鐵 Deeplink Web API 請求參數
+ */
+export interface ThsrDeeplinkWebParams {
+  /** 車票類別，S: 單程車票，R: 去回車票 */
+  ticket_type: string;
+  /** 車廂類別，Y: 標準車廂，J: 商務車廂 */
+  carriage_type: string;
+  /** 成人票數量，0-10 */
+  adult_ticket: number;
+  /** 兒童票數量，0-10 */
+  children_ticket: number;
+  /** 愛心票數量，0-10 */
+  disabled_ticket: number;
+  /** 長者票數量，0-10 */
+  senior_ticket: number;
+  /** 學生票數量，0-10 */
+  student_ticket: number;
+  /** 出發車站名稱，例如：{台北} */
+  start_station: string;
+  /** 抵達車站名稱，例如：{左營} */
+  end_station: string;
+  /** 去程日期，格式:{yyyymmdd} */
+  departure_date: string;
+  /** 去程車次號碼4碼，如為3碼前面請補0 */
+  departure_number: string;
+  /** 回程日期，格式:{yyyymmdd}，如設定去回車票則為必要參數 */
+  return_date?: string;
+  /** 回程車次號碼4碼，如為3碼前面請補0，如設定去回車票則為必要參數 */
+  return_number?: string;
+}
+
+/**
+ * 高鐵 Deeplink Web API 回應參數
+ */
+export interface ThsrDeeplinkWebResponse {
+  /** 高鐵訂票網站導訂鏈結網址 */
+  deeplink: string;
+  /** 連結過期時間 (YYYY-MM-DD HH:mm:ss) */
+  expired: string;
+}
+
+/**
+ * 高鐵 Deeplink Direct API 請求參數
+ */
+export interface ThsrDeeplinkDirectParams {
+  /** 出發車站名稱，例如：{台北} */
+  start_station: string;
+  /** 抵達車站名稱，例如：{左營} */
+  end_station: string;
+  /** 乘車日期，格式:{yyyy-mm-dd} */
+  train_date: string;
+  /** 乘車時間，格式:{hh:mm} */
+  train_time: string;
+  /** 車次號碼 */
+  train_number: number;
+}
+
+/**
+ * 高鐵 Deeplink Direct API 回應參數
+ */
+export interface ThsrDeeplinkDirectResponse {
+  /** 「T-EX行動購票」APP深度鏈結網址 */
+  deeplink: string;
+  /** 連結過期時間 (YYYY-MM-DD HH:mm:ss) */
+  expired: string;
+}

@@ -1,14 +1,26 @@
 import { GaEnum } from "@/enums/GaEnum";
 import { gaClickEvent } from "@/utils/GaUtils";
+import { Image } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useState } from "react";
 import CommonDialog from "../CommonDialog";
+import CommonLightbox from "../CommonLightbox";
 
-const TrOrderDescription: FC = () => {
+const OrderDescription: FC = () => {
   const { t } = useTranslation();
   const [openAnnouncement, setOpenAnnouncement] = useState(false);
   const [openAnnouncementCheckbox, setOpenAnnouncementCheckbox] =
     useState(false);
+  const [activeLightboxIndex, setActiveLightboxIndex] = useState(-1);
+
+  const slides = [
+    {
+      src: "https://jsying1994.s3.us-east-1.amazonaws.com/traintime/booking/clickMenu.jpg",
+    },
+    {
+      src: "https://jsying1994.s3.us-east-1.amazonaws.com/traintime/booking/mobileUseAppSetting.jpg",
+    },
+  ];
 
   useEffect(() => {
     // setOpenAnnouncementCheckbox(
@@ -20,7 +32,7 @@ const TrOrderDescription: FC = () => {
 
   return (
     <>
-      <div className="text-center">
+      <div className="mx-auto w-fit text-center">
         <span
           tabIndex={0}
           role="button"
@@ -47,9 +59,37 @@ const TrOrderDescription: FC = () => {
         setOpen={setOpenAnnouncement}
         title="trOrderDescription"
         bodyTextAlign="text-left"
+        size="md"
+        isDismissable={activeLightboxIndex === -1}
+        isKeyboardDismissDisabled={activeLightboxIndex !== -1}
       >
-        {t("announcementTrOrderV1")}
+        <div className="flex flex-col gap-4">
+          {(
+            t("announcementTrOrderV1", { returnObjects: true }) as string[]
+          ).map((text, index) => (
+            <p key={index}>{text}</p>
+          ))}
+        </div>
+
+        <div className="flex gap-2">
+          {slides.map((slide, index) => (
+            <Image
+              key={index}
+              src={slide.src}
+              alt={`order-step-${index}`}
+              className="custom-cursor-pointer"
+              onClick={() => setActiveLightboxIndex(index)}
+            />
+          ))}
+        </div>
       </CommonDialog>
+
+      <CommonLightbox
+        slides={slides}
+        open={activeLightboxIndex >= 0}
+        index={activeLightboxIndex}
+        onClose={() => setActiveLightboxIndex(-1)}
+      />
 
       {/* 有 checkbox 版 (公告) */}
       <CommonDialog
@@ -59,10 +99,16 @@ const TrOrderDescription: FC = () => {
         bodyTextAlign="text-left"
         enableDoNotShowAgainCheckbox={true}
       >
-        {t("announcementTrOrderV1")}
+        <div className="flex flex-col gap-4">
+          {(
+            t("announcementTrOrderV1", { returnObjects: true }) as string[]
+          ).map((text, index) => (
+            <p key={index}>{text}</p>
+          ))}
+        </div>
       </CommonDialog>
     </>
   );
 };
 
-export default TrOrderDescription;
+export default OrderDescription;

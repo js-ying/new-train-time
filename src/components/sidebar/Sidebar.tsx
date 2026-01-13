@@ -1,4 +1,5 @@
 import CommonDialog from "@/components/CommonDialog";
+import useDeviceDetect from "@/hooks/useDeviceDetectHook";
 import { Button } from "@heroui/react";
 import {
   Box,
@@ -45,7 +46,7 @@ interface DrawerListProps {
 
 const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const { t } = useTranslation();
-
+  const { isMobile } = useDeviceDetect();
   const list = useMemo(() => {
     return [
       {
@@ -73,6 +74,12 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
 
   const [autoRedirectLastUsedPage, setEnableLastUsedPageRedirect] =
     useSettingHook("autoRedirectLastUsedPage");
+
+  const [mobileUseTrDirectBooking, setMobileUseTrDirectBooking] =
+    useSettingHook("mobileUseTrDirectBooking");
+
+  const [mobileUseThsrDirectBooking, setMobileUseThsrDirectBooking] =
+    useSettingHook("mobileUseThsrDirectBooking");
 
   const handleClick = (text: string) => {
     switch (text) {
@@ -103,7 +110,8 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
 
   return (
     <>
-      <Box sx={{ width: 250 }} role="presentation">
+      <Box sx={{ width: 290 }} role="presentation">
+        {/* 網站名稱 */}
         <List>
           <ListItem disablePadding>
             <ListItemButton
@@ -132,7 +140,9 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
             </ListItemButton>
           </ListItem>
         </List>
+
         <Divider />
+        {/* 頁面連結 */}
         <List>
           {list.map((item) => (
             <ListItem key={item.text} disablePadding>
@@ -194,36 +204,79 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
             </ListItem>
           ))}
         </List>
+
         <Divider />
-        <List className="ml-4 mr-2 text-sm">
-          <IOSSwitchSetting
-            value={showTrTrainNote}
-            setValue={setShowTrTrainNote}
-            label={t("showTrTrainNoteSwitch")}
-            color="primary"
-          />
-        </List>
+        {/* 台鐵設定 */}
+        <div className="px-4 py-3">
+          <div className="mb-2 text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+            {t("trSetting")}
+          </div>
+          <div className="flex flex-col gap-3 text-sm">
+            <IOSSwitchSetting
+              value={showTrTrainNote}
+              setValue={setShowTrTrainNote}
+              label={t("showTrTrainNoteSwitch")}
+              gaEnum={GaEnum.SHOW_TR_TRAIN_NOTE}
+              color="primary"
+            />
+
+            <IOSSwitchSetting
+              value={mobileUseTrDirectBooking}
+              setValue={setMobileUseTrDirectBooking}
+              label={t("mobileUseTrDirectBookingSwitch")}
+              gaEnum={GaEnum.MOBILE_USE_TR_DIRECT_BOOKING}
+              color="primary"
+              isOnlyMobile={true}
+            />
+          </div>
+        </div>
+
         <Divider />
-        <List className="ml-4 mr-2 text-sm">
-          <IOSSwitchSetting
-            value={showThsrTrainNote}
-            setValue={setShowThsrTrainNote}
-            label={t("showThsrTrainNoteSwitch")}
-            color="primary"
-          />
-        </List>
+        {/* 高鐵設定 */}
+        <div className="px-4 py-3">
+          <div className="mb-2 text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+            {t("thsrSetting")}
+          </div>
+          <div className="flex flex-col gap-3 text-sm">
+            <IOSSwitchSetting
+              value={showThsrTrainNote}
+              setValue={setShowThsrTrainNote}
+              label={t("showThsrTrainNoteSwitch")}
+              gaEnum={GaEnum.SHOW_THSR_TRAIN_NOTE}
+              color="primary"
+            />
+
+            <IOSSwitchSetting
+              value={mobileUseThsrDirectBooking}
+              setValue={setMobileUseThsrDirectBooking}
+              label={t("mobileUseThsrDirectBookingSwitch")}
+              gaEnum={GaEnum.MOBILE_USE_THSR_DIRECT_BOOKING}
+              color="primary"
+              isOnlyMobile={true}
+            />
+          </div>
+        </div>
+
         <Divider />
-        <List className="ml-4 mr-2 text-sm">
-          <IOSSwitchSetting
-            value={autoRedirectLastUsedPage}
-            setValue={setEnableLastUsedPageRedirect}
-            label={t("autoRedirectLastUsedPageSwitch")}
-            color="primary"
-          />
-        </List>
+        {/* 通用設定 */}
+        <div className="px-4 py-3">
+          <div className="mb-2 text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+            {t("generalSetting")}
+          </div>
+          <div className="flex flex-col gap-4 text-sm">
+            <IOSSwitchSetting
+              value={autoRedirectLastUsedPage}
+              setValue={setEnableLastUsedPageRedirect}
+              label={t("autoRedirectLastUsedPageSwitch")}
+              gaEnum={GaEnum.AUTO_REDIRECT_LAST_USED_PAGE}
+              color="primary"
+            />
+          </div>
+        </div>
+
         <Divider />
         <List>
-          <ListItemButton disabled={true}>
+          <ListItemButton disabled={true} className="text-sm">
             ver. {updateDataList[0].ver}
           </ListItemButton>
         </List>

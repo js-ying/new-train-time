@@ -58,7 +58,7 @@ const TrOrder: FC<TrOrderProps> = ({ data }) => {
   };
 
   return (
-    <div>
+    <div onClick={(e) => e.stopPropagation()}>
       <Button
         className="h-6 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
         size="sm"
