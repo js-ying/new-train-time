@@ -91,37 +91,31 @@ const useTrainSearch = (): UseTrainSearchResult => {
 
     const { startStationId, endStationId, date, time } = urlSearchAreaParams;
 
-    if (startStationId && endStationId && date && time) {
-      const { isValid, isDateInValid } = isParamsValid(
-        startStationId,
-        endStationId,
-        date,
-        time,
-      );
+    const { isValid, isDateInValid } = isParamsValid(
+      startStationId,
+      endStationId,
+      date,
+      time,
+    );
 
-      if (!isValid) {
-        if (!isDateInValid) return;
+    if (!isValid) {
+      // 檢核失敗，且非日期錯誤，則不予查詢
+      if (!isDateInValid) return;
 
-        const currentDate = DateUtils.getCurrentDate();
-        const currentTime = DateUtils.getCurrentTime();
+      const currentDate = DateUtils.getCurrentDate();
+      const currentTime = DateUtils.getCurrentTime();
 
-        setParams((prev) => ({
-          ...prev,
-          date: currentDate,
-          time: currentTime,
-        }));
+      setParams((prev) => ({
+        ...prev,
+        date: currentDate,
+        time: currentTime,
+      }));
 
-        getTrainTimeTable(
-          startStationId,
-          endStationId,
-          currentDate,
-          currentTime,
-        );
-        return;
-      }
-
-      getTrainTimeTable(startStationId, endStationId, date, time);
+      getTrainTimeTable(startStationId, endStationId, currentDate, currentTime);
+      return;
     }
+
+    getTrainTimeTable(startStationId, endStationId, date, time);
   }, [
     router.isReady,
     router.query.s,

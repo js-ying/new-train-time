@@ -32,11 +32,11 @@ export function SearchAreaProvider({ children }) {
   });
 
   useEffect(() => {
-    setSearchAreaParams({
-      ...searchAreaParams,
-      date: DateUtils.getCurrentDate(),
-      time: DateUtils.getCurrentTime(),
-    });
+    setSearchAreaParams((prev) => ({
+      ...prev,
+      date: prev.date || DateUtils.getCurrentDate(),
+      time: prev.time || DateUtils.getCurrentTime(),
+    }));
   }, []);
 
   return (

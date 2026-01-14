@@ -22,11 +22,13 @@ const useDefaultStationHandling = () => {
       if (valueString) {
         const value: HistoryInquiry[] = JSON.parse(valueString);
         if (Array.isArray(value) && value.length > 0) {
-          setParams({
-            ...params,
-            startStationId: value[value.length - 1].startStationId,
-            endStationId: value[value.length - 1].endStationId,
-          });
+          setParams((prev) => ({
+            ...prev,
+            startStationId:
+              prev.startStationId || value[value.length - 1].startStationId,
+            endStationId:
+              prev.endStationId || value[value.length - 1].endStationId,
+          }));
         }
       }
 
