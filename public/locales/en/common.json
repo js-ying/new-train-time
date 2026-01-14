@@ -36,7 +36,7 @@
   "doNotShowAgainMsg": "Don't show again",
   "trOrderDescription": "Ticket Booking Description",
   "announcementTrOrderV1": [
-    "The 'Booking Redirection' service assists you in quickly navigating to the official TRA or THSR websites and automatically pre-fills the selected train information. On mobile devices, the system defaults to launching the '台鐵 e 訂通' (TRA e-Booking) or 'T-EX Mobile' apps. If you prefer web-based booking, you can disable 'Mobile Use APP Booking' in the sidebar (≡) settings.",
+    "The 'Booking Redirection' service assists you in quickly navigating to the official TRA or THSR websites and automatically pre-fills the selected train information. On mobile devices, the system defaults to launching the '台鐵 e 訂通' or 'T-EX 行動購票' apps. If you prefer web-based booking, you can disable 'Mobile Use APP Booking' in the sidebar (≡) settings.",
     "The THSR booking service is currently integrated with real-time seat availability data; the booking button only appears when seats are available. For TRA, this feature will be enhanced as soon as the MOTC TDX Platform provides more comprehensive data.",
     "Please note that due to data source limitations, the seat availability information displayed on this site may differ slightly from actual records. All final results are subject to the official railway systems. Thank you for your understanding."
   ],
