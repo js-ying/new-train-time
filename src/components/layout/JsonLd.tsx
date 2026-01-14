@@ -1,4 +1,5 @@
 import { baseUrl } from "@/configs/seoConfig";
+import Head from "next/head";
 import { FC } from "react";
 
 interface JsonLdProps {
@@ -58,20 +59,23 @@ const JsonLd: FC<JsonLdProps> = ({ trTitle, webDescription, breadcrumbs }) => {
   };
 
   return (
-    <>
+    <Head>
       <script
+        id="json-ld-website"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
       <script
+        id="json-ld-breadcrumb"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <script
+        id="json-ld-organization"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
-    </>
+    </Head>
   );
 };
 
