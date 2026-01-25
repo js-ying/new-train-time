@@ -4,10 +4,12 @@ import useSeo from "@/hooks/useSeo";
 import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { FC } from "react";
 
 const PageHead: FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const router = useRouter();
   const {
     seo,
     selfUrl,
@@ -66,6 +68,30 @@ const PageHead: FC = () => {
             content={loc}
           />
         ))}
+
+        {/* Twitter Card */}
+        <meta
+          key="twitter:card"
+          name="twitter:card"
+          content="summary_large_image"
+        />
+        <meta
+          key="twitter:title"
+          name="twitter:title"
+          content={seo.ogTitle(t)}
+        />
+        <meta
+          key="twitter:description"
+          name="twitter:description"
+          content={seo.ogDescription(t)}
+        />
+        {seo.ogImage && (
+          <meta
+            key="twitter:image"
+            name="twitter:image"
+            content={seo.ogImage}
+          />
+        )}
 
         {/* Icon */}
         <link rel="shortcut icon" href="/images/logos/logo-32.png" />
@@ -142,6 +168,8 @@ const PageHead: FC = () => {
         trTitle={t("trTitle")}
         webDescription={t("webDescription")}
         breadcrumbs={breadcrumbs}
+        currentLocale={i18n.language}
+        defaultLocale={router.defaultLocale || "zh-TW"}
       />
     </>
   );

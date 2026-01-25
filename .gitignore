@@ -36,3 +36,7 @@ memo.md
 certificates
 ecosystem.config.js
 local-deploy.sh
+
+# next-sitemap (自動生成)
+public/sitemap*.xml
+public/robots.txt

@@ -6,9 +6,29 @@ interface JsonLdProps {
   trTitle: string;
   webDescription: string;
   breadcrumbs: { name: string; item: string }[];
+  /** 當前語言代碼，如 "zh-TW" 或 "en" */
+  currentLocale: string;
+  /** 預設語言代碼 */
+  defaultLocale: string;
 }
 
-const JsonLd: FC<JsonLdProps> = ({ trTitle, webDescription, breadcrumbs }) => {
+/**
+ * JSON-LD 結構化資料元件，用於提升 SEO 和搜尋結果展示。
+ */
+const JsonLd: FC<JsonLdProps> = ({
+  trTitle,
+  webDescription,
+  breadcrumbs,
+  currentLocale,
+  defaultLocale,
+}) => {
+  // 根據語言取得對應的首頁 URL
+  const homeUrl =
+    currentLocale === defaultLocale ? baseUrl : `${baseUrl}/${currentLocale}`;
+
+  // 取得 ISO 語言代碼格式（用於 inLanguage）
+  const inLanguage = currentLocale === "zh-TW" ? "zh-Hant-TW" : currentLocale;
+
   // 1. WebSite Schema - 網站搜尋與名稱定義
   const websiteSchema = {
     "@context": "https://schema.org",
@@ -22,14 +42,15 @@ const JsonLd: FC<JsonLdProps> = ({ trTitle, webDescription, breadcrumbs }) => {
       "THSR Timetable",
       "Airport MRT Timetable",
     ],
-    url: baseUrl,
+    url: homeUrl,
     description: webDescription,
+    inLanguage: inLanguage,
     potentialAction: [
       {
         "@type": "SearchAction",
         target: {
           "@type": "EntryPoint",
-          urlTemplate: `${baseUrl}/search?s={search_term_string}&e=`,
+          urlTemplate: `${homeUrl}/search?s={search_term_string}&e=`,
         },
         "query-input": "required name=search_term_string",
       },
@@ -37,10 +58,19 @@ const JsonLd: FC<JsonLdProps> = ({ trTitle, webDescription, breadcrumbs }) => {
   };
 
   // 2. Breadcrumb Schema - 麵包屑導航結構
+  // 修正第一層 URL 根據語言動態調整
+  const adjustedBreadcrumbs = breadcrumbs.map((bc, index) => {
+    // 第一層固定為首頁，根據語言調整 URL
+    if (index === 0) {
+      return { ...bc, item: homeUrl };
+    }
+    return bc;
+  });
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: breadcrumbs.map((bc, index) => ({
+    itemListElement: adjustedBreadcrumbs.map((bc, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: bc.name,
@@ -80,3 +110,4 @@ const JsonLd: FC<JsonLdProps> = ({ trTitle, webDescription, breadcrumbs }) => {
 };
 
 export default JsonLd;
+

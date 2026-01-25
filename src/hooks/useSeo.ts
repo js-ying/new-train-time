@@ -50,19 +50,25 @@ const useSeo = () => {
       url: defaultLocaleUrl,
     });
 
+    // 根據語系取得正確的根路徑 URL
+    const homeUrl =
+      currentLocale === router.defaultLocale
+        ? baseUrl
+        : `${baseUrl}/${currentLocale}`;
+
     // 建立 Breadcrumbs 麵包屑導航數據 (供 JSON-LD 使用)
     const breadcrumbs = [
       {
-        name: t("tr"), // 麵包屑第一層永遠是「台鐵」
-        item: baseUrl,
+        name: t("trTitle"), // 第一層使用網站主要名稱「台鐵時刻查詢」，作為品牌入口
+        item: homeUrl,
       },
     ];
 
-    // 第二層是「高鐵」、「桃園捷運」、「特色介紹」、「更新公告」等等
+    // 第二層是各交通方式（高鐵、桃園捷運、特色介紹等）
     if (page !== PageEnum.TR) {
       breadcrumbs.push({
-        name: t(page),
-        item: selfUrl,
+        name: t(`${page.toLowerCase()}`), // 使用專屬標題如「高鐵」
+        item: selfUrl.split("?")[0], // 導向該交通工具的首頁
       });
     }
 
@@ -78,26 +84,33 @@ const useSeo = () => {
         i18n.language,
       );
 
-      const title = (
-        t: Function,
-        startStationName: string,
-        endStationName: string,
-      ) => {
-        return `${t("stationToStationTimeTableTitle", {
+      const titleText = t("stationToStationTimeTableTitle", {
+        startStation: startStationName,
+        endStation: endStationName,
+      });
+
+      const fullTitle = `${titleText} - ${t(page + "Title")}`;
+
+      const description = (t: Function) => {
+        const descriptionKey = `${page.toLowerCase()}SearchPageDynamicDescription`;
+        return t(descriptionKey, {
           startStation: startStationName,
           endStation: endStationName,
-        })} - ${t(page + "Title")}`;
+          page: t(page),
+        });
       };
 
       const dynamicSeo: SeoConfig = {
         ...seoConfig,
-        title: (t) => title(t, startStationName, endStationName),
-        ogTitle: (t) => title(t, startStationName, endStationName),
+        title: () => fullTitle,
+        description: (t) => description(t),
+        ogTitle: () => fullTitle,
+        ogDescription: (t) => description(t),
       };
 
-      // 第三層是搜尋結果
+      // 第三層是搜尋結果（簡化名稱，移除後綴以便在手機端顯示更好）
       breadcrumbs.push({
-        name: title(t, startStationName, endStationName),
+        name: titleText,
         item: selfUrl,
       });
 

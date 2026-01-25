@@ -20,7 +20,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC, useEffect, useState } from "react";
 
 export async function getServerSideProps({ locale }) {
-  // export async function getStaticProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale)),
