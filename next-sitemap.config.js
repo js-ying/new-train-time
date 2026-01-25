@@ -178,7 +178,7 @@ module.exports = {
     ];
 
     return {
-      loc: path,
+      loc: `${siteUrl}${path === "/" ? "" : path}`, // 強制使用絕對路徑，避免 next-sitemap 自行拼接導致 alternate 異常
       changefreq: isMainPage
         ? "always"
         : isSecondaryPage
