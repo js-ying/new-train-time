@@ -39,7 +39,7 @@ export const useTrSearch = (alertOptions: AlertOptions) => {
     } catch (error: any) {
       setTrainTimeTable([]);
       setIsApiHealth(false);
-      alertOptions.setAlertMsg(error?.message || error);
+      alertOptions.setAlertMsg((error?.message || error) as any);
     } finally {
       setIsLoading(false);
     }

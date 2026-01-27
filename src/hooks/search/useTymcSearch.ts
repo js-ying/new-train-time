@@ -21,13 +21,13 @@ export const useTymcSearch = (alertOptions: AlertOptions) => {
       if (data) {
         setJsyTymcInfo({ ...data });
       } else {
-        setJsyTymcInfo((prev) => (prev ? { ...prev, timeTables: [] } : null));
+        setJsyTymcInfo({ timeTables: [] } as JsyTymcInfo);
       }
       setIsApiHealth(true);
     } catch (error: any) {
-      setJsyTymcInfo((prev) => (prev ? { ...prev, timeTables: [] } : null));
+      setJsyTymcInfo({ timeTables: [] } as JsyTymcInfo);
       setIsApiHealth(false);
-      alertOptions.setAlertMsg(error?.message || error);
+      alertOptions.setAlertMsg((error?.message || error) as any);
     } finally {
       setIsLoading(false);
     }

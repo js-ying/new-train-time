@@ -21,13 +21,13 @@ export const useThsrSearch = (alertOptions: AlertOptions) => {
       if (data) {
         setJsyThsrInfo({ ...data });
       } else {
-        setJsyThsrInfo((prev) => (prev ? { ...prev, timeTable: [] } : null));
+        setJsyThsrInfo({ timeTable: [] } as JsyThsrInfo);
       }
       setIsApiHealth(true);
     } catch (error: any) {
-      setJsyThsrInfo((prev) => (prev ? { ...prev, timeTable: [] } : null));
+      setJsyThsrInfo({ timeTable: [] } as JsyThsrInfo);
       setIsApiHealth(false);
-      alertOptions.setAlertMsg(error?.message || error);
+      alertOptions.setAlertMsg((error?.message || error) as any);
     } finally {
       setIsLoading(false);
     }
