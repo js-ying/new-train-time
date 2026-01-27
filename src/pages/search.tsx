@@ -14,10 +14,11 @@ import useMuiTheme from "@/hooks/useMuiTheme";
 import usePage from "@/hooks/usePage";
 import AdUtils from "@/utils/AdUtils";
 import DateUtils from "@/utils/DateUtils";
+import Alert from "@mui/material/Alert";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -50,6 +51,10 @@ const Search: FC = () => {
     (isTymc && jsyTymcInfo?.timeTables?.length <= 0);
   const hasResult = hasTrData || hasThsrData || hasTymcData || noData;
 
+  const hasTymcAnomaly = useMemo(() => {
+    return isTymc && jsyTymcInfo?.timeTables?.some((t) => !t.jsyArrivalTime);
+  }, [isTymc, jsyTymcInfo]);
+
   const isDatetimeAlert = alertOptions.alertMsg === "datetimeNotAllowMsg";
   const dialogTitle = isDatetimeAlert ? "reminderAlertTitle" : "";
   const dialogContent = t(alertOptions.alertMsg, {
@@ -77,6 +82,19 @@ const Search: FC = () => {
           </div>
 
           <div className="mt-5">
+            {/* 桃園捷運 異常警告 (資料不齊全時) */}
+            {hasTymcAnomaly && (
+              <div className="pt-2 mb-4">
+                <Alert
+                  severity="warning"
+                  variant="outlined"
+                  className="rounded-xl"
+                >
+                  {t("tymcArrivalWarning")}
+                </Alert>
+              </div>
+            )}
+
             {/* [台鐵] 有列車資料 */}
             {hasTrData && <TrTrainTimeTable dataList={trainTimeTable} />}
 

@@ -66,12 +66,20 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
         {/* Mid */}
         <div className="col-span-2 text-center">
           <div className="flex items-center justify-center gap-1.5">
-            <span className="whitespace-nowrap">{timeRange}</span>
-            <span className="whitespace-nowrap text-sm">± 3 {t("minute")}</span>
+            <span className="whitespace-nowrap">
+              {tymcTimeTable.DepartureTime} - {tymcTimeTable.jsyArrivalTime || t("unknown")}
+            </span>
+            {durationText && (
+              <span className="whitespace-nowrap text-sm">
+                ± 3 {t("minute")}
+              </span>
+            )}
           </div>
-          <div className="whitespace-nowrap text-sm text-zinc-500 dark:text-zinc-400">
-            {t("about")} {durationText}
-          </div>
+          {durationText && (
+            <div className="whitespace-nowrap text-sm text-zinc-500 dark:text-zinc-400">
+              {t("about")} {durationText}
+            </div>
+          )}
         </div>
         {/* Right */}
         <div className="text-center text-sm">NTD {price}</div>

@@ -3,6 +3,8 @@
   "colon": "：",
   "none": "無",
   "about": "約",
+  "unknown": "未知",
+  "new": "New",
   "tr": "台鐵",
   "thsr": "高鐵",
   "tymc": "桃園捷運",
@@ -140,5 +142,5 @@
   "trainTypeFilterNormal": "普通車",
   "directlyArrive": "直達車",
   "normalArrive": "普通車",
-  "new": "New"
+  "tymcArrivalWarning": "受限於資料來源異常或調整，部分列車到達時間目前不完整，正在處理中，造成不便敬請見諒。"
 }

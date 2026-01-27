@@ -32,6 +32,7 @@ export const useTymcTrainDisplay = (
   );
 
   const durationText = useMemo(() => {
+    if (!tymcTimeTable.jsyRunTime) return "";
     const [hour, min] = tymcTimeTable.jsyRunTime
       .split(":")
       .map((s) => parseInt(s, 10));
