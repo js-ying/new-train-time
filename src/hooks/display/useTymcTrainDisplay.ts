@@ -27,17 +27,18 @@ export const useTymcTrainDisplay = (
   );
 
   const timeRange = useMemo(
-    () => `${tymcTimeTable.DepartureTime} - ${tymcTimeTable.jsyArrivalTime}`,
-    [tymcTimeTable],
+    () =>
+      `${tymcTimeTable?.DepartureTime || ""} - ${tymcTimeTable?.jsyArrivalTime || ""}`,
+    [tymcTimeTable?.DepartureTime, tymcTimeTable?.jsyArrivalTime],
   );
 
   const durationText = useMemo(() => {
-    if (!tymcTimeTable.jsyRunTime) return "";
-    const [hour, min] = tymcTimeTable.jsyRunTime
-      .split(":")
-      .map((s) => parseInt(s, 10));
+    const runTime = tymcTimeTable?.jsyRunTime;
+    if (!runTime || typeof runTime !== "string") return "";
+
+    const [hour, min] = runTime.split(":").map((s) => parseInt(s, 10));
     return t("trainInfoTimeDiff", { hour, min });
-  }, [tymcTimeTable.jsyRunTime, t]);
+  }, [tymcTimeTable?.jsyRunTime, t]);
 
   const price = useMemo(() => {
     const fare = fareList.find((f) => f.TicketType === 1 && f.FareClass === 1);
