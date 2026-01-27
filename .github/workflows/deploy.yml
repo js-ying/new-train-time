@@ -38,9 +38,25 @@ jobs:
             node -v
             pm2 --version
             cd /var/www/html/jsy.tw/fullstack/new-train-time
-            git pull origin main
+
+            # 強制捨棄伺服器上自發性的變動（如自動更新的 package-lock.json）
+            git reset --hard
+
+            # 強制拉取並對齊遠端的 main 分支，解決 master/main 分支命名不一致問題
+            git fetch origin main
+            git checkout -B main origin/main
+
+            # 清理未被 git 追蹤的暫存檔（配合 .gitignore）
+            git clean -fd
+
+            # 使用 npm ci (Clean Install) 確保依賴版本與開發環境完全一致，且不會修改 lock 檔
+            # 若 npm ci 失敗（通常是因為環境極端差異），則退回 npm install
+            npm ci || npm install
+
+            # 重新編譯
             rm -rf .next
-            rm -rf node_modules
-            npm install
             npm run build
+
+            # 重啟服務並確認狀態
             pm2 restart new-train-time
+            pm2 show new-train-time | grep -E "status|path"

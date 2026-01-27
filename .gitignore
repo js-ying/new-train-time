@@ -40,3 +40,8 @@ local-deploy.sh
 # next-sitemap (自動生成)
 public/sitemap*.xml
 public/robots.txt
+
+# PWA (自動生成)
+public/sw.js
+public/workbox-*.js
+public/worker-*.js
