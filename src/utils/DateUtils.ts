@@ -1,5 +1,6 @@
 import moment from "moment-timezone";
 import { DaySegmentEnum } from "../enums/DateEnum";
+import { PageEnum } from "../enums/PageEnum";
 moment.tz.setDefault("Asia/Taipei");
 
 const DateUtils = {
@@ -14,6 +15,9 @@ const DateUtils = {
   },
   addMonth: (date: string, months: number): string => {
     return moment(date).add(months, "month").format("YYYY-MM-DD");
+  },
+  addDays: (date: string, days: number): string => {
+    return moment(date).add(days, "days").format("YYYY-MM-DD");
   },
   isBefore: (date1: string, date2: string): boolean => {
     return moment(date1).isBefore(date2);
@@ -89,6 +93,10 @@ const DateUtils = {
   },
   isValid: (date: string) => {
     return moment(date).isValid();
+  },
+  getMaxDays: (page: PageEnum): number => {
+    if (page === PageEnum.THSR) return 27;
+    return 58;
   },
 };
 

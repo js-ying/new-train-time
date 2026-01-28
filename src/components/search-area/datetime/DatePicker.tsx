@@ -3,6 +3,7 @@ import {
   SearchAreaUpdateContext,
 } from "@/contexts/SearchAreaContext";
 import usePage from "@/hooks/usePage";
+import DateUtils from "@/utils/DateUtils";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment-timezone";
@@ -17,7 +18,7 @@ const DatePicker: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
-  const { isThsr } = usePage();
+  const { page } = usePage();
 
   const selectedDate = moment(params.date);
 
@@ -37,7 +38,7 @@ const DatePicker: FC = () => {
         onChange={(datetime) => setDate(datetime)}
         views={["day"]}
         disablePast={true}
-        maxDate={moment().add(isThsr ? 27 : 58, "days")}
+        maxDate={moment().add(DateUtils.getMaxDays(page), "days")}
         reduceAnimations={true}
         timezone={"Asia/Taipei"}
         dayOfWeekFormatter={(_day, weekday) => `${_day}`}

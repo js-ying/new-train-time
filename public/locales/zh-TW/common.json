@@ -49,7 +49,7 @@
   "startStationIsBlankMsg": "請選擇「出發車站」。",
   "endStationIsBlankMsg": "請選擇「抵達車站」。",
   "sameStationMsg": "「出發車站」和「抵達車站」不得相同。",
-  "datetimeNotAllowMsg": "僅支援查詢「今日起兩個月內」的時刻表。\n您所選日期超出範圍，已自動重設為今日。\n以下為 {{date}} 的查詢結果。",
+  "datetimeNotAllowMsg": "日期為空或是超出範圍，已自動重設為今日。\n以下為 {{date}} 的查詢結果。",
   "sameQueryMsg": "等等～你查詢的速度太快了！請稍後再試。",
   "closeBtn": "關閉",
   "historyInquiry": "歷史查詢：共 {{ nowLength }} / 5 筆",

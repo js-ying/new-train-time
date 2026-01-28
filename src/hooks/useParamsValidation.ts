@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DateUtils from "../utils/DateUtils";
+import usePage from "./usePage";
 
 export interface ValidationResult {
   isValid: boolean;
@@ -33,6 +34,7 @@ interface UseParamsValidationResult {
 const useParamsValidation = (): UseParamsValidationResult => {
   const [alertMsg, setAlertMsg] = useState<AlertOptions["alertMsg"]>("");
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
+  const { page } = usePage();
 
   const isParamsValid = (
     startStationId: string,
@@ -64,12 +66,15 @@ const useParamsValidation = (): UseParamsValidationResult => {
       return { isValid: false };
     }
 
+    const maxDays = DateUtils.getMaxDays(page);
+    const maxDate = DateUtils.addDays(DateUtils.getCurrentDate(), maxDays);
+
     if (
       !date ||
       !time ||
       !DateUtils.isValid(date) ||
       DateUtils.isBefore(date, DateUtils.getCurrentDate()) ||
-      DateUtils.isAfter(date, DateUtils.addMonth(DateUtils.getCurrentDate(), 2))
+      DateUtils.isAfter(date, maxDate)
     ) {
       setAlertMsg("datetimeNotAllowMsg");
       setAlertOpen(true);
