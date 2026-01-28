@@ -1,14 +1,16 @@
 import { Button, ButtonGroup } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
-import { JsyTrTrainTimeTable } from "../../../models/tr-train-time-table";
+import { TrDailyTrainTimetable } from "../../../models/jsy-tr-info";
+
 import {
   isTrTrainNonReserved,
   isTrTrainReserved,
 } from "../../../utils/TrainInfoUtils";
 
 interface TrTrainTypeFilterProps {
-  dataList: JsyTrTrainTimeTable[];
+  dataList: TrDailyTrainTimetable[];
+
   setFilterDataList: Function;
 }
 

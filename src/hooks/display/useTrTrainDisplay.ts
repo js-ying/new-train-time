@@ -1,4 +1,5 @@
-import { JsyTrTrainTimeTable } from "@/models/tr-train-time-table";
+import { TrDailyTrainTimetable } from "@/models/jsy-tr-info";
+
 import DateUtils from "@/utils/DateUtils";
 import {
   getTimeDiff,
@@ -8,17 +9,17 @@ import {
 import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 
-export const useTrTrainDisplay = (data: JsyTrTrainTimeTable) => {
+export const useTrTrainDisplay = (data: TrDailyTrainTimetable) => {
   const { t } = useTranslation();
 
   const isPassed = useMemo(
     () =>
       isTrainPass(
-        data.trainDate,
+        data.jsyTrainDate,
         DateUtils.getCurrentDate(),
         data.StopTimes[0].DepartureTime,
       ),
-    [data.trainDate, data.StopTimes],
+    [data.jsyTrainDate, data.StopTimes],
   );
 
   const isOnlyTicket = useMemo(
@@ -36,10 +37,11 @@ export const useTrTrainDisplay = (data: JsyTrTrainTimeTable) => {
     const diff = getTimeDiff(
       data.StopTimes[0].DepartureTime,
       data.StopTimes[data.StopTimes.length - 1].ArrivalTime,
-      data.trainDate,
+      data.jsyTrainDate,
     );
+
     return t("trainInfoTimeDiff", { hour: diff.hour, min: diff.min });
-  }, [data.StopTimes, data.trainDate, t]);
+  }, [data.StopTimes, data.jsyTrainDate, t]);
 
   return {
     isPassed,

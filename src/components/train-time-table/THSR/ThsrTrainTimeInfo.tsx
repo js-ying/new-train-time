@@ -2,8 +2,8 @@ import { SettingContext } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { useThsrTrainDisplay } from "@/hooks/display/useThsrTrainDisplay";
 import {
-  JsyTimeTable,
   ThsrDailyFreeSeatingCar,
+  ThsrDailyTimetable,
   ThsrOdFare,
   ThsrTdxGeneralTimeTable,
 } from "@/models/jsy-thsr-info";
@@ -18,7 +18,8 @@ import ThsrTimeInfoRightArea from "./ThsrTimeInfoRightArea";
 import ThsrTrainTimeDetailDialog from "./ThsrTrainTimeDetailDialog";
 
 interface ThsrTrainTimeInfoProps {
-  thsrTrainTimeTable: JsyTimeTable;
+  thsrTrainTimeTable: ThsrDailyTimetable;
+
   thsrFreeSeatingCars: ThsrDailyFreeSeatingCar["FreeSeatingCars"];
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
   thsrOdFare: ThsrOdFare[];

@@ -1,18 +1,14 @@
 import { JsyAnnouncement } from "./jsy-announcement";
 
 export interface JsyThsrInfo {
-  timeTable: JsyTimeTable[];
+  timeTable: ThsrDailyTimetable[];
   fareList: ThsrOdFare[];
   freeSeatingCars: ThsrFreeSeatingCar[];
   generalTimeTable: ThsrTdxGeneralTimeTable[];
-  announcements?: JsyAnnouncement[];
+  announcements: JsyAnnouncement[];
 }
 
-export interface JsyTimeTable extends ThsrDailyTimetable {
-  standardSeatStatus: "X" | "L" | "O" | null;
-  businessSeatStatus: "X" | "L" | "O" | null;
-}
-
+// 含 jsy 客製欄位
 export interface ThsrDailyTimetable {
   TrainDate: string;
   DailyTrainInfo: {
@@ -52,6 +48,8 @@ export interface ThsrDailyTimetable {
   };
   UpdateTime: string;
   VersionID: number;
+  jsyStandardSeatStatus?: "X" | "L" | "O" | null; // [客製] 標準車廂剩餘座位
+  jsyBusinessSeatStatus?: "X" | "L" | "O" | null; // [客製] 商務車廂剩餘座位
 }
 
 export interface ThsrOdFare {

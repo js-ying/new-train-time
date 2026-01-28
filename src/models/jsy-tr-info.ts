@@ -1,21 +1,18 @@
 import { JsyAnnouncement } from "./jsy-announcement";
 
-export interface TrDailyTrainTimetable {
-  UpdateTime: string;
-  UpdateInterval: number;
-  SrcUpdateTime: string;
-  SrcUpdateInterval: number;
-  TrainDate: string;
-  TrainTimetables: JsyTrTrainTimeTable[];
-  announcements?: JsyAnnouncement[];
+export interface JsyTrInfo {
+  trainTimetables: TrDailyTrainTimetable[];
+  trainDate: string; // YYYY-MM-DD
+  announcements: JsyAnnouncement[];
 }
 
-export interface JsyTrTrainTimeTable {
+// 含 jsy 客製欄位
+export interface TrDailyTrainTimetable {
   TrainInfo: TrTrainInfo;
   StopTimes: TrStopTime[];
-  fareList: TrOfFare[];
-  delayInfo: TrDelayInfo[];
-  trainDate: string;
+  jsyFareList: TrOfFare[]; // [客製] 票價清單
+  jsyDelayInfo: TrLiveBoard[]; // [客製] 誤點資訊
+  jsyTrainDate: string; // [客製] 車次日期
 }
 
 export interface TrTrainInfo {
@@ -72,8 +69,31 @@ export interface TrStationName {
   En: string;
 }
 
-export interface TrDelayInfo {
-  DelayTime: number;
+export interface TrLiveBoard {
+  TrainNo: string;
+  StationID: string;
+  StationName: {
+    Zh_tw: string;
+    En: string;
+  };
+  TrainTypeID: string;
+  TrainTypeCode: string;
+  TrainTypeName: {
+    Zh_tw: string;
+    En: string;
+  };
+  EndingStationID: string;
+  EndingStationName: {
+    Zh_tw: string;
+    En: string;
+  };
+  TripLine: number; // 0:不經山海線 1:山線 2:海線
+  Platform: string;
+  ScheduledArrivalTime: string;
+  ScheduledDepartureTime: string;
+  DelayTime: number; // 誤點分鐘數
+  SrcUpdateTime: string;
+  UpdateTime: string; // ISO8601
 }
 
 /**

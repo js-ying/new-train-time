@@ -1,10 +1,11 @@
 import { FC } from "react";
+import { TrLiveBoard } from "../../../models/jsy-tr-info";
 import TrDelay from "./TrDelay";
 
 interface TrTimeInfoMidAreaProps {
   timeRange: string;
   durationText: string;
-  delayInfo: any[]; // Or appropriate type from your model
+  delayInfo: TrLiveBoard[];
 }
 
 const TrTimeInfoMidArea: FC<TrTimeInfoMidAreaProps> = ({

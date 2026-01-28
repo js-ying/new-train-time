@@ -1,17 +1,18 @@
-import { JsyTimeTable } from "@/models/jsy-thsr-info";
+import { ThsrDailyTimetable } from "@/models/jsy-thsr-info";
+
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 
 interface ThsrAvailableSeatStatusProps {
-  timeTable: JsyTimeTable;
+  timeTable: ThsrDailyTimetable;
 }
 
 /**
  * 判斷是否有剩餘座位
  */
-export const isThsrAvailable = (timeTable: JsyTimeTable) => {
-  const standardSeatStatus = timeTable.standardSeatStatus;
-  const businessSeatStatus = timeTable.businessSeatStatus;
+export const isThsrAvailable = (timeTable: ThsrDailyTimetable) => {
+  const standardSeatStatus = timeTable.jsyStandardSeatStatus;
+  const businessSeatStatus = timeTable.jsyBusinessSeatStatus;
 
   return !(
     (standardSeatStatus === null && businessSeatStatus === null) ||
@@ -22,9 +23,10 @@ export const isThsrAvailable = (timeTable: JsyTimeTable) => {
 /**
  * 判斷是否「僅剩」商務車廂座位
  */
-export const isOnlyBusinessAvailable = (timeTable: JsyTimeTable) => {
+export const isOnlyBusinessAvailable = (timeTable: ThsrDailyTimetable) => {
   return (
-    timeTable.standardSeatStatus === "X" && timeTable.businessSeatStatus !== "X"
+    timeTable.jsyStandardSeatStatus === "X" &&
+    timeTable.jsyBusinessSeatStatus !== "X"
   );
 };
 
@@ -32,8 +34,8 @@ const ThsrAvailableSeatStatus: FC<ThsrAvailableSeatStatusProps> = ({
   timeTable,
 }) => {
   const { t } = useTranslation();
-  const standardSeatStatus = timeTable.standardSeatStatus;
-  const businessSeatStatus = timeTable.businessSeatStatus;
+  const standardSeatStatus = timeTable.jsyStandardSeatStatus;
+  const businessSeatStatus = timeTable.jsyBusinessSeatStatus;
 
   if (!isThsrAvailable(timeTable)) {
     return <div className="">{t("noAvailableSeats")}</div>;

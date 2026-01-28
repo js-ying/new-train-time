@@ -1,5 +1,6 @@
 import AdBanner from "@/components/common/AdBanner";
-import { JsyTrTrainTimeTable } from "@/models/tr-train-time-table";
+import { TrDailyTrainTimetable } from "@/models/jsy-tr-info";
+
 import AdUtils from "@/utils/AdUtils";
 import { FC, useEffect, useState } from "react";
 import TrainTimeNavbar from "../TrainTimeNavbar";
@@ -7,7 +8,7 @@ import TrTrainTimeInfo from "./TrTrainTimeInfo";
 import TrTrainTypeFilter from "./TrTrainTypeFilter";
 
 interface TrTrainTimeTableProps {
-  dataList: JsyTrTrainTimeTable[];
+  dataList: TrDailyTrainTimetable[];
 }
 
 /** 列車時刻表 */

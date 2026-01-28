@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { JsyTrTrainTimeTable } from "../models/tr-train-time-table";
+import { JsyTrTrainTimeTable } from "../models/jsy-tr-info";
 
 export interface TrainTimeTableData {
   dataList: JsyTrTrainTimeTable[];

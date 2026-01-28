@@ -1,6 +1,7 @@
 import CommonDialog from "@/components/common/CommonDialog";
 import useBooking from "@/hooks/useBooking";
-import { JsyTimeTable } from "@/models/jsy-thsr-info";
+import { ThsrDailyTimetable } from "@/models/jsy-thsr-info";
+
 import DateUtils from "@/utils/DateUtils";
 import { isTrainPass } from "@/utils/TrainInfoUtils";
 import { Button } from "@heroui/react";
@@ -11,7 +12,7 @@ import { isOnlyBusinessAvailable } from "./ThsrAvailableSeatStatus";
 /**
  * 是否顯示 [高鐵] 訂票按鈕
  */
-export const isShowThsrOrderBtn = (timeTable: JsyTimeTable) => {
+export const isShowThsrOrderBtn = (timeTable: ThsrDailyTimetable) => {
   // 列車已發車不顯示訂票按鈕
   if (
     isTrainPass(
@@ -38,7 +39,7 @@ export const isShowThsrOrderBtn = (timeTable: JsyTimeTable) => {
 };
 
 interface ThsrOrderButtonProps {
-  timeTable: JsyTimeTable;
+  timeTable: ThsrDailyTimetable;
 }
 
 const ThsrOrderButton: React.FC<ThsrOrderButtonProps> = ({ timeTable }) => {

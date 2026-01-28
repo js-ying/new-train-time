@@ -1,11 +1,12 @@
 import Dot from "@/components/common/Dot";
-import { JsyTrTrainTimeTable } from "@/models/tr-train-time-table";
+import { TrDailyTrainTimetable } from "@/models/jsy-tr-info";
+
 import { getTdxLang } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 
 interface TrStopTimesTableProps {
-  data: JsyTrTrainTimeTable;
+  data: TrDailyTrainTimetable;
 }
 
 const TrStopTimesTable: FC<TrStopTimesTableProps> = ({ data }) => {

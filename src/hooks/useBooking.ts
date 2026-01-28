@@ -1,15 +1,15 @@
 import { SettingContext } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
 import {
-  JsyTimeTable as JsyThsrTimeTable,
+  ThsrDailyTimetable as JsyThsrTimeTable,
   ThsrDeeplinkDirectParams,
   ThsrDeeplinkWebParams,
 } from "@/models/jsy-thsr-info";
 import {
-  JsyTrTrainTimeTable,
+  TrDailyTrainTimetable,
   TraDeeplinkDirectParams,
   TraDeeplinkWebParams,
-} from "@/models/tr-train-time-table";
+} from "@/models/jsy-tr-info";
 import {
   getThsrDeeplinkDirect,
   getThsrDeeplinkWeb,
@@ -62,7 +62,9 @@ const useBooking = () => {
   /**
    * 台鐵訂票邏輯
    */
-  const handleTrBooking = async (data: JsyTrTrainTimeTable): Promise<void> => {
+  const handleTrBooking = async (
+    data: TrDailyTrainTimetable,
+  ): Promise<void> => {
     setLoading(true);
 
     const startStation = data.StopTimes[0].StationName.Zh_tw;
@@ -77,7 +79,7 @@ const useBooking = () => {
         const params: TraDeeplinkDirectParams = {
           start_station: startStation,
           end_station: endStation,
-          train_date: data.trainDate,
+          train_date: data.jsyTrainDate,
           train_number: Number(data.TrainInfo.TrainNo),
         };
         res = await getTrDeeplinkDirect(params);
@@ -85,7 +87,8 @@ const useBooking = () => {
         const params: TraDeeplinkWebParams = {
           start_station: startStation,
           end_station: endStation,
-          departure_date: data.trainDate,
+          departure_date: data.jsyTrainDate,
+
           departure_number: data.TrainInfo.TrainNo,
           ticket_type: 1,
           ticket_count: 1,

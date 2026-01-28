@@ -1,10 +1,11 @@
-import { JsyTimeTable } from "@/models/jsy-thsr-info";
+import { ThsrDailyTimetable } from "@/models/jsy-thsr-info";
+
 import DateUtils from "@/utils/DateUtils";
 import { getTimeDiff, isTrainPass } from "@/utils/TrainInfoUtils";
 import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 
-export const useThsrTrainDisplay = (data: JsyTimeTable) => {
+export const useThsrTrainDisplay = (data: ThsrDailyTimetable) => {
   const { t } = useTranslation();
 
   const isPassed = useMemo(

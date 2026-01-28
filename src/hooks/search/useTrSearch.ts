@@ -1,13 +1,11 @@
-import { JsyAnnouncement } from "@/models/jsy-announcement";
-import { JsyTrTrainTimeTable } from "@/models/tr-train-time-table";
-import { getTrTrainTimeTable } from "@/services/trService";
+import { JsyTrInfo } from "@/models/jsy-tr-info";
+import { getJsyTrInfo } from "@/services/trService";
+
 import { useState } from "react";
 import { AlertOptions } from "../useParamsValidation";
 
 export const useTrSearch = (alertOptions: AlertOptions) => {
-  const [trainTimeTable, setTrainTimeTable] =
-    useState<JsyTrTrainTimeTable[]>(null);
-  const [announcements, setAnnouncements] = useState<JsyAnnouncement[]>([]);
+  const [jsyTrInfo, setJsyTrInfo] = useState<JsyTrInfo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isApiHealth, setIsApiHealth] = useState(true);
 
@@ -19,30 +17,17 @@ export const useTrSearch = (alertOptions: AlertOptions) => {
   ) => {
     setIsLoading(true);
     try {
-      const data = await getTrTrainTimeTable(
-        startStationId,
-        endStationId,
-        date,
-        time,
-      );
+      const data = await getJsyTrInfo(startStationId, endStationId, date, time);
 
-      if (data?.TrainTimetables?.length >= 0) {
-        const jsyTrTrainTimeTables: JsyTrTrainTimeTable[] = [
-          ...data.TrainTimetables,
-        ];
-        jsyTrTrainTimeTables.forEach(
-          (table: JsyTrTrainTimeTable) => (table["trainDate"] = data.TrainDate),
-        );
-        setTrainTimeTable(jsyTrTrainTimeTables);
-        setAnnouncements(data.announcements || []);
+      if (data?.trainTimetables?.length >= 0) {
+        setJsyTrInfo(data);
       } else {
-        setTrainTimeTable([]);
-        setAnnouncements([]);
+        setJsyTrInfo(null);
       }
 
       setIsApiHealth(true);
     } catch (error: any) {
-      setTrainTimeTable([]);
+      setJsyTrInfo(null);
       setIsApiHealth(false);
       alertOptions.setAlertMsg((error?.message || error) as any);
     } finally {
@@ -51,8 +36,7 @@ export const useTrSearch = (alertOptions: AlertOptions) => {
   };
 
   return {
-    trainTimeTable,
-    announcements,
+    jsyTrInfo,
     isLoading,
     isApiHealth,
     searchTr,

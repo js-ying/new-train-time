@@ -2,7 +2,11 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "@/contexts/SearchAreaContext";
+import { JsyThsrInfo } from "@/models/jsy-thsr-info";
+import { JsyTrInfo } from "@/models/jsy-tr-info";
+import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import DateUtils from "@/utils/DateUtils";
+
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import usePage from "../usePage";
@@ -16,10 +20,9 @@ interface UseTrainSearchResult {
   isLoading: boolean;
   isApiHealth: boolean;
   alertOptions: AlertOptions;
-  trainTimeTable: any[];
-  jsyTrAnnouncements: any[];
-  jsyThsrInfo: any;
-  jsyTymcInfo: any;
+  jsyTrInfo: JsyTrInfo | null;
+  jsyThsrInfo: JsyThsrInfo | null;
+  jsyTymcInfo: JsyTymcInfo | null;
 }
 
 const useTrainSearch = (): UseTrainSearchResult => {
@@ -32,8 +35,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
 
   // 子 Hook 初始化
   const {
-    trainTimeTable,
-    announcements: jsyTrAnnouncements,
+    jsyTrInfo,
     isLoading: isTrLoading,
     isApiHealth: isTrApiHealth,
     searchTr,
@@ -131,8 +133,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
     isLoading: isTrLoading || isThsrLoading || isTymcLoading,
     isApiHealth: isTrApiHealth && isThsrApiHealth && isTymcApiHealth,
     alertOptions,
-    trainTimeTable,
-    jsyTrAnnouncements,
+    jsyTrInfo,
     jsyThsrInfo,
     jsyTymcInfo,
   };

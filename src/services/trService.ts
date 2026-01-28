@@ -1,21 +1,22 @@
 import { JsyOperationAlert } from "@/models/jsy-operation-alert";
 import {
-  TrDailyTrainTimetable,
+  JsyTrInfo,
   TraDeeplinkDirectParams,
   TraDeeplinkDirectResponse,
   TraDeeplinkWebParams,
   TraDeeplinkWebResponse,
-} from "@/models/tr-train-time-table";
+} from "@/models/jsy-tr-info";
+
 import fetchData from "./fetchData";
 
 /** 取得台鐵時刻表 */
-export const getTrTrainTimeTable = async (
+export const getJsyTrInfo = async (
   startStationId: string,
   endStationId: string,
   date: string,
   time: string,
-): Promise<TrDailyTrainTimetable> => {
-  return await fetchData("/api/getTrainTimeTable", {
+): Promise<JsyTrInfo> => {
+  return await fetchData("/api/getJsyTrInfo", {
     startStationId,
     endStationId,
     date,

@@ -1,13 +1,14 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { JsyTimeTable } from "../../../models/jsy-thsr-info";
+import { ThsrDailyTimetable } from "../../../models/jsy-thsr-info";
+
 import ThsrAvailableSeatStatus, {
   isThsrAvailable,
 } from "./ThsrAvailableSeatStatus";
 import ThsrOrderButton, { isShowThsrOrderBtn } from "./ThsrOrderButton";
 
 interface ThsrTimeInfoRightAreaProps {
-  data: JsyTimeTable;
+  data: ThsrDailyTimetable;
 }
 
 const ThsrTimeInfoRightArea: FC<ThsrTimeInfoRightAreaProps> = ({ data }) => {

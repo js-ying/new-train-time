@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { TrDelayInfo } from "../../../models/tr-train-time-table";
+import { TrLiveBoard } from "../../../models/jsy-tr-info";
 
 interface DelayDotProps {
   isGreen: boolean;
@@ -18,7 +18,7 @@ const DelayDot: FC<DelayDotProps> = ({ isGreen }) => {
 };
 
 interface TrDelayProps {
-  dataList: TrDelayInfo[];
+  dataList: TrLiveBoard[];
 }
 
 const TrDelay: FC<TrDelayProps> = ({ dataList }) => {

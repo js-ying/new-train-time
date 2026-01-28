@@ -2,7 +2,8 @@ import Loading from "@/components/common/Loading";
 import CaptureIcon from "@/components/icons/CaptureIcon";
 import { GaEnum } from "@/enums/GaEnum";
 import { useCaptureShare } from "@/hooks/useCaptureShare";
-import { JsyTrTrainTimeTable } from "@/models/tr-train-time-table";
+import { TrDailyTrainTimetable } from "@/models/jsy-tr-info";
+
 import { getTdxLang } from "@/utils/LocaleUtils";
 import {
   getTrTrainTypeNameByCode,
@@ -24,7 +25,7 @@ import TrTrainDetail from "./details/TrTrainDetail";
 interface TrTrainTimeDetailDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  data: JsyTrTrainTimeTable;
+  data: TrDailyTrainTimetable;
 }
 
 const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
@@ -36,7 +37,8 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
 
   const { isCapturing, capture } = useCaptureShare({
     selector: ".tr-detail-dialog",
-    imageNamePrefix: `${data.trainDate}_${data.TrainInfo.TrainNo}`,
+    imageNamePrefix: `${data.jsyTrainDate}_${data.TrainInfo.TrainNo}`,
+
     gaEventName: GaEnum.TR_TRAIN_DETAIL_CAPTURE,
   });
 

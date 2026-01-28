@@ -19,7 +19,7 @@ import DateUtils from "@/utils/DateUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -37,26 +37,27 @@ const Search: FC = () => {
     isLoading,
     isApiHealth,
     alertOptions,
-    trainTimeTable,
-    jsyTrAnnouncements,
+    jsyTrInfo,
     jsyThsrInfo,
     jsyTymcInfo,
   } = useTrainSearch();
 
+  const activeAnnouncements =
+    (isTr && jsyTrInfo?.announcements) ||
+    (isThsr && jsyThsrInfo?.announcements) ||
+    (isTymc && jsyTymcInfo?.announcements) ||
+    [];
+
   const { t } = useTranslation();
 
-  const hasTrData = isTr && trainTimeTable?.length > 0;
+  const hasTrData = isTr && jsyTrInfo?.trainTimetables?.length > 0;
   const hasThsrData = isThsr && jsyThsrInfo?.timeTable?.length > 0;
   const hasTymcData = isTymc && jsyTymcInfo?.timeTables?.length > 0;
   const noData =
-    (isTr && trainTimeTable?.length <= 0) ||
+    (isTr && jsyTrInfo?.trainTimetables?.length <= 0) ||
     (isThsr && jsyThsrInfo?.timeTable?.length <= 0) ||
     (isTymc && jsyTymcInfo?.timeTables?.length <= 0);
   const hasResult = hasTrData || hasThsrData || hasTymcData || noData;
-
-  const hasTymcAnomaly = useMemo(() => {
-    return isTymc && jsyTymcInfo?.timeTables?.some((t) => !t.jsyArrivalTime);
-  }, [isTymc, jsyTymcInfo]);
 
   const isDatetimeAlert = alertOptions.alertMsg === "datetimeNotAllowMsg";
   const dialogTitle = isDatetimeAlert ? "reminderAlertTitle" : "";
@@ -86,26 +87,16 @@ const Search: FC = () => {
 
           <div className="mt-5">
             {/* 動態公告 */}
-            {hasResult && (
+            {hasResult && activeAnnouncements.length > 0 && (
               <div className="pt-2">
-                {isTr && (
-                  <DynamicAnnouncements announcements={jsyTrAnnouncements} />
-                )}
-                {isThsr && (
-                  <DynamicAnnouncements
-                    announcements={jsyThsrInfo?.announcements}
-                  />
-                )}
-                {isTymc && (
-                  <DynamicAnnouncements
-                    announcements={jsyTymcInfo?.announcements}
-                  />
-                )}
+                <DynamicAnnouncements announcements={activeAnnouncements} />
               </div>
             )}
 
             {/* [台鐵] 有列車資料 */}
-            {hasTrData && <TrTrainTimeTable dataList={trainTimeTable} />}
+            {hasTrData && (
+              <TrTrainTimeTable dataList={jsyTrInfo?.trainTimetables} />
+            )}
 
             {/* [高鐵] 有列車資料 */}
             {hasThsrData && <ThsrTrainTimeTable data={jsyThsrInfo} />}

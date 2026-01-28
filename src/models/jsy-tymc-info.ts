@@ -7,7 +7,7 @@ export interface JsyTymcInfo {
   time: string;
   timeTables: MetroStationTimeTableTYMC["Timetables"];
   fareList: MetroODFareTYMC["Fares"];
-  announcements?: JsyAnnouncement[];
+  announcements: JsyAnnouncement[];
 }
 
 // 含 jsy 客製欄位
