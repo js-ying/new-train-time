@@ -19,15 +19,15 @@ export const useTrSearch = (alertOptions: AlertOptions) => {
     try {
       const data = await getJsyTrInfo(startStationId, endStationId, date, time);
 
-      if (data?.trainTimetables?.length >= 0) {
+      if (data?.timeTables) {
         setJsyTrInfo(data);
       } else {
-        setJsyTrInfo(null);
+        setJsyTrInfo({ timeTables: [] } as JsyTrInfo);
       }
 
       setIsApiHealth(true);
     } catch (error: any) {
-      setJsyTrInfo(null);
+      setJsyTrInfo({ timeTables: [] } as JsyTrInfo);
       setIsApiHealth(false);
       alertOptions.setAlertMsg((error?.message || error) as any);
     } finally {

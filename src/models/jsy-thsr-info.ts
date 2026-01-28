@@ -1,7 +1,7 @@
 import { JsyAnnouncement } from "./jsy-announcement";
 
 export interface JsyThsrInfo {
-  timeTable: ThsrDailyTimetable[];
+  timeTables: ThsrDailyTimetable[];
   fareList: ThsrOdFare[];
   freeSeatingCars: ThsrFreeSeatingCar[];
   generalTimeTable: ThsrTdxGeneralTimeTable[];

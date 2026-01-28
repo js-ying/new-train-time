@@ -1,7 +1,7 @@
 import { JsyAnnouncement } from "./jsy-announcement";
 
 export interface JsyTrInfo {
-  trainTimetables: TrDailyTrainTimetable[];
+  timeTables: TrDailyTrainTimetable[];
   trainDate: string; // YYYY-MM-DD
   announcements: JsyAnnouncement[];
 }

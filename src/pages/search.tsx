@@ -50,12 +50,12 @@ const Search: FC = () => {
 
   const { t } = useTranslation();
 
-  const hasTrData = isTr && jsyTrInfo?.trainTimetables?.length > 0;
-  const hasThsrData = isThsr && jsyThsrInfo?.timeTable?.length > 0;
+  const hasTrData = isTr && jsyTrInfo?.timeTables?.length > 0;
+  const hasThsrData = isThsr && jsyThsrInfo?.timeTables?.length > 0;
   const hasTymcData = isTymc && jsyTymcInfo?.timeTables?.length > 0;
   const noData =
-    (isTr && jsyTrInfo?.trainTimetables?.length <= 0) ||
-    (isThsr && jsyThsrInfo?.timeTable?.length <= 0) ||
+    (isTr && jsyTrInfo?.timeTables?.length <= 0) ||
+    (isThsr && jsyThsrInfo?.timeTables?.length <= 0) ||
     (isTymc && jsyTymcInfo?.timeTables?.length <= 0);
   const hasResult = hasTrData || hasThsrData || hasTymcData || noData;
 
@@ -94,9 +94,7 @@ const Search: FC = () => {
             )}
 
             {/* [台鐵] 有列車資料 */}
-            {hasTrData && (
-              <TrTrainTimeTable dataList={jsyTrInfo?.trainTimetables} />
-            )}
+            {hasTrData && <TrTrainTimeTable dataList={jsyTrInfo?.timeTables} />}
 
             {/* [高鐵] 有列車資料 */}
             {hasThsrData && <ThsrTrainTimeTable data={jsyThsrInfo} />}

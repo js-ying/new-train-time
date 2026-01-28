@@ -21,11 +21,11 @@ export const useThsrSearch = (alertOptions: AlertOptions) => {
       if (data) {
         setJsyThsrInfo({ ...data });
       } else {
-        setJsyThsrInfo({ timeTable: [] } as JsyThsrInfo);
+        setJsyThsrInfo({ timeTables: [] } as JsyThsrInfo);
       }
       setIsApiHealth(true);
     } catch (error: any) {
-      setJsyThsrInfo({ timeTable: [] } as JsyThsrInfo);
+      setJsyThsrInfo({ timeTables: [] } as JsyThsrInfo);
       setIsApiHealth(false);
       alertOptions.setAlertMsg((error?.message || error) as any);
     } finally {

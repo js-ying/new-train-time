@@ -15,13 +15,13 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
   return (
     <>
       <div className="sticky top-0 z-10 mb-2 bg-white pb-2 pt-2 dark:bg-eerieBlack-500">
-        <TrainTimeNavbar totalCount={data.timeTable.length} filterCount={null}>
+        <TrainTimeNavbar totalCount={data.timeTables.length} filterCount={null}>
           <ThsrPriceInfo dataList={data.fareList} showLabel={true} />
         </TrainTimeNavbar>
       </div>
 
       <div className="flex flex-col gap-4">
-        {data.timeTable.map((timeTable, index) => (
+        {data.timeTables.map((timeTable, index) => (
           <div key={timeTable.DailyTrainInfo.TrainNo}>
             <ThsrTrainTimeInfo
               thsrTrainTimeTable={timeTable}
@@ -30,7 +30,7 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
               thsrOdFare={data.fareList}
             />
 
-            {AdUtils.showAd(data.timeTable.length, index) && (
+            {AdUtils.showAd(data.timeTables.length, index) && (
               <div className="mt-4">
                 <AdBanner />
               </div>
