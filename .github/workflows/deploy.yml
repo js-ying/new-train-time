@@ -32,6 +32,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            # 發生錯誤立即停止執行
+            set -e
+
             echo "Connected to server"
             source ~/.zshrc
             nvm use v20
