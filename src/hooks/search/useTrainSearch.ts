@@ -17,6 +17,7 @@ interface UseTrainSearchResult {
   isApiHealth: boolean;
   alertOptions: AlertOptions;
   trainTimeTable: any[];
+  jsyTrAnnouncements: any[];
   jsyThsrInfo: any;
   jsyTymcInfo: any;
 }
@@ -32,6 +33,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
   // 子 Hook 初始化
   const {
     trainTimeTable,
+    announcements: jsyTrAnnouncements,
     isLoading: isTrLoading,
     isApiHealth: isTrApiHealth,
     searchTr,
@@ -130,6 +132,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
     isApiHealth: isTrApiHealth && isThsrApiHealth && isTymcApiHealth,
     alertOptions,
     trainTimeTable,
+    jsyTrAnnouncements,
     jsyThsrInfo,
     jsyTymcInfo,
   };

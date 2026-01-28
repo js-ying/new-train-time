@@ -1,3 +1,5 @@
+import { JsyAnnouncement } from "./jsy-announcement";
+
 export interface JsyTymcInfo {
   startStationId: string;
   endStationId: string;
@@ -5,6 +7,7 @@ export interface JsyTymcInfo {
   time: string;
   timeTables: MetroStationTimeTableTYMC["Timetables"];
   fareList: MetroODFareTYMC["Fares"];
+  announcements?: JsyAnnouncement[];
 }
 
 // 含 jsy 客製欄位

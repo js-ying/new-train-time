@@ -5,16 +5,17 @@ import Layout from "@/components/layout/Layout";
 import CommonDialog from "@/components/common/CommonDialog";
 import OperationAlert from "@/components/search-area/alert/OperationAlert";
 import SearchArea from "@/components/search-area/SearchArea";
+import DynamicAnnouncements from "@/components/search/DynamicAnnouncements";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
 import ThsrTrainTimeTable from "@/components/train-time-table/THSR/ThsrTrainTimeTable";
 import TrTrainTimeTable from "@/components/train-time-table/TR/TrTrainTimeTable";
 import TymcTimeTable from "@/components/train-time-table/TYMC/TymcTimeTable";
 import useTrainSearch from "@/hooks/search/useTrainSearch";
+
 import useMuiTheme from "@/hooks/useMuiTheme";
 import usePage from "@/hooks/usePage";
 import AdUtils from "@/utils/AdUtils";
 import DateUtils from "@/utils/DateUtils";
-import Alert from "@mui/material/Alert";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -37,9 +38,11 @@ const Search: FC = () => {
     isApiHealth,
     alertOptions,
     trainTimeTable,
+    jsyTrAnnouncements,
     jsyThsrInfo,
     jsyTymcInfo,
   } = useTrainSearch();
+
   const { t } = useTranslation();
 
   const hasTrData = isTr && trainTimeTable?.length > 0;
@@ -82,16 +85,22 @@ const Search: FC = () => {
           </div>
 
           <div className="mt-5">
-            {/* 桃園捷運 異常警告 (資料不齊全時) */}
-            {hasTymcAnomaly && (
-              <div className="pt-2 mb-4">
-                <Alert
-                  severity="warning"
-                  variant="outlined"
-                  className="rounded-xl"
-                >
-                  {t("tymcArrivalWarning")}
-                </Alert>
+            {/* 動態公告 */}
+            {hasResult && (
+              <div className="pt-2">
+                {isTr && (
+                  <DynamicAnnouncements announcements={jsyTrAnnouncements} />
+                )}
+                {isThsr && (
+                  <DynamicAnnouncements
+                    announcements={jsyThsrInfo?.announcements}
+                  />
+                )}
+                {isTymc && (
+                  <DynamicAnnouncements
+                    announcements={jsyTymcInfo?.announcements}
+                  />
+                )}
               </div>
             )}
 

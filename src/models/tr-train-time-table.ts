@@ -1,3 +1,5 @@
+import { JsyAnnouncement } from "./jsy-announcement";
+
 export interface TrDailyTrainTimetable {
   UpdateTime: string;
   UpdateInterval: number;
@@ -5,6 +7,7 @@ export interface TrDailyTrainTimetable {
   SrcUpdateInterval: number;
   TrainDate: string;
   TrainTimetables: JsyTrTrainTimeTable[];
+  announcements?: JsyAnnouncement[];
 }
 
 export interface JsyTrTrainTimeTable {
