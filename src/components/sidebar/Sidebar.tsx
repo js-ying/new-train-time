@@ -1,6 +1,5 @@
 import CommonDialog from "@/components/common/CommonDialog";
 import IOSSwitchSetting from "@/components/common/IOSSwitchSetting";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { Button } from "@heroui/react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -44,7 +43,6 @@ interface DrawerListProps {
 
 const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const { t } = useTranslation();
-  const { isMobile } = useDeviceDetect();
   const list = useMemo(() => {
     return [
       {

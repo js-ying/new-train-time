@@ -31,7 +31,9 @@ const WebIntroduction: FC = () => {
       </div>
       <div className="col-span-2 grid content-between gap-2">
         <div>
-          <div className="text-lg font-bold">{t("trTitle")}</div>
+          <div className="text-lg font-bold text-zinc-700 dark:text-zinc-200">
+            {t("trTitle")}
+          </div>
           <div className="text-zinc-500 dark:text-zinc-400">
             {t("webDescription")}
           </div>
