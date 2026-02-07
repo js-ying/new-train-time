@@ -3,7 +3,7 @@ import { GaEnum } from "@/enums/GaEnum";
 import useLang from "@/hooks/useLang";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { Chip, Switch, Tab, Tabs } from "@heroui/react";
+import { Accordion, AccordionItem, Chip, Tab, Tabs } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -12,7 +12,7 @@ import {
   oldTrUpdateDataList,
   updateDataList,
 } from "public/data/updatesData";
-import { FC, useMemo, useState } from "react";
+import { FC, useMemo, useRef } from "react";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -22,9 +22,12 @@ export async function getStaticProps({ locale }) {
   };
 }
 
+/**
+ * 舊系統公告列表元件
+ * 將舊版的版本更新記錄整理至折疊面板中供使用者查閱
+ */
 const OldUpdateList: FC = () => {
-  const [open, setOpen] = useState(false);
-
+  const accordionRef = useRef<HTMLDivElement>(null);
   const oldTrDatalist = useMemo(() => {
     return oldTrUpdateDataList;
   }, []);
@@ -34,32 +37,68 @@ const OldUpdateList: FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center">
-      <Switch
-        onValueChange={(val) => {
-          gaClickEvent(GaEnum.OLD_SYSTEM_ANNOUNCEMENT);
-          setOpen(val);
-        }}
-        size="sm"
-        color="default"
-      >
-        舊系統公告
-      </Switch>
+    <div
+      className="flex scroll-mt-20 flex-col justify-center"
+      ref={accordionRef}
+    >
+      <div className="relative flex items-center py-6">
+        <div className="flex-grow border-t border-zinc-300 dark:border-zinc-700"></div>
+        <span className="mx-4 flex-shrink text-xs font-bold tracking-widest text-zinc-500 dark:text-zinc-400">
+          ARCHIVE
+        </span>
+        <div className="flex-grow border-t border-zinc-300 dark:border-zinc-700"></div>
+      </div>
 
-      {open && (
-        <Tabs variant="underlined" className="flex justify-center" size="lg">
-          <Tab key="oldTr" title="台鐵">
-            <div className="flex flex-col gap-6">
-              <UpdateList dataList={oldTrDatalist} />
-            </div>
-          </Tab>
-          <Tab key="oldThsr" title="高鐵">
-            <div className="flex flex-col gap-6">
-              <UpdateList dataList={oldThsrDataList} />
-            </div>
-          </Tab>
-        </Tabs>
-      )}
+      <Accordion
+        onSelectionChange={(keys) => {
+          // 當展開時觸發 GA 事件並捲動至該區塊
+          if (keys !== "all" && keys.size > 0) {
+            gaClickEvent(GaEnum.OLD_SYSTEM_ANNOUNCEMENT);
+
+            // 延遲執行以確保 Accordion 展開動畫開始後再抓取位置
+            setTimeout(() => {
+              accordionRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }, 100);
+          }
+        }}
+        selectionMode="multiple"
+        className="px-0"
+        itemClasses={{
+          title: "text-zinc-700 dark:text-zinc-200 text-base font-semibold",
+          subtitle: "text-zinc-500 dark:text-zinc-400 text-sm",
+          trigger:
+            "py-3 px-4 hover:bg-zinc-200/80 dark:hover:bg-zinc-700 transition-all rounded-xl",
+        }}
+      >
+        <AccordionItem
+          key="old-system-announcements"
+          aria-label="舊系統公告"
+          title="舊系統公告"
+          subtitle="收錄舊版系統的更新歷程"
+        >
+          <div className="mt-4">
+            <Tabs
+              variant="underlined"
+              className="mb-2 flex justify-center"
+              size="lg"
+            >
+              <Tab key="oldTr" title="台鐵">
+                <div className="flex flex-col gap-6">
+                  <UpdateList dataList={oldTrDatalist} />
+                </div>
+              </Tab>
+              <Tab key="oldThsr" title="高鐵">
+                <div className="flex flex-col gap-6">
+                  <UpdateList dataList={oldThsrDataList} />
+                </div>
+              </Tab>
+            </Tabs>
+          </div>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 };
@@ -73,26 +112,33 @@ interface UpdateListProps {
   }[];
 }
 
-const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
-  const chipColorMap = {
-    new: {
-      color: "bg-rose-500 text-white dark:bg-rose-500/80",
-      desc: "新增",
-    },
-    fix: {
-      color: "bg-sky-500 text-white dark:bg-sky-500/80",
-      desc: "修正",
-    },
-    refactor: {
-      color: "bg-indigo-500 text-white dark:bg-indigo-500/80",
-      desc: "重構",
-    },
-    update: {
-      color: "bg-teal-500 text-white dark:bg-teal-500/80",
-      desc: "更新",
-    },
-  } as const;
+/**
+ * 更新記錄類型與顯示樣式的映射表
+ */
+const chipColorMap = {
+  new: {
+    color: "bg-rose-500 text-white dark:bg-rose-500/80",
+    desc: "新增",
+  },
+  fix: {
+    color: "bg-sky-500 text-white dark:bg-sky-500/80",
+    desc: "修正",
+  },
+  refactor: {
+    color: "bg-indigo-500 text-white dark:bg-indigo-500/80",
+    desc: "重構",
+  },
+  update: {
+    color: "bg-teal-500 text-white dark:bg-teal-500/80",
+    desc: "更新",
+  },
+} as const;
 
+/**
+ * 更新清單列表元件
+ * 負責渲染特定版本資料的卡片樣式
+ */
+const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
   return (
     <>
       {dataList.map((data) => {
@@ -129,6 +175,10 @@ const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
   );
 };
 
+/**
+ * 版本更新頁面元件
+ * 顯示最新的版本更新記錄，並整合舊系統公告的折疊面板
+ */
 const Updates: FC = () => {
   const muiTheme = useMuiTheme();
   const { t } = useTranslation();
