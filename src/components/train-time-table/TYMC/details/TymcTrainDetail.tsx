@@ -45,13 +45,18 @@ const TymcTrainDetail: FC<TymcTrainDetailProps> = ({
       <div className="flex gap-2">
         <Chip label={t("time")} size="small" color="primary" />
         <div className="text-left">
-          {tymcTimeTable.DepartureTime} - {tymcTimeTable.jsyArrivalTime}{" "}
-          <span className="whitespace-nowrap">± 3 {t("minute")}</span>
-          <span
-            className={`text-zinc-500 dark:text-zinc-400 ${!isTw && "pl-1"}`}
-          >
-            {t("arrivalTimeAccuracyMsg")}
-          </span>
+          {tymcTimeTable.DepartureTime} -{" "}
+          {tymcTimeTable.jsyArrivalTime || t("unknown")}{" "}
+          {tymcTimeTable.jsyArrivalTime && (
+            <>
+              <span className="whitespace-nowrap">± 3 {t("minute")}</span>
+              <span
+                className={`text-zinc-500 dark:text-zinc-400 ${!isTw && "pl-1"}`}
+              >
+                {t("arrivalTimeAccuracyMsg")}
+              </span>
+            </>
+          )}
         </div>
       </div>
       {/* 票價 */}

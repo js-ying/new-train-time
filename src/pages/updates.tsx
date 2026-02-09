@@ -82,7 +82,7 @@ const OldUpdateList: FC = () => {
           <div className="mt-4">
             <Tabs
               variant="underlined"
-              className="mb-2 flex justify-center"
+              className="mb-2 flex justify-center font-bold"
               size="lg"
             >
               <Tab key="oldTr" title="台鐵">

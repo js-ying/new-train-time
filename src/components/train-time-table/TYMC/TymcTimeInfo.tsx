@@ -27,8 +27,11 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
-  const { isPassed, isNormal, timeRange, durationText, price } =
-    useTymcTrainDisplay(tymcTimeTable, fareList, trainDate);
+  const { isPassed, isNormal, durationText, price } = useTymcTrainDisplay(
+    tymcTimeTable,
+    fareList,
+    trainDate,
+  );
 
   const openDetail = () => {
     gaClickEvent(GaEnum.THSR_TRAIN_INFO);
@@ -67,7 +70,8 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
         <div className="col-span-2 text-center">
           <div className="flex items-center justify-center gap-1.5">
             <span className="whitespace-nowrap">
-              {tymcTimeTable.DepartureTime} - {tymcTimeTable.jsyArrivalTime || t("unknown")}
+              {tymcTimeTable.DepartureTime} -{" "}
+              {tymcTimeTable.jsyArrivalTime || t("unknown")}
             </span>
             {durationText && (
               <span className="whitespace-nowrap text-sm">
