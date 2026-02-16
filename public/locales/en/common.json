@@ -142,5 +142,5 @@
   "trainTypeFilterNormal": "Commuter",
   "directlyArrive": "Express",
   "normalArrive": "Commuter",
-  "generalTimetableAlertMsg": "Schedules for this date are based on the 'General Timetable' for reference only. Actual operations are subject to official daily announcements."
+  "generalTimetableAlertMsg": "The timetable for this date is based on the 'General Timetable'. Please refer to the official daily announcements for actual train operations."
 }

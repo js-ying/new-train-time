@@ -142,5 +142,5 @@
   "trainTypeFilterNormal": "普通車",
   "directlyArrive": "直達車",
   "normalArrive": "普通車",
-  "generalTimetableAlertMsg": "此日期之時刻表來源為『定期時刻表』，相關資訊僅供參考。實際行駛班次請依官方當日公告為準。"
+  "generalTimetableAlertMsg": "此日期之時刻表來源為『定期時刻表』，實際行駛班次請依官方當日公告為主。"
 }

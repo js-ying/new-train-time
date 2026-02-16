@@ -1,5 +1,17 @@
 export const updateDataList = [
   {
+    date: "2026-02",
+    type: "both",
+    ver: "2.3.1",
+    items: [
+      {
+        type: "update",
+        content:
+          "調整高鐵「出發時間」上限從 27 天延長至 180 天，超過 27 天會顯示「定期時刻表」",
+      },
+    ],
+  },
+  {
     date: "2026-01",
     type: "both",
     ver: "2.3.0",
