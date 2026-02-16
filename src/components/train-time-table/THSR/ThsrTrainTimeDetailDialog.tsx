@@ -30,6 +30,7 @@ interface ThsrTrainTimeDetailDialogProps {
   thsrFreeSeatingCars: JsyThsrInfo["freeSeatingCars"];
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
   thsrOdFare: ThsrOdFare[];
+  isGeneralTimetable: boolean;
 }
 
 const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
@@ -39,6 +40,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
   thsrFreeSeatingCars,
   thsrTdxGeneralTimeTable,
   thsrOdFare,
+  isGeneralTimetable,
 }) => {
   const { t, i18n } = useTranslation();
 

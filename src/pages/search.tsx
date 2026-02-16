@@ -16,6 +16,7 @@ import useMuiTheme from "@/hooks/useMuiTheme";
 import usePage from "@/hooks/usePage";
 import AdUtils from "@/utils/AdUtils";
 import DateUtils from "@/utils/DateUtils";
+import Alert from "@mui/material/Alert";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -41,6 +42,8 @@ const Search: FC = () => {
     jsyThsrInfo,
     jsyTymcInfo,
   } = useTrainSearch();
+
+  const isGeneralTimetable = isThsr && jsyThsrInfo?.isGeneralTimetable;
 
   const activeAnnouncements =
     (isTr && jsyTrInfo?.announcements) ||
@@ -90,6 +93,19 @@ const Search: FC = () => {
             {hasResult && activeAnnouncements.length > 0 && (
               <div className="pt-2">
                 <DynamicAnnouncements announcements={activeAnnouncements} />
+              </div>
+            )}
+
+            {/* 超過 27 天的高鐵定期時刻表提示 */}
+            {hasResult && isGeneralTimetable && (
+              <div className="mb-5 pt-2">
+                <Alert
+                  severity="info"
+                  variant="outlined"
+                  className="rounded-xl"
+                >
+                  {t("generalTimetableAlertMsg")}
+                </Alert>
               </div>
             )}
 

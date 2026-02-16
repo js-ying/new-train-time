@@ -95,7 +95,7 @@ const DateUtils = {
     return moment(date).isValid();
   },
   getMaxDays: (page: PageEnum): number => {
-    if (page === PageEnum.THSR) return 27;
+    if (page === PageEnum.THSR) return 180;
     return 58;
   },
 };

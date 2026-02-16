@@ -19,10 +19,10 @@ import ThsrTrainTimeDetailDialog from "./ThsrTrainTimeDetailDialog";
 
 interface ThsrTrainTimeInfoProps {
   thsrTrainTimeTable: ThsrDailyTimetable;
-
   thsrFreeSeatingCars: ThsrDailyFreeSeatingCar["FreeSeatingCars"];
   thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
   thsrOdFare: ThsrOdFare[];
+  isGeneralTimetable: boolean;
 }
 
 /**
@@ -33,6 +33,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
   thsrFreeSeatingCars,
   thsrTdxGeneralTimeTable,
   thsrOdFare,
+  isGeneralTimetable,
 }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -72,7 +73,10 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           />
         </div>
         <div className="text-center">
-          <ThsrTimeInfoRightArea data={thsrTrainTimeTable} />
+          <ThsrTimeInfoRightArea
+            data={thsrTrainTimeTable}
+            isGeneralTimetable={isGeneralTimetable}
+          />
         </div>
       </div>
       <div className="mt-1.5 flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
@@ -101,6 +105,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           thsrFreeSeatingCars={thsrFreeSeatingCars}
           thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
           thsrOdFare={thsrOdFare}
+          isGeneralTimetable={isGeneralTimetable}
         />
       )}
     </div>

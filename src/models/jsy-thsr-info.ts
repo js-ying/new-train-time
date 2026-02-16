@@ -6,6 +6,7 @@ export interface JsyThsrInfo {
   freeSeatingCars: ThsrFreeSeatingCar[];
   generalTimeTable: ThsrTdxGeneralTimeTable[];
   announcements: JsyAnnouncement[];
+  isGeneralTimetable?: boolean;
 }
 
 // 含 jsy 客製欄位

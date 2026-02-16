@@ -28,6 +28,7 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
               thsrFreeSeatingCars={data.freeSeatingCars}
               thsrTdxGeneralTimeTable={data.generalTimeTable}
               thsrOdFare={data.fareList}
+              isGeneralTimetable={data.isGeneralTimetable}
             />
 
             {AdUtils.showAd(data.timeTables.length, index) && (

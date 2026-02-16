@@ -142,5 +142,5 @@
   "trainTypeFilterNormal": "Commuter",
   "directlyArrive": "Express",
   "normalArrive": "Commuter",
-  "tymcArrivalWarning": "Due to data source anomalies or adjustments, some arrival times are currently incomplete. Problem resolution is in progress. Sorry for the inconvenience."
+  "generalTimetableAlertMsg": "Schedules for this date are based on the 'General Timetable' for reference only. Actual operations are subject to official daily announcements."
 }
