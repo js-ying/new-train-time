@@ -45,16 +45,6 @@ const JsonLd: FC<JsonLdProps> = ({
     url: homeUrl,
     description: webDescription,
     inLanguage: inLanguage,
-    potentialAction: [
-      {
-        "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: `${homeUrl}/search?s={search_term_string}&e=`,
-        },
-        "query-input": "required name=search_term_string",
-      },
-    ],
   };
 
   // 2. Breadcrumb Schema - 麵包屑導航結構
@@ -110,4 +100,3 @@ const JsonLd: FC<JsonLdProps> = ({
 };
 
 export default JsonLd;
-
