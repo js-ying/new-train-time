@@ -40,7 +40,10 @@ const TrainSwitch: FC = () => {
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-lg">
+    <nav
+      aria-label="交通工具切換"
+      className="flex items-center gap-1 rounded-lg"
+    >
       {/* Transport Tabs */}
       {trains.map((train) => {
         const isActive = page === train;
@@ -48,6 +51,8 @@ const TrainSwitch: FC = () => {
           <Link
             key={train}
             href={getHomePath(train)}
+            title={t(`${train}Title`)}
+            aria-label={t(`${train}Title`)}
             onClick={() => handleTrainSwitch(train)}
             className={`
               rounded-md px-3 py-1 text-sm font-bold transition-all
@@ -62,38 +67,8 @@ const TrainSwitch: FC = () => {
           </Link>
         );
       })}
-
-      {/* Original Dropdown Switch (Deprecated but kept for future reference) */}
-      {/* <Dropdown
-        backdrop="blur"
-        classNames={{ content: "dark:bg-eerieBlack-500 dark:bg-none" }}
-      >
-        <DropdownTrigger>
-          <Button
-            className={`h-5 min-w-fit bg-silverLakeBlue-500 px-1.5
-            text-sm text-white dark:bg-gamboge-500 dark:text-eerieBlack-500`}
-            radius="md"
-            aria-label="train-switch-btn"
-          >
-            <ArrowDownIcon />
-          </Button>
-        </DropdownTrigger>
-        <DropdownMenu aria-label="train-switch-dropdown-menu">
-          {trains.map((train) => (
-            <DropdownItem
-              key={train}
-              href={getHomePath(train)}
-              as={Link}
-              onPress={() => handleTrainSwitch(train)}
-            >
-              {t(`${train}Dropdown`)}
-            </DropdownItem>
-          ))}
-        </DropdownMenu>
-      </Dropdown> */}
-    </div>
+    </nav>
   );
 };
 
 export default TrainSwitch;
-
