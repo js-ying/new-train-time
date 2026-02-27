@@ -4,7 +4,7 @@ import {
 } from "@/contexts/SearchAreaContext";
 import usePage from "@/hooks/usePage";
 import useParamsValidation from "@/hooks/useParamsValidation";
-import { HistoryInquiry } from "@/models/history";
+import useSearchHistory from "@/hooks/useSearchHistory";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
@@ -19,47 +19,11 @@ const SearchButton: FC = () => {
   const setParams = useContext(SearchAreaUpdateContext);
   const { isParamsValid, alertOptions } = useParamsValidation();
 
-  const { localStorageKey, searchPath } = usePage();
+  const { searchPath } = usePage();
 
   const [lastQueryTime, setLastQueryTime] = useState<number | null>(null);
   const queryInterval = 5000; // 5 seconds
-
-  const saveHistory = ({ startStationId, endStationId }: HistoryInquiry) => {
-    let historyList: HistoryInquiry[] = [];
-    const valueString = window.localStorage.getItem(localStorageKey);
-    if (valueString) {
-      const value = JSON.parse(valueString);
-      if (Array.isArray(value) && value.length > 0) {
-        historyList = value;
-      }
-    }
-
-    let hasDuplicate = false;
-    let duplicateIndex;
-    if (historyList.length > 0) {
-      historyList.forEach((history, index) => {
-        if (
-          JSON.stringify(history) ===
-          JSON.stringify({ startStationId, endStationId })
-        ) {
-          hasDuplicate = true;
-          duplicateIndex = index;
-        }
-      });
-    }
-
-    if (hasDuplicate) {
-      historyList.splice(duplicateIndex, 1);
-    }
-
-    historyList.push({ startStationId, endStationId });
-
-    if (historyList.length > 5) {
-      historyList.shift();
-    }
-
-    window.localStorage.setItem(localStorageKey, JSON.stringify(historyList));
-  };
+  const { saveHistory } = useSearchHistory();
 
   const handleSearch = () => {
     const { isValid, isDateInValid } = isParamsValid(

@@ -1,6 +1,7 @@
 import Disclaimer from "@/components/common/Disclaimer";
 import NewLabel from "@/components/common/NewLabel";
 import Layout from "@/components/layout/Layout";
+import PopularRoutes from "@/components/search-area/PopularRoutes";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchHistory from "@/components/search-area/SearchHistory";
 import OrderDescription from "@/components/train-time-table/OrderDescription";
@@ -24,35 +25,54 @@ const Home: FC = () => {
   const muiTheme = useMuiTheme();
   const { isTr, isThsr } = usePage();
 
-  const [showDisclaimer, setShowDisclaimer] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    setShowDisclaimer(true);
+    setHasMounted(true);
   }, []);
 
   return (
     <>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
+          {/* 搜尋區塊 */}
           <SearchArea />
+
           <div className="mt-7">
+            {/* 歷史查詢區塊 */}
             <SearchHistory />
           </div>
-          <div className="mt-7">{showDisclaimer && <Disclaimer />}</div>
-          {(isTr || isThsr) && showDisclaimer && (
-            <div className="mt-1 flex justify-center">
-              <div className="relative">
-                <OrderDescription />
-                <div className="absolute left-full top-1 ml-1.5">
-                  <NewLabel />
-                </div>
-              </div>
-            </div>
-          )}
 
-          <div className="mt-1 text-center text-sm text-zinc-500 dark:text-zinc-400">
-            ver. {updateDataList[0].ver}
-          </div>
+          {hasMounted && (
+            <>
+              {/* 熱門路線區塊 */}
+              <div className="mt-7">
+                <PopularRoutes />
+              </div>
+
+              {/* 免責聲明區塊 */}
+              <div className="mt-7">
+                <Disclaimer />
+              </div>
+
+              {/* 訂票說明區塊 (台鐵/高鐵專屬) */}
+              {(isTr || isThsr) && (
+                <div className="mt-1 flex justify-center">
+                  <div className="relative">
+                    <OrderDescription />
+                    <div className="absolute left-full top-1 ml-1.5">
+                      <NewLabel />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 版本資訊 */}
+              <div className="mt-1 text-center text-sm text-zinc-500 dark:text-zinc-400">
+                ver. {updateDataList[0].ver}
+              </div>
+            </>
+          )}
         </Layout>
       </MuiThemeProvider>
     </>

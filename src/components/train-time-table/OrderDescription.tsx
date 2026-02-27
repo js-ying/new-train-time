@@ -6,6 +6,63 @@ import { FC, useEffect, useState } from "react";
 import CommonDialog from "../common/CommonDialog";
 import CommonLightbox from "../common/CommonLightbox";
 
+const AnnouncementContent: FC = () => {
+  const { t } = useTranslation();
+  const translatedTexts = t("announcementTrOrderV1", {
+    returnObjects: true,
+  }) as string[];
+
+  return (
+    <div className="flex flex-col gap-4">
+      {translatedTexts.map((text, index) => {
+        if (text === "__TABLE__") {
+          return (
+            <div
+              key={index}
+              className="overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-700"
+            >
+              <table className="w-full text-center text-sm">
+                <thead className="bg-zinc-100 dark:bg-zinc-800">
+                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
+                    <th className="border-r border-zinc-200 p-2 dark:border-zinc-700">
+                      {t("railway")}
+                    </th>
+                    <th className="border-r border-zinc-200 p-2 dark:border-zinc-700">
+                      {t("realTimeSeatData")}
+                    </th>
+                    <th className="p-2">{t("bookingBtnCondition")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
+                    <td className="border-r border-zinc-200 p-2 font-bold dark:border-zinc-700">
+                      {t("thsr")}
+                    </td>
+                    <td className="border-r border-zinc-200 p-2 text-emerald-600 dark:border-zinc-700 dark:text-emerald-400">
+                      {t("seatDataConnected")}
+                    </td>
+                    <td className="p-2">{t("showWhenSeatsAvailable")}</td>
+                  </tr>
+                  <tr>
+                    <td className="border-r border-zinc-200 p-2 font-bold dark:border-zinc-700">
+                      {t("tr")}
+                    </td>
+                    <td className="border-r border-zinc-200 p-2 text-orange-600 dark:border-zinc-700 dark:text-orange-400">
+                      {t("waitingForTdx")}
+                    </td>
+                    <td className="p-2">{t("alwaysShow")}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+        return <p key={index}>{text}</p>;
+      })}
+    </div>
+  );
+};
+
 const OrderDescription: FC = () => {
   const { t } = useTranslation();
   const [openAnnouncement, setOpenAnnouncement] = useState(false);
@@ -63,23 +120,22 @@ const OrderDescription: FC = () => {
         isDismissable={activeLightboxIndex === -1}
         isKeyboardDismissDisabled={activeLightboxIndex !== -1}
       >
-        <div className="flex flex-col gap-4">
-          {(
-            t("announcementTrOrderV1", { returnObjects: true }) as string[]
-          ).map((text, index) => (
-            <p key={index}>{text}</p>
-          ))}
-        </div>
+        <AnnouncementContent />
 
-        <div className="flex gap-2">
+        <div className="mt-2 flex gap-2">
           {slides.map((slide, index) => (
-            <Image
-              key={index}
-              src={slide.src}
-              alt={`order-step-${index}`}
-              className="custom-cursor-pointer"
-              onClick={() => setActiveLightboxIndex(index)}
-            />
+            <div key={index} className="aspect-[855/1440] flex-1">
+              <Image
+                src={slide.src}
+                alt={`order-step-${index}`}
+                onClick={() => setActiveLightboxIndex(index)}
+                classNames={{
+                  // 覆寫 HeroUI 預設的 max-w-fit，強制讓 Skeleton 與 Image 外層填滿預先定義的比例框
+                  wrapper: "!max-w-full w-full h-full",
+                  img: "w-full h-full object-cover custom-cursor-pointer border-1 border-zinc-400 dark:border-zinc-500",
+                }}
+              />
+            </div>
           ))}
         </div>
       </CommonDialog>
@@ -99,13 +155,7 @@ const OrderDescription: FC = () => {
         bodyTextAlign="text-left"
         enableDoNotShowAgainCheckbox={true}
       >
-        <div className="flex flex-col gap-4">
-          {(
-            t("announcementTrOrderV1", { returnObjects: true }) as string[]
-          ).map((text, index) => (
-            <p key={index}>{text}</p>
-          ))}
-        </div>
+        <AnnouncementContent />
       </CommonDialog>
     </>
   );

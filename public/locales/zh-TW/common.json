@@ -40,9 +40,16 @@
   "announcementTitle": "公告",
   "doNotShowAgainMsg": "不再顯示",
   "trOrderDescription": "訂票說明",
+  "railway": "鐵路",
+  "realTimeSeatData": "即時座位資料",
+  "bookingBtnCondition": "訂票按鈕顯示條件",
+  "seatDataConnected": "已串接",
+  "showWhenSeatsAvailable": "有剩餘座位時顯示",
+  "waitingForTdx": "待 TDX 提供",
+  "alwaysShow": "目前一律顯示",
   "announcementTrOrderV1": [
     "「訂票導頁」服務可協助您快速跳轉至台鐵或高鐵官網，並自動帶入所選車次資訊。在行動裝置上，系統預設優先喚起「台鐵 e 訂通」或「T-EX 行動購票」APP；若您偏好使用網頁版訂票，可至側邊欄 (≡) 設定中關閉「手機使用 APP 訂票」功能。",
-    "目前高鐵訂票服務有連動即時剩餘座位資料，訂票按鈕僅於有剩餘座位時顯示；台鐵部分則需等待交通部 TDX 平臺提供完整資訊後，方能完善。",
+    "__TABLE__",
     "請注意，因資料來源限制，本站收到之剩餘座位資料可能與實際情況有些微落差，最終結果請以各鐵路官方系統為準。感謝您的諒解。"
   ],
   "bothStationAreBlankMsg": "請選擇「出發車站」與「抵達車站」。",
@@ -142,5 +149,6 @@
   "trainTypeFilterNormal": "普通車",
   "directlyArrive": "直達車",
   "normalArrive": "普通車",
-  "generalTimetableAlertMsg": "此日期之時刻表來源為『定期時刻表』，實際行駛班次請依官方當日公告為主。"
+  "generalTimetableAlertMsg": "此日期之時刻表來源為『定期時刻表』，實際行駛班次請依官方當日公告為主。",
+  "popularRoutes": "熱門路線快速查詢"
 }

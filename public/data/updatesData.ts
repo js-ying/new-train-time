@@ -2,6 +2,18 @@ export const updateDataList = [
   {
     date: "2026-02",
     type: "both",
+    ver: "2.4.0",
+    items: [
+      {
+        type: "new",
+        content:
+          "新功能：熱門路線快速查詢，讓第一次使用本系統的旅客也能快速上手！",
+      },
+    ],
+  },
+  {
+    date: "2026-02",
+    type: "both",
     ver: "2.3.1",
     items: [
       {

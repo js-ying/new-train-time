@@ -9,6 +9,7 @@ import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
 
+/** [元件] 即時營運通阻訊息 */
 const OperationAlert: FC = () => {
   const { t } = useTranslation();
   const jsyOperationAlert = useOperationAlert();
