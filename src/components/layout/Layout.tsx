@@ -1,8 +1,6 @@
 import LocaleChange from "@/components/common/LocaleChange";
 import ThemeSwitch from "@/components/common/ThemeSwitch";
 import WebTitle from "@/components/common/WebTitle";
-import { useTranslation } from "next-i18next";
-import Link from "next/link";
 import { FC } from "react";
 import Sidebar from "../sidebar/Sidebar";
 
@@ -12,10 +10,8 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
-  const { t } = useTranslation();
-
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6">
+    <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-6">
       <div className="relative mb-6">
         <div className="absolute left-0 top-0.5">
           <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-200">
@@ -33,15 +29,6 @@ const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
         </div>
       </div>
       {children}
-      {/* 無障礙 / SEO 用 footer */}
-      <footer className="sr-only">
-        <nav>
-          <Link href="/features">{t("featureIntroductionMenu")}</Link>
-          <Link href="/updates">{t("updateAnnouncementsMenu")}</Link>
-          <Link href="/terms">{t("termsOfService")}</Link>
-          <Link href="/privacy">{t("privacyPolicy")}</Link>
-        </nav>
-      </footer>
     </div>
   );
 };

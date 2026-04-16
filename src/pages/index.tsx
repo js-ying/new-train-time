@@ -8,7 +8,9 @@ import OrderDescription from "@/components/train-time-table/OrderDescription";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import usePage from "@/hooks/usePage";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 import { updateDataList } from "public/data/updatesData";
 import { FC, useEffect, useState } from "react";
 
@@ -22,6 +24,7 @@ export async function getStaticProps({ locale }) {
 
 /** [頁面] 首頁 */
 const Home: FC = () => {
+  const { t } = useTranslation();
   const muiTheme = useMuiTheme();
   const { isTr, isThsr } = usePage();
 
@@ -73,6 +76,18 @@ const Home: FC = () => {
               </div>
             </>
           )}
+
+          <footer className="-mb-6 mt-auto pb-2 pt-10 text-xs text-zinc-400 dark:text-zinc-600">
+            <nav className="flex gap-x-1.5">
+              <Link href="/terms" className="hover:underline">
+                {t("termsOfService")}
+              </Link>
+              <span aria-hidden="true">·</span>
+              <Link href="/privacy" className="hover:underline">
+                {t("privacyPolicy")}
+              </Link>
+            </nav>
+          </footer>
         </Layout>
       </MuiThemeProvider>
     </>
