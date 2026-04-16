@@ -102,7 +102,7 @@ const SearchArea: FC = () => {
           </div>
         </Area>
       </div>
-      <div className="mt-6">
+      <div className="mt-6 empty:hidden">
         {(params.activeIndex === SearchAreaActiveIndexEnum.START_STATION ||
           params.activeIndex === SearchAreaActiveIndexEnum.END_STATION) && (
           <SelectStation />
