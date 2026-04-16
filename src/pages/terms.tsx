@@ -1,6 +1,8 @@
 import Layout from "@/components/layout/Layout";
+import useLang from "@/hooks/useLang";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FC } from "react";
 
@@ -16,11 +18,18 @@ export async function getStaticProps({ locale }) {
 /** 服務條款頁：OAuth 同意畫面必要連結 */
 const Terms: FC = () => {
   const muiTheme = useMuiTheme();
+  const { t } = useTranslation();
+  const { isTw } = useLang();
 
   return (
     <MuiThemeProvider theme={muiTheme}>
       <Layout>
         <article className="mx-auto max-w-3xl space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-200">
+          {!isTw && (
+            <p className="text-center text-zinc-500 dark:text-zinc-400">
+              {t("pageOnlyTwMsg")}
+            </p>
+          )}
           <h1 className="text-3xl font-bold">服務條款</h1>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
             最後更新日期：2026 年 4 月 15 日

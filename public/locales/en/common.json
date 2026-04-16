@@ -150,5 +150,7 @@
   "directlyArrive": "Express",
   "normalArrive": "Commuter",
   "generalTimetableAlertMsg": "The timetable for this date is based on the 'General Timetable'. Please refer to the official daily announcements for actual train operations.",
-  "popularRoutes": "Popular Routes Quick Search"
+  "popularRoutes": "Popular Routes Quick Search",
+  "termsOfService": "Terms of Service",
+  "privacyPolicy": "Privacy Policy"
 }

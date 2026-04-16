@@ -272,11 +272,29 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         </div>
 
         <Divider />
-        <List>
-          <ListItemButton disabled={true} className="text-sm">
+        {/* 版本號與法律連結 */}
+        <div className="px-4 py-3">
+          <div className="text-sm text-zinc-400 dark:text-zinc-500">
             ver. {updateDataList[0].ver}
-          </ListItemButton>
-        </List>
+          </div>
+          <div className="mt-1 flex gap-2 text-xs text-zinc-400 dark:text-zinc-500">
+            <Link
+              href="/terms"
+              className="hover:underline"
+              onClick={() => setSidebarOpen(false)}
+            >
+              {t("termsOfService")}
+            </Link>
+            <span>·</span>
+            <Link
+              href="/privacy"
+              className="hover:underline"
+              onClick={() => setSidebarOpen(false)}
+            >
+              {t("privacyPolicy")}
+            </Link>
+          </div>
+        </div>
       </Box>
 
       <CommonDialog
