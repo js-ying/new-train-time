@@ -79,20 +79,14 @@ const Home: FC = () => {
 
           <footer className="-mb-6 mt-auto pb-2 pt-10 text-xs text-zinc-400 dark:text-zinc-600">
             <nav className="flex gap-x-1.5">
-              <Link
-                href="/terms"
-                aria-label="Terms of Service"
-                className="hover:underline"
-              >
+              <Link href="/terms" className="hover:underline">
                 {t("termsOfService")}
+                <span className="sr-only">Terms of Service</span>
               </Link>
               <span aria-hidden="true">·</span>
-              <Link
-                href="/privacy"
-                aria-label="Privacy Policy"
-                className="hover:underline"
-              >
+              <Link href="/privacy" className="hover:underline">
                 {t("privacyPolicy")}
+                <span className="sr-only">Privacy Policy</span>
               </Link>
             </nav>
           </footer>
