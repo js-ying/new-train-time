@@ -47,6 +47,11 @@ const LocaleDropdown: FC<LocaleDropdownProps> = ({ open, setOpen }) => {
   );
 
   const handleChange = (value: string) => {
+    // 紀錄使用者已顯式選擇語系，避免日後再跳出語系建議彈窗
+    try {
+      window.localStorage.setItem("manualLocale", value);
+    } catch {}
+
     router.push(
       { pathname: router.pathname, query: router.query },
       router.asPath,
@@ -134,6 +139,11 @@ const LocaleChangeBySwitch: FC = () => {
 
     const locale =
       i18n.language === LocaleEnum.EN ? LocaleEnum.TW : LocaleEnum.EN;
+
+    // 紀錄使用者已顯式選擇語系，避免日後再跳出語系建議彈窗
+    try {
+      window.localStorage.setItem("manualLocale", locale);
+    } catch {}
 
     gaClickEvent(
       i18n.language === LocaleEnum.EN ? GaEnum.CH_LANG : GaEnum.EN_LANG,

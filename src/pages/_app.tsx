@@ -1,3 +1,4 @@
+import LocaleSuggestionDialog from "@/components/common/LocaleSuggestionDialog";
 import GoogleScript from "@/components/layout/GoogleScript";
 import PageHead from "@/components/layout/PageHead";
 import { PwaProvider } from "@/contexts/PwaContext";
@@ -24,6 +25,7 @@ function App({ Component, pageProps }: AppProps) {
               <SearchAreaProvider>
                 <PageHead />
                 <Component {...pageProps} />
+                <LocaleSuggestionDialog />
               </SearchAreaProvider>
             </SettingProvider>
           </NextThemesProvider>
