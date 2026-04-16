@@ -159,21 +159,27 @@ module.exports = {
     );
 
     // 動態生成 alternateRefs，讓每個頁面指向正確的語言版本
+    // 注意：`hrefIsAbsolute: true` 必要——否則 next-sitemap 會把 href 當成 domain prefix 再拼上
+    // 當前 path，導致 hreflang 全部指向同一 URL、無法正確宣告語系替代版本。
     const isEnglishPath = path.startsWith("/en");
     const basePath = isEnglishPath ? path.replace(/^\/en/, "") || "/" : path;
+    const pathSuffix = basePath === "/" ? "" : basePath;
 
     const alternateRefs = [
       {
-        href: `${siteUrl}${basePath === "/" ? "" : basePath}`,
+        href: `${siteUrl}${pathSuffix}`,
         hreflang: "zh-TW",
+        hrefIsAbsolute: true,
       },
       {
-        href: `${siteUrl}/en${basePath === "/" ? "" : basePath}`,
+        href: `${siteUrl}/en${pathSuffix}`,
         hreflang: "en",
+        hrefIsAbsolute: true,
       },
       {
-        href: `${siteUrl}${basePath === "/" ? "" : basePath}`,
+        href: `${siteUrl}${pathSuffix}`,
         hreflang: "x-default",
+        hrefIsAbsolute: true,
       },
     ];
 
