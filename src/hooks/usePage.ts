@@ -20,7 +20,16 @@ const usePage = (): UsePageResult => {
   const isTymc = pathname.toLowerCase().includes(PageEnum.TYMC);
   const isUpdates = pathname.toLowerCase().includes(PageEnum.UPDATES);
   const isFeatures = pathname.toLowerCase().includes(PageEnum.FEATURES);
-  const isTr = !isThsr && !isTymc && !isUpdates && !isFeatures;
+  const isPrivacy = pathname.toLowerCase().includes(PageEnum.PRIVACY);
+  const isTerms = pathname.toLowerCase().includes(PageEnum.TERMS);
+  // 台鐵為 fallback，需排除所有其他已知頁面
+  const isTr =
+    !isThsr &&
+    !isTymc &&
+    !isUpdates &&
+    !isFeatures &&
+    !isPrivacy &&
+    !isTerms;
   const isHome =
     (isTr || isThsr || isTymc) && !pathname.toLowerCase().includes("search");
 
@@ -33,6 +42,10 @@ const usePage = (): UsePageResult => {
     page = PageEnum.UPDATES;
   } else if (isFeatures) {
     page = PageEnum.FEATURES;
+  } else if (isPrivacy) {
+    page = PageEnum.PRIVACY;
+  } else if (isTerms) {
+    page = PageEnum.TERMS;
   } else {
     page = PageEnum.TR;
   }
