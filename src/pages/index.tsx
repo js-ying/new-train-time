@@ -41,7 +41,7 @@ const Home: FC = () => {
           {/* 搜尋區塊 */}
           <SearchArea />
 
-          <div className="mt-7">
+          <div className="mt-7 empty:hidden">
             {/* 歷史查詢區塊 */}
             <SearchHistory />
           </div>
