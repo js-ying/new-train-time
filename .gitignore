@@ -45,3 +45,6 @@ public/robots.txt
 public/sw.js
 public/workbox-*.js
 public/worker-*.js
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo

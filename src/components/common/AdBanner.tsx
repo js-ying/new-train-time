@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
@@ -78,6 +79,12 @@ interface AdBannerProps {
 }
 
 const AdBanner: FC<AdBannerProps> = ({ mode = "trainInfo" }) => {
+  const { profile } = useAuth();
+
+  if (profile?.isPremium) {
+    return null;
+  }
+
   return (
     <>
       {mode === "trainInfo" && <TrainInfoBanner />}

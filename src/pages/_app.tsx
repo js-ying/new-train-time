@@ -1,6 +1,7 @@
 import LocaleSuggestionDialog from "@/components/common/LocaleSuggestionDialog";
 import GoogleScript from "@/components/layout/GoogleScript";
 import PageHead from "@/components/layout/PageHead";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { PwaProvider } from "@/contexts/PwaContext";
 import { SearchAreaProvider } from "@/contexts/SearchAreaContext";
 import { SettingProvider } from "@/contexts/SettingContext";
@@ -21,13 +22,15 @@ function App({ Component, pageProps }: AppProps) {
       <PwaProvider>
         <HeroUIProvider>
           <NextThemesProvider attribute="class">
-            <SettingProvider>
-              <SearchAreaProvider>
-                <PageHead />
-                <Component {...pageProps} />
-                <LocaleSuggestionDialog />
-              </SearchAreaProvider>
-            </SettingProvider>
+            <AuthProvider>
+              <SettingProvider>
+                <SearchAreaProvider>
+                  <PageHead />
+                  <Component {...pageProps} />
+                  <LocaleSuggestionDialog />
+                </SearchAreaProvider>
+              </SettingProvider>
+            </AuthProvider>
           </NextThemesProvider>
         </HeroUIProvider>
       </PwaProvider>

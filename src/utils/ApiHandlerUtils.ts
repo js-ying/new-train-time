@@ -17,12 +17,18 @@ export const apiProxyHandler = async (
     (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
 
   try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      "x-forwarded-for": clientIp || "",
+    };
+
+    if (req.headers.authorization) {
+      headers["Authorization"] = req.headers.authorization as string;
+    }
+
     const response = await fetch(targetUrl, {
       method,
-      headers: {
-        "Content-Type": "application/json",
-        "x-forwarded-for": clientIp || "",
-      },
+      headers,
       body: method !== "GET" ? JSON.stringify(req.body) : null,
     });
 

@@ -34,4 +34,10 @@ export enum GaEnum {
   TYMC_OPERATION_ALERT = "桃捷營運通阻",
   BROWSE_FROM_PWA = "從 PWA 瀏覽",
   BROWSE_FROM_WEB = "從網頁瀏覽",
+  TR_POPULAR_ROUTE = "台鐵熱門路線",
+  THSR_POPULAR_ROUTE = "高鐵熱門路線",
+  TYMC_POPULAR_ROUTE = "桃捷熱門路線",
+  LOGIN_WITH_GOOGLE = "Google 登入",
+  SYSTEM_SETTINGS = "系統設定",
+  SHOW_POPULAR_ROUTES = "顯示熱門路線快查",
 }
