@@ -24,7 +24,7 @@ const Terms: FC = () => {
   return (
     <MuiThemeProvider theme={muiTheme}>
       <Layout>
-        <article className="mx-auto max-w-3xl space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-200">
+        <article className="mx-auto w-full max-w-3xl space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-200">
           {!isTw && (
             <p className="text-center text-zinc-500 dark:text-zinc-400">
               {t("pageOnlyTwMsg")}

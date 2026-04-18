@@ -97,7 +97,7 @@ const Features: FC = () => {
     <>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto w-full max-w-3xl">
             <WebIntroduction />
             <div className="mt-6 md:mt-8">
               <FeaturesGallery />

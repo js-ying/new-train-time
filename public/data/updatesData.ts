@@ -1,5 +1,28 @@
 export const updateDataList = [
   {
+    date: "2026-04",
+    type: "both",
+    ver: "3.0.0",
+    items: [
+      {
+        type: "new",
+        content: "新功能：會員系統 Beta 版",
+      },
+      {
+        type: "new",
+        content: "新功能：系統設定頁面",
+      },
+      {
+        type: "new",
+        content: "新功能：加入「顯示/隱藏熱門路線快速查詢」開關",
+      },
+      {
+        type: "update",
+        content: "首頁與側邊欄 UI 調整，維持簡潔易用的初衷",
+      },
+    ],
+  },
+  {
     date: "2026-02",
     type: "both",
     ver: "2.4.0",

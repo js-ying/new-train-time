@@ -82,7 +82,7 @@ const SearchHistory: FC = () => {
   return (
     <>
       {historyList.length > 0 && (
-        <div className="fade-in text-center">
+        <div className="text-center">
           <div className="mb-2.5 text-sm text-zinc-500 dark:text-zinc-400">
             {t("historyInquiry", { nowLength: historyList.length })}
           </div>

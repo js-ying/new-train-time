@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply m-0 min-h-screen bg-white dark:bg-eerieBlack-500 transition-background;
+  @apply m-0 min-h-dvh bg-white dark:bg-eerieBlack-500 transition-background;
   font-family:
     "-apple-system",
     "BlinkMacSystemFont",

@@ -192,13 +192,13 @@ const Updates: FC = () => {
     <>
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto w-full max-w-3xl">
             {!isTw && (
               <p className="text-center text-zinc-500 dark:text-zinc-400">
                 {t("pageOnlyTwMsg")}
               </p>
             )}
-            <div className="mt-8 flex flex-col gap-6">
+            <div className="flex flex-col gap-6">
               <UpdateList dataList={dataList} />
 
               <OldUpdateList />
