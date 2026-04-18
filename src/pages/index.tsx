@@ -1,12 +1,9 @@
-import Disclaimer from "@/components/common/Disclaimer";
-import NewLabel from "@/components/common/NewLabel";
 import Layout from "@/components/layout/Layout";
 import PopularRoutes from "@/components/search-area/PopularRoutes";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchHistory from "@/components/search-area/SearchHistory";
-import OrderDescription from "@/components/train-time-table/OrderDescription";
 import useMuiTheme from "@/hooks/useMuiTheme";
-import usePage from "@/hooks/usePage";
+import useSetting from "@/hooks/useSetting";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -26,9 +23,10 @@ export async function getStaticProps({ locale }) {
 const Home: FC = () => {
   const { t } = useTranslation();
   const muiTheme = useMuiTheme();
-  const { isTr, isThsr } = usePage();
 
   const [hasMounted, setHasMounted] = useState(false);
+  /** 從設定讀取是否顯示熱門路線快查 */
+  const [showPopularRoutes] = useSetting("showPopularRoutes");
 
   useEffect(() => {
     setHasMounted(true);
@@ -48,42 +46,29 @@ const Home: FC = () => {
 
           {hasMounted && (
             <>
-              {/* 熱門路線區塊 */}
-              <div className="mt-7">
-                <PopularRoutes />
-              </div>
-
-              {/* 免責聲明區塊 */}
-              <div className="mt-7">
-                <Disclaimer />
-              </div>
-
-              {/* 訂票說明區塊 (台鐵/高鐵專屬) */}
-              {(isTr || isThsr) && (
-                <div className="mt-1 flex justify-center">
-                  <div className="relative">
-                    <OrderDescription />
-                    <div className="absolute left-full top-1 ml-1.5">
-                      <NewLabel />
-                    </div>
-                  </div>
+              {/* 熱門路線區塊：由設定控制顯示 */}
+              {showPopularRoutes && (
+                <div className="mt-7">
+                  <PopularRoutes />
                 </div>
               )}
-
-              {/* 版本資訊 */}
-              <div className="mt-1 text-center text-sm text-zinc-500 dark:text-zinc-400">
-                ver. {updateDataList[0].ver}
-              </div>
             </>
           )}
 
-          <footer className="-mb-6 mt-auto pb-2 pt-10 text-xs text-zinc-400 dark:text-zinc-600">
+          <footer className="mx-auto -mb-5 mt-auto flex flex-col items-center gap-y-2 pb-2 pt-10 text-xs text-zinc-400 dark:text-zinc-500">
             <nav className="flex gap-x-1.5">
+              {/* 版本資訊 */}
+              <a href="/updates" className="hover:underline">
+                Ver. {updateDataList[0].ver}
+              </a>
+              <span aria-hidden="true">·</span>
+              {/* 服務條款 */}
               <Link href="/terms" className="hover:underline">
                 {t("termsOfService")}
                 <span className="sr-only">Terms of Service</span>
               </Link>
               <span aria-hidden="true">·</span>
+              {/* 隱私權政策 */}
               <Link href="/privacy" className="hover:underline">
                 {t("privacyPolicy")}
                 <span className="sr-only">Privacy Policy</span>

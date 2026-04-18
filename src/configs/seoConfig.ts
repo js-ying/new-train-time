@@ -51,6 +51,13 @@ export const seoConfigs: Record<PageEnum, SeoConfig> = {
     ogDescription: (t) => t("updatesPageDescription"),
     ogImage: defaultSeoConfig.ogImage,
   },
+  [PageEnum.SETTINGS]: {
+    title: (t) => `${t("settingsPageTitle")} - ${t("trTitle")}`,
+    description: (t) => t("settingsPageDescription"),
+    ogTitle: (t) => `${t("settingsPageTitle")} - ${t("trTitle")}`,
+    ogDescription: (t) => t("settingsPageDescription"),
+    ogImage: defaultSeoConfig.ogImage,
+  },
   [PageEnum.PRIVACY]: {
     title: (t) => `${t("privacyPolicy")} - ${t("trTitle")}`,
     description: (t) => t("privacyPageDescription"),

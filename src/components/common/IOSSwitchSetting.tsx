@@ -1,6 +1,6 @@
 import { Switch } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { GaEnum } from "../../enums/GaEnum";
 import { gaClickEvent } from "../../utils/GaUtils";
 
@@ -17,6 +17,8 @@ interface IOSSwitchSettingProps {
     | "warning"
     | "danger";
   isOnlyMobile?: boolean;
+  /** 顯示於 label 文字右側的附加元素（例如 NewLabel 標籤） */
+  suffix?: ReactNode;
 }
 
 const IOSSwitchSetting: FC<IOSSwitchSettingProps> = ({
@@ -26,18 +28,20 @@ const IOSSwitchSetting: FC<IOSSwitchSettingProps> = ({
   gaEnum,
   color = "default",
   isOnlyMobile = false,
+  suffix,
 }) => {
   const { t } = useTranslation();
 
   return (
     <div className="flex items-center justify-between gap-2">
-      <span>
+      <span className="inline-flex items-center gap-2">
         {isOnlyMobile && (
           <span className="mr-2 border border-zinc-700 px-1 py-0.5 text-xs dark:border-zinc-200">
             {t("mobile")}
           </span>
         )}
         {label}
+        {suffix}
       </span>
       <Switch
         isSelected={value}

@@ -4,6 +4,7 @@ export enum PageEnum {
   TYMC = "tymc",
   FEATURES = "features",
   UPDATES = "updates",
+  SETTINGS = "settings",
   PRIVACY = "privacy",
   TERMS = "terms",
 }
@@ -12,6 +13,7 @@ export enum PageEnum {
 export const notTransportPage = [
   PageEnum.FEATURES,
   PageEnum.UPDATES,
+  PageEnum.SETTINGS,
   PageEnum.PRIVACY,
   PageEnum.TERMS,
 ];

@@ -6,6 +6,8 @@ export interface SettingParams {
   autoRedirectLastUsedPage: boolean;
   mobileUseTrDirectBooking: boolean;
   mobileUseThsrDirectBooking: boolean;
+  /** 是否顯示首頁熱門路線快查區塊 */
+  showPopularRoutes: boolean;
 }
 
 export const defaultSetting: SettingParams = {
@@ -14,6 +16,8 @@ export const defaultSetting: SettingParams = {
   autoRedirectLastUsedPage: false,
   mobileUseTrDirectBooking: true,
   mobileUseThsrDirectBooking: true,
+  /** 預設顯示熱門路線快查 */
+  showPopularRoutes: true,
 };
 
 export const SettingContext = createContext<SettingParams>(null);
