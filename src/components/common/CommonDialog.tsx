@@ -31,7 +31,9 @@ interface CommonDialogProps {
     | "5xl"
     | "full";
 
-  // 內容對齊 -> 預設置中
+  // 內容「最後一行」對齊方式 -> 預設置中
+  // 註：body 一律套用 text-justify（中英混排時才會美觀），
+  //     bodyTextAlign 只決定單行短文字與多行最後一行的對齊
   bodyTextAlign?: "text-center" | "text-left" | "text-right";
 
   // 捲動行為
@@ -68,6 +70,20 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
     }
   };
 
+  // 計算 body 的對齊 class：一律 text-justify，再用 text-align-last 控制最後一行對齊
+  // （必須用完整字串，Tailwind JIT 才能掃描到 arbitrary value）
+  const bodyAlignClass = (() => {
+    switch (props.bodyTextAlign) {
+      case "text-left":
+        return "text-justify [text-align-last:left]";
+      case "text-right":
+        return "text-justify [text-align-last:right]";
+      case "text-center":
+      default:
+        return "text-justify [text-align-last:center]";
+    }
+  })();
+
   return (
     <Modal
       isOpen={props.open}
@@ -76,7 +92,7 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
       classNames={{
         base: "bg-white dark:bg-eerieBlack-500",
         header: "flex items-center justify-center gap-2",
-        body: props.bodyTextAlign || "text-center",
+        body: bodyAlignClass,
       }}
       isDismissable={props.isDismissable ?? !props.enableDoNotShowAgainCheckbox}
       scrollBehavior={props.scrollBehavior || "inside"}
@@ -121,7 +137,7 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
                       props.onConfirm?.();
                       props.setOpen(false);
                     }}
-                    className="min-w-fit"
+                    className="min-w-fit text-white dark:text-eerieBlack-500"
                   >
                     {t(props.confirmText)}
                   </Button>
