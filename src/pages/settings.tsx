@@ -9,7 +9,6 @@ import { gaClickEvent } from "@/utils/GaUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 
@@ -94,7 +93,7 @@ const LocaleSegmentedControl: FC = () => {
  */
 const DarkModeSwitch: FC = () => {
   const { t } = useTranslation();
-  const { theme, setTheme } = useTheme();
+  const [theme, setTheme] = useSetting("theme");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -107,13 +106,7 @@ const DarkModeSwitch: FC = () => {
   const handleToggle = (isDark: boolean) => {
     const mode = isDark ? "dark" : "light";
     setTheme(mode);
-    localStorage.setItem("theme", mode);
     gaClickEvent(isDark ? GaEnum.DARK_MODE : GaEnum.LIGHT_MODE);
-
-    // 設定 META 主題顏色（for PWA 工具列背景顏色）
-    document
-      .querySelector("meta[name='theme-color']")
-      ?.setAttribute("content", mode === "light" ? "#FFFFFF" : "#212529");
   };
 
   return (

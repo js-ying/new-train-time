@@ -92,26 +92,22 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             </div>
           </div>
 
-          {/* Premium 狀態：覆寫父層 text-justify / text-align-last，避免「VIP 會員」被 justify 撐開與置中 */}
+          {/* 會員狀態與權益 */}
           <div className="rounded-lg border border-zinc-200 p-3 text-left [text-align-last:left] dark:border-zinc-600">
-            {profile?.isPremium ? (
-              <div className="flex items-center gap-2">
-                <div>
-                  <p className="text-sm font-semibold text-amber-600 dark:text-amber-400">
-                    {t("premiumMember")}
-                  </p>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                    {t("premiumBenefit")}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                  {t("basicMember")}
-                </p>
-              </div>
-            )}
+            {/* 會員稱謂：VIP 會員標橘，一般會員用一般字色 */}
+            <p
+              className={`text-sm font-semibold ${
+                profile?.isPremium
+                  ? "text-amber-600 dark:text-amber-400"
+                  : "text-zinc-700 dark:text-zinc-200"
+              }`}
+            >
+              {profile?.isPremium ? t("premiumMember") : t("basicMember")}
+            </p>
+            <ul className="mt-1 list-disc pl-4 text-xs text-zinc-500 dark:text-zinc-400">
+              <li>{t("syncSettingsBenefit")}</li>
+              {profile?.isPremium && <li>{t("adFreeBenefit")}</li>}
+            </ul>
           </div>
 
           {/* 登出按鈕 */}
@@ -119,7 +115,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             <Button
               onPress={handleLogout}
               size="sm"
-              className="bg-transparenttext-red-500 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
+              className="bg-transparent text-red-500 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
             >
               {t("logout")}
             </Button>

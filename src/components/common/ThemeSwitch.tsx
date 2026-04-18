@@ -1,4 +1,5 @@
 import { GaEnum } from "@/enums/GaEnum";
+import useSetting from "@/hooks/useSetting";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTheme } from "next-themes";
 import { FC, useEffect, useState } from "react";
@@ -41,47 +42,30 @@ const DarkModeIcon: FC = () => {
   );
 };
 
-/** 亮暗色主題切換器 */
+/**
+ * 亮暗色主題切換器
+ * - 實際 icon 依 next-themes 的 resolvedTheme 決定（會把 "system" 解析成實際 light/dark）
+ * - 點擊後以 useSetting 寫入 SettingContext；套用 UI 與寫 meta theme-color 由 ThemeSyncer 統一處理
+ */
 const ThemeSwitch: FC = () => {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const [, setThemeSetting] = useSetting("theme");
+  const { resolvedTheme } = useTheme();
 
-  // 透過 localStorage 檢查儲存的主題設定，若不存在則使用系統模式
   useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    const userPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-
-    if (storedTheme) {
-      setTheme(storedTheme);
-      setMetaThemeColor(storedTheme);
-    } else {
-      setTheme(userPrefersDark ? "dark" : "light");
-      setMetaThemeColor(userPrefersDark ? "dark" : "light");
-    }
-
     setMounted(true);
   }, []);
 
+  if (!mounted) return null;
+
+  const isDark = resolvedTheme === "dark";
+
+  /** 切換亮暗色：明確寫入 light 或 dark（不保留 system） */
   const toggleTheme = () => {
-    const mode = theme === "light" ? "dark" : "light";
-    setTheme(mode);
-    setMetaThemeColor(mode);
-    localStorage.setItem("theme", mode);
-    gaClickEvent(mode === "light" ? GaEnum.LIGHT_MODE : GaEnum.DARK_MODE);
+    const next = isDark ? "light" : "dark";
+    setThemeSetting(next);
+    gaClickEvent(next === "light" ? GaEnum.LIGHT_MODE : GaEnum.DARK_MODE);
   };
-
-  // 設定 META 主題顏色（for PWA 時工具列的背景顏色）
-  const setMetaThemeColor = (mode: string) => {
-    document
-      .querySelector("meta[name='theme-color']")
-      .setAttribute("content", mode === "light" ? "#FFFFFF" : "#212529");
-  };
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <div
@@ -96,8 +80,7 @@ const ThemeSwitch: FC = () => {
         }
       }}
     >
-      {theme === "dark" && <LightModeIcon />}
-      {theme === "light" && <DarkModeIcon />}
+      {isDark ? <LightModeIcon /> : <DarkModeIcon />}
     </div>
   );
 };
