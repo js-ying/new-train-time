@@ -1,12 +1,7 @@
-import CommonDialog from "@/components/common/CommonDialog";
-import CommonLightbox from "@/components/common/CommonLightbox";
 import UserDialog from "@/components/common/UserDialog";
-import {
-  AnnouncementContent,
-  orderDescriptionSlides,
-} from "@/components/train-time-table/OrderDescription";
+import FeedbackDialog from "@/components/sidebar/FeedbackDialog";
+import OrderDescription from "@/components/train-time-table/OrderDescription";
 import { useAuth } from "@/contexts/AuthContext";
-import { Button } from "@heroui/react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
@@ -53,10 +48,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const { user, profile } = useAuth();
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [userDialogOpen, setUserDialogOpen] = useState(false);
-  // 訂票說明 Dialog 開關狀態
   const [orderDescOpen, setOrderDescOpen] = useState(false);
-  // 訂票說明 Lightbox 當前圖片索引（-1 為關閉）
-  const [orderDescLightboxIndex, setOrderDescLightboxIndex] = useState(-1);
 
   /** 頁面連結列表 */
   const list = useMemo(() => {
@@ -276,52 +268,10 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         </List>
       </Box>
 
-      {/* 意見反應 Dialog */}
-      <CommonDialog
-        open={feedbackOpen}
-        setOpen={setFeedbackOpen}
-        title={t("feedbackMenu")}
-        bodyTextAlign="text-left"
-      >
-        <div className="flex flex-col justify-center">
-          <div className="mb-6 text-left">{t("feedbackDescription")}</div>
-          {/* 置中顯示回饋按鈕 */}
-          <div className="flex justify-center">
-            <Button
-              color="primary"
-              className="w-fit bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
-              onPress={() =>
-                window.open("https://forms.gle/y9VGhdMwMhbiZVW88", "_blank")
-              }
-            >
-              {t("feedbackBtn")}
-            </Button>
-          </div>
-        </div>
-      </CommonDialog>
+      <FeedbackDialog open={feedbackOpen} setOpen={setFeedbackOpen} />
 
-      {/* 訂票說明 Dialog */}
-      <CommonDialog
-        open={orderDescOpen}
-        setOpen={setOrderDescOpen}
-        title="trOrderDescription"
-        bodyTextAlign="text-left"
-        size="md"
-        isDismissable={orderDescLightboxIndex === -1}
-        isKeyboardDismissDisabled={orderDescLightboxIndex !== -1}
-      >
-        <AnnouncementContent />
-      </CommonDialog>
+      <OrderDescription open={orderDescOpen} setOpen={setOrderDescOpen} />
 
-      {/* 訂票說明 Lightbox */}
-      <CommonLightbox
-        slides={orderDescriptionSlides}
-        open={orderDescLightboxIndex >= 0}
-        index={orderDescLightboxIndex}
-        onClose={() => setOrderDescLightboxIndex(-1)}
-      />
-
-      {/* 使用者 Dialog */}
       <UserDialog open={userDialogOpen} setOpen={setUserDialogOpen} />
     </>
   );
