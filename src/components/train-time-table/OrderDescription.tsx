@@ -6,7 +6,18 @@ import { FC, useEffect, useState } from "react";
 import CommonDialog from "../common/CommonDialog";
 import CommonLightbox from "../common/CommonLightbox";
 
-const AnnouncementContent: FC = () => {
+/** 訂票說明圖片列表（供 Lightbox 使用） */
+export const orderDescriptionSlides = [
+  {
+    src: "https://jsying1994.s3.us-east-1.amazonaws.com/traintime/booking/clickMenu.jpg",
+  },
+  {
+    src: "https://jsying1994.s3.us-east-1.amazonaws.com/traintime/booking/mobileUseAppSetting.jpg",
+  },
+];
+
+/** 訂票說明彈窗內容（可被外部元件重用） */
+export const AnnouncementContent: FC = () => {
   const { t } = useTranslation();
   const translatedTexts = t("announcementTrOrderV1", {
     returnObjects: true,
@@ -19,38 +30,38 @@ const AnnouncementContent: FC = () => {
           return (
             <div
               key={index}
-              className="overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-700"
+              className="overflow-hidden rounded-md border border-zinc-400 dark:border-zinc-500"
             >
               <table className="w-full text-center text-sm">
-                <thead className="bg-zinc-100 dark:bg-zinc-800">
-                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                    <th className="border-r border-zinc-200 p-2 dark:border-zinc-700">
+                <thead className="bg-neutral-300 dark:bg-neutral-700">
+                  <tr className="border-b border-zinc-400 dark:border-zinc-500">
+                    <th className="border-r border-zinc-400 p-2 dark:border-zinc-500">
                       {t("railway")}
                     </th>
-                    <th className="border-r border-zinc-200 p-2 dark:border-zinc-700">
+                    <th className="border-r border-zinc-400 p-2 dark:border-zinc-500">
                       {t("realTimeSeatData")}
                     </th>
                     <th className="p-2">{t("bookingBtnCondition")}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                    <td className="border-r border-zinc-200 p-2 font-bold dark:border-zinc-700">
-                      {t("thsr")}
-                    </td>
-                    <td className="border-r border-zinc-200 p-2 text-emerald-600 dark:border-zinc-700 dark:text-emerald-400">
-                      {t("seatDataConnected")}
-                    </td>
-                    <td className="p-2">{t("showWhenSeatsAvailable")}</td>
-                  </tr>
-                  <tr>
-                    <td className="border-r border-zinc-200 p-2 font-bold dark:border-zinc-700">
+                  <tr className="border-b border-zinc-400 dark:border-zinc-500">
+                    <td className="border-r border-zinc-400 p-2 font-bold dark:border-zinc-500">
                       {t("tr")}
                     </td>
-                    <td className="border-r border-zinc-200 p-2 text-orange-600 dark:border-zinc-700 dark:text-orange-400">
+                    <td className="border-r border-zinc-400 p-2 text-orange-600 dark:border-zinc-500 dark:text-orange-400">
                       {t("waitingForTdx")}
                     </td>
                     <td className="p-2">{t("alwaysShow")}</td>
+                  </tr>
+                  <tr>
+                    <td className="border-r border-zinc-400 p-2 font-bold dark:border-zinc-500">
+                      {t("thsr")}
+                    </td>
+                    <td className="border-r border-zinc-400 p-2 text-emerald-600 dark:border-zinc-500 dark:text-emerald-400">
+                      {t("seatDataConnected")}
+                    </td>
+                    <td className="p-2">{t("showWhenSeatsAvailable")}</td>
                   </tr>
                 </tbody>
               </table>
@@ -70,14 +81,8 @@ const OrderDescription: FC = () => {
     useState(false);
   const [activeLightboxIndex, setActiveLightboxIndex] = useState(-1);
 
-  const slides = [
-    {
-      src: "https://jsying1994.s3.us-east-1.amazonaws.com/traintime/booking/clickMenu.jpg",
-    },
-    {
-      src: "https://jsying1994.s3.us-east-1.amazonaws.com/traintime/booking/mobileUseAppSetting.jpg",
-    },
-  ];
+  // 使用統一定義的圖片資料
+  const slides = orderDescriptionSlides;
 
   useEffect(() => {
     // setOpenAnnouncementCheckbox(
