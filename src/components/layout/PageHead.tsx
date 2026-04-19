@@ -170,6 +170,9 @@ const PageHead: FC = () => {
         breadcrumbs={breadcrumbs}
         currentLocale={i18n.language}
         defaultLocale={router.defaultLocale || "zh-TW"}
+        alternateNames={t("siteAlternateNames", {
+          returnObjects: true,
+        }) as string[]}
       />
     </>
   );

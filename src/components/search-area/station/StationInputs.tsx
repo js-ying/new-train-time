@@ -6,7 +6,7 @@ import {
   thsrStationDataList,
   trStationDataList,
   tymcStationDataList,
-} from "public/data/stationsData";
+} from "@/data/stationsData";
 import { FC, useEffect, useRef } from "react";
 
 interface StationInputProps {

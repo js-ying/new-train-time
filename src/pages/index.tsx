@@ -8,7 +8,7 @@ import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
-import { updateDataList } from "public/data/updatesData";
+import { updateDataList } from "@/data/updatesData";
 import { FC, useEffect, useState } from "react";
 
 export async function getStaticProps({ locale }) {

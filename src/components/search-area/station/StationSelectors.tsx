@@ -7,7 +7,7 @@ import {
   trMainLines,
   trStationDataList,
   tymcStationDataList,
-} from "public/data/stationsData";
+} from "@/data/stationsData";
 import { FC, useState } from "react";
 import StationButton from "./StationButton";
 

@@ -10,7 +10,7 @@ import {
   ThsrStationData,
   TrStationData,
   TymcStationData,
-} from "public/data/stationsData";
+} from "@/data/stationsData";
 import { useContext } from "react";
 
 export const useStationSearch = () => {

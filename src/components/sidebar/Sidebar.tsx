@@ -14,7 +14,7 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useMemo, useState } from "react";
-import { updateDataList } from "../../../public/data/updatesData";
+import { updateDataList } from "@/data/updatesData";
 import { GaEnum } from "../../enums/GaEnum";
 import { gaClickEvent } from "../../utils/GaUtils";
 

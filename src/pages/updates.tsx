@@ -11,7 +11,7 @@ import {
   oldThsrUpdateDataList,
   oldTrUpdateDataList,
   updateDataList,
-} from "public/data/updatesData";
+} from "@/data/updatesData";
 import { FC, useMemo, useRef } from "react";
 
 export async function getStaticProps({ locale }) {

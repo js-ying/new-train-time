@@ -178,5 +178,17 @@
   "greeting": "Hi, {{name}}",
   "settingsPageTitle": "系統設定",
   "settingsPageDescription": "管理台鐵時刻查詢的各項偏好設定，包含列車設定、顯示模式與語系切換。",
-  "loginServerErrorMsg": "登入失敗，伺服器暫時無法處理請求，請稍後再試。"
+  "loginServerErrorMsg": "登入失敗，伺服器暫時無法處理請求，請稍後再試。",
+  "siteAlternateNames": ["台鐵時刻表", "高鐵時刻表", "機捷時刻表"],
+  "errors": {
+    "INVALID_INPUT": "查詢參數有誤，請確認所有欄位都正確填寫。",
+    "DATE_OUT_OF_RANGE": "日期超過可查詢範圍，請重新選擇日期。",
+    "UNAUTHORIZED": "身分驗證失敗，請重新登入後再試。",
+    "RATE_LIMITED": "請求過於頻繁，請稍候片刻再試。",
+    "TDX_UPSTREAM_ERROR": "資料來源暫時無法回應，請稍後再試。",
+    "TRAIN_NOT_FOUND": "找不到符合條件的列車。",
+    "INTERNAL_ERROR": "系統發生錯誤，請稍後再試或聯繫系統管理員。",
+    "NETWORK_OFFLINE": "網路連線中斷，請檢查網路後再試。",
+    "UNKNOWN": "發生未知錯誤，請稍後再試。"
+  }
 }

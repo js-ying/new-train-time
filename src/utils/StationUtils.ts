@@ -3,7 +3,7 @@ import {
   thsrStationDataList,
   trStationDataList,
   tymcStationDataList,
-} from "public/data/stationsData";
+} from "@/data/stationsData";
 import { getTdxLang } from "./LocaleUtils";
 
 /**

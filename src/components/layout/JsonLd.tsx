@@ -10,6 +10,8 @@ interface JsonLdProps {
   currentLocale: string;
   /** 預設語言代碼 */
   defaultLocale: string;
+  /** 依語系提供的網站別名清單 */
+  alternateNames: string[];
 }
 
 /**
@@ -21,6 +23,7 @@ const JsonLd: FC<JsonLdProps> = ({
   breadcrumbs,
   currentLocale,
   defaultLocale,
+  alternateNames,
 }) => {
   // 根據語言取得對應的首頁 URL
   const homeUrl =
@@ -34,14 +37,7 @@ const JsonLd: FC<JsonLdProps> = ({
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: trTitle,
-    alternateName: [
-      "台鐵時刻表",
-      "高鐵時刻表",
-      "機捷時刻表",
-      "TRA Timetable",
-      "THSR Timetable",
-      "Airport MRT Timetable",
-    ],
+    alternateName: alternateNames,
     url: homeUrl,
     description: webDescription,
     inLanguage: inLanguage,

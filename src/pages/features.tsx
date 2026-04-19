@@ -6,7 +6,7 @@ import { Image } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { featureImgList } from "public/data/featuresData";
+import { featureImgList } from "@/data/featuresData";
 import { FC, useMemo, useState } from "react";
 
 export async function getStaticProps({ locale }) {
