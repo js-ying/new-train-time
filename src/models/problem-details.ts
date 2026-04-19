@@ -12,6 +12,8 @@ export type ProblemCode =
   | "TDX_UPSTREAM_ERROR"
   /** Next.js BFF → 後端 Express 的 upstream 失敗 (後端不可達) */
   | "BFF_UPSTREAM_ERROR"
+  /** 後端 DB 連線 / 認證失敗 (503)；屬基礎設施暫時異常，可 retry */
+  | "DB_UNAVAILABLE"
   | "TRAIN_NOT_FOUND"
   | "INTERNAL_ERROR"
   | "NETWORK_OFFLINE"

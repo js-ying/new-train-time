@@ -52,7 +52,7 @@ export const apiProxyHandler = async (
         return res.status(response.status).json(payload);
       }
       return res.status(response.status).json({
-        type: "https://traintime.app/problems/internal_error",
+        type: "https://traintime.jsy.tw/problems/internal_error",
         title: "INTERNAL_ERROR",
         status: response.status,
         code: "INTERNAL_ERROR",
@@ -66,7 +66,7 @@ export const apiProxyHandler = async (
     console.error(`API Proxy Error [${targetUrl}]:`, error);
     // 後端 Express 不可達：502 + BFF_UPSTREAM_ERROR
     return res.status(502).json({
-      type: "https://traintime.app/problems/bff_upstream_error",
+      type: "https://traintime.jsy.tw/problems/bff_upstream_error",
       title: "BFF_UPSTREAM_ERROR",
       status: 502,
       code: "BFF_UPSTREAM_ERROR",
