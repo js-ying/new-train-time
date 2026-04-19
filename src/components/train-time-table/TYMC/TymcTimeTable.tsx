@@ -37,7 +37,7 @@ const TymcTimeTable: FC<TymcTimeTableProps> = ({ data }) => {
       <div className="flex flex-col gap-4">
         {filterTymcTrainTimeTable.map((timeTable, index) => (
           <div
-            key={`${data.startStationId} ${data.endStationId} ${data.date} ${data.time} ${timeTable.Sequence} ${timeTable.TrainType} ${timeTable.DepartureTime}`}
+            key={`${data.startStationId} ${data.endStationId} ${data.date} ${data.time} ${timeTable.sequence} ${timeTable.trainType} ${timeTable.departureTime}`}
           >
             <TymcTimeInfo
               tymcTimeTable={timeTable}

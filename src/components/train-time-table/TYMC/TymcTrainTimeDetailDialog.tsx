@@ -39,7 +39,7 @@ const TymcTrainTimeDetailDialog: FC<TymcTrainTimeDetailDialogProps> = ({
 
   const { isCapturing, capture } = useCaptureShare({
     selector: ".tymc-detail-dialog",
-    imageNamePrefix: `${trainDate}_tymc_${tymcTimeTable.DepartureTime.replace(":", "")}`,
+    imageNamePrefix: `${trainDate}_tymc_${tymcTimeTable.departureTime.replace(":", "")}`,
     gaEventName: GaEnum.TYMC_TRAIN_DETAIL_CAPTURE,
   });
 
@@ -70,7 +70,7 @@ const TymcTrainTimeDetailDialog: FC<TymcTrainTimeDetailDialogProps> = ({
                   fareList={fareList}
                 />
                 <TymcStoppingStations
-                  stoppingStationIdList={tymcTimeTable.jsyStoppingStationIdList}
+                  stoppingStationIdList={tymcTimeTable.stoppingStationIdList}
                   startStationId={startStationId}
                   endStationId={endStationId}
                 />

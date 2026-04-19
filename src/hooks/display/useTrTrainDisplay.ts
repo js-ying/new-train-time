@@ -1,4 +1,4 @@
-import { TrDailyTrainTimetable } from "@/models/jsy-tr-info";
+import { JsyTrTimetable } from "@/models/jsy-tr-info";
 
 import DateUtils from "@/utils/DateUtils";
 import {
@@ -9,47 +9,47 @@ import {
 import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 
-export const useTrTrainDisplay = (data: TrDailyTrainTimetable) => {
+export const useTrTrainDisplay = (data: JsyTrTimetable) => {
   const { t } = useTranslation();
 
   const isPassed = useMemo(
     () =>
       isTrainPass(
-        data.jsyTrainDate,
+        data.trainDate,
         DateUtils.getCurrentDate(),
-        data.StopTimes[0].DepartureTime,
+        data.stopTimes[0].departureTime,
       ),
-    [data.jsyTrainDate, data.StopTimes],
+    [data.trainDate, data.stopTimes],
   );
 
   const isOnlyTicket = useMemo(
-    () => isTrTrainOnlyTicket(data.TrainInfo.TrainTypeCode),
-    [data.TrainInfo.TrainTypeCode],
+    () => isTrTrainOnlyTicket(data.trainInfo.trainTypeCode),
+    [data.trainInfo.trainTypeCode],
   );
 
   const timeRange = useMemo(
     () =>
-      `${data.StopTimes[0].DepartureTime} - ${data.StopTimes[data.StopTimes.length - 1].ArrivalTime}`,
-    [data.StopTimes],
+      `${data.stopTimes[0].departureTime} - ${data.stopTimes[data.stopTimes.length - 1].arrivalTime}`,
+    [data.stopTimes],
   );
 
   const durationText = useMemo(() => {
     const diff = getTimeDiff(
-      data.StopTimes[0].DepartureTime,
-      data.StopTimes[data.StopTimes.length - 1].ArrivalTime,
-      data.jsyTrainDate,
+      data.stopTimes[0].departureTime,
+      data.stopTimes[data.stopTimes.length - 1].arrivalTime,
+      data.trainDate,
     );
 
     return t("trainInfoTimeDiff", { hour: diff.hour, min: diff.min });
-  }, [data.StopTimes, data.jsyTrainDate, t]);
+  }, [data.stopTimes, data.trainDate, t]);
 
   return {
     isPassed,
     isOnlyTicket,
     timeRange,
     durationText,
-    note: data.TrainInfo.Note,
-    typeName: data.TrainInfo.TrainTypeName.Zh_tw,
-    trainNo: data.TrainInfo.TrainNo,
+    note: data.trainInfo.note,
+    typeName: data.trainInfo.trainTypeName.zhTw,
+    trainNo: data.trainInfo.trainNo,
   };
 };

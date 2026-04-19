@@ -1,42 +1,42 @@
-import { ThsrDailyTimetable } from "@/models/jsy-thsr-info";
+import { JsyThsrTimetable } from "@/models/jsy-thsr-info";
 
 import DateUtils from "@/utils/DateUtils";
 import { getTimeDiff, isTrainPass } from "@/utils/TrainInfoUtils";
 import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 
-export const useThsrTrainDisplay = (data: ThsrDailyTimetable) => {
+export const useThsrTrainDisplay = (data: JsyThsrTimetable) => {
   const { t } = useTranslation();
 
   const isPassed = useMemo(
     () =>
       isTrainPass(
-        data.TrainDate,
+        data.trainDate,
         DateUtils.getCurrentDate(),
-        data.OriginStopTime.DepartureTime,
+        data.originStopTime.departureTime,
       ),
-    [data.TrainDate, data.OriginStopTime],
+    [data.trainDate, data.originStopTime],
   );
 
   const timeRange = useMemo(
     () =>
-      `${data.OriginStopTime.DepartureTime} - ${data.DestinationStopTime.ArrivalTime}`,
-    [data.OriginStopTime, data.DestinationStopTime],
+      `${data.originStopTime.departureTime} - ${data.destinationStopTime.arrivalTime}`,
+    [data.originStopTime, data.destinationStopTime],
   );
 
   const durationText = useMemo(() => {
     const diff = getTimeDiff(
-      data.OriginStopTime.DepartureTime,
-      data.DestinationStopTime.ArrivalTime,
-      data.TrainDate,
+      data.originStopTime.departureTime,
+      data.destinationStopTime.arrivalTime,
+      data.trainDate,
     );
     return t("trainInfoTimeDiff", { hour: diff.hour, min: diff.min });
-  }, [data.OriginStopTime, data.DestinationStopTime, data.TrainDate, t]);
+  }, [data.originStopTime, data.destinationStopTime, data.trainDate, t]);
 
   return {
     isPassed,
     timeRange,
     durationText,
-    trainNo: data.DailyTrainInfo.TrainNo,
+    trainNo: data.trainInfo.trainNo,
   };
 };

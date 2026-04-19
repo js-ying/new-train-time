@@ -1,11 +1,10 @@
-import { JsyOperationAlert } from "@/models/jsy-operation-alert";
 import {
-  JsyThsrInfo,
-  ThsrDeeplinkDirectParams,
-  ThsrDeeplinkDirectResponse,
-  ThsrDeeplinkWebParams,
-  ThsrDeeplinkWebResponse,
-} from "@/models/jsy-thsr-info";
+  JsyDeeplinkResponse,
+  JsyThsrDeeplinkDirectParams,
+  JsyThsrDeeplinkWebParams,
+} from "@/models/jsy-deeplink";
+import { JsyOperationAlert } from "@/models/jsy-operation-alert";
+import { JsyThsrInfo } from "@/models/jsy-thsr-info";
 import fetchData from "./fetchData";
 
 /** 取得高鐵詳細資訊 (含時刻表、票價、自由座) */
@@ -30,14 +29,14 @@ export const getThsrAlert = async (): Promise<JsyOperationAlert> => {
 
 /** 取得高鐵 App 訂票連結 */
 export const getThsrDeeplinkDirect = async (
-  params: ThsrDeeplinkDirectParams,
-): Promise<{ data: ThsrDeeplinkDirectResponse }> => {
+  params: JsyThsrDeeplinkDirectParams,
+): Promise<{ data: JsyDeeplinkResponse }> => {
   return await fetchData("/api/getThsrDeeplinkDirect", params);
 };
 
 /** 取得高鐵網頁訂票連結 */
 export const getThsrDeeplinkWeb = async (
-  params: ThsrDeeplinkWebParams,
-): Promise<{ data: ThsrDeeplinkWebResponse }> => {
+  params: JsyThsrDeeplinkWebParams,
+): Promise<{ data: JsyDeeplinkResponse }> => {
   return await fetchData("/api/getThsrDeeplinkWeb", params);
 };

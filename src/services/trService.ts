@@ -1,11 +1,10 @@
-import { JsyOperationAlert } from "@/models/jsy-operation-alert";
 import {
-  JsyTrInfo,
-  TraDeeplinkDirectParams,
-  TraDeeplinkDirectResponse,
-  TraDeeplinkWebParams,
-  TraDeeplinkWebResponse,
-} from "@/models/jsy-tr-info";
+  JsyDeeplinkResponse,
+  JsyTrDeeplinkDirectParams,
+  JsyTrDeeplinkWebParams,
+} from "@/models/jsy-deeplink";
+import { JsyOperationAlert } from "@/models/jsy-operation-alert";
+import { JsyTrInfo } from "@/models/jsy-tr-info";
 
 import fetchData from "./fetchData";
 
@@ -31,14 +30,14 @@ export const getTrAlert = async (): Promise<JsyOperationAlert> => {
 
 /** 取得台鐵 App 訂票連結 */
 export const getTrDeeplinkDirect = async (
-  params: TraDeeplinkDirectParams,
-): Promise<{ data: TraDeeplinkDirectResponse }> => {
+  params: JsyTrDeeplinkDirectParams,
+): Promise<{ data: JsyDeeplinkResponse }> => {
   return await fetchData("/api/getTraDeeplinkDirect", params);
 };
 
 /** 取得台鐵網頁訂票連結 */
 export const getTrDeeplinkWeb = async (
-  params: TraDeeplinkWebParams,
-): Promise<{ data: TraDeeplinkWebResponse }> => {
+  params: JsyTrDeeplinkWebParams,
+): Promise<{ data: JsyDeeplinkResponse }> => {
   return await fetchData("/api/getTraDeeplinkWeb", params);
 };

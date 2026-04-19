@@ -2,43 +2,62 @@ import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { FC } from "react";
-import { TrTrainInfo } from "../../../models/jsy-tr-info";
+import { JsyTrTrainInfo } from "../../../models/jsy-tr-info";
 
-export const trTrainServiceList = [
+export const trTrainServiceList: {
+  imgName: string;
+  flagName: keyof Pick<
+    JsyTrTrainInfo,
+    | "wheelChairFlag"
+    | "packageServiceFlag"
+    | "diningFlag"
+    | "breastFeedFlag"
+    | "bikeFlag"
+    | "extraTrainFlag"
+  >;
+  i18nKey: string;
+  description: string;
+}[] = [
   {
     imgName: "disability",
-    flagName: "WheelChairFlag",
+    flagName: "wheelChairFlag",
+    i18nKey: "trainServiceWheelChairFlag",
     description: "身障旅客專用座位車",
   },
   {
     imgName: "suitcase",
-    flagName: "PackageServiceFlag",
+    flagName: "packageServiceFlag",
+    i18nKey: "trainServicePackageServiceFlag",
     description: "行李服務",
   },
   {
     imgName: "bento",
-    flagName: "DiningFlag",
+    flagName: "diningFlag",
+    i18nKey: "trainServiceDiningFlag",
     description: "訂便當服務",
   },
   {
     imgName: "mother",
-    flagName: "BreastFeedFlag",
+    flagName: "breastFeedFlag",
+    i18nKey: "trainServiceBreastFeedFlag",
     description: "哺(集)乳室車廂",
   },
   {
     imgName: "bicycle",
-    flagName: "BikeFlag",
+    flagName: "bikeFlag",
+    i18nKey: "trainServiceBikeFlag",
     description: "人車同行",
   },
   {
     imgName: "train",
-    flagName: "ExtraTrainFlag",
+    flagName: "extraTrainFlag",
+    i18nKey: "trainServiceExtraTrainFlag",
     description: "為加班車",
   },
 ];
 
 interface TrTrainServiceProps {
-  data: TrTrainInfo;
+  data: JsyTrTrainInfo;
 }
 
 const TrTrainService: FC<TrTrainServiceProps> = ({ data }) => {
@@ -50,14 +69,14 @@ const TrTrainService: FC<TrTrainServiceProps> = ({ data }) => {
         if (data[service.flagName] === 1) {
           return (
             <Tooltip
-              title={t(`trainService${service.flagName}`)}
+              title={t(service.i18nKey)}
               arrow
               placement="top"
               key={service.flagName}
             >
               <Image
                 src={`/images/icons/${service.imgName}.png`}
-                alt={t(`trainService${service.flagName}`)}
+                alt={t(service.i18nKey)}
                 width={15}
                 height={15}
                 key={service.flagName}

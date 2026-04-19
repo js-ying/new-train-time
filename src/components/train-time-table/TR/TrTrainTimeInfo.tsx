@@ -7,7 +7,7 @@ import { SettingContext } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { useTrTrainDisplay } from "@/hooks/display/useTrTrainDisplay";
 import useLang from "@/hooks/useLang";
-import { TrDailyTrainTimetable } from "@/models/jsy-tr-info";
+import { JsyTrTimetable } from "@/models/jsy-tr-info";
 
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
@@ -15,7 +15,7 @@ import { FC, useContext, useState } from "react";
 import { isShowTrOrderBtn } from "./TrOrder";
 
 interface TrTrainTimeInfoProps {
-  trTrainTimeTable: TrDailyTrainTimetable;
+  trTrainTimeTable: JsyTrTimetable;
 }
 
 /**
@@ -62,14 +62,14 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
           <TrTimeInfoMidArea
             timeRange={timeRange}
             durationText={durationText}
-            delayInfo={trTrainTimeTable.jsyDelayInfo}
+            delayInfo={trTrainTimeTable.delayInfo}
           />
         </div>
         <div className="text-center">
           <TrTimeInfoRightArea data={trTrainTimeTable} />
         </div>
         <div className="absolute right-1.5 top-1.5 flex gap-1">
-          <TrTrainService data={trTrainTimeTable.TrainInfo} />
+          <TrTrainService data={trTrainTimeTable.trainInfo} />
         </div>
       </div>
 

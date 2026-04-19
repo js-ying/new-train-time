@@ -2,10 +2,10 @@ import { SettingContext } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { useThsrTrainDisplay } from "@/hooks/display/useThsrTrainDisplay";
 import {
-  ThsrDailyFreeSeatingCar,
-  ThsrDailyTimetable,
-  ThsrOdFare,
-  ThsrTdxGeneralTimeTable,
+  JsyThsrFreeSeatingCar,
+  JsyThsrGeneralTimetable,
+  JsyThsrOdFare,
+  JsyThsrTimetable,
 } from "@/models/jsy-thsr-info";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
@@ -18,10 +18,10 @@ import ThsrTimeInfoRightArea from "./ThsrTimeInfoRightArea";
 import ThsrTrainTimeDetailDialog from "./ThsrTrainTimeDetailDialog";
 
 interface ThsrTrainTimeInfoProps {
-  thsrTrainTimeTable: ThsrDailyTimetable;
-  thsrFreeSeatingCars: ThsrDailyFreeSeatingCar["FreeSeatingCars"];
-  thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
-  thsrOdFare: ThsrOdFare[];
+  thsrTrainTimeTable: JsyThsrTimetable;
+  thsrFreeSeatingCars: JsyThsrFreeSeatingCar[];
+  thsrTdxGeneralTimeTable: JsyThsrGeneralTimetable[];
+  thsrOdFare: JsyThsrOdFare[];
   isGeneralTimetable: boolean;
 }
 

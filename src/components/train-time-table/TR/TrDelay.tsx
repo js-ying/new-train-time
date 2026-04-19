@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { TrLiveBoard } from "../../../models/jsy-tr-info";
+import { JsyTrDelay } from "../../../models/jsy-tr-info";
 
 interface DelayDotProps {
   isGreen: boolean;
@@ -18,7 +18,7 @@ const DelayDot: FC<DelayDotProps> = ({ isGreen }) => {
 };
 
 interface TrDelayProps {
-  dataList: TrLiveBoard[];
+  dataList: JsyTrDelay[];
 }
 
 const TrDelay: FC<TrDelayProps> = ({ dataList }) => {
@@ -28,14 +28,14 @@ const TrDelay: FC<TrDelayProps> = ({ dataList }) => {
     <>
       {dataList?.length > 0 && (
         <>
-          {dataList[0].DelayTime === 0 ? (
+          {dataList[0].delayTime === 0 ? (
             <span className="relative text-sm text-emerald-600 dark:text-emerald-400">
               {t("onTime")}
               <DelayDot isGreen={true}></DelayDot>
             </span>
           ) : (
             <span className="relative text-sm text-red-600 dark:text-red-400">
-              {t("delay")} {dataList[0].DelayTime} {t("minute")}
+              {t("delay")} {dataList[0].delayTime} {t("minute")}
               <DelayDot isGreen={false}></DelayDot>
             </span>
           )}

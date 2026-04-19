@@ -70,8 +70,8 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
         <div className="col-span-2 text-center">
           <div className="flex items-center justify-center gap-1.5">
             <span className="whitespace-nowrap">
-              {tymcTimeTable.DepartureTime} -{" "}
-              {tymcTimeTable.jsyArrivalTime || t("unknown")}
+              {tymcTimeTable.departureTime} -{" "}
+              {tymcTimeTable.arrivalTime || t("unknown")}
             </span>
             {durationText && (
               <span className="whitespace-nowrap text-sm">

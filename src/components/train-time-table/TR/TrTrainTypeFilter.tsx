@@ -1,7 +1,7 @@
 import { Button, ButtonGroup } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
-import { TrDailyTrainTimetable } from "../../../models/jsy-tr-info";
+import { JsyTrTimetable } from "../../../models/jsy-tr-info";
 
 import {
   isTrTrainNonReserved,
@@ -9,7 +9,7 @@ import {
 } from "../../../utils/TrainInfoUtils";
 
 interface TrTrainTypeFilterProps {
-  dataList: TrDailyTrainTimetable[];
+  dataList: JsyTrTimetable[];
 
   setFilterDataList: Function;
 }
@@ -38,13 +38,13 @@ const TrTrainTypeFilter: FC<TrTrainTypeFilterProps> = ({
     } else if (trainType === "trainTypeFilterReserved") {
       setFilterDataList(
         dataList.filter((data) =>
-          isTrTrainReserved(data.TrainInfo.TrainTypeCode),
+          isTrTrainReserved(data.trainInfo.trainTypeCode),
         ),
       );
     } else {
       setFilterDataList(
         dataList.filter((data) =>
-          isTrTrainNonReserved(data.TrainInfo.TrainTypeCode),
+          isTrTrainNonReserved(data.trainInfo.trainTypeCode),
         ),
       );
     }

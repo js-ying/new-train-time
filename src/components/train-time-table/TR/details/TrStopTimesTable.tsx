@@ -1,16 +1,17 @@
 import Dot from "@/components/common/Dot";
-import { TrDailyTrainTimetable } from "@/models/jsy-tr-info";
+import { JsyTrTimetable } from "@/models/jsy-tr-info";
 
-import { getTdxLang } from "@/utils/LocaleUtils";
+import { getNameLangKey } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 
 interface TrStopTimesTableProps {
-  data: TrDailyTrainTimetable;
+  data: JsyTrTimetable;
 }
 
 const TrStopTimesTable: FC<TrStopTimesTableProps> = ({ data }) => {
   const { t, i18n } = useTranslation();
+  const langKey = getNameLangKey(i18n.language);
 
   return (
     <>
@@ -26,22 +27,22 @@ const TrStopTimesTable: FC<TrStopTimesTableProps> = ({ data }) => {
           );
         })}
       </div>
-      {data.StopTimes.map((stopTime, index) => {
+      {data.stopTimes.map((stopTime, index) => {
         return (
           <div
             className={`mt-2 flex ${
-              index === 0 || index === data.StopTimes.length - 1
+              index === 0 || index === data.stopTimes.length - 1
                 ? "font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
                 : ""
             }`}
-            key={stopTime.StationID}
+            key={stopTime.stationId}
           >
             <div className="relative flex-1 text-center">
-              {(index === 0 || index === data.StopTimes.length - 1) && <Dot />}
-              {stopTime.StationName[getTdxLang(i18n.language)]}
+              {(index === 0 || index === data.stopTimes.length - 1) && <Dot />}
+              {stopTime.stationName[langKey]}
             </div>
-            <div className="flex-1 text-center">{stopTime.ArrivalTime}</div>
-            <div className="flex-1 text-center">{stopTime.DepartureTime}</div>
+            <div className="flex-1 text-center">{stopTime.arrivalTime}</div>
+            <div className="flex-1 text-center">{stopTime.departureTime}</div>
           </div>
         );
       })}

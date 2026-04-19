@@ -3,7 +3,7 @@ import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import useBooking from "../../../hooks/useBooking";
-import { TrDailyTrainTimetable } from "../../../models/jsy-tr-info";
+import { JsyTrTimetable } from "../../../models/jsy-tr-info";
 
 import DateUtils from "../../../utils/DateUtils";
 import { isTrainPass, isTrTrainReserved } from "../../../utils/TrainInfoUtils";
@@ -11,19 +11,19 @@ import { isTrainPass, isTrTrainReserved } from "../../../utils/TrainInfoUtils";
 /**
  * 是否顯示 [台鐵] 訂票按鈕
  */
-export const isShowTrOrderBtn = (data: TrDailyTrainTimetable) => {
+export const isShowTrOrderBtn = (data: JsyTrTimetable) => {
   // 非對號列車不顯示訂票按鈕
-  if (!isTrTrainReserved(data.TrainInfo.TrainTypeCode)) {
+  if (!isTrTrainReserved(data.trainInfo.trainTypeCode)) {
     return false;
   }
 
   // 列車已發車不顯示訂票按鈕
   if (
     isTrainPass(
-      data.jsyTrainDate,
+      data.trainDate,
       DateUtils.getCurrentDate(),
 
-      data.StopTimes[0].DepartureTime,
+      data.stopTimes[0].departureTime,
     )
   ) {
     return false;
@@ -33,7 +33,7 @@ export const isShowTrOrderBtn = (data: TrDailyTrainTimetable) => {
   if (
     DateUtils.isWithinMinutes(
       DateUtils.getCurrentDatetime(),
-      `${data.jsyTrainDate} ${data.StopTimes[0].DepartureTime}:00`,
+      `${data.trainDate} ${data.stopTimes[0].departureTime}:00`,
       30,
     )
   ) {
@@ -44,7 +44,7 @@ export const isShowTrOrderBtn = (data: TrDailyTrainTimetable) => {
 };
 
 interface TrOrderProps {
-  data: TrDailyTrainTimetable;
+  data: JsyTrTimetable;
 }
 
 /**

@@ -1,5 +1,5 @@
 import AdBanner from "@/components/common/AdBanner";
-import { TrDailyTrainTimetable } from "@/models/jsy-tr-info";
+import { JsyTrTimetable } from "@/models/jsy-tr-info";
 
 import AdUtils from "@/utils/AdUtils";
 import { FC, useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import TrTrainTimeInfo from "./TrTrainTimeInfo";
 import TrTrainTypeFilter from "./TrTrainTypeFilter";
 
 interface TrTrainTimeTableProps {
-  dataList: TrDailyTrainTimetable[];
+  dataList: JsyTrTimetable[];
 }
 
 /** 列車時刻表 */
@@ -36,7 +36,7 @@ const TrTrainTimeTable: FC<TrTrainTimeTableProps> = ({ dataList }) => {
 
       <div className="flex flex-col gap-4">
         {filterTrTrainTimeTable.map((data, index) => (
-          <div key={data.TrainInfo.TrainNo}>
+          <div key={data.trainInfo.trainNo}>
             <TrTrainTimeInfo trTrainTimeTable={data} />
 
             {AdUtils.showAd(filterTrTrainTimeTable.length, index) && (

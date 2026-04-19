@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { ThsrDailyTimetable } from "../../../models/jsy-thsr-info";
+import { JsyThsrTimetable } from "../../../models/jsy-thsr-info";
 
 import ThsrAvailableSeatStatus, {
   isThsrAvailable,
@@ -8,7 +8,7 @@ import ThsrAvailableSeatStatus, {
 import ThsrOrderButton, { isShowThsrOrderBtn } from "./ThsrOrderButton";
 
 interface ThsrTimeInfoRightAreaProps {
-  data: ThsrDailyTimetable;
+  data: JsyThsrTimetable;
   isGeneralTimetable: boolean;
 }
 

@@ -1,86 +1,65 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { ThsrTdxGeneralTimeTable } from "../../../models/jsy-thsr-info";
-import { getTdxLang } from "../../../utils/LocaleUtils";
+import { JsyThsrGeneralTimetable } from "../../../models/jsy-thsr-info";
+import { getNameLangKey } from "../../../utils/LocaleUtils";
 import { getThsrGeneralTrainInfo } from "../../../utils/TrainInfoUtils";
 
-const getServiceDaysMsg = (lang: string, data?): string => {
+type LangKey = "zhTw" | "en";
+
+const getServiceDaysMsg = (
+  langKey: LangKey,
+  data?: JsyThsrGeneralTimetable["serviceDay"],
+): string => {
   if (!data) return "";
 
-  // { "Monday": 1, "Tuesday": 1, "Wednesday": 1, "Thursday": 1, "Friday": 1, "Saturday": 1, "Sunday": 1 }
   const serviceDaysArray: string[] = [];
 
-  const dayMap: Record<
-    string,
-    {
-      Zh_tw: string;
-      En: string;
-    }
-  > = {
-    Monday: {
-      Zh_tw: "一",
-      En: "Monday",
-    },
-    Tuesday: {
-      Zh_tw: "二",
-      En: "Tuesday",
-    },
-    Wednesday: {
-      Zh_tw: "三",
-      En: "Wednesday",
-    },
-    Thursday: {
-      Zh_tw: "四",
-      En: "Thursday",
-    },
-    Friday: {
-      Zh_tw: "五",
-      En: "Friday",
-    },
-    Saturday: {
-      Zh_tw: "六",
-      En: "Saturday",
-    },
-    Sunday: {
-      Zh_tw: "日",
-      En: "Sunday",
-    },
+  const dayMap: Record<keyof typeof data, Record<LangKey, string>> = {
+    monday: { zhTw: "一", en: "Monday" },
+    tuesday: { zhTw: "二", en: "Tuesday" },
+    wednesday: { zhTw: "三", en: "Wednesday" },
+    thursday: { zhTw: "四", en: "Thursday" },
+    friday: { zhTw: "五", en: "Friday" },
+    saturday: { zhTw: "六", en: "Saturday" },
+    sunday: { zhTw: "日", en: "Sunday" },
   };
 
-  Object.entries(data).forEach((day: [string, number]) => {
-    if (day[1] === 1) {
-      serviceDaysArray.push(dayMap[day[0]][lang]);
-    }
-  });
+  (Object.entries(data) as [keyof typeof data, number][]).forEach(
+    ([day, value]) => {
+      if (value === 1) {
+        serviceDaysArray.push(dayMap[day][langKey]);
+      }
+    },
+  );
 
-  const operatesDailyMsg = {
-    Zh_tw: "每日行駛。",
-    En: "Operates daily.",
+  const operatesDailyMsg: Record<LangKey, string> = {
+    zhTw: "每日行駛。",
+    en: "Operates daily.",
   };
 
-  const operatesDayMsg = {
-    Zh_tw: "星期%s行駛。",
-    En: "Operates on %s.",
+  const operatesDayMsg: Record<LangKey, string> = {
+    zhTw: "星期%s行駛。",
+    en: "Operates on %s.",
   };
 
-  const comma = {
-    Zh_tw: "、",
-    En: ", ",
+  const comma: Record<LangKey, string> = {
+    zhTw: "、",
+    en: ", ",
   };
 
   if (serviceDaysArray.length === 7) {
-    return operatesDailyMsg[lang];
+    return operatesDailyMsg[langKey];
   } else {
-    return operatesDayMsg[lang].replace(
+    return operatesDayMsg[langKey].replace(
       "%s",
-      serviceDaysArray.join(comma[lang]),
+      serviceDaysArray.join(comma[langKey]),
     );
   }
 };
 
 interface ThsrServiceDayProps {
   trainNo: string;
-  generalTimeTable: ThsrTdxGeneralTimeTable[];
+  generalTimeTable: JsyThsrGeneralTimetable[];
 }
 
 const ThsrServiceDay: FC<ThsrServiceDayProps> = ({
@@ -91,8 +70,10 @@ const ThsrServiceDay: FC<ThsrServiceDayProps> = ({
   const serviceDay = getThsrGeneralTrainInfo(
     generalTimeTable,
     trainNo,
-  )?.ServiceDay;
-  return <div>{getServiceDaysMsg(getTdxLang(i18n.language), serviceDay)}</div>;
+  )?.serviceDay;
+  return (
+    <div>{getServiceDaysMsg(getNameLangKey(i18n.language), serviceDay)}</div>
+  );
 };
 
 export default ThsrServiceDay;

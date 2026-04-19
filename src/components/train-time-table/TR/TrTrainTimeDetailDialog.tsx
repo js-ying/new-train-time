@@ -2,9 +2,9 @@ import Loading from "@/components/common/Loading";
 import CaptureIcon from "@/components/icons/CaptureIcon";
 import { GaEnum } from "@/enums/GaEnum";
 import { useCaptureShare } from "@/hooks/useCaptureShare";
-import { TrDailyTrainTimetable } from "@/models/jsy-tr-info";
+import { JsyTrTimetable } from "@/models/jsy-tr-info";
 
-import { getTdxLang } from "@/utils/LocaleUtils";
+import { getNameLangKey } from "@/utils/LocaleUtils";
 import {
   getTrTrainTypeNameByCode,
   getTrTripLineNameByValue,
@@ -25,7 +25,7 @@ import TrTrainDetail from "./details/TrTrainDetail";
 interface TrTrainTimeDetailDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  data: TrDailyTrainTimetable;
+  data: JsyTrTimetable;
 }
 
 const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
@@ -34,10 +34,11 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
   data,
 }) => {
   const { t, i18n } = useTranslation();
+  const langKey = getNameLangKey(i18n.language);
 
   const { isCapturing, capture } = useCaptureShare({
     selector: ".tr-detail-dialog",
-    imageNamePrefix: `${data.jsyTrainDate}_${data.TrainInfo.TrainNo}`,
+    imageNamePrefix: `${data.trainDate}_${data.trainInfo.trainNo}`,
 
     gaEventName: GaEnum.TR_TRAIN_DETAIL_CAPTURE,
   });
@@ -60,17 +61,17 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
           {(onClose) => (
             <>
               <ModalHeader>
-                {data.TrainInfo.TrainNo}{" "}
+                {data.trainInfo.trainNo}{" "}
                 {getTrTripLineNameByValue(
-                  data.TrainInfo.TripLine,
+                  data.trainInfo.tripLine,
                   i18n.language,
                 )}{" "}
                 {getTrTrainTypeNameByCode(
-                  data.TrainInfo.TrainTypeCode,
+                  data.trainInfo.trainTypeCode,
                   i18n.language,
                 )}{" "}
-                {data.TrainInfo.StartingStationName[getTdxLang(i18n.language)]}{" "}
-                - {data.TrainInfo.EndingStationName[getTdxLang(i18n.language)]}
+                {data.trainInfo.startingStationName[langKey]} -{" "}
+                {data.trainInfo.endingStationName[langKey]}
               </ModalHeader>
               <ModalBody>
                 <TrTrainDetail data={data} />

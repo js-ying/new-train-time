@@ -1,10 +1,10 @@
 import {
+  JsyThsrGeneralTimetable,
   JsyThsrInfo,
-  ThsrDailyTimetable,
-  ThsrOdFare,
-  ThsrTdxGeneralTimeTable,
+  JsyThsrOdFare,
+  JsyThsrTimetable,
 } from "@/models/jsy-thsr-info";
-import { getTdxLang } from "@/utils/LocaleUtils";
+import { getNameLangKey } from "@/utils/LocaleUtils";
 import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
@@ -13,10 +13,10 @@ import ThsrPriceInfo from "../ThsrPriceInfo";
 import ThsrServiceDay from "../ThsrServiceDay";
 
 interface ThsrTrainDetailProps {
-  thsrTrainTimeTable: ThsrDailyTimetable;
+  thsrTrainTimeTable: JsyThsrTimetable;
   thsrFreeSeatingCars: JsyThsrInfo["freeSeatingCars"];
-  thsrOdFare: ThsrOdFare[];
-  thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
+  thsrOdFare: JsyThsrOdFare[];
+  thsrTdxGeneralTimeTable: JsyThsrGeneralTimetable[];
 }
 
 const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
@@ -26,31 +26,23 @@ const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
   thsrTdxGeneralTimeTable,
 }) => {
   const { t, i18n } = useTranslation();
+  const langKey = getNameLangKey(i18n.language);
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex gap-2">
         <Chip label={t("station")} size="small" color="primary" />
         <div className="flex items-center">
-          {
-            thsrTrainTimeTable.OriginStopTime.StationName[
-              getTdxLang(i18n.language)
-            ]
-          }{" "}
-          -{" "}
-          {
-            thsrTrainTimeTable.DestinationStopTime.StationName[
-              getTdxLang(i18n.language)
-            ]
-          }
+          {thsrTrainTimeTable.originStopTime.stationName[langKey]} -{" "}
+          {thsrTrainTimeTable.destinationStopTime.stationName[langKey]}
         </div>
       </div>
       <div className="flex gap-2">
         <Chip label={t("timeRange")} size="small" color="primary" />
         <div className="flex items-center">
-          {thsrTrainTimeTable.TrainDate}{" "}
-          {thsrTrainTimeTable.OriginStopTime.DepartureTime} -{" "}
-          {thsrTrainTimeTable.DestinationStopTime.ArrivalTime}
+          {thsrTrainTimeTable.trainDate}{" "}
+          {thsrTrainTimeTable.originStopTime.departureTime} -{" "}
+          {thsrTrainTimeTable.destinationStopTime.arrivalTime}
         </div>
       </div>
       <div className="flex gap-2">
@@ -63,7 +55,7 @@ const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
         <Chip label={t("freeSeating")} size="small" color="primary" />
         <div className="flex items-center">
           <ThsrFreeSeat
-            trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
+            trainNo={thsrTrainTimeTable.trainInfo.trainNo}
             freeSeatData={thsrFreeSeatingCars}
             showLabel={false}
           />
@@ -73,7 +65,7 @@ const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
         <Chip label={t("note")} size="small" color="primary" />
         <div className="flex items-center">
           <ThsrServiceDay
-            trainNo={thsrTrainTimeTable.DailyTrainInfo.TrainNo}
+            trainNo={thsrTrainTimeTable.trainInfo.trainNo}
             generalTimeTable={thsrTdxGeneralTimeTable}
           />
         </div>

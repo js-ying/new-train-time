@@ -32,11 +32,11 @@ const TymcTrainTypeFilter: FC<TymcTrainTypeFilterProps> = ({
       setFilterDataList([...dataList]);
     } else if (trainType === "trainTypeFilterDirect") {
       setFilterDataList(
-        dataList.filter((data) => isTymcTrainDirect(data.TrainType)),
+        dataList.filter((data) => isTymcTrainDirect(data.trainType)),
       );
     } else {
       setFilterDataList(
-        dataList.filter((data) => isTymcTrainNormal(data.TrainType)),
+        dataList.filter((data) => isTymcTrainNormal(data.trainType)),
       );
     }
   };

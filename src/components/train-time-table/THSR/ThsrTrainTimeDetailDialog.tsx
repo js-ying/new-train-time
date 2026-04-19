@@ -3,12 +3,12 @@ import CaptureIcon from "@/components/icons/CaptureIcon";
 import { GaEnum } from "@/enums/GaEnum";
 import { useCaptureShare } from "@/hooks/useCaptureShare";
 import {
+  JsyThsrGeneralTimetable,
   JsyThsrInfo,
-  ThsrDailyTimetable,
-  ThsrOdFare,
-  ThsrTdxGeneralTimeTable,
+  JsyThsrOdFare,
+  JsyThsrTimetable,
 } from "@/models/jsy-thsr-info";
-import { getTdxLang } from "@/utils/LocaleUtils";
+import { getNameLangKey } from "@/utils/LocaleUtils";
 import { getThsrGeneralTrainInfo } from "@/utils/TrainInfoUtils";
 import {
   Button,
@@ -26,10 +26,10 @@ import ThsrTrainDetail from "./details/ThsrTrainDetail";
 interface ThsrTrainTimeDetailDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  thsrTrainTimeTable: ThsrDailyTimetable;
+  thsrTrainTimeTable: JsyThsrTimetable;
   thsrFreeSeatingCars: JsyThsrInfo["freeSeatingCars"];
-  thsrTdxGeneralTimeTable: ThsrTdxGeneralTimeTable[];
-  thsrOdFare: ThsrOdFare[];
+  thsrTdxGeneralTimeTable: JsyThsrGeneralTimetable[];
+  thsrOdFare: JsyThsrOdFare[];
   isGeneralTimetable: boolean;
 }
 
@@ -43,10 +43,11 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
   isGeneralTimetable,
 }) => {
   const { t, i18n } = useTranslation();
+  const langKey = getNameLangKey(i18n.language);
 
   const { isCapturing, capture } = useCaptureShare({
     selector: ".thsr-detail-dialog",
-    imageNamePrefix: `${thsrTrainTimeTable.TrainDate}_${thsrTrainTimeTable.DailyTrainInfo.TrainNo}`,
+    imageNamePrefix: `${thsrTrainTimeTable.trainDate}_${thsrTrainTimeTable.trainInfo.trainNo}`,
     gaEventName: GaEnum.THSR_TRAIN_DETAIL_CAPTURE,
   });
 
@@ -68,18 +69,9 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
           {(onClose) => (
             <>
               <ModalHeader>
-                {thsrTrainTimeTable.DailyTrainInfo.TrainNo}{" "}
-                {
-                  thsrTrainTimeTable.DailyTrainInfo.StartingStationName[
-                    getTdxLang(i18n.language)
-                  ]
-                }{" "}
-                -{" "}
-                {
-                  thsrTrainTimeTable.DailyTrainInfo.EndingStationName[
-                    getTdxLang(i18n.language)
-                  ]
-                }
+                {thsrTrainTimeTable.trainInfo.trainNo}{" "}
+                {thsrTrainTimeTable.trainInfo.startingStationName[langKey]} -{" "}
+                {thsrTrainTimeTable.trainInfo.endingStationName[langKey]}
               </ModalHeader>
               <ModalBody>
                 <ThsrTrainDetail
@@ -92,11 +84,11 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
                   <ThsrStopTimesTable
                     data={getThsrGeneralTrainInfo(
                       thsrTdxGeneralTimeTable,
-                      thsrTrainTimeTable.DailyTrainInfo.TrainNo,
+                      thsrTrainTimeTable.trainInfo.trainNo,
                     )}
-                    startStationId={thsrTrainTimeTable.OriginStopTime.StationID}
+                    startStationId={thsrTrainTimeTable.originStopTime.stationId}
                     endStationId={
-                      thsrTrainTimeTable.DestinationStopTime.StationID
+                      thsrTrainTimeTable.destinationStopTime.stationId
                     }
                   />
                 </div>

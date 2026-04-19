@@ -16,32 +16,32 @@ export const useTymcTrainDisplay = (
       isTrainPass(
         trainDate,
         DateUtils.getCurrentDate(),
-        tymcTimeTable?.DepartureTime,
+        tymcTimeTable?.departureTime,
       ),
     [trainDate, tymcTimeTable],
   );
 
   const isNormal = useMemo(
-    () => String(tymcTimeTable.TrainType) === "1",
-    [tymcTimeTable.TrainType],
+    () => String(tymcTimeTable.trainType) === "1",
+    [tymcTimeTable.trainType],
   );
 
   const timeRange = useMemo(
-    () => `${tymcTimeTable.DepartureTime} - ${tymcTimeTable.jsyArrivalTime}`,
+    () => `${tymcTimeTable.departureTime} - ${tymcTimeTable.arrivalTime}`,
     [tymcTimeTable],
   );
 
   const durationText = useMemo(() => {
-    if (!tymcTimeTable.jsyRunTime) return "";
-    const [hour, min] = tymcTimeTable.jsyRunTime
+    if (!tymcTimeTable.runTime) return "";
+    const [hour, min] = tymcTimeTable.runTime
       .split(":")
       .map((s) => parseInt(s, 10));
     return t("trainInfoTimeDiff", { hour, min });
-  }, [tymcTimeTable.jsyRunTime, t]);
+  }, [tymcTimeTable.runTime, t]);
 
   const price = useMemo(() => {
-    const fare = fareList.find((f) => f.TicketType === 1 && f.FareClass === 1);
-    return fare ? fare.Price : 0;
+    const fare = fareList.find((f) => f.ticketType === 1 && f.fareClass === 1);
+    return fare ? fare.price : 0;
   }, [fareList]);
 
   return {

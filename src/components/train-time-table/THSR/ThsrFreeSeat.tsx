@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { FC, useMemo } from "react";
-import { ThsrFreeSeatingCar } from "../../../models/jsy-thsr-info";
+import { JsyThsrFreeSeatingCar } from "../../../models/jsy-thsr-info";
 
 interface FreeSeatingCarNo {
   startCar: string;
@@ -9,15 +9,15 @@ interface FreeSeatingCarNo {
 }
 
 const getFreeSeatGroupListByTrainNo = (
-  dataList: ThsrFreeSeatingCar[],
+  dataList: JsyThsrFreeSeatingCar[],
   trainNo: string,
 ): FreeSeatingCarNo[] => {
   if (dataList && dataList.length > 0) {
     const freeSeatingCar = dataList.find(
-      (data) => String(data.TrainNo).padStart(4, "0") === trainNo,
+      (data) => String(data.trainNo).padStart(4, "0") === trainNo,
     );
-    if (freeSeatingCar?.CarConfig) {
-      const groupList = freeSeatingCar.CarConfig.split(" ")[1].split(",");
+    if (freeSeatingCar?.carConfig) {
+      const groupList = freeSeatingCar.carConfig.split(" ")[1].split(",");
       return groupList.map((group) => {
         return {
           startCar: group.split("-")[0].padStart(1, "0"),
@@ -98,7 +98,7 @@ const LabelFreeSeat: FC<LabelFreeSeatProps> = ({ freeSeatGroupList }) => {
 };
 
 interface ThsrFreeSeatProps {
-  freeSeatData: ThsrFreeSeatingCar[];
+  freeSeatData: JsyThsrFreeSeatingCar[];
   trainNo: string;
   showLabel: boolean;
 }

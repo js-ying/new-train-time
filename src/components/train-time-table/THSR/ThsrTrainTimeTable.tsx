@@ -22,7 +22,7 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
 
       <div className="flex flex-col gap-4">
         {data.timeTables.map((timeTable, index) => (
-          <div key={timeTable.DailyTrainInfo.TrainNo}>
+          <div key={timeTable.trainInfo.trainNo}>
             <ThsrTrainTimeInfo
               thsrTrainTimeTable={timeTable}
               thsrFreeSeatingCars={data.freeSeatingCars}

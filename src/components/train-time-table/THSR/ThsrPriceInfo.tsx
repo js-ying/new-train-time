@@ -1,7 +1,9 @@
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
-import { ThsrFare, ThsrOdFare } from "../../../models/jsy-thsr-info";
-import { getTdxLang } from "../../../utils/LocaleUtils";
+import { JsyThsrFare, JsyThsrOdFare } from "../../../models/jsy-thsr-info";
+import { getNameLangKey } from "../../../utils/LocaleUtils";
+
+type LangKey = "zhTw" | "en";
 
 export const ticketTypeMap = {
   1: "一般票",
@@ -14,22 +16,22 @@ export const ticketTypeMap = {
   8: "團體票",
 };
 
-export const fareClassMap = {
-  1: { Zh_tw: "成人", En: "Adult" },
-  2: { Zh_tw: "學生", En: "" },
-  3: { Zh_tw: "孩童", En: "" },
-  4: { Zh_tw: "敬老", En: "" },
-  5: { Zh_tw: "愛心", En: "" },
-  6: { Zh_tw: "愛心孩童", En: "" },
-  7: { Zh_tw: "愛心優待/愛心陪伴", En: "" },
-  8: { Zh_tw: "軍警", En: "" },
-  9: { Zh_tw: "法優", En: "Concession" },
+export const fareClassMap: Record<number, Record<LangKey, string>> = {
+  1: { zhTw: "成人", en: "Adult" },
+  2: { zhTw: "學生", en: "" },
+  3: { zhTw: "孩童", en: "" },
+  4: { zhTw: "敬老", en: "" },
+  5: { zhTw: "愛心", en: "" },
+  6: { zhTw: "愛心孩童", en: "" },
+  7: { zhTw: "愛心優待/愛心陪伴", en: "" },
+  8: { zhTw: "軍警", en: "" },
+  9: { zhTw: "法優", en: "Concession" },
 };
 
-export const cabinClassMap = {
-  1: { Zh_tw: "標準", En: "Regular" },
-  2: { Zh_tw: "商務", En: "Business" },
-  3: { Zh_tw: "自由", En: "Non-Reserved" },
+export const cabinClassMap: Record<number, Record<LangKey, string>> = {
+  1: { zhTw: "標準", en: "Regular" },
+  2: { zhTw: "商務", en: "Business" },
+  3: { zhTw: "自由", en: "Non-Reserved" },
 };
 
 export const fareMap = {
@@ -39,8 +41,8 @@ export const fareMap = {
 };
 
 interface LabelPriceInfoProps {
-  adultFares: ThsrFare[];
-  otherFareList: ThsrFare[];
+  adultFares: JsyThsrFare[];
+  otherFareList: JsyThsrFare[];
 }
 
 const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
@@ -48,6 +50,7 @@ const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
   otherFareList,
 }) => {
   const { t, i18n } = useTranslation();
+  const langKey = getNameLangKey(i18n.language);
   const [isShowOtherFareList, setIsShowOtherFareList] = useState(false);
 
   return (
@@ -56,29 +59,23 @@ const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
         return (
           <span
             className={`common-babel text-sm`}
-            key={`${fare.TicketType}${fare.FareClass}${fare.CabinClass}`}
+            key={`${fare.ticketType}${fare.fareClass}${fare.cabinClass}`}
           >
-            {fareMap.fareClassMap[fare.FareClass][getTdxLang(i18n.language)]}{" "}
-            {fareMap.cabinClassMap[fare.CabinClass][getTdxLang(i18n.language)]}{" "}
-            {fare.Price}
+            {fareMap.fareClassMap[fare.fareClass][langKey]}{" "}
+            {fareMap.cabinClassMap[fare.cabinClass][langKey]} {fare.price}
           </span>
         );
       })}
 
       {isShowOtherFareList &&
-        otherFareList.map((fare, index) => {
+        otherFareList.map((fare) => {
           return (
             <span
               className={`common-babel text-sm`}
-              key={`${fare.TicketType}${fare.FareClass}${fare.CabinClass}`}
+              key={`${fare.ticketType}${fare.fareClass}${fare.cabinClass}`}
             >
-              {fareMap.fareClassMap[fare.FareClass][getTdxLang(i18n.language)]}{" "}
-              {
-                fareMap.cabinClassMap[fare.CabinClass][
-                  getTdxLang(i18n.language)
-                ]
-              }{" "}
-              {fare.Price}
+              {fareMap.fareClassMap[fare.fareClass][langKey]}{" "}
+              {fareMap.cabinClassMap[fare.cabinClass][langKey]} {fare.price}
             </span>
           );
         })}
@@ -103,18 +100,19 @@ const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
 };
 
 interface TextPriceInfoProps {
-  fareList: ThsrFare[];
+  fareList: JsyThsrFare[];
 }
 
 const TextPriceInfo: FC<TextPriceInfoProps> = ({ fareList }) => {
   const { t, i18n } = useTranslation();
+  const langKey = getNameLangKey(i18n.language);
   const textFareList = fareList.map((fare) => {
     return (
-      fareMap.fareClassMap[fare.FareClass][getTdxLang(i18n.language)] +
+      fareMap.fareClassMap[fare.fareClass][langKey] +
       " " +
-      fareMap.cabinClassMap[fare.CabinClass][getTdxLang(i18n.language)] +
+      fareMap.cabinClassMap[fare.cabinClass][langKey] +
       " " +
-      fare.Price
+      fare.price
     );
   });
 
@@ -122,24 +120,24 @@ const TextPriceInfo: FC<TextPriceInfoProps> = ({ fareList }) => {
 };
 
 interface ThsrPriceInfoProps {
-  dataList: ThsrOdFare[];
+  dataList: JsyThsrOdFare[];
   showLabel: boolean;
 }
 
 /** [高鐵] 票價資訊 */
 const ThsrPriceInfo: FC<ThsrPriceInfoProps> = ({ dataList, showLabel }) => {
-  let adultFares: ThsrFare[] = useMemo(
+  const adultFares: JsyThsrFare[] = useMemo(
     () =>
-      dataList[0].Fares.filter(
-        (fare) => fare.FareClass === 1 && fare.TicketType === 1,
+      dataList[0].fares.filter(
+        (fare) => fare.fareClass === 1 && fare.ticketType === 1,
       ),
     [dataList],
   );
 
-  let otherFareList: ThsrFare[] = useMemo(
+  const otherFareList: JsyThsrFare[] = useMemo(
     () =>
-      dataList[0].Fares.filter(
-        (fare) => fare.FareClass !== 1 && fare.TicketType === 1,
+      dataList[0].fares.filter(
+        (fare) => fare.fareClass !== 1 && fare.ticketType === 1,
       ),
     [dataList],
   );

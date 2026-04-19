@@ -1,11 +1,11 @@
 import Dot from "@/components/common/Dot";
-import { ThsrGeneralTimeTable } from "@/models/jsy-thsr-info";
-import { getTdxLang } from "@/utils/LocaleUtils";
+import { JsyThsrGeneralTimetable } from "@/models/jsy-thsr-info";
+import { getNameLangKey } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 
 interface ThsrStopTimesTableProps {
-  data: ThsrGeneralTimeTable | null;
+  data: JsyThsrGeneralTimetable | null;
   startStationId: string;
   endStationId: string;
 }
@@ -16,6 +16,7 @@ const ThsrStopTimesTable: FC<ThsrStopTimesTableProps> = ({
   endStationId,
 }) => {
   const { t, i18n } = useTranslation();
+  const langKey = getNameLangKey(i18n.language);
 
   return (
     <>
@@ -31,24 +32,24 @@ const ThsrStopTimesTable: FC<ThsrStopTimesTableProps> = ({
           );
         })}
       </div>
-      {data?.StopTimes.map((stopTime) => {
+      {data?.stopTimes.map((stopTime) => {
         return (
           <div
             className={`mt-2 flex ${
-              [startStationId, endStationId].includes(stopTime.StationID)
+              [startStationId, endStationId].includes(stopTime.stationId)
                 ? "font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
                 : ""
             }`}
-            key={stopTime.StationID}
+            key={stopTime.stationId}
           >
             <div className="relative flex-1 text-center">
-              {[startStationId, endStationId].includes(stopTime.StationID) && (
+              {[startStationId, endStationId].includes(stopTime.stationId) && (
                 <Dot />
               )}
-              {stopTime.StationName[getTdxLang(i18n.language)]}
+              {stopTime.stationName[langKey]}
             </div>
-            <div className="flex-1 text-center">{stopTime.ArrivalTime}</div>
-            <div className="flex-1 text-center">{stopTime.DepartureTime}</div>
+            <div className="flex-1 text-center">{stopTime.arrivalTime}</div>
+            <div className="flex-1 text-center">{stopTime.departureTime}</div>
           </div>
         );
       })}

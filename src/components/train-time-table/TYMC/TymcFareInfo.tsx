@@ -1,5 +1,5 @@
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
-import { getTdxLang } from "@/utils/LocaleUtils";
+import { getNameLangKey } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 
 // 票種 Enum
@@ -10,32 +10,34 @@ enum TicketType {
 
 // 票價等級 Enum
 enum FareClass {
-  FULL = 1, // 全票
-  STUDENT = 2, // 學生票
-  CHILD = 3, // 孩童票
-  SENIOR = 4, // 敬老票
-  DISABLED = 5, // 愛心票
-  DISABLED_CHILD = 6, // 愛心票
-  DISABLED_SPECIAL = 7, // 愛心票
-  GROUP = 8, // 團體票
+  FULL = 1,
+  STUDENT = 2,
+  CHILD = 3,
+  SENIOR = 4,
+  DISABLED = 5,
+  DISABLED_CHILD = 6,
+  DISABLED_SPECIAL = 7,
+  GROUP = 8,
 }
 
+type LangKey = "zhTw" | "en";
+
 // 票價等級名稱對應（多語系）
-const FARE_CLASS_MAP = {
-  [FareClass.FULL]: { Zh_tw: "全票", En: "Full Fare" },
-  [FareClass.STUDENT]: { Zh_tw: "學生票", En: "Student Fare" },
-  [FareClass.CHILD]: { Zh_tw: "孩童票", En: "Child Fare" },
-  [FareClass.SENIOR]: { Zh_tw: "敬老票", En: "Senior Fare" },
-  [FareClass.DISABLED]: { Zh_tw: "愛心票", En: "Disabled Fare" },
+const FARE_CLASS_MAP: Record<number, Record<LangKey, string>> = {
+  [FareClass.FULL]: { zhTw: "全票", en: "Full Fare" },
+  [FareClass.STUDENT]: { zhTw: "學生票", en: "Student Fare" },
+  [FareClass.CHILD]: { zhTw: "孩童票", en: "Child Fare" },
+  [FareClass.SENIOR]: { zhTw: "敬老票", en: "Senior Fare" },
+  [FareClass.DISABLED]: { zhTw: "愛心票", en: "Disabled Fare" },
   [FareClass.DISABLED_CHILD]: {
-    Zh_tw: "愛心孩童票",
-    En: "Disabled Child Fare",
+    zhTw: "愛心孩童票",
+    en: "Disabled Child Fare",
   },
   [FareClass.DISABLED_SPECIAL]: {
-    Zh_tw: "愛心優待/陪伴票",
-    En: "Disabled Special Fare",
+    zhTw: "愛心優待/陪伴票",
+    en: "Disabled Special Fare",
   },
-  [FareClass.GROUP]: { Zh_tw: "團體票", En: "Group Fare" },
+  [FareClass.GROUP]: { zhTw: "團體票", en: "Group Fare" },
 };
 
 interface TymcFareInfoProps {
@@ -44,21 +46,20 @@ interface TymcFareInfoProps {
 
 const TymcFareInfo: React.FC<TymcFareInfoProps> = ({ fares }) => {
   const { t, i18n } = useTranslation();
+  const langKey = getNameLangKey(i18n.language);
 
   // 過濾只要單程票，且排除團體票的資料
   const filteredFares = fares.filter(
     (fare) =>
-      fare.TicketType === TicketType.SINGLE &&
-      fare.FareClass !== FareClass.GROUP,
+      fare.ticketType === TicketType.SINGLE &&
+      fare.fareClass !== FareClass.GROUP,
   );
 
   // 轉換成文字陣列
   const fareTexts = filteredFares.map(
-    (fare) =>
-      `${FARE_CLASS_MAP[fare.FareClass][getTdxLang(i18n.language)]} ${fare.Price}`,
+    (fare) => `${FARE_CLASS_MAP[fare.fareClass][langKey]} ${fare.price}`,
   );
 
-  // 用逗號連接
   return fareTexts.join(t("comma"));
 };
 

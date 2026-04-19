@@ -1,6 +1,6 @@
 import CommonDialog from "@/components/common/CommonDialog";
 import useBooking from "@/hooks/useBooking";
-import { ThsrDailyTimetable } from "@/models/jsy-thsr-info";
+import { JsyThsrTimetable } from "@/models/jsy-thsr-info";
 
 import DateUtils from "@/utils/DateUtils";
 import { isTrainPass } from "@/utils/TrainInfoUtils";
@@ -12,13 +12,13 @@ import { isOnlyBusinessAvailable } from "./ThsrAvailableSeatStatus";
 /**
  * 是否顯示 [高鐵] 訂票按鈕
  */
-export const isShowThsrOrderBtn = (timeTable: ThsrDailyTimetable) => {
+export const isShowThsrOrderBtn = (timeTable: JsyThsrTimetable) => {
   // 列車已發車不顯示訂票按鈕
   if (
     isTrainPass(
-      timeTable.TrainDate,
+      timeTable.trainDate,
       DateUtils.getCurrentDate(),
-      timeTable.OriginStopTime.DepartureTime,
+      timeTable.originStopTime.departureTime,
     )
   ) {
     return false;
@@ -28,7 +28,7 @@ export const isShowThsrOrderBtn = (timeTable: ThsrDailyTimetable) => {
   if (
     DateUtils.isWithinMinutes(
       DateUtils.getCurrentDatetime(),
-      `${timeTable.TrainDate} ${timeTable.OriginStopTime.DepartureTime}:00`,
+      `${timeTable.trainDate} ${timeTable.originStopTime.departureTime}:00`,
       30,
     )
   ) {
@@ -39,7 +39,7 @@ export const isShowThsrOrderBtn = (timeTable: ThsrDailyTimetable) => {
 };
 
 interface ThsrOrderButtonProps {
-  timeTable: ThsrDailyTimetable;
+  timeTable: JsyThsrTimetable;
 }
 
 const ThsrOrderButton: React.FC<ThsrOrderButtonProps> = ({ timeTable }) => {

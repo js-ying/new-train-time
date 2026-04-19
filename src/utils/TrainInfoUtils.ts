@@ -1,8 +1,5 @@
-import {
-  ThsrGeneralTimeTable,
-  ThsrTdxGeneralTimeTable,
-} from "@/models/jsy-thsr-info";
-import { getTdxLang } from "./LocaleUtils";
+import { JsyThsrGeneralTimetable } from "@/models/jsy-thsr-info";
+import { getNameLangKey } from "./LocaleUtils";
 
 /**
  * 列車是否已發車
@@ -42,25 +39,13 @@ export const getTrTripLineNameByValue = (tripLineValue, lang) => {
   if (!tripLineValue) return null;
 
   const tripLines = {
-    0: {
-      Zh_tw: "",
-      En: "",
-    },
-    1: {
-      Zh_tw: "山線",
-      En: "Mountain",
-    },
-    2: {
-      Zh_tw: "海線",
-      En: "Sea",
-    },
-    3: {
-      Zh_tw: "成追線",
-      En: "Chengzhui",
-    },
+    0: { zhTw: "", en: "" },
+    1: { zhTw: "山線", en: "Mountain" },
+    2: { zhTw: "海線", en: "Sea" },
+    3: { zhTw: "成追線", en: "Chengzhui" },
   };
 
-  return tripLines[tripLineValue]?.[getTdxLang(lang)] || "";
+  return tripLines[tripLineValue]?.[getNameLangKey(lang)] || "";
 };
 
 /**
@@ -73,45 +58,18 @@ export const getTrTrainTypeNameByCode = (trainTypeCode, lang): string => {
   if (!trainTypeCode) return null;
 
   const trTrainTypes = {
-    "1": {
-      Zh_tw: "太魯閣",
-      En: "TAROKO",
-    },
-    "2": {
-      Zh_tw: "普悠瑪",
-      En: "PUYUMA",
-    },
-    "3": {
-      Zh_tw: "自強",
-      En: "TZE CHIANG",
-    },
-    "4": {
-      Zh_tw: "莒光",
-      En: "CHU KUANG",
-    },
-    "5": {
-      Zh_tw: "復興",
-      En: "FU HSING",
-    },
-    "6": {
-      Zh_tw: "區間",
-      En: "LOCAL",
-    },
-    "7": {
-      Zh_tw: "普快",
-      En: "ORDINARY",
-    },
-    "10": {
-      Zh_tw: "區間快",
-      En: "FAST LOCAL",
-    },
-    "11": {
-      Zh_tw: "新自強",
-      En: "TZE CHIANG",
-    },
+    "1": { zhTw: "太魯閣", en: "TAROKO" },
+    "2": { zhTw: "普悠瑪", en: "PUYUMA" },
+    "3": { zhTw: "自強", en: "TZE CHIANG" },
+    "4": { zhTw: "莒光", en: "CHU KUANG" },
+    "5": { zhTw: "復興", en: "FU HSING" },
+    "6": { zhTw: "區間", en: "LOCAL" },
+    "7": { zhTw: "普快", en: "ORDINARY" },
+    "10": { zhTw: "區間快", en: "FAST LOCAL" },
+    "11": { zhTw: "新自強", en: "TZE CHIANG" },
   };
 
-  return trTrainTypes[trainTypeCode]?.[getTdxLang(lang)] || "";
+  return trTrainTypes[trainTypeCode]?.[getNameLangKey(lang)] || "";
 };
 
 /**
@@ -185,15 +143,15 @@ export const getTimeDiff = (
  * @returns
  */
 export const getThsrGeneralTrainInfo = (
-  generalTimeTable: ThsrTdxGeneralTimeTable[],
+  generalTimeTable: JsyThsrGeneralTimetable[],
   trainNo?: string,
-): ThsrGeneralTimeTable | null => {
+): JsyThsrGeneralTimetable | null => {
   if (!trainNo) return null;
 
   if (generalTimeTable.length > 0) {
-    return generalTimeTable.find((gtt) => {
-      return gtt.GeneralTimetable.GeneralTrainInfo.TrainNo === trainNo;
-    })?.GeneralTimetable;
+    return (
+      generalTimeTable.find((gtt) => gtt.trainInfo.trainNo === trainNo) || null
+    );
   }
 
   return null;

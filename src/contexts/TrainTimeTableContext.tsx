@@ -1,9 +1,9 @@
 import { createContext, useState } from "react";
-import { TrDailyTrainTimetable } from "../models/jsy-tr-info";
+import { JsyTrTimetable } from "../models/jsy-tr-info";
 
 export interface TrainTimeTableData {
-  dataList: TrDailyTrainTimetable[];
-  filterDataList: TrDailyTrainTimetable[];
+  dataList: JsyTrTimetable[];
+  filterDataList: JsyTrTimetable[];
 }
 
 export const TrainTimeTableContext = createContext<TrainTimeTableData>(null);
