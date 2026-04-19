@@ -8,7 +8,10 @@ export type ProblemCode =
   | "DATE_OUT_OF_RANGE"
   | "UNAUTHORIZED"
   | "RATE_LIMITED"
+  /** 後端 Express → TDX 的 upstream 失敗 */
   | "TDX_UPSTREAM_ERROR"
+  /** Next.js BFF → 後端 Express 的 upstream 失敗 (後端不可達) */
+  | "BFF_UPSTREAM_ERROR"
   | "TRAIN_NOT_FOUND"
   | "INTERNAL_ERROR"
   | "NETWORK_OFFLINE"

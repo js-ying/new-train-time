@@ -186,6 +186,7 @@
     "UNAUTHORIZED": "身分驗證失敗，請重新登入後再試。",
     "RATE_LIMITED": "請求過於頻繁，請稍候片刻再試。",
     "TDX_UPSTREAM_ERROR": "資料來源暫時無法回應，請稍後再試。",
+    "BFF_UPSTREAM_ERROR": "服務暫時無法連線，請稍後再試。",
     "TRAIN_NOT_FOUND": "找不到符合條件的列車。",
     "INTERNAL_ERROR": "系統發生錯誤，請稍後再試或聯繫系統管理員。",
     "NETWORK_OFFLINE": "網路連線中斷，請檢查網路後再試。",

@@ -28,11 +28,13 @@ const NoTrainData: FC<NoTrainDataProps> = ({ isApiHealth, alertMsg }) => {
         <>
           <Alert severity="error" variant="outlined" className="rounded-xl">
             <div className="font-bold">
-              {t("noTrainDataDueToApiErrorMsg")}
+              {/* alertMsg 是 ApiError.code 字串；若有對應 i18n 翻譯則用之，否則 fallback 到通用訊息 */}
+              {i18n.exists(`errors.${alertMsg}`)
+                ? t(`errors.${alertMsg}`)
+                : t("noTrainDataDueToApiErrorMsg")}
               {`${i18n.language === LocaleEnum.TW ? "" : " "}`}
               {`(${DateUtils.getCurrentDatetime()})`}
             </div>
-            <div>{alertMsg.toString()}</div>
           </Alert>
         </>
       )}

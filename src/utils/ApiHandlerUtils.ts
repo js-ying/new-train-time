@@ -5,7 +5,8 @@ import { NextApiRequest, NextApiResponse } from "next";
  * 成功：原封不動轉發後端回應；
  * 失敗：
  *  - 後端回 Problem Details (RFC 9457)：直接轉發
- *  - fetch 本身失敗（斷網 / 後端不可達）：回 502 TDX_UPSTREAM_ERROR 格式
+ *  - fetch 本身失敗（後端 Express 不可達）：回 502 BFF_UPSTREAM_ERROR
+ *    (注意與 TDX_UPSTREAM_ERROR 區分：後者是後端 Express → TDX 的失敗)
  * @param req NextApiRequest
  * @param res NextApiResponse
  * @param targetUrl 後端 API 的完整 URL
@@ -63,12 +64,12 @@ export const apiProxyHandler = async (
     return res.status(200).json(payload);
   } catch (error: any) {
     console.error(`API Proxy Error [${targetUrl}]:`, error);
-    // 後端不可達：502 + TDX_UPSTREAM_ERROR
+    // 後端 Express 不可達：502 + BFF_UPSTREAM_ERROR
     return res.status(502).json({
-      type: "https://traintime.app/problems/tdx_upstream_error",
-      title: "TDX_UPSTREAM_ERROR",
+      type: "https://traintime.app/problems/bff_upstream_error",
+      title: "BFF_UPSTREAM_ERROR",
       status: 502,
-      code: "TDX_UPSTREAM_ERROR",
+      code: "BFF_UPSTREAM_ERROR",
       detail: error?.message,
       instance: req.url,
     });
