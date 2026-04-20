@@ -16,14 +16,14 @@ interface ThsrTrainDetailProps {
   thsrTrainTimeTable: JsyThsrTimetable;
   thsrFreeSeatingCars: JsyThsrInfo["freeSeatingCars"];
   thsrOdFare: JsyThsrOdFare[];
-  thsrTdxGeneralTimeTable: JsyThsrGeneralTimetable[];
+  thsrGeneralTimeTable: JsyThsrGeneralTimetable[];
 }
 
 const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
   thsrTrainTimeTable,
   thsrFreeSeatingCars,
   thsrOdFare,
-  thsrTdxGeneralTimeTable,
+  thsrGeneralTimeTable,
 }) => {
   const { t, i18n } = useTranslation();
   const langKey = getNameLangKey(i18n.language);
@@ -66,7 +66,7 @@ const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
         <div className="flex items-center">
           <ThsrServiceDay
             trainNo={thsrTrainTimeTable.trainInfo.trainNo}
-            generalTimeTable={thsrTdxGeneralTimeTable}
+            generalTimeTable={thsrGeneralTimeTable}
           />
         </div>
       </div>

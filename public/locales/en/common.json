@@ -65,6 +65,7 @@
   "sameQueryMsg": "You are querying too fast! Please try again later.",
   "closeBtn": "Close",
   "historyInquiry": "History Inquiry: {{ nowLength }} / 5",
+  "operationAlertTitle": "Operation Alert",
   "normalOpStatus": "NORMAL",
   "warningOpStatus": "WARNING",
   "dangerOpStatus": "DISRUPTED",
@@ -188,7 +189,6 @@
     "TDX_UPSTREAM_ERROR": "The upstream data source is temporarily unavailable. Please try again later.",
     "BFF_UPSTREAM_ERROR": "The service is temporarily unreachable. Please try again later.",
     "DB_UNAVAILABLE": "The service is temporarily unavailable. Please try again later.",
-    "TRAIN_NOT_FOUND": "No matching trains found.",
     "INTERNAL_ERROR": "Something went wrong. Please try again later or contact the administrator.",
     "NETWORK_OFFLINE": "You appear to be offline. Please check your connection and try again.",
     "UNKNOWN": "An unknown error occurred. Please try again later."

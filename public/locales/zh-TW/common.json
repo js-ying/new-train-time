@@ -65,6 +65,7 @@
   "sameQueryMsg": "等等～你查詢的速度太快了！請稍後再試。",
   "closeBtn": "關閉",
   "historyInquiry": "歷史查詢：共 {{ nowLength }} / 5 筆",
+  "operationAlertTitle": "即時營運通阻訊息",
   "normalOpStatus": "正常營運",
   "warningOpStatus": "部份異常",
   "dangerOpStatus": "全線異常",
@@ -188,7 +189,6 @@
     "TDX_UPSTREAM_ERROR": "資料來源暫時無法回應，請稍後再試。",
     "BFF_UPSTREAM_ERROR": "服務暫時無法連線，請稍後再試。",
     "DB_UNAVAILABLE": "服務暫時異常，請稍後再試。",
-    "TRAIN_NOT_FOUND": "找不到符合條件的列車。",
     "INTERNAL_ERROR": "系統發生錯誤，請稍後再試或聯繫系統管理員。",
     "NETWORK_OFFLINE": "網路連線中斷，請檢查網路後再試。",
     "UNKNOWN": "發生未知錯誤，請稍後再試。"

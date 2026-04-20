@@ -89,7 +89,7 @@ const OperationAlert: FC = () => {
           </div>
 
           <CommonDialog
-            title="即時營運通阻訊息"
+            title="operationAlertTitle"
             size="2xl"
             open={open}
             setOpen={setOpen}
@@ -115,7 +115,9 @@ const OperationAlert: FC = () => {
                   <span
                     className={`font-bold ${statusColorMap.get(jsyOperationAlert.status).text}`}
                   >
-                    {alert.title}{" "}
+                    {alert.title === "ALERT_NORMAL"
+                      ? t("normalOpStatus")
+                      : alert.title}{" "}
                     {alert.startTime &&
                       `${DateUtils.dateFormatter(alert.startTime, "YYYY-MM-DD")}-${DateUtils.dateFormatter(alert.endTime, "YYYY-MM-DD")}`}
                   </span>

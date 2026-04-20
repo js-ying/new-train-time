@@ -28,7 +28,7 @@ interface ThsrTrainTimeDetailDialogProps {
   setOpen: (open: boolean) => void;
   thsrTrainTimeTable: JsyThsrTimetable;
   thsrFreeSeatingCars: JsyThsrInfo["freeSeatingCars"];
-  thsrTdxGeneralTimeTable: JsyThsrGeneralTimetable[];
+  thsrGeneralTimeTable: JsyThsrGeneralTimetable[];
   thsrOdFare: JsyThsrOdFare[];
   isGeneralTimetable: boolean;
 }
@@ -38,7 +38,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
   setOpen,
   thsrTrainTimeTable,
   thsrFreeSeatingCars,
-  thsrTdxGeneralTimeTable,
+  thsrGeneralTimeTable,
   thsrOdFare,
   isGeneralTimetable,
 }) => {
@@ -78,12 +78,12 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
                   thsrTrainTimeTable={thsrTrainTimeTable}
                   thsrFreeSeatingCars={thsrFreeSeatingCars}
                   thsrOdFare={thsrOdFare}
-                  thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
+                  thsrGeneralTimeTable={thsrGeneralTimeTable}
                 />
                 <div className="mt-6">
                   <ThsrStopTimesTable
                     data={getThsrGeneralTrainInfo(
-                      thsrTdxGeneralTimeTable,
+                      thsrGeneralTimeTable,
                       thsrTrainTimeTable.trainInfo.trainNo,
                     )}
                     startStationId={thsrTrainTimeTable.originStopTime.stationId}

@@ -14,7 +14,6 @@ export type ProblemCode =
   | "BFF_UPSTREAM_ERROR"
   /** 後端 DB 連線 / 認證失敗 (503)；屬基礎設施暫時異常，可 retry */
   | "DB_UNAVAILABLE"
-  | "TRAIN_NOT_FOUND"
   | "INTERNAL_ERROR"
   | "NETWORK_OFFLINE"
   | "UNKNOWN";

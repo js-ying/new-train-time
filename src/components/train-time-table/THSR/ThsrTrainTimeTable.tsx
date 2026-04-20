@@ -26,7 +26,7 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
             <ThsrTrainTimeInfo
               thsrTrainTimeTable={timeTable}
               thsrFreeSeatingCars={data.freeSeatingCars}
-              thsrTdxGeneralTimeTable={data.generalTimeTable}
+              thsrGeneralTimeTable={data.generalTimeTable}
               thsrOdFare={data.fareList}
               isGeneralTimetable={data.isGeneralTimetable}
             />

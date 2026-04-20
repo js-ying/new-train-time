@@ -20,7 +20,7 @@ import ThsrTrainTimeDetailDialog from "./ThsrTrainTimeDetailDialog";
 interface ThsrTrainTimeInfoProps {
   thsrTrainTimeTable: JsyThsrTimetable;
   thsrFreeSeatingCars: JsyThsrFreeSeatingCar[];
-  thsrTdxGeneralTimeTable: JsyThsrGeneralTimetable[];
+  thsrGeneralTimeTable: JsyThsrGeneralTimetable[];
   thsrOdFare: JsyThsrOdFare[];
   isGeneralTimetable: boolean;
 }
@@ -31,7 +31,7 @@ interface ThsrTrainTimeInfoProps {
 const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
   thsrTrainTimeTable,
   thsrFreeSeatingCars,
-  thsrTdxGeneralTimeTable,
+  thsrGeneralTimeTable,
   thsrOdFare,
   isGeneralTimetable,
 }) => {
@@ -91,7 +91,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
             <span className="mx-1">|</span>
             <ThsrServiceDay
               trainNo={trainNo}
-              generalTimeTable={thsrTdxGeneralTimeTable}
+              generalTimeTable={thsrGeneralTimeTable}
             />
           </>
         )}
@@ -103,7 +103,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           setOpen={setOpen}
           thsrTrainTimeTable={thsrTrainTimeTable}
           thsrFreeSeatingCars={thsrFreeSeatingCars}
-          thsrTdxGeneralTimeTable={thsrTdxGeneralTimeTable}
+          thsrGeneralTimeTable={thsrGeneralTimeTable}
           thsrOdFare={thsrOdFare}
           isGeneralTimetable={isGeneralTimetable}
         />
