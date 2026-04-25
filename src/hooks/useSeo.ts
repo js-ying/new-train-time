@@ -1,5 +1,6 @@
 import { SeoConfig, baseUrl, seoConfigs } from "@/configs/seoConfig";
 import { PageEnum } from "@/enums/PageEnum";
+import { localeToHreflang } from "@/utils/HreflangUtils";
 import { getOgLocale } from "@/utils/LocaleUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { useTranslation } from "next-i18next";
@@ -34,20 +35,20 @@ const useSeo = () => {
       currentLocale === router.defaultLocale ? "" : `/${currentLocale}`;
     const selfUrl = `${baseUrl}${selfLocalePrefix}${basePath}${queryPath}`;
 
-    // Construct alternate URLs for hreflang
-    const alternateUrls = router.locales.map((locale) => {
+    // 為了給 next-seo 的 languageAlternates 使用：把 next-i18next 內部 locale
+    // 轉換為對外 hreflang 標籤（zh-TW → zh-Hant，符合 Google 2023 後建議）
+    const languageAlternates = router.locales.map((locale) => {
       const localePrefix = locale === router.defaultLocale ? "" : `/${locale}`;
       return {
-        locale,
-        url: `${baseUrl}${localePrefix}${basePath}${queryPath}`,
+        hrefLang: localeToHreflang(locale),
+        href: `${baseUrl}${localePrefix}${basePath}${queryPath}`,
       };
     });
 
-    // Add x-default for users with unmatched languages
-    const defaultLocaleUrl = `${baseUrl}${basePath}${queryPath}`;
-    alternateUrls.push({
-      locale: "x-default",
-      url: defaultLocaleUrl,
+    // x-default 指向預設語系 URL（無 prefix），給未匹配任何 hreflang 的使用者
+    languageAlternates.push({
+      hrefLang: "x-default",
+      href: `${baseUrl}${basePath}${queryPath}`,
     });
 
     // 根據語系取得正確的根路徑 URL
@@ -117,7 +118,7 @@ const useSeo = () => {
       return {
         seo: dynamicSeo,
         selfUrl,
-        alternateUrls,
+        languageAlternates,
         ogLocale,
         ogAlternateLocales,
         breadcrumbs,
@@ -127,7 +128,7 @@ const useSeo = () => {
     return {
       seo: { ...seoConfig },
       selfUrl,
-      alternateUrls,
+      languageAlternates,
       ogLocale,
       ogAlternateLocales,
       breadcrumbs,
