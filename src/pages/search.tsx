@@ -37,11 +37,12 @@ const Search: FC = () => {
   const { isTr, isThsr, isTymc } = usePage();
   const {
     isLoading,
-    isApiHealth,
+    apiError,
     alertOptions,
     jsyTrInfo,
     jsyThsrInfo,
     jsyTymcInfo,
+    retry,
   } = useTrainSearch();
 
   const isGeneralTimetable = isThsr && jsyThsrInfo?.isGeneralTimetable;
@@ -123,10 +124,7 @@ const Search: FC = () => {
             {/* 無列車資料 */}
             {noData && (
               <div className="pt-2">
-                <NoTrainData
-                  isApiHealth={isApiHealth}
-                  alertMsg={alertOptions.alertMsg}
-                />
+                <NoTrainData apiError={apiError} onRetry={retry} />
 
                 {AdUtils.showAd(0, 0) && (
                   <div className="mt-4">

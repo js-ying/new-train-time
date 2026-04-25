@@ -22,14 +22,15 @@ import useTrainSearchGeneric, {
 
 interface UseTrainSearchResult {
   isLoading: boolean;
-  /** 任一鐵路 API 健康即視為 true（apiError === null）；保留供現有 UI 過渡使用 */
-  isApiHealth: boolean;
-  /** 當前頁面對應鐵路的 API 錯誤；無錯誤為 null。後續取代 isApiHealth */
+  /** 當前頁面對應鐵路的 API 錯誤；無錯誤為 null */
   apiError: ApiError | null;
+  /** 參數驗證 dialog 控制；不再混入 API 錯誤訊息（API 錯誤改走 apiError） */
   alertOptions: AlertOptions;
   jsyTrInfo: JsyTrInfo | null;
   jsyThsrInfo: JsyThsrInfo | null;
   jsyTymcInfo: JsyTymcInfo | null;
+  /** 重試當前 URL 參數的查詢；交由 DataState 重試按鈕呼叫 */
+  retry: () => void;
 }
 
 // 各鐵路的 fetcher：把 service 函式包成符合 TrainFetcher<T> 簽章
@@ -143,8 +144,6 @@ const useTrainSearch = (): UseTrainSearchResult => {
     params?.uuid,
   ]);
 
-  // 過渡相容：把當前頁面鐵路的 ApiError code 寫入 alertOptions，維持 NoTrainData 既有行為
-  // 待 DataState 上線後即可拆除
   const activeError = useMemo<ApiError | null>(() => {
     if (isTr) return tr.error;
     if (isThsr) return thsr.error;
@@ -152,11 +151,12 @@ const useTrainSearch = (): UseTrainSearchResult => {
     return null;
   }, [isTr, isThsr, isTymc, tr.error, thsr.error, tymc.error]);
 
-  useEffect(() => {
-    if (activeError) {
-      alertOptions.setAlertMsg(activeError.code as AlertOptions["alertMsg"]);
-    }
-  }, [activeError]);
+  // 重試：以最近一次 URL 參數重新發出查詢；參數無效時忽略
+  const retry = useCallback(() => {
+    const { startStationId, endStationId, date, time } = urlSearchAreaParams;
+    if (!startStationId || !endStationId || !date || !time) return;
+    getTrainTimeTable(startStationId, endStationId, date, time);
+  }, [urlSearchAreaParams, getTrainTimeTable]);
 
   // 錯誤時退化為空資料殼，讓上游 search.tsx 的 noData 判斷（timeTables.length <= 0）仍成立
   const trInfo = tr.data ?? (tr.error ? ({ timeTables: [] } as JsyTrInfo) : null);
@@ -167,12 +167,12 @@ const useTrainSearch = (): UseTrainSearchResult => {
 
   return {
     isLoading: tr.isLoading || thsr.isLoading || tymc.isLoading,
-    isApiHealth: activeError === null,
     apiError: activeError,
     alertOptions,
     jsyTrInfo: trInfo,
     jsyThsrInfo: thsrInfo,
     jsyTymcInfo: tymcInfo,
+    retry,
   };
 };
 
