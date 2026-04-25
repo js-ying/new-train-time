@@ -2,13 +2,13 @@ import Layout from "@/components/layout/Layout";
 import PopularRoutes from "@/components/search-area/PopularRoutes";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchHistory from "@/components/search-area/SearchHistory";
+import { updateDataList } from "@/data/updatesData";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import useSetting from "@/hooks/useSetting";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
-import { updateDataList } from "@/data/updatesData";
 import { FC, useEffect, useState } from "react";
 
 export async function getStaticProps({ locale }) {
@@ -58,9 +58,9 @@ const Home: FC = () => {
           <footer className="mx-auto -mb-5 mt-auto flex flex-col items-center gap-y-2 pb-2 pt-10 text-xs text-zinc-400 dark:text-zinc-500">
             <nav className="flex gap-x-1.5">
               {/* 版本資訊 */}
-              <a href="/updates" className="hover:underline">
+              <Link href="/updates" className="hover:underline">
                 Ver. {updateDataList[0].ver}
-              </a>
+              </Link>
               <span aria-hidden="true">·</span>
               {/* 服務條款 */}
               <Link href="/terms" className="hover:underline">
