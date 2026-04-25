@@ -1,5 +1,5 @@
-import { useAuth } from "@/contexts/AuthContext";
-import { auth } from "@/configs/firebase";
+import { isAuthError, useAuth } from "@/contexts/AuthContext";
+import { callUserApi } from "@/services/userApi";
 import { useTheme } from "next-themes";
 import {
   createContext,
@@ -115,20 +115,19 @@ function writeLocalSettings(settings: SettingParams, updatedAt: number): void {
   localStorage.setItem(UPDATED_AT_KEY, String(updatedAt));
 }
 
-/** 呼叫 BFF GET /api/users/settings */
-async function fetchServerSettings(
-  idToken: string,
-): Promise<{ settings: Partial<SettingParams> | null; updatedAt: number | null }> {
-  const res = await fetch("/api/users/settings", {
-    headers: { Authorization: `Bearer ${idToken}` },
-  });
-  if (!res.ok) throw new Error(`GET settings 失敗 (HTTP ${res.status})`);
-  return res.json();
+/**
+ * 呼叫 BFF GET /api/users/settings
+ * 失敗會拋 ApiError，呼叫端依 code 區分（401 → 觸發 notifySessionExpired）
+ */
+async function fetchServerSettings(): Promise<{
+  settings: Partial<SettingParams> | null;
+  updatedAt: number | null;
+}> {
+  return callUserApi({ url: "/api/users/settings", method: "GET" });
 }
 
 /** 呼叫 BFF PUT /api/users/settings */
 async function pushServerSettings(
-  idToken: string,
   settings: SettingParams,
   updatedAt: number,
 ): Promise<{
@@ -136,16 +135,11 @@ async function pushServerSettings(
   settings: Partial<SettingParams>;
   updatedAt: number;
 }> {
-  const res = await fetch("/api/users/settings", {
+  return callUserApi({
+    url: "/api/users/settings",
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${idToken}`,
-    },
-    body: JSON.stringify({ settings, updatedAt }),
+    body: { settings, updatedAt },
   });
-  if (!res.ok) throw new Error(`PUT settings 失敗 (HTTP ${res.status})`);
-  return res.json();
 }
 
 /**
@@ -196,7 +190,7 @@ function ThemeSyncer() {
 }
 
 export function SettingProvider({ children }) {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, notifySessionExpired } = useAuth();
   const [settings, setSettings] = useState<SettingParams>(defaultSetting);
   /** 是否已完成 localStorage 初始水合 */
   const [hydrated, setHydrated] = useState(false);
@@ -220,32 +214,39 @@ export function SettingProvider({ children }) {
 
   /**
    * 實際推送到 server（debounced）
+   * 401 類錯誤 → 呼叫 notifySessionExpired 強制登出 + 提示
+   * 其他錯誤 → 靜默 log（同步失敗不該打斷使用者操作）
    */
-  const schedulePush = useCallback((next: SettingParams, nextUpdatedAt: number) => {
-    if (syncTimerRef.current) clearTimeout(syncTimerRef.current);
-    syncTimerRef.current = setTimeout(async () => {
-      const current = auth.currentUser;
-      if (!current) return;
-      try {
-        const token = await current.getIdToken();
-        const result = await pushServerSettings(token, next, nextUpdatedAt);
-        // 若 server 拒絕（server 有更新版本），改以 server 版本覆蓋本地
-        if (!result.applied) {
-          const merged = mergeWithDefault(result.settings);
-          suppressPushRef.current = true;
-          updatedAtRef.current = result.updatedAt;
-          writeLocalSettings(merged, result.updatedAt);
-          setSettings(merged);
-          suppressPushRef.current = false;
+  const schedulePush = useCallback(
+    (next: SettingParams, nextUpdatedAt: number) => {
+      if (syncTimerRef.current) clearTimeout(syncTimerRef.current);
+      syncTimerRef.current = setTimeout(async () => {
+        try {
+          const result = await pushServerSettings(next, nextUpdatedAt);
+          // 若 server 拒絕（server 有更新版本），改以 server 版本覆蓋本地
+          if (!result.applied) {
+            const merged = mergeWithDefault(result.settings);
+            suppressPushRef.current = true;
+            updatedAtRef.current = result.updatedAt;
+            writeLocalSettings(merged, result.updatedAt);
+            setSettings(merged);
+            suppressPushRef.current = false;
+          }
+        } catch (err) {
+          if (isAuthError(err)) {
+            notifySessionExpired();
+            return;
+          }
+          console.error("同步設定到 server 失敗", err);
         }
-      } catch (err) {
-        console.error("同步設定到 server 失敗", err);
-      }
-    }, SYNC_DEBOUNCE_MS);
-  }, []);
+      }, SYNC_DEBOUNCE_MS);
+    },
+    [notifySessionExpired],
+  );
 
   /**
    * 更新單一設定項：寫 localStorage + 更新 state + 排程推送 server
+   * 已登入時才推到 server；未登入純本地
    */
   const setValue = useCallback(
     <K extends keyof SettingParams>(key: K, value: SettingParams[K]) => {
@@ -254,17 +255,18 @@ export function SettingProvider({ children }) {
         const now = Date.now();
         updatedAtRef.current = now;
         writeLocalSettings(next, now);
-        if (!suppressPushRef.current && auth.currentUser) {
+        if (!suppressPushRef.current && user) {
           schedulePush(next, now);
         }
         return next;
       });
     },
-    [schedulePush],
+    [schedulePush, user],
   );
 
   /**
    * 登入狀態變化：拉 server 與本地做 LWW 合併
+   * 401 類錯誤 → 觸發 notifySessionExpired；其他錯誤靜默 log
    */
   useEffect(() => {
     if (!hydrated || authLoading) return;
@@ -273,8 +275,7 @@ export function SettingProvider({ children }) {
     let cancelled = false;
     (async () => {
       try {
-        const token = await user.getIdToken();
-        const remote = await fetchServerSettings(token);
+        const remote = await fetchServerSettings();
         if (cancelled) return;
 
         const localUpdatedAt = updatedAtRef.current;
@@ -290,13 +291,20 @@ export function SettingProvider({ children }) {
           suppressPushRef.current = false;
         } else if (localUpdatedAt > remoteUpdatedAt) {
           // 本地較新（或 server 從未有資料）→ 推上去
-          const token2 = await user.getIdToken();
-          await pushServerSettings(token2, settings, localUpdatedAt).catch(
-            (err) => console.error("初次同步 push 失敗", err),
-          );
+          await pushServerSettings(settings, localUpdatedAt).catch((err) => {
+            if (isAuthError(err)) {
+              notifySessionExpired();
+              return;
+            }
+            console.error("初次同步 push 失敗", err);
+          });
         }
         // 雙邊相等時不做任何事
       } catch (err) {
+        if (isAuthError(err)) {
+          notifySessionExpired();
+          return;
+        }
         console.error("初次同步 server 設定失敗", err);
       }
     })();
@@ -304,8 +312,10 @@ export function SettingProvider({ children }) {
     return () => {
       cancelled = true;
     };
+    // settings 故意不列入 deps：只關心使用者切換時的同步，不關心 settings 本身的變化
+    // （settings 變化已透過 setValue → schedulePush 處理）
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, hydrated, authLoading]);
+  }, [user, hydrated, authLoading, notifySessionExpired]);
 
   /**
    * 跨分頁同步：任一 tab 寫入 localStorage 都會通知其他 tab

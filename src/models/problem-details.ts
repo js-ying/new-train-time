@@ -7,6 +7,10 @@ export type ProblemCode =
   | "INVALID_INPUT"
   | "DATE_OUT_OF_RANGE"
   | "UNAUTHORIZED"
+  /** Firebase ID Token 簽章無效 / 過期 / 被竄改；應強制登出 */
+  | "INVALID_TOKEN"
+  /** 已驗證身份但內部 user 資料不存在；多半屬資料不一致 */
+  | "USER_NOT_FOUND"
   | "RATE_LIMITED"
   /** 後端 Express → TDX 的 upstream 失敗 */
   | "TDX_UPSTREAM_ERROR"
