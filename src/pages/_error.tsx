@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 
 interface ErrorPageProps {
@@ -29,7 +30,7 @@ const ErrorPage = ({ statusCode }: ErrorPageProps) => {
       <div className="flex h-screen w-full items-center justify-center">
         <div className="text-center">
           <div className="mb-4 text-2xl font-bold">{headline}</div>
-          <div className="text-zinc-500 dark:text-zinc-400">
+          <div className="text-muted-foreground">
             <div>{siteName}</div>
             <div className="text-sm">https://traintime.jsy.tw</div>
           </div>
@@ -39,7 +40,7 @@ const ErrorPage = ({ statusCode }: ErrorPageProps) => {
   );
 };
 
-ErrorPage.getInitialProps = ({ res, err }: any) => {
+ErrorPage.getInitialProps = ({ res, err }: NextPageContext) => {
   const statusCode = res?.statusCode ?? err?.statusCode ?? 404;
   return { statusCode };
 };
