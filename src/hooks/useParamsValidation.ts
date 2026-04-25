@@ -7,8 +7,12 @@ export interface ValidationResult {
   isDateInValid?: boolean;
 }
 
-export interface AlertOptions {
-  alertMsg:
+/**
+ * 參數驗證 alert（缺站、同站、日期超範圍等）的對外控制契約。
+ * 與 API 錯誤無關——API 錯誤走 apiError + DataState，那條通道請見 useApiError。
+ */
+export interface ValidationAlert {
+  message:
     | "bothStationAreBlankMsg"
     | "startStationIsBlankMsg"
     | "endStationIsBlankMsg"
@@ -16,9 +20,9 @@ export interface AlertOptions {
     | "datetimeNotAllowMsg"
     | "sameQueryMsg"
     | "";
-  setAlertMsg: (msg: AlertOptions["alertMsg"]) => void;
-  alertOpen: boolean;
-  setAlertOpen: (open: boolean) => void;
+  setMessage: (msg: ValidationAlert["message"]) => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 interface UseParamsValidationResult {
@@ -28,12 +32,12 @@ interface UseParamsValidationResult {
     date: string,
     time: string,
   ) => ValidationResult;
-  alertOptions: AlertOptions;
+  validationAlert: ValidationAlert;
 }
 
 const useParamsValidation = (): UseParamsValidationResult => {
-  const [alertMsg, setAlertMsg] = useState<AlertOptions["alertMsg"]>("");
-  const [alertOpen, setAlertOpen] = useState<boolean>(false);
+  const [message, setMessage] = useState<ValidationAlert["message"]>("");
+  const [open, setOpen] = useState<boolean>(false);
   const { page } = usePage();
 
   const isParamsValid = (
@@ -43,26 +47,26 @@ const useParamsValidation = (): UseParamsValidationResult => {
     time: string,
   ): ValidationResult => {
     if (!startStationId && !endStationId) {
-      setAlertMsg("bothStationAreBlankMsg");
-      setAlertOpen(true);
+      setMessage("bothStationAreBlankMsg");
+      setOpen(true);
       return { isValid: false };
     }
 
     if (!startStationId) {
-      setAlertMsg("startStationIsBlankMsg");
-      setAlertOpen(true);
+      setMessage("startStationIsBlankMsg");
+      setOpen(true);
       return { isValid: false };
     }
 
     if (!endStationId) {
-      setAlertMsg("endStationIsBlankMsg");
-      setAlertOpen(true);
+      setMessage("endStationIsBlankMsg");
+      setOpen(true);
       return { isValid: false };
     }
 
     if (startStationId === endStationId) {
-      setAlertMsg("sameStationMsg");
-      setAlertOpen(true);
+      setMessage("sameStationMsg");
+      setOpen(true);
       return { isValid: false };
     }
 
@@ -76,8 +80,8 @@ const useParamsValidation = (): UseParamsValidationResult => {
       DateUtils.isBefore(date, DateUtils.getCurrentDate()) ||
       DateUtils.isAfter(date, maxDate)
     ) {
-      setAlertMsg("datetimeNotAllowMsg");
-      setAlertOpen(true);
+      setMessage("datetimeNotAllowMsg");
+      setOpen(true);
       return {
         isValid: false,
         isDateInValid: true,
@@ -87,16 +91,9 @@ const useParamsValidation = (): UseParamsValidationResult => {
     return { isValid: true };
   };
 
-  const alertOptions = {
-    alertMsg,
-    setAlertMsg,
-    alertOpen,
-    setAlertOpen,
-  };
-
   return {
     isParamsValid,
-    alertOptions,
+    validationAlert: { message, setMessage, open, setOpen },
   };
 };
 

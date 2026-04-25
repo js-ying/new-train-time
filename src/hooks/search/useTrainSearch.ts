@@ -13,7 +13,7 @@ import DateUtils from "@/utils/DateUtils";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useMemo } from "react";
 import usePage from "../usePage";
-import useParamsValidation, { AlertOptions } from "../useParamsValidation";
+import useParamsValidation, { ValidationAlert } from "../useParamsValidation";
 import useSearchAreaParams from "../useSearchAreaParams";
 import useTrainSearchGeneric, {
   TrainFetcher,
@@ -24,8 +24,8 @@ interface UseTrainSearchResult {
   isLoading: boolean;
   /** 當前頁面對應鐵路的 API 錯誤；無錯誤為 null */
   apiError: ApiError | null;
-  /** 參數驗證 dialog 控制；不再混入 API 錯誤訊息（API 錯誤改走 apiError） */
-  alertOptions: AlertOptions;
+  /** 參數驗證 alert 控制；與 API 錯誤完全分離（API 錯誤走 apiError） */
+  validationAlert: ValidationAlert;
   jsyTrInfo: JsyTrInfo | null;
   jsyThsrInfo: JsyThsrInfo | null;
   jsyTymcInfo: JsyTymcInfo | null;
@@ -53,7 +53,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
-  const { isParamsValid, alertOptions } = useParamsValidation();
+  const { isParamsValid, validationAlert } = useParamsValidation();
 
   // 三鐵路各起一個泛型搜尋 hook 實例；共用同一份重複邏輯，介面保持分離
   const tr = useTrainSearchGeneric<JsyTrInfo>(trFetcher);
@@ -159,7 +159,7 @@ const useTrainSearch = (): UseTrainSearchResult => {
   return {
     isLoading: tr.isLoading || thsr.isLoading || tymc.isLoading,
     apiError: activeError,
-    alertOptions,
+    validationAlert,
     jsyTrInfo: trInfo,
     jsyThsrInfo: thsrInfo,
     jsyTymcInfo: tymcInfo,

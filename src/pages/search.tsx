@@ -40,7 +40,7 @@ const Search: FC = () => {
   const {
     isLoading,
     apiError,
-    alertOptions,
+    validationAlert,
     jsyTrInfo,
     jsyThsrInfo,
     jsyTymcInfo,
@@ -64,9 +64,9 @@ const Search: FC = () => {
     (isTymc && jsyTymcInfo?.timeTables?.length <= 0);
   const hasResult = hasTrData || hasThsrData || hasTymcData || noData;
 
-  const isDatetimeAlert = alertOptions.alertMsg === "datetimeNotAllowMsg";
+  const isDatetimeAlert = validationAlert.message === "datetimeNotAllowMsg";
   const dialogTitle = isDatetimeAlert ? "reminderAlertTitle" : "";
-  const dialogContent = t(alertOptions.alertMsg, {
+  const dialogContent = t(validationAlert.message, {
     date: DateUtils.getCurrentDate(),
   });
 
@@ -150,8 +150,8 @@ const Search: FC = () => {
           )}
 
           <CommonDialog
-            open={alertOptions.alertOpen}
-            setOpen={alertOptions.setAlertOpen}
+            open={validationAlert.open}
+            setOpen={validationAlert.setOpen}
             title={dialogTitle}
           >
             {dialogContent}

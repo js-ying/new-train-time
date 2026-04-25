@@ -48,14 +48,14 @@ const ErrorPage = ({ statusCode }: ErrorPageProps) => {
   return (
     <>
       <Head>
-        <title>{`${title} - Traintime`}</title>
+        <title>{`${title} - 台鐵時刻查詢`}</title>
       </Head>
       <div className="flex min-h-screen w-full items-center justify-center px-6">
         <div className="flex max-w-md flex-col items-center gap-4 text-center">
           <div className="text-3xl font-bold">{statusCode ?? ""}</div>
           <div className="text-xl font-semibold">{title}</div>
-          <div className="text-sm text-muted-foreground">{description}</div>
-          <Button as={Link} href="/" color="primary" variant="solid">
+          <div className="text-muted-foreground text-sm">{description}</div>
+          <Button as={Link} href="/" color="primary" size="sm" variant="solid">
             {backLabel}
           </Button>
         </div>

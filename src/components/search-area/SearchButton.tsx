@@ -17,7 +17,7 @@ const SearchButton: FC = () => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const { isParamsValid, alertOptions } = useParamsValidation();
+  const { isParamsValid, validationAlert } = useParamsValidation();
 
   const { searchPath } = usePage();
 
@@ -53,8 +53,8 @@ const SearchButton: FC = () => {
 
     if (isSameQuery) {
       if (lastQueryTime && Date.now() - lastQueryTime < queryInterval) {
-        alertOptions.setAlertMsg("sameQueryMsg");
-        alertOptions.setAlertOpen(true);
+        validationAlert.setMessage("sameQueryMsg");
+        validationAlert.setOpen(true);
         return;
       }
       setLastQueryTime(Date.now());
@@ -85,12 +85,12 @@ const SearchButton: FC = () => {
       {/* 搜尋元件不處理日期錯誤彈窗，直接由導頁後的 search 頁面顯示彈窗 */}
       <CommonDialog
         open={
-          alertOptions.alertOpen &&
-          alertOptions.alertMsg !== "datetimeNotAllowMsg"
+          validationAlert.open &&
+          validationAlert.message !== "datetimeNotAllowMsg"
         }
-        setOpen={alertOptions.setAlertOpen}
+        setOpen={validationAlert.setOpen}
       >
-        {t(alertOptions.alertMsg)}
+        {t(validationAlert.message)}
       </CommonDialog>
     </>
   );
