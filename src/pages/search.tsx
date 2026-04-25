@@ -56,10 +56,12 @@ const Search: FC = () => {
   const hasTrData = isTr && jsyTrInfo?.timeTables?.length > 0;
   const hasThsrData = isThsr && jsyThsrInfo?.timeTables?.length > 0;
   const hasTymcData = isTymc && jsyTymcInfo?.timeTables?.length > 0;
+  // API 錯誤或查詢回空陣列都歸為「無資料」狀態，由 NoTrainData 內部依 apiError 切黃 / 紅 Alert
   const noData =
-    (isTr && jsyTrInfo?.timeTables?.length <= 0) ||
-    (isThsr && jsyThsrInfo?.timeTables?.length <= 0) ||
-    (isTymc && jsyTymcInfo?.timeTables?.length <= 0);
+    !!apiError ||
+    (isTr && jsyTrInfo?.timeTables?.length === 0) ||
+    (isThsr && jsyThsrInfo?.timeTables?.length === 0) ||
+    (isTymc && jsyTymcInfo?.timeTables?.length === 0);
   const hasResult = hasTrData || hasThsrData || hasTymcData || noData;
 
   const isDatetimeAlert = validationAlert.message === "datetimeNotAllowMsg";

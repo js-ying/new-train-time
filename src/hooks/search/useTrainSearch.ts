@@ -149,20 +149,13 @@ const useTrainSearch = (): UseTrainSearchResult => {
     return null;
   }, [isTr, isThsr, isTymc, tr.error, thsr.error, tymc.error]);
 
-  // 錯誤時退化為空資料殼，讓上游 search.tsx 的 noData 判斷（timeTables.length <= 0）仍成立
-  const trInfo = tr.data ?? (tr.error ? ({ timeTables: [] } as JsyTrInfo) : null);
-  const thsrInfo =
-    thsr.data ?? (thsr.error ? ({ timeTables: [] } as JsyThsrInfo) : null);
-  const tymcInfo =
-    tymc.data ?? (tymc.error ? ({ timeTables: [] } as JsyTymcInfo) : null);
-
   return {
     isLoading: tr.isLoading || thsr.isLoading || tymc.isLoading,
     apiError: activeError,
     validationAlert,
-    jsyTrInfo: trInfo,
-    jsyThsrInfo: thsrInfo,
-    jsyTymcInfo: tymcInfo,
+    jsyTrInfo: tr.data,
+    jsyThsrInfo: thsr.data,
+    jsyTymcInfo: tymc.data,
   };
 };
 
