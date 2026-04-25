@@ -8,13 +8,14 @@ export const getTymcInfo = async (
   endStationId: string,
   date: string,
   time: string,
+  signal?: AbortSignal,
 ): Promise<JsyTymcInfo> => {
-  return await fetchData("/api/getJsyTymcInfo", {
-    startStationId,
-    endStationId,
-    date,
-    time,
-  });
+  return await fetchData(
+    "/api/getJsyTymcInfo",
+    { startStationId, endStationId, date, time },
+    "POST",
+    signal,
+  );
 };
 
 /** 取得桃捷營運告警 */

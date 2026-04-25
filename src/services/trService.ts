@@ -14,13 +14,14 @@ export const getJsyTrInfo = async (
   endStationId: string,
   date: string,
   time: string,
+  signal?: AbortSignal,
 ): Promise<JsyTrInfo> => {
-  return await fetchData("/api/getJsyTrInfo", {
-    startStationId,
-    endStationId,
-    date,
-    time,
-  });
+  return await fetchData(
+    "/api/getJsyTrInfo",
+    { startStationId, endStationId, date, time },
+    "POST",
+    signal,
+  );
 };
 
 /** 取得台鐵營運告警 */
