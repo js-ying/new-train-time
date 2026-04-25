@@ -62,7 +62,7 @@ const TrOrder: FC<TrOrderProps> = ({ data }) => {
   return (
     <div onClick={(e) => e.stopPropagation()}>
       <Button
-        className="h-6 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
+        className="h-6 min-w-fit bg-secondary text-sm text-secondary-foreground"
         size="sm"
         radius="sm"
         onPress={handleOrder}

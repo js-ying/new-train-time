@@ -49,9 +49,8 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
           }
         }}
         className="custom-cursor-pointer relative grid grid-cols-4 items-center
-          justify-between rounded-md border border-solid border-zinc-700 p-2
-          transition duration-150 ease-out
-          dark:border-zinc-200"
+          justify-between rounded-md border border-solid border-foreground p-2
+          transition duration-150 ease-out"
         onClick={openDetail}
       >
         {/* Left */}
@@ -80,7 +79,7 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
             )}
           </div>
           {durationText && (
-            <div className="whitespace-nowrap text-sm text-zinc-500 dark:text-zinc-400">
+            <div className="whitespace-nowrap text-sm text-muted-foreground">
               {t("about")} {durationText}
             </div>
           )}

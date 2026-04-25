@@ -46,9 +46,9 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
           }
         }}
         className={`custom-cursor-pointer relative grid grid-cols-4 items-center
-          justify-between rounded-md border border-solid border-zinc-700 p-2
+          justify-between rounded-md border border-solid border-foreground p-2
           transition duration-150 ease-out
-          dark:border-zinc-200 ${
+          ${
             isShowTrOrderBtn(trTrainTimeTable)
               ? "min-h-[108px] md:min-h-fit"
               : ""
@@ -74,13 +74,13 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
       </div>
 
       {isOnlyTicket && (
-        <div className="mt-1 text-xs text-silverLakeBlue-500 dark:text-gamboge-500">
+        <div className="mt-1 text-xs text-primary">
           {t("eTicketAlertMsg")}
         </div>
       )}
 
       {isTw && showTrTrainNote && note && (
-        <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="mt-1 text-xs text-muted-foreground">
           {note}
         </div>
       )}

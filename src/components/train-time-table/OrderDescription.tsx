@@ -21,35 +21,35 @@ const AnnouncementContent: FC = () => {
           return (
             <div
               key={index}
-              className="overflow-hidden rounded-md border border-zinc-400 dark:border-zinc-500"
+              className="overflow-hidden rounded-md border border-border"
             >
               <table className="w-full text-center text-sm">
-                <thead className="bg-neutral-300 dark:bg-neutral-700">
-                  <tr className="border-b border-zinc-400 dark:border-zinc-500">
-                    <th className="border-r border-zinc-400 p-2 dark:border-zinc-500">
+                <thead className="bg-muted">
+                  <tr className="border-b border-border">
+                    <th className="border-r border-border p-2">
                       {t("railway")}
                     </th>
-                    <th className="border-r border-zinc-400 p-2 dark:border-zinc-500">
+                    <th className="border-r border-border p-2">
                       {t("realTimeSeatData")}
                     </th>
                     <th className="p-2">{t("bookingBtnCondition")}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-zinc-400 dark:border-zinc-500">
-                    <td className="border-r border-zinc-400 p-2 font-bold dark:border-zinc-500">
+                  <tr className="border-b border-border">
+                    <td className="border-r border-border p-2 font-bold">
                       {t("tr")}
                     </td>
-                    <td className="border-r border-zinc-400 p-2 text-orange-600 dark:border-zinc-500 dark:text-orange-400">
+                    <td className="border-r border-border p-2 text-orange-600 dark:text-orange-400">
                       {t("waitingForTdx")}
                     </td>
                     <td className="p-2">{t("alwaysShow")}</td>
                   </tr>
                   <tr>
-                    <td className="border-r border-zinc-400 p-2 font-bold dark:border-zinc-500">
+                    <td className="border-r border-border p-2 font-bold">
                       {t("thsr")}
                     </td>
-                    <td className="border-r border-zinc-400 p-2 text-emerald-600 dark:border-zinc-500 dark:text-emerald-400">
+                    <td className="border-r border-border p-2 text-emerald-600 dark:text-emerald-400">
                       {t("seatDataConnected")}
                     </td>
                     <td className="p-2">{t("showWhenSeatsAvailable")}</td>

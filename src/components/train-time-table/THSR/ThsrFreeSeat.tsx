@@ -57,9 +57,9 @@ interface LabelFreeSeatSpanProps {
 const LabelFreeSeatSpan: FC<LabelFreeSeatSpanProps> = ({ carNo }) => {
   return (
     <span
-      className="h-4 w-4 rounded-md bg-silverLakeBlue-500 text-xs
-      leading-4 text-white transition duration-150
-      ease-out dark:bg-gamboge-500 dark:text-zinc-900"
+      className="h-4 w-4 rounded-md bg-primary text-xs
+      leading-4 text-primary-foreground transition duration-150
+      ease-out"
     >
       {carNo}
     </span>
@@ -89,7 +89,7 @@ const LabelFreeSeat: FC<LabelFreeSeatProps> = ({ freeSeatGroupList }) => {
           );
         })
       ) : (
-        <div className="text-zinc-500 dark:text-zinc-400">
+        <div className="text-muted-foreground">
           {t("confirmOnSiteMsg")}
         </div>
       )}

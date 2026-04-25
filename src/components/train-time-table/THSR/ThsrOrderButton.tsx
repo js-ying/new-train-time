@@ -61,7 +61,7 @@ const ThsrOrderButton: React.FC<ThsrOrderButtonProps> = ({ timeTable }) => {
     <div onClick={(e) => e.stopPropagation()}>
       <Button
         size="sm"
-        className="h-6 min-w-fit bg-neutral-500 p-2 text-sm text-white dark:bg-neutral-600"
+        className="h-6 min-w-fit bg-secondary p-2 text-sm text-secondary-foreground"
         onPress={handlePress}
         isLoading={loading}
       >

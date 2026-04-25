@@ -56,11 +56,9 @@ const TrTrainTypeFilter: FC<TrTrainTypeFilterProps> = ({
         {trainTypeList.map((trainType, index) => (
           <Button
             key={trainType}
-            className={`h-8 min-w-fit bg-neutral-500 px-3 text-sm text-zinc-300 dark:text-zinc-400 ${
-              activeIndex === index
-                ? "font-bold text-white dark:text-white"
-                : ""
-            } dark:bg-neutral-600`}
+            className={`h-8 min-w-fit bg-secondary px-3 text-sm text-secondary-foreground/70 ${
+              activeIndex === index ? "font-bold text-secondary-foreground" : ""
+            }`}
             onPress={() => handleFilter(trainType, index)}
           >
             {t(trainType)}

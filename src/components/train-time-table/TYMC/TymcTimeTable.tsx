@@ -22,7 +22,7 @@ const TymcTimeTable: FC<TymcTimeTableProps> = ({ data }) => {
 
   return (
     <>
-      <div className="mb-2 bg-white pb-2 pt-2 dark:bg-eerieBlack-500">
+      <div className="mb-2 bg-background pb-2 pt-2">
         <TrainTimeNavbar
           totalCount={data.timeTables.length}
           filterCount={filterTymcTrainTimeTable.length}

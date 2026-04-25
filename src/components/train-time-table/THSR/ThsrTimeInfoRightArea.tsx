@@ -20,14 +20,14 @@ const ThsrTimeInfoRightArea: FC<ThsrTimeInfoRightAreaProps> = ({
 
   if (isGeneralTimetable) {
     return (
-      <span className="text-sm text-zinc-500 dark:text-zinc-400">
+      <span className="text-sm text-muted-foreground">
         {t("unavailableOrder")}
       </span>
     );
   }
 
   return (
-    <div className="my-2 flex flex-col items-center justify-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
+    <div className="my-2 flex flex-col items-center justify-center gap-1.5 text-sm text-muted-foreground">
       {isShowThsrOrderBtn(data) ? (
         <>
           <ThsrAvailableSeatStatus timeTable={data} />

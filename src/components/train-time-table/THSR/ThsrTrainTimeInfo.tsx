@@ -58,9 +58,8 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           }
         }}
         className="custom-cursor-pointer relative grid grid-cols-4 items-center
-          justify-between rounded-md border border-solid border-zinc-700 p-2
-          transition duration-150 ease-out
-          dark:border-zinc-200"
+          justify-between rounded-md border border-solid border-foreground p-2
+          transition duration-150 ease-out"
         onClick={openDetail}
       >
         <div className="text-center">
@@ -79,7 +78,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           />
         </div>
       </div>
-      <div className="mt-1.5 flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
+      <div className="mt-1.5 flex items-center gap-1 text-xs text-muted-foreground">
         <span>{t("freeSeating")}</span>
         <ThsrFreeSeat
           trainNo={trainNo}

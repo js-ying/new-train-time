@@ -58,7 +58,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
         onOpenChange={setOpen}
         classNames={{
           wrapper: `thsr-detail-dialog ${isCapturing ? "h-fit" : ""}`,
-          base: "bg-white dark:bg-eerieBlack-500",
+          base: "bg-background",
           header: "flex items-center justify-center gap-2",
         }}
         scrollBehavior={isCapturing ? "outside" : "inside"}
@@ -98,7 +98,7 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
                   <div className="relative mt-1 flex justify-center">
                     <Button
                       size="sm"
-                      className="bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                      className="bg-primary text-primary-foreground"
                       onPress={onClose}
                     >
                       {t("closeBtn")}

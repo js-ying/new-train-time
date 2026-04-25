@@ -2,8 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
+/* -----------------------------------------------------------
+ * Design Tokens
+ * 三層架構：primitive → semantic → component
+ * 數值格式為 HSL 三元組（不含 hsl() 包裝），讓 Tailwind 可組
+ * `hsl(var(--token) / <alpha>)`，支援 bg-primary/50 透明度語法。
+ * Sprint 5 升 Tailwind v4 時這些變數可直接搬進 @theme block。
+ * --------------------------------------------------------- */
+:root {
+  /* ── Primitive：原始色階（不直接給元件使用） ── */
+  --color-eerie-black-100: 200 26% 94%;
+  --color-eerie-black-200: 199 26% 88%;
+  --color-eerie-black-300: 207 12% 70%;
+  --color-eerie-black-400: 210 7% 46%;
+  --color-eerie-black-500: 210 11% 15%;
+  --color-eerie-black-600: 209 19% 12%;
+  --color-eerie-black-700: 214 30% 9%;
+  --color-eerie-black-800: 216 41% 6%;
+  --color-eerie-black-900: 220 53% 5%;
+
+  --color-silver-lake-blue-100: 202 87% 93%;
+  --color-silver-lake-blue-200: 203 84% 85%;
+  --color-silver-lake-blue-300: 206 73% 76%;
+  --color-silver-lake-blue-400: 210 62% 67%;
+  --color-silver-lake-blue-500: 213 53% 54%;
+  --color-silver-lake-blue-600: 213 51% 45%;
+  --color-silver-lake-blue-700: 216 58% 36%;
+  --color-silver-lake-blue-800: 220 66% 27%;
+  --color-silver-lake-blue-900: 223 75% 21%;
+
+  --color-gamboge-100: 46 96% 90%;
+  --color-gamboge-200: 42 98% 80%;
+  --color-gamboge-300: 43 96% 70%;
+  --color-gamboge-400: 40 94% 62%;
+  --color-gamboge-500: 38 92% 50%;
+  --color-gamboge-600: 36 94% 42%;
+  --color-gamboge-700: 33 95% 35%;
+  --color-gamboge-800: 31 96% 28%;
+  --color-gamboge-900: 28 97% 23%;
+
+  /* ── Semantic：元件層使用的「意圖」── */
+  --color-background: 0 0% 100%;
+  --color-foreground: var(--color-eerie-black-500);
+
+  --color-primary: var(--color-silver-lake-blue-500);
+  --color-primary-foreground: 0 0% 0%;
+
+  --color-muted: 0 0% 83%; /* Tailwind neutral-300，thead 等次要區塊底 */
+  --color-muted-foreground: var(--color-eerie-black-400);
+
+  --color-accent: 210 14% 96%;
+  --color-accent-foreground: var(--color-eerie-black-500);
+
+  --color-secondary: 0 0% 45%; /* Tailwind neutral-500，給次要灰底按鈕用 */
+  --color-secondary-foreground: 0 0% 100%;
+
+  --color-destructive: 0 72% 51%; /* Tailwind red-600 */
+  --color-destructive-foreground: 0 0% 100%;
+
+  --color-border: 210 14% 83%;
+  --color-input: 210 14% 83%;
+  --color-ring: var(--color-silver-lake-blue-500);
+}
+
+.dark {
+  /* 暗模式覆寫 semantic tokens；primitive 不變 */
+  --color-background: var(--color-eerie-black-500);
+  --color-foreground: var(--color-eerie-black-100);
+
+  --color-primary: var(--color-gamboge-500);
+  --color-primary-foreground: 0 0% 0%;
+
+  --color-secondary: 0 0% 34%; /* Tailwind neutral-600，比 light 略深 */
+  --color-secondary-foreground: 0 0% 100%;
+
+  --color-muted: 0 0% 25%; /* Tailwind neutral-700，比 background 略亮才能看出邊界 */
+  --color-muted-foreground: var(--color-eerie-black-300);
+
+  --color-accent: var(--color-eerie-black-600);
+  --color-accent-foreground: var(--color-eerie-black-100);
+
+  --color-destructive: 0 91% 71%; /* Tailwind red-400 */
+  --color-destructive-foreground: 0 0% 0%;
+
+  --color-border: var(--color-eerie-black-400);
+  --color-input: var(--color-eerie-black-400);
+  --color-ring: var(--color-gamboge-500);
+}
+
 body {
-  @apply m-0 min-h-dvh bg-white dark:bg-eerieBlack-500 transition-background;
+  @apply m-0 min-h-dvh bg-background transition-background;
   font-family:
     "-apple-system",
     "BlinkMacSystemFont",

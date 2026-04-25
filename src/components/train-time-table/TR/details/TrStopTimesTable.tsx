@@ -19,7 +19,7 @@ const TrStopTimesTable: FC<TrStopTimesTableProps> = ({ data }) => {
         {["stationName", "arrivalTime", "leaveTime"].map((title) => {
           return (
             <div
-              className="border- flex-1 border-y border-silverLakeBlue-500 py-2 text-center text-silverLakeBlue-500 dark:border-gamboge-500 dark:text-gamboge-500"
+              className="flex-1 border-y border-primary py-2 text-center text-primary"
               key={title}
             >
               {t(title)}
@@ -32,7 +32,7 @@ const TrStopTimesTable: FC<TrStopTimesTableProps> = ({ data }) => {
           <div
             className={`mt-2 flex ${
               index === 0 || index === data.stopTimes.length - 1
-                ? "font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
+                ? "font-bold text-primary"
                 : ""
             }`}
             key={stopTime.stationId}

@@ -12,7 +12,7 @@ const ThsrTimeInfoMidArea: FC<ThsrTimeInfoMidAreaProps> = ({
   return (
     <>
       <div>{timeRange}</div>
-      <div className="text-sm text-zinc-500 dark:text-zinc-400">
+      <div className="text-sm text-muted-foreground">
         {durationText}
       </div>
     </>

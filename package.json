@@ -5,6 +5,7 @@
     "postbuild": "next-sitemap",
     "dev": "next dev",
     "dev-ssl": "next dev --experimental-https",
+    "lint": "next lint",
     "start": "next start"
   },
   "dependencies": {
@@ -15,6 +16,8 @@
     "@mui/material": "^5.16.14",
     "@mui/x-date-pickers": "^6.20.2",
     "@next/third-parties": "^14.2.24",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "firebase": "^12.10.0",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.47",
@@ -26,6 +29,7 @@
     "react-dom": "18.2.0",
     "sass": "^1.85.0",
     "sharp": "^0.33.5",
+    "tailwind-merge": "^3.5.0",
     "yet-another-react-lightbox": "^3.21.7"
   },
   "engines": {
@@ -37,6 +41,7 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-tailwindcss": "^3.17.5",
     "next-sitemap": "^4.2.3",
     "postcss": "^8.5.3",
     "prettier": "^3.5.2",

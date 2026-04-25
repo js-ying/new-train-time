@@ -17,7 +17,7 @@ const TrTimeInfoMidArea: FC<TrTimeInfoMidAreaProps> = ({
     <>
       <TrDelay dataList={delayInfo} />
       <div>{timeRange}</div>
-      <div className="text-sm text-zinc-500 dark:text-zinc-400">
+      <div className="text-sm text-muted-foreground">
         {durationText}
       </div>
     </>

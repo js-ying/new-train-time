@@ -51,7 +51,7 @@ const TymcTrainDetail: FC<TymcTrainDetailProps> = ({
             <>
               <span className="whitespace-nowrap">± 3 {t("minute")}</span>
               <span
-                className={`text-zinc-500 dark:text-zinc-400 ${!isTw && "pl-1"}`}
+                className={`text-muted-foreground ${!isTw && "pl-1"}`}
               >
                 {t("arrivalTimeAccuracyMsg")}
               </span>

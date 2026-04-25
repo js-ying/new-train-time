@@ -1,3 +1,15 @@
 {
-  "extends": "react-app"
+  "extends": ["react-app", "plugin:tailwindcss/recommended"],
+  "plugins": ["tailwindcss"],
+  "settings": {
+    "tailwindcss": {
+      "callees": ["cn", "clsx", "tw"],
+      "config": "tailwind.config.js"
+    }
+  },
+  "rules": {
+    "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/no-arbitrary-value": "warn",
+    "tailwindcss/classnames-order": "off"
+  }
 }
