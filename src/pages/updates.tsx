@@ -1,4 +1,5 @@
 import Layout from "@/components/layout/Layout";
+import PageSeo from "@/components/seo/PageSeo";
 import { GaEnum } from "@/enums/GaEnum";
 import useLang from "@/hooks/useLang";
 import useMuiTheme from "@/hooks/useMuiTheme";
@@ -19,6 +20,7 @@ export async function getStaticProps({ locale }) {
     props: {
       ...(await serverSideTranslations(locale)),
     },
+    revalidate: 86400,
   };
 }
 
@@ -190,6 +192,7 @@ const Updates: FC = () => {
 
   return (
     <>
+      <PageSeo />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto w-full max-w-3xl">

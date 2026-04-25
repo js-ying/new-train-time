@@ -3,6 +3,7 @@ import Loading from "@/components/common/Loading";
 import Layout from "@/components/layout/Layout";
 
 import CommonDialog from "@/components/common/CommonDialog";
+import PageSeo from "@/components/seo/PageSeo";
 import DynamicAnnouncements from "@/components/search-area/alert/DynamicAnnouncements";
 import OperationAlert from "@/components/search-area/alert/OperationAlert";
 import SearchArea from "@/components/search-area/SearchArea";
@@ -78,6 +79,7 @@ const Search: FC = () => {
 
   return (
     <>
+      <PageSeo />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <SearchResultSeoContent />

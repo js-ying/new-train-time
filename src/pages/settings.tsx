@@ -1,6 +1,7 @@
 import IOSSwitchSetting from "@/components/common/IOSSwitchSetting";
 import NewLabel from "@/components/common/NewLabel";
 import Layout from "@/components/layout/Layout";
+import PageSeo from "@/components/seo/PageSeo";
 import { GaEnum } from "@/enums/GaEnum";
 import { LocaleEnum } from "@/enums/LocaleEnum";
 import useMuiTheme from "@/hooks/useMuiTheme";
@@ -17,6 +18,7 @@ export async function getStaticProps({ locale }) {
     props: {
       ...(await serverSideTranslations(locale)),
     },
+    revalidate: 86400,
   };
 }
 
@@ -147,6 +149,7 @@ const Settings: FC = () => {
 
   return (
     <>
+      <PageSeo />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto w-full max-w-3xl">

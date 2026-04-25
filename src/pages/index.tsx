@@ -1,4 +1,5 @@
 import Layout from "@/components/layout/Layout";
+import PageSeo from "@/components/seo/PageSeo";
 import PopularRoutes from "@/components/search-area/PopularRoutes";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchHistory from "@/components/search-area/SearchHistory";
@@ -16,6 +17,8 @@ export async function getStaticProps({ locale }) {
     props: {
       ...(await serverSideTranslations(locale)),
     },
+    // ISR：每天重新產生靜態頁，避免 i18n / 版本資訊長期失效
+    revalidate: 86400,
   };
 }
 
@@ -34,6 +37,7 @@ const Home: FC = () => {
 
   return (
     <>
+      <PageSeo />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           {/* 搜尋區塊 */}

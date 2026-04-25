@@ -1,5 +1,6 @@
 import CommonLightbox from "@/components/common/CommonLightbox";
 import Layout from "@/components/layout/Layout";
+import PageSeo from "@/components/seo/PageSeo";
 import PWAInstallButton from "@/components/pwa-promot/PWAInstallButton";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import { Image } from "@heroui/react";
@@ -14,6 +15,7 @@ export async function getStaticProps({ locale }) {
     props: {
       ...(await serverSideTranslations(locale)),
     },
+    revalidate: 86400,
   };
 }
 
@@ -95,6 +97,7 @@ const Features: FC = () => {
 
   return (
     <>
+      <PageSeo />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto w-full max-w-3xl">
