@@ -9,8 +9,6 @@ export interface ApiErrorView {
   kind: ApiErrorKind | null;
   /** 對應 i18n key (`errors.${code}`)；無錯誤時為空字串 */
   messageKey: string;
-  /** 是否建議顯示「重試」按鈕（暫時性錯誤才為 true） */
-  retryable: boolean;
   /** 原始 ApiError，呼叫端如需 status / detail 自行存取 */
   error: ApiError | null;
 }
@@ -34,32 +32,20 @@ const CODE_TO_KIND: Record<ProblemCode, ApiErrorKind> = {
   UNKNOWN: "inline",
 };
 
-/** 標記為「使用者重試會有用」的錯誤；用於決定是否顯示重試按鈕 */
-const RETRYABLE_CODES: ReadonlySet<ProblemCode> = new Set([
-  "RATE_LIMITED",
-  "TDX_UPSTREAM_ERROR",
-  "BFF_UPSTREAM_ERROR",
-  "DB_UNAVAILABLE",
-  "INTERNAL_ERROR",
-  "NETWORK_OFFLINE",
-  "UNKNOWN",
-]);
-
 /**
  * 把 ApiError 收斂為 UI 可直接消費的視圖物件。
- * 元件層只需要看 `kind` 決定顯示位置、`messageKey` 取 i18n、`retryable` 決定按鈕。
+ * 元件層只需要看 `kind` 決定顯示位置、`messageKey` 取 i18n。
  */
 const useApiError = (error: ApiError | null): ApiErrorView => {
   return useMemo(() => {
     if (!error) {
-      return { kind: null, messageKey: "", retryable: false, error: null };
+      return { kind: null, messageKey: "", error: null };
     }
 
     const kind = CODE_TO_KIND[error.code] ?? "inline";
     return {
       kind,
       messageKey: `errors.${error.code}`,
-      retryable: RETRYABLE_CODES.has(error.code),
       error,
     };
   }, [error]);

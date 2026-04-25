@@ -107,7 +107,6 @@
   "noTrainInThisTimeMsg": "The departure time set is too late and there are no more scheduled trips.",
   "noTrainStopBetweenStationsMsg": "There are no trains stopping between these two stations.",
   "noTrainDataDueToApiErrorMsg": "System anomaly, please try again later or notify the system administrator.",
-  "retryBtn": "Retry",
   "errorFallbackTitle": "Something went wrong while rendering the page",
   "errorFallbackDescription": "Please refresh the page. If the issue persists, contact the administrator.",
   "errorPage404Title": "Page not found",

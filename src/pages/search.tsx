@@ -44,7 +44,6 @@ const Search: FC = () => {
     jsyTrInfo,
     jsyThsrInfo,
     jsyTymcInfo,
-    retry,
   } = useTrainSearch();
 
   const isGeneralTimetable = isThsr && jsyThsrInfo?.isGeneralTimetable;
@@ -132,7 +131,7 @@ const Search: FC = () => {
               {/* 無列車資料 */}
               {noData && (
                 <div className="pt-2">
-                  <NoTrainData apiError={apiError} onRetry={retry} />
+                  <NoTrainData apiError={apiError} />
 
                   {AdUtils.showAd(0, 0) && (
                     <div className="mt-4">

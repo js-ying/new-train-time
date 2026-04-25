@@ -29,8 +29,6 @@ interface UseTrainSearchResult {
   jsyTrInfo: JsyTrInfo | null;
   jsyThsrInfo: JsyThsrInfo | null;
   jsyTymcInfo: JsyTymcInfo | null;
-  /** 重試當前 URL 參數的查詢；交由 DataState 重試按鈕呼叫 */
-  retry: () => void;
 }
 
 // 各鐵路的 fetcher：把 service 函式包成符合 TrainFetcher<T> 簽章
@@ -151,13 +149,6 @@ const useTrainSearch = (): UseTrainSearchResult => {
     return null;
   }, [isTr, isThsr, isTymc, tr.error, thsr.error, tymc.error]);
 
-  // 重試：以最近一次 URL 參數重新發出查詢；參數無效時忽略
-  const retry = useCallback(() => {
-    const { startStationId, endStationId, date, time } = urlSearchAreaParams;
-    if (!startStationId || !endStationId || !date || !time) return;
-    getTrainTimeTable(startStationId, endStationId, date, time);
-  }, [urlSearchAreaParams, getTrainTimeTable]);
-
   // 錯誤時退化為空資料殼，讓上游 search.tsx 的 noData 判斷（timeTables.length <= 0）仍成立
   const trInfo = tr.data ?? (tr.error ? ({ timeTables: [] } as JsyTrInfo) : null);
   const thsrInfo =
@@ -172,7 +163,6 @@ const useTrainSearch = (): UseTrainSearchResult => {
     jsyTrInfo: trInfo,
     jsyThsrInfo: thsrInfo,
     jsyTymcInfo: tymcInfo,
-    retry,
   };
 };
 
