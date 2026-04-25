@@ -21,8 +21,6 @@ interface UseTrainSearchGenericResult<T> {
   isLoading: boolean;
   /** 觸發搜尋；後一次呼叫會 abort 前一次仍在飛行的請求 */
   search: (params: TrainSearchParams) => Promise<void>;
-  /** 清空 data / error / loading；同時 abort 飛行中請求 */
-  reset: () => void;
 }
 
 /**
@@ -83,14 +81,7 @@ const useTrainSearchGeneric = <T>(
     [fetcher],
   );
 
-  const reset = useCallback(() => {
-    abortRef.current?.abort();
-    setData(null);
-    setError(null);
-    setIsLoading(false);
-  }, []);
-
-  return { data, error, isLoading, search, reset };
+  return { data, error, isLoading, search };
 };
 
 export default useTrainSearchGeneric;
