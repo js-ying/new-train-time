@@ -165,10 +165,12 @@ module.exports = {
     const basePath = isEnglishPath ? path.replace(/^\/en/, "") || "/" : path;
     const pathSuffix = basePath === "/" ? "" : basePath;
 
+    // Google 2023 後建議用 ISO 15924 script code（zh-Hant）取代地區碼（zh-TW）
+    // 表達「繁中書寫系統」；與前端 NextSeo languageAlternates 輸出一致
     const alternateRefs = [
       {
         href: `${siteUrl}${pathSuffix}`,
-        hreflang: "zh-TW",
+        hreflang: "zh-Hant",
         hrefIsAbsolute: true,
       },
       {
