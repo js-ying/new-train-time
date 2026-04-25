@@ -1,3 +1,4 @@
+import GlobalErrorFallback from "@/components/common/GlobalErrorFallback";
 import LocaleSuggestionDialog from "@/components/common/LocaleSuggestionDialog";
 import GoogleScript from "@/components/layout/GoogleScript";
 import PageHead from "@/components/layout/PageHead";
@@ -12,6 +13,7 @@ import { HeroUIProvider } from "@heroui/react";
 import { appWithTranslation } from "next-i18next";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { AppProps } from "next/app";
+import { ErrorBoundary } from "react-error-boundary";
 
 function App({ Component, pageProps }: AppProps) {
   useTrackBrowseSource();
@@ -26,7 +28,10 @@ function App({ Component, pageProps }: AppProps) {
               <SettingProvider>
                 <SearchAreaProvider>
                   <PageHead />
-                  <Component {...pageProps} />
+                  {/* 全域 Error Boundary：保底承接元件 render 期未捕捉例外 */}
+                  <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
+                    <Component {...pageProps} />
+                  </ErrorBoundary>
                   <LocaleSuggestionDialog />
                 </SearchAreaProvider>
               </SettingProvider>
