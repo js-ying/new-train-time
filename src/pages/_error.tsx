@@ -22,22 +22,25 @@ const ErrorPage = ({ statusCode }: ErrorPageProps) => {
     ? "errorPage404Description"
     : "errorFallbackDescription";
 
-  // i18n 尚未 hydrate 完成時回退到內建訊息，避免顯示原始 key
-  const fallback = (zh: string, en: string) =>
-    i18n.language?.startsWith("zh") ? zh : en;
-  const title = i18n.exists(titleKey)
-    ? t(titleKey)
-    : isNotFound
-      ? fallback("找不到頁面", "Page not found")
-      : fallback("畫面載入時發生問題", "Something went wrong");
-  const description = i18n.exists(descKey)
-    ? t(descKey)
-    : isNotFound
-      ? fallback("您要查詢的頁面不存在或已被移除。", "The page does not exist.")
-      : fallback("請重新整理頁面。", "Please refresh the page.");
-  const backLabel = i18n.exists("backToHomeBtn")
-    ? t("backToHomeBtn")
-    : fallback("回首頁", "Back to home");
+  // i18n 尚未 hydrate 完成（或 _error 路徑未經 appWithTranslation 包裝）時，
+  // 回退到內建雙語訊息，避免顯示原始 key
+  const isZh = (i18n?.language ?? "").startsWith("zh");
+  const fallback = (zh: string, en: string) => (isZh ? zh : en);
+  const tryTranslate = (key: string, zh: string, en: string) => {
+    if (typeof i18n?.exists === "function" && i18n.exists(key)) return t(key);
+    return fallback(zh, en);
+  };
+  const title = isNotFound
+    ? tryTranslate(titleKey, "找不到頁面", "Page not found")
+    : tryTranslate(titleKey, "畫面載入時發生問題", "Something went wrong");
+  const description = isNotFound
+    ? tryTranslate(
+        descKey,
+        "您要查詢的頁面不存在或已被移除。",
+        "The page does not exist.",
+      )
+    : tryTranslate(descKey, "請重新整理頁面。", "Please refresh the page.");
+  const backLabel = tryTranslate("backToHomeBtn", "回首頁", "Back to home");
 
   return (
     <>
