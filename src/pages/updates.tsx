@@ -1,5 +1,10 @@
 import Layout from "@/components/layout/Layout";
 import PageSeo from "@/components/seo/PageSeo";
+import {
+  oldThsrUpdateDataList,
+  oldTrUpdateDataList,
+  updateDataList,
+} from "@/data/updatesData";
 import { GaEnum } from "@/enums/GaEnum";
 import useLang from "@/hooks/useLang";
 import useMuiTheme from "@/hooks/useMuiTheme";
@@ -8,11 +13,6 @@ import { Accordion, AccordionItem, Chip, Tab, Tabs } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import {
-  oldThsrUpdateDataList,
-  oldTrUpdateDataList,
-  updateDataList,
-} from "@/data/updatesData";
 import { FC, useMemo, useRef } from "react";
 
 export async function getStaticProps({ locale }) {
@@ -197,7 +197,7 @@ const Updates: FC = () => {
         <Layout>
           <div className="mx-auto w-full max-w-3xl">
             {!isTw && (
-              <p className="text-center text-zinc-500 dark:text-zinc-400">
+              <p className="mb-6 text-center text-zinc-500 dark:text-zinc-400">
                 {t("pageOnlyTwMsg")}
               </p>
             )}

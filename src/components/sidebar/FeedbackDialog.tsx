@@ -20,7 +20,7 @@ const FeedbackDialog: FC<FeedbackDialogProps> = ({ open, setOpen }) => {
       bodyTextAlign="text-left"
     >
       <div className="flex flex-col justify-center">
-        <div className="mb-6 text-left">{t("feedbackDescription")}</div>
+        <div className="mb-6 text-justify">{t("feedbackDescription")}</div>
         <div className="flex justify-center">
           <Button
             color="primary"
