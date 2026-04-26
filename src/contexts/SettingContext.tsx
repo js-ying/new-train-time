@@ -246,17 +246,26 @@ export function SettingProvider({ children }) {
 
   /**
    * 更新單一設定項：寫 localStorage + 更新 state + 排程推送 server
-   * 已登入時才推到 server；未登入純本地
+   * 已登入：打時間戳（參與 LWW）+ 推 server
+   * 未登入：僅作為本地預覽，不打時間戳；登入後會被雲端覆蓋（避免「未登入隨手調」吃掉雲端版本）
    */
   const setValue = useCallback(
     <K extends keyof SettingParams>(key: K, value: SettingParams[K]) => {
       setSettings((prev) => {
         const next = { ...prev, [key]: value };
-        const now = Date.now();
-        updatedAtRef.current = now;
-        writeLocalSettings(next, now);
-        if (!suppressPushRef.current && user) {
-          schedulePush(next, now);
+        if (user) {
+          // 登入狀態：寫入時間戳並推送 server
+          const now = Date.now();
+          updatedAtRef.current = now;
+          writeLocalSettings(next, now);
+          if (!suppressPushRef.current) {
+            schedulePush(next, now);
+          }
+        } else {
+          // 未登入：只更新本地各欄位，不動 updatedAt（保持 0），登入後會被雲端覆蓋
+          (Object.keys(next) as (keyof SettingParams)[]).forEach((k) => {
+            localStorage.setItem(k, serializeValue(next[k]));
+          });
         }
         return next;
       });
@@ -265,7 +274,10 @@ export function SettingProvider({ children }) {
   );
 
   /**
-   * 登入狀態變化：拉 server 與本地做 LWW 合併
+   * 登入狀態變化：以雲端為準的初次同步
+   * 規則：
+   *   1. 雲端有資料 → 直接以雲端覆蓋本地（捨棄未登入時的本地修改）
+   *   2. 雲端無資料（首次登入）→ 將本地內容推上去當作初始版本，並打第一個時間戳
    * 401 類錯誤 → 觸發 notifySessionExpired；其他錯誤靜默 log
    */
   useEffect(() => {
@@ -278,28 +290,27 @@ export function SettingProvider({ children }) {
         const remote = await fetchServerSettings();
         if (cancelled) return;
 
-        const localUpdatedAt = updatedAtRef.current;
-        const remoteUpdatedAt = remote.updatedAt ?? 0;
-
-        if (remote.settings && remoteUpdatedAt > localUpdatedAt) {
-          // server 較新 → 覆蓋本地
+        if (remote.settings && remote.updatedAt) {
+          // 雲端有資料：一律以雲端為準（即使本地時間戳較新，也視為「未登入時的試玩」捨棄）
           const merged = mergeWithDefault(remote.settings);
           suppressPushRef.current = true;
-          updatedAtRef.current = remoteUpdatedAt;
-          writeLocalSettings(merged, remoteUpdatedAt);
+          updatedAtRef.current = remote.updatedAt;
+          writeLocalSettings(merged, remote.updatedAt);
           setSettings(merged);
           suppressPushRef.current = false;
-        } else if (localUpdatedAt > remoteUpdatedAt) {
-          // 本地較新（或 server 從未有資料）→ 推上去
-          await pushServerSettings(settings, localUpdatedAt).catch((err) => {
+        } else {
+          // 雲端無資料（首次登入）：把本地推上去當初始版本
+          const now = Date.now();
+          updatedAtRef.current = now;
+          writeLocalSettings(settings, now);
+          await pushServerSettings(settings, now).catch((err) => {
             if (isAuthError(err)) {
               notifySessionExpired();
               return;
             }
-            console.error("初次同步 push 失敗", err);
+            console.error("首次同步 push 失敗", err);
           });
         }
-        // 雙邊相等時不做任何事
       } catch (err) {
         if (isAuthError(err)) {
           notifySessionExpired();
