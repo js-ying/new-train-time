@@ -124,6 +124,23 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
       ) : (
         /* 未登入狀態 */
         <div className="flex flex-col gap-3">
+          {/* 權益說明：先讓使用者知道登入能換到什麼，再請他點 Google 登入 */}
+          <div className="border-border mb-2 rounded-lg border p-3 text-left [text-align-last:left]">
+            <p className="text-sm font-semibold text-foreground">
+              {t("loginBenefitsTitle")}
+            </p>
+            <ul className="text-muted-foreground mt-1 list-disc pl-4 text-sm">
+              <li>{t("syncSettingsBenefit")}</li>
+              <li className="mt-0.5">
+                <span>{t("vipPreviewBenefit")}</span>
+                {/* coming-soon 標籤：低調預告 VIP，不讓使用者誤以為現在要付費 */}
+                <span className="bg-muted text-muted-foreground text-xxs ml-1.5 inline-block whitespace-nowrap rounded-full px-1.5 py-0.5">
+                  {t("comingSoonLabel")}
+                </span>
+              </li>
+            </ul>
+          </div>
+
           <button
             onClick={handleLogin}
             className="flex w-full items-center justify-center gap-2.5 rounded-lg

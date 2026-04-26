@@ -1,7 +1,9 @@
 import IOSSwitchSetting from "@/components/common/IOSSwitchSetting";
 import NewLabel from "@/components/common/NewLabel";
+import UserDialog from "@/components/common/UserDialog";
 import Layout from "@/components/layout/Layout";
 import PageSeo from "@/components/seo/PageSeo";
+import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { LocaleEnum } from "@/enums/LocaleEnum";
 import useMuiTheme from "@/hooks/useMuiTheme";
@@ -131,6 +133,10 @@ const DarkModeSwitch: FC = () => {
 const Settings: FC = () => {
   const { t } = useTranslation();
   const muiTheme = useMuiTheme();
+  /** 取得目前登入狀態，用以決定是否顯示「登入即可同步」banner */
+  const { user } = useAuth();
+  /** 控制登入 Dialog 開關 */
+  const [userDialogOpen, setUserDialogOpen] = useState(false);
 
   const [showTrTrainNote, setShowTrTrainNote] = useSetting("showTrTrainNote");
   const [showThsrTrainNote, setShowThsrTrainNote] =
@@ -154,6 +160,26 @@ const Settings: FC = () => {
         <Layout>
           <div className="mx-auto w-full max-w-3xl">
             <div className="flex flex-col gap-6">
+              {/* 未登入時顯示登入引導 banner：強調登入即可跨裝置同步以下設定 */}
+              {!user && (
+                <div className="flex items-center justify-between gap-3 rounded-xl border border-primary/40 bg-primary/5 p-4">
+                  <div className="flex min-w-0 flex-col gap-0.5">
+                    <p className="text-sm font-semibold text-primary">
+                      {t("loginSyncBannerTitle")}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("loginSyncBannerDescription")}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setUserDialogOpen(true)}
+                    className="shrink-0 rounded-lg bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                  >
+                    {t("login")}
+                  </button>
+                </div>
+              )}
+
               {/* 1️⃣ 顯示設定（放在最前面） */}
               <SectionCard>
                 <SectionTitle>{t("displaySetting")}</SectionTitle>
@@ -231,6 +257,9 @@ const Settings: FC = () => {
               </SectionCard>
             </div>
           </div>
+
+          {/* 點擊 banner 登入按鈕後開啟的會員 Dialog */}
+          <UserDialog open={userDialogOpen} setOpen={setUserDialogOpen} />
         </Layout>
       </MuiThemeProvider>
     </>
