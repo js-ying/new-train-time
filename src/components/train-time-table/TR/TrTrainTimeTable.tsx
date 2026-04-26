@@ -40,7 +40,7 @@ const TrTrainTimeTable: FC<TrTrainTimeTableProps> = ({ dataList }) => {
             <TrTrainTimeInfo trTrainTimeTable={data} />
 
             {AdUtils.showAd(filterTrTrainTimeTable.length, index) && (
-              <div className="mt-4">
+              <div className="mt-4 empty:hidden">
                 <AdBanner></AdBanner>
               </div>
             )}
