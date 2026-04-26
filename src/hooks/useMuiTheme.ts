@@ -3,21 +3,24 @@ import { useTheme } from "next-themes";
 import { useMemo } from "react";
 
 const useMuiTheme = () => {
-  const { theme } = useTheme();
+  // 使用 resolvedTheme：next-themes 在使用者選「跟隨系統」時，theme 會是 "system"，
+  // 而 MUI palette.mode 只接受 "light" | "dark"，否則會丟出
+  // 「The palette mode `system` is not supported.」錯誤。
+  const { resolvedTheme } = useTheme();
   const muiTheme = useMemo(
     () =>
       createTheme({
         palette: {
           primary: {
-            main: `${theme === "light" ? "#6490c4" : "#f59e0b"}`,
-            dark: `${theme === "light" ? "#6490c4" : "#f59e0b"}`,
+            main: `${resolvedTheme === "light" ? "#6490c4" : "#f59e0b"}`,
+            dark: `${resolvedTheme === "light" ? "#6490c4" : "#f59e0b"}`,
           },
-          mode: theme as "light" | "dark",
+          mode: resolvedTheme === "dark" ? "dark" : "light",
           background: {
             paper: "#FFFFFF",
           },
           text: {
-            primary: `${theme === "light" ? "#000000" : "#FFFFFF"}`,
+            primary: `${resolvedTheme === "light" ? "#000000" : "#FFFFFF"}`,
           },
           action: {
             focus: null,
@@ -40,7 +43,7 @@ const useMuiTheme = () => {
               root: {
                 "&:focus-visible": {
                   outline: "2px solid",
-                  outlineColor: `${theme === "light" ? "#6490c4" : "#f59e0b"}`,
+                  outlineColor: `${resolvedTheme === "light" ? "#6490c4" : "#f59e0b"}`,
                   outlineOffset: "2px",
                 },
               },
@@ -48,7 +51,7 @@ const useMuiTheme = () => {
           },
         },
       }),
-    [theme],
+    [resolvedTheme],
   );
 
   return muiTheme;
