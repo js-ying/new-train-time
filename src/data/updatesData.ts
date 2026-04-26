@@ -6,7 +6,7 @@ export const updateDataList = [
     items: [
       {
         type: "new",
-        content: "新功能：會員系統 Beta 版",
+        content: "新功能：會員系統 Beta 版，解鎖跨裝置同步系統設定功能",
       },
       {
         type: "new",
@@ -19,6 +19,10 @@ export const updateDataList = [
       {
         type: "update",
         content: "首頁與側邊欄 UI 調整，維持簡潔易用的初衷",
+      },
+      {
+        type: "refactor",
+        content: "重構前後端系統，提升效能與穩定性",
       },
     ],
   },
