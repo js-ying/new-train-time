@@ -7,6 +7,8 @@ interface UseDeviceDetectResult {
   isArc: boolean;
   isPWAPromotable: boolean;
   isMobile: boolean;
+  /** 是否在「加到主畫面」啟動的 standalone PWA 模式下開啟 */
+  isStandalone: boolean;
 }
 
 const useDeviceDetect = (): UseDeviceDetectResult => {
@@ -17,6 +19,7 @@ const useDeviceDetect = (): UseDeviceDetectResult => {
     isArc: false,
     isPWAPromotable: false,
     isMobile: false,
+    isStandalone: false,
   });
 
   useEffect(() => {
@@ -33,6 +36,12 @@ const useDeviceDetect = (): UseDeviceDetectResult => {
       ? true
       : false;
 
+    // standalone PWA 判定：iOS 用 navigator.standalone，其他平台用 display-mode media query
+    const nav = navigator as Navigator & { standalone?: boolean };
+    const isStandalone =
+      nav.standalone === true ||
+      window.matchMedia?.("(display-mode: standalone)").matches === true;
+
     const isNonPWAPromotable = isIOS || isSafari || isFirefox || isArc;
     const isPWAPromotable = !isNonPWAPromotable;
 
@@ -42,7 +51,8 @@ const useDeviceDetect = (): UseDeviceDetectResult => {
       isFirefox,
       isArc,
       isPWAPromotable,
-      isMobile
+      isMobile,
+      isStandalone,
     });
   }, []);
 

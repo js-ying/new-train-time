@@ -1,10 +1,13 @@
 import CommonDialog from "@/components/common/CommonDialog";
 import { auth, googleProvider } from "@/configs/firebase";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { ApiError } from "@/models/problem-details";
 import { callUserApi } from "@/services/userApi";
 import {
+  getRedirectResult,
   onAuthStateChanged,
   signInWithPopup,
+  signInWithRedirect,
   signOut,
   User,
 } from "firebase/auth";
@@ -59,6 +62,7 @@ export const isAuthError = (err: unknown): err is ApiError =>
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
+  const { isIOS, isStandalone } = useDeviceDetect();
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -85,6 +89,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    // iOS PWA redirect flow 回來後要主動消化 redirect result，
+    // 否則 onAuthStateChanged 雖然最終會收到登入事件，但若途中有錯誤會被吞掉
+    void getRedirectResult(auth).catch((error) => {
+      console.error("getRedirectResult 失敗", error);
+    });
+
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         try {
@@ -122,6 +132,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const loginWithGoogle = async () => {
     try {
+      // iOS standalone PWA 必須走 redirect flow（popup 帶不回 session）；
+      // 其他環境維持 popup 體驗，避免整頁 reload 打斷使用者操作
+      if (isIOS && isStandalone) {
+        await signInWithRedirect(auth, googleProvider);
+        return;
+      }
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error("Login failed", error);
