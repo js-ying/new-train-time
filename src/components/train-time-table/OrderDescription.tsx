@@ -40,7 +40,7 @@ const AnnouncementContent: FC = () => {
                     <td className="border-r border-border p-2 font-bold">
                       {t("tr")}
                     </td>
-                    <td className="border-r border-border p-2 text-orange-600 dark:text-orange-400">
+                    <td className="border-r border-border p-2 text-warning">
                       {t("waitingForTdx")}
                     </td>
                     <td className="p-2">{t("alwaysShow")}</td>
@@ -49,7 +49,7 @@ const AnnouncementContent: FC = () => {
                     <td className="border-r border-border p-2 font-bold">
                       {t("thsr")}
                     </td>
-                    <td className="border-r border-border p-2 text-emerald-600 dark:text-emerald-400">
+                    <td className="border-r border-border p-2 text-success">
                       {t("seatDataConnected")}
                     </td>
                     <td className="p-2">{t("showWhenSeatsAvailable")}</td>
