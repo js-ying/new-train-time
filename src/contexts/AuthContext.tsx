@@ -23,7 +23,12 @@ import {
 
 interface UserProfile {
   isPremium: boolean;
-  // TODO: 加入其他未來需要的資訊
+  /** 顯示名稱；password 註冊使用者可能為 null */
+  displayName: string | null;
+  /** 頭像 URL；僅社群登入會帶 */
+  photoUrl: string | null;
+  /** 登入方式：google.com / password / apple.com 等 */
+  signInProvider: string | null;
 }
 
 interface AuthContextType {
@@ -102,12 +107,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             uid: string;
             email: string;
             isPremium: boolean;
+            displayName: string | null;
+            photoUrl: string | null;
+            signInProvider: string | null;
           }>({
             url: "/api/users/me",
             method: "GET",
             user: currentUser,
           });
-          setProfile({ isPremium: data.isPremium });
+          setProfile({
+            isPremium: data.isPremium,
+            displayName: data.displayName,
+            photoUrl: data.photoUrl,
+            signInProvider: data.signInProvider,
+          });
           setUser(currentUser);
         } catch (error) {
           // 初次取得 profile 就失敗：登出 firebase 並顯示提示
