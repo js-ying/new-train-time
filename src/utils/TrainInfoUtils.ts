@@ -1,27 +1,35 @@
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
 import { JsyThsrGeneralTimetable } from "@/models/jsy-thsr-info";
 import { getNameLangKey } from "./LocaleUtils";
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 /**
  * 列車是否已發車
+ *
+ * 注意：列車時刻一律以「台灣時間 (Asia/Taipei, UTC+8)」為基準，
+ * 不可用 `new Date("YYYY/MM/DD HH:mm")` 解析——該語法會以「使用者瀏覽器當地時區」
+ * 解讀字串，導致在日本 (UTC+9) 等其他時區查詢時，08:00~09:00 之間的台灣班次
+ * 會被誤判為「已發車」。改以 dayjs.tz 明確帶入 Asia/Taipei 後比較 UTC instant。
  */
 export const isTrainPass = (
   date: string,
   currentDate: string,
-  departureTime: string, // mm:ss
+  departureTime: string, // HH:mm
 ): boolean => {
-  // 若查詢日期與當下日期相同
-  if (date === currentDate) {
-    const trainDatetime = new Date(
-      `${date.replace(/-/g, "/")} ${departureTime}`,
-    );
-    const nowDatetime = new Date();
-    // 若火車時間小於當下時間則代表火車已過時
-    if (trainDatetime < nowDatetime) {
-      return true;
-    }
-  }
+  // 僅在「查詢日 = 當下日 (台北時區)」時才需要判斷
+  if (date !== currentDate) return false;
 
-  return false;
+  const trainInstant = dayjs
+    .tz(`${date} ${departureTime}`, "YYYY-MM-DD HH:mm", "Asia/Taipei")
+    .valueOf();
+  const nowInstant = Date.now();
+
+  return trainInstant < nowInstant;
 };
 
 /**

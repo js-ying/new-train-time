@@ -5,24 +5,31 @@ import {
 import usePage from "@/hooks/usePage";
 import DateUtils from "@/utils/DateUtils";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import moment from "moment-timezone";
-import "moment/locale/zh-tw";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
+import "dayjs/locale/en";
+import "dayjs/locale/zh-tw";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { useTranslation } from "next-i18next";
 import { FC, useContext } from "react";
 
+// AdapterDayjs 內部會用到 utc/timezone plugin
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 const DatePicker: FC = () => {
   const { i18n } = useTranslation();
-  moment.locale(i18n.language === "en" ? "en" : "zh-tw");
+  const adapterLocale = i18n.language === "en" ? "en" : "zh-tw";
 
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
 
   const { page } = usePage();
 
-  const selectedDate = moment(params.date);
+  const selectedDate = dayjs(params.date);
 
-  const setDate = (date: moment.Moment | null) => {
+  const setDate = (date: Dayjs | null) => {
     if (!date) return;
 
     setParams({
@@ -32,13 +39,16 @@ const DatePicker: FC = () => {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment}>
+    <LocalizationProvider
+      dateAdapter={AdapterDayjs}
+      adapterLocale={adapterLocale}
+    >
       <DateCalendar
         value={selectedDate}
         onChange={(datetime) => setDate(datetime)}
         views={["day"]}
         disablePast={true}
-        maxDate={moment().add(DateUtils.getMaxDays(page), "days")}
+        maxDate={dayjs().add(DateUtils.getMaxDays(page), "day")}
         reduceAnimations={true}
         timezone={"Asia/Taipei"}
         dayOfWeekFormatter={(_day, weekday) => `${_day}`}
