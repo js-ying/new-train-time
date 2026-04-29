@@ -1,6 +1,6 @@
-import { auth } from "@/configs/firebase";
+import { loadFirebaseAuth } from "@/configs/firebase";
 import { ApiError, ProblemDetails, toApiError } from "@/models/problem-details";
-import { User } from "firebase/auth";
+import type { User } from "firebase/auth";
 
 /**
  * User API 專用呼叫器：自動帶上 Firebase ID Token，並把後端 Problem Details 轉成 ApiError。
@@ -16,7 +16,12 @@ export async function callUserApi<T = unknown>(options: {
   /** 已知的 firebase user，省一次 currentUser 查詢；未提供則用 auth.currentUser */
   user?: User | null;
 }): Promise<T> {
-  const currentUser = options.user ?? auth.currentUser;
+  // 已知 user 直接帶入；未帶則動態取 auth instance（會延後載入 firebase/auth chunk）
+  let currentUser: User | null | undefined = options.user;
+  if (currentUser === undefined) {
+    const { auth } = await loadFirebaseAuth();
+    currentUser = auth.currentUser;
+  }
   if (!currentUser) {
     // 呼叫端應在登入後才呼叫；防呆用 UNAUTHORIZED 統一處理
     throw new ApiError("UNAUTHORIZED", 401);
