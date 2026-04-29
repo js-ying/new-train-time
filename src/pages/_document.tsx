@@ -19,11 +19,15 @@ export default function Document(props: DocumentProps) {
       <Head>
         {/* 明確設定 charset，避免重複 */}
         <meta charSet="utf-8" />
-        <script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_AD_CLIENT}`}
-          crossOrigin="anonymous"
-        ></script>
+        {/*
+          AdSense 提早建立連線，但實際載入交給 GoogleScript 的 next/script (afterInteractive)，
+          避免 head 中 async script 在 hydration 前搶 main thread 而拖慢 LCP/FCP。
+        */}
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        <link
+          rel="dns-prefetch"
+          href="https://pagead2.googlesyndication.com"
+        />
       </Head>
       <body>
         <Main />
