@@ -215,8 +215,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const loginWithGoogle = async () => {
-    // 一進入登入流程就顯示全螢幕 Loading，覆蓋「popup 關閉 → onAuthStateChanged 處理完」之間的等待空缺
-    setIsLoggingIn(true);
     try {
       const { auth, provider } = await ensureAuth();
       const { signInWithPopup, signInWithRedirect } = await import(
@@ -228,12 +226,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         await signInWithRedirect(auth, provider);
         return;
       }
+      // 注意：Loading 覆蓋層延後到 popup resolve 之後才開啟，避免使用者取消授權時，
+      // Firebase 透過 polling 偵測 popup 關閉會多花 1~2 秒才 reject，造成 Loading 卡住
       await signInWithPopup(auth, provider);
-      // popup 成功時不在這裡關掉 isLoggingIn；交給 onAuthStateChanged 在 profile 取得後統一收尾
+      // popup 成功授權後才顯示 Loading，覆蓋「視野回到網頁 → onAuthStateChanged 取回 profile」之間的等待
+      setIsLoggingIn(true);
     } catch (error) {
       console.error("Login failed", error);
-      // popup 取消 / 失敗時不會觸發 onAuthStateChanged，需要在這裡自行收掉覆蓋層
-      setIsLoggingIn(false);
     }
   };
 
