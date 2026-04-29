@@ -52,7 +52,8 @@ const TrainSwitch: FC = () => {
             key={train}
             href={getHomePath(train)}
             title={t(`${train}Title`)}
-            aria-label={t(`${train}Title`)}
+            // accessible name 以可見文字開頭，符合 WCAG 2.5.3（label 與可見文字一致）
+            aria-label={`${t(`${train}Dropdown`)} ${t(`${train}Title`)}`}
             onClick={() => handleTrainSwitch(train)}
             className={`
               rounded-md px-3 py-1 text-sm font-bold transition-all
