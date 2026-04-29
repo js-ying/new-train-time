@@ -1,4 +1,5 @@
 import CommonDialog from "@/components/common/CommonDialog";
+import Loading from "@/components/common/Loading";
 import { loadFirebaseAuth } from "@/configs/firebase";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { ApiError } from "@/models/problem-details";
@@ -85,6 +86,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  /** Google 登入流程中（按下登入鍵 → onAuthStateChanged 處理完）顯示全螢幕 Loading 覆蓋 */
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   /** 初次登入時後端錯誤（DB / 網路）→ 提示「登入失敗」 */
   const [loginError, setLoginError] = useState(false);
   /** 已登入後 token 失效（401）時觸發的提示對話框 */
@@ -196,6 +199,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setProfile(null);
           }
           setLoading(false);
+          // 不論成功失敗，都把登入中覆蓋層收掉（包含 popup 流程結束、redirect 回來、登出）
+          setIsLoggingIn(false);
         });
       })();
     });
@@ -210,6 +215,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const loginWithGoogle = async () => {
+    // 一進入登入流程就顯示全螢幕 Loading，覆蓋「popup 關閉 → onAuthStateChanged 處理完」之間的等待空缺
+    setIsLoggingIn(true);
     try {
       const { auth, provider } = await ensureAuth();
       const { signInWithPopup, signInWithRedirect } = await import(
@@ -222,8 +229,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
       await signInWithPopup(auth, provider);
+      // popup 成功時不在這裡關掉 isLoggingIn；交給 onAuthStateChanged 在 profile 取得後統一收尾
     } catch (error) {
       console.error("Login failed", error);
+      // popup 取消 / 失敗時不會觸發 onAuthStateChanged，需要在這裡自行收掉覆蓋層
+      setIsLoggingIn(false);
     }
   };
 
@@ -252,6 +262,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
+
+      {/* 登入流程中的全螢幕 Loading：popup 關閉後到 profile 取回前，避免畫面看起來卡住 */}
+      {isLoggingIn && <Loading />}
 
       {/* 後端異常導致登入失敗時的錯誤提示彈窗 */}
       <CommonDialog open={loginError} setOpen={setLoginError}>
