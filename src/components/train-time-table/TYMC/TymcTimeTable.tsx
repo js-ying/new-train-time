@@ -48,7 +48,7 @@ const TymcTimeTable: FC<TymcTimeTableProps> = ({ data }) => {
             />
 
             {AdUtils.showAd(filterTymcTrainTimeTable.length, index) && (
-              <div className="mt-4">
+              <div className="mt-4 empty:hidden">
                 <AdBanner />
               </div>
             )}
