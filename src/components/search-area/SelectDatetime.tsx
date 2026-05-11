@@ -6,7 +6,7 @@ import TimePicker from "./datetime/TimePicker";
 const SelectDatetime: FC = () => {
   return (
     <div className="flex select-none flex-col">
-      <div className="rounded-md border border-zinc-300">
+      <div className="rounded-md border border-zinc-300 dark:border-zinc-500">
         <DatePicker />
       </div>
       <div className="mt-2 flex justify-center">

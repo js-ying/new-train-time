@@ -178,7 +178,7 @@ img {
   rounded-md border border-zinc-300 px-1.5 py-1 text-sm text-zinc-700 bg-transparent
   transition duration-250 ease-out
   focus:ring-2 focus:ring-zinc-400/80
-  dark:bg-transparent dark:text-white  dark:focus:ring-zinc-400;
+  dark:bg-transparent dark:text-white  dark:focus:ring-zinc-400 dark:border-zinc-500;
 }
 
 @keyframes fadeInOut {

@@ -60,11 +60,11 @@ const TrTransferTimeFilter: FC<TrTransferTimeFilterProps> = ({
         // border 顏色對齊 common-input 的 border-zinc-300；
         // dark hover 用 zinc-600（default-100 在 dark 跟背景太接近 hover 不明顯）
         trigger:
-          "h-8 min-h-fit bg-background text-foreground border border-zinc-300 data-[hover=true]:bg-default-100 dark:data-[hover=true]:bg-zinc-600",
+          "h-8 min-h-fit bg-background text-foreground border border-zinc-300 dark:border-zinc-500 data-[hover=true]:bg-default-100 dark:data-[hover=true]:bg-zinc-600",
         value: "text-sm",
         // 下拉開啟後的選項面板：跟 trigger 一致用 background；dark 加 border 拉開層次
         popoverContent:
-          "bg-background border border-zinc-300 dark:border-zinc-600",
+          "bg-background border border-zinc-300 dark:border-zinc-500",
       }}
     >
       {options.map((opt) => (
