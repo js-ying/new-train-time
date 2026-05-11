@@ -152,6 +152,7 @@ const Search: FC = () => {
                 <NoTrainData
                   apiError={apiError}
                   isTransfer={isTr && isTransfer}
+                  isTr={isTr}
                 />
 
                 {AdUtils.showAd(0, 0) && (
