@@ -18,19 +18,19 @@ interface TrTransferLegRowProps {
  * 轉乘卡片展開後的單段列車 row。
  * 排版對齊直達卡片 TrTrainTimeInfo（grid-cols-4，左 1 / 中 2 / 右 1），
  * 但壓縮為 2 行高度（不顯示整列車起迄站，因為使用者實際只搭該段）。
- * 點擊把 leg 包裝成 JsyTrTimetable（fareList / delayInfo 留空）開既有 detail dialog。
+ * 點擊把 leg 包裝成 JsyTrTimetable（票價對應該段 board→alight OD；delayInfo 留空）開既有 detail dialog。
  */
 const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
   const [open, setOpen] = useState(false);
   const { i18n } = useTranslation();
   const langKey = getNameLangKey(i18n.language);
 
-  // 把 leg 包成 dialog 期待的 JsyTrTimetable 形狀
+  // 把 leg 包成 dialog 期待的 JsyTrTimetable 形狀；fare 為 null 時保持空陣列，detail dialog 會略過票價列
   const pseudoTimetable: JsyTrTimetable = useMemo(
     () => ({
       trainInfo: leg.trainInfo,
       stopTimes: leg.stopTimes,
-      fareList: [],
+      fareList: leg.fare ? [leg.fare] : [],
       delayInfo: [],
       trainDate,
     }),
