@@ -1,5 +1,20 @@
 export const updateDataList = [
   {
+    date: "2026-05",
+    type: "both",
+    ver: "3.1.0",
+    items: [
+      {
+        type: "new",
+        content: "新功能：台鐵轉乘 Beta 版",
+      },
+      {
+        type: "refactor",
+        content: "重構後端系統、升級伺服器設備，以提升效能與穩定性",
+      },
+    ],
+  },
+  {
     date: "2026-04",
     type: "both",
     ver: "3.0.0",

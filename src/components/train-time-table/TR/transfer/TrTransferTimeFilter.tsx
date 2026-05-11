@@ -58,17 +58,27 @@ const TrTransferTimeFilter: FC<TrTransferTimeFilterProps> = ({
         base: className,
         // bg-background + text-foreground：light 白底黑字、dark 深底白字。
         // border 顏色對齊 common-input 的 border-zinc-300；
-        // dark hover 用 zinc-600（default-100 在 dark 跟背景太接近 hover 不明顯）
+        // hover 配色對齊 Area.tsx：light = zinc-700 白字、dark = silverLakeBlue-500 白字。
+        // transition-colors + duration-200 給 hover 顏色切換動畫
         trigger:
-          "h-8 min-h-fit bg-background text-foreground border border-zinc-300 dark:border-zinc-500 data-[hover=true]:bg-default-100 dark:data-[hover=true]:bg-zinc-600",
-        value: "text-sm",
+          "group h-8 min-h-fit bg-background text-foreground border border-zinc-300 dark:border-zinc-500 transition-colors duration-200 data-[hover=true]:bg-zinc-700 data-[hover=true]:text-white data-[hover=true]:border-zinc-700 dark:data-[hover=true]:bg-silverLakeBlue-500 dark:data-[hover=true]:border-silverLakeBlue-500",
+        // value slot 文字色被自己 class 蓋過，靠 group-data 響應 trigger hover 才能變白
+        value: "text-sm transition-colors duration-200 group-data-[hover=true]:text-white",
         // 下拉開啟後的選項面板：跟 trigger 一致用 background；dark 加 border 拉開層次
         popoverContent:
           "bg-background border border-zinc-300 dark:border-zinc-500",
       }}
     >
       {options.map((opt) => (
-        <SelectItem key={opt.key}>{opt.label}</SelectItem>
+        <SelectItem
+          key={opt.key}
+          classNames={{
+            // 亮色 hover 用 zinc-50（比 default-100 再淡一階）；dark 保留 zinc-700 確保對比
+            base: "data-[hover=true]:bg-zinc-50 dark:data-[hover=true]:bg-zinc-700",
+          }}
+        >
+          {opt.label}
+        </SelectItem>
       ))}
     </Select>
   );

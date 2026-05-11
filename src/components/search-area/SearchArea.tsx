@@ -121,16 +121,15 @@ const SearchArea: FC = () => {
       </div>
       {/* 直達 / 轉乘模式切換 — 僅台鐵頁支援轉乘；放在搜尋按鈕上方 */}
       {isTr && (
-        <div className="mt-4 flex justify-center">
+        <div className="-mb-1 mt-3 flex justify-center">
           <Tabs
             variant="solid"
             radius="full"
             size="md"
             classNames={{
-              // dark mode 下整個 tab 區塊（tabList）跟背景融合；
-              // active / inactive 完全靠 text color contrast 區分（gamboge vs default）。
-              // tabList 是含 overflow-x-scroll 的外層 wrapper，bg-default-100 在 dark 跟背景有色差，
-              tabList: "dark:!bg-transparent",
+              tabList: "!bg-transparent",
+              cursor:
+                "!bg-transparent !border border-zinc-700 dark:!border-zinc-200 !shadow-none",
             }}
             selectedKey={draftMode}
             onSelectionChange={(key) => {
