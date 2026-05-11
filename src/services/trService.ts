@@ -4,7 +4,7 @@ import {
   JsyTrDeeplinkWebParams,
 } from "@/models/jsy-deeplink";
 import { JsyOperationAlert } from "@/models/jsy-operation-alert";
-import { JsyTrInfo } from "@/models/jsy-tr-info";
+import { JsyTrInfo, JsyTrTransferInfo } from "@/models/jsy-tr-info";
 
 import fetchData from "./fetchData";
 
@@ -18,6 +18,22 @@ export const getJsyTrInfo = async (
 ): Promise<JsyTrInfo> => {
   return await fetchData(
     "/api/getJsyTrInfo",
+    { startStationId, endStationId, date, time },
+    "POST",
+    signal,
+  );
+};
+
+/** 取得台鐵跨支線轉乘規劃 */
+export const getJsyTrTransferInfo = async (
+  startStationId: string,
+  endStationId: string,
+  date: string,
+  time: string,
+  signal?: AbortSignal,
+): Promise<JsyTrTransferInfo> => {
+  return await fetchData(
+    "/api/getJsyTrTransferInfo",
     { startStationId, endStationId, date, time },
     "POST",
     signal,

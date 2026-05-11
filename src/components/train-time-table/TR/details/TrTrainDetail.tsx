@@ -32,21 +32,22 @@ const TrTrainDetail: FC<TrTrainDetailProps> = ({ data }) => {
           {data.stopTimes[data.stopTimes.length - 1].arrivalTime}
         </div>
       </div>
-      <div className="flex gap-2">
-        <Chip label={t("ticketFare")} size="small" color="primary" />
-        <div className="items-center">
-          <span>
-            {t("adultPrice")} NTD{" "}
-            {data.fareList.length > 0 && data.fareList[0].price}
-          </span>
-          {t("comma")}
-          <span>
-            {t("discountedPrice")} NTD{" "}
-            {data.fareList.length > 0 &&
-              (data.fareList[0].price / 2).toFixed(0)}
-          </span>
+      {/* 票價列：fareList 為空時整列略過（轉乘 leg 點開 dialog 不顯示票價） */}
+      {data.fareList.length > 0 && (
+        <div className="flex gap-2">
+          <Chip label={t("ticketFare")} size="small" color="primary" />
+          <div className="items-center">
+            <span>
+              {t("adultPrice")} NTD {data.fareList[0].price}
+            </span>
+            {t("comma")}
+            <span>
+              {t("discountedPrice")} NTD{" "}
+              {(data.fareList[0].price / 2).toFixed(0)}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex gap-2">
         <Chip label={t("trainServices")} size="small" color="primary" />
         <div>

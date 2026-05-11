@@ -40,4 +40,8 @@ export enum GaEnum {
   LOGIN_WITH_GOOGLE = "Google 登入",
   SYSTEM_SETTINGS = "系統設定",
   SHOW_POPULAR_ROUTES = "顯示熱門路線快查",
+  TR_SEARCH_MODE_DIRECT = "台鐵切換直達",
+  TR_SEARCH_MODE_TRANSFER = "台鐵切換轉乘",
+  TR_TRANSFER_CARD_EXPAND = "台鐵轉乘展開",
+  TR_TRANSFER_LEG_INFO = "台鐵轉乘段 info",
 }

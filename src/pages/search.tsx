@@ -11,7 +11,9 @@ import SearchResultSeoContent from "@/components/search-area/SearchResultSeoCont
 import NoTrainData from "@/components/train-time-table/NoTrainData";
 import ThsrTrainTimeTable from "@/components/train-time-table/THSR/ThsrTrainTimeTable";
 import TrTrainTimeTable from "@/components/train-time-table/TR/TrTrainTimeTable";
+import TrTransferTimeTable from "@/components/train-time-table/TR/transfer/TrTransferTimeTable";
 import TymcTimeTable from "@/components/train-time-table/TYMC/TymcTimeTable";
+import useSearchMode from "@/hooks/search/useSearchMode";
 import useTrainSearch from "@/hooks/search/useTrainSearch";
 
 import useMuiTheme from "@/hooks/useMuiTheme";
@@ -36,34 +38,47 @@ export async function getServerSideProps({ locale }) {
 const Search: FC = () => {
   const muiTheme = useMuiTheme();
   const { isTr, isThsr, isTymc } = usePage();
+  const { isTransfer } = useSearchMode();
   const {
     isLoading,
     apiError,
     validationAlert,
     jsyTrInfo,
+    jsyTrTransferInfo,
     jsyThsrInfo,
     jsyTymcInfo,
   } = useTrainSearch();
 
   const isGeneralTimetable = isThsr && jsyThsrInfo?.isGeneralTimetable;
 
+  // transfer mode 走 jsyTrTransferInfo；direct / 其他鐵路維持原本來源
   const activeAnnouncements =
-    (isTr && jsyTrInfo?.announcements) ||
+    (isTr && isTransfer && jsyTrTransferInfo?.announcements) ||
+    (isTr && !isTransfer && jsyTrInfo?.announcements) ||
     (isThsr && jsyThsrInfo?.announcements) ||
     (isTymc && jsyTymcInfo?.announcements) ||
     [];
 
   const { t } = useTranslation();
-  const hasTrData = isTr && jsyTrInfo?.timeTables?.length > 0;
+  const hasTrDirectData =
+    isTr && !isTransfer && jsyTrInfo?.timeTables?.length > 0;
+  const hasTrTransferData =
+    isTr && isTransfer && jsyTrTransferInfo?.combinations?.length > 0;
   const hasThsrData = isThsr && jsyThsrInfo?.timeTables?.length > 0;
   const hasTymcData = isTymc && jsyTymcInfo?.timeTables?.length > 0;
   // API 錯誤或查詢回空陣列都歸為「無資料」狀態，由 NoTrainData 內部依 apiError 切黃 / 紅 Alert
   const noData =
     !!apiError ||
-    (isTr && jsyTrInfo?.timeTables?.length === 0) ||
+    (isTr && !isTransfer && jsyTrInfo?.timeTables?.length === 0) ||
+    (isTr && isTransfer && jsyTrTransferInfo?.combinations?.length === 0) ||
     (isThsr && jsyThsrInfo?.timeTables?.length === 0) ||
     (isTymc && jsyTymcInfo?.timeTables?.length === 0);
-  const hasResult = hasTrData || hasThsrData || hasTymcData || noData;
+  const hasResult =
+    hasTrDirectData ||
+    hasTrTransferData ||
+    hasThsrData ||
+    hasTymcData ||
+    noData;
 
   const isDatetimeAlert = validationAlert.message === "datetimeNotAllowMsg";
   const dialogTitle = isDatetimeAlert ? "reminderAlertTitle" : "";
@@ -115,8 +130,15 @@ const Search: FC = () => {
               </div>
             )}
 
-            {/* [台鐵] 有列車資料 */}
-            {hasTrData && <TrTrainTimeTable dataList={jsyTrInfo?.timeTables} />}
+            {/* [台鐵] 直達 */}
+            {hasTrDirectData && (
+              <TrTrainTimeTable dataList={jsyTrInfo?.timeTables} />
+            )}
+
+            {/* [台鐵] 跨支線轉乘 */}
+            {hasTrTransferData && (
+              <TrTransferTimeTable data={jsyTrTransferInfo} />
+            )}
 
             {/* [高鐵] 有列車資料 */}
             {hasThsrData && <ThsrTrainTimeTable data={jsyThsrInfo} />}
@@ -127,7 +149,10 @@ const Search: FC = () => {
             {/* 無列車資料 */}
             {noData && (
               <div className="pt-2">
-                <NoTrainData apiError={apiError} />
+                <NoTrainData
+                  apiError={apiError}
+                  isTransfer={isTr && isTransfer}
+                />
 
                 {AdUtils.showAd(0, 0) && (
                   <div className="mt-4">

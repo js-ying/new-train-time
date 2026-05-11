@@ -1,9 +1,13 @@
+import { GaEnum } from "@/enums/GaEnum";
 import { SearchAreaActiveIndexEnum } from "@/enums/SearchAreaParamsEnum";
+import useSearchMode from "@/hooks/search/useSearchMode";
 import { useSearchAreaNavigation } from "@/hooks/station/useSearchAreaNavigation";
 import useDefaultStationHandling from "@/hooks/useDefaultStationHandling";
 import usePage from "@/hooks/usePage";
 import useRwd from "@/hooks/useRwd";
+import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
+import { Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import Area from "./Area";
@@ -15,9 +19,11 @@ import SwitchButton from "./SwitchButton";
 /** 搜尋區域 */
 const SearchArea: FC = () => {
   const { t, i18n } = useTranslation();
-  const { page, isTymc } = usePage();
+  const { page, isTr, isTymc } = usePage();
   const { isMobile } = useRwd();
   const { params, handleStationAreaClick } = useSearchAreaNavigation();
+  // Tab 切換只改 draftMode（不觸發 fetch / URL 變更）；按搜尋按鈕才會把 draftMode 帶到 URL
+  const { draftMode, setDraftMode } = useSearchMode();
   const onlyShowStationId = isTymc && isMobile;
 
   // 處理預設車站
@@ -113,7 +119,37 @@ const SearchArea: FC = () => {
           </div>
         )}
       </div>
-      <div className="mt-7 flex items-center justify-center">
+      {/* 直達 / 轉乘模式切換 — 僅台鐵頁支援轉乘；放在搜尋按鈕上方 */}
+      {isTr && (
+        <div className="mt-4 flex justify-center">
+          <Tabs
+            variant="solid"
+            radius="full"
+            size="md"
+            classNames={{
+              // dark mode 下整個 tab 區塊（tabList）跟背景融合；
+              // active / inactive 完全靠 text color contrast 區分（gamboge vs default）。
+              // tabList 是含 overflow-x-scroll 的外層 wrapper，bg-default-100 在 dark 跟背景有色差，
+              tabList: "dark:!bg-transparent",
+            }}
+            selectedKey={draftMode}
+            onSelectionChange={(key) => {
+              const next = key === "transfer" ? "transfer" : "direct";
+              gaClickEvent(
+                next === "transfer"
+                  ? GaEnum.TR_SEARCH_MODE_TRANSFER
+                  : GaEnum.TR_SEARCH_MODE_DIRECT,
+              );
+              setDraftMode(next);
+            }}
+          >
+            <Tab key="direct" title={t("searchModeDirect")} />
+            <Tab key="transfer" title={t("searchModeTransfer")} />
+          </Tabs>
+        </div>
+      )}
+
+      <div className="mt-4 flex items-center justify-center">
         <SearchButton />
       </div>
     </>

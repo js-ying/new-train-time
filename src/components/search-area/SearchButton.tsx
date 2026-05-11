@@ -2,6 +2,7 @@ import {
   SearchAreaContext,
   SearchAreaUpdateContext,
 } from "@/contexts/SearchAreaContext";
+import useSearchMode from "@/hooks/search/useSearchMode";
 import usePage from "@/hooks/usePage";
 import useParamsValidation from "@/hooks/useParamsValidation";
 import useSearchHistory from "@/hooks/useSearchHistory";
@@ -18,6 +19,8 @@ const SearchButton: FC = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
   const { isParamsValid, validationAlert } = useParamsValidation();
+  // 用 draftMode 寫入 URL：tab 切換僅改 draft，按搜尋這一刻才把選擇 commit 進 URL 並觸發 fetch
+  const { draftMode } = useSearchMode();
 
   const { searchPath } = usePage();
 
@@ -45,11 +48,15 @@ const SearchButton: FC = () => {
       endStationId: params.endStationId,
     });
 
+    // mode 也要納入「是否同筆查詢」比對，否則 OD 不變但切 tab 後按搜尋會走 uuid 路徑而不更新 URL.m
+    const currentUrlMode =
+      router.query?.m === "transfer" ? "transfer" : "direct";
     const isSameQuery =
       params.startStationId === router.query?.s &&
       params.endStationId === router.query?.e &&
       params.date === router.query?.d &&
-      params.time.replace(":", "") === router.query?.t;
+      params.time.replace(":", "") === router.query?.t &&
+      draftMode === currentUrlMode;
 
     if (isSameQuery) {
       if (lastQueryTime && Date.now() - lastQueryTime < queryInterval) {
@@ -60,6 +67,7 @@ const SearchButton: FC = () => {
       setLastQueryTime(Date.now());
       setParams((prev) => ({ ...prev, uuid: Date.now().toString() }));
     } else {
+      // mode=transfer 時保留 m 參數；direct 模式不寫 m，URL 維持乾淨
       router.push({
         pathname: searchPath,
         query: {
@@ -67,6 +75,7 @@ const SearchButton: FC = () => {
           e: params.endStationId,
           d: params.date,
           t: params.time.replace(":", ""),
+          ...(draftMode === "transfer" ? { m: "transfer" } : {}),
         },
       });
     }
