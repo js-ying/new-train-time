@@ -24,7 +24,7 @@ const AnnouncementContent: FC = () => {
               className="overflow-hidden rounded-md border border-border"
             >
               <table className="w-full text-center text-sm">
-                <thead className="bg-muted">
+                <thead className="bg-neutral-200 dark:bg-neutral-600">
                   <tr className="border-b border-border">
                     <th className="border-r border-border p-2">
                       {t("railway")}
@@ -40,7 +40,7 @@ const AnnouncementContent: FC = () => {
                     <td className="border-r border-border p-2 font-bold">
                       {t("tr")}
                     </td>
-                    <td className="border-r border-border p-2 text-warning">
+                    <td className="border-r border-border p-2 text-orange-500 dark:text-orange-400">
                       {t("waitingForTdx")}
                     </td>
                     <td className="p-2">{t("alwaysShow")}</td>
@@ -49,7 +49,7 @@ const AnnouncementContent: FC = () => {
                     <td className="border-r border-border p-2 font-bold">
                       {t("thsr")}
                     </td>
-                    <td className="border-r border-border p-2 text-success">
+                    <td className="border-r border-border p-2 text-emerald-600 dark:text-emerald-400">
                       {t("seatDataConnected")}
                     </td>
                     <td className="p-2">{t("showWhenSeatsAvailable")}</td>

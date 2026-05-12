@@ -82,10 +82,17 @@ const OldUpdateList: FC = () => {
           subtitle="收錄舊版系統的更新歷程"
         >
           <div className="mt-4">
+            {/* 樣式對齊 SearchArea 直達/轉乘切換：solid + radius full + 透明背景 + 邊框 cursor */}
             <Tabs
-              variant="underlined"
+              variant="solid"
+              radius="full"
+              size="md"
               className="mb-2 flex justify-center font-bold"
-              size="lg"
+              classNames={{
+                tabList: "!bg-transparent",
+                cursor:
+                  "!bg-transparent !border border-zinc-700 dark:!border-zinc-200 !shadow-none",
+              }}
             >
               <Tab key="oldTr" title="台鐵">
                 <div className="flex flex-col gap-6">

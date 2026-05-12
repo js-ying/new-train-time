@@ -33,9 +33,9 @@ const OperationAlert: FC = () => {
       i18n: "normalOpStatus",
     });
     map.set("warning", {
-      text: "text-orange-600 dark:text-orange-400",
-      bg: "bg-orange-600 dark:bg-orange-400",
-      border: "border-orange-600 dark:border-orange-400",
+      text: "text-orange-500 dark:text-orange-400",
+      bg: "bg-orange-500 dark:bg-orange-400",
+      border: "border-orange-500 dark:border-orange-400",
       i18n: "warningOpStatus",
     });
     map.set("danger", {
