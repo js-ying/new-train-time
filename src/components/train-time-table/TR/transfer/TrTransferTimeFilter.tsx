@@ -63,7 +63,8 @@ const TrTransferTimeFilter: FC<TrTransferTimeFilterProps> = ({
         trigger:
           "group h-8 min-h-fit bg-background text-foreground border border-zinc-300 dark:border-zinc-500 transition-colors duration-200 data-[hover=true]:bg-zinc-700 data-[hover=true]:text-white data-[hover=true]:border-zinc-700 dark:data-[hover=true]:bg-silverLakeBlue-500 dark:data-[hover=true]:border-silverLakeBlue-500",
         // value slot 文字色被自己 class 蓋過，靠 group-data 響應 trigger hover 才能變白
-        value: "text-sm transition-colors duration-200 group-data-[hover=true]:text-white",
+        value:
+          "text-sm transition-colors duration-200 group-data-[hover=true]:text-white",
         // 下拉開啟後的選項面板：跟 trigger 一致用 background；dark 加 border 拉開層次
         popoverContent:
           "bg-background border border-zinc-300 dark:border-zinc-500",
@@ -73,8 +74,11 @@ const TrTransferTimeFilter: FC<TrTransferTimeFilterProps> = ({
         <SelectItem
           key={opt.key}
           classNames={{
-            // 亮色 hover 用 zinc-50（比 default-100 再淡一階）；dark 保留 zinc-700 確保對比
-            base: "data-[hover=true]:bg-zinc-50 dark:data-[hover=true]:bg-zinc-700",
+            // 亮色 hover 用 zinc-200（zinc-50/100 在白底上幾乎看不出反白）；dark 保留 zinc-700 確保對比。
+            // HeroUI SelectItem 預設 solid+default 同時掛了 data-[hover=true]:bg-default
+            // 以及 data-[selectable=true]:focus:bg-default；shouldFocusOnHover 讓滑鼠 hover 時
+            // 兩條都觸發，且 focus 那條 specificity 較高（0,2,0 > 0,1,0），不一起覆蓋就會被吃掉
+            base: "data-[hover=true]:bg-zinc-200 data-[selectable=true]:focus:bg-zinc-200 dark:data-[hover=true]:bg-zinc-700 dark:data-[selectable=true]:focus:bg-zinc-700",
           }}
         >
           {opt.label}

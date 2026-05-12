@@ -79,8 +79,11 @@ const TrTransferLegCountFilter: FC<TrTransferLegCountFilterProps> = ({
         <SelectItem
           key={opt.key}
           classNames={{
-            // 亮色 hover 用 zinc-50（比 default-100 再淡一階）；dark 保留 zinc-700 確保對比
-            base: "data-[hover=true]:bg-zinc-50 dark:data-[hover=true]:bg-zinc-700",
+            // 亮色 hover 用 zinc-200（zinc-50/100 在白底上幾乎看不出反白）；dark 保留 zinc-700 確保對比。
+            // HeroUI SelectItem 預設 solid+default 同時掛了 data-[hover=true]:bg-default
+            // 以及 data-[selectable=true]:focus:bg-default；shouldFocusOnHover 讓滑鼠 hover 時
+            // 兩條都觸發，且 focus 那條 specificity 較高（0,2,0 > 0,1,0），不一起覆蓋就會被吃掉
+            base: "data-[hover=true]:bg-zinc-200 data-[selectable=true]:focus:bg-zinc-200 dark:data-[hover=true]:bg-zinc-700 dark:data-[selectable=true]:focus:bg-zinc-700",
           }}
         >
           {opt.label}
