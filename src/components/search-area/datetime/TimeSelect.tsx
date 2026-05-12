@@ -57,8 +57,12 @@ const TimeSelect: FC<TimeSelectProps> = ({ value, options, onSelect }) => {
           list: "max-h-60 overflow-y-auto",
         }}
         itemClasses={{
-          // 亮色 hover 用 zinc-50 與 TrTransferTimeFilter 一致；dark 用 zinc-700
-          base: "data-[hover=true]:bg-zinc-50 dark:data-[hover=true]:bg-zinc-700",
+          // 全站下拉選單統一 hover 配色：亮色 zinc-200、暗色 zinc-700。
+          // HeroUI DropdownItem (基於 menuItem theme) 預設 solid+default 同時掛了
+          // data-[hover=true]:bg-default 與 data-[selectable=true]:focus:bg-default；
+          // shouldFocusOnHover 讓滑鼠 hover 時兩條都觸發，且 focus 那條 specificity
+          // 較高（0,2,0 > 0,1,0），不一起覆蓋就會被吃掉
+          base: "data-[hover=true]:bg-zinc-200 data-[selectable=true]:focus:bg-zinc-200 dark:data-[hover=true]:bg-zinc-700 dark:data-[selectable=true]:focus:bg-zinc-700",
         }}
       >
         {options.map((opt) => (
