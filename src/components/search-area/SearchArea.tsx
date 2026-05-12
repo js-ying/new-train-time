@@ -121,7 +121,7 @@ const SearchArea: FC = () => {
       </div>
       {/* 直達 / 轉乘模式切換 — 僅台鐵頁支援轉乘；放在搜尋按鈕上方 */}
       {isTr && (
-        <div className="-mb-1 mt-3 flex justify-center">
+        <div className=" mt-4 flex justify-center">
           <Tabs
             variant="solid"
             radius="full"

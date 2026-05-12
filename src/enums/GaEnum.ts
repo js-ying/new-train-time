@@ -22,6 +22,7 @@ export enum GaEnum {
   THSR_ORDER_WEB = "高鐵訂票 (Web)",
   THSR_ORDER_DIRECT = "高鐵訂票 (Direct)",
   TR_ORDER_DESCRIPTION = "台鐵訂票說明",
+  TR_TRANSFER_DESCRIPTION = "台鐵轉乘說明",
   HISTORY = "歷史查詢",
   SHOW_TR_TRAIN_NOTE = "顯示台鐵列車註記",
   SHOW_THSR_TRAIN_NOTE = "顯示高鐵列車註記",

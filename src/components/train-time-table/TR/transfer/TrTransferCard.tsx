@@ -92,10 +92,10 @@ const TrTransferCard: FC<TrTransferCardProps> = ({
         }}
         className="custom-cursor-pointer grid grid-cols-4 items-center gap-x-3"
       >
-        {/* 左：段數 / (任一段需購票才出現) 需購票 / 轉乘等待時間 */}
+        {/* 左：轉乘次數 (= legs.length - 1) / (任一段需購票才出現) 需購票 / 轉乘等待時間 */}
         <div className="flex flex-col items-center gap-1.5 text-center text-sm">
           <span className="rounded bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
-            {t("transferLegCount", { count: legs.length })}
+            {t("transferLegCount", { count: legs.length - 1 })}
           </span>
           {hasOnlyTicket && (
             <span className="mt-0.5 rounded bg-amber-500 px-2 py-0.5 text-xs text-white dark:bg-amber-500/80">

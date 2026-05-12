@@ -1,11 +1,14 @@
 import AdBanner from "@/components/common/AdBanner";
+import { GaEnum } from "@/enums/GaEnum";
 import { JsyTrTransferInfo } from "@/models/jsy-tr-info";
 import AdUtils from "@/utils/AdUtils";
+import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import TrainTimeNavbar from "../../TrainTimeNavbar";
 import TrTransferCard from "./TrTransferCard";
+import TrTransferDescription from "./TrTransferDescription";
 import TrTransferLegCountFilter from "./TrTransferLegCountFilter";
 import TrTransferTimeFilter from "./TrTransferTimeFilter";
 
@@ -30,6 +33,9 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({ data }) => {
   // filter 條件（controlled，由子 dropdown 報告）
   const [waitLimit, setWaitLimit] = useState<number>(Infinity);
   const [legCount, setLegCount] = useState<number | null>(null);
+
+  // 轉乘說明 Dialog 開關（Beta 階段揭露資料涵蓋限制）
+  const [descOpen, setDescOpen] = useState(false);
 
   // 資料中實際出現的段數，用以動態組段數 filter 選項
   const availableLegCounts = useMemo(() => {
@@ -75,14 +81,33 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({ data }) => {
           totalCount={data.combinations.length}
           filterCount={filteredCombinations.length}
         >
-          <Button
-            size="sm"
-            radius="sm"
-            className="h-8 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
-            onPress={handleToggleAll}
-          >
-            {allExpanded ? t("transferCollapseAll") : t("transferExpandAll")}
-          </Button>
+          {/* 左側：「全部展開／收合」+「Beta 須知」並排
+           *   - 用 flex gap-2 讓兩顆按鈕間距與 TrainTimeNavbar 內 children/count 分開
+           *   - Beta 須知用 amber 警示色，搭配 ⚠ icon 引導使用者點開閱讀資料涵蓋限制
+           */}
+          <div className="flex flex-wrap items-center gap-0">
+            <Button
+              size="sm"
+              radius="sm"
+              className="h-8 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
+              onPress={handleToggleAll}
+            >
+              {allExpanded ? t("transferCollapseAll") : t("transferExpandAll")}
+            </Button>
+
+            <Button
+              size="sm"
+              radius="sm"
+              variant="light"
+              className="h-8 min-w-fit text-sm text-orange-500 dark:text-orange-400"
+              onPress={() => {
+                gaClickEvent(GaEnum.TR_TRANSFER_DESCRIPTION);
+                setDescOpen(true);
+              }}
+            >
+              {t("transferBetaNotice")}
+            </Button>
+          </div>
         </TrainTimeNavbar>
 
         {/* 第二行：等待篩選 + 段數篩選
@@ -103,6 +128,8 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({ data }) => {
           />
         </div>
       </div>
+
+      <TrTransferDescription open={descOpen} setOpen={setDescOpen} />
 
       <div className="flex flex-col gap-4">
         {filteredCombinations.map((combination, index) => {

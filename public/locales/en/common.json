@@ -45,6 +45,14 @@
   "doNotShowAgainMsg": "Don't show again",
   "trOrderDescription": "Ticket Booking Description",
   "orderDescriptionMenu": "Booking Guide",
+  "trTransferDescription": "TRA Transfer Guide (Beta)",
+  "transferDescriptionMenu": "Transfer Guide",
+  "transferBetaNotice": "⚠ Beta Notice",
+  "announcementTrTransferV1": [
+    "Starting today, we're launching the 'TRA Transfer' Beta lookup, which provides basic transfer route combinations for Taiwan Railway. These combinations are computed by our system, so they may not exactly match the official TRA recommended transfer routes — thank you for your understanding.",
+    "We will continue to observe real usage and refine these route combinations. If you still can't find the route you need, or notice something incorrect, please send feedback via 'Feedback' in the menu.",
+    "This system is independently developed by an individual, not an official platform. For actual train operations, please refer to each railway's official platform or on-site announcements."
+  ],
   "railway": "Railway",
   "realTimeSeatData": "Real-time Seat Data",
   "bookingBtnCondition": "Booking Button Display",
@@ -53,7 +61,7 @@
   "waitingForTdx": "Waiting for TDX",
   "alwaysShow": "Currently always display",
   "announcementTrOrderV1": [
-    "The 'Booking Redirection' service assists you in quickly navigating to the official TRA or THSR websites and automatically pre-fills the selected train information. On mobile devices, the system defaults to launching the '台鐵 e 訂通' or 'T-EX 行動購票' apps. If you prefer web-based booking, you can disable 'Mobile Use APP Booking' in the System Settings page.",
+    "The 'Booking' feature in this system is actually a 'Booking Redirection' or 'Booking Forwarding' service that helps you quickly navigate to the official TRA or THSR websites with the selected train information pre-filled. On mobile devices, the system defaults to launching the '台鐵 e 訂通' or 'T-EX 行動購票' apps. If you prefer web-based booking, you can disable 'Mobile Use APP Booking' in the System Settings page.",
     "__TABLE__",
     "Please note that due to data source limitations, the seat availability information displayed on this site may differ slightly from actual records. All final results are subject to the official railway systems. Thank you for your understanding."
   ],
@@ -110,7 +118,7 @@
   "noTrainDataDueToApiErrorMsg": "System anomaly, please try again later or notify the system administrator.",
   "searchModeDirect": "Direct",
   "searchModeTransfer": "Transfer",
-  "transferLegCount": "{{ count }} legs",
+  "transferLegCount": "{{ count }} transfer(s)",
   "transferWaitAt": "Wait {{ minutes }} min at {{ station }}",
   "transferWaitLabel": "Transfer Wait",
   "transferTicketRequired": "Reserved Only",
@@ -137,7 +145,7 @@
   "featureIntroductionMenu": "Feature Introduction",
   "updateAnnouncementsMenu": "Update Announcements",
   "feedbackMenu": "Feedback",
-  "feedbackDescription": "This system is independently developed and aims to provide a simple and fast timetable lookup service for various railways. It is not an official platform. If you have any questions or suggestions regarding the system, feel free to click the button below to submit feedback.",
+  "feedbackDescription": "This system is independently developed by an individual and aims to provide a simple and fast timetable lookup service for various railways. It is not an official platform. If you have any questions or suggestions regarding the system, feel free to click the button below to submit feedback.",
   "feedbackBtn": "Go to Google Form",
   "nowTimeBtn": "Now",
   "installToDesktopBtn": "Install to desktop",

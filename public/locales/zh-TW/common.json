@@ -45,6 +45,14 @@
   "doNotShowAgainMsg": "不再顯示",
   "trOrderDescription": "訂票說明",
   "orderDescriptionMenu": "訂票說明",
+  "trTransferDescription": "台鐵轉乘說明（Beta）",
+  "transferDescriptionMenu": "轉乘說明",
+  "transferBetaNotice": "⚠ Beta 須知",
+  "announcementTrTransferV1": [
+    "即日起新增「台鐵轉乘查詢」Beta 測試版，提供使用者基本的台鐵轉乘路線組合。由於此組合為本系統自行演算，可能無法完全相同於台鐵官方推薦之轉乘路線，還請見諒。",
+    "本系統會持續觀察使用者實際使用狀況以改善轉乘路線組合。如果您持續找不到想搭的車，或是看到不太對的地方，可以從選單裡的「意見反應」進行回饋。",
+    "本系統為民間獨立開發，非官方平台。實際列車情況請以各鐵路官方平台或現場公告為主。"
+  ],
   "railway": "鐵路",
   "realTimeSeatData": "即時座位資料",
   "bookingBtnCondition": "訂票按鈕顯示條件",
@@ -53,7 +61,7 @@
   "waitingForTdx": "待 TDX 提供",
   "alwaysShow": "目前一律顯示",
   "announcementTrOrderV1": [
-    "「訂票導頁」服務可協助您快速跳轉至台鐵或高鐵官網，並自動帶入所選車次資訊。在行動裝置上，系統預設優先喚起「台鐵 e 訂通」或「T-EX 行動購票」APP；若您偏好使用網頁版訂票，可至「系統設定」頁面關閉「手機使用 APP 訂票」功能。",
+    "本系統之「訂票」功能實為「訂票導頁」或「訂票跳轉」服務，可協助您快速跳轉至台鐵或高鐵官網，並自動帶入所選車次資訊。在行動裝置上，系統預設優先喚起「台鐵 e 訂通」或「T-EX 行動購票」APP；若您偏好使用網頁版訂票，可至「系統設定」頁面關閉「手機使用 APP 訂票」功能。",
     "__TABLE__",
     "請注意，因資料來源限制，本站收到之剩餘座位資料可能與實際情況有些微落差，最終結果請以各鐵路官方系統為準。感謝您的諒解。"
   ],
@@ -110,7 +118,7 @@
   "noTrainDataDueToApiErrorMsg": "系統異常，請稍後再試，或通知系統管理員。",
   "searchModeDirect": "直達",
   "searchModeTransfer": "轉乘",
-  "transferLegCount": "{{ count }} 段",
+  "transferLegCount": "轉 {{ count }} 次",
   "transferWaitAt": "於 {{ station }} 等待 {{ minutes }} 分",
   "transferWaitLabel": "轉乘等待",
   "transferTicketRequired": "無站票",
@@ -137,7 +145,7 @@
   "featureIntroductionMenu": "特色介紹",
   "updateAnnouncementsMenu": "更新公告",
   "feedbackMenu": "意見反應",
-  "feedbackDescription": "本系統為民間開發，旨在提供各種鐵路簡單又快速的時刻查詢服務，並非官方平台。若對本系統有操作問題或功能建議，歡迎點擊下方按鈕填寫表單回報。",
+  "feedbackDescription": "本系統為民間獨立開發，旨在提供各種鐵路簡單又快速的時刻查詢服務，並非官方平台。若對本系統有操作問題或功能建議，歡迎點擊下方按鈕填寫表單回報。",
   "feedbackBtn": "前往 Google 表單",
   "nowTimeBtn": "此刻",
   "installToDesktopBtn": "安裝到桌面",
