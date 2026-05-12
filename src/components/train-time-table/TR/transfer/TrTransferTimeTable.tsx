@@ -89,7 +89,28 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({ data }) => {
             <Button
               size="sm"
               radius="sm"
-              className="h-8 min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
+              // gap-1.5 蓋掉 HeroUI Button 預設 gap-2，讓 chevron icon 與文字更貼近
+              className="h-8 min-w-fit gap-1.5 bg-neutral-500 text-sm text-white dark:bg-neutral-600"
+              // chevron-down 預設指向「可展開」狀態；展開後 rotate-180 變朝上代表「可收合」。
+              // 用 rotate 而非切兩個 path，可以吃 transition-transform 做動畫
+              startContent={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                  stroke="currentColor"
+                  className={`size-3 transition-transform duration-200 ${
+                    allExpanded ? "rotate-180" : ""
+                  }`}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              }
               onPress={handleToggleAll}
             >
               {allExpanded ? t("transferCollapseAll") : t("transferExpandAll")}
