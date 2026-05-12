@@ -1,15 +1,26 @@
+const path = require("path");
 const { heroui } = require("@heroui/react");
 
 // 包成 hsl(var(--token) / <alpha>) 讓 Tailwind 支援 bg-primary/50 等透明度語法
 
 const withOpacity = (variable) => `hsl(var(${variable}) / <alpha-value>)`;
 
+// HeroUI v2.7+ 後元件子套件（@heroui/theme、@heroui/button…）會被 npm nested 在
+// node_modules/@heroui/react/node_modules/@heroui/* 而非 hoist 到根 node_modules，
+// 寫死的 ./node_modules/@heroui/theme/dist/** 會掃不到，導致 Button radius、size 等
+// class 沒被產生。改用 require.resolve 動態定位 @heroui/theme 的實際安裝路徑。
+const heroUIThemePath = path.dirname(
+  require.resolve("@heroui/theme/package.json", {
+    paths: [path.dirname(require.resolve("@heroui/react/package.json"))],
+  }),
+);
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
+    path.join(heroUIThemePath, "dist/**/*.{js,ts,jsx,tsx}"),
   ],
   theme: {
     extend: {

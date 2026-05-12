@@ -52,7 +52,7 @@ const PWATipDialog: FC<PWATipDialogProps> = ({ open, setOpen }) => {
                   }`}
                       radius="full"
                       size="sm"
-                      onClick={() => setActive(item)}
+                      onPress={() => setActive(item)}
                       key={item}
                     >
                       {item}

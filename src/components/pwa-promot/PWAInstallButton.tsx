@@ -58,7 +58,7 @@ const NonPWAPromotableButton: FC = () => {
         radius="full"
         size="sm"
         className="bg-neutral-500 text-white dark:bg-neutral-600"
-        onClick={() => setOpen(true)}
+        onPress={() => setOpen(true)}
       >
         {t("installToDesktopBtn")}
       </Button>
