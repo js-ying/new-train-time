@@ -50,9 +50,8 @@
   "transferGuideBtn": "Transfer Guide & Report Issue",
   "announcementTrTransferV1": [
     "Starting today, we're launching the 'TRA Transfer' Beta lookup, which provides basic transfer route combinations for Taiwan Railway. These combinations are computed by our system, so they may not exactly match the official TRA recommended transfer routes — thank you for your understanding.",
-    "We will continue to observe real usage and refine these route combinations."
+    "We will continue to observe real usage and refine these route combinations. If you can't find the train you want, please click the button below:"
   ],
-  "reportTransferIssueInlinePrefix": "If you can't find the train you want,",
   "railway": "Railway",
   "realTimeSeatData": "Real-time Seat Data",
   "bookingBtnCondition": "Booking Button Display",
@@ -135,9 +134,10 @@
   "noTransferDataTitleMsg": "No transfer plans found! Possible reasons:",
   "noTransferDueToDirectMsg": "A transfer may not be needed between these stations; try \"Direct\" instead.",
   "noTransferInThisTimeMsg": "The departure time set is too late; no connecting trains remain today.",
-  "reportTransferIssuePrefix": "I'm sure transfer options exist for this query:",
+  "reportTransferIssuePrefix": "I'm sure transfer options exist for this query.",
   "reportTransferIssueBtn": "Click here to report",
   "reportTransferIssueBtnDone": "Reported",
+  "reportIssueBtn": "Report Issue",
   "reportTransferSuccessTitle": "Report submitted",
   "reportTransferSuccessMsg": "Thanks for your feedback! We'll review this query as soon as possible.",
   "reportTransferFailedTitle": "Report failed",
@@ -222,7 +222,11 @@
   "settingsPageTitle": "System Settings",
   "settingsPageDescription": "Manage your preferences for TrainTime, including train settings, display mode, and language.",
   "loginServerErrorMsg": "Login failed. The server is temporarily unable to process the request. Please try again later.",
-  "siteAlternateNames": ["TRA Timetable", "THSR Timetable", "Airport MRT Timetable"],
+  "siteAlternateNames": [
+    "TRA Timetable",
+    "THSR Timetable",
+    "Airport MRT Timetable"
+  ],
   "sessionExpiredTitle": "Session Expired",
   "sessionExpiredMsg": "Your login session has expired. Please sign in again to access member features.",
   "errors": {

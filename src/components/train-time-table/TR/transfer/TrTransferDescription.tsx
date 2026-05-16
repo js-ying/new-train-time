@@ -1,9 +1,6 @@
 import CommonDialog from "@/components/common/CommonDialog";
 import { ApiError } from "@/models/problem-details";
-import {
-  postTransferReport,
-  ReportTrainType,
-} from "@/services/reportService";
+import { postTransferReport, ReportTrainType } from "@/services/reportService";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useMemo, useState } from "react";
@@ -66,8 +63,7 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
       });
       setReportDialogOpen(true);
     } catch (err) {
-      const code =
-        err instanceof ApiError && err.code ? err.code : "UNKNOWN";
+      const code = err instanceof ApiError && err.code ? err.code : "UNKNOWN";
       const errorKey = `errors.${code}`;
       setReportDialogContent({
         titleKey: "reportTransferFailedTitle",
@@ -95,25 +91,20 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
             <p key={index}>{text}</p>
           ))}
           {canReport && (
-            <p>
-              {t("reportTransferIssueInlinePrefix")}
-              {/* 按鈕另起一行：避免行內 button padding 讓上下文間距過寬 */}
-              <span className="ml-1 inline-block align-middle">
-                <Button
-                  size="sm"
-                  variant="light"
-                  color="warning"
-                  isLoading={isReporting}
-                  isDisabled={hasReported || isReporting}
-                  onPress={handleReport}
-                  className="h-auto min-h-fit min-w-fit px-2 py-0.5"
-                >
-                  {hasReported
-                    ? t("reportTransferIssueBtnDone")
-                    : t("reportTransferIssueBtn")}
-                </Button>
-              </span>
-            </p>
+            <div className="flex justify-center">
+              <Button
+                variant="light"
+                size="lg"
+                isLoading={isReporting}
+                isDisabled={hasReported || isReporting}
+                onPress={handleReport}
+                className="h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 dark:border-orange-400 dark:text-orange-400"
+              >
+                {hasReported
+                  ? t("reportTransferIssueBtnDone")
+                  : t("reportIssueBtn")}
+              </Button>
+            </div>
           )}
         </div>
       </CommonDialog>

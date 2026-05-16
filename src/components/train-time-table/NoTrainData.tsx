@@ -109,12 +109,21 @@ const NoTrainData: FC<NoTrainDataProps> = ({
     const canReport = !!reportPayload;
     return (
       <>
-        <Alert severity="warning" variant="outlined" className="rounded-xl">
+        <Alert
+          severity="warning"
+          variant="outlined"
+          className="rounded-xl"
+          // MUI Alert root 為 flex，.MuiAlert-message 預設無 flex-grow，寬度會收
+          // 到內容寬度；強制 flex-1 讓 message 撐滿，items-center 才能對到 Alert
+          // 內可放文字寬度（icon 右側到右 padding 之間）的中心
+          classes={{ message: "flex-1" }}
+        >
           <div className="mb-3 font-bold">{t("noTransferDataTitleMsg")}</div>
           {/* Tailwind Preflight 會把 ul 的 list-style 重置成 none，需用 list-disc 還原符號 */}
           <ul className="list-inside list-disc">
             <li>{t("noTransferInThisTimeMsg")}</li>
             <li>{t("noTransferDueToDirectMsg")}</li>
+            {/* 第三點：prefix 文字一律以 li 呈現（與前兩點對齊）；按鈕僅 PC 接在文字後 */}
             {canReport && (
               <li>
                 {t("reportTransferIssuePrefix")}
@@ -124,7 +133,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
                   isLoading={isReporting}
                   isDisabled={hasReported || isReporting}
                   onPress={handleReport}
-                  className="-ml-1.5 h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 dark:border-orange-400 dark:text-orange-400"
+                  className="-ml-1.5 hidden h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 md:inline-flex dark:border-orange-400 dark:text-orange-400"
                 >
                   {hasReported
                     ? t("reportTransferIssueBtnDone")
@@ -133,6 +142,23 @@ const NoTrainData: FC<NoTrainDataProps> = ({
               </li>
             )}
           </ul>
+          {/* 手機版：按鈕另起一行置中，prefix 文字已在上方 li 內 */}
+          {canReport && (
+            <div className="mt-2 flex justify-center md:hidden">
+              <Button
+                size="md"
+                variant="light"
+                isLoading={isReporting}
+                isDisabled={hasReported || isReporting}
+                onPress={handleReport}
+                className="h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 dark:border-orange-400 dark:text-orange-400"
+              >
+                {hasReported
+                  ? t("reportTransferIssueBtnDone")
+                  : t("reportTransferIssueBtn")}
+              </Button>
+            </div>
+          )}
         </Alert>
 
         {/* 回報結果通知（成功 / 失敗共用，依 titleKey / messageKey 切換） */}
