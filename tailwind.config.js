@@ -9,11 +9,21 @@ const withOpacity = (variable) => `hsl(var(${variable}) / <alpha-value>)`;
 // node_modules/@heroui/react/node_modules/@heroui/* 而非 hoist 到根 node_modules，
 // 寫死的 ./node_modules/@heroui/theme/dist/** 會掃不到，導致 Button radius、size 等
 // class 沒被產生。改用 require.resolve 動態定位 @heroui/theme 的實際安裝路徑。
-const heroUIThemePath = path.dirname(
-  require.resolve("@heroui/theme/package.json", {
-    paths: [path.dirname(require.resolve("@heroui/react/package.json"))],
-  }),
-);
+// VSCode Tailwind IntelliSense extension 的 enhanced-resolve 不認 `paths` option，
+// 解不到時退回靜態 nested 路徑（HeroUI v2.7+ 的固定 layout），避免整份 config 載入失敗。
+let heroUIThemePath;
+try {
+  heroUIThemePath = path.dirname(
+    require.resolve("@heroui/theme/package.json", {
+      paths: [path.dirname(require.resolve("@heroui/react/package.json"))],
+    }),
+  );
+} catch {
+  heroUIThemePath = path.join(
+    __dirname,
+    "node_modules/@heroui/react/node_modules/@heroui/theme",
+  );
+}
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
