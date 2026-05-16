@@ -1,6 +1,7 @@
 import AdBanner from "@/components/common/AdBanner";
 import { GaEnum } from "@/enums/GaEnum";
 import { JsyTrTransferInfo } from "@/models/jsy-tr-info";
+import { ReportTrainType } from "@/services/reportService";
 import AdUtils from "@/utils/AdUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
@@ -14,6 +15,13 @@ import TrTransferTimeFilter from "./TrTransferTimeFilter";
 
 interface TrTransferTimeTableProps {
   data: JsyTrTransferInfo;
+  /** 當前查詢條件；提供完整即可在說明 Dialog 內顯示「錯誤回報」按鈕 */
+  reportPayload?: {
+    trainType: ReportTrainType;
+    startStationId: string;
+    endStationId: string;
+    date: string;
+  };
 }
 
 /**
@@ -27,7 +35,10 @@ interface TrTransferTimeTableProps {
  * expandSignal: 父層 broadcast 給每張卡片的展開指令。signal.key 變化 effect 才觸發，
  * 使用者按全部展開後仍可個別摺收某張卡。
  */
-const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({ data }) => {
+const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({
+  data,
+  reportPayload,
+}) => {
   const { t } = useTranslation();
 
   // filter 條件（controlled，由子 dropdown 報告）
@@ -126,7 +137,7 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({ data }) => {
                 setDescOpen(true);
               }}
             >
-              {t("transferBetaNotice")}
+              {t("transferGuideBtn")}
             </Button>
           </div>
         </TrainTimeNavbar>
@@ -150,7 +161,11 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({ data }) => {
         </div>
       </div>
 
-      <TrTransferDescription open={descOpen} setOpen={setDescOpen} />
+      <TrTransferDescription
+        open={descOpen}
+        setOpen={setDescOpen}
+        reportPayload={reportPayload}
+      />
 
       <div className="flex flex-col gap-4">
         {filteredCombinations.map((combination, index) => {

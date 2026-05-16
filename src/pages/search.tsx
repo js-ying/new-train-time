@@ -162,7 +162,10 @@ const Search: FC = () => {
 
             {/* [台鐵] 跨支線轉乘 */}
             {hasTrTransferData && (
-              <TrTransferTimeTable data={jsyTrTransferInfo} />
+              <TrTransferTimeTable
+                data={jsyTrTransferInfo}
+                reportPayload={reportPayload}
+              />
             )}
 
             {/* [高鐵] 有列車資料 */}
