@@ -13,6 +13,10 @@ import {
 } from "@/data/stationsData";
 import { useContext } from "react";
 
+// 排除非實體站（1001 = 環島之星列車起訖標記）。
+// 搜尋與縣市瀏覽兩條路徑共用，避免只擋一邊造成入口不一致。
+const EXCLUDED_STATION_IDS = ["1001"];
+
 export const useStationSearch = () => {
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
@@ -23,6 +27,7 @@ export const useStationSearch = () => {
     mainLine: string | null,
   ): boolean => {
     if (!mainLine) return false;
+    if (EXCLUDED_STATION_IDS.includes(trStationData.StationID)) return false;
     return (
       trStationData.StationAddress.replace(/[0-9]/g, "").substring(0, 3) ===
       mainLine
@@ -34,8 +39,6 @@ export const useStationSearch = () => {
     stationData: TrStationData | ThsrStationData | TymcStationData,
     inputValue: string,
   ): boolean => {
-    const excludeStationList = ["1001"]; // 排除環島之星列車
-
     const enFilter = stationData.StationName.En.toLowerCase().includes(
       inputValue.toLowerCase(),
     );
@@ -47,7 +50,7 @@ export const useStationSearch = () => {
 
     const idFilter = stationData.StationID.includes(inputValue);
 
-    const excludeFilter = !excludeStationList.includes(stationData.StationID);
+    const excludeFilter = !EXCLUDED_STATION_IDS.includes(stationData.StationID);
 
     return (enFilter || zhHantFilter || idFilter) && excludeFilter;
   };
