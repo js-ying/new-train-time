@@ -46,7 +46,6 @@
   "trOrderDescription": "訂票說明",
   "orderDescriptionMenu": "訂票說明",
   "trTransferDescription": "台鐵轉乘說明（Beta）",
-  "transferDescriptionMenu": "轉乘說明",
   "transferGuideBtn": "轉乘說明 & 錯誤回報",
   "announcementTrTransferV1": [
     "即日起新增「台鐵轉乘查詢」Beta 測試版，提供使用者基本的台鐵轉乘路線組合。由於此組合為本系統自行演算，可能無法完全相同於台鐵官方推薦之轉乘路線，還請見諒。",

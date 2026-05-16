@@ -46,7 +46,6 @@
   "trOrderDescription": "Ticket Booking Description",
   "orderDescriptionMenu": "Booking Guide",
   "trTransferDescription": "TRA Transfer Guide (Beta)",
-  "transferDescriptionMenu": "Transfer Guide",
   "transferGuideBtn": "Transfer Guide & Report Issue",
   "announcementTrTransferV1": [
     "Starting today, we're launching the 'TRA Transfer' Beta lookup, which provides basic transfer route combinations for Taiwan Railway. These combinations are computed by our system, so they may not exactly match the official TRA recommended transfer routes — thank you for your understanding.",

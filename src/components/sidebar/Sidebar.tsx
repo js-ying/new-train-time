@@ -1,7 +1,6 @@
 import UserDialog from "@/components/common/UserDialog";
 import FeedbackDialog from "@/components/sidebar/FeedbackDialog";
 import OrderDescription from "@/components/train-time-table/OrderDescription";
-import TrTransferDescription from "@/components/train-time-table/TR/transfer/TrTransferDescription";
 import { useAuth } from "@/contexts/AuthContext";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -50,7 +49,6 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [userDialogOpen, setUserDialogOpen] = useState(false);
   const [orderDescOpen, setOrderDescOpen] = useState(false);
-  const [transferDescOpen, setTransferDescOpen] = useState(false);
 
   /** 頁面連結列表 */
   const list = useMemo(() => {
@@ -66,11 +64,6 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
       {
         text: "orderDescriptionMenu",
         icon: "M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25",
-      },
-      {
-        text: "transferDescriptionMenu",
-        // heroicons: arrows-right-left（雙向箭頭，象徵轉乘換線）
-        icon: "M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5",
       },
       {
         text: "feedbackMenu",
@@ -115,12 +108,6 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         // 開啟訂票說明彈窗
         gaClickEvent(GaEnum.TR_ORDER_DESCRIPTION);
         setOrderDescOpen(true);
-        break;
-
-      case "transferDescriptionMenu":
-        // 開啟台鐵轉乘說明彈窗
-        gaClickEvent(GaEnum.TR_TRANSFER_DESCRIPTION);
-        setTransferDescOpen(true);
         break;
 
       default:
@@ -211,8 +198,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
           {list.map((item) => (
             <ListItem key={item.text} disablePadding>
               {item.text === "feedbackMenu" ||
-              item.text === "orderDescriptionMenu" ||
-              item.text === "transferDescriptionMenu" ? (
+              item.text === "orderDescriptionMenu" ? (
                 <ListItemButton onClick={() => handleClick(item.text)}>
                   <ListItemIcon sx={{ minWidth: "40px" }}>
                     <svg
@@ -285,11 +271,6 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
       <FeedbackDialog open={feedbackOpen} setOpen={setFeedbackOpen} />
 
       <OrderDescription open={orderDescOpen} setOpen={setOrderDescOpen} />
-
-      <TrTransferDescription
-        open={transferDescOpen}
-        setOpen={setTransferDescOpen}
-      />
 
       <UserDialog open={userDialogOpen} setOpen={setUserDialogOpen} />
     </>
