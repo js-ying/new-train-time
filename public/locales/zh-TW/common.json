@@ -50,8 +50,7 @@
   "transferBetaNotice": "⚠ Beta 須知",
   "announcementTrTransferV1": [
     "即日起新增「台鐵轉乘查詢」Beta 測試版，提供使用者基本的台鐵轉乘路線組合。由於此組合為本系統自行演算，可能無法完全相同於台鐵官方推薦之轉乘路線，還請見諒。",
-    "本系統會持續觀察使用者實際使用狀況以改善轉乘路線組合。如果您持續找不到想搭的車，或是看到不太對的地方，可以從選單裡的「意見反應」進行回饋。",
-    "本系統為民間獨立開發，非官方平台。實際列車情況請以各鐵路官方平台或現場公告為主。"
+    "本系統會持續觀察使用者實際使用狀況以改善轉乘路線組合。如果您持續找不到想搭的車，或是看到不太對的地方，可以從選單裡的「意見反應」進行回饋。"
   ],
   "railway": "鐵路",
   "realTimeSeatData": "即時座位資料",
@@ -135,6 +134,12 @@
   "noTransferDataTitleMsg": "沒有查到轉乘方案！可能原因：",
   "noTransferDueToDirectMsg": "兩站間可能不需轉乘，請嘗試直達查詢。",
   "noTransferInThisTimeMsg": "出發時間設定太晚，當日已無可銜接班次。",
+  "reportTransferIssuePrefix": "我確定此查詢條件有轉乘方案：",
+  "reportTransferIssueBtn": "點我進行錯誤回報",
+  "reportTransferIssueBtnDone": "已回報",
+  "reportTransferSuccessTitle": "回報成功",
+  "reportTransferSuccessMsg": "感謝您的回饋！我們將盡快檢查此查詢條件。",
+  "reportTransferFailedTitle": "回報失敗",
   "errorFallbackTitle": "畫面載入時發生問題",
   "errorFallbackDescription": "請重新整理頁面，若問題持續發生請通知系統管理員。",
   "reloadBtn": "重新整理",

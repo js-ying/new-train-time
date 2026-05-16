@@ -13,18 +13,20 @@ import ThsrTrainTimeTable from "@/components/train-time-table/THSR/ThsrTrainTime
 import TrTrainTimeTable from "@/components/train-time-table/TR/TrTrainTimeTable";
 import TrTransferTimeTable from "@/components/train-time-table/TR/transfer/TrTransferTimeTable";
 import TymcTimeTable from "@/components/train-time-table/TYMC/TymcTimeTable";
+import { SearchAreaContext } from "@/contexts/SearchAreaContext";
 import useSearchMode from "@/hooks/search/useSearchMode";
 import useTrainSearch from "@/hooks/search/useTrainSearch";
 
 import useMuiTheme from "@/hooks/useMuiTheme";
 import usePage from "@/hooks/usePage";
+import { ReportTrainType } from "@/services/reportService";
 import AdUtils from "@/utils/AdUtils";
 import DateUtils from "@/utils/DateUtils";
 import Alert from "@mui/material/Alert";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -39,6 +41,7 @@ const Search: FC = () => {
   const muiTheme = useMuiTheme();
   const { isTr, isThsr, isTymc } = usePage();
   const { isTransfer } = useSearchMode();
+  const searchAreaParams = useContext(SearchAreaContext);
   const {
     isLoading,
     apiError,
@@ -48,6 +51,28 @@ const Search: FC = () => {
     jsyThsrInfo,
     jsyTymcInfo,
   } = useTrainSearch();
+
+  // 「無轉乘方案」錯誤回報需要的查詢條件；目前僅 TR 有 transfer 模式
+  // 三個欄位都齊備才傳給 NoTrainData，避免初始載入時 date=null 誤送
+  const reportTrainType: ReportTrainType | null = isTr
+    ? "TR"
+    : isThsr
+      ? "THSR"
+      : isTymc
+        ? "TYMC"
+        : null;
+  const reportPayload =
+    reportTrainType &&
+    searchAreaParams?.startStationId &&
+    searchAreaParams?.endStationId &&
+    searchAreaParams?.date
+      ? {
+          trainType: reportTrainType,
+          startStationId: searchAreaParams.startStationId,
+          endStationId: searchAreaParams.endStationId,
+          date: searchAreaParams.date,
+        }
+      : undefined;
 
   const isGeneralTimetable = isThsr && jsyThsrInfo?.isGeneralTimetable;
 
@@ -153,6 +178,7 @@ const Search: FC = () => {
                   apiError={apiError}
                   isTransfer={isTr && isTransfer}
                   isTr={isTr}
+                  reportPayload={reportPayload}
                 />
 
                 {AdUtils.showAd(0, 0) && (
