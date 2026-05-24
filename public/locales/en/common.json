@@ -137,6 +137,8 @@
   "reportTransferIssueBtn": "Click here to report",
   "reportTransferIssueBtnDone": "Reported",
   "reportIssueBtn": "Report Issue",
+  "reportConfirmTitle": "Submit this report?",
+  "reportConfirmMsg": "You're about to report that the system is missing expected transfer options, or that the listed transfer options are incorrect. We'll review it as soon as possible. Submit?",
   "reportTransferSuccessTitle": "Report submitted",
   "reportTransferSuccessMsg": "Thanks for your feedback! We'll review this query as soon as possible.",
   "reportTransferFailedTitle": "Report failed",

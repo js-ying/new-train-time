@@ -43,6 +43,8 @@ const NoTrainData: FC<NoTrainDataProps> = ({
   // 錯誤回報狀態：reported 用於同次查詢避免重覆送出；查詢條件變動即 reset
   const [isReporting, setIsReporting] = useState(false);
   const [hasReported, setHasReported] = useState(false);
+  // 送出前的二次確認 dialog；確認後才真的打 API
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [reportDialogContent, setReportDialogContent] = useState<{
     titleKey: string;
@@ -60,8 +62,14 @@ const NoTrainData: FC<NoTrainDataProps> = ({
     setHasReported(false);
   }, [reportKey]);
 
-  // 點擊「錯誤回報」按鈕：fire-and-forget 提交後依結果顯示 dialog
-  const handleReport = async () => {
+  // 點擊「錯誤回報」按鈕：先開啟確認 dialog，不立即送出
+  const handleReportClick = () => {
+    if (!reportPayload || isReporting || hasReported) return;
+    setConfirmOpen(true);
+  };
+
+  // 確認 dialog 點「確認」後才提交，並依結果顯示成功 / 失敗 dialog
+  const handleReportConfirm = async () => {
     if (!reportPayload || isReporting || hasReported) return;
     setIsReporting(true);
     try {
@@ -132,7 +140,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
                   variant="light"
                   isLoading={isReporting}
                   isDisabled={hasReported || isReporting}
-                  onPress={handleReport}
+                  onPress={handleReportClick}
                   className="-ml-1.5 hidden h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 md:inline-flex dark:border-orange-400 dark:text-orange-400"
                 >
                   {hasReported
@@ -150,7 +158,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
                 variant="light"
                 isLoading={isReporting}
                 isDisabled={hasReported || isReporting}
-                onPress={handleReport}
+                onPress={handleReportClick}
                 className="h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 dark:border-orange-400 dark:text-orange-400"
               >
                 {hasReported
@@ -160,6 +168,19 @@ const NoTrainData: FC<NoTrainDataProps> = ({
             </div>
           )}
         </Alert>
+
+        {/* 送出前的二次確認 dialog；點「確認」才真的呼叫 API */}
+        <CommonDialog
+          open={confirmOpen}
+          setOpen={setConfirmOpen}
+          title="reportConfirmTitle"
+          confirmText="confirm"
+          cancelText="cancel"
+          onConfirm={handleReportConfirm}
+          bodyTextAlign="text-left"
+        >
+          <div>{t("reportConfirmMsg")}</div>
+        </CommonDialog>
 
         {/* 回報結果通知（成功 / 失敗共用，依 titleKey / messageKey 切換） */}
         <CommonDialog

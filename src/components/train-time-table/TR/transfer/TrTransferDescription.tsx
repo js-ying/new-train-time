@@ -35,6 +35,8 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
   // 錯誤回報狀態：同次查詢內回報後 disable；查詢條件變動即 reset
   const [isReporting, setIsReporting] = useState(false);
   const [hasReported, setHasReported] = useState(false);
+  // 提交前確認 dialog；確認後才真的打 API，避免誤觸
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [reportDialogContent, setReportDialogContent] = useState<{
     titleKey: string;
@@ -51,7 +53,14 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
     setHasReported(false);
   }, [reportKey]);
 
-  const handleReport = async () => {
+  // 點擊「錯誤回報」：僅開啟確認 dialog，不立即送出
+  const handleReportClick = () => {
+    if (!reportPayload || isReporting || hasReported) return;
+    setConfirmOpen(true);
+  };
+
+  // 使用者於確認 dialog 點「確認」後才執行 API 提交
+  const handleReportConfirm = async () => {
     if (!reportPayload || isReporting || hasReported) return;
     setIsReporting(true);
     try {
@@ -97,7 +106,7 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
                 size="lg"
                 isLoading={isReporting}
                 isDisabled={hasReported || isReporting}
-                onPress={handleReport}
+                onPress={handleReportClick}
                 className="h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 dark:border-orange-400 dark:text-orange-400"
               >
                 {hasReported
@@ -107,6 +116,19 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
             </div>
           )}
         </div>
+      </CommonDialog>
+
+      {/* 送出前的二次確認 dialog；點「確認」才真的呼叫 API */}
+      <CommonDialog
+        open={confirmOpen}
+        setOpen={setConfirmOpen}
+        title="reportConfirmTitle"
+        confirmText="confirm"
+        cancelText="cancel"
+        onConfirm={handleReportConfirm}
+        bodyTextAlign="text-left"
+      >
+        <div>{t("reportConfirmMsg")}</div>
       </CommonDialog>
 
       {/* 回報結果通知（成功 / 失敗共用，依 titleKey / messageKey 切換） */}

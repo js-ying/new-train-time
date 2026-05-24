@@ -137,6 +137,8 @@
   "reportTransferIssueBtn": "點我進行錯誤回報",
   "reportTransferIssueBtnDone": "已回報",
   "reportIssueBtn": "錯誤回報",
+  "reportConfirmTitle": "確定要回報嗎？",
+  "reportConfirmMsg": "您將回報「系統未列出應有的轉乘方案，或系統列出的轉乘方案有誤」，送出後我們會盡快檢查。確定送出？",
   "reportTransferSuccessTitle": "回報成功",
   "reportTransferSuccessMsg": "感謝您的回饋！我們將盡快檢查此查詢條件。",
   "reportTransferFailedTitle": "回報失敗",
