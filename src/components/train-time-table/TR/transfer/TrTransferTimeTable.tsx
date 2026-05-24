@@ -57,7 +57,7 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({
   const filteredCombinations = useMemo(() => {
     return data.combinations.filter((c) => {
       if (legCount !== null && c.legs.length !== legCount) return false;
-      if (waitLimit !== Infinity && !c.waitMinutes.every((w) => w < waitLimit))
+      if (waitLimit !== Infinity && !c.waitMinutes.every((w) => w <= waitLimit))
         return false;
       return true;
     });

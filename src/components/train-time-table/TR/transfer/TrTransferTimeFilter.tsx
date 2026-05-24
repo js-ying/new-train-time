@@ -13,8 +13,8 @@ interface TrTransferTimeFilterProps {
 
 /**
  * [台鐵] 單次轉乘等待時間下拉篩選（仿台鐵官網級距）。
- * 篩選依據為「所有單次轉乘等待時間都不超過 limit」(every(w => w < limit))，
- * 不是加總；意即任一段等待過久就排除（19+45 在 <30 看不到，19+29 看得到）。
+ * 篩選依據為「所有單次轉乘等待時間都不超過 limit」(every(w => w <= limit))，
+ * 不是加總；意即任一段等待過久就排除（19+45 在 ≤30 看不到，19+30 看得到）。
  *
  * controlled 元件：實際過濾邏輯由 Table 集中處理（與段數 filter 等共同套用）。
  */
@@ -53,7 +53,7 @@ const TrTransferTimeFilter: FC<TrTransferTimeFilterProps> = ({
       }}
       classNames={{
         // HeroUI Select 用 w-fit 會塌成 icon-only 寬度，必須由外層給顯式寬度。
-        // 預設 w-48 容納最長 label「不限定轉乘時間」/「Each transfer < 50 min」；
+        // 預設 w-48 容納最長 label「不限定轉乘時間」/「Each transfer ≤ 50 min」；
         // Table 層可改傳 grid col-span + 響應式寬度做手機 60/40 配比
         base: className,
         // bg-background + text-foreground：light 白底黑字、dark 深底白字。
