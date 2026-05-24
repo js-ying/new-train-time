@@ -102,12 +102,11 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
           {canReport && (
             <div className="flex justify-center">
               <Button
-                variant="light"
-                size="lg"
+                color="primary"
                 isLoading={isReporting}
                 isDisabled={hasReported || isReporting}
                 onPress={handleReportClick}
-                className="h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 dark:border-orange-400 dark:text-orange-400"
+                className="w-fit bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
               >
                 {hasReported
                   ? t("reportTransferIssueBtnDone")

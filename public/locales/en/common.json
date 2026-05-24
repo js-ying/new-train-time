@@ -46,10 +46,10 @@
   "trOrderDescription": "Ticket Booking Description",
   "orderDescriptionMenu": "Booking Guide",
   "trTransferDescription": "TRA Transfer Guide (Beta)",
-  "transferGuideBtn": "Transfer Guide & Report Issue",
+  "transferGuideBtn": "Transfer Guide (Beta)",
   "announcementTrTransferV1": [
     "Starting today, we're launching the 'TRA Transfer' Beta lookup, which provides basic transfer route combinations for Taiwan Railway. These combinations are computed by our system, so they may not exactly match the official TRA recommended transfer routes — thank you for your understanding.",
-    "We will continue to observe real usage and refine these route combinations. If you can't find the train you want, please click the button below:"
+    "We will continue to observe real usage and refine these route combinations. If you can't find the train you want, please click the button below to report."
   ],
   "railway": "Railway",
   "realTimeSeatData": "Real-time Seat Data",
@@ -133,8 +133,7 @@
   "noTransferDataTitleMsg": "No transfer plans found! Possible reasons:",
   "noTransferDueToDirectMsg": "A transfer may not be needed between these stations; try \"Direct\" instead.",
   "noTransferInThisTimeMsg": "The departure time set is too late; no connecting trains remain today.",
-  "reportTransferIssuePrefix": "I'm sure transfer options exist for this query.",
-  "reportTransferIssueBtn": "Click here to report",
+  "reportTransferIssuePrefix": "This may be a system issue. Click the button to report.",
   "reportTransferIssueBtnDone": "Reported",
   "reportIssueBtn": "Report Issue",
   "reportConfirmTitle": "Submit this report?",

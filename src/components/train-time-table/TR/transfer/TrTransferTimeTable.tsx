@@ -131,7 +131,7 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({
               size="sm"
               radius="sm"
               variant="light"
-              className="h-8 min-w-fit text-sm text-orange-500 dark:text-orange-400"
+              className="h-8 min-w-fit text-sm text-silverLakeBlue-500 dark:text-gamboge-500"
               onPress={() => {
                 gaClickEvent(GaEnum.TR_TRANSFER_DESCRIPTION);
                 setDescOpen(true);

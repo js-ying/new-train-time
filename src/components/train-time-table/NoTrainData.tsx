@@ -136,16 +136,16 @@ const NoTrainData: FC<NoTrainDataProps> = ({
               <li>
                 {t("reportTransferIssuePrefix")}
                 <Button
-                  size="md"
-                  variant="light"
+                  size="sm"
+                  color="primary"
                   isLoading={isReporting}
                   isDisabled={hasReported || isReporting}
                   onPress={handleReportClick}
-                  className="-ml-1.5 hidden h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 md:inline-flex dark:border-orange-400 dark:text-orange-400"
+                  className="hidden h-auto min-h-fit min-w-fit bg-silverLakeBlue-500 px-2 py-1 text-xs text-white dark:bg-gamboge-500 dark:text-eerieBlack-500 md:inline-flex"
                 >
                   {hasReported
                     ? t("reportTransferIssueBtnDone")
-                    : t("reportTransferIssueBtn")}
+                    : t("reportIssueBtn")}
                 </Button>
               </li>
             )}
@@ -154,16 +154,16 @@ const NoTrainData: FC<NoTrainDataProps> = ({
           {canReport && (
             <div className="mt-2 flex justify-center md:hidden">
               <Button
-                size="md"
-                variant="light"
+                size="sm"
+                color="primary"
                 isLoading={isReporting}
                 isDisabled={hasReported || isReporting}
                 onPress={handleReportClick}
-                className="h-auto min-h-fit min-w-fit border-orange-500 px-2 py-0.5 text-orange-500 dark:border-orange-400 dark:text-orange-400"
+                className="h-auto min-h-fit min-w-fit bg-silverLakeBlue-500 px-2 py-1 text-xs text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
               >
                 {hasReported
                   ? t("reportTransferIssueBtnDone")
-                  : t("reportTransferIssueBtn")}
+                  : t("reportIssueBtn")}
               </Button>
             </div>
           )}
