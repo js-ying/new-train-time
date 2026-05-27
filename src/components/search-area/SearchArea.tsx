@@ -130,6 +130,10 @@ const SearchArea: FC = () => {
               tabList: "!bg-transparent",
               cursor:
                 "!bg-transparent !border border-zinc-700 dark:!border-zinc-200 !shadow-none",
+              // 取消 HeroUI 預設 hover-unselected 變透明 (opacity-disabled)，只讓字變亮（不加背景）
+              tab: "data-[hover-unselected=true]:opacity-100",
+              tabContent:
+                "group-data-[hover-unselected=true]:text-zinc-600 dark:group-data-[hover-unselected=true]:text-zinc-300",
             }}
             selectedKey={draftMode}
             onSelectionChange={(key) => {
