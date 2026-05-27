@@ -126,6 +126,7 @@
   "transferFilterUnder20": "Each transfer ≤ 20 min",
   "transferFilterUnder30": "Each transfer ≤ 30 min",
   "transferFilterUnder40": "Each transfer ≤ 40 min",
+  "transferFilterUnder50": "Each transfer ≤ 50 min",
   "transferLegCountFilterLabel": "Transfer count",
   "transferLegCountAll": "Any transfer count",
   "transferLegCountN": "{{ count }} transfer(s)",

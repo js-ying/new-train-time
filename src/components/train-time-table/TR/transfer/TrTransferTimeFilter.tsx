@@ -32,6 +32,7 @@ const TrTransferTimeFilter: FC<TrTransferTimeFilterProps> = ({
       { key: "under20", label: t("transferFilterUnder20"), limit: 20 },
       { key: "under30", label: t("transferFilterUnder30"), limit: 30 },
       { key: "under40", label: t("transferFilterUnder40"), limit: 40 },
+      { key: "under50", label: t("transferFilterUnder50"), limit: 50 },
     ],
     [t],
   );

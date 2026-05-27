@@ -126,6 +126,7 @@
   "transferFilterUnder20": "單一轉乘 ≤ 20 分",
   "transferFilterUnder30": "單一轉乘 ≤ 30 分",
   "transferFilterUnder40": "單一轉乘 ≤ 40 分",
+  "transferFilterUnder50": "單一轉乘 ≤ 50 分",
   "transferLegCountFilterLabel": "轉乘次數",
   "transferLegCountAll": "不限轉乘次數",
   "transferLegCountN": "{{ count }} 次",
