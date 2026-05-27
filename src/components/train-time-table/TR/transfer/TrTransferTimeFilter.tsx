@@ -28,9 +28,10 @@ const TrTransferTimeFilter: FC<TrTransferTimeFilterProps> = ({
   const options = useMemo(
     () => [
       { key: "all", label: t("transferFilterAll"), limit: Infinity },
+      { key: "under10", label: t("transferFilterUnder10"), limit: 10 },
       { key: "under20", label: t("transferFilterUnder20"), limit: 20 },
       { key: "under30", label: t("transferFilterUnder30"), limit: 30 },
-      { key: "under50", label: t("transferFilterUnder50"), limit: 50 },
+      { key: "under40", label: t("transferFilterUnder40"), limit: 40 },
     ],
     [t],
   );
@@ -53,7 +54,7 @@ const TrTransferTimeFilter: FC<TrTransferTimeFilterProps> = ({
       }}
       classNames={{
         // HeroUI Select 用 w-fit 會塌成 icon-only 寬度，必須由外層給顯式寬度。
-        // 預設 w-48 容納最長 label「不限定轉乘時間」/「Each transfer ≤ 50 min」；
+        // 預設 w-48 容納最長 label「不限定轉乘時間」/「Each transfer ≤ 40 min」；
         // Table 層可改傳 grid col-span + 響應式寬度做手機 60/40 配比
         base: className,
         // bg-background + text-foreground：light 白底黑字、dark 深底白字。
