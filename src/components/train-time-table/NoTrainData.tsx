@@ -130,7 +130,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
           {/* Tailwind Preflight 會把 ul 的 list-style 重置成 none，需用 list-disc 還原符號 */}
           <ul className="list-inside list-disc">
             <li>{t("noTransferInThisTimeMsg")}</li>
-            <li>{t("noTransferDueToDirectMsg")}</li>
+            <li>{t("noSuitableTransferRouteMsg")}</li>
             {/* 第三點：prefix 文字一律以 li 呈現（與前兩點對齊）；按鈕僅 PC 接在文字後 */}
             {canReport && (
               <li>
