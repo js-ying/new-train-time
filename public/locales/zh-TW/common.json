@@ -48,7 +48,7 @@
   "trTransferDescription": "台鐵轉乘說明（Beta）",
   "transferGuideBtn": "轉乘說明 (Beta)",
   "announcementTrTransferV1": [
-    "即日起新增「台鐵轉乘查詢」Beta 測試版，提供使用者基本的台鐵轉乘路線組合。由於此組合為本系統自行演算，可能無法完全相同於台鐵官方推薦之轉乘路線，還請見諒。",
+    "即日起新增「台鐵轉乘查詢」Beta 測試版，提供使用者基本的台鐵轉乘路線組合。由於路線為本系統自行演算，轉乘路線可能不會完全等同台鐵官方推薦，還請見諒。",
     "本系統會持續觀察使用者實際使用狀況以改善轉乘路線組合。如果您找不到想搭的車，請點擊下方按鈕進行回報。"
   ],
   "railway": "鐵路",
@@ -139,9 +139,9 @@
   "reportTransferIssueBtnDone": "已回報",
   "reportIssueBtn": "錯誤回報",
   "reportConfirmTitle": "確定要回報嗎？",
-  "reportConfirmMsg": "您將回報「轉乘方案有誤」，送出後我們會盡快檢查。確定送出？",
+  "reportConfirmMsg": "您將回報「轉乘路線有誤」，送出回報後我們會盡速檢查。確定送出？",
   "reportTransferSuccessTitle": "回報成功",
-  "reportTransferSuccessMsg": "感謝您的回饋！我們將盡快檢查此查詢條件。",
+  "reportTransferSuccessMsg": "感謝您的回饋！我們將盡快檢查此轉乘路線。",
   "reportTransferFailedTitle": "回報失敗",
   "errorFallbackTitle": "畫面載入時發生問題",
   "errorFallbackDescription": "請重新整理頁面，若問題持續發生請通知系統管理員。",

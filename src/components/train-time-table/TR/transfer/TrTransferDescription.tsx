@@ -100,7 +100,7 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
             <p key={index}>{text}</p>
           ))}
           {canReport && (
-            <div className="flex justify-center">
+            <div className="mt-3 flex justify-center">
               <Button
                 color="primary"
                 isLoading={isReporting}

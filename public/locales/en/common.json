@@ -48,7 +48,7 @@
   "trTransferDescription": "TRA Transfer Guide (Beta)",
   "transferGuideBtn": "Transfer Guide (Beta)",
   "announcementTrTransferV1": [
-    "Starting today, we're launching the 'TRA Transfer' Beta lookup, which provides basic transfer route combinations for Taiwan Railway. These combinations are computed by our system, so they may not exactly match the official TRA recommended transfer routes — thank you for your understanding.",
+    "Starting today, we're launching the 'TRA Transfer' Beta lookup, which provides basic transfer route combinations for Taiwan Railway. Since these routes are computed by our system, they may not exactly match the official TRA recommended transfer routes — thank you for your understanding.",
     "We will continue to observe real usage and refine these route combinations. If you can't find the train you want, please click the button below to report."
   ],
   "railway": "Railway",
@@ -139,9 +139,9 @@
   "reportTransferIssueBtnDone": "Reported",
   "reportIssueBtn": "Report Issue",
   "reportConfirmTitle": "Submit this report?",
-  "reportConfirmMsg": "You're about to report that the transfer options are incorrect. We'll review it as soon as possible. Submit?",
+  "reportConfirmMsg": "You're about to report that the transfer route is incorrect. We'll review it as soon as possible after submission. Submit?",
   "reportTransferSuccessTitle": "Report submitted",
-  "reportTransferSuccessMsg": "Thanks for your feedback! We'll review this query as soon as possible.",
+  "reportTransferSuccessMsg": "Thanks for your feedback! We'll review this transfer route as soon as possible.",
   "reportTransferFailedTitle": "Report failed",
   "errorFallbackTitle": "Something went wrong while rendering the page",
   "errorFallbackDescription": "Please refresh the page. If the issue persists, contact the administrator.",
