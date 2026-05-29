@@ -133,7 +133,7 @@
   "transferExpandAll": "全部展開",
   "transferCollapseAll": "全部收合",
   "noTransferDataTitleMsg": "沒有查到轉乘方案！可能原因：",
-  "noSuitableTransferRouteMsg": "兩站間可能無適合轉乘路線",
+  "noSuitableTransferRouteMsg": "兩站間可能無適合轉乘路線。",
   "noTransferInThisTimeMsg": "出發時間設定太晚，當日已無可銜接班次。",
   "reportTransferIssuePrefix": "可能為系統錯誤，點擊按鈕進行回報。",
   "reportTransferIssueBtnDone": "已回報",
