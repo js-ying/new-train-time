@@ -6,6 +6,7 @@ import { defaultSeoConfig } from "@/configs/seoConfig";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { PwaProvider } from "@/contexts/PwaContext";
 import { SearchAreaProvider } from "@/contexts/SearchAreaContext";
+import { SearchHistoryProvider } from "@/contexts/SearchHistoryContext";
 import { SearchModeProvider } from "@/contexts/SearchModeContext";
 import { SettingProvider } from "@/contexts/SettingContext";
 import useAutoRedirectLastUsedPage from "@/hooks/useAutoRedirectLastUsedPage";
@@ -30,17 +31,19 @@ function App({ Component, pageProps }: AppProps) {
           <NextThemesProvider attribute="class">
             <AuthProvider>
               <SettingProvider>
-                <SearchAreaProvider>
-                  <SearchModeProvider>
-                    <DefaultSeo {...defaultSeoConfig} />
-                    <AppMeta />
-                    {/* 全域 Error Boundary：保底承接元件 render 期未捕捉例外 */}
-                    <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
-                      <Component {...pageProps} />
-                    </ErrorBoundary>
-                    <LocaleSuggestionDialog />
-                  </SearchModeProvider>
-                </SearchAreaProvider>
+                <SearchHistoryProvider>
+                  <SearchAreaProvider>
+                    <SearchModeProvider>
+                      <DefaultSeo {...defaultSeoConfig} />
+                      <AppMeta />
+                      {/* 全域 Error Boundary：保底承接元件 render 期未捕捉例外 */}
+                      <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
+                        <Component {...pageProps} />
+                      </ErrorBoundary>
+                      <LocaleSuggestionDialog />
+                    </SearchModeProvider>
+                  </SearchAreaProvider>
+                </SearchHistoryProvider>
               </SettingProvider>
             </AuthProvider>
           </NextThemesProvider>

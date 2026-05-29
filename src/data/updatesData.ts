@@ -9,6 +9,10 @@ export const updateDataList = [
         content: "新功能：台鐵轉乘 Beta 版",
       },
       {
+        type: "update",
+        content: "現在登入後可同步歷史查詢紀錄了",
+      },
+      {
         type: "refactor",
         content: "重構後端系統、升級伺服器設備，以提升效能與穩定性",
       },

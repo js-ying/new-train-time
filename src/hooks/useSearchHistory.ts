@@ -1,47 +1,46 @@
-import { HistoryInquiry } from "@/models/history";
+import { SearchHistoryContext } from "@/contexts/SearchHistoryContext";
+import { PageEnum } from "@/enums/PageEnum";
+import { HistoryInquiry, StoredHistoryInquiry, TrainType } from "@/models/history";
+import { useCallback, useContext } from "react";
 import usePage from "./usePage";
 
+/** 頁面 → 車種；非交通工具頁面（features/settings 等）回 undefined → 不參與歷史 */
+const PAGE_TO_TRAIN_TYPE: Partial<Record<PageEnum, TrainType>> = {
+  [PageEnum.TR]: "TR",
+  [PageEnum.THSR]: "THSR",
+  [PageEnum.TYMC]: "TYMC",
+};
+
+/**
+ * 歷史查詢 hook：依當前頁面對應車種，從 SearchHistoryContext 讀寫。
+ * - historyList：該車種歷史（已 newest-first，≤ 5 筆）
+ * - saveHistory：新增一筆（登入會跨裝置同步）
+ * - clearHistory：清除該車種歷史
+ */
 export const useSearchHistory = () => {
-  const { localStorageKey } = usePage();
+  const { page } = usePage();
+  const { history, saveHistory, clearHistory } =
+    useContext(SearchHistoryContext);
+  const trainType = PAGE_TO_TRAIN_TYPE[page];
 
-  const saveHistory = ({ startStationId, endStationId }: HistoryInquiry) => {
-    let historyList: HistoryInquiry[] = [];
-    const valueString = window.localStorage.getItem(localStorageKey);
-    if (valueString) {
-      const value = JSON.parse(valueString);
-      if (Array.isArray(value) && value.length > 0) {
-        historyList = value;
-      }
-    }
+  const historyList: StoredHistoryInquiry[] = trainType
+    ? history[trainType]
+    : [];
 
-    let hasDuplicate = false;
-    let duplicateIndex;
-    if (historyList.length > 0) {
-      historyList.forEach((history, index) => {
-        if (
-          JSON.stringify(history) ===
-          JSON.stringify({ startStationId, endStationId })
-        ) {
-          hasDuplicate = true;
-          duplicateIndex = index;
-        }
-      });
-    }
+  const save = useCallback(
+    (inquiry: HistoryInquiry) => {
+      if (!trainType) return;
+      saveHistory(trainType, inquiry);
+    },
+    [saveHistory, trainType],
+  );
 
-    if (hasDuplicate) {
-      historyList.splice(duplicateIndex, 1);
-    }
+  const clear = useCallback(() => {
+    if (!trainType) return;
+    clearHistory(trainType);
+  }, [clearHistory, trainType]);
 
-    historyList.push({ startStationId, endStationId });
-
-    if (historyList.length > 5) {
-      historyList.shift();
-    }
-
-    window.localStorage.setItem(localStorageKey, JSON.stringify(historyList));
-  };
-
-  return { saveHistory };
+  return { historyList, saveHistory: save, clearHistory: clear };
 };
 
 export default useSearchHistory;
