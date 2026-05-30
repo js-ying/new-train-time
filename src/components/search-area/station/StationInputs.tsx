@@ -78,11 +78,12 @@ const StationInput: FC<StationInputProps> = ({ type }) => {
     }
   };
 
+  // 自動 focus input：依賴 activeIndex，讓出發/抵達切換時（元件未 unmount）也能重新 focus 到新的 input
   useEffect(() => {
     if (!isMobile && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [isMobile]);
+  }, [isMobile, params.activeIndex]);
 
   return (
     <input
