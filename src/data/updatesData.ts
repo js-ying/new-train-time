@@ -6,11 +6,19 @@ export const updateDataList = [
     items: [
       {
         type: "new",
-        content: "新功能：台鐵轉乘 Beta 版",
+        content: "新功能：台鐵轉乘查詢 Beta 版",
+      },
+      {
+        type: "new",
+        content: "新功能：會員在登入後可同步歷史查詢紀錄了",
       },
       {
         type: "update",
-        content: "現在登入後可同步歷史查詢紀錄了",
+        content: "調整選擇小時與分鐘的下拉選單樣式",
+      },
+      {
+        type: "fix",
+        content: "修正 PC 版切換出發/抵達車站時游標沒有自動聚焦在輸入框的問題",
       },
       {
         type: "refactor",
