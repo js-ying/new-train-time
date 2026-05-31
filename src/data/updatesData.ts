@@ -14,6 +14,10 @@ export const updateDataList = [
       },
       {
         type: "update",
+        content: "調整字體，讓跨裝置的視覺效果更一致",
+      },
+      {
+        type: "update",
         content: "調整選擇小時與分鐘的下拉選單樣式",
       },
       {

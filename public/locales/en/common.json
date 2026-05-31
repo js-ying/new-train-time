@@ -243,7 +243,7 @@
     "INVALID_TOKEN": "Your login session has expired. Please sign in again.",
     "USER_NOT_FOUND": "User account not found. Please contact the administrator.",
     "RATE_LIMITED": "Too many requests. Please wait a moment and try again.",
-    "TDX_UPSTREAM_ERROR": "The upstream data source is temporarily unavailable. Please try again later.",
+    "TDX_UPSTREAM_ERROR": "The upstream data source (MOTC TDX) is temporarily unavailable. Please try again later.",
     "BFF_UPSTREAM_ERROR": "The service is temporarily unreachable. Please try again later.",
     "DB_UNAVAILABLE": "The service is temporarily unavailable. Please try again later.",
     "INTERNAL_ERROR": "Something went wrong. Please try again later or contact the administrator.",
