@@ -15,6 +15,8 @@ export async function callUserApi<T = unknown>(options: {
   body?: unknown;
   /** 已知的 firebase user，省一次 currentUser 查詢；未提供則用 auth.currentUser */
   user?: User | null;
+  /** 可選的中止訊號；呼叫端可在同步被新操作取代時取消進行中的請求 */
+  signal?: AbortSignal;
 }): Promise<T> {
   // 已知 user 直接帶入；未帶則動態取 auth instance（會延後載入 firebase/auth chunk）
   let currentUser: User | null | undefined = options.user;
@@ -38,6 +40,7 @@ export async function callUserApi<T = unknown>(options: {
         Authorization: `Bearer ${token}`,
       },
       body: options.method !== "GET" ? JSON.stringify(options.body ?? {}) : null,
+      signal: options.signal,
     });
   } catch (error) {
     throw toApiError(error);

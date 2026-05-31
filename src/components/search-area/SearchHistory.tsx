@@ -11,6 +11,7 @@ import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { FC, useContext, useEffect, useRef, useState } from "react";
 
 interface CloseButtonProps {
@@ -58,17 +59,39 @@ const SearchHistory: FC = () => {
   // 歷史清單由 SearchHistoryContext 統一管理（含跨裝置同步），已 newest-first
   const { historyList, clearHistory } = useSearchHistory();
 
-  // 顯示用定格快照：水合拿到資料後定格，避免本頁按搜尋／回填造成清單在「跳轉前」即時重排閃動。
-  // 離開首頁→搜尋頁時本元件會 unmount，返回首頁重新 mount 即自然取得最新順序。
+  const router = useRouter();
+
+  // 顯示用快照：平時跟隨 context（涵蓋水合、登入同步、跨裝置/跨分頁收斂與清除，皆即時反映）。
+  // 僅在「導頁進行中」暫時凍結，避免按搜尋造成清單在跳轉前即時重排閃動：
+  //   - routeChangeStart 在 router.push 當下同步觸發，早於 saveHistory 的 state flush，故能擋住重排。
+  //   - 導去搜尋頁（pathname 改變）會 unmount 本元件，下方 cleanup 移除監聽，凍結隨之消失。
+  //   - 同頁導航（語系切換 router.replace、shallow）不會 unmount，故 routeChangeComplete/Error
+  //     必須解凍並重新對齊 historyList，否則畫面會被永久凍住而漏掉之後的同步更新。
   const [displayList, setDisplayList] = useState<StoredHistoryInquiry[]>([]);
   const frozenRef = useRef(false);
 
   useEffect(() => {
     if (frozenRef.current) return;
-    // 清單尚空時持續跟隨（涵蓋水合前的空狀態與登入合併）；一旦有資料就定格
     setDisplayList(historyList);
-    if (historyList.length > 0) frozenRef.current = true;
   }, [historyList]);
+
+  useEffect(() => {
+    const freeze = () => {
+      frozenRef.current = true;
+    };
+    const unfreeze = () => {
+      frozenRef.current = false;
+      setDisplayList(historyList);
+    };
+    router.events.on("routeChangeStart", freeze);
+    router.events.on("routeChangeComplete", unfreeze);
+    router.events.on("routeChangeError", unfreeze);
+    return () => {
+      router.events.off("routeChangeStart", freeze);
+      router.events.off("routeChangeComplete", unfreeze);
+      router.events.off("routeChangeError", unfreeze);
+    };
+  }, [router.events, historyList]);
 
   const handleHistoryClick = (startStationId: string, endStationId: string) => {
     gaClickEvent(GaEnum.HISTORY);
