@@ -92,9 +92,11 @@
 
 body {
   @apply m-0 min-h-dvh bg-background transition-background;
-  /* 主字體走自架 Noto Sans TC（見 configs/fonts.ts），系統字體僅作載入前 fallback。
-     --font-app-sans 由 _app.tsx 注入 :root；若變數缺漏仍降級到原本的系統字體堆疊。 */
+  /* 字體分工（見 configs/fonts.ts）：--font-app-latin（Inter，僅英數）排最前接走英數字，
+     中文無對應字符自然落到 --font-app-sans（Noto Sans TC）；兩者皆自架固定字重，全平台一致。
+     變數由 _app.tsx 注入 :root；若變數缺漏仍降級到原本的系統字體堆疊。 */
   font-family:
+    var(--font-app-latin),
     var(--font-app-sans),
     "-apple-system",
     "BlinkMacSystemFont",

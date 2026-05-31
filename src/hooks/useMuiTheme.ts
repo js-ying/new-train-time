@@ -27,9 +27,10 @@ const useMuiTheme = () => {
           },
         },
         typography: {
-          // 與 body 共用同一字體變數（自架 Noto Sans TC），避免 MUI 元件
-          // （Sidebar / 日期選擇器）落回系統字體而與全站字重不一致。
-          fontFamily: "var(--font-app-sans)",
+          // 與 body 共用同一組字體變數，避免 MUI 元件（Sidebar / 日期選擇器）
+          // 落回系統字體而與全站字重不一致。順序對齊 global.scss：
+          // --font-app-latin（Inter，英數）在前、--font-app-sans（Noto，CJK）在後。
+          fontFamily: "var(--font-app-latin), var(--font-app-sans)",
           // 內文 base 字重對齊 global.scss 的 500（Medium）。
           fontWeightRegular: 500,
         },

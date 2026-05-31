@@ -2,7 +2,7 @@ import GlobalErrorFallback from "@/components/common/GlobalErrorFallback";
 import LocaleSuggestionDialog from "@/components/common/LocaleSuggestionDialog";
 import AppMeta from "@/components/layout/AppMeta";
 import GoogleScript from "@/components/layout/GoogleScript";
-import { appSans } from "@/configs/fonts";
+import { appLatin, appSans } from "@/configs/fonts";
 import { defaultSeoConfig } from "@/configs/seoConfig";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { PwaProvider } from "@/contexts/PwaContext";
@@ -30,10 +30,12 @@ function App({ Component, pageProps }: AppProps) {
       {/*
         全站字體單一來源：把 next/font 產生的（雜湊）font-family 註冊成 CSS 變數，
         放在 :root 讓 body（global.scss）與 MUI（含 portal 到 body 的 Dialog /
-        日期選擇器）都能取用。import appSans 即會注入對應 @font-face。
+        日期選擇器）都能取用。import appLatin / appSans 即會注入對應 @font-face。
+        字體堆疊中 --font-app-latin（Inter，僅英數）需排在 --font-app-sans（Noto，CJK）之前。
       */}
       <style jsx global>{`
         :root {
+          --font-app-latin: ${appLatin.style.fontFamily};
           --font-app-sans: ${appSans.style.fontFamily};
         }
       `}</style>
