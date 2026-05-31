@@ -92,7 +92,10 @@
 
 body {
   @apply m-0 min-h-dvh bg-background transition-background;
+  /* 主字體走自架 Noto Sans TC（見 configs/fonts.ts），系統字體僅作載入前 fallback。
+     --font-app-sans 由 _app.tsx 注入 :root；若變數缺漏仍降級到原本的系統字體堆疊。 */
   font-family:
+    var(--font-app-sans),
     "-apple-system",
     "BlinkMacSystemFont",
     "PingFang TC",
@@ -100,6 +103,25 @@ body {
     "Microsoft YaHei",
     "Arial",
     "sans-serif";
+  /* 內文 base 字重提到 Medium，達到接近 iOS「粗體文字」的厚度。
+     數值需與 configs/fonts.ts 載入的 weight 一致（目前 500 / 700）；
+     想更粗就一起改這裡與 fonts.ts 的 weight。 */
+  font-weight: 500;
+  /* macOS 桌機預設用 subpixel 抗鋸齒，會把筆畫「增肥」，使同樣 500 看起來偏粗；
+     改成灰階抗鋸齒，讓 Mac 桌機與手機（本就灰階）呈現一致厚度。
+     此屬性 iOS / Android / Windows 會忽略，故等於只精準修正 macOS 桌機，
+     手機「剛好」的狀態不受影響。 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* HeroUI 多個元件（Button / Input / Select / Tabs…）base 自帶 subpixel-antialiased，
+   會在 macOS 上把字「增肥」並蓋掉 body 的 antialiased，使這些元件比全站其他文字粗。
+   統一覆寫回灰階抗鋸齒，讓全站在 macOS 上字重一致；用 body 前綴提高 specificity
+   以穩定壓過 Tailwind utility，避免依賴 CSS 來源順序。（iOS/Android/Windows 皆忽略） */
+body .subpixel-antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {

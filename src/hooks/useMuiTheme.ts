@@ -27,15 +27,11 @@ const useMuiTheme = () => {
           },
         },
         typography: {
-          fontFamily: [
-            "-apple-system",
-            "BlinkMacSystemFont",
-            "PingFang TC",
-            "Roboto",
-            "Microsoft YaHei",
-            "Arial",
-            "sans-serif",
-          ].join(","),
+          // 與 body 共用同一字體變數（自架 Noto Sans TC），避免 MUI 元件
+          // （Sidebar / 日期選擇器）落回系統字體而與全站字重不一致。
+          fontFamily: "var(--font-app-sans)",
+          // 內文 base 字重對齊 global.scss 的 500（Medium）。
+          fontWeightRegular: 500,
         },
         components: {
           MuiListItemButton: {
