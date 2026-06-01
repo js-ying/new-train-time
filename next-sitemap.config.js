@@ -145,6 +145,11 @@ module.exports = {
   transform: async (config, path) => {
     const siteUrl = config.siteUrl;
 
+    // 無參數 search 頁（/search、/TYMC/search、/THSR/search 及 /en 變體）是 index 頁的
+    // 重複內容、空查詢無 SEO 價值，從 sitemap 排除（return null）。帶參數的熱門路線由
+    // additionalPaths 另行加入、不經過 transform，故不受影響。與 PageSeo 對應頁的 noindex 雙重保險。
+    if (path.endsWith("/search")) return null;
+
     // 主要頁面（台鐵、高鐵、機捷）使用較高優先度
     const mainPages = ["/", "/THSR", "/TYMC"];
     const isMainPage = mainPages.some(

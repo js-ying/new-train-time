@@ -38,10 +38,16 @@ const PageSeo: FC = () => {
   const showOrganization = isHome && isTr;
 
   // 搜尋頁含起訖站才有 TrainTrip schema 可用
-  const showTrainTrip =
-    pathname.includes("search") &&
+  const isSearchPage = pathname.includes("search");
+  const hasBothStations =
     !!urlSearchAreaParams.startStationId &&
     !!urlSearchAreaParams.endStationId;
+  const showTrainTrip = isSearchPage && hasBothStations;
+
+  // 無起訖站的 search 頁（如 Google 收錄、使用者直接落地的 /TYMC/search）是 index 頁的
+  // 重複內容、空查詢本身無 SEO 價值 → noindex（仍 follow，保留對帶參數結果頁的連結權重）。
+  // 帶起訖站的結果頁維持可索引，是工具型網站主要的 SEO 著陸頁。
+  const noindex = isSearchPage && !hasBothStations;
 
   return (
     <>
@@ -49,6 +55,7 @@ const PageSeo: FC = () => {
         title={seo.title(t)}
         description={seo.description(t)}
         canonical={selfUrl}
+        noindex={noindex}
         languageAlternates={languageAlternates}
         openGraph={{
           title: seo.ogTitle(t),
