@@ -3,60 +3,110 @@ name: Deploy to Ubuntu Server
 on:
   push:
     branches:
-      - main # 或你希望觸發部署的分支
+      - main
 
+# Build 在 CI 完成，server 只收成品換版 → production 永不 build，杜絕 build 失敗造成的 crash loop。
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: "20" # 根據需要選擇 Node.js 版本
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
 
-      # - name: Install dependencies
-      #   run: npm install
+      # 抓 server 的 .env.production 當 build env（NEXT_PUBLIC_* 需在 build 時 inline）；
+      # 以 .env.example 為契約檢查有無漏 key，缺了直接 fail。
+      - name: Fetch .env.production from server
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SERVER_HOST }}
+          SSH_USER: ${{ secrets.SERVER_USERNAME }}
+          SSH_PORT: ${{ secrets.SERVER_PORT }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          scp -P "$SSH_PORT" -i ~/.ssh/deploy_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            "$SSH_USER@$SSH_HOST:/var/www/html/jsy.tw/fullstack/new-train-time/.env.production" \
+            .env.production
+          missing=""
+          for key in $(grep -vE '^\s*(#|$)' .env.example | sed -E 's/\s*=.*//'); do
+            grep -qE "^\s*${key}\s*=" .env.production || missing="$missing $key"
+          done
+          if [ -n "$missing" ]; then echo "❌ .env.production 缺 key:$missing"; exit 1; fi
 
-      # - name: Build project
-      #   run: npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Deploy to server
+      - name: Build
+        run: npm run build
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+
+      - name: Package artifact
+        run: |
+          tar -czf artifact.tar.gz \
+            .next public package.json package-lock.json \
+            next.config.js next-i18next.config.js
+
+      - name: Upload artifact to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          source: "artifact.tar.gz"
+          target: "/var/www/html/jsy.tw/fullstack/new-train-time/.deploy-staging"
+
+      # 解壓 → 驗 BUILD_ID → (依賴有變才)npm ci → 原子換版 → reload；任一步失敗都在換版前 abort，線上不動。
+      - name: Release on server
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
+          command_timeout: 10m # 舊 config 沒設 → build 超時被砍是當初 crash loop 元兇
           script: |
-            echo "Connected to server"
             source ~/.zshrc
             nvm use v20
-            node -v
-            pm2 --version
-            cd /var/www/html/jsy.tw/fullstack/new-train-time
+            APP=/var/www/html/jsy.tw/fullstack/new-train-time
+            STAGE="$APP/.deploy-staging"
+            SRC="$STAGE/extract"
+            cd "$APP"
 
-            # 強制捨棄伺服器上自發性的變動（如自動更新的 package-lock.json）
-            git reset --hard
+            rm -rf "$SRC"; mkdir -p "$SRC"
+            tar -xzf "$STAGE/artifact.tar.gz" -C "$SRC" || { echo "❌ 解壓失敗"; exit 1; }
 
-            # 強制拉取並對齊遠端的 main 分支，解決 master/main 分支命名不一致問題
-            git fetch origin main
-            git checkout -B main origin/main
+            # 沒 BUILD_ID = 壞 build，abort（線上不動）
+            [ -f "$SRC/.next/BUILD_ID" ] || { echo "❌ artifact 缺 BUILD_ID"; exit 1; }
 
-            # 清理未被 git 追蹤的暫存檔（配合 .gitignore）
-            git clean -fd
+            # 依賴有變才重裝（runtime only）
+            if ! cmp -s "$SRC/package-lock.json" "$APP/package-lock.json"; then
+              cp "$SRC/package.json" "$SRC/package-lock.json" "$APP/"
+              npm ci --omit=dev || { echo "❌ npm ci 失敗"; exit 1; }
+            fi
 
-            # 使用 npm ci (Clean Install) 確保依賴版本與開發環境完全一致，且不會修改 lock 檔
-            # 若 npm ci 失敗（通常是因為環境極端差異），則退回 npm install
-            npm ci || npm install
+            cp "$SRC/next.config.js" "$SRC/next-i18next.config.js" "$APP/"
 
-            # 重新編譯
-            rm -rf .next
-            npm run build
+            # 原子換版，舊版留作 rollback
+            rm -rf "$APP/.next.old" "$APP/public.old"
+            mv "$APP/.next" "$APP/.next.old"; mv "$SRC/.next" "$APP/.next"
+            mv "$APP/public" "$APP/public.old"; mv "$SRC/public" "$APP/public"
 
-            # 重啟服務並確認狀態
-            pm2 restart new-train-time
-            pm2 show new-train-time | grep -E "status|path"
+            # 換版後再驗，異常立即 rollback
+            [ -f "$APP/.next/BUILD_ID" ] || { rm -rf "$APP/.next"; mv "$APP/.next.old" "$APP/.next"; echo "❌ rollback"; exit 1; }
+
+            pm2 reload new-train-time --update-env
+            sleep 5
+            pm2 show new-train-time | grep -E "status|restarts" || true
+            rm -rf "$STAGE"
+            echo "✅ deploy 完成"

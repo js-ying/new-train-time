@@ -12,6 +12,11 @@
 /.next/
 /out/
 
+# deploy 暫存/回滾目錄（server 端原子換版用）
+/.next.old/
+/public.old/
+/.deploy-staging/
+
 # production
 /build
 
