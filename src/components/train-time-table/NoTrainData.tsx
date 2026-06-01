@@ -1,12 +1,19 @@
 import CommonDialog from "@/components/common/CommonDialog";
 import { ApiError } from "@/models/problem-details";
-import { postTransferReport, ReportTrainType } from "@/services/reportService";
+import {
+  postTransferReport,
+  ReportTrainType,
+  ReportTransferReason,
+} from "@/services/reportService";
 import DateUtils from "@/utils/DateUtils";
 import { Button } from "@heroui/react";
 import Alert from "@mui/material/Alert";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { LocaleEnum } from "../../enums/LocaleEnum";
+import TransferReportReasonRadioGroup, {
+  DEFAULT_REPORT_REASON,
+} from "./TransferReportReasonRadioGroup";
 
 interface NoTrainDataProps {
   /** 來自 useTrainSearch 的 API 錯誤；非 null 即顯示紅 Alert */
@@ -45,6 +52,9 @@ const NoTrainData: FC<NoTrainDataProps> = ({
   const [hasReported, setHasReported] = useState(false);
   // 送出前的二次確認 dialog；確認後才真的打 API
   const [confirmOpen, setConfirmOpen] = useState(false);
+  // 使用者於確認 dialog 選擇的問題類型；reset 規則同 hasReported
+  const [selectedReason, setSelectedReason] =
+    useState<ReportTransferReason>(DEFAULT_REPORT_REASON);
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [reportDialogContent, setReportDialogContent] = useState<{
     titleKey: string;
@@ -60,6 +70,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
 
   useEffect(() => {
     setHasReported(false);
+    setSelectedReason(DEFAULT_REPORT_REASON);
   }, [reportKey]);
 
   // 點擊「錯誤回報」按鈕：先開啟確認 dialog，不立即送出
@@ -73,7 +84,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
     if (!reportPayload || isReporting || hasReported) return;
     setIsReporting(true);
     try {
-      await postTransferReport(reportPayload);
+      await postTransferReport({ ...reportPayload, reason: selectedReason });
       setHasReported(true);
       setReportDialogContent({
         titleKey: "reportTransferSuccessTitle",
@@ -169,7 +180,8 @@ const NoTrainData: FC<NoTrainDataProps> = ({
           )}
         </Alert>
 
-        {/* 送出前的二次確認 dialog；點「確認」才真的呼叫 API */}
+        {/* 送出前的二次確認 dialog；點「確認」才真的呼叫 API
+            內嵌 radio group 讓 user 選問題類型（預設 missing），餵 user_transfer_reports 表分類聚合 */}
         <CommonDialog
           open={confirmOpen}
           setOpen={setConfirmOpen}
@@ -179,7 +191,13 @@ const NoTrainData: FC<NoTrainDataProps> = ({
           onConfirm={handleReportConfirm}
           bodyTextAlign="text-left"
         >
-          <div>{t("reportConfirmMsg")}</div>
+          <div className="flex flex-col gap-3">
+            <div>{t("reportConfirmMsg")}</div>
+            <TransferReportReasonRadioGroup
+              value={selectedReason}
+              onChange={setSelectedReason}
+            />
+          </div>
         </CommonDialog>
 
         {/* 回報結果通知（成功 / 失敗共用，依 titleKey / messageKey 切換） */}

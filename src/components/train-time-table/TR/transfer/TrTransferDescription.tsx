@@ -5,22 +5,12 @@ import {
   ReportTrainType,
   ReportTransferReason,
 } from "@/services/reportService";
-import { Button, Radio, RadioGroup } from "@heroui/react";
+import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useMemo, useState } from "react";
-
-/** 回報原因選項；順序 = UI 顯示順序，預設選第一項 (missing) */
-const REPORT_REASON_OPTIONS: Array<{
-  value: ReportTransferReason;
-  labelKey: string;
-}> = [
-  { value: "missing", labelKey: "reportReasonMissing" },
-  { value: "extra", labelKey: "reportReasonExtra" },
-  { value: "hub", labelKey: "reportReasonHub" },
-  { value: "other", labelKey: "reportReasonOther" },
-];
-
-const DEFAULT_REASON: ReportTransferReason = "missing";
+import TransferReportReasonRadioGroup, {
+  DEFAULT_REPORT_REASON,
+} from "../../TransferReportReasonRadioGroup";
 
 interface TrTransferDescriptionProps {
   open: boolean;
@@ -56,7 +46,7 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
   const [confirmOpen, setConfirmOpen] = useState(false);
   // 使用者於確認 dialog 選擇的問題類型；reset 規則同 hasReported
   const [selectedReason, setSelectedReason] =
-    useState<ReportTransferReason>(DEFAULT_REASON);
+    useState<ReportTransferReason>(DEFAULT_REPORT_REASON);
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [reportDialogContent, setReportDialogContent] = useState<{
     titleKey: string;
@@ -71,7 +61,7 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
 
   useEffect(() => {
     setHasReported(false);
-    setSelectedReason(DEFAULT_REASON);
+    setSelectedReason(DEFAULT_REPORT_REASON);
   }, [reportKey]);
 
   // 點擊「錯誤回報」：僅開啟確認 dialog，不立即送出
@@ -151,19 +141,10 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
       >
         <div className="flex flex-col gap-3">
           <div>{t("reportConfirmMsg")}</div>
-          <RadioGroup
+          <TransferReportReasonRadioGroup
             value={selectedReason}
-            onValueChange={(v) =>
-              setSelectedReason(v as ReportTransferReason)
-            }
-            aria-label={t("reportReasonGroupAriaLabel")}
-          >
-            {REPORT_REASON_OPTIONS.map((opt) => (
-              <Radio key={opt.value} value={opt.value}>
-                {t(opt.labelKey)}
-              </Radio>
-            ))}
-          </RadioGroup>
+            onChange={setSelectedReason}
+          />
         </div>
       </CommonDialog>
 
