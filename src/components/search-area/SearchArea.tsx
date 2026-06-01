@@ -8,13 +8,29 @@ import useRwd from "@/hooks/useRwd";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Tab, Tabs } from "@heroui/react";
+import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import Area from "./Area";
 import SearchButton from "./SearchButton";
-import SelectDatetime from "./SelectDatetime";
 import SelectStation from "./SelectStation";
 import SwitchButton from "./SwitchButton";
+
+/**
+ * 日期 / 時間選擇器改用 dynamic import 延遲載入。
+ * 內含 @mui/x-date-pickers + dayjs locale（首頁初始並用不到），抽出後不再打進首屏 bundle，
+ * 僅在使用者點「日期」分頁時才載入；ssr:false 因為涉及客戶端時區 / 語系。
+ * loading 佔位高度比照實際元件（DateCalendar≈320×336 + TimePicker），維持 CLS 0。
+ */
+const SelectDatetime = dynamic(() => import("./SelectDatetime"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex select-none flex-col">
+      <div className="h-[336px] w-80 rounded-md border border-zinc-300 dark:border-zinc-500" />
+      <div className="mt-2 h-10" />
+    </div>
+  ),
+});
 
 /** 搜尋區域 */
 const SearchArea: FC = () => {

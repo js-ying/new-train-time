@@ -9,12 +9,16 @@ import Script from "next/script";
  *   避免拖慢 FCP / LCP（原放在 _document head 會被計入 render-blocking）。
  */
 const GoogleScript = () => {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
   const adClient = process.env.NEXT_PUBLIC_AD_CLIENT;
 
   return (
     <>
-      {/* Google Analytics */}
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID as string} />
+      {/* Google Analytics（GA4）：只有設定 gaId 才載入。
+          正式環境請用 GA4 量測 ID（G-XXXX），勿用已停用的 Universal Analytics
+          （UA-，Google 自 2023/7 起停止處理資料）；本機 dev 把 gaId 留空即不載入，
+          避免 localhost 流量污染正式 GA4。 */}
+      {gaId && <GoogleAnalytics gaId={gaId} />}
 
       {/* Google AdSense */}
       {adClient && (
