@@ -42,6 +42,16 @@ export const apiProxyHandler = async (
     const payload = isJson ? await response.json() : await response.text();
 
     if (!response.ok) {
+      // Cloudflare 會攔截 origin 回的 502 / 504，把整個 body 換成自家 "error code: 5xx"
+      // 純文字頁，導致前端 fetchData 讀不到 Problem Details 的 code、所有上游錯誤都塌成
+      // INTERNAL_ERROR。BFF 即是 CF 的適配層：把這兩個會被吃掉 body 的 gateway 狀態碼
+      // 改寫成 503（CF 對 origin 503 原樣放行），內層 Problem Details body（含 code）不動，
+      // 前端便能依 code 正確顯示對應 i18n。後端維持回 502 以保留誠實的上游語意（log 用）。
+      const clientStatus =
+        response.status === 502 || response.status === 504
+          ? 503
+          : response.status;
+
       // 非 2xx：若後端已是 Problem Details 則直接轉發，否則包一層。
       if (
         isJson &&
@@ -49,12 +59,12 @@ export const apiProxyHandler = async (
         payload !== null &&
         "code" in payload
       ) {
-        return res.status(response.status).json(payload);
+        return res.status(clientStatus).json(payload);
       }
-      return res.status(response.status).json({
+      return res.status(clientStatus).json({
         type: "https://traintime.jsy.tw/problems/internal_error",
         title: "INTERNAL_ERROR",
-        status: response.status,
+        status: clientStatus,
         code: "INTERNAL_ERROR",
         detail: typeof payload === "string" ? payload : undefined,
         instance: req.url,
@@ -64,11 +74,12 @@ export const apiProxyHandler = async (
     return res.status(200).json(payload);
   } catch (error: any) {
     console.error(`API Proxy Error [${targetUrl}]:`, error);
-    // 後端 Express 不可達：502 + BFF_UPSTREAM_ERROR
-    return res.status(502).json({
+    // 後端 Express 不可達：本應是 502，但 CF 會吃掉 502 的 body（見上方說明），
+    // 故對前端回 503 讓 body 中的 code 存活；語意仍為 BFF→Express 的 upstream 失敗。
+    return res.status(503).json({
       type: "https://traintime.jsy.tw/problems/bff_upstream_error",
       title: "BFF_UPSTREAM_ERROR",
-      status: 502,
+      status: 503,
       code: "BFF_UPSTREAM_ERROR",
       detail: error?.message,
       instance: req.url,

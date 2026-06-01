@@ -12,8 +12,12 @@ export type ProblemCode =
   /** 已驗證身份但內部 user 資料不存在；多半屬資料不一致 */
   | "USER_NOT_FOUND"
   | "RATE_LIMITED"
-  /** 後端 Express → TDX 的 upstream 失敗 */
+  /** 後端 Express → TDX：TDX 回 4xx/5xx（有回應但是錯誤，含金鑰 401/403）→ 502 */
   | "TDX_UPSTREAM_ERROR"
+  /** 後端 Express → TDX：TDX 逾時 / 無回應 → 504 */
+  | "TDX_TIMEOUT"
+  /** 後端 Express → TDX：TDX 回 429（上游限流我們）→ 503 */
+  | "TDX_RATE_LIMITED"
   /** Next.js BFF → 後端 Express 的 upstream 失敗 (後端不可達) */
   | "BFF_UPSTREAM_ERROR"
   /** 後端 DB 連線 / 認證失敗 (503)；屬基礎設施暫時異常，可 retry */
