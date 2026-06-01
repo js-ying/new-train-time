@@ -23,7 +23,9 @@ const useSeo = () => {
       .filter((loc) => loc !== i18n.language)
       .map((loc) => getOgLocale(loc));
 
-    const basePath = router.pathname;
+    // 首頁 pathname 為 "/"，但 trailingSlash:false 下實際服務的是無尾斜線的根網址；
+    // 正規化成 "" 避免 canonical / hreflang 指向會 308 重導的 "/" 或 "/en/"。
+    const basePath = router.pathname === "/" ? "" : router.pathname;
     const queryPath =
       startStationId && endStationId
         ? `?s=${startStationId}&e=${endStationId}`

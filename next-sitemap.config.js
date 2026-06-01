@@ -127,14 +127,32 @@ module.exports = {
       { s: "A9", e: "A18", type: "/TYMC" }, // 林口站 - 高鐵桃園站
     ];
 
+    const siteUrl = "https://traintime.jsy.tw";
     const locales = ["", "/en"];
 
-    locales.forEach((locale) => {
-      popularRoutes.forEach((route) => {
+    popularRoutes.forEach((route) => {
+      const routePath = `${route.type}/search?s=${route.s}&e=${route.e}`;
+      // next-sitemap 對 <loc> 會自動 entity-escape，但對 hrefIsAbsolute 的 alternateRef.href
+      // 完全不 escape（sitemap-builder 直接字串插值），故含 query 的 href 需自行把 & → &amp;，
+      // 否則 xhtml:link 的 href 屬性帶原始 & 會是無效 XML。loc 仍傳原始 & 交由 next-sitemap escape。
+      const xmlRoutePath = routePath.replace(/&/g, "&amp;");
+
+      // 與 transform 的靜態頁一致：每個語系變體各自一筆 <url>，且都掛完整 hreflang cluster。
+      // additionalPaths 不會經過 transform，故 alternateRefs 必須在此自行補上，否則這些
+      // GA4 熱門 OD 著陸頁（站台主要 SEO 落地頁）在 sitemap 缺語系對應、zh/en 被當近重複。
+      const alternateRefs = [
+        { href: `${siteUrl}${xmlRoutePath}`, hreflang: "zh-Hant", hrefIsAbsolute: true },
+        { href: `${siteUrl}/en${xmlRoutePath}`, hreflang: "en", hrefIsAbsolute: true },
+        { href: `${siteUrl}${xmlRoutePath}`, hreflang: "x-default", hrefIsAbsolute: true },
+      ];
+
+      locales.forEach((locale) => {
         paths.push({
-          loc: `${locale}${route.type}/search?s=${route.s}&e=${route.e}`,
-          changefreq: "always",
+          loc: `${siteUrl}${locale}${routePath}`,
+          // 時刻每日更新，但 Google 大多忽略此欄；改用語意正確的 weekly 取代誤用的 "always"
+          changefreq: "weekly",
           priority: 0.7,
+          alternateRefs,
         });
       });
     });
@@ -193,7 +211,7 @@ module.exports = {
     return {
       loc: `${siteUrl}${path === "/" ? "" : path}`, // 強制使用絕對路徑，避免 next-sitemap 自行拼接導致 alternate 異常
       changefreq: isMainPage
-        ? "always"
+        ? "daily"
         : isSecondaryPage
           ? "monthly"
           : "weekly",

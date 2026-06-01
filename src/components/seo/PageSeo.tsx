@@ -5,6 +5,7 @@ import WebSiteJsonLd from "@/components/seo/json-ld/WebSiteJsonLd";
 import usePage from "@/hooks/usePage";
 import useSearchAreaParams from "@/hooks/useSearchAreaParams";
 import useSeo from "@/hooks/useSeo";
+import { getStationNameById } from "@/utils/StationUtils";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
@@ -20,9 +21,9 @@ import { FC } from "react";
  * - 搜尋頁含起訖站時額外加 TrainTrip JSON-LD
  */
 const PageSeo: FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { pathname } = useRouter();
-  const { isTr } = usePage();
+  const { isTr, page } = usePage();
   const { urlSearchAreaParams } = useSearchAreaParams();
   const {
     seo,
@@ -33,21 +34,32 @@ const PageSeo: FC = () => {
     breadcrumbs,
   } = useSeo();
 
-  // 首頁：台鐵首頁掛 Organization；THSR / TYMC 共用 Home 元件，但不重複掛
+  // 站台根（台鐵首頁 /）掛 site-level 實體：WebSite + Organization 都是全站單例，
+  // 只在根首頁宣告一次（THSR / TYMC 共用 Home 元件，但不重複掛）。
   const isHome = !pathname.includes("search");
-  const showOrganization = isHome && isTr;
+  const showSiteEntity = isHome && isTr;
 
-  // 搜尋頁含起訖站才有 TrainTrip schema 可用
+  // 搜尋頁：用「能否解析出實際站名」判斷是否為有效結果頁，而非只看 query 是否存在。
+  // 無效起訖站（如 s=9999&e=8888）會解析成 null，視同空查詢。
   const isSearchPage = pathname.includes("search");
-  const hasBothStations =
-    !!urlSearchAreaParams.startStationId &&
-    !!urlSearchAreaParams.endStationId;
-  const showTrainTrip = isSearchPage && hasBothStations;
+  const startStationName = getStationNameById(
+    page,
+    urlSearchAreaParams.startStationId,
+    i18n.language,
+  );
+  const endStationName = getStationNameById(
+    page,
+    urlSearchAreaParams.endStationId,
+    i18n.language,
+  );
+  const hasValidStations = !!startStationName && !!endStationName;
+  const showTrainTrip = isSearchPage && hasValidStations;
 
-  // 無起訖站的 search 頁（如 Google 收錄、使用者直接落地的 /TYMC/search）是 index 頁的
-  // 重複內容、空查詢本身無 SEO 價值 → noindex（仍 follow，保留對帶參數結果頁的連結權重）。
-  // 帶起訖站的結果頁維持可索引，是工具型網站主要的 SEO 著陸頁。
-  const noindex = isSearchPage && !hasBothStations;
+  // 無有效起訖站的 search 頁（空查詢，或 s=9999 這類無效站號）是 index 頁的重複內容、
+  // 無 SEO 價值 → noindex（仍 follow，保留對帶參數結果頁的連結權重）。改用 hasValidStations
+  // 後，無效站號不再產出「從  到 」的 soft-404 被索引，也不會輸出空殼 TrainTrip schema。
+  // 帶有效起訖站的結果頁維持可索引，是工具型網站主要的 SEO 著陸頁。
+  const noindex = isSearchPage && !hasValidStations;
 
   return (
     <>
@@ -73,9 +85,9 @@ const PageSeo: FC = () => {
           content: loc,
         }))}
       />
-      <WebSiteJsonLd />
+      {showSiteEntity && <WebSiteJsonLd />}
       <BreadcrumbJsonLd breadcrumbs={breadcrumbs} />
-      {showOrganization && <OrganizationJsonLd />}
+      {showSiteEntity && <OrganizationJsonLd />}
       {showTrainTrip && <TrainTripJsonLd />}
     </>
   );
