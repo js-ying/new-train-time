@@ -140,7 +140,7 @@ const SearchHistory: FC = () => {
                           history.startStationId,
                           i18n.language,
                         )}{" "}
-                        →{" "}
+                        ➔{" "}
                         {getStationNameById(
                           page,
                           history.endStationId,
