@@ -3,7 +3,7 @@ import { useTymcTrainDisplay } from "@/hooks/display/useTymcTrainDisplay";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
-import { FC, useState } from "react";
+import { FC, memo, useRef, useState } from "react";
 import TymcTrainTimeDetailDialog from "./TymcTrainTimeDetailDialog";
 
 interface TymcTimeInfoProps {
@@ -25,6 +25,10 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
   endStationId,
 }) => {
   const [open, setOpen] = useState(false);
+  // 延後掛載明細 Modal：關閉狀態的列不建立 HeroUI Modal 的 useModal hook 樹，
+  // 車種篩選重渲染時不再為每一列重跑整棵 overlay/aria hook（首次開啟後保留掛載以維持關閉動畫）
+  const hasOpened = useRef(false);
+  if (open) hasOpened.current = true;
   const { t } = useTranslation();
 
   const { isPassed, isNormal, durationText, price } = useTymcTrainDisplay(
@@ -88,17 +92,21 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
         <div className="text-center text-sm">NTD {price}</div>
       </div>
 
-      <TymcTrainTimeDetailDialog
-        open={open}
-        setOpen={setOpen}
-        tymcTimeTable={tymcTimeTable}
-        fareList={fareList}
-        trainDate={trainDate}
-        startStationId={startStationId}
-        endStationId={endStationId}
-      />
+      {(open || hasOpened.current) && (
+        <TymcTrainTimeDetailDialog
+          open={open}
+          setOpen={setOpen}
+          tymcTimeTable={tymcTimeTable}
+          fareList={fareList}
+          trainDate={trainDate}
+          startStationId={startStationId}
+          endStationId={endStationId}
+        />
+      )}
     </div>
   );
 };
 
-export default TymcTimeInfo;
+// React.memo：車種篩選只改變 filterTymcTrainTimeTable，存活的列 props（同一 timeTable ref）不變即略過重渲染，
+// 避免整批 row 重跑 useTymcTrainDisplay 與 Modal 子樹（桃捷 search 頁 INP 的主因）。
+export default memo(TymcTimeInfo);
