@@ -4,6 +4,11 @@ import { GaEnum } from "@/enums/GaEnum";
 import usePage from "@/hooks/usePage";
 import useSearchHistory from "@/hooks/useSearchHistory";
 import useSetting from "@/hooks/useSetting";
+import {
+  FALLBACK_POPULAR_ROUTES,
+  JsyPopularRoute,
+  JsyPopularRoutes,
+} from "@/models/jsy-popular-routes";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Button } from "@heroui/react";
@@ -12,38 +17,27 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, useContext, useState } from "react";
 
-// 定義熱門路線
-const popularTraRoutes = [
-  { s: "1000", e: "1080" },
-  { s: "4220", e: "4400" },
-  { s: "1100", e: "1000" },
-  { s: "6000", e: "4400" },
-  { s: "1210", e: "1000" },
-  { s: "1000", e: "0900" },
-];
+/** 取該鐵路的 DB 熱門路線並轉成元件內部 {s,e}；DB 缺漏或空時用寫死 fallback */
+const pickRoutes = (
+  dbRoutes: JsyPopularRoute[] | undefined,
+  fallback: JsyPopularRoute[],
+): { s: string; e: string }[] =>
+  (dbRoutes && dbRoutes.length ? dbRoutes : fallback).map((r) => ({
+    s: r.startStationId,
+    e: r.endStationId,
+  }));
 
-const popularThsrRoutes = [
-  { s: "1030", e: "1040" },
-  { s: "1000", e: "1040" },
-  { s: "1070", e: "1000" },
-  { s: "1040", e: "1000" },
-  { s: "1000", e: "1070" },
-  { s: "1040", e: "1020" },
-];
-
-const popularTymcRoutes = [
-  { s: "A1", e: "A13" },
-  { s: "A1", e: "A12" },
-  { s: "A18", e: "A12" },
-  { s: "A18", e: "A13" },
-  { s: "A3", e: "A13" },
-  { s: "A1", e: "A8" },
-];
+interface PopularRoutesProps {
+  /** 由首頁 getStaticProps 注入的三鐵路熱門路線（DB 取數，失敗為 fallback） */
+  popularRoutes?: JsyPopularRoutes;
+}
 
 /**
- * 首頁熱門路線區塊
+ * 首頁熱門路線區塊。
+ * 路線來源優先用 getStaticProps 注入的 DB 即時熱度（依 direct_query_log query_count），
+ * 缺漏時 fallback 回寫死清單。於 SSR 即渲染為可爬的 OD 內部連結（不再被 hasMounted gate 擋掉）。
  */
-const PopularRoutes: FC = () => {
+const PopularRoutes: FC<PopularRoutesProps> = ({ popularRoutes }) => {
   const { isTr, isThsr, isTymc, page, searchPath } = usePage();
   const { t, i18n } = useTranslation();
   const router = useRouter();
@@ -55,11 +49,11 @@ const PopularRoutes: FC = () => {
   let routes: { s: string; e: string }[] = [];
 
   if (isTr) {
-    routes = popularTraRoutes;
+    routes = pickRoutes(popularRoutes?.TR, FALLBACK_POPULAR_ROUTES.TR);
   } else if (isThsr) {
-    routes = popularThsrRoutes;
+    routes = pickRoutes(popularRoutes?.THSR, FALLBACK_POPULAR_ROUTES.THSR);
   } else if (isTymc) {
-    routes = popularTymcRoutes;
+    routes = pickRoutes(popularRoutes?.TYMC, FALLBACK_POPULAR_ROUTES.TYMC);
   } else {
     return null;
   }

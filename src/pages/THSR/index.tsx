@@ -1,20 +1,21 @@
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { JsyPopularRoutes } from "@/models/jsy-popular-routes";
+import { getHomeStaticProps } from "@/services/popularRoutesService";
 import { FC } from "react";
 import Home from "../index";
 
 export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale)),
-    },
-    revalidate: 86400,
-  };
+  return getHomeStaticProps(locale);
 }
 
-const ThsrHome: FC = () => {
+interface ThsrHomeProps {
+  /** 由 getStaticProps 注入，轉交 Home → PopularRoutes 供 SSR */
+  popularRoutes?: JsyPopularRoutes;
+}
+
+const ThsrHome: FC<ThsrHomeProps> = ({ popularRoutes }) => {
   return (
     <>
-      <Home />
+      <Home popularRoutes={popularRoutes} />
     </>
   );
 };

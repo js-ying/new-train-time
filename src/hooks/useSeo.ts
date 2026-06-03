@@ -18,6 +18,17 @@ const useSeo = () => {
     const { startStationId, endStationId } = urlSearchAreaParams;
     const seoConfig = seoConfigs[page];
 
+    // 以「站名能否解析成功」判斷是否為有效起訖站，與 PageSeo 的 hasValidStations 一致。
+    // 無效站號（如 s=9999）會解析成空字串 → 視同空查詢，避免產出「從  到 」空殼 title
+    // 與自指垃圾 canonical（?s=9999&e=8888）。非 search 頁無 s/e，亦自然落為 false。
+    const startStationName = startStationId
+      ? getStationNameById(page, startStationId, i18n.language)
+      : "";
+    const endStationName = endStationId
+      ? getStationNameById(page, endStationId, i18n.language)
+      : "";
+    const hasValidStations = !!startStationName && !!endStationName;
+
     const ogLocale = getOgLocale(i18n.language);
     const ogAlternateLocales = router.locales
       .filter((loc) => loc !== i18n.language)
@@ -26,10 +37,11 @@ const useSeo = () => {
     // 首頁 pathname 為 "/"，但 trailingSlash:false 下實際服務的是無尾斜線的根網址；
     // 正規化成 "" 避免 canonical / hreflang 指向會 308 重導的 "/" 或 "/en/"。
     const basePath = router.pathname === "/" ? "" : router.pathname;
-    const queryPath =
-      startStationId && endStationId
-        ? `?s=${startStationId}&e=${endStationId}`
-        : "";
+    // 僅在站號有效時才附加 query，否則 canonical / hreflang 自指乾淨的 /search 基礎路徑，
+    // 不把無效 OD（?s=9999&e=8888）寫進 canonical 製造雜訊。
+    const queryPath = hasValidStations
+      ? `?s=${startStationId}&e=${endStationId}`
+      : "";
 
     // Construct the self-referencing URL for the current page (for canonical/og:url)
     const currentLocale = i18n.language;
@@ -75,18 +87,9 @@ const useSeo = () => {
       });
     }
 
-    if (startStationId && endStationId) {
-      const startStationName = getStationNameById(
-        page,
-        startStationId,
-        i18n.language,
-      );
-      const endStationName = getStationNameById(
-        page,
-        endStationId,
-        i18n.language,
-      );
-
+    // 僅在站號可解析成站名時才產生「X 到 Y」動態 title / breadcrumb；
+    // 站名（startStationName / endStationName）已於上方 hoist，無效站號不會進此分支。
+    if (hasValidStations) {
       const titleText = t("stationToStationTimeTableTitle", {
         startStation: startStationName,
         endStation: endStationName,

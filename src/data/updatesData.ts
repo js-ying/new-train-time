@@ -1,5 +1,16 @@
 export const updateDataList = [
   {
+    date: "2026-06",
+    type: "both",
+    ver: "3.1.1",
+    items: [
+      {
+        type: "update",
+        content: "現在首頁的熱門路線會依大家實際的查詢熱度每日更新",
+      },
+    ],
+  },
+  {
     date: "2026-05",
     type: "both",
     ver: "3.1.0",

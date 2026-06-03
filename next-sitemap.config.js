@@ -216,7 +216,9 @@ module.exports = {
           ? "monthly"
           : "weekly",
       priority: isMainPage ? (path === "/" || path === "/en" ? 1.0 : 0.8) : 0.6,
-      lastmod: new Date().toISOString(),
+      // 不輸出 lastmod：原本用 build 時間，導致每次部署 16 個靜態頁的 lastmod 同步跳動，
+      // 對 Google 是「全站假更新」訊號、稀釋 crawl budget。OD 頁（additionalPaths）本就未給
+      // lastmod；靜態頁內容極少變動，省略比給假時間更誠實（Google 多數情況亦忽略此欄）。
       alternateRefs,
     };
   },
