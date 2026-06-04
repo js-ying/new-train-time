@@ -3,14 +3,14 @@ module.exports = {
   siteUrl: "https://traintime.jsy.tw",
   generateRobotsTxt: true,
   // 排除不需要被索引的路徑
-  exclude: ["/api/*", "/jsy.tw/*"],
+  exclude: ["/api/*"],
   // 設定 robots.txt 的內容
   robotsTxtOptions: {
     policies: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/jsy.tw/*", "/api/*"],
+        disallow: ["/api/*"],
       },
     ],
   },
