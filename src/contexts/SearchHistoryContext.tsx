@@ -198,11 +198,7 @@ export interface SearchHistoryContextValue {
   saveHistory: (trainType: TrainType, inquiry: HistoryInquiry) => void;
   /** 清除某車種歷史（登入則同步刪 server） */
   clearHistory: (trainType: TrainType) => void;
-  /**
-   * 顯示層協調用：消費「上一次 history 變更是否由本機 saveHistory 觸發」旗標（讀後即清）。
-   * 供 SearchHistory 判斷是否跳過那一次重排——本機按搜尋存檔後緊接著導頁，
-   * 若把重排畫出來會在跳轉前一瞬閃動；其餘來源（水合 / 同步 / 跨分頁 / 清除）皆即時反映。
-   */
+  /** 讀後即清「上次變更是否本機存檔」旗標，供顯示層跳過按搜尋的重排 */
   consumeLocalSaveFlag: () => boolean;
 }
 
@@ -217,6 +213,9 @@ export function SearchHistoryProvider({ children }) {
   const { user, loading: authLoading, notifySessionExpired } = useAuth();
   const [history, setHistory] = useState<HistoryMap>(emptyMap());
   const [hydrated, setHydrated] = useState(false);
+  /** 最新 history 鏡像，供事件處理器在 setHistory 外計算下一狀態（保持 updater 純粹） */
+  const historyRef = useRef(history);
+  historyRef.current = history;
 
   /** debounce 計時器 */
   const syncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -228,15 +227,10 @@ export function SearchHistoryProvider({ children }) {
   const opSeqRef = useRef<number>(0);
   /** 進行中 PUT 的 AbortController；清除 / 新一輪 push 時用來取消，避免被回寫復活 */
   const pushAbortRef = useRef<AbortController | null>(null);
-  /**
-   * 「上一次 history 變更是否由本機 saveHistory 觸發」旗標。
-   * saveHistory 進入時同步設 true；SearchHistory 在套用 historyList 前讀取並清除，
-   * 藉此精準跳過「按搜尋的樂觀重排」而不影響其他來源的同步更新。
-   * 用 ref 不用 state：純跨元件協調訊號，不該觸發 render。
-   */
+  /** 本機 saveHistory 旗標：供 SearchHistory 跳過按搜尋的重排，不影響其他來源 */
   const localSaveFlagRef = useRef(false);
 
-  /** 讀取並清除本機存檔旗標（見 SearchHistoryContextValue.consumeLocalSaveFlag） */
+  /** 讀後即清本機存檔旗標 */
   const consumeLocalSaveFlag = useCallback((): boolean => {
     const v = localSaveFlagRef.current;
     localSaveFlagRef.current = false;
@@ -337,42 +331,30 @@ export function SearchHistoryProvider({ children }) {
     [adoptServerMap, notifySessionExpired],
   );
 
-  /**
-   * 新增一筆歷史：打時間戳 + dedupe + trim → 寫本地 + state；登入則排程推送
-   * 未登入：只更新本地（沿用原行為），登入後由 merge 帶上雲端
-   */
+  /** 新增一筆歷史：dedupe + trim 後寫本地 + state；登入則排程推送 server */
   const saveHistory = useCallback(
     (trainType: TrainType, inquiry: HistoryInquiry) => {
-      // 同步標記「本次 history 變更源自本機存檔」：在 setHistory 排程的 render/effect 之前先立旗，
-      // 讓 SearchHistory 的顯示更新得以跳過這次重排（按搜尋後緊接著導頁，重排不需畫出）。
-      localSaveFlagRef.current = true;
-      setHistory((prev) => {
-        const entry: StoredHistoryInquiry = {
-          startStationId: inquiry.startStationId,
-          endStationId: inquiry.endStationId,
-          lastUsedAt: Date.now(),
-        };
-        const nextType = sortTrim([entry, ...prev[trainType]]);
-        const next = { ...prev, [trainType]: nextType };
-        writeLocalType(trainType, nextType);
-        if (user) schedulePush(next);
-        return next;
-      });
+      localSaveFlagRef.current = true; // 標記本機存檔，供顯示層跳過重排
+      const entry: StoredHistoryInquiry = {
+        startStationId: inquiry.startStationId,
+        endStationId: inquiry.endStationId,
+        lastUsedAt: Date.now(),
+      };
+      const nextType = sortTrim([entry, ...historyRef.current[trainType]]);
+      const next = { ...historyRef.current, [trainType]: nextType };
+      setHistory(next);
+      writeLocalType(trainType, nextType);
+      if (user) schedulePush(next);
     },
     [user, schedulePush],
   );
 
-  /**
-   * 清除某車種歷史：寫本地空 + state；登入則同步刪 server
-   */
+  /** 清除某車種歷史：寫本地空 + state；登入則同步刪 server */
   const clearHistory = useCallback(
     (trainType: TrainType) => {
-      setHistory((prev) => {
-        const next = { ...prev, [trainType]: [] };
-        writeLocalType(trainType, []);
-        if (user) fireDelete(trainType);
-        return next;
-      });
+      setHistory({ ...historyRef.current, [trainType]: [] });
+      writeLocalType(trainType, []);
+      if (user) fireDelete(trainType);
     },
     [user, fireDelete],
   );
