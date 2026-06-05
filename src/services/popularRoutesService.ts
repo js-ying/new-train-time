@@ -57,7 +57,10 @@ export async function getHomeStaticProps(locale: string) {
       ...translations,
       popularRoutes: popularRoutes ?? FALLBACK_POPULAR_ROUTES,
     },
-    // ISR：每天重新產生靜態頁，順帶刷新熱門路線（與既有 revalidate 一致）
-    revalidate: 86400,
+    // ISR revalidate 設 1 小時：build 在 CI 上跑、連不到 server 內網後端，故部署當下烤進
+    // 去的是 fallback；靠此窗口讓 server 端背景重生時改抓 DB 真值。縮短窗口＝部署後最多
+    // 1 小時內自我修復成 DB 版。熱門路線資料變動極慢（query_count 為累積值），不需更頻繁；
+    // 後端另有 6h 記憶體快取，頻繁重生也只 1 次 DB 查/6h。
+    revalidate: 3600,
   };
 }
