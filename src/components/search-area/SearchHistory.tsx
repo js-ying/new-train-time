@@ -62,12 +62,16 @@ const SearchHistory: FC = () => {
   const router = useRouter();
 
   // 顯示用快照：平時跟隨 context（涵蓋水合、登入同步、跨裝置/跨分頁收斂與清除，皆即時反映）。
+  // 初值直接取 historyList（而非 []）：SearchHistoryProvider 掛在 _app，切換鐵路系統會 remount 本
+  // 元件但 context 早已水合，故 mount 當下 historyList 已是該車種清單。若初值為 [] 則第一次 paint 必為空、
+  // 要等下方 useEffect 於繪製後才補上，造成「空→出現」閃爍（切換 TR/THSR/TYMC 時最明顯）。
+  // SSR 與首次載入時 provider 尚為 emptyMap，historyList=[] 與 server 輸出一致，不會 hydration mismatch。
   // 僅在「導頁進行中」暫時凍結，避免按搜尋造成清單在跳轉前即時重排閃動：
   //   - routeChangeStart 在 router.push 當下同步觸發，早於 saveHistory 的 state flush，故能擋住重排。
   //   - 導去搜尋頁（pathname 改變）會 unmount 本元件，下方 cleanup 移除監聽，凍結隨之消失。
   //   - 同頁導航（語系切換 router.replace、shallow）不會 unmount，故 routeChangeComplete/Error
   //     必須解凍並重新對齊 historyList，否則畫面會被永久凍住而漏掉之後的同步更新。
-  const [displayList, setDisplayList] = useState<StoredHistoryInquiry[]>([]);
+  const [displayList, setDisplayList] = useState<StoredHistoryInquiry[]>(historyList);
   const frozenRef = useRef(false);
 
   useEffect(() => {
