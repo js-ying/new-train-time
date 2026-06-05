@@ -11,8 +11,7 @@ import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 
 interface CloseButtonProps {
   onClick: () => void;
@@ -57,45 +56,24 @@ const SearchHistory: FC = () => {
   const onlyShowStationId = isTymc && isMobile;
 
   // 歷史清單由 SearchHistoryContext 統一管理（含跨裝置同步），已 newest-first
-  const { historyList, clearHistory } = useSearchHistory();
+  const { historyList, clearHistory, consumeLocalSaveFlag } = useSearchHistory();
 
-  const router = useRouter();
-
-  // 顯示用快照：平時跟隨 context（涵蓋水合、登入同步、跨裝置/跨分頁收斂與清除，皆即時反映）。
+  // 顯示用快照：平時即時跟隨 context（水合、登入/跨裝置同步、跨分頁收斂與清除皆反映）。
   // 初值直接取 historyList（而非 []）：SearchHistoryProvider 掛在 _app，切換鐵路系統會 remount 本
-  // 元件但 context 早已水合，故 mount 當下 historyList 已是該車種清單。若初值為 [] 則第一次 paint 必為空、
+  // 元件但 context 早已水合，故 mount 當下 historyList 已是該車種清單；若初值為 [] 則第一次 paint 必為空、
   // 要等下方 useEffect 於繪製後才補上，造成「空→出現」閃爍（切換 TR/THSR/TYMC 時最明顯）。
   // SSR 與首次載入時 provider 尚為 emptyMap，historyList=[] 與 server 輸出一致，不會 hydration mismatch。
-  // 僅在「導頁進行中」暫時凍結，避免按搜尋造成清單在跳轉前即時重排閃動：
-  //   - routeChangeStart 在 router.push 當下同步觸發，早於 saveHistory 的 state flush，故能擋住重排。
-  //   - 導去搜尋頁（pathname 改變）會 unmount 本元件，下方 cleanup 移除監聽，凍結隨之消失。
-  //   - 同頁導航（語系切換 router.replace、shallow）不會 unmount，故 routeChangeComplete/Error
-  //     必須解凍並重新對齊 historyList，否則畫面會被永久凍住而漏掉之後的同步更新。
   const [displayList, setDisplayList] = useState<StoredHistoryInquiry[]>(historyList);
-  const frozenRef = useRef(false);
 
+  // 唯一例外：跳過「本機 saveHistory 觸發」的那一次重排。按搜尋會先 saveHistory（把該 OD 移到頂）
+  // 再 router.push 導頁；若把重排畫出來，會在跳轉前一瞬閃動。改以 context 的本機存檔旗標精準判別
+  // 變更來源——而非賭 routeChangeStart 早於 React 的 effect flush（該時序在 Next 14 並不保證，
+  // 正是舊版 router.events freeze 失效的原因）。讀到旗標即略過本次更新、displayList 維持原序，
+  // 元件隨後因導頁 unmount；其餘來源旗標為 false，照常即時反映。
   useEffect(() => {
-    if (frozenRef.current) return;
+    if (consumeLocalSaveFlag()) return;
     setDisplayList(historyList);
-  }, [historyList]);
-
-  useEffect(() => {
-    const freeze = () => {
-      frozenRef.current = true;
-    };
-    const unfreeze = () => {
-      frozenRef.current = false;
-      setDisplayList(historyList);
-    };
-    router.events.on("routeChangeStart", freeze);
-    router.events.on("routeChangeComplete", unfreeze);
-    router.events.on("routeChangeError", unfreeze);
-    return () => {
-      router.events.off("routeChangeStart", freeze);
-      router.events.off("routeChangeComplete", unfreeze);
-      router.events.off("routeChangeError", unfreeze);
-    };
-  }, [router.events, historyList]);
+  }, [historyList, consumeLocalSaveFlag]);
 
   const handleHistoryClick = (startStationId: string, endStationId: string) => {
     gaClickEvent(GaEnum.HISTORY);

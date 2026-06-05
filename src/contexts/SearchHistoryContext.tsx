@@ -198,12 +198,19 @@ export interface SearchHistoryContextValue {
   saveHistory: (trainType: TrainType, inquiry: HistoryInquiry) => void;
   /** 清除某車種歷史（登入則同步刪 server） */
   clearHistory: (trainType: TrainType) => void;
+  /**
+   * 顯示層協調用：消費「上一次 history 變更是否由本機 saveHistory 觸發」旗標（讀後即清）。
+   * 供 SearchHistory 判斷是否跳過那一次重排——本機按搜尋存檔後緊接著導頁，
+   * 若把重排畫出來會在跳轉前一瞬閃動；其餘來源（水合 / 同步 / 跨分頁 / 清除）皆即時反映。
+   */
+  consumeLocalSaveFlag: () => boolean;
 }
 
 export const SearchHistoryContext = createContext<SearchHistoryContextValue>({
   history: emptyMap(),
   saveHistory: () => {},
   clearHistory: () => {},
+  consumeLocalSaveFlag: () => false,
 });
 
 export function SearchHistoryProvider({ children }) {
@@ -221,6 +228,20 @@ export function SearchHistoryProvider({ children }) {
   const opSeqRef = useRef<number>(0);
   /** 進行中 PUT 的 AbortController；清除 / 新一輪 push 時用來取消，避免被回寫復活 */
   const pushAbortRef = useRef<AbortController | null>(null);
+  /**
+   * 「上一次 history 變更是否由本機 saveHistory 觸發」旗標。
+   * saveHistory 進入時同步設 true；SearchHistory 在套用 historyList 前讀取並清除，
+   * 藉此精準跳過「按搜尋的樂觀重排」而不影響其他來源的同步更新。
+   * 用 ref 不用 state：純跨元件協調訊號，不該觸發 render。
+   */
+  const localSaveFlagRef = useRef(false);
+
+  /** 讀取並清除本機存檔旗標（見 SearchHistoryContextValue.consumeLocalSaveFlag） */
+  const consumeLocalSaveFlag = useCallback((): boolean => {
+    const v = localSaveFlagRef.current;
+    localSaveFlagRef.current = false;
+    return v;
+  }, []);
 
   /**
    * 客戶端水合：從 localStorage 載入三車種歷史
@@ -322,6 +343,9 @@ export function SearchHistoryProvider({ children }) {
    */
   const saveHistory = useCallback(
     (trainType: TrainType, inquiry: HistoryInquiry) => {
+      // 同步標記「本次 history 變更源自本機存檔」：在 setHistory 排程的 render/effect 之前先立旗，
+      // 讓 SearchHistory 的顯示更新得以跳過這次重排（按搜尋後緊接著導頁，重排不需畫出）。
+      localSaveFlagRef.current = true;
       setHistory((prev) => {
         const entry: StoredHistoryInquiry = {
           startStationId: inquiry.startStationId,
@@ -450,7 +474,7 @@ export function SearchHistoryProvider({ children }) {
 
   return (
     <SearchHistoryContext.Provider
-      value={{ history, saveHistory, clearHistory }}
+      value={{ history, saveHistory, clearHistory, consumeLocalSaveFlag }}
     >
       {children}
     </SearchHistoryContext.Provider>

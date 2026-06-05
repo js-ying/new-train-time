@@ -16,10 +16,11 @@ const PAGE_TO_TRAIN_TYPE: Partial<Record<PageEnum, TrainType>> = {
  * - historyList：該車種歷史（已 newest-first，≤ 5 筆）
  * - saveHistory：新增一筆（登入會跨裝置同步）
  * - clearHistory：清除該車種歷史
+ * - consumeLocalSaveFlag：讀後即清「上次變更是否本機存檔」旗標，供顯示層跳過按搜尋的重排
  */
 export const useSearchHistory = () => {
   const { page } = usePage();
-  const { history, saveHistory, clearHistory } =
+  const { history, saveHistory, clearHistory, consumeLocalSaveFlag } =
     useContext(SearchHistoryContext);
   const trainType = PAGE_TO_TRAIN_TYPE[page];
 
@@ -40,7 +41,12 @@ export const useSearchHistory = () => {
     clearHistory(trainType);
   }, [clearHistory, trainType]);
 
-  return { historyList, saveHistory: save, clearHistory: clear };
+  return {
+    historyList,
+    saveHistory: save,
+    clearHistory: clear,
+    consumeLocalSaveFlag,
+  };
 };
 
 export default useSearchHistory;
