@@ -94,11 +94,11 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
 
           {/* 會員狀態與權益 */}
           <div className="rounded-lg border border-zinc-200 p-3 text-left [text-align-last:left] dark:border-zinc-600">
-            {/* 會員稱謂：VIP 會員標橘，一般會員用一般字色 */}
+            {/* 會員稱謂：付費會員標主題色（亮藍暗橘），一般會員用一般字色 */}
             <p
               className={`text-sm font-semibold ${
                 profile?.isPremium
-                  ? "text-amber-600 dark:text-amber-400"
+                  ? "text-primary"
                   : "text-zinc-700 dark:text-zinc-200"
               }`}
             >
@@ -106,9 +106,23 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             </p>
             <ul className="mt-1 list-disc pl-4 text-xs text-zinc-500 dark:text-zinc-400">
               <li>{t("syncSettingsBenefit")}</li>
+              <li>{t("syncHistoryBenefit")}</li>
               {profile?.isPremium && <li>{t("adFreeBenefit")}</li>}
             </ul>
           </div>
+
+          {/* CTA：導向公開 /premium 付費方案頁（付費方案頁面尚未完成，先隱藏選單） */}
+          {/* {!profile?.isPremium && (
+            <Link
+              href="/premium"
+              onClick={() => setOpen(false)}
+              className="flex w-full items-center justify-center gap-1.5 rounded-lg
+                border border-primary/50 bg-primary/10 px-4 py-2 text-sm font-medium text-primary
+                transition-colors hover:bg-primary/20"
+            >
+              {t("upgradeCta")}
+            </Link>
+          )} */}
 
           {/* 登出按鈕 */}
           <div className="mx-auto w-fit">
@@ -125,16 +139,17 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
         /* 未登入狀態 */
         <div className="flex flex-col gap-3">
           {/* 權益說明：先讓使用者知道登入能換到什麼，再請他點 Google 登入 */}
-          <div className="border-border mb-2 rounded-lg border p-3 text-left [text-align-last:left]">
+          <div className="mb-2 rounded-lg border border-border p-3 text-left [text-align-last:left]">
             <p className="text-sm font-semibold text-foreground">
               {t("loginBenefitsTitle")}
             </p>
-            <ul className="text-muted-foreground mt-1 list-disc pl-4 text-sm">
+            <ul className="mt-1 list-disc pl-4 text-sm text-muted-foreground">
               <li>{t("syncSettingsBenefit")}</li>
+              <li>{t("syncHistoryBenefit")}</li>
               <li className="mt-0.5">
-                <span>{t("vipPreviewBenefit")}</span>
-                {/* coming-soon 標籤：低調預告 VIP，不讓使用者誤以為現在要付費 */}
-                <span className="bg-muted text-muted-foreground text-xxs ml-1.5 inline-block whitespace-nowrap rounded-full px-1.5 py-0.5">
+                <span>{t("premiumPreviewBenefit")}</span>
+                {/* coming-soon 標籤：低調預告付費會員，不讓使用者誤以為現在要付費 */}
+                <span className="ml-1.5 inline-block whitespace-nowrap rounded-full bg-muted px-1.5 py-0.5 text-xxs text-muted-foreground">
                   {t("comingSoonLabel")}
                 </span>
               </li>

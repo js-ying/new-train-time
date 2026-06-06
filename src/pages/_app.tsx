@@ -1,5 +1,6 @@
 import GlobalErrorFallback from "@/components/common/GlobalErrorFallback";
 import LocaleSuggestionDialog from "@/components/common/LocaleSuggestionDialog";
+import MembershipExpiryDialog from "@/components/common/MembershipExpiryDialog";
 import AppMeta from "@/components/layout/AppMeta";
 import GoogleScript from "@/components/layout/GoogleScript";
 import { appLatin, appSans } from "@/configs/fonts";
@@ -54,6 +55,7 @@ function App({ Component, pageProps }: AppProps) {
                         <Component {...pageProps} />
                       </ErrorBoundary>
                       <LocaleSuggestionDialog />
+                      <MembershipExpiryDialog />
                     </SearchModeProvider>
                   </SearchAreaProvider>
                 </SearchHistoryProvider>

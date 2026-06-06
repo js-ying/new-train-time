@@ -2,6 +2,7 @@ import UserDialog from "@/components/common/UserDialog";
 import FeedbackDialog from "@/components/sidebar/FeedbackDialog";
 import OrderDescription from "@/components/train-time-table/OrderDescription";
 import { useAuth } from "@/contexts/AuthContext";
+import { updateDataList } from "@/data/updatesData";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
@@ -14,7 +15,6 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useMemo, useState } from "react";
-import { updateDataList } from "@/data/updatesData";
 import { GaEnum } from "../../enums/GaEnum";
 import { gaClickEvent } from "../../utils/GaUtils";
 
@@ -65,6 +65,11 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         text: "orderDescriptionMenu",
         icon: "M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25",
       },
+      // TODO: 付費方案頁面尚未完成，先隱藏選單
+      // {
+      //   text: "premiumPlansMenu",
+      //   icon: "M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z",
+      // },
       {
         text: "feedbackMenu",
         icon: "M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75",
@@ -110,6 +115,11 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         setOrderDescOpen(true);
         break;
 
+      case "premiumPlansMenu":
+        // 導向 /premium 付費方案頁
+        setSidebarOpen(false);
+        break;
+
       default:
         break;
     }
@@ -124,6 +134,8 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
         return "/updates";
       case "systemSettingMenu":
         return "/settings";
+      case "premiumPlansMenu":
+        return "/premium";
       default:
         return "/";
     }
@@ -176,11 +188,18 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                   <span className="truncate text-sm">
                     {t("greeting", { name: user.displayName })}
                   </span>
-                  {profile?.isPremium && (
-                    <span className="ml-1.5 rounded-full border border-amber-600 px-1 text-xs text-amber-600 dark:border-amber-400 dark:text-amber-400">
-                      VIP
-                    </span>
-                  )}
+                  {/* 會員徽章：付費標主題色（亮藍暗橘）、一般用中性色 */}
+                  <span
+                    className={`ml-1.5 mt-0.5 shrink-0 rounded-full border px-1 text-xs ${
+                      profile?.isPremium
+                        ? "border-primary text-primary"
+                        : "border-zinc-400 text-zinc-500 dark:border-zinc-500 dark:text-zinc-400"
+                    }`}
+                  >
+                    {profile?.isPremium
+                      ? t("memberBadge")
+                      : t("memberBadgeBasic")}
+                  </span>
                 </>
               ) : (
                 <span className="text-sm text-zinc-500 dark:text-zinc-400">

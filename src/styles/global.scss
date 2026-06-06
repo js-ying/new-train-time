@@ -140,6 +140,14 @@ a {
   @apply text-inherit no-underline;
 }
 
+/* 文字選取反白：用半透明主題色（亮藍暗橘），各情境（含淺底 input）文字皆保持可讀 */
+::selection {
+  @apply bg-primary/50;
+}
+::-moz-selection {
+  @apply bg-primary/50;
+}
+
 * {
   @apply box-border focus-visible:outline-none;
 }

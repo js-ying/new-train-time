@@ -43,7 +43,7 @@ const Terms: FC = () => {
               歡迎使用 JSY 台鐵時刻查詢（以下簡稱「本服務」，網址：
               <a
                 href="https://traintime.jsy.tw"
-                className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600"
+                className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600 dark:text-silverLakeBlue-400 dark:hover:text-silverLakeBlue-300"
               >
                 https://traintime.jsy.tw
               </a>
@@ -118,7 +118,7 @@ const Terms: FC = () => {
               如對本條款有任何疑問，請來信：
               <a
                 href="mailto:jsy-traintime@googlegroups.com"
-                className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600"
+                className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600 dark:text-silverLakeBlue-400 dark:hover:text-silverLakeBlue-300"
               >
                 jsy-traintime@googlegroups.com
               </a>

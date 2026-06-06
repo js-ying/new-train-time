@@ -1,4 +1,3 @@
-import Footer from "@/components/layout/Footer";
 import Layout from "@/components/layout/Layout";
 import PopularRoutes from "@/components/search-area/PopularRoutes";
 import SearchArea from "@/components/search-area/SearchArea";
@@ -41,7 +40,7 @@ const Home: FC<HomeProps> = ({ popularRoutes }) => {
     <>
       <PageSeo />
       <MuiThemeProvider theme={muiTheme}>
-        <Layout footer={<Footer />}>
+        <Layout>
           {/* 搜尋區塊 */}
           <SearchArea />
 

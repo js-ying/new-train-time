@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/Footer";
 import LocaleChange from "@/components/common/LocaleChange";
 import ThemeSwitch from "@/components/common/ThemeSwitch";
 // import UserAvatar from "@/components/common/UserAvatar";
@@ -8,12 +9,10 @@ import Sidebar from "../sidebar/Sidebar";
 interface LayoutProps {
   children: React.ReactNode;
   title?: string;
-  /** 頁尾，會渲染在 <main> 之外，作為 flex-col 的最後一個子元素 */
-  footer?: React.ReactNode;
 }
 
-/** 全站共用 Layout，包含頂部導覽列與側欄 */
-const Layout: FC<LayoutProps> = ({ children, title = "", footer }) => {
+/** 全站共用 Layout，包含頂部導覽列、側欄與全站頁尾 */
+const Layout: FC<LayoutProps> = ({ children, title = "" }) => {
   return (
     <div className="mx-auto flex min-h-dvh max-w-6xl flex-col px-4 py-6">
       <div className="relative mb-6">
@@ -38,7 +37,7 @@ const Layout: FC<LayoutProps> = ({ children, title = "", footer }) => {
       </div>
       {/* 主內容區，flex-1 撐滿讓 footer 自然黏底 */}
       <main className="flex-1">{children}</main>
-      {footer}
+      <Footer />
     </div>
   );
 };

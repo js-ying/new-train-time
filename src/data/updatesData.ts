@@ -6,7 +6,7 @@ export const updateDataList = [
     items: [
       {
         type: "update",
-        content: "現在首頁的熱門路線會依大家實際的查詢熱度每日更新",
+        content: "現在首頁的熱門路線會依實際查詢次數定期更新",
       },
     ],
   },

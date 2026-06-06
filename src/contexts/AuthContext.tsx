@@ -2,6 +2,7 @@ import CommonDialog from "@/components/common/CommonDialog";
 import Loading from "@/components/common/Loading";
 import { loadFirebaseAuth } from "@/configs/firebase";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
+import type { MembershipPlanCode, MembershipState } from "@/models/membership";
 import { ApiError } from "@/models/problem-details";
 import { callUserApi } from "@/services/userApi";
 import type { Auth, GoogleAuthProvider, User } from "firebase/auth";
@@ -17,7 +18,14 @@ import {
 } from "react";
 
 interface UserProfile {
+  /** premium_until > now（後端即時算，是去廣告等權益的唯一判定） */
   isPremium: boolean;
+  /** ISO 到期日（含 +08:00）；供到期 modal 判斷距到期天數 */
+  premiumUntil: string | null;
+  /** none=從未付費；active=會員有效；expired=曾付費已過期 */
+  membershipStatus: MembershipState;
+  /** 最近一筆已付款方案；無則 null */
+  lastPlan: MembershipPlanCode | null;
   /** 顯示名稱；password 註冊使用者可能為 null */
   displayName: string | null;
   /** 頭像 URL；僅社群登入會帶 */
@@ -168,6 +176,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 uid: string;
                 email: string;
                 isPremium: boolean;
+                premiumUntil: string | null;
+                status: MembershipState;
+                lastPlan: MembershipPlanCode | null;
                 displayName: string | null;
                 photoUrl: string | null;
                 signInProvider: string | null;
@@ -178,6 +189,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               });
               setProfile({
                 isPremium: data.isPremium,
+                premiumUntil: data.premiumUntil,
+                membershipStatus: data.status,
+                lastPlan: data.lastPlan,
                 displayName: data.displayName,
                 photoUrl: data.photoUrl,
                 signInProvider: data.signInProvider,

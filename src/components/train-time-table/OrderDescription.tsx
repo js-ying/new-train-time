@@ -19,40 +19,51 @@ const AnnouncementContent: FC = () => {
       {translatedTexts.map((text, index) => {
         if (text === "__TABLE__") {
           return (
-            <div
-              key={index}
-              className="overflow-hidden rounded-md border border-border"
-            >
-              <table className="w-full text-center text-sm">
-                <thead className="bg-neutral-200 dark:bg-neutral-600">
-                  <tr className="border-b border-border">
-                    <th className="border-r border-border p-2">
+            <div key={index} className="overflow-x-auto">
+              <table className="w-full border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
+                    <th className="py-2 pr-3 text-left font-medium">
                       {t("railway")}
                     </th>
-                    <th className="border-r border-border p-2">
-                      {t("realTimeSeatData")}
+                    <th className="px-3 py-2 font-medium">
+                      <span className="flex justify-center text-center">
+                        {t("realTimeSeatData")}
+                      </span>
                     </th>
-                    <th className="p-2">{t("bookingBtnCondition")}</th>
+                    <th className="px-3 py-2 font-medium">
+                      <span className="flex justify-center text-center">
+                        {t("bookingBtnCondition")}
+                      </span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-border">
-                    <td className="border-r border-border p-2 font-bold">
-                      {t("tr")}
+                  <tr className="border-b border-zinc-100 dark:border-zinc-800">
+                    <td className="py-2 pr-3 font-medium">{t("tr")}</td>
+                    <td className="px-3 py-2">
+                      <span className="flex justify-center text-center text-orange-500 dark:text-orange-400">
+                        {t("waitingForTdx")}
+                      </span>
                     </td>
-                    <td className="border-r border-border p-2 text-orange-500 dark:text-orange-400">
-                      {t("waitingForTdx")}
+                    <td className="px-3 py-2">
+                      <span className="flex justify-center text-center">
+                        {t("alwaysShow")}
+                      </span>
                     </td>
-                    <td className="p-2">{t("alwaysShow")}</td>
                   </tr>
-                  <tr>
-                    <td className="border-r border-border p-2 font-bold">
-                      {t("thsr")}
+                  <tr className="border-b border-zinc-100 dark:border-zinc-800">
+                    <td className="py-2 pr-3 font-medium">{t("thsr")}</td>
+                    <td className="px-3 py-2">
+                      <span className="flex justify-center text-center text-emerald-600 dark:text-emerald-400">
+                        {t("seatDataConnected")}
+                      </span>
                     </td>
-                    <td className="border-r border-border p-2 text-emerald-600 dark:text-emerald-400">
-                      {t("seatDataConnected")}
+                    <td className="px-3 py-2">
+                      <span className="flex justify-center text-center">
+                        {t("showWhenSeatsAvailable")}
+                      </span>
                     </td>
-                    <td className="p-2">{t("showWhenSeatsAvailable")}</td>
                   </tr>
                 </tbody>
               </table>

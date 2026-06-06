@@ -43,7 +43,7 @@ const Privacy: FC = () => {
               感謝您使用 JSY 台鐵時刻查詢（以下簡稱「本服務」，網址：
               <a
                 href="https://traintime.jsy.tw"
-                className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600"
+                className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600 dark:text-silverLakeBlue-400 dark:hover:text-silverLakeBlue-300"
               >
                 https://traintime.jsy.tw
               </a>
@@ -120,12 +120,12 @@ const Privacy: FC = () => {
               本政策可能因法律或服務調整而修訂，修訂版本將公告於本頁面並更新頁首日期。繼續使用本服務即視為您同意變更後的政策。
             </p>
 
-            <h2 className="mt-6 text-xl font-bold">9. 聯絡我們</h2>
+            <h2 className="mt-6 text-xl font-bold">9. 聯絡方式</h2>
             <p>
               如對本政策有任何疑問，請來信：
               <a
                 href="mailto:jsy-traintime@googlegroups.com"
-                className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600"
+                className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600 dark:text-silverLakeBlue-400 dark:hover:text-silverLakeBlue-300"
               >
                 jsy-traintime@googlegroups.com
               </a>
