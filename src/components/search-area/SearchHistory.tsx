@@ -56,11 +56,13 @@ const SearchHistory: FC = () => {
   const onlyShowStationId = isTymc && isMobile;
 
   // 歷史清單由 SearchHistoryContext 統一管理（含跨裝置同步），已 newest-first
-  const { historyList, clearHistory, consumeLocalSaveFlag } = useSearchHistory();
+  const { historyList, clearHistory, consumeLocalSaveFlag } =
+    useSearchHistory();
 
   // 顯示快照：初值取 historyList，避免 remount（切換鐵路系統）時第一次 paint 為空再補上的閃爍。
   // SSR / 首次載入時 provider 尚為 emptyMap，historyList=[] 與 server 一致，不會 hydration mismatch。
-  const [displayList, setDisplayList] = useState<StoredHistoryInquiry[]>(historyList);
+  const [displayList, setDisplayList] =
+    useState<StoredHistoryInquiry[]>(historyList);
 
   // 平時即時跟隨 context；唯一例外是本機按搜尋的存檔——其後緊接導頁，畫出重排會閃動，故跳過。
   useEffect(() => {
@@ -107,7 +109,7 @@ const SearchHistory: FC = () => {
                     key={`${history.startStationId}-${history.endStationId}`}
                   >
                     {onlyShowStationId ? (
-                      `${history.startStationId} → ${history.endStationId}`
+                      `${history.startStationId} ➔ ${history.endStationId}`
                     ) : (
                       <>
                         {getStationNameById(

@@ -112,7 +112,7 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
         <div className="col-span-2 text-center">
           <div className="mb-1 truncate text-sm text-muted-foreground">
             {leg.boardStopTime.stationName[langKey]}
-            {" → "}
+            {" ➔ "}
             {leg.alightStopTime.stationName[langKey]}
           </div>
           <div className="text-md">{timeRange}</div>

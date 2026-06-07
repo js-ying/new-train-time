@@ -36,7 +36,7 @@ const TymcStoppingStations: FC<TymcStoppingStationsProps> = ({
             >
               {getStationNameById(page, stationId, i18n.language)}
             </span>
-            {index < stoppingStationIdList.length - 1 && " → "}
+            {index < stoppingStationIdList.length - 1 && " ➔ "}
           </Fragment>
         ))}
       </div>

@@ -52,7 +52,7 @@ const TrTransferCard: FC<TrTransferCardProps> = ({
       ...hubStations.map((h) => h[langKey]),
       lastLeg.alightStopTime.stationName[langKey],
     ];
-    return stations.join(" → ");
+    return stations.join(" ➔ ");
   }, [firstLeg, lastLeg, hubStations, langKey]);
 
   const timeRange = `${firstLeg.boardStopTime.departureTime} - ${lastLeg.alightStopTime.arrivalTime}`;
