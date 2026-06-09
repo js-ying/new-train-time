@@ -13,6 +13,9 @@ import {
 /** 色彩主題；"system" 代表跟隨作業系統偏好 */
 export type ThemeMode = "light" | "dark" | "system";
 
+/** 首頁歷史查詢區塊預設顯示的分頁 */
+export type DefaultSearchTab = "history" | "favorites";
+
 export interface SettingParams {
   showTrTrainNote: boolean;
   showThsrTrainNote: boolean;
@@ -23,6 +26,8 @@ export interface SettingParams {
   showPopularRoutes: boolean;
   /** 色彩主題（light / dark / system）*/
   theme: ThemeMode;
+  /** 首頁歷史查詢區塊預設顯示的分頁（history / favorites）*/
+  defaultSearchTab: DefaultSearchTab;
 }
 
 export const defaultSetting: SettingParams = {
@@ -35,6 +40,8 @@ export const defaultSetting: SettingParams = {
   showPopularRoutes: true,
   /** 預設跟隨系統色彩偏好（對齊 next-themes 行為） */
   theme: "system",
+  /** 預設顯示歷史查詢分頁 */
+  defaultSearchTab: "history",
 };
 
 /** localStorage 上存放「最後一次設定變更時間（毫秒）」的 key */
@@ -54,8 +61,15 @@ function isThemeMode(v: unknown): v is ThemeMode {
 }
 
 /**
+ * 判斷字串是否為有效的 DefaultSearchTab
+ */
+function isDefaultSearchTab(v: unknown): v is DefaultSearchTab {
+  return v === "history" || v === "favorites";
+}
+
+/**
  * 將 localStorage 字串解析成對應欄位的值
- * theme 欄位為字串，其餘欄位為 boolean
+ * theme / defaultSearchTab 欄位為字串，其餘欄位為 boolean
  */
 function parseStoredValue<K extends keyof SettingParams>(
   key: K,
@@ -63,6 +77,11 @@ function parseStoredValue<K extends keyof SettingParams>(
 ): SettingParams[K] {
   if (key === "theme") {
     return (isThemeMode(raw) ? raw : defaultSetting.theme) as SettingParams[K];
+  }
+  if (key === "defaultSearchTab") {
+    return (isDefaultSearchTab(raw)
+      ? raw
+      : defaultSetting.defaultSearchTab) as SettingParams[K];
   }
   return (raw === "true") as SettingParams[K];
 }
@@ -153,6 +172,8 @@ function mergeWithDefault(partial: Partial<SettingParams> | null): SettingParams
     const v = (partial as any)[key];
     if (key === "theme") {
       if (isThemeMode(v)) merged.theme = v;
+    } else if (key === "defaultSearchTab") {
+      if (isDefaultSearchTab(v)) merged.defaultSearchTab = v;
     } else if (typeof v === "boolean") {
       (merged as any)[key] = v;
     }

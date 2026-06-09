@@ -196,6 +196,7 @@
   "showThsrTrainNoteSwitch": "Show TrainNote",
   "autoRedirectLastUsedPageSwitch": "Auto-Redirect to Last Page",
   "showPopularRoutesSwitch": "Show Popular Routes",
+  "defaultSearchTabLabel": "Default Tab for History Block",
   "generalSetting": "General Settings",
   "trSetting": "TRA Settings",
   "thsrSetting": "THSR Settings",

@@ -196,6 +196,7 @@
   "showThsrTrainNoteSwitch": "顯示列車下方註記",
   "autoRedirectLastUsedPageSwitch": "自動跳轉至上次使用頁面",
   "showPopularRoutesSwitch": "顯示熱門路線快查",
+  "defaultSearchTabLabel": "歷史查詢區塊預設分頁",
   "generalSetting": "通用設定",
   "trSetting": "台鐵設定",
   "thsrSetting": "高鐵設定",

@@ -8,6 +8,7 @@ import useFavoriteRoutes from "@/hooks/useFavoriteRoutes";
 import usePage from "@/hooks/usePage";
 import useRwd from "@/hooks/useRwd";
 import useSearchHistory from "@/hooks/useSearchHistory";
+import useSetting from "@/hooks/useSetting";
 import { MAX_FAVORITES } from "@/models/favorite-routes";
 import { MAX_HISTORY, StoredHistoryInquiry } from "@/models/history";
 import { gaClickEvent } from "@/utils/GaUtils";
@@ -66,6 +67,9 @@ const SearchHistory: FC = () => {
     useSearchHistory();
   const { favoriteList, addFavorite, removeFavorite, isFavorite } =
     useFavoriteRoutes();
+
+  // 使用者於設定頁選擇的預設分頁（history / favorites）
+  const [defaultSearchTab] = useSetting("defaultSearchTab");
 
   // 未登入點愛心 → 跳登入引導；收藏已滿 → 跳上限提示
   const [loginOpen, setLoginOpen] = useState(false);
@@ -172,7 +176,10 @@ const SearchHistory: FC = () => {
 
   return (
     <>
+      {/* 預設停在設定選的分頁；key 綁定設定值，設定水合較慢時讓 Tabs 重掛以套用新預設 */}
       <Tabs
+        key={defaultSearchTab}
+        defaultSelectedKey={defaultSearchTab}
         aria-label="歷史查詢與常用路線"
         size="md"
         variant="underlined"

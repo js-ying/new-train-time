@@ -8,6 +8,10 @@ export const updateDataList = [
         type: "new",
         content: "新功能：常用路線（會員專屬），最多可收藏 5 組常用路線",
       },
+      {
+        type: "new",
+        content: "新功能：系統設定頁面加入「歷史查詢區塊預設分頁」選項",
+      },
     ],
   },
   {
