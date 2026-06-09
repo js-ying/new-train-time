@@ -2,6 +2,17 @@ export const updateDataList = [
   {
     date: "2026-06",
     type: "both",
+    ver: "3.2.0",
+    items: [
+      {
+        type: "new",
+        content: "新功能：常用路線（會員專屬），最多可收藏 5 組常用路線",
+      },
+    ],
+  },
+  {
+    date: "2026-06",
+    type: "both",
     ver: "3.1.1",
     items: [
       {

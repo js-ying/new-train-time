@@ -44,7 +44,7 @@ const Home: FC<HomeProps> = ({ popularRoutes }) => {
           {/* 搜尋區塊 */}
           <SearchArea />
 
-          <div className="mt-7 empty:hidden">
+          <div className="mt-5 text-center empty:hidden">
             {/* 歷史查詢區塊 */}
             <SearchHistory />
           </div>

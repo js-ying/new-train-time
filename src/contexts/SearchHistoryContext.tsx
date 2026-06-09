@@ -2,6 +2,7 @@ import { isAuthError, useAuth } from "@/contexts/AuthContext";
 import {
   HistoryInquiry,
   HistoryMap,
+  MAX_HISTORY,
   StoredHistoryInquiry,
   TrainType,
 } from "@/models/history";
@@ -18,7 +19,7 @@ import {
 const TRAIN_TYPES: TrainType[] = ["TR", "THSR", "TYMC"];
 
 /** 各車種保留筆數上限（與後端一致） */
-const MAX_PER_TYPE = 5;
+const MAX_PER_TYPE = MAX_HISTORY;
 
 /** 推送到 server 的 debounce 延遲（毫秒，對齊 SettingContext） */
 const SYNC_DEBOUNCE_MS = 800;

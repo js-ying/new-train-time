@@ -106,7 +106,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             </p>
             <ul className="mt-1 list-disc pl-4 text-xs text-zinc-500 dark:text-zinc-400">
               <li>{t("syncSettingsBenefit")}</li>
-              <li>{t("syncHistoryBenefit")}</li>
+              <li>{t("favoriteRoutesBenefit")}</li>
               {profile?.isPremium && <li>{t("adFreeBenefit")}</li>}
             </ul>
           </div>
@@ -145,7 +145,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             </p>
             <ul className="mt-1 list-disc pl-4 text-sm text-muted-foreground">
               <li>{t("syncSettingsBenefit")}</li>
-              <li>{t("syncHistoryBenefit")}</li>
+              <li>{t("favoriteRoutesBenefit")}</li>
               <li className="mt-0.5">
                 <span>{t("premiumPreviewBenefit")}</span>
                 {/* coming-soon 標籤：低調預告付費會員，不讓使用者誤以為現在要付費 */}

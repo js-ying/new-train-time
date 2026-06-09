@@ -6,6 +6,7 @@ import GoogleScript from "@/components/layout/GoogleScript";
 import { appLatin, appSans } from "@/configs/fonts";
 import { defaultSeoConfig } from "@/configs/seoConfig";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { FavoriteRoutesProvider } from "@/contexts/FavoriteRoutesContext";
 import { PwaProvider } from "@/contexts/PwaContext";
 import { SearchAreaProvider } from "@/contexts/SearchAreaContext";
 import { SearchHistoryProvider } from "@/contexts/SearchHistoryContext";
@@ -46,18 +47,20 @@ function App({ Component, pageProps }: AppProps) {
             <AuthProvider>
               <SettingProvider>
                 <SearchHistoryProvider>
-                  <SearchAreaProvider>
-                    <SearchModeProvider>
-                      <DefaultSeo {...defaultSeoConfig} />
-                      <AppMeta />
-                      {/* 全域 Error Boundary：保底承接元件 render 期未捕捉例外 */}
-                      <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
-                        <Component {...pageProps} />
-                      </ErrorBoundary>
-                      <LocaleSuggestionDialog />
-                      <MembershipExpiryDialog />
-                    </SearchModeProvider>
-                  </SearchAreaProvider>
+                  <FavoriteRoutesProvider>
+                    <SearchAreaProvider>
+                      <SearchModeProvider>
+                        <DefaultSeo {...defaultSeoConfig} />
+                        <AppMeta />
+                        {/* 全域 Error Boundary：保底承接元件 render 期未捕捉例外 */}
+                        <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
+                          <Component {...pageProps} />
+                        </ErrorBoundary>
+                        <LocaleSuggestionDialog />
+                        <MembershipExpiryDialog />
+                      </SearchModeProvider>
+                    </SearchAreaProvider>
+                  </FavoriteRoutesProvider>
                 </SearchHistoryProvider>
               </SettingProvider>
             </AuthProvider>

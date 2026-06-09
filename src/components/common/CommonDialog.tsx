@@ -80,7 +80,7 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
         return "text-justify [text-align-last:right]";
       case "text-center":
       default:
-        return "text-justify [text-align-last:center]";
+        return "text-justify [text-align-last:left]";
     }
   })();
 

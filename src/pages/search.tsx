@@ -3,15 +3,16 @@ import Loading from "@/components/common/Loading";
 import Layout from "@/components/layout/Layout";
 
 import CommonDialog from "@/components/common/CommonDialog";
-import PageSeo from "@/components/seo/PageSeo";
 import DynamicAnnouncements from "@/components/search-area/alert/DynamicAnnouncements";
 import OperationAlert from "@/components/search-area/alert/OperationAlert";
+import FavoriteButton from "@/components/search-area/FavoriteButton";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchResultSeoContent from "@/components/search-area/SearchResultSeoContent";
+import PageSeo from "@/components/seo/PageSeo";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
 import ThsrTrainTimeTable from "@/components/train-time-table/THSR/ThsrTrainTimeTable";
-import TrTrainTimeTable from "@/components/train-time-table/TR/TrTrainTimeTable";
 import TrTransferTimeTable from "@/components/train-time-table/TR/transfer/TrTransferTimeTable";
+import TrTrainTimeTable from "@/components/train-time-table/TR/TrTrainTimeTable";
 import TymcTimeTable from "@/components/train-time-table/TYMC/TymcTimeTable";
 import { SearchAreaContext } from "@/contexts/SearchAreaContext";
 import useSearchMode from "@/hooks/search/useSearchMode";
@@ -132,6 +133,11 @@ const Search: FC = () => {
                 <OperationAlert />
               </div>
             )}
+
+            {/* 收藏愛心：與 OperationAlert 左右對稱，貼齊搜尋按鈕列右側 */}
+            <div className="absolute bottom-1 right-0">
+              <FavoriteButton />
+            </div>
           </div>
 
           <div className="mt-5">
