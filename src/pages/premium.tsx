@@ -79,9 +79,9 @@ const Premium: FC = () => {
   };
 
   // 一般會員 vs 付費會員 權益比較（付費＝一般＋免廣告）
+  // 常用路線暫隱藏（與付費一起上線）：先拿掉「收藏常用路線」這列
   const compareRows = [
     { label: t("syncSettingsBenefit"), basic: true, premium: true },
-    { label: t("favoriteRoutesBenefit"), basic: true, premium: true },
     { label: t("adFreeBenefit"), basic: false, premium: true },
   ];
 

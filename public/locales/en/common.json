@@ -70,6 +70,7 @@
   "datetimeNotAllowMsg": "The date is empty or out of range, so it has been reset to today. Showing results for {{date}}.",
   "sameQueryMsg": "You are querying too fast! Please try again later.",
   "closeBtn": "Close",
+  "historyInquiry": "History Inquiry: {{ nowLength }} / 5",
   "historyTab": "History",
   "favoritesTab": "Favorite Routes",
   "historyEmptyHint": "No search history yet.",

@@ -70,6 +70,7 @@
   "datetimeNotAllowMsg": "日期為空或是超出範圍，已自動重設為今日。\n以下為 {{date}} 的查詢結果。",
   "sameQueryMsg": "等等～你查詢的速度太快了！請稍後再試。",
   "closeBtn": "關閉",
+  "historyInquiry": "歷史查詢：共 {{ nowLength }} / 5 筆",
   "historyTab": "歷史查詢",
   "favoritesTab": "常用路線",
   "historyEmptyHint": "尚無歷史查詢紀錄",

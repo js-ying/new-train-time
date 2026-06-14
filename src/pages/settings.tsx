@@ -92,52 +92,8 @@ const LocaleSegmentedControl: FC = () => {
   );
 };
 
-/**
- * 首頁歷史查詢區塊預設分頁 Segmented Control 元件
- * 控制 SearchHistory 開啟時預設停在「歷史查詢」或「常用路線」分頁
- */
-const DefaultSearchTabSegmentedControl: FC = () => {
-  const { t } = useTranslation();
-  const [defaultSearchTab, setDefaultSearchTab] =
-    useSetting("defaultSearchTab");
-
-  const tabs = [
-    { label: t("historyTab"), value: "history" as const },
-    { label: t("favoritesTab"), value: "favorites" as const },
-  ];
-
-  /** 切換預設分頁 */
-  const handleChange = (value: "history" | "favorites") => {
-    if (value === defaultSearchTab) return;
-    setDefaultSearchTab(value);
-    gaClickEvent(GaEnum.DEFAULT_SEARCH_TAB);
-  };
-
-  return (
-    <div className="flex items-center justify-between gap-2">
-      <span className="flex items-center gap-2 text-sm">
-        {t("defaultSearchTabLabel")}
-        <NewLabel />
-      </span>
-      <div className="flex overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-600">
-        {tabs.map((tab) => (
-          <button
-            key={tab.value}
-            onClick={() => handleChange(tab.value)}
-            className={`px-4 py-1 text-sm font-medium transition-colors
-              ${
-                defaultSearchTab === tab.value
-                  ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
-                  : "bg-white text-zinc-600 hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
-              }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
+// 常用路線相關：DefaultSearchTabSegmentedControl（首頁預設分頁設定）暫時隱藏，
+// 待與付費方案一起上線；完整元件見 git 紀錄。
 
 /**
  * 暗色模式 Switch 元件
@@ -293,8 +249,6 @@ const Settings: FC = () => {
                     color="primary"
                     suffix={<NewLabel />}
                   />
-                  {/* 首頁歷史查詢區塊預設停在哪個分頁 */}
-                  <DefaultSearchTabSegmentedControl />
                   <IOSSwitchSetting
                     value={autoRedirectLastUsedPage}
                     setValue={setAutoRedirectLastUsedPage}
