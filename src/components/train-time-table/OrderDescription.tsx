@@ -19,13 +19,14 @@ const AnnouncementContent: FC = () => {
       {translatedTexts.map((text, index) => {
         if (text === "__TABLE__") {
           return (
-            <div key={index} className="overflow-x-auto">
-              <table className="w-full border-collapse text-sm">
+            <div
+              key={index}
+              className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-700"
+            >
+              <table className="w-full border-collapse text-center text-sm [text-align-last:center]">
                 <thead>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                    <th className="py-2 pr-3 text-left font-semibold">
-                      {t("railway")}
-                    </th>
+                  <tr className="border-b border-zinc-200 bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-700">
+                    <th className="px-3 py-2 font-semibold">{t("railway")}</th>
                     <th className="px-3 py-2 font-semibold">
                       <span className="flex justify-center text-center">
                         {t("realTimeSeatData")}
@@ -40,7 +41,7 @@ const AnnouncementContent: FC = () => {
                 </thead>
                 <tbody>
                   <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                    <td className="py-2 pr-3 font-medium">{t("tr")}</td>
+                    <td className="px-3 py-2 font-medium">{t("tr")}</td>
                     <td className="px-3 py-2">
                       <span className="flex justify-center text-center text-orange-500 dark:text-orange-400">
                         {t("waitingForTdx")}
@@ -52,8 +53,8 @@ const AnnouncementContent: FC = () => {
                       </span>
                     </td>
                   </tr>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                    <td className="py-2 pr-3 font-medium">{t("thsr")}</td>
+                  <tr>
+                    <td className="px-3 py-2 font-medium">{t("thsr")}</td>
                     <td className="px-3 py-2">
                       <span className="flex justify-center text-center text-emerald-600 dark:text-emerald-400">
                         {t("seatDataConnected")}

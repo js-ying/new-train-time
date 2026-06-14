@@ -169,7 +169,7 @@ const Premium: FC = () => {
                   trigger: "px-3 py-3",
                   // 內容與標題以細線分隔，並留左右下 padding，避免條文貼齊邊框
                   content:
-                    "border-t border-zinc-200 px-3 pb-3 pt-3 text-xs leading-relaxed text-zinc-600 dark:border-zinc-700 dark:text-zinc-300",
+                    "border-t border-zinc-200 px-3 pb-3 pt-3 text-sm leading-relaxed text-zinc-600 dark:border-zinc-700 dark:text-zinc-300",
                 }}
               >
                 <AccordionItem

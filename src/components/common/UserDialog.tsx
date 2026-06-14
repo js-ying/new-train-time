@@ -76,17 +76,17 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
               <Image
                 src={user.photoURL}
                 alt="avatar"
-                width={48}
-                height={48}
+                width={58}
+                height={58}
                 className="rounded-full"
               />
             )}
             {/* 覆寫父層繼承的 [text-align-last:center]，否則單行文字會被置中 */}
             <div className="min-w-0 flex-1 text-left [text-align-last:left]">
-              <p className="truncate text-sm font-semibold">
+              <p className="text-md truncate font-semibold">
                 {user.displayName}
               </p>
-              <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="truncate text-sm text-zinc-500 dark:text-zinc-400">
                 {user.email}
               </p>
             </div>
@@ -104,7 +104,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             >
               {profile?.isPremium ? t("premiumMember") : t("basicMember")}
             </p>
-            <ul className="mt-1 list-disc pl-4 text-xs text-zinc-500 dark:text-zinc-400">
+            <ul className="mt-1 list-disc pl-4 text-sm text-zinc-500 dark:text-zinc-400">
               <li>{t("syncSettingsBenefit")}</li>
               {/* 常用路線暫隱藏：<li>{t("favoriteRoutesBenefit")}</li> */}
               {profile?.isPremium && <li>{t("adFreeBenefit")}</li>}
@@ -128,7 +128,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
           <div className="mx-auto w-fit">
             <Button
               onPress={handleLogout}
-              size="sm"
+              size="md"
               className="bg-transparent text-red-500 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
             >
               {t("logout")}
@@ -149,7 +149,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
               <li className="mt-0.5">
                 <span>{t("premiumPreviewBenefit")}</span>
                 {/* coming-soon 標籤：低調預告付費會員，不讓使用者誤以為現在要付費 */}
-                <span className="ml-1.5 inline-block whitespace-nowrap rounded-full bg-muted px-1.5 py-0.5 text-xxs text-muted-foreground">
+                <span className="ml-1.5 inline-block whitespace-nowrap rounded-full bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
                   {t("comingSoonLabel")}
                 </span>
               </li>
