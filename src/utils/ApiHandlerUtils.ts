@@ -18,14 +18,20 @@ export const apiProxyHandler = async (
   targetUrl: string,
   method: string = "POST",
 ) => {
-  const clientIp =
+  // 來源 IP 轉發策略：優先轉發 CF 注入的 cf-connecting-ip（CF 會覆寫，client 無法偽造）。
+  // 後端 getClientIp 以它為第一優先，故即使 client 另外偽造 x-forwarded-for 也會被忽略 → 關掉偽造繞限流。
+  // 仍保留 x-forwarded-for 轉發作為「無 CF（dev / CF 標頭未送達 BFF）」退路：此時後端才會採用它，
+  // 避免 IP 塌成 localhost 而讓 IP 級限流誤鎖全體。cf-connecting-ip 存在時這條 XFF 不會被採用。
+  const cfIp = req.headers["cf-connecting-ip"];
+  const xff =
     (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
 
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      "x-forwarded-for": clientIp || "",
     };
+    if (typeof cfIp === "string" && cfIp) headers["cf-connecting-ip"] = cfIp;
+    if (xff) headers["x-forwarded-for"] = xff;
 
     if (req.headers.authorization) {
       headers["Authorization"] = req.headers.authorization as string;
