@@ -41,6 +41,8 @@ interface AuthContextType {
   loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   setProfile: (profile: UserProfile | null) => void;
+  /** 重新向後端拉 /me 並更新 profile（付款導回後解鎖 UI 用）；無登入則略過 */
+  refreshProfile: () => Promise<void>;
   /**
    * 由 user API 呼叫端在收到 401 (UNAUTHORIZED / INVALID_TOKEN) 時呼叫，
    * 會清掉 Firebase session 並彈出「登入已失效」對話框
@@ -55,6 +57,7 @@ const AuthContext = createContext<AuthContextType>({
   loginWithGoogle: async () => {},
   logout: async () => {},
   setProfile: () => {},
+  refreshProfile: async () => {},
   notifySessionExpired: () => {},
 });
 
@@ -149,6 +152,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setProfile(null);
       setSessionExpired(true);
     })();
+  }, [ensureAuth]);
+
+  /**
+   * 重新拉 /me 更新 profile（付款導回頁解鎖 UI 用）。
+   * 失敗只 log 不強制登出（導回頁可能 webhook 還沒回來，使用者可手動再刷）。
+   */
+  const refreshProfile = useCallback(async () => {
+    try {
+      const { auth } = await ensureAuth();
+      const currentUser = auth.currentUser;
+      if (!currentUser) return;
+      const data = await callUserApi<{
+        isPremium: boolean;
+        premiumUntil: string | null;
+        status: MembershipState;
+        lastPlan: MembershipPlanCode | null;
+        displayName: string | null;
+        photoUrl: string | null;
+        signInProvider: string | null;
+      }>({ url: "/api/users/me", method: "GET", user: currentUser });
+      setProfile({
+        isPremium: data.isPremium,
+        premiumUntil: data.premiumUntil,
+        membershipStatus: data.status,
+        lastPlan: data.lastPlan,
+        displayName: data.displayName,
+        photoUrl: data.photoUrl,
+        signInProvider: data.signInProvider,
+      });
+    } catch (error) {
+      console.error("refreshProfile 失敗", error);
+    }
   }, [ensureAuth]);
 
   useEffect(() => {
@@ -271,6 +306,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         loginWithGoogle,
         logout,
         setProfile,
+        refreshProfile,
         notifySessionExpired,
       }}
     >

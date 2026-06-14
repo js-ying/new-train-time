@@ -1,6 +1,7 @@
 import CommonDialog from "@/components/common/CommonDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 
 /** 距到期 N 天內視為「即將到期」 */
@@ -19,6 +20,7 @@ type ExpiryVariant = "expired" | "expiring";
 const MembershipExpiryDialog: FC = () => {
   const { profile } = useAuth();
   const { t, i18n } = useTranslation();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [variant, setVariant] = useState<ExpiryVariant | null>(null);
 
@@ -58,7 +60,9 @@ const MembershipExpiryDialog: FC = () => {
           ? "membershipExpiredTitle"
           : "membershipExpiringTitle"
       }
-      confirmText="gotItLabel"
+      confirmText="membershipRenewCta"
+      onConfirm={() => router.push("/premium")}
+      cancelText="gotItLabel"
     >
       {variant === "expired"
         ? t("membershipExpiredMsg")
