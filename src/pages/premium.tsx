@@ -7,7 +7,7 @@ import useMuiTheme from "@/hooks/useMuiTheme";
 import type { MembershipPlanCode } from "@/models/membership";
 import { createCheckout } from "@/services/checkoutService";
 import { submitEcpayForm } from "@/utils/submitEcpayForm";
-import { Accordion, AccordionItem } from "@heroui/react";
+import { Accordion, AccordionItem, Checkbox } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { Trans, useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -194,32 +194,36 @@ const Premium: FC = () => {
               </Accordion>
 
               {/* 消保：結帳前同意排除七日猶豫期；未勾選不可購買 */}
-              <label className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
-                <input
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(e) => setConsent(e.target.checked)}
-                  className="mt-0.5 size-4 shrink-0 accent-primary"
+              <Checkbox
+                isSelected={consent}
+                onValueChange={setConsent}
+                color="primary"
+                size="sm"
+                classNames={{
+                  // 多行同意句：放寬寬度限制並讓勾選框對齊首行
+                  base: "max-w-none items-start",
+                  // 框 16px、文字行高 20px，往下推 2px 對齊首行中線
+                  wrapper: "mt-0.5",
+                  label: "text-sm text-zinc-600 dark:text-zinc-300",
+                }}
+              >
+                <Trans
+                  i18nKey="premium.consentWaiveCoolingOff"
+                  components={[
+                    <button
+                      key="terms"
+                      type="button"
+                      onClick={(e) => {
+                        // 阻止冒泡到 label，避免點連結時誤觸勾選
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openTerms();
+                      }}
+                      className="text-primary underline underline-offset-2 hover:opacity-80"
+                    />,
+                  ]}
                 />
-                <span>
-                  <Trans
-                    i18nKey="premium.consentWaiveCoolingOff"
-                    components={[
-                      <button
-                        key="terms"
-                        type="button"
-                        onClick={(e) => {
-                          // 阻止冒泡到 label，避免點連結時誤觸勾選
-                          e.preventDefault();
-                          e.stopPropagation();
-                          openTerms();
-                        }}
-                        className="text-primary underline underline-offset-2 hover:opacity-80"
-                      />,
-                    ]}
-                  />
-                </span>
-              </label>
+              </Checkbox>
               {!user && (
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">
                   {t("premium.loginHint")}
