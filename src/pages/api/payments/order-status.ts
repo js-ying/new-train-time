@@ -16,6 +16,8 @@ export default async function handler(
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
+  // 訂單狀態與本人綁定，禁止任何 HTTP 快取層留存
+  res.setHeader("Cache-Control", "no-store");
   const mtn = encodeURIComponent((req.query.mtn as string) ?? "");
   const targetUrl = `${process.env.THSR_TRAIN_TIME_BACKEND_ENDPOINT}/api/payments/order-status?mtn=${mtn}`;
   return apiProxyHandler(req, res, targetUrl, "GET");
