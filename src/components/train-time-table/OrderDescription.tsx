@@ -23,15 +23,15 @@ const AnnouncementContent: FC = () => {
               <table className="w-full border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                    <th className="py-2 pr-3 text-left font-medium">
+                    <th className="py-2 pr-3 text-left font-semibold">
                       {t("railway")}
                     </th>
-                    <th className="px-3 py-2 font-medium">
+                    <th className="px-3 py-2 font-semibold">
                       <span className="flex justify-center text-center">
                         {t("realTimeSeatData")}
                       </span>
                     </th>
-                    <th className="px-3 py-2 font-medium">
+                    <th className="px-3 py-2 font-semibold">
                       <span className="flex justify-center text-center">
                         {t("bookingBtnCondition")}
                       </span>
@@ -39,7 +39,7 @@ const AnnouncementContent: FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-zinc-100 dark:border-zinc-800">
+                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
                     <td className="py-2 pr-3 font-medium">{t("tr")}</td>
                     <td className="px-3 py-2">
                       <span className="flex justify-center text-center text-orange-500 dark:text-orange-400">
@@ -52,7 +52,7 @@ const AnnouncementContent: FC = () => {
                       </span>
                     </td>
                   </tr>
-                  <tr className="border-b border-zinc-100 dark:border-zinc-800">
+                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
                     <td className="py-2 pr-3 font-medium">{t("thsr")}</td>
                     <td className="px-3 py-2">
                       <span className="flex justify-center text-center text-emerald-600 dark:text-emerald-400">

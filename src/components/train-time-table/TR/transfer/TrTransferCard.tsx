@@ -1,3 +1,4 @@
+import ChevronToggleIcon from "@/components/common/ChevronToggleIcon";
 import { GaEnum } from "@/enums/GaEnum";
 import { JsyTrTransferCombination } from "@/models/jsy-tr-info";
 import { gaClickEvent } from "@/utils/GaUtils";
@@ -120,21 +121,7 @@ const TrTransferCard: FC<TrTransferCardProps> = ({
 
         {/* 右：展開箭頭 — 靠右但保留一點 padding，避免貼齊卡片邊框 */}
         <div className="flex items-center justify-end pr-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            className={`h-5 w-5 stroke-foreground transition-transform ${
-              expanded ? "rotate-180" : ""
-            }`}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m19.5 8.25-7.5 7.5-7.5-7.5"
-            />
-          </svg>
+          <ChevronToggleIcon expanded={expanded} />
         </div>
       </div>
 
