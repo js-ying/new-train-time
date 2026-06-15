@@ -193,37 +193,41 @@ const Premium: FC = () => {
                 </AccordionItem>
               </Accordion>
 
-              {/* 消保：結帳前同意排除七日猶豫期；未勾選不可購買 */}
-              <Checkbox
-                isSelected={consent}
-                onValueChange={setConsent}
-                color="primary"
-                size="sm"
-                classNames={{
-                  // 多行同意句：放寬寬度限制並讓勾選框對齊首行
-                  base: "max-w-none items-start",
+              {/* 消保：結帳前同意排除七日猶豫期；未勾選不可購買。
+                  連結放在 Checkbox 外的 span，避開 react-aria 對整個 label 的
+                  press 捕捉（巢狀互動元素點不到）；點純文字仍由 span 切換勾選 */}
+              <div className="flex items-start gap-2">
+                <Checkbox
+                  isSelected={consent}
+                  onValueChange={setConsent}
+                  color="primary"
+                  size="sm"
+                  aria-labelledby="consent-waive-label"
                   // 框 16px、文字行高 20px，往下推 2px 對齊首行中線
-                  wrapper: "mt-0.5",
-                  label: "text-sm text-zinc-600 dark:text-zinc-300",
-                }}
-              >
-                <Trans
-                  i18nKey="premium.consentWaiveCoolingOff"
-                  components={[
-                    <button
-                      key="terms"
-                      type="button"
-                      onClick={(e) => {
-                        // 阻止冒泡到 label，避免點連結時誤觸勾選
-                        e.preventDefault();
-                        e.stopPropagation();
-                        openTerms();
-                      }}
-                      className="text-primary underline underline-offset-2 hover:opacity-80"
-                    />,
-                  ]}
+                  classNames={{ base: "m-0 mt-0.5 p-0" }}
                 />
-              </Checkbox>
+                <span
+                  id="consent-waive-label"
+                  className="-ml-2 cursor-pointer text-sm text-zinc-600 dark:text-zinc-300"
+                  onClick={() => setConsent(!consent)}
+                >
+                  <Trans
+                    i18nKey="premium.consentWaiveCoolingOff"
+                    components={[
+                      <button
+                        key="terms"
+                        type="button"
+                        onClick={(e) => {
+                          // 連結獨立行為：阻止冒泡避免一併切換勾選
+                          e.stopPropagation();
+                          openTerms();
+                        }}
+                        className="text-primary underline underline-offset-2 hover:opacity-80"
+                      />,
+                    ]}
+                  />
+                </span>
+              </div>
               {!user && (
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">
                   {t("premium.loginHint")}
