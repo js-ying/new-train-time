@@ -2,7 +2,7 @@ import CommonDialog from "@/components/common/CommonDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { Button, Link } from "@heroui/react";
+import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { FC } from "react";
@@ -112,7 +112,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
           </div>
 
           {/* CTA：導向公開 /premium 付費方案頁（付費方案頁面尚未完成，先隱藏選單） */}
-          {!profile?.isPremium && (
+          {/* {!profile?.isPremium && (
             <Link
               href="/premium"
               onClick={() => setOpen(false)}
@@ -122,7 +122,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             >
               {t("upgradeCta")}
             </Link>
-          )}
+          )} */}
 
           {/* 登出按鈕 */}
           <div className="mx-auto w-fit">
