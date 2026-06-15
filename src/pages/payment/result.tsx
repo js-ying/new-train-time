@@ -22,7 +22,7 @@ export async function getServerSideProps({ locale }) {
   };
 }
 
-/** 結帳前在 sessionStorage 暫存的本次訂單號 key（premium.tsx 寫入） */
+/** 結帳前在 localStorage 暫存的本次訂單號 key（premium.tsx 寫入） */
 const PENDING_ORDER_KEY = "pendingOrderMtn";
 /** webhook 可能比導回慢，輪詢間隔與上限（2.5s × 12 ≈ 30s） */
 const POLL_INTERVAL_MS = 2500;
@@ -34,14 +34,14 @@ type ViewState = "processing" | "paid" | "failed";
 
 const readPendingMtn = (): string => {
   try {
-    return sessionStorage.getItem(PENDING_ORDER_KEY) ?? "";
+    return localStorage.getItem(PENDING_ORDER_KEY) ?? "";
   } catch {
     return "";
   }
 };
 const clearPendingMtn = (): void => {
   try {
-    sessionStorage.removeItem(PENDING_ORDER_KEY);
+    localStorage.removeItem(PENDING_ORDER_KEY);
   } catch {
     /* ignore */
   }

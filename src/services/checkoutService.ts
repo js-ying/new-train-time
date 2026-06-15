@@ -10,11 +10,13 @@ import type { User } from "firebase/auth";
 export const createCheckout = async (
   planCode: MembershipPlanCode,
   user?: User | null,
+  locale?: string,
 ): Promise<CheckoutResponse> => {
   return callUserApi<CheckoutResponse>({
     url: "/api/payments/checkout",
     method: "POST",
-    body: { planCode },
+    // 帶當前 locale 讓後端組對應語系的 OrderResultURL（en→/en/payment/result）
+    body: { planCode, locale },
     user,
   });
 };

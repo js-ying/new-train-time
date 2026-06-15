@@ -7,6 +7,8 @@ import type { MembershipPlanCode } from "@/models/membership";
 /** 建立結帳請求 */
 export interface CheckoutRequest {
   planCode: MembershipPlanCode;
+  /** 當前介面語系，後端據此組對應語系導回頁（en→/en/payment/result） */
+  locale?: string;
 }
 
 /**

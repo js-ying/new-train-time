@@ -12,6 +12,7 @@ import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { Trans, useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { NextSeo } from "next-seo";
+import { useRouter } from "next/router";
 import { FC, useRef, useState } from "react";
 
 /** 建置時注入翻譯檔 */
@@ -32,6 +33,7 @@ export async function getStaticProps({ locale }) {
 const Premium: FC = () => {
   const muiTheme = useMuiTheme();
   const { t } = useTranslation();
+  const router = useRouter();
   const { user, loginWithGoogle, notifySessionExpired } = useAuth();
 
   // 消保法：結帳前須勾選同意排除七日猶豫期，未勾不可購買
@@ -59,12 +61,19 @@ const Premium: FC = () => {
     }
     setSubmittingPlan(planCode);
     try {
-      const { actionUrl, params } = await createCheckout(planCode, user);
-      // 暫存本次訂單號，導回 /payment/result 後用來輪詢「這筆」是否付款成功
+      const { actionUrl, params } = await createCheckout(
+        planCode,
+        user,
+        router.locale,
+      );
+      // 暫存本次訂單號，導回 /payment/result 後用來輪詢「這筆」是否付款成功。
+      // 用 localStorage 而非 sessionStorage：iOS standalone PWA 導轉綠界（跨 origin）
+      // 再導回時可能換 browsing context，sessionStorage 是 per-context 會遺失；
+      // localStorage 為同源共享 partition（與 Firebase session 同模式）較能存活。
       try {
-        sessionStorage.setItem("pendingOrderMtn", params.MerchantTradeNo);
+        localStorage.setItem("pendingOrderMtn", params.MerchantTradeNo);
       } catch {
-        // sessionStorage 不可用（隱私模式等）→ 略過，導回頁退回看會員狀態
+        // localStorage 不可用（隱私模式等）→ 略過，導回頁退回看會員狀態
       }
       submitEcpayForm(actionUrl, params); // 整頁導轉綠界，後續不會回到這
     } catch (err) {
