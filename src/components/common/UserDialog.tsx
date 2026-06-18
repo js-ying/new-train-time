@@ -38,6 +38,15 @@ interface UserDialogProps {
   setOpen: (open: boolean) => void;
 }
 
+/** 將 ISO 到期日格式化為 YYYY/MM/DD */
+const formatExpiryDate = (iso: string): string => {
+  const d = new Date(iso);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}/${mm}/${dd}`;
+};
+
 /**
  * 使用者登入/帳號 Dialog
  * - 未登入：顯示「使用 Google 登入」按鈕
@@ -94,16 +103,26 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
 
           {/* 會員狀態與權益 */}
           <div className="rounded-lg border border-zinc-200 p-3 text-left [text-align-last:left] dark:border-zinc-600">
-            {/* 會員稱謂：付費會員標主題色（亮藍暗橘），一般會員用一般字色 */}
-            <p
-              className={`text-sm font-semibold ${
-                profile?.isPremium
-                  ? "text-primary"
-                  : "text-zinc-700 dark:text-zinc-200"
-              }`}
-            >
-              {profile?.isPremium ? t("premiumMember") : t("basicMember")}
-            </p>
+            {/* 會員稱謂列：左側稱謂、右側到期日；付費會員標主題色（亮藍暗橘），一般會員用一般字色 */}
+            <div className="flex items-center justify-between gap-2">
+              <p
+                className={`text-sm font-semibold ${
+                  profile?.isPremium
+                    ? "text-primary"
+                    : "text-zinc-700 dark:text-zinc-200"
+                }`}
+              >
+                {profile?.isPremium ? t("premiumMember") : t("basicMember")}
+              </p>
+              {/* 到期日：付費會員且有到期日才顯示，同主題色粗體並置右對齊稱謂列 */}
+              {profile?.isPremium && profile.premiumUntil && (
+                <p className="text-xs text-primary">
+                  {t("premiumValidUntil", {
+                    date: formatExpiryDate(profile.premiumUntil),
+                  })}
+                </p>
+              )}
+            </div>
             <ul className="mt-1 list-disc pl-4 text-sm text-zinc-500 dark:text-zinc-400">
               <li>{t("syncSettingsBenefit")}</li>
               {/* 常用路線暫隱藏：<li>{t("favoriteRoutesBenefit")}</li> */}

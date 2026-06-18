@@ -220,6 +220,7 @@
   "account": "帳號",
   "accountSetting": "帳號設定",
   "premiumMember": "付費會員",
+  "premiumValidUntil": "權益至 {{date}}",
   "memberBadge": "付費會員",
   "memberBadgeBasic": "一般會員",
   "basicMember": "一般會員",

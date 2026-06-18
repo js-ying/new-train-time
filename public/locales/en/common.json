@@ -220,6 +220,7 @@
   "account": "Account",
   "accountSetting": "Account Settings",
   "premiumMember": "Premium Member",
+  "premiumValidUntil": "Valid until {{date}}",
   "memberBadge": "Premium",
   "memberBadgeBasic": "Basic",
   "basicMember": "Basic Member",
