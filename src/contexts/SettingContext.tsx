@@ -24,6 +24,8 @@ export interface SettingParams {
   mobileUseThsrDirectBooking: boolean;
   /** 是否顯示首頁熱門路線快查區塊 */
   showPopularRoutes: boolean;
+  /** 是否在搜尋區顯示「常用路線」分頁與收藏愛心（關閉則回歸純歷史查詢） */
+  showFavoriteRoutes: boolean;
   /** 色彩主題（light / dark / system）*/
   theme: ThemeMode;
   /** 首頁歷史查詢區塊預設顯示的分頁（history / favorites）*/
@@ -38,6 +40,8 @@ export const defaultSetting: SettingParams = {
   mobileUseThsrDirectBooking: true,
   /** 預設顯示熱門路線快查 */
   showPopularRoutes: true,
+  /** 預設顯示常用路線分頁（不想用的人可於設定關閉） */
+  showFavoriteRoutes: true,
   /** 預設跟隨系統色彩偏好（對齊 next-themes 行為） */
   theme: "system",
   /** 預設顯示歷史查詢分頁 */

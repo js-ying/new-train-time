@@ -48,4 +48,5 @@ export enum GaEnum {
   FAVORITE_ROUTE = "常用路線收藏",
   UNFAVORITE_ROUTE = "常用路線取消收藏",
   DEFAULT_SEARCH_TAB = "切換預設查詢分頁",
+  SHOW_FAVORITE_ROUTES = "顯示常用路線分頁",
 }

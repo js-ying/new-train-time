@@ -2,6 +2,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { SearchAreaContext } from "@/contexts/SearchAreaContext";
 import { GaEnum } from "@/enums/GaEnum";
 import useFavoriteRoutes from "@/hooks/useFavoriteRoutes";
+import useSetting from "@/hooks/useSetting";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
 import { FC, useContext, useState } from "react";
@@ -18,6 +19,7 @@ const FavoriteButton: FC = () => {
   const params = useContext(SearchAreaContext);
   const { user, loginWithGoogle } = useAuth();
   const { addFavorite, removeFavorite, isFavorite } = useFavoriteRoutes();
+  const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [limitOpen, setLimitOpen] = useState(false);
@@ -27,6 +29,8 @@ const FavoriteButton: FC = () => {
   const hasOd = !!start && !!end;
   const isFavorited = hasOd && isFavorite(start, end);
 
+  // 使用者關閉常用路線 → 不顯示愛心（與搜尋區分頁的隱藏一致）
+  if (!showFavoriteRoutes) return null;
   // OD 不完整（首次載入 URL 尚未同步）不顯示，避免收藏空查詢
   if (!hasOd) return null;
 

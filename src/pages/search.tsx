@@ -5,6 +5,7 @@ import Layout from "@/components/layout/Layout";
 import CommonDialog from "@/components/common/CommonDialog";
 import DynamicAnnouncements from "@/components/search-area/alert/DynamicAnnouncements";
 import OperationAlert from "@/components/search-area/alert/OperationAlert";
+import FavoriteButton from "@/components/search-area/FavoriteButton";
 import SearchArea from "@/components/search-area/SearchArea";
 import SearchResultSeoContent from "@/components/search-area/SearchResultSeoContent";
 import PageSeo from "@/components/seo/PageSeo";
@@ -133,7 +134,10 @@ const Search: FC = () => {
               </div>
             )}
 
-            {/* 常用路線（收藏愛心）暫時隱藏，待與付費方案一起上線 */}
+            {/* 收藏愛心：與 OperationAlert 左右對稱，貼齊搜尋按鈕列右側 */}
+            <div className="absolute bottom-1 right-0">
+              <FavoriteButton />
+            </div>
           </div>
 
           <div className="mt-5">

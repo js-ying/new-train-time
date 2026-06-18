@@ -1,9 +1,7 @@
-import CommonDialog from "@/components/common/CommonDialog";
 import { SearchAreaContext } from "@/contexts/SearchAreaContext";
 import { GaEnum } from "@/enums/GaEnum";
 import usePage from "@/hooks/usePage";
 import useSearchHistory from "@/hooks/useSearchHistory";
-import useSetting from "@/hooks/useSetting";
 import {
   FALLBACK_POPULAR_ROUTES,
   JsyPopularRoute,
@@ -11,11 +9,10 @@ import {
 } from "@/models/jsy-popular-routes";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
-import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC, useContext, useState } from "react";
+import { FC, useContext } from "react";
 
 /** 取該鐵路的 DB 熱門路線並轉成元件內部 {s,e}；DB 缺漏或空時用寫死 fallback */
 const pickRoutes = (
@@ -43,8 +40,6 @@ const PopularRoutes: FC<PopularRoutesProps> = ({ popularRoutes }) => {
   const router = useRouter();
   const params = useContext(SearchAreaContext);
   const { saveHistory } = useSearchHistory();
-  const [, setShowPopularRoutes] = useSetting("showPopularRoutes");
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   let routes: { s: string; e: string }[] = [];
 
@@ -95,11 +90,6 @@ const PopularRoutes: FC<PopularRoutesProps> = ({ popularRoutes }) => {
     });
   };
 
-  /** 確認隱藏熱門路線 */
-  const handleHidePopularRoutes = () => {
-    setShowPopularRoutes(false);
-  };
-
   return (
     <div className="flex flex-col items-center">
       <div className="mb-3 text-sm text-zinc-500 dark:text-zinc-400">
@@ -133,44 +123,6 @@ const PopularRoutes: FC<PopularRoutesProps> = ({ popularRoutes }) => {
           );
         })}
       </div>
-
-      {/* 關閉按鈕 */}
-      <div className="mt-2 flex justify-center">
-        <Button
-          size="sm"
-          variant="light"
-          className="min-w-fit px-0 text-zinc-700 dark:text-zinc-200 sm:px-1.5"
-          onPress={() => setDialogOpen(true)}
-          aria-label="close-btn"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="h-6 w-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </Button>
-      </div>
-
-      {/* 確認隱藏彈窗 */}
-      <CommonDialog
-        open={dialogOpen}
-        setOpen={setDialogOpen}
-        title="reminderAlertTitle"
-        confirmText="confirm"
-        cancelText="cancel"
-        onConfirm={handleHidePopularRoutes}
-      >
-        {t("hidePopularRoutesConfirmMsg")}
-      </CommonDialog>
     </div>
   );
 };
