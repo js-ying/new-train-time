@@ -5,6 +5,7 @@ import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
+import Link from "next/link";
 import { FC } from "react";
 
 /**
@@ -103,7 +104,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
 
           {/* 會員狀態與權益 */}
           <div className="rounded-lg border border-zinc-200 p-3 text-left [text-align-last:left] dark:border-zinc-600">
-            {/* 會員稱謂列：左側稱謂、右側到期日；付費會員標主題色（亮藍暗橘），一般會員用一般字色 */}
+            {/* 會員稱謂列：左側稱謂、右側槽位；付費會員標主題色（亮藍暗橘），一般會員用一般字色 */}
             <div className="flex items-center justify-between gap-2">
               <p
                 className={`text-sm font-semibold ${
@@ -114,34 +115,49 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
               >
                 {profile?.isPremium ? t("premiumMember") : t("basicMember")}
               </p>
-              {/* 到期日：付費會員且有到期日才顯示，同主題色粗體並置右對齊稱謂列 */}
-              {profile?.isPremium && profile.premiumUntil && (
-                <p className="text-xs text-primary">
-                  {t("premiumValidUntil", {
-                    date: formatExpiryDate(profile.premiumUntil),
-                  })}
-                </p>
-              )}
+              {/* 稱謂列右側槽位：付費會員顯示到期日，一般會員顯示升級小連結（共用同一位置，入口標記為帳號彈窗） */}
+              {profile?.isPremium
+                ? profile.premiumUntil && (
+                    <p className="text-xs text-primary">
+                      {t("premiumValidUntil", {
+                        date: formatExpiryDate(profile.premiumUntil),
+                      })}
+                    </p>
+                  )
+                : (
+                    <Link
+                      href="/premium"
+                      onClick={() => {
+                        gaClickEvent(GaEnum.PREMIUM_FROM_USER_DIALOG);
+                        setOpen(false);
+                      }}
+                      className="flex shrink-0 items-center gap-1 text-xs font-medium text-primary hover:underline"
+                    >
+                      {/* 付費方案 icon：與 sidebar 付費方案選單同款（sparkles） */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="h-3.5 w-3.5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+                        />
+                      </svg>
+                      {t("upgradeCta")}
+                    </Link>
+                  )}
             </div>
             <ul className="mt-1 list-disc pl-4 text-sm text-zinc-500 dark:text-zinc-400">
               <li>{t("syncSettingsBenefit")}</li>
-              {/* 常用路線暫隱藏：<li>{t("favoriteRoutesBenefit")}</li> */}
+              <li>{t("favoriteRoutesBenefit")}</li>
               {profile?.isPremium && <li>{t("adFreeBenefit")}</li>}
             </ul>
           </div>
-
-          {/* CTA：導向公開 /premium 付費方案頁（付費方案頁面尚未完成，先隱藏選單） */}
-          {/* {!profile?.isPremium && (
-            <Link
-              href="/premium"
-              onClick={() => setOpen(false)}
-              className="flex w-full items-center justify-center gap-1.5 rounded-lg
-                border border-primary/50 bg-primary/10 px-4 py-2 text-sm font-medium text-primary
-                transition-colors hover:bg-primary/20"
-            >
-              {t("upgradeCta")}
-            </Link>
-          )} */}
 
           {/* 登出按鈕 */}
           <div className="mx-auto w-fit">
@@ -164,14 +180,8 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             </p>
             <ul className="mt-1 list-disc pl-4 text-sm text-muted-foreground">
               <li>{t("syncSettingsBenefit")}</li>
-              {/* 常用路線暫隱藏：<li>{t("favoriteRoutesBenefit")}</li> */}
-              <li className="mt-0.5">
-                <span>{t("premiumPreviewBenefit")}</span>
-                {/* coming-soon 標籤：低調預告付費會員，不讓使用者誤以為現在要付費 */}
-                <span className="ml-1.5 inline-block whitespace-nowrap rounded-full bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
-                  {t("comingSoonLabel")}
-                </span>
-              </li>
+              <li>{t("favoriteRoutesBenefit")}</li>
+              <li>{t("premiumPreviewBenefit")}</li>
             </ul>
           </div>
 

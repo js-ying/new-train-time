@@ -26,9 +26,7 @@ export async function getStaticProps({ locale }) {
 }
 
 /**
- * 付費方案介紹頁（公開、免登入；亦為綠界 ECPay 申請的「販售網址」）。
- * 購買流程：勾選消保須知 → 點方案 → 後端建單簽章 → 自組 form 導轉綠界 cashier；
- * 解鎖只在 webhook 發生，導回 /payment/result 僅刷新 UI。
+ * 付費方案介紹頁。
  */
 const Premium: FC = () => {
   const muiTheme = useMuiTheme();
@@ -67,9 +65,6 @@ const Premium: FC = () => {
         router.locale,
       );
       // 暫存本次訂單號，導回 /payment/result 後用來輪詢「這筆」是否付款成功。
-      // 用 localStorage 而非 sessionStorage：iOS standalone PWA 導轉綠界（跨 origin）
-      // 再導回時可能換 browsing context，sessionStorage 是 per-context 會遺失；
-      // localStorage 為同源共享 partition（與 Firebase session 同模式）較能存活。
       try {
         localStorage.setItem("pendingOrderMtn", params.MerchantTradeNo);
       } catch {
@@ -87,10 +82,10 @@ const Premium: FC = () => {
     }
   };
 
-  // 一般會員 vs 付費會員 權益比較（付費＝一般＋免廣告）
-  // 常用路線暫隱藏（與付費一起上線）：先拿掉「收藏常用路線」這列
+  // 一般會員 vs 付費會員 權益比較
   const compareRows = [
     { label: t("syncSettingsBenefit"), basic: true, premium: true },
+    { label: t("favoriteRoutesBenefit"), basic: true, premium: true },
     { label: t("adFreeBenefit"), basic: false, premium: true },
   ];
 
@@ -159,11 +154,10 @@ const Premium: FC = () => {
               </div>
             </section>
 
-            {/* 方案：越買越划算（每月均價遞減） */}
+            {/* 方案 */}
             <section className="space-y-3">
               <h2 className="text-xl font-bold">{t("premium.plansHeading")}</h2>
-
-              {/* 購買須知收合於方案上方（消保：一次性、到期不續約、排除猶豫期）；預設收起避免佔篇幅 */}
+              
               <Accordion
                 ref={termsRef}
                 variant="bordered"
@@ -243,10 +237,16 @@ const Premium: FC = () => {
                 </p>
               )}
 
-              <ul className="grid gap-3 sm:grid-cols-2">
+              <ul className="grid gap-3 sm:grid-cols-3">
                 {PREMIUM_PLANS.map((plan) => {
                   const perMonth = Math.round(plan.priceTwd / plan.months);
                   const isBest = plan.code === "12m";
+                  const monthlyBase =
+                    PREMIUM_PLANS.find((p) => p.code === "1m")?.priceTwd ?? 0;
+                  const listPrice = monthlyBase * plan.months;
+                  const saved = listPrice - plan.priceTwd;
+                  const savedPct =
+                    listPrice > 0 ? Math.round((saved / listPrice) * 100) : 0;
                   const buyable = consent && submittingPlan === null;
                   return (
                     <li
@@ -259,7 +259,7 @@ const Premium: FC = () => {
                     >
                       {isBest && (
                         <span className="absolute -top-2 right-3 rounded-full bg-primary px-2 py-0.5 text-xxs font-semibold text-primary-foreground">
-                          {t("premium.planBestValue")}
+                          {t("premium.planBestValue", { saved })}
                         </span>
                       )}
                       <p className="text-base font-semibold">
@@ -268,7 +268,18 @@ const Premium: FC = () => {
                       <p className="text-2xl font-bold">
                         {t("premium.planTotal", { price: plan.priceTwd })}
                       </p>
-                      <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                      {/* 原價刪除線 */}
+                      {saved > 0 && (
+                        <p className="text-sm">
+                          <span className="text-zinc-400 line-through dark:text-zinc-500">
+                            {t("premium.planTotal", { price: listPrice })}
+                          </span>
+                          <span className="ml-2 font-semibold text-primary">
+                            {t("premium.planDiscount", { pct: savedPct })}
+                          </span>
+                        </p>
+                      )}
+                      <p className="mb-3 text-sm text-zinc-500 dark:text-zinc-400">
                         {t("premium.planPerMonth", { price: perMonth })}
                       </p>
                       <button
@@ -280,8 +291,8 @@ const Premium: FC = () => {
                         }
                         className={
                           buyable
-                            ? "mt-2 w-full rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90"
-                            : "mt-2 w-full cursor-not-allowed rounded-lg bg-zinc-200 px-4 py-2 text-sm font-medium text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400"
+                            ? "mt-auto w-full rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+                            : "mt-auto w-full cursor-not-allowed rounded-lg bg-zinc-200 px-4 py-2 text-sm font-medium text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400"
                         }
                       >
                         {submittingPlan === plan.code
@@ -299,7 +310,7 @@ const Premium: FC = () => {
               )}
             </section>
 
-            {/* 聯絡（email 與綠界註冊一致）；服務條款／隱私權連結走全站 footer */}
+            {/* 聯絡；服務條款／隱私權連結走全站 footer */}
             <section className="space-y-2">
               <h2 className="text-xl font-bold">
                 {t("premium.contactHeading")}

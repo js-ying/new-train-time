@@ -4,7 +4,7 @@
  */
 
 /** 一次性方案代碼 */
-export type MembershipPlanCode = "1m" | "3m" | "6m" | "12m";
+export type MembershipPlanCode = "1m" | "6m" | "12m";
 
 /** none=從未付費；active=會員有效；expired=曾付費已過期 */
 export type MembershipState = "active" | "expired" | "none";
