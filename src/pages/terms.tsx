@@ -34,7 +34,7 @@ const Terms: FC = () => {
                 {t("pageOnlyTwMsg")}
               </p>
             )}
-            <h1 className="text-3xl font-bold">服務條款</h1>
+            <h1 className="text-2xl font-bold">服務條款</h1>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               最後更新日期：2026 年 4 月 15 日
             </p>

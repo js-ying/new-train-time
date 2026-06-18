@@ -100,7 +100,7 @@ const Premium: FC = () => {
           <article className="mx-auto w-full max-w-3xl space-y-6 text-left leading-relaxed text-zinc-700 [text-align-last:left] dark:text-zinc-200">
             {/* Hero：贊助支持開發 */}
             <header className="space-y-2">
-              <h1 className="text-3xl font-bold">{t("premium.heading")}</h1>
+              <h1 className="text-2xl font-bold">{t("premium.heading")}</h1>
               <p className="text-zinc-600 dark:text-zinc-300">
                 {t("premium.supportMessage")}
               </p>
