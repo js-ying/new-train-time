@@ -203,7 +203,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                 </>
               ) : (
                 <span className="text-sm text-zinc-500 dark:text-zinc-400">
-                  {t("notLoggedIn")}
+                  {t("loggedIn")}
                 </span>
               )}
             </ListItemButton>

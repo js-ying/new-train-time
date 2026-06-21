@@ -248,7 +248,7 @@
   "displaySetting": "Display Settings",
   "darkMode": "Dark Mode",
   "languageSetting": "Language",
-  "loggedIn": "Logged In",
+  "loggedIn": "Log In",
   "greeting": "Hi, {{name}}",
   "settingsPageTitle": "System Settings",
   "settingsPageDescription": "Manage your preferences for TrainTime, including train settings, display mode, and language.",
