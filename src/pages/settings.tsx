@@ -123,7 +123,7 @@ const DefaultSearchTabSegmentedControl: FC = () => {
           <button
             key={tab.value}
             onClick={() => handleChange(tab.value)}
-            className={`px-4 py-1 text-sm font-medium transition-colors
+            className={`px-2 py-1 text-sm font-medium transition-colors
               ${
                 defaultSearchTab === tab.value
                   ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
@@ -198,6 +198,8 @@ const Settings: FC = () => {
   /** 控制首頁熱門路線快查區塊的顯示 */
   const [showPopularRoutes, setShowPopularRoutes] =
     useSetting("showPopularRoutes");
+  /** 控制搜尋區「歷史查詢」的顯示 */
+  const [showHistory, setShowHistory] = useSetting("showHistory");
   /** 控制搜尋區「常用路線」分頁與收藏愛心的顯示 */
   const [showFavoriteRoutes, setShowFavoriteRoutes] =
     useSetting("showFavoriteRoutes");
@@ -286,12 +288,12 @@ const Settings: FC = () => {
               <SectionCard>
                 <SectionTitle>{t("generalSetting")}</SectionTitle>
                 <div className="flex flex-col gap-3 text-sm">
-                  {/* 控制首頁熱門路線快查區塊的顯示 */}
+                  {/* 顯示歷史查詢；關閉則搜尋區僅保留常用路線 */}
                   <IOSSwitchSetting
-                    value={showPopularRoutes}
-                    setValue={setShowPopularRoutes}
-                    label={t("showPopularRoutesSwitch")}
-                    gaEnum={GaEnum.SHOW_POPULAR_ROUTES}
+                    value={showHistory}
+                    setValue={setShowHistory}
+                    label={t("showHistorySwitch")}
+                    gaEnum={GaEnum.SHOW_HISTORY}
                     color="primary"
                     suffix={<NewLabel />}
                   />
@@ -304,8 +306,18 @@ const Settings: FC = () => {
                     color="primary"
                     suffix={<NewLabel />}
                   />
-                  {/* 預設分頁僅在顯示常用路線時才有意義 */}
-                  {showFavoriteRoutes && <DefaultSearchTabSegmentedControl />}
+                  {/* 預設分頁僅在歷史查詢與常用路線皆顯示（會出現雙分頁）時才有意義 */}
+                  {showHistory && showFavoriteRoutes && (
+                    <DefaultSearchTabSegmentedControl />
+                  )}
+                  {/* 控制首頁熱門路線快查區塊的顯示 */}
+                  <IOSSwitchSetting
+                    value={showPopularRoutes}
+                    setValue={setShowPopularRoutes}
+                    label={t("showPopularRoutesSwitch")}
+                    gaEnum={GaEnum.SHOW_POPULAR_ROUTES}
+                    color="primary"
+                  />
                   <IOSSwitchSetting
                     value={autoRedirectLastUsedPage}
                     setValue={setAutoRedirectLastUsedPage}

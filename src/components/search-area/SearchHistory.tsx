@@ -72,7 +72,8 @@ const SearchHistory: FC = () => {
   const { favoriteList, addFavorite, removeFavorite, isFavorite } =
     useFavoriteRoutes();
 
-  // 是否顯示常用路線分頁（關閉則回歸純歷史查詢）；以及預設停在哪個分頁
+  // 歷史查詢 / 常用路線各自的顯示開關；皆開時才出現雙分頁，並以 defaultSearchTab 決定預設停在哪個分頁
+  const [showHistory] = useSetting("showHistory");
   const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
   const [defaultSearchTab] = useSetting("defaultSearchTab");
 
@@ -177,29 +178,92 @@ const SearchHistory: FC = () => {
     );
   };
 
-  // 不顯示常用路線：回歸純歷史查詢清單（無分頁、無愛心）。
-  // 無歷史 → 整塊不顯示（導頁前不重排：靠 displayHistory 快照）
-  if (!showFavoriteRoutes) {
-    if (displayHistory.length === 0) return null;
-    return (
-      <div className="text-center">
-        {/* 歷史查詢標題：共 X / 5 筆 */}
-        <div className="mb-2.5 text-sm text-zinc-500 dark:text-zinc-400">
-          {t("historyInquiry", { nowLength: displayHistory.length })}
-        </div>
-        <div className="flex justify-center">
-          <div className="flex flex-col gap-2.5">
-            {displayHistory.map(renderRow)}
-            {/* 清除歷史 */}
+  // 單一清單型態（只開歷史或只開常用時）：標題 + 置中清單。
+  // 歷史附清除鈕；常用不附（逐筆靠愛心移除）。
+  const renderFlatList = (
+    title: string,
+    items: { startStationId: string; endStationId: string }[],
+    withClear: boolean,
+  ) => (
+    <div className="text-center">
+      {/* 標題：共 X / 5 筆 */}
+      <div className="mb-2.5 text-sm text-zinc-500 dark:text-zinc-400">
+        {title}
+      </div>
+      <div className="flex justify-center">
+        <div className="flex flex-col gap-2.5">
+          {items.map(renderRow)}
+          {withClear && (
             <div className="flex justify-center">
               <CloseButton onClick={handleClear} />
             </div>
-          </div>
+          )}
         </div>
       </div>
+    </div>
+  );
+
+  // 愛心互動相關 dialog（未登入引導 / 收藏已滿）；常用路線出現時皆需掛載
+  const favoriteDialogs = (
+    <>
+      {/* 未登入點愛心：引導登入 */}
+      <CommonDialog
+        open={loginOpen}
+        setOpen={setLoginOpen}
+        title="favoriteRequiresLoginTitle"
+        confirmText="login"
+        cancelText="cancel"
+        onConfirm={() => {
+          gaClickEvent(GaEnum.LOGIN_WITH_GOOGLE);
+          void loginWithGoogle();
+        }}
+      >
+        {t("favoriteRequiresLogin")}
+      </CommonDialog>
+
+      {/* 收藏已滿 5 筆：提示先移除 */}
+      <CommonDialog
+        open={limitOpen}
+        setOpen={setLimitOpen}
+        title="favoriteLimitTitle"
+        confirmText="gotItLabel"
+      >
+        {t("favoriteLimitReached")}
+      </CommonDialog>
+    </>
+  );
+
+  // 兩者皆關 → 整塊不顯示
+  if (!showHistory && !showFavoriteRoutes) return null;
+
+  // 只開歷史查詢：純歷史清單（無分頁、無愛心），標題「歷史查詢：共 X / 5 筆」。
+  // 無歷史 → 整塊不顯示（導頁前不重排：靠 displayHistory 快照）
+  if (showHistory && !showFavoriteRoutes) {
+    if (displayHistory.length === 0) return null;
+    return renderFlatList(
+      t("historyInquiry", { nowLength: displayHistory.length }),
+      displayHistory,
+      true,
     );
   }
 
+  // 只開常用路線：純常用清單（無分頁、含愛心），標題「常用路線：共 X / 5 筆」。
+  // 無收藏 → 整塊不顯示
+  if (!showHistory && showFavoriteRoutes) {
+    if (favoriteList.length === 0) return null;
+    return (
+      <>
+        {renderFlatList(
+          t("favoritesInquiry", { nowLength: favoriteList.length }),
+          favoriteList,
+          false,
+        )}
+        {favoriteDialogs}
+      </>
+    );
+  }
+
+  // 兩者皆開 → 雙分頁。
   // 兩分頁皆空 → 整塊不顯示（連帶不需要 dialog）。
   // 用 displayHistory（快照）而非 historyList：空清單按搜尋時 localSaveFlag 會讓快照維持空、
   // 跳過重排，導頁前就不會先閃出 tab 標題（與歷史既有的「導頁前不重排」一致）。
@@ -216,7 +280,9 @@ const SearchHistory: FC = () => {
         variant="underlined"
         classNames={{
           tabList: "gap-0",
-          cursor: "h-px", // active 底線細一點（預設 2px → 1px）
+          // active 底線：細一點（2px → 1px）；HeroUI underlined 預設只取 tab 寬度 80%（置中），
+          // 計入「X / 5」後會明顯短於標題，放大 scale-x 補回至涵蓋整個標題
+          cursor: "h-px scale-x-110",
           // 取消 HeroUI 預設 hover-unselected 變透明 (opacity-disabled)，只讓字變亮（不加背景）
           tab: "data-[hover-unselected=true]:opacity-100 px-2",
           tabContent:
@@ -268,30 +334,7 @@ const SearchHistory: FC = () => {
         </Tab>
       </Tabs>
 
-      {/* 未登入點愛心：引導登入 */}
-      <CommonDialog
-        open={loginOpen}
-        setOpen={setLoginOpen}
-        title="favoriteRequiresLoginTitle"
-        confirmText="login"
-        cancelText="cancel"
-        onConfirm={() => {
-          gaClickEvent(GaEnum.LOGIN_WITH_GOOGLE);
-          void loginWithGoogle();
-        }}
-      >
-        {t("favoriteRequiresLogin")}
-      </CommonDialog>
-
-      {/* 收藏已滿 5 筆：提示先移除 */}
-      <CommonDialog
-        open={limitOpen}
-        setOpen={setLimitOpen}
-        title="favoriteLimitTitle"
-        confirmText="gotItLabel"
-      >
-        {t("favoriteLimitReached")}
-      </CommonDialog>
+      {favoriteDialogs}
     </>
   );
 };

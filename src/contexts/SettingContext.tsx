@@ -24,6 +24,8 @@ export interface SettingParams {
   mobileUseThsrDirectBooking: boolean;
   /** 是否顯示首頁熱門路線快查區塊 */
   showPopularRoutes: boolean;
+  /** 是否在搜尋區顯示「歷史查詢」（關閉則僅保留常用路線） */
+  showHistory: boolean;
   /** 是否在搜尋區顯示「常用路線」分頁與收藏愛心（關閉則回歸純歷史查詢） */
   showFavoriteRoutes: boolean;
   /** 色彩主題（light / dark / system）*/
@@ -40,6 +42,8 @@ export const defaultSetting: SettingParams = {
   mobileUseThsrDirectBooking: true,
   /** 預設顯示熱門路線快查 */
   showPopularRoutes: true,
+  /** 預設顯示歷史查詢（不想用的人可於設定關閉） */
+  showHistory: true,
   /** 預設顯示常用路線分頁（不想用的人可於設定關閉） */
   showFavoriteRoutes: true,
   /** 預設跟隨系統色彩偏好（對齊 next-themes 行為） */
@@ -236,6 +240,20 @@ export function SettingProvider({ children }) {
     setSettings(local);
     setHydrated(true);
   }, []);
+
+  /**
+   * 同步「隱藏熱門路線」到 <html>.hide-popular-routes（給首頁 CSS 用）。
+   * 初值由 _document 的 pre-paint inline script 設定以避免閃爍；此處負責 hydration
+   * 後的執行期變更（設定頁切換、client 端換頁）。gate 在 hydrated 後才跑，
+   * 避免以預設值 true 先移除 class 又補回 → 反而造成閃爍。
+   */
+  useEffect(() => {
+    if (!hydrated) return;
+    document.documentElement.classList.toggle(
+      "hide-popular-routes",
+      !settings.showPopularRoutes,
+    );
+  }, [hydrated, settings.showPopularRoutes]);
 
   /**
    * 實際推送到 server（debounced）

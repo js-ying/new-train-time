@@ -2,6 +2,17 @@ export const updateDataList = [
   {
     date: "2026-06",
     type: "both",
+    ver: "3.2.1",
+    items: [
+      {
+        type: "update",
+        content: "現在可以自行設定是否隱藏歷史查詢區塊",
+      },
+    ],
+  },
+  {
+    date: "2026-06",
+    type: "both",
     ver: "3.2.0",
     items: [
       {
