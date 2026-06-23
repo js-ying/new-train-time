@@ -1,5 +1,5 @@
-import CommonDialog from "@/components/common/CommonDialog";
 import AdBanner from "@/components/common/AdBanner";
+import CommonDialog from "@/components/common/CommonDialog";
 import Loading from "@/components/common/Loading";
 import Layout from "@/components/layout/Layout";
 import DynamicAnnouncements from "@/components/search-area/alert/DynamicAnnouncements";
@@ -8,11 +8,11 @@ import NoTrainData from "@/components/train-time-table/NoTrainData";
 import TrStationPageSeo from "@/components/train-time-table/TR/station/TrStationPageSeo";
 import TrStationPicker from "@/components/train-time-table/TR/station/TrStationPicker";
 import TrStationTimeTable from "@/components/train-time-table/TR/station/TrStationTimeTable";
+import { GaEnum } from "@/enums/GaEnum";
 import useTrStationTimetable from "@/hooks/search/useTrStationTimetable";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import { JsyTrStationTimetable } from "@/models/jsy-tr-info";
 import { fetchTrStationTimetableServerSide } from "@/services/trStationTimetableServerService";
-import { GaEnum } from "@/enums/GaEnum";
 import AdUtils from "@/utils/AdUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { isValidTrStationId } from "@/utils/StationUtils";
@@ -85,8 +85,10 @@ const StationTimetablePage: FC<StationPageProps> = ({
   const muiTheme = useMuiTheme();
   const router = useRouter();
   const { t } = useTranslation();
-  const { data, error, isLoading, fetchStation, reset } =
-    useTrStationTimetable(initialStationId, initialData);
+  const { data, error, isLoading, fetchStation, reset } = useTrStationTimetable(
+    initialStationId,
+    initialData,
+  );
 
   const [selectedStationId, setSelectedStationId] = useState<string | null>(
     initialStationId,
@@ -178,7 +180,7 @@ const StationTimetablePage: FC<StationPageProps> = ({
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           {/* 標題水平置中；營運狀態圓點以 absolute 掛在文字右側，不佔 flow、不影響置中 */}
-          <h1 className="text-center text-lg font-bold">
+          <h1 className="text-center text-base font-bold">
             <span className="relative inline-block">
               {/* 點標題回 /station（清掉站/方向參數，回初始）— 同 sidebar 入口 */}
               <Link
