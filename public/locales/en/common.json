@@ -142,6 +142,7 @@
   "noTrainDataDueToApiErrorMsg": "System anomaly, please try again later or notify the system administrator.",
   "searchModeDirect": "Direct",
   "searchModeTransfer": "Transfer",
+  "stationTimetableShort": "Northbound / Southbound",
   "transferLegCount": "{{ count }} transfer(s)",
   "transferWaitAt": "Wait {{ minutes }} min at {{ station }}",
   "transferWaitLabel": "Transfer Wait",

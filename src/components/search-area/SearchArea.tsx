@@ -8,8 +8,10 @@ import useRwd from "@/hooks/useRwd";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Tab, Tabs } from "@heroui/react";
-import dynamic from "next/dynamic";
+import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "next-i18next";
+import dynamic from "next/dynamic";
+import Link from "next/link";
 import { FC } from "react";
 import Area from "./Area";
 import SearchButton from "./SearchButton";
@@ -137,7 +139,7 @@ const SearchArea: FC = () => {
       </div>
       {/* 直達 / 轉乘模式切換 — 僅台鐵頁支援轉乘；放在搜尋按鈕上方 */}
       {isTr && (
-        <div className="-mb-2 mt-4 flex justify-center">
+        <div className="relative -mb-2 mt-4 flex justify-center">
           <Tabs
             variant="solid"
             radius="full"
@@ -165,6 +167,42 @@ const SearchArea: FC = () => {
             <Tab key="direct" title={t("searchModeDirect")} />
             <Tab key="transfer" title={t("searchModeTransfer")} />
           </Tabs>
+          {/* 站別時刻表入口 */}
+          <Tooltip
+            title={t("stationTimetableShort")}
+            arrow
+            placement="top"
+            slotProps={{
+              popper: {
+                modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+              },
+            }}
+          >
+            <Link
+              href="/station"
+              aria-label={t("trStationTimetableMenu")}
+              onClick={() => gaClickEvent(GaEnum.STATION_TIMETABLE_FROM_SEARCH)}
+              className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-1 rounded-full py-1.5 pl-2 pr-0 text-sm"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-5 shrink-0"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"
+                />
+              </svg>
+              <span className="hidden sm:inline">
+                {t("stationTimetableShort")}
+              </span>
+            </Link>
+          </Tooltip>
         </div>
       )}
 

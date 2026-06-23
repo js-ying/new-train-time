@@ -10,6 +10,7 @@ export enum GaEnum {
   TYMC_TITLE = "桃捷標題",
   HOME = "首頁 (sidebar)",
   STATION_TIMETABLE = "車站時刻表 (sidebar)",
+  STATION_TIMETABLE_FROM_SEARCH = "車站時刻表 (搜尋區)",
   FEATURES = "特色介紹",
   UPDATES = "更新公告",
   CONTACT_ME = "與我聯絡",

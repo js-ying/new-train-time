@@ -142,6 +142,7 @@
   "noTrainDataDueToApiErrorMsg": "系統異常，請稍後再試，或通知系統管理員。",
   "searchModeDirect": "直達",
   "searchModeTransfer": "轉乘",
+  "stationTimetableShort": "北上 / 南下時刻表",
   "transferLegCount": "轉 {{ count }} 次",
   "transferWaitAt": "於 {{ station }} 等待 {{ minutes }} 分",
   "transferWaitLabel": "轉乘等待",
