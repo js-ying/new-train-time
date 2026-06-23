@@ -173,9 +173,11 @@ const NoTrainData: FC<NoTrainDataProps> = ({
               </li>
             )}
           </ul>
-          {/* 手機版：按鈕另起一行置中，prefix 文字已在上方 li 內 */}
+          {/* 手機版：按鈕另起一行置中，prefix 文字已在上方 li 內。
+              justify-center 只置中於 message 區（icon 右側），中心比整張卡片偏右；
+              -translate-x 左移 icon 欄寬一半（icon 22 + marginRight 12 = 34 ⇒ 17px）對齊卡片中心 */}
           {canReport && (
-            <div className="mt-2 flex justify-center md:hidden">
+            <div className="mt-2 flex -translate-x-[17px] justify-center md:hidden">
               <Button
                 size="sm"
                 color="primary"
