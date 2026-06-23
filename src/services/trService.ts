@@ -4,9 +4,42 @@ import {
   JsyTrDeeplinkWebParams,
 } from "@/models/jsy-deeplink";
 import { JsyOperationAlert } from "@/models/jsy-operation-alert";
-import { JsyTrInfo, JsyTrTransferInfo } from "@/models/jsy-tr-info";
+import {
+  JsyTrInfo,
+  JsyTrStationTimetable,
+  JsyTrTimetable,
+  JsyTrTransferInfo,
+} from "@/models/jsy-tr-info";
 
 import fetchData from "./fetchData";
+
+/** 取得台鐵單站全日方向別時刻表（北上/南下時刻表頁） */
+export const getJsyTrStationTimetable = async (
+  stationId: string,
+  date?: string,
+  signal?: AbortSignal,
+): Promise<JsyTrStationTimetable> => {
+  return await fetchData(
+    "/api/getJsyTrStationTimetable",
+    { stationId, ...(date ? { date } : {}) },
+    "POST",
+    signal,
+  );
+};
+
+/** 取得單一車次完整停靠時刻（單站時刻表「列車詳細資訊」用） */
+export const getJsyTrTrainStopTimes = async (
+  trainNo: string,
+  date?: string,
+  signal?: AbortSignal,
+): Promise<JsyTrTimetable> => {
+  return await fetchData(
+    "/api/getJsyTrTrainStopTimes",
+    { trainNo, ...(date ? { date } : {}) },
+    "POST",
+    signal,
+  );
+};
 
 /** 取得台鐵時刻表 */
 export const getJsyTrInfo = async (

@@ -2,11 +2,31 @@ export const updateDataList = [
   {
     date: "2026-06",
     type: "both",
+    ver: "3.3.0",
+    items: [
+      {
+        type: "new",
+        content: "新功能：台鐵北上 / 南下時刻表，提供使用者單站即時查詢",
+      },
+      {
+        type: "update",
+        content: "統一車種底色寬度",
+      },
+      {
+        type: "fix",
+        content:
+          "修正轉乘列車的「詳細列車資訊」彈窗中，停靠車站未正確顯示的問題",
+      },
+    ],
+  },
+  {
+    date: "2026-06",
+    type: "both",
     ver: "3.2.1",
     items: [
       {
         type: "update",
-        content: "現在可以自行設定是否隱藏歷史查詢區塊",
+        content: "現在可以隱藏歷史查詢區塊",
       },
     ],
   },

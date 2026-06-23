@@ -16,12 +16,14 @@ import TransferReportReasonRadioGroup, {
 } from "./TransferReportReasonRadioGroup";
 
 interface NoTrainDataProps {
-  /** 來自 useTrainSearch 的 API 錯誤；非 null 即顯示紅 Alert */
-  apiError: ApiError | null;
+  /** 來自 useTrainSearch 的 API 錯誤；非 null 即顯示紅 Alert（isStation/isTransfer 模式可省略） */
+  apiError?: ApiError | null;
   /** 是否為轉乘模式無資料；切換 Alert 文案（含「可能不需轉乘」常見原因） */
   isTransfer?: boolean;
   /** 是否為台鐵（TR）；direct 模式無資料時用以追加「改試轉乘」引導 */
   isTr?: boolean;
+  /** 單站發車看板無資料（今日班次已發完）：顯示簡潔黃 Alert，無轉乘/起迄站字樣 */
+  isStation?: boolean;
   /** 當前查詢條件；提供完整即可在轉乘模式下顯示「錯誤回報」按鈕 */
   reportPayload?: {
     trainType: ReportTrainType;
@@ -43,6 +45,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
   apiError,
   isTransfer,
   isTr,
+  isStation,
   reportPayload,
 }) => {
   const { t, i18n } = useTranslation();
@@ -119,6 +122,15 @@ const NoTrainData: FC<NoTrainDataProps> = ({
           {trailingSpace}
           {`(${DateUtils.getCurrentDatetime()})`}
         </div>
+      </Alert>
+    );
+  }
+
+  // 單站發車看板：今日班次已發完（不需轉乘 / 起迄站字樣，只提示時間太晚）
+  if (isStation) {
+    return (
+      <Alert severity="warning" variant="outlined" className="rounded-xl">
+        <div className="font-bold">{t("trStationBoardNoMoreTrains")}</div>
       </Alert>
     );
   }

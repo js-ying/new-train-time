@@ -9,8 +9,13 @@ import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
 
+interface OperationAlertProps {
+  /** 精簡模式：只顯示可點的彩色狀態圓點（用於空間窄處，如單站方向列） */
+  compact?: boolean;
+}
+
 /** [元件] 即時營運通阻訊息 */
-const OperationAlert: FC = () => {
+const OperationAlert: FC<OperationAlertProps> = ({ compact }) => {
   const { t } = useTranslation();
   const jsyOperationAlert = useOperationAlert();
   const { page } = usePage();
@@ -68,25 +73,51 @@ const OperationAlert: FC = () => {
     <>
       {jsyOperationAlert.status !== "error" && (
         <>
-          <div className="fade-in">
-            <span
-              className={`dot-static z-10 ${statusColorMap.get(jsyOperationAlert.status).bg}`}
-            ></span>
+          {compact ? (
+            // 精簡：只顯示可點的彩色狀態圓點（空間窄處用，如單站方向列）
             <Button
-              className={`-left-2.5 min-w-fit text-sm ${statusColorMap.get(jsyOperationAlert.status).text}`}
+              isIconOnly
+              aria-label={t(displayBtnName)}
               variant="light"
               size="sm"
+              radius="full"
+              className="fade-in"
               onPress={() => {
                 gaClickEvent(map[page]);
                 setOpen(true);
               }}
             >
-              {t(displayBtnName)}
-              {jsyOperationAlert.alerts.length > 1
-                ? ` (${jsyOperationAlert.alerts.length})`
-                : ""}
+              <span className="relative inline-flex size-2">
+                {/* 外環擴散光暈（ping），營造即時狀態動態感 */}
+                <span
+                  className={`absolute inline-flex size-full animate-ping rounded-full opacity-75 ${statusColorMap.get(jsyOperationAlert.status).bg}`}
+                />
+                <span
+                  className={`relative inline-flex size-2 rounded-full ${statusColorMap.get(jsyOperationAlert.status).bg}`}
+                />
+              </span>
             </Button>
-          </div>
+          ) : (
+            <div className="fade-in">
+              <span
+                className={`dot-static z-10 ${statusColorMap.get(jsyOperationAlert.status).bg}`}
+              ></span>
+              <Button
+                className={`-left-2.5 min-w-fit text-sm ${statusColorMap.get(jsyOperationAlert.status).text}`}
+                variant="light"
+                size="sm"
+                onPress={() => {
+                  gaClickEvent(map[page]);
+                  setOpen(true);
+                }}
+              >
+                {t(displayBtnName)}
+                {jsyOperationAlert.alerts.length > 1
+                  ? ` (${jsyOperationAlert.alerts.length})`
+                  : ""}
+              </Button>
+            </div>
+          )}
 
           <CommonDialog
             title="operationAlertTitle"

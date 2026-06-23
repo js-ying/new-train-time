@@ -157,6 +157,42 @@ module.exports = {
       });
     });
 
+    // 單站北上/南下時刻表著陸頁（高搜尋量「站名 + 北上/南下時刻表」關鍵字）。
+    // 頁面無「全部」、預設北上；西部幹線熱門站各出兩條：北上(dir=north) / 南下(dir=south)，
+    // canonical 各自獨立、讓「臺北北上時刻表」「臺北南下時刻表」分別可被索引（裸 ?station=X 會
+    // canonical 到 dir=north 故不另列）；非南北向站（如花蓮）只出一條 ?station=X。
+    // 站號取自上方 GA4 熱門 OD 的高流量站。dir 對應後端 directions.northSouth。
+    const stationQueryToRefs = (queryStr) => {
+      const routePath = `/station?${queryStr}`;
+      const xmlRoutePath = routePath.replace(/&/g, "&amp;");
+      const alternateRefs = [
+        { href: `${siteUrl}${xmlRoutePath}`, hreflang: "zh-Hant", hrefIsAbsolute: true },
+        { href: `${siteUrl}/en${xmlRoutePath}`, hreflang: "en", hrefIsAbsolute: true },
+        { href: `${siteUrl}${xmlRoutePath}`, hreflang: "x-default", hrefIsAbsolute: true },
+      ];
+      locales.forEach((locale) => {
+        paths.push({
+          loc: `${siteUrl}${locale}${routePath}`,
+          changefreq: "weekly",
+          priority: 0.7,
+          alternateRefs,
+        });
+      });
+    };
+
+    const westernMainStations = [
+      "0900", "0960", "0980", "1000", "1020", "1040", "1070", "1080", "1090",
+      "1100", "1210", "1250", "3300", "3340", "3360", "3390", "4080", "4220",
+      "4340", "4400",
+    ]; // 縱貫線/屏東線熱門站（皆 ≤5120，可標北上/南下）
+    const nonNorthSouthStations = ["7000"]; // 花蓮（東部，不標北上/南下）
+
+    westernMainStations.forEach((id) => {
+      stationQueryToRefs(`station=${id}&dir=north`);
+      stationQueryToRefs(`station=${id}&dir=south`);
+    });
+    nonNorthSouthStations.forEach((id) => stationQueryToRefs(`station=${id}`));
+
     return paths;
   },
   // 自訂每個頁面的內容

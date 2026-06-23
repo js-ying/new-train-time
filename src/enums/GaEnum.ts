@@ -9,6 +9,7 @@ export enum GaEnum {
   THSR_TITLE = "高鐵標題",
   TYMC_TITLE = "桃捷標題",
   HOME = "首頁 (sidebar)",
+  STATION_TIMETABLE = "車站時刻表 (sidebar)",
   FEATURES = "特色介紹",
   UPDATES = "更新公告",
   CONTACT_ME = "與我聯絡",

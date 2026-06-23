@@ -54,6 +54,10 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   const list = useMemo(() => {
     return [
       {
+        text: "trStationTimetableMenu",
+        icon: "M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z",
+      },
+      {
         text: "premiumPlansMenu",
         icon: "M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z",
       },
@@ -85,6 +89,11 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
     switch (text) {
       case "home":
         gaClickEvent(GaEnum.HOME);
+        setSidebarOpen(false);
+        break;
+
+      case "trStationTimetableMenu":
+        gaClickEvent(GaEnum.STATION_TIMETABLE);
         setSidebarOpen(false);
         break;
 
@@ -128,6 +137,8 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
   /** 取得選單項目的連結目標 */
   const getHref = (text: string): string => {
     switch (text) {
+      case "trStationTimetableMenu":
+        return "/station";
       case "featureIntroductionMenu":
         return "/features";
       case "updateAnnouncementsMenu":
