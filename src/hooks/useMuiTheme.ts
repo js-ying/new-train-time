@@ -35,6 +35,14 @@ const useMuiTheme = () => {
           fontWeightRegular: 500,
         },
         components: {
+          MuiListItemIcon: {
+            styleOverrides: {
+              // icon 跟隨 text.primary，與 label 同色（light 黑 / dark 白）
+              root: ({ theme }) => ({
+                color: theme.palette.text.primary,
+              }),
+            },
+          },
           MuiListItemButton: {
             styleOverrides: {
               root: {

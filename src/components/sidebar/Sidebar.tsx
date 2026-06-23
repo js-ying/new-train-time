@@ -150,7 +150,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
             <ListItemButton
               component={Link}
               href="/"
-              className="font-bold text-silverLakeBlue-500 dark:text-gamboge-500"
+              className="font-bold"
               onClick={() => handleClick("home")}
               sx={{ width: "100%" }}
             >
@@ -188,18 +188,25 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                   <span className="truncate text-sm">
                     {t("greeting", { name: user.displayName })}
                   </span>
-                  {/* 會員徽章：付費標主題色（亮藍暗橘）、一般用中性色 */}
-                  <span
-                    className={`ml-1.5 mt-0.5 shrink-0 rounded-full border px-1 text-xs ${
-                      profile?.isPremium
-                        ? "border-primary text-primary"
-                        : "border-zinc-400 text-zinc-500 dark:border-zinc-500 dark:text-zinc-400"
-                    }`}
-                  >
-                    {profile?.isPremium
-                      ? t("memberBadge")
-                      : t("memberBadgeBasic")}
-                  </span>
+                  {/* 付費會員徽章：amber 皇冠（一般會員不顯示徽章） */}
+                  {profile?.isPremium && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      role="img"
+                      aria-label={t("memberBadge")}
+                      className="ml-1.5 size-5 shrink-0 text-yellow-500 dark:text-yellow-500/80"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z"
+                      />
+                    </svg>
+                  )}
                 </>
               ) : (
                 <span className="text-sm text-zinc-500 dark:text-zinc-400">
@@ -262,10 +269,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                       />
                     </svg>
                   </ListItemIcon>
-                  <ListItemText
-                    primary={t(item.text)}
-                    primaryTypographyProps={{}}
-                  />
+                  <ListItemText primary={t(item.text)} />
                 </ListItemButton>
               )}
             </ListItem>
