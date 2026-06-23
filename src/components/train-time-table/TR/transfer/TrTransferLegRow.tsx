@@ -134,6 +134,10 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
         open={open}
         setOpen={setOpen}
         data={pseudoTimetable}
+        highlightStationIds={[
+          leg.boardStopTime.stationId,
+          leg.alightStopTime.stationId,
+        ]}
       />
     </>
   );
