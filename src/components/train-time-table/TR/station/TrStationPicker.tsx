@@ -150,12 +150,13 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
         <div>{selectedName ?? ""}</div>
       </Area>
 
-      {/* 離我最近車站 */}
+      {/* 離我最近車站：icon 在左、右側補隱形 spacer 平衡寬度，使文字視覺置中、對齊上方標題中軸 */}
       <div className="flex justify-center">
         <Button
           variant="light"
           className="text-sm"
           startContent={<LocateIcon className="h-4 w-4" />}
+          endContent={<span aria-hidden className="h-4 w-1.5" />}
           onPress={handleLocate}
         >
           {t("trStationNearestButton")}
