@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import { JsyTrTimetable } from "../../../models/jsy-tr-info";
 
+import useLang from "@/hooks/useLang";
 import { getNameLangKey } from "../../../utils/LocaleUtils";
 import { getTrTrainTypeNameByCode } from "../../../utils/TrainInfoUtils";
 import TrTrainType from "./TrTrainType";
@@ -13,6 +14,7 @@ interface TrTimeInfoLeftAreaProps {
 
 const TrTimeInfoLeftArea: FC<TrTimeInfoLeftAreaProps> = ({ data }) => {
   const { i18n } = useTranslation();
+  const { isTw } = useLang();
   const langKey = getNameLangKey(i18n.language);
 
   return (
@@ -33,6 +35,7 @@ const TrTimeInfoLeftArea: FC<TrTimeInfoLeftAreaProps> = ({ data }) => {
             data.trainInfo.trainTypeCode,
             i18n.language,
           )}
+          className={isTw ? "mx-auto block max-w-14 text-center" : ""}
         />
       </div>
 

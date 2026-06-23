@@ -4,6 +4,8 @@ import { FC } from "react";
 interface TrTrainTypeProps {
   code: string;
   trainTypeName: string;
+  /** 額外樣式（呼叫端控制寬度/排版，預設不影響既有用法） */
+  className?: string;
 }
 
 /** TR 車種顏色 — 列舉色為業務語意，直接用 Tailwind palette；
@@ -55,13 +57,19 @@ const TR_TRAIN_TYPE_STYLE: Record<string, TrTrainTypeStyle> = {
   },
 };
 
-const TrTrainType: FC<TrTrainTypeProps> = ({ code, trainTypeName }) => {
+const TrTrainType: FC<TrTrainTypeProps> = ({
+  code,
+  trainTypeName,
+  className = "",
+}) => {
   const { isTw } = useLang();
   const style = TR_TRAIN_TYPE_STYLE[code];
   if (!style) return null;
 
   return (
-    <span className={`rounded px-1 py-0.5 ${isTw ? style.tw : style.en}`}>
+    <span
+      className={`rounded px-1 py-0.5 ${isTw ? style.tw : style.en} ${className}`}
+    >
       {trainTypeName}
     </span>
   );
