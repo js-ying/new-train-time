@@ -20,6 +20,8 @@ interface NoTrainDataProps {
   apiError?: ApiError | null;
   /** 是否為轉乘模式無資料；切換 Alert 文案（含「可能不需轉乘」常見原因） */
   isTransfer?: boolean;
+  /** 轉乘無資料但該區間有直達車：改顯示「建議切換直達查詢」引導（取代泛用原因） */
+  hasDirect?: boolean;
   /** 是否為台鐵（TR）；direct 模式無資料時用以追加「改試轉乘」引導 */
   isTr?: boolean;
   /** 單站發車看板無資料（今日班次已發完）：顯示簡潔黃 Alert，無轉乘/起迄站字樣 */
@@ -44,6 +46,7 @@ interface NoTrainDataProps {
 const NoTrainData: FC<NoTrainDataProps> = ({
   apiError,
   isTransfer,
+  hasDirect,
   isTr,
   isStation,
   reportPayload,
@@ -152,8 +155,15 @@ const NoTrainData: FC<NoTrainDataProps> = ({
           <div className="mb-3 font-bold">{t("noTransferDataTitleMsg")}</div>
           {/* Tailwind Preflight 會把 ul 的 list-style 重置成 none，需用 list-disc 還原符號 */}
           <ul className="list-inside list-disc">
-            <li>{t("noTransferInThisTimeMsg")}</li>
-            <li>{t("noSuitableTransferRouteMsg")}</li>
+            {/* 該區間有直達車：以「建議改用直達查詢」取代泛用原因（避免使用者誤判系統壞掉而回報） */}
+            {hasDirect ? (
+              <li>{t("hasDirectTrainMsg")}</li>
+            ) : (
+              <>
+                <li>{t("noTransferInThisTimeMsg")}</li>
+                <li>{t("noSuitableTransferRouteMsg")}</li>
+              </>
+            )}
             {/* 第三點：prefix 文字一律以 li 呈現（與前兩點對齊）；按鈕僅 PC 接在文字後 */}
             {canReport && (
               <li>

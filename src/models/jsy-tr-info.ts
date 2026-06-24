@@ -120,4 +120,6 @@ export interface JsyTrTransferInfo {
   trainDate: string;
   combinations: JsyTrTransferCombination[];
   announcements: JsyAnnouncement[];
+  /** 該 OD 在查詢時間後是否有直達車；轉乘 0 筆時用以引導切『直達』查詢 */
+  hasDirect: boolean;
 }

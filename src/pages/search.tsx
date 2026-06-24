@@ -186,6 +186,7 @@ const Search: FC = () => {
                 <NoTrainData
                   apiError={apiError}
                   isTransfer={isTr && isTransfer}
+                  hasDirect={isTr && isTransfer && !!jsyTrTransferInfo?.hasDirect}
                   isTr={isTr}
                   reportPayload={reportPayload}
                 />
