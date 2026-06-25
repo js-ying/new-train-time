@@ -18,7 +18,7 @@ const TrainSwitch: FC = () => {
   const { page } = usePage();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const trains = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC];
+  const trains = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC, PageEnum.BUS];
 
   const handleTrainSwitch = (targetPage: PageEnum) => {
     setParams({
@@ -37,6 +37,7 @@ const TrainSwitch: FC = () => {
     if (targetPage === PageEnum.TR) gaClickEvent(GaEnum.TR_TITLE);
     else if (targetPage === PageEnum.THSR) gaClickEvent(GaEnum.THSR_TITLE);
     else if (targetPage === PageEnum.TYMC) gaClickEvent(GaEnum.TYMC_TITLE);
+    else if (targetPage === PageEnum.BUS) gaClickEvent(GaEnum.BUS_TITLE);
   };
 
   return (

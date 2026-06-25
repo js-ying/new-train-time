@@ -10,6 +10,8 @@ const getHomePath = (page: PageEnum | string) => {
       return PathEnum.thsrHome;
     case PageEnum.TYMC || PageEnum.TYMC.toString():
       return PathEnum.tymcHome;
+    case PageEnum.BUS:
+      return PathEnum.busHome;
     default:
       return "/";
   }

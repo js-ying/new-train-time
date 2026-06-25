@@ -8,6 +8,8 @@ export enum GaEnum {
   TR_TITLE = "台鐵標題",
   THSR_TITLE = "高鐵標題",
   TYMC_TITLE = "桃捷標題",
+  BUS_TITLE = "公車標題",
+  BUS_ROUTE_SELECT = "公車路線選擇",
   HOME = "首頁 (sidebar)",
   STATION_TIMETABLE = "車站時刻表 (sidebar)",
   STATION_TIMETABLE_FROM_SEARCH = "車站時刻表 (搜尋區)",
