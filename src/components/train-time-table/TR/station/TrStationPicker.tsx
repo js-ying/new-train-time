@@ -15,6 +15,7 @@ import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import {
   FC,
+  ReactNode,
   useDeferredValue,
   useEffect,
   useMemo,
@@ -25,6 +26,8 @@ import {
 interface TrStationPickerProps {
   selectedStationId: string | null;
   onSelectStation: (stationId: string) => void;
+  /** 掛在「離我最近車站」同列最右側的動作槽（如刷新 icon、未來的收藏愛心）；absolute 不影響按鈕置中 */
+  rightSlot?: ReactNode;
 }
 
 /**
@@ -35,6 +38,7 @@ interface TrStationPickerProps {
 const TrStationPicker: FC<TrStationPickerProps> = ({
   selectedStationId,
   onSelectStation,
+  rightSlot,
 }) => {
   const { t, i18n } = useTranslation();
   const { isMobile } = useRwd();
@@ -47,6 +51,8 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
   const [locating, setLocating] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
   const [sameQueryOpen, setSameQueryOpen] = useState(false);
+  // 被擋下當下凍結的剩餘秒數（提示用，不即時倒數）
+  const [sameQuerySeconds, setSameQuerySeconds] = useState(0);
   const deferredInput = useDeferredValue(inputValue);
   const inputRef = useRef<HTMLInputElement>(null);
   // 5 秒內重選同一站擋下（防連點 / 同查詢重洗 SSR+後端），比照 OD sameQueryMsg
@@ -67,6 +73,10 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
     const now = Date.now();
     const last = lastQueryRef.current;
     if (last && last.id === stationId && now - last.time < queryInterval) {
+      // 凍結被擋當下的剩餘秒數（無條件進位，至少 1 秒）
+      setSameQuerySeconds(
+        Math.max(1, Math.ceil((last.time + queryInterval - now) / 1000)),
+      );
       setSameQueryOpen(true);
       return;
     }
@@ -150,21 +160,28 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
         <div>{selectedName ?? ""}</div>
       </Area>
 
-      {/* 離我最近車站：icon 在左、右側補隱形 spacer 平衡寬度，使文字視覺置中、對齊上方標題中軸 */}
-      <div className="flex justify-center">
+      {/* 離我最近車站：左側定位 icon；右側動作槽（刷新）以 absolute 掛最右，按鈕本身置中於欄寬。 */}
+      <div className="relative mx-auto flex w-full justify-center md:max-w-[342px]">
         <Button
           variant="light"
           className="text-sm"
           startContent={<LocateIcon className="h-4 w-4" />}
-          endContent={<span aria-hidden className="h-4 w-1.5" />}
+          endContent={<span aria-hidden className="" />}
           onPress={handleLocate}
         >
           {t("trStationNearestButton")}
         </Button>
+        {rightSlot && (
+          <div className="absolute -right-1 top-1/2 -translate-y-1/2">
+            {rightSlot}
+          </div>
+        )}
       </div>
 
       {geoError && (
-        <div className="text-center text-xs text-danger">{geoError}</div>
+        <div className="mb-3 text-center text-xs text-red-600 dark:text-red-400">
+          {geoError}
+        </div>
       )}
 
       {/* 選站區：縣市分層 + 搜尋 */}
@@ -206,7 +223,7 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
 
       {/* 同站快速重選提示（比照 OD sameQueryMsg） */}
       <CommonDialog open={sameQueryOpen} setOpen={setSameQueryOpen}>
-        {t("sameQueryMsg")}
+        {t("sameQueryCountdownMsg", { seconds: sameQuerySeconds })}
       </CommonDialog>
     </div>
   );

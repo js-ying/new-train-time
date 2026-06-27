@@ -7,11 +7,11 @@ interface BusArrivalBadgeProps {
   estimateMinutes: number | null;
 }
 
-/** 各狀態 → i18n key（minutes 另外帶分鐘數插值）。 */
+/** 各狀態 → i18n key（minutes 單獨渲染數字+單位，不走此表）。 */
 const STATE_LABEL_KEY: Record<BusArrivalState, string> = {
   arriving: "busArriving",
   approaching: "busApproaching",
-  minutes: "busMinutes",
+  minutes: "busMinuteUnit",
   notDeparted: "busNotDeparted",
   trafficControl: "busTrafficControl",
   lastBusPassed: "busLastBusPassed",
@@ -19,16 +19,17 @@ const STATE_LABEL_KEY: Record<BusArrivalState, string> = {
   noData: "busNoData",
 };
 
-/** 各狀態 → 文字色（沿用 TrDelay 色票風格）；live 狀態加脈動圓點。 */
-const STATE_STYLE: Record<BusArrivalState, { color: string; live: boolean }> = {
-  arriving: { color: "text-emerald-600 dark:text-emerald-400", live: true },
-  approaching: { color: "text-emerald-600 dark:text-emerald-400", live: true },
-  minutes: { color: "text-silverLakeBlue-500 dark:text-gamboge-500", live: false },
-  notDeparted: { color: "text-zinc-500 dark:text-zinc-400", live: false },
-  trafficControl: { color: "text-amber-600 dark:text-amber-400", live: false },
-  lastBusPassed: { color: "text-zinc-400 dark:text-zinc-500", live: false },
-  notInService: { color: "text-zinc-400 dark:text-zinc-500", live: false },
-  noData: { color: "text-zinc-400 dark:text-zinc-500", live: false },
+/** 各狀態 → 文字色（沿用 TrDelay 色票風格）；分鐘數用一般前景色，靠數字大小凸顯。 */
+const STATE_COLOR: Record<BusArrivalState, string> = {
+  // 進站中＝車已到，用紅色凸顯急迫；即將到站維持綠色（綠→紅遞進）
+  arriving: "text-red-600 dark:text-red-400",
+  approaching: "text-emerald-600 dark:text-emerald-400",
+  minutes: "text-foreground",
+  notDeparted: "text-zinc-500 dark:text-zinc-400",
+  trafficControl: "text-amber-600 dark:text-amber-400",
+  lastBusPassed: "text-zinc-400 dark:text-zinc-500",
+  notInService: "text-zinc-400 dark:text-zinc-500",
+  noData: "text-zinc-400 dark:text-zinc-500",
 };
 
 /** [公車] 單站到站狀態徽章：依後端推導的 state 對應 i18n 文字 + 顏色。 */
@@ -37,17 +38,23 @@ const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
   estimateMinutes,
 }) => {
   const { t } = useTranslation();
-  const { color, live } = STATE_STYLE[state];
+  const color = STATE_COLOR[state];
 
-  const label =
-    state === "minutes"
-      ? t("busMinutes", { minutes: estimateMinutes ?? 0 })
-      : t(STATE_LABEL_KEY[state]);
+  // 「X 分」：分鐘數放大、單位維持小字，整體用一般色
+  if (state === "minutes") {
+    return (
+      <span className={`whitespace-nowrap font-medium ${color}`}>
+        <span className="text-lg font-semibold tabular-nums">
+          {estimateMinutes ?? 0}
+        </span>
+        <span className="ml-1 text-sm">{t("busMinuteUnit")}</span>
+      </span>
+    );
+  }
 
   return (
-    <span className={`relative whitespace-nowrap text-sm font-medium ${color}`}>
-      {label}
-      {live && <span className="dot bg-emerald-600 dark:bg-emerald-400"></span>}
+    <span className={`whitespace-nowrap text-sm font-medium ${color}`}>
+      {t(STATE_LABEL_KEY[state])}
     </span>
   );
 };

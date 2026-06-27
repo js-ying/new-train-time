@@ -1,8 +1,10 @@
 import {
   BusSource,
+  JsyBusNearestStop,
   JsyBusRoute,
   JsyBusRouteBoard,
   JsyBusRouteInfo,
+  JsyBusStopBoard,
 } from "@/models/jsy-bus-info";
 
 import fetchData from "./fetchData";
@@ -53,6 +55,36 @@ export const getBusRouteInfo = async (
   if (city) params.set("city", city);
   return await fetchData(
     `/api/bus/route/${encodeURIComponent(routeUid)}/info?${params.toString()}`,
+    {},
+    "GET",
+    signal,
+  );
+};
+
+/** 定位解析最近站牌（回 null 表附近查無站牌）。 */
+export const getBusNearestStop = async (
+  lat: number,
+  lon: number,
+  signal?: AbortSignal,
+): Promise<JsyBusNearestStop | null> => {
+  const params = new URLSearchParams({ lat: String(lat), lon: String(lon) });
+  return await fetchData(
+    `/api/bus/nearest-stop?${params.toString()}`,
+    {},
+    "GET",
+    signal,
+  );
+};
+
+/** 取某站牌所有路線即時到站看板（供輪詢）。 */
+export const getBusStopBoard = async (
+  city: string,
+  stopName: string,
+  signal?: AbortSignal,
+): Promise<JsyBusStopBoard> => {
+  const params = new URLSearchParams({ city, stopName });
+  return await fetchData(
+    `/api/bus/stop-board?${params.toString()}`,
     {},
     "GET",
     signal,

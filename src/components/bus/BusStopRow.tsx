@@ -19,12 +19,15 @@ const BusStopRow: FC<BusStopRowProps> = ({ stop }) => {
         </span>
         <span className="font-medium">{stop.stopName}</span>
         {stop.isLastBus && (
-          <span className="rounded bg-amber-100 px-1 text-xs text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
+          <span className="rounded bg-amber-100 px-1 text-xs text-amber-600 dark:bg-amber-600/40 dark:text-amber-300">
             {t("busLastBus")}
           </span>
         )}
       </div>
-      <BusArrivalBadge state={stop.state} estimateMinutes={stop.estimateMinutes} />
+      <BusArrivalBadge
+        state={stop.state}
+        estimateMinutes={stop.estimateMinutes}
+      />
     </div>
   );
 };

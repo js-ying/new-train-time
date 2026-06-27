@@ -4,6 +4,7 @@ export enum GaEnum {
   TR_TRAIN_DETAIL_CAPTURE = "台鐵 detail 拍照",
   THSR_TRAIN_DETAIL_CAPTURE = "高鐵 detail 拍照",
   TYMC_TRAIN_DETAIL_CAPTURE = "桃捷 detail 拍照",
+  BUS_ROUTE_DETAIL_CAPTURE = "公車 detail 拍照",
   TITLE = "首頁標題",
   TR_TITLE = "台鐵標題",
   THSR_TITLE = "高鐵標題",

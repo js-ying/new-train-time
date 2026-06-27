@@ -80,6 +80,7 @@ export interface JsyBusRouteBoard {
   routeUid: string;
   routeName: string;
   direction: number;
+  /** 方向 tab 顯示名（TDX 路線定義方向目的地，與站牌看板/詳細資訊一致；非站序末站）。 */
   destinationStop: string;
   stops: JsyBusStopArrival[];
 }
@@ -113,5 +114,42 @@ export interface JsyBusRouteInfo {
   ticketPrice?: string;
   fareBufferZone?: string;
   routeMapImageUrl?: string;
+  /** 平日/假日首末班車（HH:mm，跨子線彙整）；多為市區公車才有，無則略過。 */
+  firstLastBus?: JsyBusFirstLastBus;
   schedules: JsyBusScheduleGroup[];
+}
+
+/** 首末班車（平日/假日各一組 first/last，HH:mm）。 */
+export interface JsyBusFirstLastBus {
+  weekday?: { first: string; last: string };
+  holiday?: { first: string; last: string };
+}
+
+/** 離我最近站牌（定位解析結果；city 為 TDX 縣市代碼，stopName 供站牌看板查詢）。 */
+export interface JsyBusNearestStop {
+  city: string;
+  stopName: string;
+  lat: number;
+  lon: number;
+  /** 與使用者的距離（公尺）。 */
+  distanceM: number;
+}
+
+/** 站牌看板單列：某路線該方向的即時到站。 */
+export interface JsyBusStopBoardRoute {
+  /** 路線 UID（供點擊跳路線看板；source 固定 city、city 取看板所在縣市）。 */
+  routeUid: string;
+  routeName: string;
+  /** 往的終點站名。 */
+  destination: string;
+  direction: number;
+  state: BusArrivalState;
+  estimateMinutes: number | null;
+}
+
+/** 站牌即時看板：該站牌所有路線的到站（依最近排序）。 */
+export interface JsyBusStopBoard {
+  city: string;
+  stopName: string;
+  routes: JsyBusStopBoardRoute[];
 }
