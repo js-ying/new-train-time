@@ -1,7 +1,7 @@
 import BusAutoRefreshRing from "@/components/bus/BusAutoRefreshRing";
 import BusRouteBoard from "@/components/bus/BusRouteBoard";
 import BusRouteInfoModal from "@/components/bus/BusRouteInfoModal";
-import BusRouteSearch from "@/components/bus/BusRouteSearch";
+import BusRouteSearch, { SOURCE_LABEL_KEY } from "@/components/bus/BusRouteSearch";
 import BusStopBoard from "@/components/bus/BusStopBoard";
 import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
@@ -382,6 +382,13 @@ const BusPage: FC = () => {
                       destinationStop: "",
                       routeType: 0,
                     });
+                  }}
+                  // 次要標籤：縣市（市區公車）或來源（公路客運 / 台灣好行），區分同名不同路線（如台中 vs 新竹 182）
+                  resolveSubLabel={(target) => {
+                    const { source, city } = decodeBusMeta(target.meta);
+                    return source === "city" && city
+                      ? t(`busCity.${city}`, { defaultValue: city })
+                      : t(SOURCE_LABEL_KEY[source]);
                   }}
                 />
               </div>

@@ -23,6 +23,8 @@ interface StationHistoryPanelProps {
   onSelect: (target: StationTarget) => void;
   /** 顯示名解析（TR 即時 i18n 重解析站名；公車省略，直接用儲存名） */
   resolveLabel?: (target: StationTarget) => string;
+  /** 次要標籤（公車用：縣市 / 來源，區分同名不同路線如台中 vs 新竹的 182）；無則不顯示 */
+  resolveSubLabel?: (target: StationTarget) => string | undefined;
 }
 
 /** 清除按鈕（X icon），沿用 OD SearchHistory 樣式 */
@@ -60,6 +62,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
   trainType,
   onSelect,
   resolveLabel,
+  resolveSubLabel,
 }) => {
   const { t } = useTranslation();
   const { user, loginWithGoogle } = useAuth();
@@ -135,9 +138,11 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
     </span>
   );
 
-  // 單列：名稱按鈕（點擊重查）+ 收藏愛心（showFavoriteRoutes 開啟時）
+  // 單列：名稱按鈕（點擊重查）+ 收藏愛心（showFavoriteRoutes 開啟時）。
+  // 次要標籤（公車縣市/來源）以淡色接在名稱後，區分同名不同路線。
   const renderRow = (item: StationTarget) => {
     const fav = showFavoriteRoutes && isFavorite(item.targetId);
+    const subLabel = resolveSubLabel?.(item);
     return (
       <div className="relative" key={item.targetId}>
         <Button
@@ -147,6 +152,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
           onPress={() => handleSelect(item)}
         >
           {labelOf(item)}
+          {subLabel && <span className="ml-1.5 text-xs text-white/70">{subLabel}</span>}
         </Button>
         {showFavoriteRoutes && (
           <button

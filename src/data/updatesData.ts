@@ -1,5 +1,20 @@
 export const updateDataList = [
   {
+    date: "2026-07",
+    type: "both",
+    ver: "4.0.0",
+    items: [
+      {
+        type: "new",
+        content: "新功能：公車到站查詢",
+      },
+      {
+        type: "update",
+        content: "台鐵北上 / 南下時刻表加入歷史查詢與常用路線功能",
+      },
+    ],
+  },
+  {
     date: "2026-06",
     type: "both",
     ver: "3.3.0",

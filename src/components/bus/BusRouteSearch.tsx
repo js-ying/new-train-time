@@ -12,7 +12,7 @@ interface BusRouteSearchProps {
 }
 
 /** 路線來源 → i18n key（市區公車另以縣市名取代）。 */
-const SOURCE_LABEL_KEY: Record<JsyBusRoute["source"], string> = {
+export const SOURCE_LABEL_KEY: Record<JsyBusRoute["source"], string> = {
   city: "busSourceCity",
   intercity: "busSourceIntercity",
   taiwantrip: "busSourceTaiwanTrip",
