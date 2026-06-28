@@ -40,7 +40,8 @@ export const useNearestBusStop = (
         setIsLocating(false);
         setGeoError(t("trStationGeoDenied"));
       },
-      { enableHighAccuracy: false, timeout: 8000, maximumAge: 60000 },
+      // 高精度 GPS：粗略定位誤差大、站牌間易抖（最近站牌翻來翻去）；maximumAge 容許重用近 60s 定位增加穩定
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
     );
   };
 
