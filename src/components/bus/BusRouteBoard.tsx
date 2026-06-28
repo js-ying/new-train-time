@@ -1,5 +1,7 @@
+import AdBanner from "@/components/common/AdBanner";
 import useIsStuck from "@/hooks/useIsStuck";
 import { JsyBusRouteBoard } from "@/models/jsy-bus-info";
+import AdUtils from "@/utils/AdUtils";
 import { Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, ReactNode } from "react";
@@ -100,8 +102,16 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
       {current &&
         (current.stops.length > 0 ? (
           <div className="mt-2 flex flex-col gap-2">
-            {current.stops.map((stop) => (
-              <BusStopRow key={stop.stopUid} stop={stop} />
+            {current.stops.map((stop, index) => (
+              <div key={stop.stopUid}>
+                <BusStopRow stop={stop} />
+                {/* 站序內插廣告：最多第三筆後，不足三筆遞減（同 OD） */}
+                {AdUtils.showAd(current.stops.length, index) && (
+                  <div className="mt-2 empty:hidden">
+                    <AdBanner mode="trainInfo" />
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         ) : (

@@ -288,7 +288,7 @@ const BusPage: FC = () => {
             />
 
             {/* 離我最近站牌（定位 → 該站牌所有路線即時到站） */}
-            <div className="mt-3 flex flex-col items-center gap-1">
+            <div className="mt-4 flex flex-col items-center gap-1">
               <Button
                 variant="light"
                 size="sm"
@@ -300,7 +300,7 @@ const BusPage: FC = () => {
                 {t("busNearestStop")}
               </Button>
               {geoError && (
-                <div className="text-center text-xs text-red-600 dark:text-red-400">
+                <div className="mb-2 mt-2 text-center text-xs text-red-600 dark:text-red-400">
                   {geoError}
                 </div>
               )}
@@ -319,10 +319,18 @@ const BusPage: FC = () => {
                   )}
                 </div>
                 {stopBoard.data ? (
-                  <BusStopBoard
-                    board={stopBoard.data}
-                    onSelectRoute={handleSelectStopRoute}
-                  />
+                  <>
+                    <BusStopBoard
+                      board={stopBoard.data}
+                      onSelectRoute={handleSelectStopRoute}
+                    />
+                    {/* 站牌路線清單下方廣告（trainInfo 大版）；mt-2 對齊清單 gap-2 */}
+                    {AdUtils.showAd(0, 0) && (
+                      <div className="mt-2">
+                        <AdBanner mode="trainInfo" />
+                      </div>
+                    )}
+                  </>
                 ) : (
                   error && <NoTrainData apiError={error} />
                 )}
@@ -330,7 +338,7 @@ const BusPage: FC = () => {
             )}
 
             {selectedRoute && (
-              <div className="">
+              <div className="mt-1">
                 {data && data.length > 0 ? (
                   // 有看板：方向切換同列左掛詳細資訊、右掛角落槽（登入倒數環 / 未登入刷新+登入引導，互斥）
                   <BusRouteBoard
@@ -354,6 +362,13 @@ const BusPage: FC = () => {
                         {t("busNoRealtime")}
                       </div>
                     )}
+                    {/* 查過 TDX 即有廣告：錯誤 / 無即時班次也顯示（同 TR OD NoTrainData，trainInfo 大版）；載入中不掛 */}
+                    {AdUtils.showAd(0, 0) &&
+                      (error || (data != null && data.length === 0)) && (
+                        <div className="mt-4">
+                          <AdBanner mode="trainInfo" />
+                        </div>
+                      )}
                   </>
                 )}
               </div>
@@ -406,8 +421,10 @@ const BusPage: FC = () => {
 
           {isLoading && <Loading />}
 
-          {/* 底部可關閉廣告（mode=bottom） */}
-          {AdUtils.showAd(0, 0) && showBottomAd && <AdBanner mode="bottom" />}
+          {/* 底部可關閉廣告：有查詢(站牌/路線)才掛；單頁 shallow 不 unmount → 關閉狀態跨模式延續 */}
+          {AdUtils.showAd(0, 0) &&
+            showBottomAd &&
+            (isStopMode || selectedRoute) && <AdBanner mode="bottom" />}
         </Layout>
       </MuiThemeProvider>
     </>

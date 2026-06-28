@@ -254,8 +254,10 @@ const StationTimetablePage: FC<StationPageProps> = ({
             })}
           </CommonDialog>
 
-          {/* 底部可關閉廣告（mode=bottom，固定底部、可按 X） */}
-          {AdUtils.showAd(0, 0) && showBottomAd && <AdBanner mode="bottom" />}
+          {/* 底部可關閉廣告：查過站才掛（首入未查詢、未打 TDX，不跳廣告） */}
+          {AdUtils.showAd(0, 0) && showBottomAd && selectedStationId && (
+            <AdBanner mode="bottom" />
+          )}
         </Layout>
       </MuiThemeProvider>
     </>
