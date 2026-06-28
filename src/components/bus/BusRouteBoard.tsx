@@ -60,36 +60,28 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
               {leadingSlot}
             </div>
           )}
-          {boards.length > 1 ? (
-            <div className="flex justify-center">
-              <Tabs
-                variant="solid"
-                radius="full"
-                size="md"
-                classNames={{
-                  tabList: "!bg-transparent",
-                  cursor:
-                    "!bg-transparent !border border-zinc-700 dark:!border-zinc-200 !shadow-none",
-                  tab: "data-[hover-unselected=true]:opacity-100",
-                  tabContent:
-                    "group-data-[hover-unselected=true]:text-zinc-600 dark:group-data-[hover-unselected=true]:text-zinc-300",
-                }}
-                selectedKey={String(current?.direction ?? 0)}
-                onSelectionChange={(key) => onDirectionChange(Number(key))}
-              >
-                {boards.map((b) => (
-                  <Tab key={String(b.direction)} title={labelFor(b)} />
-                ))}
-              </Tabs>
-            </div>
-          ) : (
-            // 單向路線無 tab，仍顯示目的地；多向時 tab 已標明方向不再重複
-            current && (
-              <div className="text-center text-sm text-zinc-500 dark:text-zinc-400">
-                {t("busTowards", { destination: current.destinationStop })}
-              </div>
-            )
-          )}
+          {/* 單向也渲染 tab（單一 active pill）：列高與多向一致，leadingSlot/cornerSlot 才不會歪 */}
+          <div className="flex justify-center">
+            <Tabs
+              variant="solid"
+              radius="full"
+              size="md"
+              classNames={{
+                tabList: "!bg-transparent",
+                cursor:
+                  "!bg-transparent !border border-zinc-700 dark:!border-zinc-200 !shadow-none",
+                tab: "data-[hover-unselected=true]:opacity-100",
+                tabContent:
+                  "group-data-[hover-unselected=true]:text-zinc-600 dark:group-data-[hover-unselected=true]:text-zinc-300",
+              }}
+              selectedKey={String(current?.direction ?? 0)}
+              onSelectionChange={(key) => onDirectionChange(Number(key))}
+            >
+              {boards.map((b) => (
+                <Tab key={String(b.direction)} title={labelFor(b)} />
+              ))}
+            </Tabs>
+          </div>
 
           {cornerSlot && (
             <div className="absolute right-4 top-1/2 -translate-y-1/2">
