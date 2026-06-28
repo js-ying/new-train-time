@@ -339,7 +339,8 @@ const BusPage: FC = () => {
               onSelect={handleSelectRoute}
             />
 
-            {/* 離我最近站牌（定位 → 該站牌所有路線即時到站）；收藏愛心 absolute 掛同列最右（對應 OD 愛心） */}
+            {/* 離我最近站牌（定位 → 該站牌所有路線即時到站）：列滿版，按鈕置中、收藏愛心 absolute 掛最右，
+                與下方看板的倒數環 / 刷新鈕同在內容右緣對齊（搜尋框雖窄，控制項統一靠右） */}
             <div className="mt-4 flex flex-col items-center gap-1">
               <div className="relative flex w-full justify-center">
                 <Button
@@ -367,7 +368,7 @@ const BusPage: FC = () => {
 
             {/* 未選路線且非站牌模式時顯示歷史 / 常用路線（選路線後由看板取代，比照 OD 首頁→搜尋頁） */}
             {!selectedRoute && !isStopMode && (
-              <div className="mt-5 text-center empty:hidden">
+              <div className="mt-3 text-center empty:hidden">
                 <StationHistoryPanel
                   trainType="BUS"
                   onSelect={(target: StationTarget) => {

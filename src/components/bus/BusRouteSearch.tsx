@@ -108,9 +108,10 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
 
   return (
     <div className="flex flex-col gap-3">
-      {/* 出發車站樣式按鈕：上排標籤、下排已選路線（置中）；點擊展開下拉 */}
+      {/* 出發車站樣式按鈕：上排標籤、下排已選路線（置中）；點擊展開下拉。
+          寬度比照 TR 單站「出發車站」：手機滿版、電腦收成 342px 置中 */}
       <Area
-        className="mx-auto w-full"
+        className="mx-auto w-full md:max-w-[342px]"
         isActive={isOpen}
         onClick={() => setIsOpen((v) => !v)}
       >

@@ -5,9 +5,9 @@ import RefreshButton from "@/components/common/RefreshButton";
 import Layout from "@/components/layout/Layout";
 import DynamicAnnouncements from "@/components/search-area/alert/DynamicAnnouncements";
 import OperationAlert from "@/components/search-area/alert/OperationAlert";
-import NoTrainData from "@/components/train-time-table/NoTrainData";
 import StationFavoriteButton from "@/components/station-history/StationFavoriteButton";
 import StationHistoryPanel from "@/components/station-history/StationHistoryPanel";
+import NoTrainData from "@/components/train-time-table/NoTrainData";
 import TrStationPageSeo from "@/components/train-time-table/TR/station/TrStationPageSeo";
 import TrStationPicker from "@/components/train-time-table/TR/station/TrStationPicker";
 import TrStationTimeTable from "@/components/train-time-table/TR/station/TrStationTimeTable";
@@ -243,8 +243,10 @@ const StationTimetablePage: FC<StationPageProps> = ({
                     target={{
                       targetId: selectedStationId,
                       targetName:
-                        getTrStationNameById(selectedStationId, i18n.language) ??
-                        selectedStationId,
+                        getTrStationNameById(
+                          selectedStationId,
+                          i18n.language,
+                        ) ?? selectedStationId,
                     }}
                   />
                 ) : undefined
@@ -253,7 +255,7 @@ const StationTimetablePage: FC<StationPageProps> = ({
 
             {/* 未選站時顯示歷史 / 常用車站（選站後由時刻表取代，比照 OD 首頁→搜尋頁） */}
             {!selectedStationId && (
-              <div className="mt-5 text-center empty:hidden">
+              <div className="mt-2 text-center empty:hidden">
                 <StationHistoryPanel
                   trainType="TR"
                   onSelect={(target: StationTarget) =>

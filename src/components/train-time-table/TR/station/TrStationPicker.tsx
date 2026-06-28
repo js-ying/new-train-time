@@ -160,8 +160,9 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
         <div>{selectedName ?? ""}</div>
       </Area>
 
-      {/* 離我最近車站：左側定位 icon；右側動作槽（刷新）以 absolute 掛最右，按鈕本身置中於欄寬。 */}
-      <div className="relative mx-auto flex w-full justify-center md:max-w-[342px]">
+      {/* 離我最近車站列滿版：按鈕置中、右側動作槽（收藏愛心）absolute 掛最右，
+          與下方時刻表的刷新鈕同在內容右緣對齊（出發車站搜尋框雖窄，控制項統一靠右） */}
+      <div className="relative flex w-full justify-center">
         <Button
           variant="light"
           className="text-sm"
