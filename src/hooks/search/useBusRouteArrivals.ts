@@ -24,12 +24,13 @@ export const useBusRouteArrivals = (
 ): AutoRefreshDataResult<JsyBusRouteBoard[]> =>
   useAutoRefreshData<JsyBusRouteBoard[]>(
     selection
-      ? (signal) =>
+      ? (signal, isInitial) =>
           getBusRouteArrivals(
             selection.routeUid,
             selection.source,
             selection.city,
             signal,
+            isInitial, // 初次選定才記 analytics（輪詢不重複累計）
           )
       : null,
     selection

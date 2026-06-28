@@ -6,6 +6,8 @@ import Layout from "@/components/layout/Layout";
 import DynamicAnnouncements from "@/components/search-area/alert/DynamicAnnouncements";
 import OperationAlert from "@/components/search-area/alert/OperationAlert";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
+import StationFavoriteButton from "@/components/station-history/StationFavoriteButton";
+import StationHistoryPanel from "@/components/station-history/StationHistoryPanel";
 import TrStationPageSeo from "@/components/train-time-table/TR/station/TrStationPageSeo";
 import TrStationPicker from "@/components/train-time-table/TR/station/TrStationPicker";
 import TrStationTimeTable from "@/components/train-time-table/TR/station/TrStationTimeTable";
@@ -13,11 +15,13 @@ import { GaEnum } from "@/enums/GaEnum";
 import useTrStationTimetable from "@/hooks/search/useTrStationTimetable";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import useRefreshCooldown from "@/hooks/useRefreshCooldown";
+import useStationHistory from "@/hooks/useStationHistory";
 import { JsyTrStationTimetable } from "@/models/jsy-tr-info";
+import { StationTarget } from "@/models/station-history";
 import { fetchTrStationTimetableServerSide } from "@/services/trStationTimetableServerService";
 import AdUtils from "@/utils/AdUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { isValidTrStationId } from "@/utils/StationUtils";
+import { getTrStationNameById, isValidTrStationId } from "@/utils/StationUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { GetServerSidePropsContext } from "next";
 import { useTranslation } from "next-i18next";
@@ -83,11 +87,13 @@ const StationTimetablePage: FC<StationPageProps> = ({
 }) => {
   const muiTheme = useMuiTheme();
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data, error, isLoading, fetchStation, reset } = useTrStationTimetable(
     initialStationId,
     initialData,
   );
+  // 單站歷史（TR）：查過的車站；常用車站由 picker 愛心 / 面板愛心經 StationFavoritesContext 管理
+  const { saveHistory: saveStationHistory } = useStationHistory("TR");
 
   const [selectedStationId, setSelectedStationId] = useState<string | null>(
     initialStationId,
@@ -116,6 +122,20 @@ const StationTimetablePage: FC<StationPageProps> = ({
           : null;
       setDirectionFilter(resolveDirection(urlDir, data));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  // 查得某站資料即寫入歷史（涵蓋 picker / 定位 / 面板點選 / URL 直連各入口）；
+  // 以 stationId 為 guard 避免同站重複寫，換語言不重存（站名由面板即時重解析）
+  const lastSavedStation = useRef<string | null>(null);
+  useEffect(() => {
+    const sid = data?.stationId;
+    if (!sid || lastSavedStation.current === sid) return;
+    lastSavedStation.current = sid;
+    saveStationHistory({
+      targetId: sid,
+      targetName: getTrStationNameById(sid, i18n.language) ?? sid,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
@@ -215,7 +235,37 @@ const StationTimetablePage: FC<StationPageProps> = ({
             <TrStationPicker
               selectedStationId={selectedStationId}
               onSelectStation={handleSelectStation}
+              // 收藏愛心掛在「離我最近車站」同列最右（對應 OD 時刻表愛心）；未選站不顯示
+              rightSlot={
+                selectedStationId ? (
+                  <StationFavoriteButton
+                    trainType="TR"
+                    target={{
+                      targetId: selectedStationId,
+                      targetName:
+                        getTrStationNameById(selectedStationId, i18n.language) ??
+                        selectedStationId,
+                    }}
+                  />
+                ) : undefined
+              }
             />
+
+            {/* 未選站時顯示歷史 / 常用車站（選站後由時刻表取代，比照 OD 首頁→搜尋頁） */}
+            {!selectedStationId && (
+              <div className="mt-5 text-center empty:hidden">
+                <StationHistoryPanel
+                  trainType="TR"
+                  onSelect={(target: StationTarget) =>
+                    handleSelectStation(target.targetId)
+                  }
+                  resolveLabel={(target) =>
+                    getTrStationNameById(target.targetId, i18n.language) ??
+                    target.targetName
+                  }
+                />
+              </div>
+            )}
 
             <div className="mt-2">
               {data && data.announcements?.length > 0 && (

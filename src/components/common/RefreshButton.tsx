@@ -40,7 +40,8 @@ const RefreshButton: FC<RefreshButtonProps> = ({ onRefresh }) => {
       tabIndex={0}
       role="button"
       aria-label={t("refreshBtnLabel")}
-      className="custom-cursor-pointer inline-flex p-1 text-zinc-600 dark:text-zinc-300"
+      // 16px icon 置中於 20px 方框（size-5）：icon 較小，但 footprint/中心與收藏愛心、倒數環（皆 20px）一致而對齊
+      className="custom-cursor-pointer inline-flex size-5 items-center justify-center text-zinc-600 dark:text-zinc-300"
       onClick={handlePress}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") handlePress();

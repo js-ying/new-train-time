@@ -10,6 +10,8 @@ import RefreshButton from "@/components/common/RefreshButton";
 import LocateIcon from "@/components/icons/LocateIcon";
 import Layout from "@/components/layout/Layout";
 import PageSeo from "@/components/seo/PageSeo";
+import StationFavoriteButton from "@/components/station-history/StationFavoriteButton";
+import StationHistoryPanel from "@/components/station-history/StationHistoryPanel";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
@@ -24,12 +26,14 @@ import useBusStopBoard, {
 import useNearestBusStop from "@/hooks/search/useNearestBusStop";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import useRefreshCooldown from "@/hooks/useRefreshCooldown";
+import useStationHistory from "@/hooks/useStationHistory";
 import {
   BusSource,
   JsyBusNearestStop,
   JsyBusRoute,
   JsyBusStopBoardRoute,
 } from "@/models/jsy-bus-info";
+import { StationTarget } from "@/models/station-history";
 import AdUtils from "@/utils/AdUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
@@ -38,7 +42,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 // i18n（公車頁為即時看板，不做 SSR 取數；資料於 client 抓 + 輪詢）
 export async function getServerSideProps({ locale }: { locale: string }) {
@@ -71,6 +75,21 @@ const parseRouteFromQuery = (query: ParsedUrlQuery): JsyBusRoute | null => {
     destinationStop: "",
     routeType: 0,
   };
+};
+
+/**
+ * 公車歷史 / 收藏的 meta 編解碼：route_uid 不足以重查看板（arrivals 需 source，source=city 需 city），
+ * 故把路由資訊存進通用單點表的 meta 欄（"source|city"）。
+ */
+const encodeBusMeta = (source: BusSource, city?: string): string =>
+  `${source}|${city ?? ""}`;
+
+const decodeBusMeta = (meta?: string): { source: BusSource; city?: string } => {
+  const [rawSource, rawCity] = (meta ?? "").split("|");
+  const source = VALID_SOURCES.includes(rawSource as BusSource)
+    ? (rawSource as BusSource)
+    : "city";
+  return { source, city: rawCity || undefined };
 };
 
 /** 詳細資訊（i）icon。 */
@@ -135,6 +154,22 @@ const BusPage: FC = () => {
   const routeArrivals = useBusRouteArrivals(selection);
   const { data } = routeArrivals;
 
+  // 公車歷史（BUS）：查過的路線；常用路線由搜尋列愛心 / 面板愛心經 StationFavoritesContext 管理
+  const { saveHistory: saveBusHistory } = useStationHistory("BUS");
+  // 看板載入成功即寫入歷史（meta 帶 source/city 供重查）；以 routeUid guard 避免輪詢重複寫
+  const lastSavedRoute = useRef<string | null>(null);
+  useEffect(() => {
+    if (!selectedRoute || data == null) return;
+    if (lastSavedRoute.current === selectedRoute.routeUid) return;
+    lastSavedRoute.current = selectedRoute.routeUid;
+    saveBusHistory({
+      targetId: selectedRoute.routeUid,
+      targetName: selectedRoute.routeName,
+      meta: encodeBusMeta(selectedRoute.source, selectedRoute.city),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRoute, data]);
+
   // 站牌看板（stop 模式，URL ?stopCity=&stopName=，與 routeUid 互斥）
   const stopCity =
     typeof router.query.stopCity === "string" ? router.query.stopCity : null;
@@ -154,6 +189,8 @@ const BusPage: FC = () => {
     isAutoRefresh,
     nextUpdateAt,
     refresh,
+    isIdle,
+    resumeAutoRefresh,
   } = active;
 
   // 手動刷新冷卻（route/stop 共用一份；refresh 指向作用中看板）；冷卻中再按 → 彈窗「請於 X 秒後再試」
@@ -276,6 +313,21 @@ const BusPage: FC = () => {
     </button>
   );
 
+  // 收藏 target（當前選定路線）；route_uid 不足以重查，meta 帶 source/city
+  const busFavoriteTarget: StationTarget | null = selectedRoute
+    ? {
+        targetId: selectedRoute.routeUid,
+        targetName: selectedRoute.routeName,
+        meta: encodeBusMeta(selectedRoute.source, selectedRoute.city),
+      }
+    : null;
+  // 愛心出現在兩處（搜尋列「離我最近站牌」同列最右 + 看板吸頂時路線名同列最右），
+  // 依捲動位置互斥可見；各處各自建立實例，不共用同一 element。
+  const renderBusFavorite = () =>
+    busFavoriteTarget ? (
+      <StationFavoriteButton trainType="BUS" target={busFavoriteTarget} />
+    ) : null;
+
   return (
     <>
       <PageSeo />
@@ -287,24 +339,52 @@ const BusPage: FC = () => {
               onSelect={handleSelectRoute}
             />
 
-            {/* 離我最近站牌（定位 → 該站牌所有路線即時到站） */}
+            {/* 離我最近站牌（定位 → 該站牌所有路線即時到站）；收藏愛心 absolute 掛同列最右（對應 OD 愛心） */}
             <div className="mt-4 flex flex-col items-center gap-1">
-              <Button
-                variant="light"
-                size="sm"
-                className="text-sm"
-                startContent={<LocateIcon className="h-4 w-4" />}
-                endContent={<span aria-hidden className="" />}
-                onPress={locate}
-              >
-                {t("busNearestStop")}
-              </Button>
+              <div className="relative flex w-full justify-center">
+                <Button
+                  variant="light"
+                  size="sm"
+                  className="text-sm"
+                  startContent={<LocateIcon className="h-4 w-4" />}
+                  // endContent={<span aria-hidden className="" />}
+                  onPress={locate}
+                >
+                  {t("busNearestStop")}
+                </Button>
+                {busFavoriteTarget && (
+                  <div className="absolute inset-y-0 right-0 flex items-center">
+                    {renderBusFavorite()}
+                  </div>
+                )}
+              </div>
               {geoError && (
                 <div className="mb-2 mt-2 text-center text-xs text-red-600 dark:text-red-400">
                   {geoError}
                 </div>
               )}
             </div>
+
+            {/* 未選路線且非站牌模式時顯示歷史 / 常用路線（選路線後由看板取代，比照 OD 首頁→搜尋頁） */}
+            {!selectedRoute && !isStopMode && (
+              <div className="mt-5 text-center empty:hidden">
+                <StationHistoryPanel
+                  trainType="BUS"
+                  onSelect={(target: StationTarget) => {
+                    const { source, city } = decodeBusMeta(target.meta);
+                    handleSelectRoute({
+                      routeUid: target.targetId,
+                      routeName: target.targetName,
+                      source,
+                      city,
+                      departureStop: "",
+                      destinationStop: "",
+                      routeType: 0,
+                    });
+                  }}
+                />
+              </div>
+            )}
 
             {/* 站牌模式：定位到的站牌、其所有路線即時到站 */}
             {isStopMode && (
@@ -348,6 +428,7 @@ const BusPage: FC = () => {
                     routeName={selectedRoute.routeName}
                     leadingSlot={routeInfoButton}
                     cornerSlot={autoRefreshRing ?? refreshControls}
+                    favoriteSlot={renderBusFavorite()}
                   />
                 ) : (
                   <>
@@ -416,6 +497,18 @@ const BusPage: FC = () => {
               {t("sameQueryCountdownMsg", {
                 seconds: busQueryCooldown.frozenSeconds,
               })}
+            </CommonDialog>
+
+            {/* 久無操作暫停自動更新：任何關閉動作（繼續更新 / X / 背景 / Esc）都代表使用者在場 → 恢復輪詢 */}
+            <CommonDialog
+              open={isIdle}
+              setOpen={(o) => {
+                if (!o) resumeAutoRefresh();
+              }}
+              title="autoRefreshIdleTitle"
+              confirmText="autoRefreshIdleConfirm"
+            >
+              {t("autoRefreshIdleMsg")}
             </CommonDialog>
           </div>
 

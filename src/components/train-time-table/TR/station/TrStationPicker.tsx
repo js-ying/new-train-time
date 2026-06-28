@@ -166,13 +166,13 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
           variant="light"
           className="text-sm"
           startContent={<LocateIcon className="h-4 w-4" />}
-          endContent={<span aria-hidden className="" />}
+          // endContent={<span aria-hidden className="" />}
           onPress={handleLocate}
         >
           {t("trStationNearestButton")}
         </Button>
         {rightSlot && (
-          <div className="absolute -right-1 top-1/2 -translate-y-1/2">
+          <div className="absolute inset-y-0 right-0 flex items-center">
             {rightSlot}
           </div>
         )}

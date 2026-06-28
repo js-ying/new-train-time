@@ -27,15 +27,18 @@ export const searchBusRoutes = async (
 /**
  * 取某路線雙向即時到站看板（站序骨幹 + N1 已貼合，供輪詢）。
  * source 必填；source=city 時 city 亦必填（否則後端回 INVALID_INPUT）。
+ * logQuery：僅初次選定路線時帶（後端 analytics 去重，輪詢不帶）。
  */
 export const getBusRouteArrivals = async (
   routeUid: string,
   source: BusSource,
   city: string | undefined,
   signal?: AbortSignal,
+  logQuery?: boolean,
 ): Promise<JsyBusRouteBoard[]> => {
   const params = new URLSearchParams({ source });
   if (city) params.set("city", city);
+  if (logQuery) params.set("log", "1");
   return await fetchData(
     `/api/bus/route/${encodeURIComponent(routeUid)}/arrivals?${params.toString()}`,
     {},

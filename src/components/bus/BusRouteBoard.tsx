@@ -19,6 +19,8 @@ interface BusRouteBoardProps {
   leadingSlot?: ReactNode;
   /** 掛在方向切換同列最右的元件（登入：倒數環；未登入：刷新+登入引導）；absolute 不影響 tab 置中 */
   cornerSlot?: ReactNode;
+  /** 收藏愛心：吸頂時掛在路線名同列最右（未吸頂時由頁面在搜尋列顯示） */
+  favoriteSlot?: ReactNode;
 }
 
 /**
@@ -32,6 +34,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
   routeName,
   leadingSlot,
   cornerSlot,
+  favoriteSlot,
 }) => {
   const { t } = useTranslation();
   const current = boards.find((b) => b.direction === direction) ?? boards[0];
@@ -49,9 +52,17 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
       {/* sticky 頂部：方向切換，下滑看站序時固定可見。
           z-[5]：高於站序卡片(z-auto)以遮住捲動內容，但低於 sidebar drawer(z-10)避免蓋到側欄 */}
       <div className="sticky top-0 z-[5] -mx-4 flex flex-col gap-2 bg-background/20 py-2 backdrop-blur-md">
-        {/* 路線名：方向切換上一排，僅吸頂時顯示（未吸頂時搜尋框已標示路線） */}
+        {/* 路線名：方向切換上一排，僅吸頂時顯示（未吸頂時搜尋框已標示路線）；
+            收藏愛心 absolute 掛同列最右（未吸頂時改由搜尋列的愛心顯示） */}
         {routeName && isStuck && (
-          <div className="text-center text-base font-bold">{routeName}</div>
+          <div className="relative">
+            <div className="text-center text-base font-bold">{routeName}</div>
+            {favoriteSlot && (
+              <div className="absolute inset-y-0 right-4 flex items-center">
+                {favoriteSlot}
+              </div>
+            )}
+          </div>
         )}
         {/* 方向切換列：tab/目的地置中，leadingSlot（詳細資訊）掛最左、cornerSlot（刷新/倒數環）掛最右 */}
         <div className="relative">
