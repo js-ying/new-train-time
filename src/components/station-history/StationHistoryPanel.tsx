@@ -1,8 +1,8 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
+import useSetting from "@/hooks/useSetting";
 import useStationFavorites from "@/hooks/useStationFavorites";
 import useStationHistory from "@/hooks/useStationHistory";
-import useSetting from "@/hooks/useSetting";
 import { MAX_STATION_FAVORITES } from "@/models/station-favorites";
 import {
   MAX_STATION_HISTORY,
@@ -146,13 +146,19 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
     return (
       <div className="relative" key={item.targetId}>
         <Button
-          className="h-8 w-full min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
+          className="h-8 w-full bg-neutral-500 text-sm text-white dark:bg-neutral-600"
           size="sm"
           radius="sm"
           onPress={() => handleSelect(item)}
         >
-          {labelOf(item)}
-          {subLabel && <span className="ml-1.5 text-xs text-white/70">{subLabel}</span>}
+          {/* 名稱過長以 … 截斷（保留前段路線號）；縣市/來源副標 shrink-0 永不被截。
+              TR/THSR/TYMC 名稱短、不會觸及上限，維持原樣 */}
+          <span className="flex w-full items-center justify-center gap-1.5 overflow-hidden">
+            <span className="min-w-0 truncate">{labelOf(item)}</span>
+            {subLabel && (
+              <span className="shrink-0 text-xs text-white/70">{subLabel}</span>
+            )}
+          </span>
         </Button>
         {showFavoriteRoutes && (
           <button
@@ -183,7 +189,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
         {title}
       </div>
       <div className="flex justify-center">
-        <div className="flex flex-col gap-2.5">
+        <div className="flex max-w-[10rem] flex-col gap-2.5">
           {items.map(renderRow)}
           {withClear && (
             <div className="flex justify-center">
@@ -271,11 +277,15 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
       >
         <Tab
           key="history"
-          title={tabTitle(t("historyTab"), historyList.length, MAX_STATION_HISTORY)}
+          title={tabTitle(
+            t("historyTab"),
+            historyList.length,
+            MAX_STATION_HISTORY,
+          )}
         >
           <div className="mt-1 flex justify-center">
             {historyList.length > 0 ? (
-              <div className="flex flex-col gap-2.5">
+              <div className="flex max-w-[10rem] flex-col gap-2.5">
                 {historyList.map(renderRow)}
                 <div className="flex justify-center">
                   <CloseButton onClick={handleClear} />
@@ -299,7 +309,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
         >
           <div className="mt-1 flex justify-center">
             {favoriteList.length > 0 ? (
-              <div className="flex flex-col gap-2.5">
+              <div className="flex max-w-[10rem] flex-col gap-2.5">
                 {favoriteList.map(renderRow)}
               </div>
             ) : (
