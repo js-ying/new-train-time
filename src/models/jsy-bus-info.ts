@@ -83,6 +83,9 @@ export interface JsyBusRouteBoard {
   /** 方向 tab 顯示名（TDX 路線定義方向目的地，與站牌看板/詳細資訊一致；非站序末站）。 */
   destinationStop: string;
   stops: JsyBusStopArrival[];
+  /** 路線來源/縣市（後端 routeUid 反查索引的權威值；存歷史/收藏 meta 用，URL 不帶 source/city）。 */
+  source?: BusSource;
+  city?: string;
 }
 
 /** 班距式服務時段（無固定時刻；前端以 i18n 格式化文字）。 */

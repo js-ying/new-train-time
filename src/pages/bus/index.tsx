@@ -1,7 +1,9 @@
 import BusAutoRefreshRing from "@/components/bus/BusAutoRefreshRing";
 import BusRouteBoard from "@/components/bus/BusRouteBoard";
 import BusRouteInfoModal from "@/components/bus/BusRouteInfoModal";
-import BusRouteSearch, { SOURCE_LABEL_KEY } from "@/components/bus/BusRouteSearch";
+import BusRouteSearch, {
+  SOURCE_LABEL_KEY,
+} from "@/components/bus/BusRouteSearch";
 import BusStopBoard from "@/components/bus/BusStopBoard";
 import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
@@ -57,13 +59,14 @@ const SAME_QUERY_COOLDOWN_MS = 5000;
 /** 從 URL query 還原已選路線（重新整理 / 分享連結可直接看板；route 為顯示用最小資訊）。 */
 const parseRouteFromQuery = (query: ParsedUrlQuery): JsyBusRoute | null => {
   const routeUid = typeof query.routeUid === "string" ? query.routeUid : null;
+  if (!routeUid) return null;
+
+  // source/city 已不入 URL（後端依 routeUid 反查索引為權威）；舊連結若仍帶則沿用，否則預設 city。
   const source =
     typeof query.source === "string" &&
     VALID_SOURCES.includes(query.source as BusSource)
       ? (query.source as BusSource)
-      : null;
-  if (!routeUid || !source) return null;
-
+      : "city";
   const city = typeof query.city === "string" ? query.city : undefined;
   const name = typeof query.name === "string" ? query.name : routeUid;
   return {
@@ -126,12 +129,7 @@ const BusPage: FC = () => {
       prev && fromUrl && prev.routeUid === fromUrl.routeUid ? prev : fromUrl,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    router.isReady,
-    router.query.routeUid,
-    router.query.source,
-    router.query.city,
-  ]);
+  }, [router.isReady, router.query.routeUid]);
 
   // 依 URL dir 設方向：從站牌看板點某向進來自動切到對應 tab，一般選路線(無 dir)預設去程。
   // deps 含 router.query.dir，讓 push 帶的 dir 落地後補正（避開與 setSelectedRoute 的 race）
@@ -156,16 +154,23 @@ const BusPage: FC = () => {
 
   // 公車歷史（BUS）：查過的路線；常用路線由搜尋列愛心 / 面板愛心經 StationFavoritesContext 管理
   const { saveHistory: saveBusHistory } = useStationHistory("BUS");
-  // 看板載入成功即寫入歷史（meta 帶 source/city 供重查）；以 routeUid guard 避免輪詢重複寫
+  // 只記「主動選擇」(搜尋/站牌/歷史點選)；直連/冷載還原不寫歷史。
+  // 在看板載入後才存，以取後端回應的權威 source/city（跨縣市 meta 也正確）；routeUid guard 防輪詢重複寫。
+  const activeSelectRef = useRef<string | null>(null);
   const lastSavedRoute = useRef<string | null>(null);
   useEffect(() => {
     if (!selectedRoute || data == null) return;
+    if (activeSelectRef.current !== selectedRoute.routeUid) return;
     if (lastSavedRoute.current === selectedRoute.routeUid) return;
     lastSavedRoute.current = selectedRoute.routeUid;
     saveBusHistory({
       targetId: selectedRoute.routeUid,
       targetName: selectedRoute.routeName,
-      meta: encodeBusMeta(selectedRoute.source, selectedRoute.city),
+      // source/city 取後端回應的權威值（routeUid 反查索引），冷載/分享也正確
+      meta: encodeBusMeta(
+        data[0]?.source ?? selectedRoute.source,
+        data[0]?.city ?? selectedRoute.city,
+      ),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRoute, data]);
@@ -235,14 +240,13 @@ const BusPage: FC = () => {
   const handleSelectRoute = (route: JsyBusRoute, dir?: number) => {
     busQueryCooldown.attempt(() => {
       gaClickEvent(GaEnum.BUS_ROUTE_SELECT);
+      activeSelectRef.current = route.routeUid; // 標記為主動選擇（歷史只記主動選擇，直連/冷載不記）
       setSelectedRoute(route);
       router.push(
         {
           pathname: "/bus",
           query: {
             routeUid: route.routeUid,
-            source: route.source,
-            ...(route.city ? { city: route.city } : {}),
             name: route.routeName,
             ...(dir != null ? { dir: String(dir) } : {}),
           },
@@ -313,12 +317,16 @@ const BusPage: FC = () => {
     </button>
   );
 
-  // 收藏 target（當前選定路線）；route_uid 不足以重查，meta 帶 source/city
+  // 收藏 target（當前選定路線）；meta 帶 source/city 供副標顯示縣市/來源
   const busFavoriteTarget: StationTarget | null = selectedRoute
     ? {
         targetId: selectedRoute.routeUid,
         targetName: selectedRoute.routeName,
-        meta: encodeBusMeta(selectedRoute.source, selectedRoute.city),
+        // source/city 優先取後端回應權威值（冷載/分享也正確）；看板未載入時退回 selectedRoute
+        meta: encodeBusMeta(
+          data?.[0]?.source ?? selectedRoute.source,
+          data?.[0]?.city ?? selectedRoute.city,
+        ),
       }
     : null;
   // 愛心出現在兩處（搜尋列「離我最近站牌」同列最右 + 看板吸頂時路線名同列最右），
@@ -368,7 +376,7 @@ const BusPage: FC = () => {
 
             {/* 未選路線且非站牌模式時顯示歷史 / 常用路線（選路線後由看板取代，比照 OD 首頁→搜尋頁） */}
             {!selectedRoute && !isStopMode && (
-              <div className="mt-3 text-center empty:hidden">
+              <div className="mt-2 text-center empty:hidden">
                 <StationHistoryPanel
                   trainType="BUS"
                   onSelect={(target: StationTarget) => {

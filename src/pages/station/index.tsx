@@ -125,12 +125,14 @@ const StationTimetablePage: FC<StationPageProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  // 查得某站資料即寫入歷史（涵蓋 picker / 定位 / 面板點選 / URL 直連各入口）；
+  // 只記「主動選擇」(picker / 定位 / 歷史面板點選)；URL 直連 / 冷載還原不寫歷史。
   // 以 stationId 為 guard 避免同站重複寫，換語言不重存（站名由面板即時重解析）
+  const activeSelectRef = useRef<string | null>(null);
   const lastSavedStation = useRef<string | null>(null);
   useEffect(() => {
     const sid = data?.stationId;
-    if (!sid || lastSavedStation.current === sid) return;
+    if (!sid || activeSelectRef.current !== sid) return;
+    if (lastSavedStation.current === sid) return;
     lastSavedStation.current = sid;
     saveStationHistory({
       targetId: sid,
@@ -158,6 +160,7 @@ const StationTimetablePage: FC<StationPageProps> = ({
   // 選站（picker 或定位）→ 重查 + 淺層 push URL（留歷史可返回、不重跑 GSSP）；方向待新資料到位由上方 effect 重設
   // 「同站太快重複查詢」的攔截在 TrStationPicker.select()（三入口都經它），此處不再重複擋
   const handleSelectStation = (stationId: string) => {
+    activeSelectRef.current = stationId; // 標記為主動選擇（歷史只記主動選擇，URL 直連不記）
     setSelectedStationId(stationId);
     fetchStation(stationId);
     refreshCooldown.reset(); // 換站資料已新鮮，刷新冷卻歸零
