@@ -120,7 +120,8 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
       </Area>
 
       {isOpen && (
-        <div>
+        // input + 候選浮層寬度對齊上方「公車路線」Area（桌機 342px 置中）
+        <div className="mx-auto w-full md:max-w-[342px]">
           <input
             ref={inputRef}
             type="input"
@@ -137,13 +138,13 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
             placeholder={t("busRouteSearchPlaceholder")}
           />
 
-          {/* 候選浮層：用 HeroUI 語意 token（content1 底 + shadow-medium + rounded-large），
-              與專案其他 HeroUI dropdown 一致；空字串不顯示 */}
+          {/* 候選浮層：content1 底 + border + shadow-medium + rounded-large，
+              邊框配色對齊轉乘頁下拉、避免深色下貼背景；空字串不顯示 */}
           {showPanel && (
             <div
               id="bus-route-listbox"
               role="listbox"
-              className="mt-2 flex max-h-80 flex-col gap-0.5 overflow-y-auto rounded-large bg-content1 p-1 shadow-medium"
+              className="mt-2 flex max-h-80 flex-col gap-0.5 overflow-y-auto rounded-large border border-zinc-300 bg-content1 p-1 shadow-medium dark:border-zinc-500"
             >
               {suggestions.length > 0 ? (
                 suggestions.map((route, i) => (
@@ -158,8 +159,9 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
                     type="button"
                     onClick={() => handleSelect(route)}
                     onMouseEnter={() => setActiveIndex(i)}
+                    // 高亮配色對齊轉乘頁下拉（zinc-200 / dark zinc-700）
                     className={`custom-cursor-pointer flex w-full flex-col rounded-small px-3 py-2 text-left transition-colors ${
-                      i === activeIndex ? "bg-default-100" : ""
+                      i === activeIndex ? "bg-zinc-200 dark:bg-zinc-700" : ""
                     }`}
                   >
                     <span className="font-bold">{route.routeName}</span>
