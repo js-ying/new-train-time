@@ -448,11 +448,15 @@ const BusPage: FC = () => {
                   />
                 ) : (
                   <>
-                    {/* 無看板時：詳細資訊 + 刷新退回置中列（無方向 tab 可掛） */}
-                    <div className="mb-3 flex items-center justify-center gap-3">
-                      {routeInfoButton}
-                      {refreshControls}
-                    </div>
+                    {/* 詳細資訊 + 刷新退回置中列（無方向 tab 可掛）。
+                        僅在載入完成但無看板（錯誤 / 無即時）時顯示；載入中不渲染，
+                        避免與 BusRouteBoard 的左右分置方向列互換造成 info/refresh 位移抖動 */}
+                    {(error || (data != null && data.length === 0)) && (
+                      <div className="mb-3 flex items-center justify-center gap-3">
+                        {routeInfoButton}
+                        {refreshControls}
+                      </div>
+                    )}
                     {error && <NoTrainData apiError={error} />}
                     {!error && data && data.length === 0 && (
                       <div className="rounded-xl border border-solid border-foreground p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
