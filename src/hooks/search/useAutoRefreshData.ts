@@ -2,14 +2,12 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ApiError, toApiError } from "@/models/problem-details";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-/** 登入會員自動輪詢間隔（毫秒）。後端 N1 cache 20s，前端 10s 輪詢讓倒數更即時。 */
+/** 登入會員的即時看板自動輪詢間隔（毫秒）。 */
 export const POLL_INTERVAL_MS = 10 * 1000;
 
 /**
- * 連續無操作達此時間 → 暫停自動輪詢並由頁面跳「您似乎已離開」彈窗，
- * 避免分頁長開（visible+focus 但人離開）空燒 TDX 配額。
- * 5 分鐘：穩穩大於「等車時盯著倒數」的連續觀看窗（手機無 mousemove，純看畫面不產生事件），
- * 不誤打斷正在看的人；棄置分頁最多多撐 5 分鐘（後端 N1 20s cache ≈ 15 次抓取）即停。
+ * 連續無操作達此時間 → 暫停自動輪詢，由頁面跳「您似乎已離開」彈窗。
+ * 5 分鐘：大於「等車時盯著倒數」的連續觀看窗（手機純看畫面不產生事件），不誤打斷正在看的人。
  */
 export const AUTO_REFRESH_IDLE_MS = 5 * 60 * 1000;
 
@@ -57,9 +55,8 @@ export const useAutoRefreshData = <T>(
   const abortRef = useRef<AbortController | null>(null);
   const pollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cancelledRef = useRef(false);
-  // idle（久無操作）相關：idleRef 鏡像供閉包判斷、idleTimerRef AFK 計時、resumeRef 由 effect 注入恢復函式
+  // idle（久無操作）相關：idleRef 鏡像供閉包判斷、lastActivityRef 記最後操作時間（idle 判斷折進輪詢 tick）、resumeRef 由 effect 注入恢復函式
   const idleRef = useRef(false);
-  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastActivityRef = useRef(0);
   const resumeRef = useRef<(() => void) | null>(null);
   // fetcher 每 render 換 identity（closure 抓最新選擇）→ 用 ref 取最新，不為此重建輪詢
@@ -108,7 +105,6 @@ export const useAutoRefreshData = <T>(
     idleRef.current = false;
     setIsIdle(false);
     if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
-    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
     setNextUpdateAt(null);
 
     if (!key) {
@@ -145,24 +141,24 @@ export const useAutoRefreshData = <T>(
 
     const tick = async () => {
       if (cancelledRef.current || idleRef.current) return;
-      if (isActive()) await runFetch(false);
+      if (isActive()) {
+        // idle 對齊輪詢：同一 isActive() gate 內判斷，背景（失焦/隱藏）不累計閒置
+        if (Date.now() - lastActivityRef.current >= AUTO_REFRESH_IDLE_MS) {
+          goIdle();
+          return;
+        }
+        await runFetch(false);
+      }
       if (cancelledRef.current || idleRef.current) return;
       scheduleNext();
     };
 
     scheduleNext();
 
-    // AFK 偵測：任何操作重啟 AFK 計時（節流 1s）；達 AUTO_REFRESH_IDLE_MS 無操作 → goIdle（停輪詢 + 亮彈窗）
-    const armIdleTimer = () => {
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-      idleTimerRef.current = setTimeout(goIdle, AUTO_REFRESH_IDLE_MS);
-    };
+    // AFK 偵測：任何操作更新最後操作時間；idle 判斷由 tick 折進輪詢（同一 isActive() gate）
     const onActivity = () => {
       if (cancelledRef.current || idleRef.current) return; // idle 中需使用者確認，不自動重置
-      const now = Date.now();
-      if (now - lastActivityRef.current < 1000) return; // 節流，避免 mousemove 狂洗 timer
-      lastActivityRef.current = now;
-      armIdleTimer();
+      lastActivityRef.current = Date.now();
     };
     const activityEvents = [
       "mousemove",
@@ -176,15 +172,13 @@ export const useAutoRefreshData = <T>(
       window.addEventListener(e, onActivity, { passive: true }),
     );
     lastActivityRef.current = Date.now();
-    armIdleTimer();
 
-    // 使用者確認「還在看」：解除 idle、重啟 AFK 計時、立即刷新並恢復輪詢
+    // 使用者確認「還在看」：解除 idle、重置閒置起點、立即刷新並恢復輪詢
     resumeRef.current = () => {
       if (cancelledRef.current) return;
       idleRef.current = false;
       setIsIdle(false);
       lastActivityRef.current = Date.now();
-      armIdleTimer();
       void runFetch(false);
       scheduleNext();
     };
@@ -194,16 +188,15 @@ export const useAutoRefreshData = <T>(
     const handleResume = () => {
       if (cancelledRef.current) return;
       const active = isActive();
-      if (active && !wasActive) {
-        wasActive = true;
-        if (idleRef.current) {
-          resumeRef.current?.(); // 重新聚焦分頁＝續看，順帶解除 idle
-        } else {
-          void runFetch(false);
-          scheduleNext();
-        }
+      if (active === wasActive) return;
+      wasActive = active;
+      if (!active) return; // 切背景：tick 自會跳過 fetch 與 idle 判斷，無需處理
+      if (idleRef.current) {
+        resumeRef.current?.(); // 重新聚焦分頁＝續看，順帶解除 idle
       } else {
-        wasActive = active;
+        lastActivityRef.current = Date.now(); // 回前景重置閒置起點，背景時間不計入
+        void runFetch(false);
+        scheduleNext();
       }
     };
     document.addEventListener("visibilitychange", handleResume);
@@ -213,7 +206,6 @@ export const useAutoRefreshData = <T>(
       cancelledRef.current = true;
       abortRef.current?.abort();
       if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
       resumeRef.current = null;
       activityEvents.forEach((e) => window.removeEventListener(e, onActivity));
       document.removeEventListener("visibilitychange", handleResume);
