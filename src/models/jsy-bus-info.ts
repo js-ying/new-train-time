@@ -11,12 +11,16 @@ export interface JsyBusRoute {
   routeUid: string;
   routeName: string;
   routeNameEn?: string;
+  /** 子線名（如 1822A）；route 粒度候選無此值。查看板時以此篩骨幹，並與 routeUid 合成歷史/收藏鍵。 */
+  subRouteName?: string;
   source: BusSource;
   /** 市區公車的縣市（英文代碼如 Taipei）；公路客運/台灣好行多為空。 */
   city?: string;
   /** 起站名（顯示「起 - 訖」用）。 */
   departureStop: string;
   destinationStop: string;
+  /** 子線去程方向牌（如「臺北→苗栗[經林口長庚醫院]」）；有則搜尋候選副標優先用，無則退「起 - 訖」。 */
+  headsign?: string;
   /** 11:市區公車 12:公路客運 13:國道客運 14:接駁車。 */
   routeType: number;
   /**

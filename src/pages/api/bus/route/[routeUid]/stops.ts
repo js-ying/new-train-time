@@ -11,6 +11,8 @@ export default async function handler(
   if (typeof req.query.source === "string")
     params.set("source", req.query.source);
   if (typeof req.query.city === "string") params.set("city", req.query.city);
+  // sub：使用者選的子線名（如 1822A），後端據此篩骨幹；route 粒度不帶
+  if (typeof req.query.sub === "string") params.set("sub", req.query.sub);
 
   const targetUrl = `${process.env.THSR_TRAIN_TIME_BACKEND_ENDPOINT}/api/bus/route/${encodeURIComponent(routeUid)}/stops?${params.toString()}`;
   return apiProxyHandler(req, res, targetUrl, "GET");

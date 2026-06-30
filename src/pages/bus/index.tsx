@@ -69,9 +69,11 @@ const parseRouteFromQuery = (query: ParsedUrlQuery): JsyBusRoute | null => {
       : "city";
   const city = typeof query.city === "string" ? query.city : undefined;
   const name = typeof query.name === "string" ? query.name : routeUid;
+  const subRouteName = typeof query.sub === "string" ? query.sub : undefined;
   return {
     routeUid,
     routeName: name,
+    subRouteName,
     source,
     city,
     departureStop: "",
@@ -93,6 +95,25 @@ const decodeBusMeta = (meta?: string): { source: BusSource; city?: string } => {
     ? (rawSource as BusSource)
     : "city";
   return { source, city: rawCity || undefined };
+};
+
+/**
+ * 歷史 / 收藏的 targetId 編解碼：含子線時 `routeUid|subRouteName`，否則純 routeUid。
+ * 同 routeUid 多子線需各成一筆（key 唯一），舊純 routeUid 資料解出無子線＝route 粒度，相容。
+ */
+const encodeBusTargetId = (routeUid: string, subRouteName?: string): string =>
+  subRouteName ? `${routeUid}|${subRouteName}` : routeUid;
+
+const parseBusTargetId = (
+  targetId: string,
+): { routeUid: string; subRouteName?: string } => {
+  const idx = targetId.indexOf("|");
+  return idx < 0
+    ? { routeUid: targetId }
+    : {
+        routeUid: targetId.slice(0, idx),
+        subRouteName: targetId.slice(idx + 1) || undefined,
+      };
 };
 
 /** 詳細資訊（i）icon。 */
@@ -125,11 +146,17 @@ const BusPage: FC = () => {
   useEffect(() => {
     if (!router.isReady) return;
     const fromUrl = parseRouteFromQuery(router.query);
+    // routeUid + 子線都相同才保留現有物件（含完整起訖）；換子線視為換查詢
     setSelectedRoute((prev) =>
-      prev && fromUrl && prev.routeUid === fromUrl.routeUid ? prev : fromUrl,
+      prev &&
+      fromUrl &&
+      prev.routeUid === fromUrl.routeUid &&
+      prev.subRouteName === fromUrl.subRouteName
+        ? prev
+        : fromUrl,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady, router.query.routeUid]);
+  }, [router.isReady, router.query.routeUid, router.query.sub]);
 
   // 依 URL dir 設方向：從站牌看板點某向進來自動切到對應 tab，一般選路線(無 dir)預設去程。
   // deps 含 router.query.dir，讓 push 帶的 dir 落地後補正（避開與 setSelectedRoute 的 race）
@@ -138,13 +165,14 @@ const BusPage: FC = () => {
     const d = typeof raw === "string" ? Number(raw) : NaN;
     setDirection(Number.isFinite(d) ? d : 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRoute?.routeUid, router.query.dir]);
+  }, [selectedRoute?.routeUid, selectedRoute?.subRouteName, router.query.dir]);
 
   const selection: BusRouteSelection | null = selectedRoute
     ? {
         routeUid: selectedRoute.routeUid,
         source: selectedRoute.source,
         city: selectedRoute.city,
+        subRouteName: selectedRoute.subRouteName,
       }
     : null;
 
@@ -160,11 +188,16 @@ const BusPage: FC = () => {
   const lastSavedRoute = useRef<string | null>(null);
   useEffect(() => {
     if (!selectedRoute || data == null) return;
-    if (activeSelectRef.current !== selectedRoute.routeUid) return;
-    if (lastSavedRoute.current === selectedRoute.routeUid) return;
-    lastSavedRoute.current = selectedRoute.routeUid;
+    // 歷史鍵含子線（routeUid|subRouteName），同路線不同子線各記一筆
+    const key = encodeBusTargetId(
+      selectedRoute.routeUid,
+      selectedRoute.subRouteName,
+    );
+    if (activeSelectRef.current !== key) return;
+    if (lastSavedRoute.current === key) return;
+    lastSavedRoute.current = key;
     saveBusHistory({
-      targetId: selectedRoute.routeUid,
+      targetId: key,
       targetName: selectedRoute.routeName,
       // source/city 取後端回應的權威值（routeUid 反查索引），冷載/分享也正確
       meta: encodeBusMeta(
@@ -207,7 +240,7 @@ const BusPage: FC = () => {
   useEffect(() => {
     busRefreshCooldown.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRoute?.routeUid, stopCity, stopName]);
+  }, [selectedRoute?.routeUid, selectedRoute?.subRouteName, stopCity, stopName]);
 
   // 離我最近站牌：定位解析後 push URL（清掉 route 改 stop 模式）；push 留歷史讓瀏覽器可返回
   // 同站牌 5 秒內重定位 → 擋下並提示（key 帶站牌）
@@ -238,9 +271,10 @@ const BusPage: FC = () => {
   // dir（站牌看板點某向進來時帶）寫進 URL，讓 route board 初始化即切到對應 tab
   // 同路線 5 秒內重選 → 擋下並提示（key 帶 routeUid）
   const handleSelectRoute = (route: JsyBusRoute, dir?: number) => {
+    const key = encodeBusTargetId(route.routeUid, route.subRouteName);
     busQueryCooldown.attempt(() => {
       gaClickEvent(GaEnum.BUS_ROUTE_SELECT);
-      activeSelectRef.current = route.routeUid; // 標記為主動選擇（歷史只記主動選擇，直連/冷載不記）
+      activeSelectRef.current = key; // 標記為主動選擇（歷史只記主動選擇，直連/冷載不記）
       setSelectedRoute(route);
       router.push(
         {
@@ -248,13 +282,14 @@ const BusPage: FC = () => {
           query: {
             routeUid: route.routeUid,
             name: route.routeName,
+            ...(route.subRouteName ? { sub: route.subRouteName } : {}),
             ...(dir != null ? { dir: String(dir) } : {}),
           },
         },
         undefined,
         { shallow: true },
       );
-    }, `route:${route.routeUid}`);
+    }, `route:${key}`);
   };
 
   // 切換方向 → 更新 state + 寫 URL dir（replace 不增歷史，與 TR 一致）；refresh/分享可還原
@@ -320,7 +355,10 @@ const BusPage: FC = () => {
   // 收藏 target（當前選定路線）；meta 帶 source/city 供副標顯示縣市/來源
   const busFavoriteTarget: StationTarget | null = selectedRoute
     ? {
-        targetId: selectedRoute.routeUid,
+        targetId: encodeBusTargetId(
+          selectedRoute.routeUid,
+          selectedRoute.subRouteName,
+        ),
         targetName: selectedRoute.routeName,
         // source/city 優先取後端回應權威值（冷載/分享也正確）；看板未載入時退回 selectedRoute
         meta: encodeBusMeta(
@@ -381,9 +419,13 @@ const BusPage: FC = () => {
                   trainType="BUS"
                   onSelect={(target: StationTarget) => {
                     const { source, city } = decodeBusMeta(target.meta);
+                    const { routeUid, subRouteName } = parseBusTargetId(
+                      target.targetId,
+                    );
                     handleSelectRoute({
-                      routeUid: target.targetId,
+                      routeUid,
                       routeName: target.targetName,
+                      subRouteName,
                       source,
                       city,
                       departureStop: "",

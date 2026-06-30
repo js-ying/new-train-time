@@ -33,11 +33,13 @@ export const getBusRouteArrivals = async (
   routeUid: string,
   source: BusSource,
   city: string | undefined,
+  subRouteName?: string,
   signal?: AbortSignal,
   logQuery?: boolean,
 ): Promise<JsyBusRouteBoard[]> => {
   const params = new URLSearchParams({ source });
   if (city) params.set("city", city);
+  if (subRouteName) params.set("sub", subRouteName);
   if (logQuery) params.set("log", "1");
   return await fetchData(
     `/api/bus/route/${encodeURIComponent(routeUid)}/arrivals?${params.toString()}`,

@@ -47,10 +47,14 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
     setQuery("");
   }, [selectedRoute?.routeUid, setQuery]);
 
-  // 候選變動 → 重置高亮（避免 index 指到舊清單）
+  // 候選變動 → 若有與輸入完全相符的路線號（如打「1824」對到「1824」）則自動高亮，方便直接 Enter；否則重置
   useEffect(() => {
-    setActiveIndex(-1);
-  }, [suggestions]);
+    const q = inputValue.trim().toUpperCase();
+    const exactIdx = q
+      ? suggestions.findIndex((r) => r.routeName.toUpperCase() === q)
+      : -1;
+    setActiveIndex(exactIdx);
+  }, [suggestions, inputValue]);
 
   // 高亮移動 → 把該項捲進可視範圍
   useEffect(() => {
@@ -59,7 +63,8 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
     }
   }, [activeIndex]);
 
-  // 候選描述：「起 - 訖 · 來源/縣市」。台灣好行優先顯示好行分類（城市籍好行 source 仍為 city）。
+  // 候選描述：「起 - 訖（經停標註）· 來源/縣市」。起訖維持原格式；子線方向牌（headsign）
+  // 只抽「[經X]」經停標註附加，用來區分起訖相同的子線（如 1824/1824A 終點同為苗栗）。台灣好行優先顯示好行分類。
   const describe = (r: JsyBusRoute): string => {
     let sourceLabel: string;
     if (r.isTaiwanTrip) {
@@ -69,7 +74,9 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
     } else {
       sourceLabel = t(SOURCE_LABEL_KEY[r.source]);
     }
-    return `${r.departureStop} - ${r.destinationStop} · ${sourceLabel}`;
+    const via = r.headsign?.match(/\[[^\]]*\]/)?.[0] ?? "";
+    const route = `${r.departureStop} - ${r.destinationStop}${via ? ` ${via}` : ""}`;
+    return `${route} · ${sourceLabel}`;
   };
 
   const handleSelect = (route: JsyBusRoute) => {
@@ -141,44 +148,48 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
           {/* 候選浮層：content1 底 + border + shadow-medium + rounded-large，
               邊框配色對齊轉乘頁下拉、避免深色下貼背景；空字串不顯示 */}
           {showPanel && (
-            <div
-              id="bus-route-listbox"
-              role="listbox"
-              className="mt-2 flex max-h-80 flex-col gap-0.5 overflow-y-auto rounded-large border border-zinc-300 bg-content1 p-1 shadow-medium dark:border-zinc-500"
-            >
-              {suggestions.length > 0 ? (
-                suggestions.map((route, i) => (
-                  <button
-                    key={route.routeUid}
-                    id={`bus-route-opt-${i}`}
-                    role="option"
-                    aria-selected={i === activeIndex}
-                    ref={(el) => {
-                      itemRefs.current[i] = el;
-                    }}
-                    type="button"
-                    onClick={() => handleSelect(route)}
-                    onMouseEnter={() => setActiveIndex(i)}
-                    // 高亮配色對齊轉乘頁下拉（zinc-200 / dark zinc-700）
-                    className={`custom-cursor-pointer flex w-full flex-col rounded-small px-3 py-2 text-left transition-colors ${
-                      i === activeIndex ? "bg-zinc-200 dark:bg-zinc-700" : ""
-                    }`}
-                  >
-                    <span className="font-bold">{route.routeName}</span>
-                    <span className="text-xs text-default-500">
-                      {describe(route)}
-                    </span>
-                  </button>
-                ))
-              ) : isLoading ? (
-                <div className="px-3 py-2 text-sm text-default-500">
-                  {t("busRouteSearchLoading")}
-                </div>
-              ) : (
-                <div className="px-3 py-2 text-sm text-default-500">
-                  {t("busRouteSearchEmpty")}
-                </div>
-              )}
+            // 外層負責邊框/圓角/陰影並 overflow-hidden，使捲動時內層 scrollbar 被裁進圓角內，右上/右下圓角才不消失
+            <div className="mt-2 overflow-hidden rounded-large border border-zinc-300 bg-content1 shadow-medium dark:border-zinc-500">
+              <div
+                id="bus-route-listbox"
+                role="listbox"
+                // p-2 讓高亮四周留白更寬，浮卡感貼近 HeroUI 下拉（避免高亮貼著外框邊）
+                className="flex max-h-80 flex-col gap-0.5 overflow-y-auto p-2"
+              >
+                {suggestions.length > 0 ? (
+                  suggestions.map((route, i) => (
+                    <button
+                      key={`${route.routeUid}|${route.subRouteName ?? ""}`}
+                      id={`bus-route-opt-${i}`}
+                      role="option"
+                      aria-selected={i === activeIndex}
+                      ref={(el) => {
+                        itemRefs.current[i] = el;
+                      }}
+                      type="button"
+                      onClick={() => handleSelect(route)}
+                      onMouseEnter={() => setActiveIndex(i)}
+                      // 高亮配色對齊轉乘頁下拉（zinc-200 / dark zinc-700）；rounded-medium 圓角貼近外框 rounded-large
+                      className={`custom-cursor-pointer flex w-full flex-col rounded-medium px-3 py-2 text-left transition-colors ${
+                        i === activeIndex ? "bg-zinc-200 dark:bg-zinc-700" : ""
+                      }`}
+                    >
+                      <span className="font-bold">{route.routeName}</span>
+                      <span className="text-xs text-default-500">
+                        {describe(route)}
+                      </span>
+                    </button>
+                  ))
+                ) : isLoading ? (
+                  <div className="px-3 py-2 text-sm text-default-500">
+                    {t("busRouteSearchLoading")}
+                  </div>
+                ) : (
+                  <div className="px-3 py-2 text-sm text-default-500">
+                    {t("busRouteSearchEmpty")}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>

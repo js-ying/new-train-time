@@ -13,6 +13,8 @@ export interface BusRouteSelection {
   routeUid: string;
   source: BusSource;
   city?: string;
+  /** 使用者選的子線名（如 1822A）；後端據此篩骨幹。route 粒度無此值。 */
+  subRouteName?: string;
 }
 
 /**
@@ -29,12 +31,13 @@ export const useBusRouteArrivals = (
             selection.routeUid,
             selection.source,
             selection.city,
+            selection.subRouteName,
             signal,
             isInitial, // 初次選定才記 analytics（輪詢不重複累計）
           )
       : null,
     selection
-      ? `${selection.routeUid}|${selection.source}|${selection.city ?? ""}`
+      ? `${selection.routeUid}|${selection.source}|${selection.city ?? ""}|${selection.subRouteName ?? ""}`
       : null,
   );
 
