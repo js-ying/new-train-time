@@ -79,6 +79,8 @@ export interface JsyBusStopArrival extends JsyBusStop {
   /** 有車進站時的車牌（供前端標示）。 */
   plateNumb?: string;
   isLastBus?: boolean;
+  /** 起站未發車時，定期時刻表推得的下一班發車時刻（HH:mm）。 */
+  nextDepartTime?: string;
 }
 
 /** 一個方向的即時看板。 */

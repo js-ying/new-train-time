@@ -38,6 +38,7 @@ const BusStopRow: FC<BusStopRowProps> = ({ stop, source, onSelectStop }) => {
       <BusArrivalBadge
         state={stop.state}
         estimateMinutes={stop.estimateMinutes}
+        nextDepartTime={stop.nextDepartTime}
       />
     </>
   );

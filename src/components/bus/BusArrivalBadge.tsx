@@ -5,6 +5,8 @@ import { FC } from "react";
 interface BusArrivalBadgeProps {
   state: BusArrivalState;
   estimateMinutes: number | null;
+  /** 起站未發車時的下一班發車時刻（HH:mm）；有值則取代「尚未發車」顯示。 */
+  nextDepartTime?: string;
 }
 
 /** 各狀態 → i18n key（minutes 單獨渲染數字+單位，不走此表）。 */
@@ -36,9 +38,21 @@ const STATE_COLOR: Record<BusArrivalState, string> = {
 const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
   state,
   estimateMinutes,
+  nextDepartTime,
 }) => {
   const { t } = useTranslation();
   const color = STATE_COLOR[state];
+
+  // 起站未發車且班表有下一班 → 顯示發車時刻（資訊比「尚未發車」多）；用一般前景色與「X 分」一致
+  if (state === "notDeparted" && nextDepartTime) {
+    return (
+      <span
+        className={`whitespace-nowrap text-sm font-medium tabular-nums ${STATE_COLOR.minutes}`}
+      >
+        {nextDepartTime}
+      </span>
+    );
+  }
 
   // 「X 分」：分鐘數放大、單位維持小字，整體用一般色
   if (state === "minutes") {
