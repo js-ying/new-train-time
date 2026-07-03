@@ -17,8 +17,8 @@ interface TrStationPageSeoProps {
 
 /**
  * 單站時刻表頁 SEO（自寫 NextSeo；不走 OD 雙站綁定的 useSeo / PageSeo）。
- * - 帶有效站時可索引、canonical 自指 ?station=&dir=（北上/南下各自一條 URL）。
- * - 裸頁（無/無效站）noindex（沿用站內 noindex-not-Disallow 政策）。
+ * - 裸 hub 頁與帶有效站皆可索引；canonical 各自自指（/station 或 ?station=&dir=）。
+ * - 僅帶無效站號時 noindex（soft-404 防護）。
  */
 const TrStationPageSeo: FC<TrStationPageSeoProps> = ({
   stationId,
@@ -32,6 +32,9 @@ const TrStationPageSeo: FC<TrStationPageSeoProps> = ({
     ? getTrStationNameById(stationId, i18n.language)
     : null;
   const isValid = !!stationName;
+
+  // 裸 hub 頁（未帶站）是各站北上/南下時刻表著陸頁、可索引；僅帶無效站號才 noindex 防 soft-404
+  const noindex = !!stationId && !isValid;
 
   // 西部主線才把 north/south 納入 SEO（利「站名+北上/南下時刻表」關鍵字）；支線無方向詞
   const dirInfo = data?.directions.find((d) => d.direction === directionFilter);
@@ -86,7 +89,7 @@ const TrStationPageSeo: FC<TrStationPageSeoProps> = ({
         title={title}
         description={description}
         canonical={selfUrl}
-        noindex={!isValid}
+        noindex={noindex}
         languageAlternates={languageAlternates}
         openGraph={{
           title,
