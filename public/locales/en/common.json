@@ -76,6 +76,18 @@
   "busNearestNotFound": "No bus stop found nearby.",
   "busNearestFailed": "Failed to find the nearest stop, please try again.",
   "busStopBoardEmpty": "No real-time arrival data for this stop",
+  "busViewStopRoutes": "View all routes at {{stop}}",
+  "busStopVariants": "Stop platform",
+  "busBearing": {
+    "N": "N",
+    "NE": "NE",
+    "E": "E",
+    "SE": "SE",
+    "S": "S",
+    "SW": "SW",
+    "W": "W",
+    "NW": "NW"
+  },
   "busAutoRefreshHintTitle": "Auto-refresh",
   "busAutoRefreshHint": "Sign in to auto-refresh arrival times — no need to refresh manually.",
   "refreshBtnLabel": "Refresh",

@@ -35,6 +35,8 @@ export interface JsyBusStop {
   stopUid: string;
   stopName: string;
   stopSequence: number;
+  /** 該站所屬縣市碼（後端 StopUID 反查 bus_stop）；有值才可點該站跳站牌看板，無值（公路客運站）不可點。 */
+  city?: string;
 }
 
 /** 某方向的站序骨幹。 */
@@ -132,9 +134,13 @@ export interface JsyBusFirstLastBus {
   holiday?: { first: string; last: string };
 }
 
-/** 離我最近站牌（定位解析結果；city 為 TDX 縣市代碼，stopName 供站牌看板查詢）。 */
+/** 離我最近站牌（定位解析結果；stopUid 為站牌看板查詢錨點，stopName 供顯示）。 */
 export interface JsyBusNearestStop {
+  /** 站牌唯一碼；前端據此 push 站牌看板（source/city 後端反查）。 */
+  stopUid: string;
   city: string;
+  /** 站牌來源（全站表含三來源，nearest 可能落在公路客運/台灣好行站）；顯示用。 */
+  source?: BusSource;
   stopName: string;
   lat: number;
   lon: number;
@@ -147,6 +153,8 @@ export interface JsyBusStopBoardRoute {
   /** 路線 UID（供點擊跳路線看板；source 固定 city、city 取看板所在縣市）。 */
   routeUid: string;
   routeName: string;
+  /** 子線名（如 1822A）；為索引展開候選時才有，點擊帶 sub 精確導向該子線。route 粒度為 undefined。 */
+  subRouteName?: string;
   /** 往的終點站名。 */
   destination: string;
   direction: number;
@@ -154,9 +162,27 @@ export interface JsyBusStopBoardRoute {
   estimateMinutes: number | null;
 }
 
+/** 同名站牌的各柱變體（同名多座標 tab；使用者切到正確那根柱）。 */
+export interface JsyBusStopVariant {
+  /** 該柱代表 StopUID；點 tab 以此 push 站牌看板。 */
+  stopUid: string;
+  stopName: string;
+  /** 站牌地址（tab 標籤，如「松仁路3號」）。 */
+  address?: string;
+  /** 方位（tab 標籤，如「N」；前端轉 i18n 方向詞）。 */
+  bearing?: string;
+  lat: number;
+  lon: number;
+}
+
 /** 站牌即時看板：該站牌所有路線的到站（依最近排序）。 */
 export interface JsyBusStopBoard {
+  /** 站所屬縣市碼（市區公車＝City；公路客運/台灣好行＝LocationCityCode）。 */
   city: string;
   stopName: string;
+  /** 站牌來源；點某列跳路線看板時據此帶對 source。 */
+  source: BusSource;
   routes: JsyBusStopBoardRoute[];
+  /** 同名多座標時的各柱變體（含當前柱）；≤1 個時前端不顯示 tab。 */
+  variants?: JsyBusStopVariant[];
 }

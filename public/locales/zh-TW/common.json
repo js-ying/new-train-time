@@ -76,6 +76,18 @@
   "busNearestNotFound": "附近查無公車站牌。",
   "busNearestFailed": "查詢最近站牌失敗，請稍後再試。",
   "busStopBoardEmpty": "此站牌暫無即時到站資料",
+  "busViewStopRoutes": "查看「{{stop}}」站牌的所有路線",
+  "busStopVariants": "站牌方向",
+  "busBearing": {
+    "N": "北",
+    "NE": "東北",
+    "E": "東",
+    "SE": "東南",
+    "S": "南",
+    "SW": "西南",
+    "W": "西",
+    "NW": "西北"
+  },
   "busAutoRefreshHintTitle": "自動更新",
   "busAutoRefreshHint": "登入會員即可自動更新到站時間，不用再手動更新。",
   "refreshBtnLabel": "重新整理",

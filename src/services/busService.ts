@@ -26,7 +26,7 @@ export const searchBusRoutes = async (
 
 /**
  * 取某路線雙向即時到站看板（站序骨幹 + N1 已貼合，供輪詢）。
- * source 必填；source=city 時 city 亦必填（否則後端回 INVALID_INPUT）。
+ * source/city 僅作提示：後端一律以 routeUid 反查索引取權威值（缺或帶錯皆可正確查詢）。
  * logQuery：僅初次選定路線時帶（後端 analytics 去重，輪詢不帶）。
  */
 export const getBusRouteArrivals = async (
@@ -81,13 +81,12 @@ export const getBusNearestStop = async (
   );
 };
 
-/** 取某站牌所有路線即時到站看板（供輪詢）。 */
+/** 取某站牌所有路線即時到站看板（單錨 StopUID；source/city/stopName 後端反查 bus_stop）。 */
 export const getBusStopBoard = async (
-  city: string,
-  stopName: string,
+  stopUid: string,
   signal?: AbortSignal,
 ): Promise<JsyBusStopBoard> => {
-  const params = new URLSearchParams({ city, stopName });
+  const params = new URLSearchParams({ stopUid });
   return await fetchData(
     `/api/bus/stop-board?${params.toString()}`,
     {},

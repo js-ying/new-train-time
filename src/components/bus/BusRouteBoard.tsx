@@ -1,6 +1,6 @@
 import AdBanner from "@/components/common/AdBanner";
 import useIsStuck from "@/hooks/useIsStuck";
-import { JsyBusRouteBoard } from "@/models/jsy-bus-info";
+import { JsyBusRouteBoard, JsyBusStopArrival } from "@/models/jsy-bus-info";
 import AdUtils from "@/utils/AdUtils";
 import { Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
@@ -21,6 +21,8 @@ interface BusRouteBoardProps {
   cornerSlot?: ReactNode;
   /** 收藏愛心：吸頂時掛在路線名同列最右（未吸頂時由頁面在搜尋列顯示） */
   favoriteSlot?: ReactNode;
+  /** 點站序某站 → 跳該站牌看板（市區公車站才可點，由 BusStopRow 依 city 自判） */
+  onSelectStop?: (stop: JsyBusStopArrival) => void;
 }
 
 /**
@@ -35,6 +37,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
   leadingSlot,
   cornerSlot,
   favoriteSlot,
+  onSelectStop,
 }) => {
   const { t } = useTranslation();
   const current = boards.find((b) => b.direction === direction) ?? boards[0];
@@ -107,7 +110,11 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
           <div className="mt-2 flex flex-col gap-2">
             {current.stops.map((stop, index) => (
               <div key={stop.stopUid}>
-                <BusStopRow stop={stop} />
+                <BusStopRow
+                  stop={stop}
+                  source={current.source}
+                  onSelectStop={onSelectStop}
+                />
                 {/* 站序內插廣告：最多第三筆後，不足三筆遞減（同 OD） */}
                 {AdUtils.showAd(current.stops.length, index) && (
                   <div className="mt-2 empty:hidden">

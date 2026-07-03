@@ -25,13 +25,13 @@ const BusStopBoard: FC<BusStopBoardProps> = ({ board, onSelectRoute }) => {
     <div className="flex flex-col gap-2">
       {board.routes.map((r) => (
         <button
-          key={`${r.routeName}-${r.direction}`}
+          key={`${r.routeUid}-${r.subRouteName ?? ""}-${r.direction}`}
           type="button"
           onClick={() => onSelectRoute(r)}
           className="custom-cursor-pointer grid w-full grid-cols-[1fr_auto] items-center gap-2 rounded-md border border-solid border-foreground p-3 text-left"
         >
           <div className="flex flex-wrap items-baseline gap-x-2">
-            <span className="font-bold">{r.routeName}</span>
+            <span className="font-bold">{r.subRouteName || r.routeName}</span>
             {r.destination && (
               <span className="text-sm text-zinc-500 dark:text-zinc-400">
                 {t("busTowards", { destination: r.destination })}
