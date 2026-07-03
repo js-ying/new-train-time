@@ -326,6 +326,7 @@
   "normalArrive": "Commuter",
   "generalTimetableAlertMsg": "The timetable for this date is based on the 'General Timetable'. Please refer to the official daily announcements for actual train operations.",
   "popularRoutes": "Popular Routes Quick Search",
+  "popularStations": "Popular Stations Quick Search",
   "hidePopularRoutesConfirmMsg": "Hide Popular Routes?\nYou can re-enable it in Settings.",
   "termsOfService": "Terms of Service",
   "privacyPolicy": "Privacy Policy",

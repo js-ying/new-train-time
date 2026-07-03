@@ -326,6 +326,7 @@
   "normalArrive": "普通車",
   "generalTimetableAlertMsg": "此日期之時刻表來源為『定期時刻表』，實際行駛班次請依官方當日公告為主。",
   "popularRoutes": "熱門路線快速查詢",
+  "popularStations": "熱門車站快速查詢",
   "hidePopularRoutesConfirmMsg": "要隱藏熱門路線快查嗎？\n可以在系統設定頁面重新開啟。",
   "termsOfService": "服務條款",
   "privacyPolicy": "隱私權政策",

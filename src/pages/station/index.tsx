@@ -3,6 +3,7 @@ import CommonDialog from "@/components/common/CommonDialog";
 import Loading from "@/components/common/Loading";
 import RefreshButton from "@/components/common/RefreshButton";
 import Layout from "@/components/layout/Layout";
+import PopularStations from "@/components/search-area/PopularStations";
 import DynamicAnnouncements from "@/components/search-area/alert/DynamicAnnouncements";
 import OperationAlert from "@/components/search-area/alert/OperationAlert";
 import StationFavoriteButton from "@/components/station-history/StationFavoriteButton";
@@ -16,8 +17,10 @@ import useTrStationTimetable from "@/hooks/search/useTrStationTimetable";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import useRefreshCooldown from "@/hooks/useRefreshCooldown";
 import useStationHistory from "@/hooks/useStationHistory";
+import { JsyPopularStation } from "@/models/jsy-popular-stations";
 import { JsyTrStationTimetable } from "@/models/jsy-tr-info";
 import { StationTarget } from "@/models/station-history";
+import { fetchPopularStations } from "@/services/popularStationsService";
 import { fetchTrStationTimetableServerSide } from "@/services/trStationTimetableServerService";
 import AdUtils from "@/utils/AdUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
@@ -34,6 +37,8 @@ interface StationPageProps {
   initialStationId: string | null;
   initialDir: "north" | "south" | null;
   initialData: JsyTrStationTimetable | null;
+  /** 裸 hub 頁的熱門車站（DB 取數，失敗為 fallback）；帶站頁為空陣列 */
+  popularStations: JsyPopularStation[];
 }
 
 // i18n + 站/方向 query 解析；帶站時於 server 取好時刻表寫進 HTML（SSR）
@@ -50,12 +55,16 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     ? await fetchTrStationTimetableServerSide(stationId)
     : null;
 
+  // 只在裸 hub 頁取熱門車站當可爬內容；帶站頁不需，省每次請求的後端呼叫
+  const popularStations = stationId ? [] : await fetchPopularStations("TR");
+
   return {
     props: {
       ...(await serverSideTranslations(locale)),
       initialStationId: stationId,
       initialDir,
       initialData,
+      popularStations,
     },
   };
 }
@@ -84,6 +93,7 @@ const StationTimetablePage: FC<StationPageProps> = ({
   initialStationId,
   initialDir,
   initialData,
+  popularStations,
 }) => {
   const muiTheme = useMuiTheme();
   const router = useRouter();
@@ -269,6 +279,13 @@ const StationTimetablePage: FC<StationPageProps> = ({
                     target.targetName
                   }
                 />
+              </div>
+            )}
+
+            {/* 裸 hub 頁的熱門車站快查（SSR 可爬內鏈，導向各站別時刻表頁） */}
+            {!selectedStationId && (
+              <div className="mt-6">
+                <PopularStations stations={popularStations} />
               </div>
             )}
 
