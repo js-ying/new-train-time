@@ -282,9 +282,10 @@ const StationTimetablePage: FC<StationPageProps> = ({
               </div>
             )}
 
-            {/* 裸 hub 頁的熱門車站快查（SSR 可爬內鏈，導向各站別時刻表頁） */}
+            {/* 裸 hub 頁的熱門車站快查（SSR 可爬內鏈，導向各站別時刻表頁）；
+                顯示與否同首頁熱門路線，由 _document、SettingContext 控制 */}
             {!selectedStationId && (
-              <div className="mt-6">
+              <div className="js-popular-routes mt-6">
                 <PopularStations stations={popularStations} />
               </div>
             )}
