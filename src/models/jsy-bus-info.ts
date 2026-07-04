@@ -94,6 +94,10 @@ export interface JsyBusRouteBoard {
   /** 路線來源/縣市（後端 routeUid 反查索引的權威值；存歷史/收藏 meta 用，URL 不帶 source/city）。 */
   source?: BusSource;
   city?: string;
+  /** N1 即時資料實際取得時間（epoch ms）；搭配 isStale 標示資料時效。 */
+  updatedAt: number;
+  /** true = 上游異常、本回應為過期舊資料；正常時不帶。 */
+  isStale?: boolean;
 }
 
 /** 班距式服務時段（無固定時刻；前端以 i18n 格式化文字）。 */
@@ -187,4 +191,8 @@ export interface JsyBusStopBoard {
   routes: JsyBusStopBoardRoute[];
   /** 同名多座標時的各柱變體（含當前柱）；≤1 個時前端不顯示 tab。 */
   variants?: JsyBusStopVariant[];
+  /** N1 即時資料實際取得時間（epoch ms）；搭配 isStale 標示資料時效。 */
+  updatedAt: number;
+  /** true = 上游異常、本回應為過期舊資料；正常時不帶。 */
+  isStale?: boolean;
 }

@@ -72,6 +72,7 @@
   "busLastBus": "末班車",
   "busBoardEmpty": "此方向暫無站序資料",
   "busNoRealtime": "此路線暫無即時到站資料",
+  "busStaleDataWarning": "即時資料暫時無法更新，以下為 {{time}} 的資料",
   "busNearestStop": "離我最近站牌",
   "busNearestNotFound": "附近查無公車站牌。",
   "busNearestFailed": "查詢最近站牌失敗，請稍後再試。",

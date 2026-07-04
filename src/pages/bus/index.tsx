@@ -264,10 +264,34 @@ const BusPage: FC = () => {
     lastUpdatedAt,
     isAutoRefresh,
     nextUpdateAt,
+    pollIntervalMs,
     refresh,
     isIdle,
     resumeAutoRefresh,
   } = active;
+
+  // 資料時效警示：後端標 isStale（TDX 異常回舊快照）或輪詢更新失敗（後端不可達、有舊資料）時，
+  // 顯示看板資料的實際時間，避免舊到站被誤當即時
+  const activeBoardUpdatedAt = isStopMode
+    ? stopBoard.data?.updatedAt
+    : data?.[0]?.updatedAt;
+  const activeBoardIsStale = isStopMode
+    ? !!stopBoard.data?.isStale
+    : !!data?.[0]?.isStale;
+  const staleWarning =
+    activeBoardUpdatedAt != null && (activeBoardIsStale || error != null)
+      ? t("busStaleDataWarning", {
+          time: new Date(activeBoardUpdatedAt).toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        })
+      : null;
+  const staleWarningBox = staleWarning ? (
+    <div className="text-center text-xs text-amber-600 dark:text-amber-400">
+      {staleWarning}
+    </div>
+  ) : null;
 
   // 手動刷新冷卻（route/stop 共用一份；refresh 指向作用中看板）；冷卻中再按 → 彈窗「請於 X 秒後再試」
   const busRefreshCooldown = useRefreshCooldown(POLL_INTERVAL_MS);
@@ -395,7 +419,7 @@ const BusPage: FC = () => {
     isAutoRefresh && nextUpdateAt != null ? (
       <BusAutoRefreshRing
         nextUpdateAt={nextUpdateAt}
-        intervalMs={POLL_INTERVAL_MS}
+        intervalMs={pollIntervalMs}
       />
     ) : null;
 
@@ -520,6 +544,7 @@ const BusPage: FC = () => {
                     </div>
                   )}
                 </div>
+                {staleWarningBox && <div className="mb-3">{staleWarningBox}</div>}
                 {/* 同名多座標：站柱 tab（消防局松仁 4 柱），切柱＝push 該柱 stopUid */}
                 {stopBoard.data?.variants &&
                   stopBoard.data.variants.length > 1 && (
@@ -560,6 +585,7 @@ const BusPage: FC = () => {
                     leadingSlot={routeInfoButton}
                     cornerSlot={autoRefreshRing ?? refreshControls}
                     favoriteSlot={renderBusFavorite()}
+                    warningSlot={staleWarningBox}
                     onSelectStop={handleSelectStopFromRoute}
                   />
                 ) : (

@@ -72,6 +72,7 @@
   "busLastBus": "Last bus",
   "busBoardEmpty": "No stop data for this direction",
   "busNoRealtime": "No real-time arrival data for this route",
+  "busStaleDataWarning": "Live data is temporarily unavailable; showing data from {{time}}",
   "busNearestStop": "Nearest stop",
   "busNearestNotFound": "No bus stop found nearby.",
   "busNearestFailed": "Failed to find the nearest stop, please try again.",

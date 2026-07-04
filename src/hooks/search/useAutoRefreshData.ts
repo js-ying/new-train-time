@@ -5,6 +5,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 /** 登入會員的即時看板自動輪詢間隔（毫秒）。 */
 export const POLL_INTERVAL_MS = 10 * 1000;
 
+/** 輪詢連續失敗的退避間隔上限（毫秒）；失敗 streak 指數放大間隔（10s→20s→40s→60s），成功即回復。 */
+export const MAX_POLL_BACKOFF_MS = 60 * 1000;
+
 /**
  * 連續無操作達此時間 → 暫停自動輪詢，由頁面跳「您似乎已離開」彈窗。
  * 5 分鐘：大於「等車時盯著倒數」的連續觀看窗（手機純看畫面不產生事件），不誤打斷正在看的人。
@@ -21,6 +24,8 @@ export interface AutoRefreshDataResult<T> {
   isAutoRefresh: boolean;
   /** 下次自動輪詢的時間戳（毫秒）；供倒數環換算，未啟用為 null。 */
   nextUpdateAt: number | null;
+  /** 目前生效的輪詢間隔（毫秒）；連續失敗退避時會大於 POLL_INTERVAL_MS，供倒數環換算。 */
+  pollIntervalMs: number;
   /** 手動重新整理（單純重抓一次；冷卻攔截由頁面處理）。 */
   refresh: () => void;
   /** 久無操作已暫停輪詢、待使用者確認是否續看（僅自動輪詢會員會 true）。 */
@@ -50,6 +55,7 @@ export const useAutoRefreshData = <T>(
   const [isLoading, setIsLoading] = useState(false);
   const [lastUpdatedAt, setLastUpdatedAt] = useState<number | null>(null);
   const [nextUpdateAt, setNextUpdateAt] = useState<number | null>(null);
+  const [pollIntervalMs, setPollIntervalMs] = useState(POLL_INTERVAL_MS);
   const [isIdle, setIsIdle] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
@@ -62,6 +68,8 @@ export const useAutoRefreshData = <T>(
   // fetcher 每 render 換 identity（closure 抓最新選擇）→ 用 ref 取最新，不為此重建輪詢
   const fetcherRef = useRef(fetcher);
   fetcherRef.current = fetcher;
+  // 連續失敗次數：輪詢退避用（成功歸零）；後端掛掉時避免固定 10s 無退避重打
+  const failStreakRef = useRef(0);
 
   /** 進入 idle：停輪詢、收倒數環、亮彈窗旗標（實際彈窗由頁面渲染）。 */
   const goIdle = useCallback(() => {
@@ -88,10 +96,12 @@ export const useAutoRefreshData = <T>(
       setData(result);
       setError(null);
       setLastUpdatedAt(Date.now());
+      failStreakRef.current = 0;
     } catch (err) {
       if (controller.signal.aborted || (err as Error)?.name === "AbortError") {
         return;
       }
+      failStreakRef.current += 1;
       setError(toApiError(err));
     } finally {
       if (abortRef.current === controller && !controller.signal.aborted) {
@@ -106,6 +116,9 @@ export const useAutoRefreshData = <T>(
     setIsIdle(false);
     if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
     setNextUpdateAt(null);
+    // 換選擇重置退避（新查詢從標準間隔開始）
+    failStreakRef.current = 0;
+    setPollIntervalMs(POLL_INTERVAL_MS);
 
     if (!key) {
       setData(null);
@@ -135,8 +148,14 @@ export const useAutoRefreshData = <T>(
 
     const scheduleNext = () => {
       if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
-      setNextUpdateAt(Date.now() + POLL_INTERVAL_MS);
-      pollTimerRef.current = setTimeout(tick, POLL_INTERVAL_MS);
+      // 連續失敗指數退避（10s→20s→40s→60s cap），成功後 failStreak 歸零回復 10s
+      const delay = Math.min(
+        POLL_INTERVAL_MS * 2 ** failStreakRef.current,
+        MAX_POLL_BACKOFF_MS,
+      );
+      setPollIntervalMs(delay);
+      setNextUpdateAt(Date.now() + delay);
+      pollTimerRef.current = setTimeout(tick, delay);
     };
 
     const tick = async () => {
@@ -230,6 +249,7 @@ export const useAutoRefreshData = <T>(
     lastUpdatedAt,
     isAutoRefresh,
     nextUpdateAt,
+    pollIntervalMs,
     refresh,
     isIdle,
     resumeAutoRefresh,

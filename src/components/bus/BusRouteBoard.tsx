@@ -21,6 +21,8 @@ interface BusRouteBoardProps {
   cornerSlot?: ReactNode;
   /** 收藏愛心：吸頂時掛在路線名同列最右（未吸頂時由頁面在搜尋列顯示） */
   favoriteSlot?: ReactNode;
+  /** 資料時效警示條：放 sticky 容器內（路線名下、方向 tab 上），吸頂時仍可見 */
+  warningSlot?: ReactNode;
   /** 點站序某站 → 跳該站牌看板（市區公車站才可點，由 BusStopRow 依 city 自判） */
   onSelectStop?: (stop: JsyBusStopArrival) => void;
 }
@@ -37,6 +39,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
   leadingSlot,
   cornerSlot,
   favoriteSlot,
+  warningSlot,
   onSelectStop,
 }) => {
   const { t } = useTranslation();
@@ -66,6 +69,9 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
               </div>
             )}
           </div>
+        )}
+        {warningSlot && (
+          <div className={isStuck ? undefined : "mb-3"}>{warningSlot}</div>
         )}
         {/* 方向切換列：tab/目的地置中，leadingSlot（詳細資訊）掛最左、cornerSlot（刷新/倒數環）掛最右 */}
         <div className="relative">
@@ -108,8 +114,9 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
       {current &&
         (current.stops.length > 0 ? (
           <div className="mt-2 flex flex-col gap-2">
+            {/* key 含 index：折返/繞駛路線官方站序同站可重複行經（同 stopUid 兩列） */}
             {current.stops.map((stop, index) => (
-              <div key={stop.stopUid}>
+              <div key={`${stop.stopUid}-${index}`}>
                 <BusStopRow
                   stop={stop}
                   source={current.source}
