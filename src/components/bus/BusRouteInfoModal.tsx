@@ -264,9 +264,13 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
         ? [t("busSourceCity"), cityName].filter(Boolean).join("・")
         : t("busSourceIntercity");
 
-  // 班表分流：固定時刻照方向（往X）逐塊；班距整條路線彙整、不分方向（避免 667 假「往X」）。
+  // 子線候選（route.subRouteName 有值，含展開路線的主線候選）只列該子線班表，
+  // 與看板起站「下一班發車」的篩法一致；未展開路線（sub 無值）全列，保留附屬子線班表。
+  // 班表分流：固定時刻照方向（往X）逐塊；班距整條路線彙整、不分方向（避免單向資料造成假「往X」）。
   // mixed 路線（白天班距 + 末班尾段固定時刻）兩者並存、互不覆蓋。
-  const groups = info?.schedules ?? [];
+  const groups = (info?.schedules ?? []).filter(
+    (g) => !route.subRouteName || g.subRouteName === route.subRouteName,
+  );
   const fixedGroups = groups.filter(
     (g) => g.weekdayTimes.length > 0 || g.holidayTimes.length > 0,
   );
