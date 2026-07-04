@@ -83,6 +83,17 @@ export interface JsyBusStopArrival extends JsyBusStop {
   nextDepartTime?: string;
 }
 
+/** 單筆營運通阻公告（形狀對齊 JsyOperationAlert 的 alerts 元素，呈現層共用樣式）。 */
+export interface JsyBusAlert {
+  /** danger=全部營運停止、warning=異常/改道。 */
+  status: "warning" | "danger";
+  publishTime: string;
+  startTime: string;
+  endTime: string;
+  title: string;
+  desc: string;
+}
+
 /** 一個方向的即時看板。 */
 export interface JsyBusRouteBoard {
   routeUid: string;
@@ -94,6 +105,8 @@ export interface JsyBusRouteBoard {
   /** 路線來源/縣市（後端 routeUid 反查索引的權威值；存歷史/收藏 meta 用，URL 不帶 source/city）。 */
   source?: BusSource;
   city?: string;
+  /** 命中本路線且生效中的營運通阻公告；無則不帶。兩方向帶同組。 */
+  alerts?: JsyBusAlert[];
   /** N1 即時資料實際取得時間（epoch ms）；搭配 isStale 標示資料時效。 */
   updatedAt: number;
   /** true = 上游異常、本回應為過期舊資料；正常時不帶。 */

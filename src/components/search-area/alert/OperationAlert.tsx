@@ -1,4 +1,5 @@
 import CommonDialog from "@/components/common/CommonDialog";
+import { ALERT_STATUS_COLORS } from "@/components/search-area/alert/alertStatusColors";
 import { GaEnum } from "@/enums/GaEnum";
 import { PageEnum } from "@/enums/PageEnum";
 import useOperationAlert from "@/hooks/useOperationAlert";
@@ -26,31 +27,7 @@ const OperationAlert: FC<OperationAlertProps> = ({ compact }) => {
     [PageEnum.TYMC]: GaEnum.TYMC_OPERATION_ALERT,
   };
 
-  const statusColorMap = useMemo(() => {
-    const map = new Map<
-      string,
-      { text: string; bg: string; border: string; i18n: string }
-    >();
-    map.set("normal", {
-      text: "",
-      bg: "bg-emerald-600 dark:bg-emerald-400",
-      border: "border-emerald-600 dark:border-emerald-400",
-      i18n: "normalOpStatus",
-    });
-    map.set("warning", {
-      text: "text-orange-500 dark:text-orange-400",
-      bg: "bg-orange-500 dark:bg-orange-400",
-      border: "border-orange-500 dark:border-orange-400",
-      i18n: "warningOpStatus",
-    });
-    map.set("danger", {
-      text: "text-red-600 dark:text-red-400",
-      bg: "bg-red-600 dark:bg-red-400",
-      border: "border-red-600 dark:border-red-400",
-      i18n: "dangerOpStatus",
-    });
-    return map;
-  }, []);
+  const statusColorMap = ALERT_STATUS_COLORS;
 
   const displayBtnName = useMemo(() => {
     if (!jsyOperationAlert) return "";

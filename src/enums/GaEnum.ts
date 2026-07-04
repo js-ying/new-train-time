@@ -11,6 +11,7 @@ export enum GaEnum {
   TYMC_TITLE = "桃捷標題",
   BUS_TITLE = "公車標題",
   BUS_ROUTE_SELECT = "公車路線選擇",
+  BUS_OPERATION_ALERT = "公車營運通阻",
   HOME = "首頁 (sidebar)",
   STATION_TIMETABLE = "車站時刻表 (sidebar)",
   STATION_TIMETABLE_FROM_SEARCH = "車站時刻表 (搜尋區)",

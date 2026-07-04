@@ -1,4 +1,5 @@
 import BusAutoRefreshRing from "@/components/bus/BusAutoRefreshRing";
+import BusOperationAlert from "@/components/bus/BusOperationAlert";
 import BusRouteBoard from "@/components/bus/BusRouteBoard";
 import BusRouteInfoModal from "@/components/bus/BusRouteInfoModal";
 import BusRouteSearch, {
@@ -293,6 +294,10 @@ const BusPage: FC = () => {
     </div>
   ) : null;
 
+  // 路線營運通阻公告（arrivals 附帶、兩方向同組故取 [0]）；入口掛「離我最近站牌」列最左，
+  // 未選路線 / 無公告時 BusOperationAlert 自回 null 不佔位
+  const routeAlerts = !isStopMode ? data?.[0]?.alerts : undefined;
+
   // 手動刷新冷卻（route/stop 共用一份；refresh 指向作用中看板）；冷卻中再按 → 彈窗「請於 X 秒後再試」
   const busRefreshCooldown = useRefreshCooldown(POLL_INTERVAL_MS);
   const handleRefresh = () => busRefreshCooldown.attempt(refresh);
@@ -475,9 +480,14 @@ const BusPage: FC = () => {
             />
 
             {/* 離我最近站牌（定位 → 該站牌所有路線即時到站）：列滿版，按鈕置中、收藏愛心 absolute 掛最右，
-                與下方看板的倒數環 / 刷新鈕同在內容右緣對齊（搜尋框雖窄，控制項統一靠右） */}
+                與下方看板的倒數環 / 刷新鈕同在內容右緣對齊（搜尋框雖窄，控制項統一靠右）；
+                營運通阻公告入口 absolute 掛最左（有生效公告才顯示） */}
             <div className="mt-4 flex flex-col items-center gap-1">
               <div className="relative flex w-full justify-center">
+                {/* left-3：dot-static 掛容器左外 0.8rem，留位避免圓點溢出內容區左緣 */}
+                <div className="absolute inset-y-0 left-3 flex items-center">
+                  <BusOperationAlert alerts={routeAlerts} />
+                </div>
                 <Button
                   variant="light"
                   className="text-sm"
