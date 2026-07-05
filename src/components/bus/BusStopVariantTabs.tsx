@@ -34,10 +34,11 @@ const BusStopVariantTabs: FC<BusStopVariantTabsProps> = ({
         radius="full"
         size="sm"
         classNames={{
-          tabList: "!bg-transparent flex-wrap",
+          tabList: "!bg-transparent flex-wrap justify-center",
           cursor:
             "!bg-transparent !border border-zinc-700 dark:!border-zinc-200 !shadow-none",
-          tab: "data-[hover-unselected=true]:opacity-100",
+          // 覆寫 base 的 w-full：flex-wrap 下各 tab 會撐滿整列致 border 過寬，改 w-auto 貼齊文字
+          tab: "!w-auto data-[hover-unselected=true]:opacity-100",
           tabContent:
             "group-data-[hover-unselected=true]:text-zinc-600 dark:group-data-[hover-unselected=true]:text-zinc-300",
         }}
