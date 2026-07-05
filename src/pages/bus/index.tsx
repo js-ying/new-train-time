@@ -19,6 +19,7 @@ import StationHistoryPanel from "@/components/station-history/StationHistoryPane
 import NoTrainData from "@/components/train-time-table/NoTrainData";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
+import { PathEnum } from "@/enums/PathEnum";
 import useBusRouteArrivals, {
   BusRouteSelection,
   POLL_INTERVAL_MS,
@@ -144,6 +145,22 @@ const BusPage: FC = () => {
 
   const [selectedRoute, setSelectedRoute] = useState<JsyBusRoute | null>(null);
   const [direction, setDirection] = useState<number>(0);
+
+  // 點 TrainSwitch「公車」分頁 / 瀏覽器返回導回乾淨 /bus（無 routeUid/stopUid）時，
+  // 把路線搜尋面板重置為初始（收合輸入框、清空已輸入字）。改 key 觸發 remount 達成；
+  // selectedRoute 已由下方 URL 還原 effect 清為 null，這裡只負責 BusRouteSearch 的本地 state。
+  const [routeSearchResetKey, setRouteSearchResetKey] = useState(0);
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      const [path, qs = ""] = url.split("?");
+      if (!path.endsWith(PathEnum.busHome)) return; // 導去別頁不重置
+      const params = new URLSearchParams(qs);
+      if (params.get("routeUid") || params.get("stopUid")) return; // 仍在看板不重置
+      setRouteSearchResetKey((k) => k + 1);
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => router.events.off("routeChangeComplete", handleRouteChange);
+  }, [router.events]);
 
   // 首載 / 路由 query 變動（含上一頁、分享連結）時，從 URL 還原已選路線；
   // routeUid 相同則保留現有物件（含完整起訖資訊），避免被 URL 精簡版覆蓋。
@@ -475,6 +492,7 @@ const BusPage: FC = () => {
         <Layout>
           <div className="mx-auto w-full max-w-xl">
             <BusRouteSearch
+              key={routeSearchResetKey}
               selectedRoute={selectedRoute}
               onSelect={handleSelectRoute}
             />
