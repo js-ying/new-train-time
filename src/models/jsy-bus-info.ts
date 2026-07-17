@@ -194,6 +194,28 @@ export interface JsyBusStopVariant {
   lon: number;
 }
 
+/** 收藏站點看板單列：某（站牌×路線×方向）的即時到站；echo 查詢 key + 權威顯示值。 */
+export interface JsyBusStopBoardsBatchItem {
+  stopUid: string;
+  routeUid: string;
+  direction: number;
+  subRouteName?: string;
+  /** 權威站名 / 路線名 / 終點（該站看板此刻查無該路線列時為空字串，前端退回收藏快照）。 */
+  stopName: string;
+  routeName: string;
+  destination: string;
+  state: BusArrivalState;
+  estimateMinutes: number | null;
+}
+
+/** 收藏站點看板：多筆（站牌×路線×方向）一次查（items 順序同請求）。 */
+export interface JsyBusStopBoardsBatch {
+  items: JsyBusStopBoardsBatchItem[];
+  updatedAt: number;
+  /** true = 任一站牌看板為 staleOnError 舊資料。 */
+  isStale?: boolean;
+}
+
 /** 站牌即時看板：該站牌所有路線的到站（依最近排序）。 */
 export interface JsyBusStopBoard {
   /** 站所屬縣市碼（市區公車＝City；公路客運/台灣好行＝LocationCityCode）。 */

@@ -1,3 +1,4 @@
+import HeartIcon from "@/components/icons/HeartIcon";
 import { BusSource, JsyBusStopArrival } from "@/models/jsy-bus-info";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
@@ -9,25 +10,26 @@ interface BusStopRowProps {
   source?: BusSource;
   /** 點站 → 跳該站牌看板（StopUID 為錨）。 */
   onSelectStop?: (stop: JsyBusStopArrival) => void;
+  /** 收藏愛心（站點三元組：本站×本路線×當前方向）；未提供則不顯示。 */
+  favorite?: { isFavorited: boolean; onToggle: () => void };
 }
 
 /**
- * [公車] 單站列：左為順位 + 站名（末班車加標籤），右為到站狀態徽章。沿用 TR 站列卡片樣式。
+ * [公車] 單站列：序號 + 收藏愛心 + 站名（末班車加標籤）+ 到站徽章。
  * 可點則跳該站牌看板查該站所有路線；不可點站維持純展示。
  */
-const BusStopRow: FC<BusStopRowProps> = ({ stop, source, onSelectStop }) => {
+const BusStopRow: FC<BusStopRowProps> = ({
+  stop,
+  source,
+  onSelectStop,
+  favorite,
+}) => {
   const { t } = useTranslation();
   const clickable = !!onSelectStop && (source !== "city" || !!stop.city);
 
-  const base =
-    "grid grid-cols-[1fr_auto] items-center gap-2 rounded-md border border-solid border-foreground p-3";
-
-  const inner = (
-    <>
+  const content = (
+    <div className="grid w-full grid-cols-[1fr_auto] items-center gap-2">
       <div className="flex items-center gap-2 text-left">
-        <span className="min-w-[1.5rem] text-xs tabular-nums text-zinc-400">
-          {stop.stopSequence}
-        </span>
         <span className="font-medium">{stop.stopName}</span>
         {stop.isLastBus && (
           <span className="rounded bg-amber-100 px-1 text-xs text-amber-600 dark:bg-amber-600/40 dark:text-amber-300">
@@ -40,23 +42,42 @@ const BusStopRow: FC<BusStopRowProps> = ({ stop, source, onSelectStop }) => {
         estimateMinutes={stop.estimateMinutes}
         nextDepartTime={stop.nextDepartTime}
       />
-    </>
+    </div>
   );
 
-  if (clickable) {
-    return (
-      <button
-        type="button"
-        onClick={() => onSelectStop?.(stop)}
-        aria-label={t("busViewStopRoutes", { stop: stop.stopName })}
-        className={`custom-cursor-pointer w-full text-left ${base}`}
-      >
-        {inner}
-      </button>
-    );
-  }
-
-  return <div className={base}>{inner}</div>;
+  return (
+    <div className="flex items-center gap-1.5 rounded-md border border-solid border-foreground px-1.5 py-3">
+      <span className="w-5 shrink-0 text-center text-xs tabular-nums text-zinc-400">
+        {stop.stopSequence}
+      </span>
+      {favorite && (
+        <button
+          type="button"
+          aria-label="favorite-toggle"
+          className={`shrink-0 ${
+            favorite.isFavorited
+              ? "text-rose-500 dark:text-rose-500/80"
+              : "text-zinc-400 dark:text-zinc-500"
+          }`}
+          onClick={favorite.onToggle}
+        >
+          <HeartIcon filled={favorite.isFavorited} className="size-4" />
+        </button>
+      )}
+      {clickable ? (
+        <button
+          type="button"
+          onClick={() => onSelectStop?.(stop)}
+          aria-label={t("busViewStopRoutes", { stop: stop.stopName })}
+          className="custom-cursor-pointer flex-1 text-left"
+        >
+          {content}
+        </button>
+      ) : (
+        <div className="flex-1">{content}</div>
+      )}
+    </div>
+  );
 };
 
 export default BusStopRow;

@@ -5,7 +5,9 @@ import {
   JsyBusRouteBoard,
   JsyBusRouteInfo,
   JsyBusStopBoard,
+  JsyBusStopBoardsBatch,
 } from "@/models/jsy-bus-info";
+import { BusStopFavoriteKey } from "@/utils/BusStopFavoriteUtils";
 
 import fetchData from "./fetchData";
 
@@ -93,4 +95,20 @@ export const getBusStopBoard = async (
     "GET",
     signal,
   );
+};
+
+/** 收藏站點看板：多筆（站牌×路線×方向）一次查到站狀態；會員限定（帶 token）。
+ *  userApi 須動態 import：靜態引入會讓本模組捲入 firebase/context 的循環初始化
+ *  （/bus SSR 直接 500），且與 userApi 延後載入 firebase chunk 的設計一致。 */
+export const getBusStopBoardsBatch = async (
+  items: BusStopFavoriteKey[],
+  signal?: AbortSignal,
+): Promise<JsyBusStopBoardsBatch> => {
+  const { callUserApi } = await import("./userApi");
+  return callUserApi<JsyBusStopBoardsBatch>({
+    url: "/api/bus/stop-boards-batch",
+    method: "POST",
+    body: { items },
+    signal,
+  });
 };

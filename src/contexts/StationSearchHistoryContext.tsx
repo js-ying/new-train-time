@@ -15,7 +15,7 @@ import {
   useState,
 } from "react";
 
-/** 支援同步的車種；順序固定供 flatten / 遍歷使用 */
+/** 支援同步的車種；順序固定供 flatten / 遍歷使用（BUS_STOP 只收藏不記歷史，不在此列） */
 const TRAIN_TYPES: StationTrainType[] = ["TR", "BUS"];
 const MAX_PER_TYPE = MAX_STATION_HISTORY;
 const SYNC_DEBOUNCE_MS = 800;
@@ -25,7 +25,7 @@ const STORAGE_KEY = "stationSearchHistoryMap";
 const SYNCED_UID_KEY = "stationSearchHistorySyncedUid";
 
 function emptyMap(): StationHistoryMap {
-  return { TR: [], BUS: [] };
+  return { TR: [], BUS: [], BUS_STOP: [] };
 }
 
 /** 合法單筆：targetId / targetName 皆為非空字串 */

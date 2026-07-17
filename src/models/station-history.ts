@@ -3,8 +3,8 @@
  * 與 OD 站對的 history.ts 分離：OD 存起迄站對，此處存單一 target（站 / 路線）。
  */
 
-/** 單點查詢車種：TR=台鐵單站、BUS=公車路線 */
-export type StationTrainType = "TR" | "BUS";
+/** 單點查詢車種：TR=台鐵單站、BUS=公車路線、BUS_STOP=公車站點到站（僅收藏，不記歷史） */
+export type StationTrainType = "TR" | "BUS" | "BUS_STOP";
 
 /** 各車種歷史顯示上限 */
 export const MAX_STATION_HISTORY = 5;

@@ -11,7 +11,7 @@ interface BusStopVariantTabsProps {
 
 /**
  * [公車] 同名多座標的站柱 tab：切到正確那根柱（如「消防局(松仁)」不同方向柱）。
- * 標籤用站牌地址 + 方位（i18n），無地址則退站名。沿用路線頁方向 pill Tabs 樣式。
+ * 標籤用站牌地址 + 方位（i18n，無地址則退站名）；長地址只截地址、方位永遠顯示。
  */
 const BusStopVariantTabs: FC<BusStopVariantTabsProps> = ({
   variants,
@@ -19,12 +19,17 @@ const BusStopVariantTabs: FC<BusStopVariantTabsProps> = ({
   onSelect,
 }) => {
   const { t } = useTranslation();
-  const labelFor = (v: JsyBusStopVariant): string => {
+  const labelNode = (v: JsyBusStopVariant) => {
     const dir = v.bearing
       ? t(`busBearing.${v.bearing}`, { defaultValue: v.bearing })
       : "";
     const base = v.address || v.stopName;
-    return dir ? `${base}·${dir}` : base;
+    return (
+      <span className="flex items-center gap-0.5">
+        <span className="block max-w-56 truncate">{base}</span>
+        {dir && <span className="shrink-0">·{dir}</span>}
+      </span>
+    );
   };
   return (
     <div className="mb-3 flex justify-center">
@@ -46,7 +51,7 @@ const BusStopVariantTabs: FC<BusStopVariantTabsProps> = ({
         onSelectionChange={(key) => onSelect(String(key))}
       >
         {variants.map((v) => (
-          <Tab key={v.stopUid} title={labelFor(v)} />
+          <Tab key={v.stopUid} title={labelNode(v)} />
         ))}
       </Tabs>
     </div>

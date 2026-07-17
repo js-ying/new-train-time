@@ -1,10 +1,20 @@
 import AdBanner from "@/components/common/AdBanner";
+import CommonDialog from "@/components/common/CommonDialog";
+import { useAuth } from "@/contexts/AuthContext";
+import { GaEnum } from "@/enums/GaEnum";
 import useIsStuck from "@/hooks/useIsStuck";
+import useSetting from "@/hooks/useSetting";
+import useStationFavorites from "@/hooks/useStationFavorites";
 import { JsyBusRouteBoard, JsyBusStopArrival } from "@/models/jsy-bus-info";
 import AdUtils from "@/utils/AdUtils";
+import {
+  encodeBusStopFavoriteId,
+  encodeBusStopFavoriteName,
+} from "@/utils/BusStopFavoriteUtils";
+import { gaClickEvent } from "@/utils/GaUtils";
 import { Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useState } from "react";
 import BusStopRow from "./BusStopRow";
 
 interface BusRouteBoardProps {
@@ -15,6 +25,8 @@ interface BusRouteBoardProps {
   onDirectionChange: (direction: number) => void;
   /** 路線名（顯示於 sticky 頂部、方向切換上一排，下滑時仍知道看的是哪條路線） */
   routeName?: string;
+  /** 子線名（子線看板才有）；站列收藏三元組帶上，與看板同粒度 */
+  subRouteName?: string;
   /** 掛在方向切換同列最左的元件（如路線詳細資訊 icon）；absolute 不影響 tab 置中 */
   leadingSlot?: ReactNode;
   /** 掛在方向切換同列最右的元件（登入：倒數環；未登入：刷新+登入引導）；absolute 不影響 tab 置中 */
@@ -36,6 +48,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
   direction,
   onDirectionChange,
   routeName,
+  subRouteName,
   leadingSlot,
   cornerSlot,
   favoriteSlot,
@@ -50,6 +63,58 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
   // tab 標籤直接顯示該方向目的地（「往 X」）；公車方向對使用者的意義是去哪，而非北上/南下
   const labelFor = (board: JsyBusRouteBoard) =>
     t("busTowards", { destination: board.destinationStop });
+
+  // 站列愛心＝收藏該（站牌×本路線×當前方向）到站（BUS_STOP 分組），與站牌看板列愛心同語意
+  const { user, loginWithGoogle } = useAuth();
+  const { addFavorite, removeFavorite, isFavorite } =
+    useStationFavorites("BUS_STOP");
+  const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [limitOpen, setLimitOpen] = useState(false);
+
+  // 未登入跳登入引導；已收藏→移除；未收藏→加入（已滿跳上限提示）
+  const handleToggleStopFavorite = (
+    stop: JsyBusStopArrival,
+    targetId: string,
+  ) => {
+    if (!user) {
+      setLoginOpen(true);
+      return;
+    }
+    const fav = isFavorite(targetId);
+    gaClickEvent(fav ? GaEnum.UNFAVORITE_ROUTE : GaEnum.FAVORITE_ROUTE);
+    if (fav) {
+      removeFavorite(targetId);
+    } else if (
+      addFavorite({
+        targetId,
+        targetName: encodeBusStopFavoriteName(
+          routeName || current?.routeName || "",
+          current?.destinationStop ?? "",
+          stop.stopName,
+        ),
+      }) === "limit"
+    ) {
+      setLimitOpen(true);
+    }
+  };
+
+  // 不可收藏（設定關閉 / 市區公車站不在 bus_stop）回 undefined → 該列不掛愛心；
+  // 可收藏條件與可點跳站牌頁一致（batch 反查 bus_stop，同一前提）
+  const favoriteFor = (stop: JsyBusStopArrival) => {
+    if (!showFavoriteRoutes || !current) return undefined;
+    if (current.source === "city" && !stop.city) return undefined;
+    const targetId = encodeBusStopFavoriteId({
+      stopUid: stop.stopUid,
+      routeUid: current.routeUid,
+      direction: current.direction,
+      subRouteName,
+    });
+    return {
+      isFavorited: isFavorite(targetId),
+      onToggle: () => handleToggleStopFavorite(stop, targetId),
+    };
+  };
 
   return (
     <div className="flex flex-col">
@@ -113,7 +178,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
 
       {current &&
         (current.stops.length > 0 ? (
-          <div className="mt-2 flex flex-col gap-2">
+          <div className="mt-2 flex flex-col gap-3">
             {/* key 含 index：折返/繞駛路線官方站序同站可重複行經（同 stopUid 兩列） */}
             {current.stops.map((stop, index) => (
               <div key={`${stop.stopUid}-${index}`}>
@@ -121,6 +186,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
                   stop={stop}
                   source={current.source}
                   onSelectStop={onSelectStop}
+                  favorite={favoriteFor(stop)}
                 />
                 {/* 站序內插廣告：最多第三筆後，不足三筆遞減（同 OD） */}
                 {AdUtils.showAd(current.stops.length, index) && (
@@ -136,6 +202,31 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
             {t("busBoardEmpty")}
           </div>
         ))}
+
+      {/* 未登入點愛心：引導登入 */}
+      <CommonDialog
+        open={loginOpen}
+        setOpen={setLoginOpen}
+        title="favoriteRequiresLoginTitle"
+        confirmText="login"
+        cancelText="cancel"
+        onConfirm={() => {
+          gaClickEvent(GaEnum.LOGIN_WITH_GOOGLE);
+          void loginWithGoogle();
+        }}
+      >
+        {t("favoriteStopRequiresLogin")}
+      </CommonDialog>
+
+      {/* 收藏已滿：提示先移除 */}
+      <CommonDialog
+        open={limitOpen}
+        setOpen={setLimitOpen}
+        title="favoriteLimitTitle"
+        confirmText="gotItLabel"
+      >
+        {t("favoriteStopLimitReached")}
+      </CommonDialog>
     </div>
   );
 };

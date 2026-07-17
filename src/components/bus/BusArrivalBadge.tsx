@@ -42,12 +42,13 @@ const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
 }) => {
   const { t } = useTranslation();
   const color = STATE_COLOR[state];
+  const base = "inline-flex min-w-20 justify-center whitespace-nowrap";
 
   // 起站未發車且班表有下一班 → 顯示發車時刻（資訊比「尚未發車」多）；用一般前景色與「X 分」一致
   if (state === "notDeparted" && nextDepartTime) {
     return (
       <span
-        className={`whitespace-nowrap text-sm font-medium tabular-nums ${STATE_COLOR.minutes}`}
+        className={`${base} text-sm font-medium tabular-nums ${STATE_COLOR.minutes}`}
       >
         {nextDepartTime}
       </span>
@@ -57,7 +58,7 @@ const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
   // 「X 分」：分鐘數放大、單位維持小字，整體用一般色
   if (state === "minutes") {
     return (
-      <span className={`whitespace-nowrap font-medium ${color}`}>
+      <span className={`${base} items-baseline font-medium ${color}`}>
         <span className="text-lg font-semibold tabular-nums">
           {estimateMinutes ?? 0}
         </span>
@@ -67,7 +68,7 @@ const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
   }
 
   return (
-    <span className={`whitespace-nowrap text-sm font-medium ${color}`}>
+    <span className={`${base} text-sm font-medium ${color}`}>
       {t(STATE_LABEL_KEY[state])}
     </span>
   );

@@ -160,17 +160,14 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
         <div>{selectedName ?? ""}</div>
       </Area>
 
-      {/* 離我最近車站列滿版：按鈕置中、右側動作槽（收藏愛心）absolute 掛最右，
-          與下方時刻表的刷新鈕同在內容右緣對齊（出發車站搜尋框雖窄，控制項統一靠右） */}
       <div className="relative flex w-full justify-center">
         <Button
+          isIconOnly
           variant="light"
-          className="text-sm"
-          startContent={<LocateIcon className="h-4 w-4" />}
-          // endContent={<span aria-hidden className="" />}
+          aria-label={t("trStationNearestButton")}
           onPress={handleLocate}
         >
-          {t("trStationNearestButton")}
+          <LocateIcon className="h-4 w-4" />
         </Button>
         {rightSlot && (
           <div className="absolute inset-y-0 right-0 flex items-center">

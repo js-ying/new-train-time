@@ -1,4 +1,5 @@
 import BusAutoRefreshRing from "@/components/bus/BusAutoRefreshRing";
+import BusFavoriteStopBoard from "@/components/bus/BusFavoriteStopBoard";
 import BusOperationAlert from "@/components/bus/BusOperationAlert";
 import BusRouteBoard from "@/components/bus/BusRouteBoard";
 import BusRouteInfoModal from "@/components/bus/BusRouteInfoModal";
@@ -31,6 +32,7 @@ import useBusStopBoard, {
 import useNearestBusStop from "@/hooks/search/useNearestBusStop";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import useRefreshCooldown from "@/hooks/useRefreshCooldown";
+import useStationFavorites from "@/hooks/useStationFavorites";
 import useStationHistory from "@/hooks/useStationHistory";
 import {
   BusSource,
@@ -41,6 +43,7 @@ import {
 } from "@/models/jsy-bus-info";
 import { StationTarget } from "@/models/station-history";
 import AdUtils from "@/utils/AdUtils";
+import { parseBusStopFavoriteId } from "@/utils/BusStopFavoriteUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
@@ -240,6 +243,18 @@ const BusPage: FC = () => {
 
   // 公車歷史（BUS）：查過的路線；常用路線由搜尋列愛心 / 面板愛心經 StationFavoritesContext 管理
   const { saveHistory: saveBusHistory } = useStationHistory("BUS");
+
+  // 收藏站點（BUS_STOP，站牌×路線×方向）；舊版純 stopUid 收藏解析失敗即清除
+  const { favoriteList: stopFavoriteList, removeFavorite: removeStopFavorite } =
+    useStationFavorites("BUS_STOP");
+  const validStopFavorites = stopFavoriteList.filter(
+    (f) => parseBusStopFavoriteId(f.targetId) !== null,
+  );
+  useEffect(() => {
+    for (const f of stopFavoriteList) {
+      if (!parseBusStopFavoriteId(f.targetId)) removeStopFavorite(f.targetId);
+    }
+  }, [stopFavoriteList, removeStopFavorite]);
   // 只記「主動選擇」(搜尋/站牌/歷史點選)；直連/冷載還原不寫歷史。
   // 在看板載入後才存，以取後端回應的權威 source/city（跨縣市 meta 也正確）；routeUid guard 防輪詢重複寫。
   const activeSelectRef = useRef<string | null>(null);
@@ -497,23 +512,19 @@ const BusPage: FC = () => {
               onSelect={handleSelectRoute}
             />
 
-            {/* 離我最近站牌（定位 → 該站牌所有路線即時到站）：列滿版，按鈕置中、收藏愛心 absolute 掛最右，
-                與下方看板的倒數環 / 刷新鈕同在內容右緣對齊（搜尋框雖窄，控制項統一靠右）；
-                營運通阻公告入口 absolute 掛最左（有生效公告才顯示） */}
             <div className="mt-4 flex flex-col items-center gap-1">
               <div className="relative flex w-full justify-center">
-                {/* left-3：dot-static 掛容器左外 0.8rem，留位避免圓點溢出內容區左緣 */}
+                {/* 營運通阻公告入口（有生效公告才顯示） */}
                 <div className="absolute inset-y-0 left-3 flex items-center">
                   <BusOperationAlert alerts={routeAlerts} />
                 </div>
                 <Button
+                  isIconOnly
                   variant="light"
-                  className="text-sm"
-                  startContent={<LocateIcon className="h-4 w-4" />}
-                  // endContent={<span aria-hidden className="" />}
+                  aria-label={t("busNearestStop")}
                   onPress={locate}
                 >
-                  {t("busNearestStop")}
+                  <LocateIcon className="h-4 w-4" />
                 </Button>
                 {busFavoriteTarget && (
                   <div className="absolute inset-y-0 right-0 flex items-center">
@@ -556,48 +567,67 @@ const BusPage: FC = () => {
                       ? t(`busCity.${city}`, { defaultValue: city })
                       : t(SOURCE_LABEL_KEY[source]);
                   }}
+                  // 點卡片 → 跳該站牌看板（同站 5 秒內重入擋下）
+                  stopFavorites={{
+                    count: validStopFavorites.length,
+                    content: (
+                      <BusFavoriteStopBoard
+                        favorites={validStopFavorites}
+                        onSelect={(favStopUid) => {
+                          busQueryCooldown.attempt(() => {
+                            router.push(
+                              {
+                                pathname: "/bus",
+                                query: { stopUid: favStopUid },
+                              },
+                              undefined,
+                              { shallow: true },
+                            );
+                          }, `stopuid:${favStopUid}`);
+                        }}
+                        onRemove={removeStopFavorite}
+                      />
+                    ),
+                  }}
                 />
               </div>
             )}
 
             {/* 站牌模式：定位到的站牌、其所有路線即時到站 */}
             {isStopMode && (
-              <div className="mt-5">
-                {/* 站名置中；倒數環/刷新 absolute 掛同列最右，不影響置中 */}
-                <div className="relative mb-3 flex items-center justify-center">
+              <div className="mt-3">
+                {/* sticky 站名 + 輪詢倒數環，下滑固定可見 */}
+                <div className="sticky top-0 z-[5] -mx-4 flex items-center justify-center bg-background/20 px-4 py-2 backdrop-blur-md">
                   <span className="text-base font-bold">{stopDisplayName}</span>
                   {(autoRefreshRing ?? refreshControls) && (
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
                       {autoRefreshRing ?? refreshControls}
                     </div>
                   )}
                 </div>
-                {staleWarningBox && <div className="mb-3">{staleWarningBox}</div>}
-                {/* 同名多座標：站柱 tab（消防局松仁 4 柱），切柱＝push 該柱 stopUid */}
-                {stopBoard.data?.variants &&
-                  stopBoard.data.variants.length > 1 && (
-                    <BusStopVariantTabs
-                      variants={stopBoard.data.variants}
-                      currentStopUid={stopUid ?? ""}
-                      onSelect={handleSelectVariant}
-                    />
+                <div className="mt-3">
+                  {staleWarningBox && (
+                    <div className="mb-3">{staleWarningBox}</div>
                   )}
-                {stopBoard.data ? (
-                  <>
+                  {/* 同名多座標：站柱 tab（消防局松仁 4 柱），切柱＝push 該柱 stopUid */}
+                  {stopBoard.data?.variants &&
+                    stopBoard.data.variants.length > 1 && (
+                      <BusStopVariantTabs
+                        variants={stopBoard.data.variants}
+                        currentStopUid={stopUid ?? ""}
+                        onSelect={handleSelectVariant}
+                      />
+                    )}
+                  {stopBoard.data ? (
                     <BusStopBoard
                       board={stopBoard.data}
+                      stopUid={stopUid ?? ""}
                       onSelectRoute={handleSelectStopRoute}
                     />
-                    {/* 站牌路線清單下方廣告（trainInfo 大版）；mt-2 對齊清單 gap-2 */}
-                    {AdUtils.showAd(0, 0) && (
-                      <div className="mt-2">
-                        <AdBanner mode="trainInfo" />
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  error && <NoTrainData apiError={error} />
-                )}
+                  ) : (
+                    error && <NoTrainData apiError={error} />
+                  )}
+                </div>
               </div>
             )}
 
@@ -610,6 +640,7 @@ const BusPage: FC = () => {
                     direction={direction}
                     onDirectionChange={handleDirectionChange}
                     routeName={selectedRoute.routeName}
+                    subRouteName={selectedRoute.subRouteName}
                     leadingSlot={routeInfoButton}
                     cornerSlot={autoRefreshRing ?? refreshControls}
                     favoriteSlot={renderBusFavorite()}

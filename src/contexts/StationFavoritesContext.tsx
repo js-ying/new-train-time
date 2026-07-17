@@ -1,7 +1,7 @@
 import { isAuthError, useAuth } from "@/contexts/AuthContext";
 import {
   AddStationFavoriteResult,
-  MAX_STATION_FAVORITES,
+  maxStationFavorites,
   StationFavorite,
   StationFavoriteMap,
 } from "@/models/station-favorites";
@@ -15,14 +15,14 @@ import {
   useState,
 } from "react";
 
-const TRAIN_TYPES: StationTrainType[] = ["TR", "BUS"];
+const TRAIN_TYPES: StationTrainType[] = ["TR", "BUS", "BUS_STOP"];
 const SYNC_DEBOUNCE_MS = 800;
 
 const STORAGE_KEY = "stationFavoritesMap";
 const SYNCED_UID_KEY = "stationFavoritesSyncedUid";
 
 function emptyMap(): StationFavoriteMap {
-  return { TR: [], BUS: [] };
+  return { TR: [], BUS: [], BUS_STOP: [] };
 }
 
 function isValidEntry(x: unknown): boolean {
@@ -42,8 +42,8 @@ function readMeta(x: any): string | undefined {
   return typeof v === "string" && v ? v : undefined;
 }
 
-/** dedupe（同 targetId 取較新 createdAt）→ createdAt 由新到舊 → 取前 MAX */
-function sortTrim(items: StationFavorite[]): StationFavorite[] {
+/** dedupe（同 targetId 取較新 createdAt）→ createdAt 由新到舊 → 取前 max（依車種上限） */
+function sortTrim(items: StationFavorite[], max: number): StationFavorite[] {
   const map = new Map<string, StationFavorite>();
   for (const it of items) {
     const ex = map.get(it.targetId);
@@ -51,7 +51,7 @@ function sortTrim(items: StationFavorite[]): StationFavorite[] {
   }
   return [...map.values()]
     .sort((a, b) => b.createdAt - a.createdAt)
-    .slice(0, MAX_STATION_FAVORITES);
+    .slice(0, max);
 }
 
 function sanitizeMap(raw: unknown): StationFavoriteMap {
@@ -71,6 +71,7 @@ function sanitizeMap(raw: unknown): StationFavoriteMap {
             ? Number(x.createdAt)
             : now,
       })),
+      maxStationFavorites(t),
     );
   }
   return m;
@@ -156,7 +157,7 @@ export const StationFavoritesContext =
   });
 
 /**
- * 通用單點收藏 Provider（台鐵單站 / 公車路線共用）。
+ * 通用單點收藏 Provider（台鐵單站 / 公車路線 / 公車站牌共用）。
  * 同步紀律與 OD FavoriteRoutesContext 一致：整組 replace + 登出清本地（會員功能）。
  */
 export function StationFavoritesProvider({ children }) {
@@ -239,16 +240,20 @@ export function StationFavoritesProvider({ children }) {
       if (list.some((x) => x.targetId === target.targetId)) {
         return "added"; // 已收藏，idempotent
       }
-      if (list.length >= MAX_STATION_FAVORITES) return "limit";
-      const nextType = sortTrim([
-        {
-          targetId: target.targetId,
-          targetName: target.targetName,
-          meta: target.meta,
-          createdAt: Date.now(),
-        },
-        ...list,
-      ]);
+      const max = maxStationFavorites(trainType);
+      if (list.length >= max) return "limit";
+      const nextType = sortTrim(
+        [
+          {
+            targetId: target.targetId,
+            targetName: target.targetName,
+            meta: target.meta,
+            createdAt: Date.now(),
+          },
+          ...list,
+        ],
+        max,
+      );
       commit({ ...favRef.current, [trainType]: nextType });
       return "added";
     },
@@ -301,7 +306,10 @@ export function StationFavoritesProvider({ children }) {
           const local = readLocal();
           const merged = emptyMap();
           for (const t of TRAIN_TYPES) {
-            merged[t] = sortTrim([...remote[t], ...local[t]]);
+            merged[t] = sortTrim(
+              [...remote[t], ...local[t]],
+              maxStationFavorites(t),
+            );
           }
           adoptServerMap(merged);
           const pushed = await runPush(merged);

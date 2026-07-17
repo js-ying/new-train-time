@@ -3,7 +3,10 @@ import { GaEnum } from "@/enums/GaEnum";
 import useSetting from "@/hooks/useSetting";
 import useStationFavorites from "@/hooks/useStationFavorites";
 import useStationHistory from "@/hooks/useStationHistory";
-import { MAX_STATION_FAVORITES } from "@/models/station-favorites";
+import {
+  MAX_STATION_FAVORITES,
+  MAX_STOP_FAVORITES,
+} from "@/models/station-favorites";
 import {
   MAX_STATION_HISTORY,
   StationTarget,
@@ -12,7 +15,7 @@ import {
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button, Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { FC, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import CommonDialog from "../common/CommonDialog";
 import HeartIcon from "../icons/HeartIcon";
 
@@ -25,6 +28,8 @@ interface StationHistoryPanelProps {
   resolveLabel?: (target: StationTarget) => string;
   /** 次要標籤（公車用：縣市 / 來源，區分同名不同路線如台中 vs 新竹的 182）；無則不顯示 */
   resolveSubLabel?: (target: StationTarget) => string | undefined;
+  /** 附加「常用站牌」分頁（BUS_STOP 收藏，公車頁用）；內容由頁面注入（到站卡片看板） */
+  stopFavorites?: { count: number; content: ReactNode };
 }
 
 /** 清除按鈕（X icon），沿用 OD SearchHistory 樣式 */
@@ -63,6 +68,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
   onSelect,
   resolveLabel,
   resolveSubLabel,
+  stopFavorites,
 }) => {
   const { t } = useTranslation();
   const { user, loginWithGoogle } = useAuth();
@@ -70,6 +76,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
   const { historyList, clearHistory } = useStationHistory(trainType);
   const { favoriteList, addFavorite, removeFavorite, isFavorite } =
     useStationFavorites(trainType);
+  const stopCount = stopFavorites?.count ?? 0;
 
   const [showHistory] = useSetting("showHistory");
   const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
@@ -241,23 +248,35 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
     );
   }
 
-  // 只開常用：純常用清單（無分頁、含愛心）
+  // 只開常用：純常用清單（無分頁、含愛心）；有站點收藏時接在路線清單下
   if (!showHistory && showFavoriteRoutes) {
-    if (favoriteList.length === 0) return null;
+    if (favoriteList.length === 0 && stopCount === 0) return null;
     return (
       <>
-        {renderFlatList(
-          t(favInquiryKey, { nowLength: favoriteList.length }),
-          favoriteList,
-          false,
+        {favoriteList.length > 0 &&
+          renderFlatList(
+            t(favInquiryKey, { nowLength: favoriteList.length }),
+            favoriteList,
+            false,
+          )}
+        {stopCount > 0 && (
+          <div
+            className={`text-center ${favoriteList.length > 0 ? "mt-4" : ""}`}
+          >
+            <div className="mb-2.5 text-sm text-zinc-500 dark:text-zinc-400">
+              {t("favoritesStopInquiry", { nowLength: stopCount })}
+            </div>
+            {stopFavorites?.content}
+          </div>
         )}
         {favoriteDialogs}
       </>
     );
   }
 
-  // 兩者皆開 → 雙分頁；兩分頁皆空 → 整塊不顯示
-  if (historyList.length === 0 && favoriteList.length === 0) return null;
+  // 兩者皆開 → 雙分頁（公車頁另有站牌分頁）；全部皆空 → 整塊不顯示
+  if (historyList.length === 0 && favoriteList.length === 0 && stopCount === 0)
+    return null;
 
   return (
     <>
@@ -319,6 +338,27 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
             )}
           </div>
         </Tab>
+
+        {stopFavorites ? (
+          <Tab
+            key="stopFavorites"
+            title={tabTitle(
+              t("favoritesStopTab"),
+              stopCount,
+              MAX_STOP_FAVORITES,
+            )}
+          >
+            <div className="-mt-1 flex justify-center">
+              {stopCount > 0 ? (
+                stopFavorites.content
+              ) : (
+                <p className="px-4 text-sm text-zinc-400 dark:text-zinc-500">
+                  {t("favoritesStopEmptyHint")}
+                </p>
+              )}
+            </div>
+          </Tab>
+        ) : null}
       </Tabs>
 
       {favoriteDialogs}
