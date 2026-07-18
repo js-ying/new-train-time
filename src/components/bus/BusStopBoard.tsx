@@ -101,7 +101,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
           );
         return (
           <div key={`${r.routeUid}-${r.subRouteName ?? ""}-${r.direction}`}>
-            <div className="flex items-center gap-3 rounded-md border border-solid border-foreground px-1.5 py-3">
+            <div className="flex items-center gap-3 rounded-md border border-solid border-foreground p-3">
               {showFavoriteRoutes && (
                 <button
                   type="button"
@@ -113,7 +113,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
                   }`}
                   onClick={() => handleToggleFavorite(r)}
                 >
-                  <HeartIcon filled={!!fav} className="ml-2 size-4" />
+                  <HeartIcon filled={!!fav} className="size-4" />
                 </button>
               )}
               <button

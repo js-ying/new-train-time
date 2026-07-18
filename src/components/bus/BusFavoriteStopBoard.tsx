@@ -108,7 +108,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
         return (
           <div
             key={fav.targetId}
-            className="flex items-center gap-3 rounded-md border border-solid border-foreground px-1.5 py-3"
+            className="flex items-center gap-3 rounded-md border border-solid border-foreground p-3"
           >
             {/* 愛心＝移除此收藏（恆實心） */}
             <button
@@ -117,7 +117,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
               className="shrink-0 text-rose-500 dark:text-rose-500/80"
               onClick={() => onRemove(fav.targetId)}
             >
-              <HeartIcon filled className="ml-2 size-4" />
+              <HeartIcon filled className="size-4" />
             </button>
             <button
               type="button"

@@ -42,7 +42,7 @@ const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
 }) => {
   const { t } = useTranslation();
   const color = STATE_COLOR[state];
-  const base = "inline-flex min-w-20 justify-center whitespace-nowrap";
+  const base = "inline-flex min-w-14 justify-center whitespace-nowrap";
 
   // 起站未發車且班表有下一班 → 顯示發車時刻（資訊比「尚未發車」多）；字級略大、不加粗
   if (state === "notDeparted" && nextDepartTime) {

@@ -46,7 +46,7 @@ const BusStopRow: FC<BusStopRowProps> = ({
   );
 
   return (
-    <div className="flex items-center gap-1.5 rounded-md border border-solid border-foreground px-1.5 py-3">
+    <div className="flex items-center gap-1.5 rounded-md border border-solid border-foreground p-3">
       <span className="w-5 shrink-0 text-center text-xs tabular-nums text-zinc-400">
         {stop.stopSequence}
       </span>
