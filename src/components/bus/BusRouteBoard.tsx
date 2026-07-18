@@ -190,7 +190,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
                 />
                 {/* 站序內插廣告：最多第三筆後，不足三筆遞減（同 OD） */}
                 {AdUtils.showAd(current.stops.length, index) && (
-                  <div className="mt-2 empty:hidden">
+                  <div className="mt-3 empty:hidden">
                     <AdBanner mode="trainInfo" />
                   </div>
                 )}

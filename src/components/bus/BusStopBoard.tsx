@@ -79,7 +79,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
           {t("busStopBoardEmpty")}
         </div>
         {/* 查過 TDX 即有廣告：查無路線也顯示（同路線頁無即時） */}
-        <div className="mt-2 empty:hidden">
+        <div className="mt-4 empty:hidden">
           <AdBanner mode="trainInfo" />
         </div>
       </>
@@ -139,7 +139,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
             </div>
             {/* 站牌路線清單內插廣告：最多第三筆後，不足三筆遞減（同路線頁） */}
             {AdUtils.showAd(board.routes.length, index) && (
-              <div className="mt-2 empty:hidden">
+              <div className="mt-3 empty:hidden">
                 <AdBanner mode="trainInfo" />
               </div>
             )}
