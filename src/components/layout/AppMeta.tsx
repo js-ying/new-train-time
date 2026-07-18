@@ -1,3 +1,4 @@
+import { PWA_THEME_COLOR } from "@/configs/themeColors";
 import useLang from "@/hooks/useLang";
 import { useTheme } from "next-themes";
 import Head from "next/head";
@@ -32,7 +33,7 @@ const AppMeta: FC = () => {
       <meta
         key="theme-color"
         name="theme-color"
-        content={theme === "light" ? "#FFFFFF" : "#212529"}
+        content={theme === "light" ? PWA_THEME_COLOR.light : PWA_THEME_COLOR.dark}
       />
 
       {/* Apple Touch Settings */}

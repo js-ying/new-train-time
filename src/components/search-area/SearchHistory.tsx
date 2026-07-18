@@ -142,7 +142,7 @@ const SearchHistory: FC = () => {
         key={`${item.startStationId}-${item.endStationId}`}
       >
         <Button
-          className="h-8 w-full min-w-fit bg-neutral-500 text-sm text-white dark:bg-neutral-600"
+          className="h-8 w-full min-w-fit bg-secondary text-sm text-secondary-foreground"
           size="sm"
           radius="sm"
           onPress={() =>

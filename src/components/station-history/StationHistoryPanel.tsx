@@ -153,7 +153,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
     return (
       <div className="relative" key={item.targetId}>
         <Button
-          className="h-8 w-full bg-neutral-500 text-sm text-white dark:bg-neutral-600"
+          className="h-8 w-full bg-secondary text-sm text-secondary-foreground"
           size="sm"
           radius="sm"
           onPress={() => handleSelect(item)}

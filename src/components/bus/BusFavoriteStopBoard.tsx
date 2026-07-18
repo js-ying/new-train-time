@@ -90,7 +90,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
         )
       )}
       {staleWarning && (
-        <div className="text-center text-xs text-amber-600 dark:text-amber-400">
+        <div className="text-center text-xs text-warning">
           {staleWarning}
         </div>
       )}

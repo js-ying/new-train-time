@@ -7,7 +7,7 @@ const Loading: FC = () => {
         <div className="flex justify-center">
           <svg
             aria-hidden="true"
-            className="h-8 w-8 animate-spin fill-silverLakeBlue-500 text-gray-200 dark:fill-gamboge-500"
+            className="h-8 w-8 animate-spin fill-primary text-zinc-200"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +22,7 @@ const Loading: FC = () => {
             />
           </svg>
         </div>
-        <div className="text-sm text-gray-200">Loading...</div>
+        <div className="text-sm text-zinc-200">Loading...</div>
       </div>
     </div>
   );

@@ -174,7 +174,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
                   isLoading={isReporting}
                   isDisabled={hasReported || isReporting}
                   onPress={handleReportClick}
-                  className="hidden h-auto min-h-fit min-w-fit bg-silverLakeBlue-500 px-2 py-1 text-xs text-white dark:bg-gamboge-500 dark:text-eerieBlack-500 md:inline-flex"
+                  className="hidden h-auto min-h-fit min-w-fit px-2 py-1 text-xs md:inline-flex"
                 >
                   {hasReported
                     ? t("reportTransferIssueBtnDone")
@@ -194,7 +194,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
                 isLoading={isReporting}
                 isDisabled={hasReported || isReporting}
                 onPress={handleReportClick}
-                className="h-auto min-h-fit min-w-fit bg-silverLakeBlue-500 px-2 py-1 text-xs text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                className="h-auto min-h-fit min-w-fit px-2 py-1 text-xs"
               >
                 {hasReported
                   ? t("reportTransferIssueBtnDone")

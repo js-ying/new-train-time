@@ -80,7 +80,7 @@ const LocaleSegmentedControl: FC = () => {
             className={`px-4 py-1 text-sm font-medium transition-colors
               ${
                 i18n.language === locale.value
-                  ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                  ? "bg-primary text-primary-foreground"
                   : "bg-white text-zinc-600 hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               }`}
           >
@@ -126,7 +126,7 @@ const DefaultSearchTabSegmentedControl: FC = () => {
             className={`px-2 py-1 text-sm font-medium transition-colors
               ${
                 defaultSearchTab === tab.value
-                  ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                  ? "bg-primary text-primary-foreground"
                   : "bg-white text-zinc-600 hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               }`}
           >

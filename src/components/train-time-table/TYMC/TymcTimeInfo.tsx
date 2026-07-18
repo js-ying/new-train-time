@@ -1,3 +1,4 @@
+import { SOLID_BADGE } from "@/configs/badgeStyles";
 import { GaEnum } from "@/enums/GaEnum";
 import { useTymcTrainDisplay } from "@/hooks/display/useTymcTrainDisplay";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
@@ -60,10 +61,8 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
         {/* Left */}
         <div className="text-center text-sm">
           <span
-            className={`rounded px-1 py-0.5 text-white ${
-              isNormal
-                ? "bg-sky-500 dark:bg-sky-500/80"
-                : "bg-rose-500 dark:bg-rose-500/80"
+            className={`rounded px-1 py-0.5 ${
+              isNormal ? SOLID_BADGE.sky : SOLID_BADGE.rose
             }`}
           >
             {isNormal ? t("normalArrive") : t("directlyArrive")}

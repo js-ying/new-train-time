@@ -27,7 +27,7 @@ const PWAPromotableButton: FC = () => {
         <Button
           radius="full"
           size="sm"
-          className="bg-neutral-500 text-white dark:bg-neutral-600"
+          className="bg-secondary text-secondary-foreground"
           isDisabled={true}
         >
           {t("installedBtn")}
@@ -37,7 +37,7 @@ const PWAPromotableButton: FC = () => {
           <Button
             radius="full"
             size="sm"
-            className="bg-neutral-500 text-white dark:bg-neutral-600"
+            className="bg-secondary text-secondary-foreground"
             onPress={triggerPromot}
           >
             {t("installToDesktopBtn")}
@@ -57,7 +57,7 @@ const NonPWAPromotableButton: FC = () => {
       <Button
         radius="full"
         size="sm"
-        className="bg-neutral-500 text-white dark:bg-neutral-600"
+        className="bg-secondary text-secondary-foreground"
         onPress={() => setOpen(true)}
       >
         {t("installToDesktopBtn")}

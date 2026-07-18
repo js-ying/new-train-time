@@ -1,3 +1,4 @@
+import { BRAND_PRIMARY_HEX } from "@/configs/themeColors";
 import { createTheme } from "@mui/material/styles";
 import { useTheme } from "next-themes";
 import { useMemo } from "react";
@@ -7,13 +8,16 @@ const useMuiTheme = () => {
   // 而 MUI palette.mode 只接受 "light" | "dark"，否則會丟出
   // 「The palette mode `system` is not supported.」錯誤。
   const { resolvedTheme } = useTheme();
+  // 主色對齊全站 semantic token：亮 silverLakeBlue-500 / 暗 gamboge-500
+  const primaryColor =
+    resolvedTheme === "light" ? BRAND_PRIMARY_HEX.light : BRAND_PRIMARY_HEX.dark;
   const muiTheme = useMemo(
     () =>
       createTheme({
         palette: {
           primary: {
-            main: `${resolvedTheme === "light" ? "#6490c4" : "#f59e0b"}`,
-            dark: `${resolvedTheme === "light" ? "#6490c4" : "#f59e0b"}`,
+            main: primaryColor,
+            dark: primaryColor,
           },
           mode: resolvedTheme === "dark" ? "dark" : "light",
           background: {
@@ -48,7 +52,7 @@ const useMuiTheme = () => {
               root: {
                 "&:focus-visible": {
                   outline: "2px solid",
-                  outlineColor: `${resolvedTheme === "light" ? "#6490c4" : "#f59e0b"}`,
+                  outlineColor: primaryColor,
                   outlineOffset: "2px",
                 },
               },
@@ -56,7 +60,7 @@ const useMuiTheme = () => {
           },
         },
       }),
-    [resolvedTheme],
+    [resolvedTheme, primaryColor],
   );
 
   return muiTheme;

@@ -43,7 +43,7 @@ const AnnouncementContent: FC = () => {
                   <tr className="border-b border-zinc-200 dark:border-zinc-700">
                     <td className="px-3 py-2 font-medium">{t("tr")}</td>
                     <td className="px-3 py-2">
-                      <span className="flex justify-center text-center text-orange-500 dark:text-orange-400">
+                      <span className="flex justify-center text-center text-warning">
                         {t("waitingForTdx")}
                       </span>
                     </td>
@@ -56,7 +56,7 @@ const AnnouncementContent: FC = () => {
                   <tr>
                     <td className="px-3 py-2 font-medium">{t("thsr")}</td>
                     <td className="px-3 py-2">
-                      <span className="flex justify-center text-center text-emerald-600 dark:text-emerald-400">
+                      <span className="flex justify-center text-center text-success">
                         {t("seatDataConnected")}
                       </span>
                     </td>

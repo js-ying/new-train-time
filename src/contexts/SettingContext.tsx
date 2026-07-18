@@ -1,3 +1,4 @@
+import { PWA_THEME_COLOR } from "@/configs/themeColors";
 import { isAuthError, useAuth } from "@/contexts/AuthContext";
 import { callUserApi } from "@/services/userApi";
 import { useTheme } from "next-themes";
@@ -209,7 +210,8 @@ function ThemeSyncer() {
   // 依 resolvedTheme 更新 PWA 工具列主題色
   useEffect(() => {
     if (!resolvedTheme) return;
-    const metaColor = resolvedTheme === "light" ? "#FFFFFF" : "#212529";
+    const metaColor =
+      resolvedTheme === "light" ? PWA_THEME_COLOR.light : PWA_THEME_COLOR.dark;
     document
       .querySelector("meta[name='theme-color']")
       ?.setAttribute("content", metaColor);

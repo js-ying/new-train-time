@@ -37,8 +37,7 @@ const BusAutoRefreshRing: FC<BusAutoRefreshRingProps> = ({
       aria-label={t("busAutoRefreshHintTitle")}
       classNames={{
         svg: "h-5 w-5",
-        indicator: "stroke-emerald-500",
-        track: "stroke-emerald-500/20",
+        track: "stroke-success/20",
       }}
     />
   );

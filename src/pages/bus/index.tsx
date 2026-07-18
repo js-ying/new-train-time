@@ -321,7 +321,7 @@ const BusPage: FC = () => {
         })
       : null;
   const staleWarningBox = staleWarning ? (
-    <div className="text-center text-xs text-amber-600 dark:text-amber-400">
+    <div className="text-center text-xs text-warning">
       {staleWarning}
     </div>
   ) : null;
@@ -533,7 +533,7 @@ const BusPage: FC = () => {
                 )}
               </div>
               {geoError && (
-                <div className="mb-2 mt-2 text-center text-xs text-red-600 dark:text-red-400">
+                <div className="mb-2 mt-2 text-center text-xs text-danger">
                   {geoError}
                 </div>
               )}

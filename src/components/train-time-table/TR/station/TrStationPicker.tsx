@@ -177,7 +177,7 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
       </div>
 
       {geoError && (
-        <div className="mb-3 text-center text-xs text-red-600 dark:text-red-400">
+        <div className="mb-3 text-center text-xs text-danger">
           {geoError}
         </div>
       )}

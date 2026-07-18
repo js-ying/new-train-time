@@ -209,7 +209,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                       stroke="currentColor"
                       role="img"
                       aria-label={t("memberBadge")}
-                      className="ml-1.5 size-5 shrink-0 text-yellow-500 dark:text-yellow-500/80"
+                      className="ml-1.5 size-5 shrink-0 text-amber-600 dark:text-amber-400"
                     >
                       <path
                         strokeLinecap="round"

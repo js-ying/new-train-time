@@ -46,7 +46,7 @@
   --color-foreground: var(--color-eerie-black-500);
 
   --color-primary: var(--color-silver-lake-blue-500);
-  --color-primary-foreground: 0 0% 100%;
+  --color-primary-foreground: 0 0% 100%; /* 藍底白字為刻意設計，勿以對比度理由改黑；HeroUI theme 同步此值 */
 
   --color-muted: 0 0% 83%; /* Tailwind neutral-300，thead 等次要區塊底 */
   --color-muted-foreground: var(--color-eerie-black-400);
@@ -57,8 +57,7 @@
   --color-secondary: 0 0% 45%; /* Tailwind neutral-500，給次要灰底按鈕用 */
   --color-secondary-foreground: 0 0% 100%;
 
-  --color-destructive: 0 72% 51%; /* Tailwind red-600 */
-  --color-destructive-foreground: 0 0% 100%;
+  /* 狀態色 success / warning / danger 由 tailwind.config.js 的 HeroUI theme 定義（亮 600 / 暗 400） */
 
   --color-border: 210 14% 83%;
   --color-input: 210 14% 83%;
@@ -73,7 +72,7 @@
   --color-primary: var(--color-gamboge-500);
   --color-primary-foreground: 0 0% 0%;
 
-  --color-secondary: 0 0% 34%; /* Tailwind neutral-600，比 light 略深 */
+  --color-secondary: 0 0% 32%; /* Tailwind neutral-600，比 light 略深 */
   --color-secondary-foreground: 0 0% 100%;
 
   --color-muted: 0 0% 25%; /* Tailwind neutral-700，比 background 略亮才能看出邊界 */
@@ -81,9 +80,6 @@
 
   --color-accent: var(--color-eerie-black-600);
   --color-accent-foreground: var(--color-eerie-black-100);
-
-  --color-destructive: 0 91% 71%; /* Tailwind red-400 */
-  --color-destructive-foreground: 0 0% 0%;
 
   --color-border: var(--color-eerie-black-400);
   --color-input: var(--color-eerie-black-400);
@@ -157,7 +153,7 @@ img {
 }
 
 .custom-cursor-pointer {
-  @apply select-none cursor-pointer rounded-md focus:outline-offset-4 dark:focus:outline-gamboge-500 focus:outline-silverLakeBlue-500 focus:outline-2 focus-visible:outline;
+  @apply select-none cursor-pointer rounded-md focus:outline-offset-4 focus:outline-ring focus:outline-2 focus-visible:outline;
 }
 
 @keyframes rotate {
@@ -194,9 +190,8 @@ img {
 }
 
 .common-babel {
-  @apply bg-neutral-500 text-white px-2 py-0.5 rounded-2xl
-  transition duration-150 ease-out
-  dark:bg-neutral-600;
+  @apply bg-secondary text-secondary-foreground px-2 py-0.5 rounded-2xl
+  transition duration-150 ease-out;
 }
 
 .common-babel-light {

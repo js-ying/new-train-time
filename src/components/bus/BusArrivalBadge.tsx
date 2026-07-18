@@ -24,11 +24,11 @@ const STATE_LABEL_KEY: Record<BusArrivalState, string> = {
 /** 各狀態 → 文字色（沿用 TrDelay 色票風格）；分鐘數用一般前景色，靠數字大小凸顯。 */
 const STATE_COLOR: Record<BusArrivalState, string> = {
   // 進站中＝車已到，用紅色凸顯急迫；即將到站維持綠色（綠→紅遞進）
-  arriving: "text-red-600 dark:text-red-400",
-  approaching: "text-emerald-600 dark:text-emerald-400",
+  arriving: "text-danger",
+  approaching: "text-success",
   minutes: "text-foreground",
   notDeparted: "text-zinc-500 dark:text-zinc-400",
-  trafficControl: "text-amber-600 dark:text-amber-400",
+  trafficControl: "text-warning",
   lastBusPassed: "text-zinc-500 dark:text-zinc-400",
   notInService: "text-zinc-500 dark:text-zinc-400",
   noData: "text-zinc-400 dark:text-zinc-500",

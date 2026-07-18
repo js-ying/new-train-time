@@ -47,8 +47,8 @@ const PWATipDialog: FC<PWATipDialogProps> = ({ open, setOpen }) => {
                       className={`
                   ${
                     active === item
-                      ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
-                      : "bg-neutral-500 text-white dark:bg-neutral-600"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-secondary text-secondary-foreground"
                   }`}
                       radius="full"
                       size="sm"

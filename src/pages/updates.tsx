@@ -1,5 +1,6 @@
 import Layout from "@/components/layout/Layout";
 import PageSeo from "@/components/seo/PageSeo";
+import { SOLID_BADGE } from "@/configs/badgeStyles";
 import {
   oldThsrUpdateDataList,
   oldTrUpdateDataList,
@@ -126,19 +127,19 @@ interface UpdateListProps {
  */
 const chipColorMap = {
   new: {
-    color: "bg-rose-500 text-white dark:bg-rose-500/80",
+    color: SOLID_BADGE.rose,
     desc: "新增",
   },
   fix: {
-    color: "bg-sky-500 text-white dark:bg-sky-500/80",
+    color: SOLID_BADGE.sky,
     desc: "修正",
   },
   refactor: {
-    color: "bg-indigo-500 text-white dark:bg-indigo-500/80",
+    color: SOLID_BADGE.indigo,
     desc: "重構",
   },
   update: {
-    color: "bg-teal-500 text-white dark:bg-teal-500/80",
+    color: SOLID_BADGE.teal,
     desc: "更新",
   },
 } as const;

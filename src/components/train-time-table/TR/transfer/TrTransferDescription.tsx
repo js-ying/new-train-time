@@ -117,7 +117,7 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
                 isLoading={isReporting}
                 isDisabled={hasReported || isReporting}
                 onPress={handleReportClick}
-                className="w-fit bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                className="w-fit"
               >
                 {hasReported
                   ? t("reportTransferIssueBtnDone")

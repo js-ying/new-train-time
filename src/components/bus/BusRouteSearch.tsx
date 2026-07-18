@@ -145,11 +145,11 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
             placeholder={t("busRouteSearchPlaceholder")}
           />
 
-          {/* 候選浮層：content1 底 + border + shadow-medium + rounded-large，
-              邊框配色對齊轉乘頁下拉、避免深色下貼背景；空字串不顯示 */}
+          {/* 候選浮層：background 底 + border + shadow-medium + rounded-large，
+              底色與邊框配色對齊轉乘頁下拉、避免深色下貼背景；空字串不顯示 */}
           {showPanel && (
             // 外層負責邊框/圓角/陰影並 overflow-hidden，使捲動時內層 scrollbar 被裁進圓角內，右上/右下圓角才不消失
-            <div className="mt-2 overflow-hidden rounded-large border border-zinc-300 bg-content1 shadow-medium dark:border-zinc-500">
+            <div className="mt-2 overflow-hidden rounded-large border border-zinc-300 bg-background shadow-medium dark:border-zinc-500">
               <div
                 id="bus-route-listbox"
                 role="listbox"
