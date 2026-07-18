@@ -1,6 +1,5 @@
 /**
  * 會員狀態契約（camelCase）
- * isPremium 由後端即時計算，前端只消費、不自行推算。
  */
 
 /** 一次性方案代碼 */
@@ -16,3 +15,13 @@ export interface MembershipStatus {
   status: MembershipState;
   lastPlan: MembershipPlanCode | null;
 }
+
+/** 一般會員各車種清單上限（歷史查詢 / 常用路線 / 常用站牌共用） */
+export const FREE_MAX_PER_TYPE = 5;
+
+/** 付費會員各車種清單上限 */
+export const PREMIUM_MAX_PER_TYPE = 10;
+
+/** 取該身分的各車種上限 */
+export const maxPerType = (isPremium: boolean): number =>
+  isPremium ? PREMIUM_MAX_PER_TYPE : FREE_MAX_PER_TYPE;

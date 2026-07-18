@@ -11,7 +11,7 @@ import { useCallback, useContext } from "react";
  * 與 OD useSearchHistory 不同：車種由呼叫頁面顯式指定（/station→TR、/bus→BUS），不靠 page 推導。
  */
 export const useStationHistory = (trainType: StationTrainType) => {
-  const { history, saveHistory, clearHistory } = useContext(
+  const { history, limit, saveHistory, clearHistory } = useContext(
     StationSearchHistoryContext,
   );
 
@@ -27,7 +27,7 @@ export const useStationHistory = (trainType: StationTrainType) => {
     [clearHistory, trainType],
   );
 
-  return { historyList, saveHistory: save, clearHistory: clear };
+  return { historyList, limit, saveHistory: save, clearHistory: clear };
 };
 
 export default useStationHistory;

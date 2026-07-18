@@ -2,15 +2,16 @@ import { isAuthError, useAuth } from "@/contexts/AuthContext";
 import {
   HistoryInquiry,
   HistoryMap,
-  MAX_HISTORY,
   StoredHistoryInquiry,
   TrainType,
 } from "@/models/history";
+import { PREMIUM_MAX_PER_TYPE, maxPerType } from "@/models/membership";
 import { callUserApi } from "@/services/userApi";
 import {
   createContext,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -18,8 +19,8 @@ import {
 /** 支援同步的車種；順序固定供 flatten / 遍歷使用 */
 const TRAIN_TYPES: TrainType[] = ["TR", "THSR", "TYMC"];
 
-/** 各車種保留筆數上限（與後端一致） */
-const MAX_PER_TYPE = MAX_HISTORY;
+/** 本地保留筆數上限；取付費上限保底，對外顯示再依當下身分截斷（避免 auth 載入期誤砍） */
+const MAX_PER_TYPE = PREMIUM_MAX_PER_TYPE;
 
 /** 推送到 server 的 debounce 延遲（毫秒，對齊 SettingContext） */
 const SYNC_DEBOUNCE_MS = 800;
@@ -194,7 +195,10 @@ async function deleteServerHistory(t: TrainType): Promise<HistoryMap> {
 }
 
 export interface SearchHistoryContextValue {
+  /** 各車種歷史（已依當下會員身分截斷至 limit 筆） */
   history: HistoryMap;
+  /** 當下會員身分的各車種顯示上限 */
+  limit: number;
   /** 新增一筆歷史（會打時間戳、dedupe、trim；登入則排程同步） */
   saveHistory: (trainType: TrainType, inquiry: HistoryInquiry) => void;
   /** 清除某車種歷史（登入則同步刪 server） */
@@ -205,13 +209,14 @@ export interface SearchHistoryContextValue {
 
 export const SearchHistoryContext = createContext<SearchHistoryContextValue>({
   history: emptyMap(),
+  limit: maxPerType(false),
   saveHistory: () => {},
   clearHistory: () => {},
   consumeLocalSaveFlag: () => false,
 });
 
 export function SearchHistoryProvider({ children }) {
-  const { user, loading: authLoading, notifySessionExpired } = useAuth();
+  const { user, profile, loading: authLoading, notifySessionExpired } = useAuth();
   const [history, setHistory] = useState<HistoryMap>(emptyMap());
   const [hydrated, setHydrated] = useState(false);
   /** 最新 history 鏡像，供事件處理器在 setHistory 外計算下一狀態（保持 updater 純粹） */
@@ -446,9 +451,23 @@ export function SearchHistoryProvider({ children }) {
     };
   }, []);
 
+  /** 對外只給當下身分可用的筆數；本地仍保留至付費上限，續費即恢復 */
+  const limit = maxPerType(!!profile?.isPremium);
+  const visibleHistory = useMemo(() => {
+    const m = emptyMap();
+    for (const t of TRAIN_TYPES) m[t] = history[t].slice(0, limit);
+    return m;
+  }, [history, limit]);
+
   return (
     <SearchHistoryContext.Provider
-      value={{ history, saveHistory, clearHistory, consumeLocalSaveFlag }}
+      value={{
+        history: visibleHistory,
+        limit,
+        saveHistory,
+        clearHistory,
+        consumeLocalSaveFlag,
+      }}
     >
       {children}
     </SearchHistoryContext.Provider>

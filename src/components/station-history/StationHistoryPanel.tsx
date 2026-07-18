@@ -3,15 +3,7 @@ import { GaEnum } from "@/enums/GaEnum";
 import useSetting from "@/hooks/useSetting";
 import useStationFavorites from "@/hooks/useStationFavorites";
 import useStationHistory from "@/hooks/useStationHistory";
-import {
-  MAX_STATION_FAVORITES,
-  MAX_STOP_FAVORITES,
-} from "@/models/station-favorites";
-import {
-  MAX_STATION_HISTORY,
-  StationTarget,
-  StationTrainType,
-} from "@/models/station-history";
+import { StationTarget, StationTrainType } from "@/models/station-history";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button, Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
@@ -73,9 +65,15 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
   const { t } = useTranslation();
   const { user, loginWithGoogle } = useAuth();
 
-  const { historyList, clearHistory } = useStationHistory(trainType);
-  const { favoriteList, addFavorite, removeFavorite, isFavorite } =
-    useStationFavorites(trainType);
+  const { historyList, limit: historyLimit, clearHistory } =
+    useStationHistory(trainType);
+  const {
+    favoriteList,
+    limit: favoriteLimit,
+    addFavorite,
+    removeFavorite,
+    isFavorite,
+  } = useStationFavorites(trainType);
   const stopCount = stopFavorites?.count ?? 0;
 
   const [showHistory] = useSetting("showHistory");
@@ -230,7 +228,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
         title="favoriteLimitTitle"
         confirmText="gotItLabel"
       >
-        {t(limitReachedKey)}
+        {t(limitReachedKey, { max: favoriteLimit })}
       </CommonDialog>
     </>
   );
@@ -242,7 +240,10 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
   if (showHistory && !showFavoriteRoutes) {
     if (historyList.length === 0) return null;
     return renderFlatList(
-      t("historyInquiry", { nowLength: historyList.length }),
+      t("historyInquiry", {
+        nowLength: historyList.length,
+        max: historyLimit,
+      }),
       historyList,
       true,
     );
@@ -255,7 +256,10 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
       <>
         {favoriteList.length > 0 &&
           renderFlatList(
-            t(favInquiryKey, { nowLength: favoriteList.length }),
+            t(favInquiryKey, {
+              nowLength: favoriteList.length,
+              max: favoriteLimit,
+            }),
             favoriteList,
             false,
           )}
@@ -264,7 +268,10 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
             className={`text-center ${favoriteList.length > 0 ? "mt-4" : ""}`}
           >
             <div className="mb-2.5 text-sm text-muted-foreground">
-              {t("favoritesStopInquiry", { nowLength: stopCount })}
+              {t("favoritesStopInquiry", {
+                nowLength: stopCount,
+                max: favoriteLimit,
+              })}
             </div>
             {stopFavorites?.content}
           </div>
@@ -300,11 +307,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
       >
         <Tab
           key="history"
-          title={tabTitle(
-            t("historyTab"),
-            historyList.length,
-            MAX_STATION_HISTORY,
-          )}
+          title={tabTitle(t("historyTab"), historyList.length, historyLimit)}
         >
           <div className="mt-1 flex justify-center">
             {historyList.length > 0 ? (
@@ -324,11 +327,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
 
         <Tab
           key="favorites"
-          title={tabTitle(
-            t(favTabKey),
-            favoriteList.length,
-            MAX_STATION_FAVORITES,
-          )}
+          title={tabTitle(t(favTabKey), favoriteList.length, favoriteLimit)}
         >
           <div className="mt-1 flex justify-center">
             {favoriteList.length > 0 ? (
@@ -346,11 +345,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
         {stopFavorites ? (
           <Tab
             key="stopFavorites"
-            title={tabTitle(
-              t("favoritesStopTab"),
-              stopCount,
-              MAX_STOP_FAVORITES,
-            )}
+            title={tabTitle(t("favoritesStopTab"), stopCount, favoriteLimit)}
           >
             <div className="-mt-1 flex justify-center">
               {stopCount > 0 ? (

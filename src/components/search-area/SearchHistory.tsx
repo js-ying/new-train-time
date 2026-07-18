@@ -9,8 +9,7 @@ import usePage from "@/hooks/usePage";
 import useRwd from "@/hooks/useRwd";
 import useSearchHistory from "@/hooks/useSearchHistory";
 import useSetting from "@/hooks/useSetting";
-import { MAX_FAVORITES } from "@/models/favorite-routes";
-import { MAX_HISTORY, StoredHistoryInquiry } from "@/models/history";
+import { StoredHistoryInquiry } from "@/models/history";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Button, Tab, Tabs } from "@heroui/react";
@@ -67,10 +66,19 @@ const SearchHistory: FC = () => {
   const onlyShowStationId = isTymc && isMobile;
 
   // 歷史（純時間序）與收藏分屬兩個 context、各自跨裝置同步
-  const { historyList, clearHistory, consumeLocalSaveFlag } =
-    useSearchHistory();
-  const { favoriteList, addFavorite, removeFavorite, isFavorite } =
-    useFavoriteRoutes();
+  const {
+    historyList,
+    limit: historyLimit,
+    clearHistory,
+    consumeLocalSaveFlag,
+  } = useSearchHistory();
+  const {
+    favoriteList,
+    limit: favoriteLimit,
+    addFavorite,
+    removeFavorite,
+    isFavorite,
+  } = useFavoriteRoutes();
 
   // 歷史查詢 / 常用路線各自的顯示開關；皆開時才出現雙分頁，並以 defaultSearchTab 決定預設停在哪個分頁
   const [showHistory] = useSetting("showHistory");
@@ -221,14 +229,14 @@ const SearchHistory: FC = () => {
         {t("favoriteRequiresLogin")}
       </CommonDialog>
 
-      {/* 收藏已滿 5 筆：提示先移除 */}
+      {/* 收藏已達上限：提示先移除 */}
       <CommonDialog
         open={limitOpen}
         setOpen={setLimitOpen}
         title="favoriteLimitTitle"
         confirmText="gotItLabel"
       >
-        {t("favoriteLimitReached")}
+        {t("favoriteLimitReached", { max: favoriteLimit })}
       </CommonDialog>
     </>
   );
@@ -236,25 +244,31 @@ const SearchHistory: FC = () => {
   // 兩者皆關 → 整塊不顯示
   if (!showHistory && !showFavoriteRoutes) return null;
 
-  // 只開歷史查詢：純歷史清單（無分頁、無愛心），標題「歷史查詢：共 X / 5 筆」。
+  // 只開歷史查詢：純歷史清單（無分頁、無愛心），標題「歷史查詢：共 X / Y 筆」。
   // 無歷史 → 整塊不顯示（導頁前不重排：靠 displayHistory 快照）
   if (showHistory && !showFavoriteRoutes) {
     if (displayHistory.length === 0) return null;
     return renderFlatList(
-      t("historyInquiry", { nowLength: displayHistory.length }),
+      t("historyInquiry", {
+        nowLength: displayHistory.length,
+        max: historyLimit,
+      }),
       displayHistory,
       true,
     );
   }
 
-  // 只開常用路線：純常用清單（無分頁、含愛心），標題「常用路線：共 X / 5 筆」。
+  // 只開常用路線：純常用清單（無分頁、含愛心），標題「常用路線：共 X / Y 筆」。
   // 無收藏 → 整塊不顯示
   if (!showHistory && showFavoriteRoutes) {
     if (favoriteList.length === 0) return null;
     return (
       <>
         {renderFlatList(
-          t("favoritesInquiry", { nowLength: favoriteList.length }),
+          t("favoritesInquiry", {
+            nowLength: favoriteList.length,
+            max: favoriteLimit,
+          }),
           favoriteList,
           false,
         )}
@@ -292,7 +306,7 @@ const SearchHistory: FC = () => {
         {/* 歷史查詢：純時間序 */}
         <Tab
           key="history"
-          title={tabTitle(t("historyTab"), displayHistory.length, MAX_HISTORY)}
+          title={tabTitle(t("historyTab"), displayHistory.length, historyLimit)}
         >
           <div className="mt-1 flex justify-center">
             {displayHistory.length > 0 ? (
@@ -314,11 +328,7 @@ const SearchHistory: FC = () => {
         {/* 常用路線：收藏 */}
         <Tab
           key="favorites"
-          title={tabTitle(
-            t("favoritesTab"),
-            favoriteList.length,
-            MAX_FAVORITES,
-          )}
+          title={tabTitle(t("favoritesTab"), favoriteList.length, favoriteLimit)}
         >
           <div className="mt-1 flex justify-center">
             {favoriteList.length > 0 ? (

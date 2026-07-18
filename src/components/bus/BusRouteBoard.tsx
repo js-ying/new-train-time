@@ -66,7 +66,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
 
   // 站列愛心＝收藏該（站牌×本路線×當前方向）到站（BUS_STOP 分組），與站牌看板列愛心同語意
   const { user, loginWithGoogle } = useAuth();
-  const { addFavorite, removeFavorite, isFavorite } =
+  const { limit, addFavorite, removeFavorite, isFavorite } =
     useStationFavorites("BUS_STOP");
   const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
   const [loginOpen, setLoginOpen] = useState(false);
@@ -225,7 +225,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
         title="favoriteLimitTitle"
         confirmText="gotItLabel"
       >
-        {t("favoriteStopLimitReached")}
+        {t("favoriteStopLimitReached", { max: limit })}
       </CommonDialog>
     </div>
   );

@@ -1,6 +1,6 @@
 import { isAuthError, useAuth } from "@/contexts/AuthContext";
+import { PREMIUM_MAX_PER_TYPE, maxPerType } from "@/models/membership";
 import {
-  MAX_STATION_HISTORY,
   StationHistoryMap,
   StationTarget,
   StationTrainType,
@@ -11,13 +11,15 @@ import {
   createContext,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 
 /** 支援同步的車種；順序固定供 flatten / 遍歷使用（BUS_STOP 只收藏不記歷史，不在此列） */
 const TRAIN_TYPES: StationTrainType[] = ["TR", "BUS"];
-const MAX_PER_TYPE = MAX_STATION_HISTORY;
+/** 本地保留筆數上限；取付費上限保底，對外顯示再依當下身分截斷 */
+const MAX_PER_TYPE = PREMIUM_MAX_PER_TYPE;
 const SYNC_DEBOUNCE_MS = 800;
 
 /** localStorage：整張歷史 map 一個 key；另一個 key 記「上次完成同步的 uid」 */
@@ -156,7 +158,10 @@ async function deleteServer(t: StationTrainType): Promise<StationHistoryMap> {
 }
 
 export interface StationSearchHistoryContextValue {
+  /** 各車種歷史（已依當下會員身分截斷至 limit 筆） */
   history: StationHistoryMap;
+  /** 當下會員身分的各車種顯示上限 */
+  limit: number;
   /** 新增一筆歷史（會打時間戳、dedupe、trim；登入則排程同步） */
   saveHistory: (trainType: StationTrainType, target: StationTarget) => void;
   /** 清除某車種歷史（登入則同步刪 server） */
@@ -166,6 +171,7 @@ export interface StationSearchHistoryContextValue {
 export const StationSearchHistoryContext =
   createContext<StationSearchHistoryContextValue>({
     history: emptyMap(),
+    limit: maxPerType(false),
     saveHistory: () => {},
     clearHistory: () => {},
   });
@@ -175,7 +181,7 @@ export const StationSearchHistoryContext =
  * 同步紀律與 OD SearchHistoryContext 一致：debounce push + opSeq/abort 守衛 + union-once 登入策略。
  */
 export function StationSearchHistoryProvider({ children }) {
-  const { user, loading: authLoading, notifySessionExpired } = useAuth();
+  const { user, profile, loading: authLoading, notifySessionExpired } = useAuth();
   const [history, setHistory] = useState<StationHistoryMap>(emptyMap());
   const [hydrated, setHydrated] = useState(false);
   const historyRef = useRef(history);
@@ -360,9 +366,17 @@ export function StationSearchHistoryProvider({ children }) {
     };
   }, []);
 
+  /** 對外只給當下身分可用的筆數；本地仍保留至付費上限，續費即恢復 */
+  const limit = maxPerType(!!profile?.isPremium);
+  const visibleHistory = useMemo(() => {
+    const m = emptyMap();
+    for (const t of TRAIN_TYPES) m[t] = history[t].slice(0, limit);
+    return m;
+  }, [history, limit]);
+
   return (
     <StationSearchHistoryContext.Provider
-      value={{ history, saveHistory, clearHistory }}
+      value={{ history: visibleHistory, limit, saveHistory, clearHistory }}
     >
       {children}
     </StationSearchHistoryContext.Provider>

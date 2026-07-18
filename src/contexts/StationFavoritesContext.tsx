@@ -1,7 +1,7 @@
 import { isAuthError, useAuth } from "@/contexts/AuthContext";
+import { PREMIUM_MAX_PER_TYPE, maxPerType } from "@/models/membership";
 import {
   AddStationFavoriteResult,
-  maxStationFavorites,
   StationFavorite,
   StationFavoriteMap,
 } from "@/models/station-favorites";
@@ -11,11 +11,14 @@ import {
   createContext,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 
 const TRAIN_TYPES: StationTrainType[] = ["TR", "BUS", "BUS_STOP"];
+/** 本地保留筆數上限；取付費上限保底，新增判斷與對外顯示再依當下身分 */
+const MAX_PER_TYPE = PREMIUM_MAX_PER_TYPE;
 const SYNC_DEBOUNCE_MS = 800;
 
 const STORAGE_KEY = "stationFavoritesMap";
@@ -42,8 +45,11 @@ function readMeta(x: any): string | undefined {
   return typeof v === "string" && v ? v : undefined;
 }
 
-/** dedupe（同 targetId 取較新 createdAt）→ createdAt 由新到舊 → 取前 max（依車種上限） */
-function sortTrim(items: StationFavorite[], max: number): StationFavorite[] {
+/** dedupe（同 targetId 取較新 createdAt）→ createdAt 由新到舊 → 取前 max */
+function sortTrim(
+  items: StationFavorite[],
+  max: number = MAX_PER_TYPE,
+): StationFavorite[] {
   const map = new Map<string, StationFavorite>();
   for (const it of items) {
     const ex = map.get(it.targetId);
@@ -71,7 +77,6 @@ function sanitizeMap(raw: unknown): StationFavoriteMap {
             ? Number(x.createdAt)
             : now,
       })),
-      maxStationFavorites(t),
     );
   }
   return m;
@@ -136,7 +141,10 @@ async function pushServer(
 }
 
 export interface StationFavoritesContextValue {
+  /** 各車種收藏（已依當下會員身分截斷至 limit 筆） */
   favorites: StationFavoriteMap;
+  /** 當下會員身分的各車種收藏上限 */
+  limit: number;
   /** 加入收藏（已達上限回 "limit"，否則 "added"；已收藏視為 idempotent "added"） */
   addFavorite: (
     trainType: StationTrainType,
@@ -151,6 +159,7 @@ export interface StationFavoritesContextValue {
 export const StationFavoritesContext =
   createContext<StationFavoritesContextValue>({
     favorites: emptyMap(),
+    limit: maxPerType(false),
     addFavorite: () => "added",
     removeFavorite: () => {},
     isFavorite: () => false,
@@ -161,11 +170,21 @@ export const StationFavoritesContext =
  * 同步紀律與 OD FavoriteRoutesContext 一致：整組 replace + 登出清本地（會員功能）。
  */
 export function StationFavoritesProvider({ children }) {
-  const { user, loading: authLoading, notifySessionExpired } = useAuth();
+  const { user, profile, loading: authLoading, notifySessionExpired } = useAuth();
+  const limit = maxPerType(!!profile?.isPremium);
   const [favorites, setFavorites] = useState<StationFavoriteMap>(emptyMap());
   const [hydrated, setHydrated] = useState(false);
   const favRef = useRef(favorites);
   favRef.current = favorites;
+
+  /** 對外只給當下身分可用的筆數；本地仍保留至付費上限，續費即恢復 */
+  const visibleFavorites = useMemo(() => {
+    const m = emptyMap();
+    for (const t of TRAIN_TYPES) m[t] = favorites[t].slice(0, limit);
+    return m;
+  }, [favorites, limit]);
+  const visibleRef = useRef(visibleFavorites);
+  visibleRef.current = visibleFavorites;
 
   const syncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const opSeqRef = useRef<number>(0);
@@ -236,28 +255,25 @@ export function StationFavoritesProvider({ children }) {
       trainType: StationTrainType,
       target: StationTarget,
     ): AddStationFavoriteResult => {
-      const list = favRef.current[trainType];
+      // 以可見清單判定，與 isFavorite（愛心狀態）同一份依據
+      const list = visibleRef.current[trainType];
       if (list.some((x) => x.targetId === target.targetId)) {
         return "added"; // 已收藏，idempotent
       }
-      const max = maxStationFavorites(trainType);
-      if (list.length >= max) return "limit";
-      const nextType = sortTrim(
-        [
-          {
-            targetId: target.targetId,
-            targetName: target.targetName,
-            meta: target.meta,
-            createdAt: Date.now(),
-          },
-          ...list,
-        ],
-        max,
-      );
+      if (list.length >= limit) return "limit";
+      const nextType = sortTrim([
+        {
+          targetId: target.targetId,
+          targetName: target.targetName,
+          meta: target.meta,
+          createdAt: Date.now(),
+        },
+        ...list,
+      ]);
       commit({ ...favRef.current, [trainType]: nextType });
       return "added";
     },
-    [commit],
+    [commit, limit],
   );
 
   const removeFavorite = useCallback(
@@ -270,10 +286,11 @@ export function StationFavoritesProvider({ children }) {
     [commit],
   );
 
+  /** 以可見清單判定，確保「愛心實心」與「出現在常用清單」永遠一致 */
   const isFavorite = useCallback(
     (trainType: StationTrainType, targetId: string) =>
-      favorites[trainType].some((x) => x.targetId === targetId),
-    [favorites],
+      visibleFavorites[trainType].some((x) => x.targetId === targetId),
+    [visibleFavorites],
   );
 
   /**
@@ -306,10 +323,7 @@ export function StationFavoritesProvider({ children }) {
           const local = readLocal();
           const merged = emptyMap();
           for (const t of TRAIN_TYPES) {
-            merged[t] = sortTrim(
-              [...remote[t], ...local[t]],
-              maxStationFavorites(t),
-            );
+            merged[t] = sortTrim([...remote[t], ...local[t]]);
           }
           adoptServerMap(merged);
           const pushed = await runPush(merged);
@@ -359,7 +373,13 @@ export function StationFavoritesProvider({ children }) {
 
   return (
     <StationFavoritesContext.Provider
-      value={{ favorites, addFavorite, removeFavorite, isFavorite }}
+      value={{
+        favorites: visibleFavorites,
+        limit,
+        addFavorite,
+        removeFavorite,
+        isFavorite,
+      }}
     >
       {children}
     </StationFavoritesContext.Provider>

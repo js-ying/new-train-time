@@ -6,9 +6,6 @@
 /** 單點查詢車種：TR=台鐵單站、BUS=公車路線、BUS_STOP=公車站點到站（僅收藏，不記歷史） */
 export type StationTrainType = "TR" | "BUS" | "BUS_STOP";
 
-/** 各車種歷史顯示上限 */
-export const MAX_STATION_HISTORY = 5;
-
 /**
  * 單點查詢的最小語意：
  * - targetId：唯一識別（TR=station_id、公車=route_uid）
@@ -26,5 +23,5 @@ export interface StoredStationHistory extends StationTarget {
   lastUsedAt: number;
 }
 
-/** 依車種分組的歷史 map（各車種已 newest-first 且 ≤ MAX_STATION_HISTORY 筆） */
+/** 依車種分組的歷史 map（各車種已 newest-first 且 ≤ 會員上限） */
 export type StationHistoryMap = Record<StationTrainType, StoredStationHistory[]>;

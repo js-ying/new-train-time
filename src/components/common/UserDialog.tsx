@@ -1,6 +1,7 @@
 import CommonDialog from "@/components/common/CommonDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
+import { FREE_MAX_PER_TYPE, PREMIUM_MAX_PER_TYPE } from "@/models/membership";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
@@ -155,7 +156,18 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             <ul className="mt-1 list-disc pl-4 text-sm text-muted-foreground">
               <li>{t("syncSettingsBenefit")}</li>
               <li>{t("favoriteRoutesBenefit")}</li>
-              {profile?.isPremium && <li>{t("adFreeBenefit")}</li>}
+              <li>{t("busAutoRefreshBenefit")}</li>
+              {profile?.isPremium && (
+                <>
+                  <li>
+                    {t("higherLimitBenefit", {
+                      free: FREE_MAX_PER_TYPE,
+                      premium: PREMIUM_MAX_PER_TYPE,
+                    })}
+                  </li>
+                  <li>{t("adFreeBenefit")}</li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -181,6 +193,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             <ul className="mt-1 list-disc pl-4 text-sm text-muted-foreground">
               <li>{t("syncSettingsBenefit")}</li>
               <li>{t("favoriteRoutesBenefit")}</li>
+              <li>{t("busAutoRefreshBenefit")}</li>
               <li>{t("premiumPreviewBenefit")}</li>
             </ul>
           </div>

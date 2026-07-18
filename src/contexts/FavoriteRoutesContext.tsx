@@ -3,19 +3,22 @@ import {
   AddFavoriteResult,
   FavoriteRoute,
   FavoriteRouteMap,
-  MAX_FAVORITES,
 } from "@/models/favorite-routes";
 import { TrainType } from "@/models/history";
+import { PREMIUM_MAX_PER_TYPE, maxPerType } from "@/models/membership";
 import { callUserApi } from "@/services/userApi";
 import {
   createContext,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 
 const TRAIN_TYPES: TrainType[] = ["TR", "THSR", "TYMC"];
+/** 本地保留筆數上限；取付費上限保底，新增判斷與對外顯示再依當下身分 */
+const MAX_PER_TYPE = PREMIUM_MAX_PER_TYPE;
 const SYNC_DEBOUNCE_MS = 800;
 
 /** localStorage：整張收藏 map 一個 key；另一個 key 記「上次完成同步的 uid」 */
@@ -37,7 +40,7 @@ function isValidRoute(x: unknown): boolean {
   );
 }
 
-/** dedupe（同 OD 取較新 createdAt）→ createdAt 由新到舊 → 取前 MAX_FAVORITES */
+/** dedupe（同 OD 取較新 createdAt）→ createdAt 由新到舊 → 取前 MAX_PER_TYPE */
 function sortTrim(items: FavoriteRoute[]): FavoriteRoute[] {
   const map = new Map<string, FavoriteRoute>();
   for (const it of items) {
@@ -47,7 +50,7 @@ function sortTrim(items: FavoriteRoute[]): FavoriteRoute[] {
   }
   return [...map.values()]
     .sort((a, b) => b.createdAt - a.createdAt)
-    .slice(0, MAX_FAVORITES);
+    .slice(0, MAX_PER_TYPE);
 }
 
 /** 清洗任意來源（localStorage / server）成乾淨 FavoriteRouteMap */
@@ -116,7 +119,10 @@ async function pushServer(
 }
 
 export interface FavoriteRoutesContextValue {
+  /** 各車種收藏（已依當下會員身分截斷至 limit 筆） */
   favorites: FavoriteRouteMap;
+  /** 當下會員身分的各車種收藏上限 */
+  limit: number;
   /** 加入收藏（已達上限回 "limit"，否則 "added"；已收藏視為 idempotent "added"） */
   addFavorite: (
     trainType: TrainType,
@@ -139,17 +145,28 @@ export interface FavoriteRoutesContextValue {
 
 export const FavoriteRoutesContext = createContext<FavoriteRoutesContextValue>({
   favorites: emptyMap(),
+  limit: maxPerType(false),
   addFavorite: () => "added",
   removeFavorite: () => {},
   isFavorite: () => false,
 });
 
 export function FavoriteRoutesProvider({ children }) {
-  const { user, loading: authLoading, notifySessionExpired } = useAuth();
+  const { user, profile, loading: authLoading, notifySessionExpired } = useAuth();
+  const limit = maxPerType(!!profile?.isPremium);
   const [favorites, setFavorites] = useState<FavoriteRouteMap>(emptyMap());
   const [hydrated, setHydrated] = useState(false);
   const favRef = useRef(favorites);
   favRef.current = favorites;
+
+  /** 對外只給當下身分可用的筆數；本地仍保留至付費上限，續費即恢復 */
+  const visibleFavorites = useMemo(() => {
+    const m = emptyMap();
+    for (const t of TRAIN_TYPES) m[t] = favorites[t].slice(0, limit);
+    return m;
+  }, [favorites, limit]);
+  const visibleRef = useRef(visibleFavorites);
+  visibleRef.current = visibleFavorites;
 
   const syncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const opSeqRef = useRef<number>(0);
@@ -224,7 +241,8 @@ export function FavoriteRoutesProvider({ children }) {
       startStationId: string,
       endStationId: string,
     ): AddFavoriteResult => {
-      const list = favRef.current[trainType];
+      // 以可見清單判定，與 isFavorite（愛心狀態）同一份依據
+      const list = visibleRef.current[trainType];
       if (
         list.some(
           (x) =>
@@ -234,7 +252,7 @@ export function FavoriteRoutesProvider({ children }) {
       ) {
         return "added"; // 已收藏，idempotent
       }
-      if (list.length >= MAX_FAVORITES) return "limit";
+      if (list.length >= limit) return "limit";
       const nextType = sortTrim([
         { startStationId, endStationId, createdAt: Date.now() },
         ...list,
@@ -242,7 +260,7 @@ export function FavoriteRoutesProvider({ children }) {
       commit({ ...favRef.current, [trainType]: nextType });
       return "added";
     },
-    [commit],
+    [commit, limit],
   );
 
   const removeFavorite = useCallback(
@@ -259,14 +277,15 @@ export function FavoriteRoutesProvider({ children }) {
     [commit],
   );
 
+  /** 以可見清單判定，確保「愛心實心」與「出現在常用清單」永遠一致 */
   const isFavorite = useCallback(
     (trainType: TrainType, startStationId: string, endStationId: string) =>
-      favorites[trainType].some(
+      visibleFavorites[trainType].some(
         (x) =>
           x.startStationId === startStationId &&
           x.endStationId === endStationId,
       ),
-    [favorites],
+    [visibleFavorites],
   );
 
   /**
@@ -350,7 +369,13 @@ export function FavoriteRoutesProvider({ children }) {
 
   return (
     <FavoriteRoutesContext.Provider
-      value={{ favorites, addFavorite, removeFavorite, isFavorite }}
+      value={{
+        favorites: visibleFavorites,
+        limit,
+        addFavorite,
+        removeFavorite,
+        isFavorite,
+      }}
     >
       {children}
     </FavoriteRoutesContext.Provider>

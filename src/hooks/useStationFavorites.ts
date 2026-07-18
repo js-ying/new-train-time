@@ -5,13 +5,13 @@ import { useCallback, useContext } from "react";
 
 /**
  * 通用單點收藏 hook：依傳入車種（TR 單站 / BUS 路線）從 context 讀寫。
- * - favoriteList：該車種收藏（createdAt 由新到舊，≤ MAX_STATION_FAVORITES）
+ * - favoriteList：該車種收藏（createdAt 由新到舊，≤ limit）
+ * - limit：當下會員身分的收藏上限
  * - addFavorite / removeFavorite / isFavorite：以該車種操作
  */
 export const useStationFavorites = (trainType: StationTrainType) => {
-  const { favorites, addFavorite, removeFavorite, isFavorite } = useContext(
-    StationFavoritesContext,
-  );
+  const { favorites, limit, addFavorite, removeFavorite, isFavorite } =
+    useContext(StationFavoritesContext);
 
   const favoriteList = favorites[trainType];
 
@@ -33,6 +33,7 @@ export const useStationFavorites = (trainType: StationTrainType) => {
 
   return {
     favoriteList,
+    limit,
     addFavorite: add,
     removeFavorite: remove,
     isFavorite: isFav,

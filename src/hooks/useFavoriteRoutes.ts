@@ -14,12 +14,13 @@ const PAGE_TO_TRAIN_TYPE: Partial<Record<PageEnum, TrainType>> = {
 
 /**
  * 常用路線 hook：依當前頁面對應車種，從 FavoriteRoutesContext 讀寫。
- * - favoriteList：該車種收藏（createdAt 由新到舊，≤ MAX_FAVORITES）
+ * - favoriteList：該車種收藏（createdAt 由新到舊，≤ limit）
+ * - limit：當下會員身分的收藏上限
  * - addFavorite / removeFavorite / isFavorite：以當前車種操作
  */
 export const useFavoriteRoutes = () => {
   const { page } = usePage();
-  const { favorites, addFavorite, removeFavorite, isFavorite } =
+  const { favorites, limit, addFavorite, removeFavorite, isFavorite } =
     useContext(FavoriteRoutesContext);
   const trainType = PAGE_TO_TRAIN_TYPE[page];
 
@@ -49,6 +50,7 @@ export const useFavoriteRoutes = () => {
 
   return {
     favoriteList,
+    limit,
     addFavorite: add,
     removeFavorite: remove,
     isFavorite: isFav,

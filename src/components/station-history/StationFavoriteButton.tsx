@@ -49,7 +49,7 @@ const StationFavoriteButton: FC<StationFavoriteButtonProps> = ({
 }) => {
   const { t } = useTranslation();
   const { user, loginWithGoogle } = useAuth();
-  const { addFavorite, removeFavorite, isFavorite } =
+  const { limit, addFavorite, removeFavorite, isFavorite } =
     useStationFavorites(trainType);
   const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
 
@@ -116,7 +116,7 @@ const StationFavoriteButton: FC<StationFavoriteButtonProps> = ({
         title="favoriteLimitTitle"
         confirmText="gotItLabel"
       >
-        {t(limitReachedKey)}
+        {t(limitReachedKey, { max: limit })}
       </CommonDialog>
     </>
   );

@@ -35,7 +35,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
 }) => {
   const { t } = useTranslation();
   const { user, loginWithGoogle } = useAuth();
-  const { addFavorite, removeFavorite, isFavorite } =
+  const { limit, addFavorite, removeFavorite, isFavorite } =
     useStationFavorites("BUS_STOP");
   const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
 
@@ -167,7 +167,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
         title="favoriteLimitTitle"
         confirmText="gotItLabel"
       >
-        {t("favoriteStopLimitReached")}
+        {t("favoriteStopLimitReached", { max: limit })}
       </CommonDialog>
     </div>
   );

@@ -4,7 +4,11 @@ import Layout from "@/components/layout/Layout";
 import { PREMIUM_PLANS } from "@/configs/premiumPlans";
 import { isAuthError, useAuth } from "@/contexts/AuthContext";
 import useMuiTheme from "@/hooks/useMuiTheme";
-import type { MembershipPlanCode } from "@/models/membership";
+import {
+  FREE_MAX_PER_TYPE,
+  PREMIUM_MAX_PER_TYPE,
+  type MembershipPlanCode,
+} from "@/models/membership";
 import { createCheckout } from "@/services/checkoutService";
 import { submitEcpayForm } from "@/utils/submitEcpayForm";
 import { Accordion, AccordionItem, Checkbox } from "@heroui/react";
@@ -86,6 +90,15 @@ const Premium: FC = () => {
   const compareRows = [
     { label: t("syncSettingsBenefit"), basic: true, premium: true },
     { label: t("favoriteRoutesBenefit"), basic: true, premium: true },
+    { label: t("busAutoRefreshBenefit"), basic: true, premium: true },
+    {
+      label: t("higherLimitBenefit", {
+        free: FREE_MAX_PER_TYPE,
+        premium: PREMIUM_MAX_PER_TYPE,
+      }),
+      basic: false,
+      premium: true,
+    },
     { label: t("adFreeBenefit"), basic: false, premium: true },
   ];
 
