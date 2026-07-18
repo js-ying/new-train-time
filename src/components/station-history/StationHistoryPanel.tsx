@@ -287,9 +287,13 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
         size="md"
         variant="underlined"
         classNames={{
-          tabList: "gap-0",
+          // 限寬 + 換行：預設 inline-flex 無寬度上界，長標籤（英文）會撐出整頁水平捲動；
+          // 解除預設 overflow-x-scroll 的裁切，tab 改 w-auto 才不會每個獨佔一列
+          base: "w-full",
+          tabList:
+            "w-full flex-wrap justify-center gap-x-0 gap-y-1 !overflow-visible",
           cursor: "h-px scale-x-110",
-          tab: "data-[hover-unselected=true]:opacity-100 px-2",
+          tab: "!w-auto data-[hover-unselected=true]:opacity-100 px-2",
           tabContent:
             "group-data-[hover-unselected=true]:text-zinc-600 dark:group-data-[hover-unselected=true]:text-zinc-300",
         }}
