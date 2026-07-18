@@ -75,7 +75,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
   if (board.routes.length === 0) {
     return (
       <>
-        <div className="rounded-xl border border-solid border-foreground p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="rounded-xl border border-solid border-foreground p-4 text-center text-sm text-muted-foreground">
           {t("busStopBoardEmpty")}
         </div>
         {/* 查過 TDX 即有廣告：查無路線也顯示（同路線頁無即時） */}
@@ -126,7 +126,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
                     {r.subRouteName || r.routeName}
                   </span>
                   {r.destination && (
-                    <span className="text-sm text-zinc-500 dark:text-zinc-400">
+                    <span className="text-sm text-muted-foreground">
                       {t("busTowards", { destination: r.destination })}
                     </span>
                   )}

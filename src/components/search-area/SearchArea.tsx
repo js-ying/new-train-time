@@ -28,7 +28,7 @@ const SelectDatetime = dynamic(() => import("./SelectDatetime"), {
   ssr: false,
   loading: () => (
     <div className="flex select-none flex-col">
-      <div className="h-[336px] w-80 rounded-md border border-zinc-300 dark:border-zinc-500" />
+      <div className="h-[336px] w-80 rounded-md border border-input" />
       <div className="mt-2 h-10" />
     </div>
   ),

@@ -72,7 +72,7 @@ const LocaleSegmentedControl: FC = () => {
       <span className="text-sm">
         {i18n.language === LocaleEnum.TW ? "語系" : "Language"}
       </span>
-      <div className="flex overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-600">
+      <div className="flex overflow-hidden rounded-lg border border-border">
         {locales.map((locale) => (
           <button
             key={locale.value}
@@ -118,7 +118,7 @@ const DefaultSearchTabSegmentedControl: FC = () => {
       <span className="flex items-center gap-2 text-sm">
         {t("defaultSearchTabLabel")}
       </span>
-      <div className="flex overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-600">
+      <div className="flex overflow-hidden rounded-lg border border-border">
         {tabs.map((tab) => (
           <button
             key={tab.value}

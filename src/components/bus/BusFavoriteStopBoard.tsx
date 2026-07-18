@@ -74,7 +74,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
         <button
           type="button"
           onClick={resumeAutoRefresh}
-          className="custom-cursor-pointer rounded-md border border-solid border-foreground p-2 text-center text-xs text-zinc-500 dark:text-zinc-400"
+          className="custom-cursor-pointer rounded-md border border-solid border-foreground p-2 text-center text-xs text-muted-foreground"
         >
           {t("autoRefreshIdleMsg")}
         </button>
@@ -128,7 +128,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
                 <div className="flex flex-wrap items-baseline gap-x-2">
                   <span className="font-bold">{routeLabel}</span>
                   {destination && (
-                    <span className="text-sm text-zinc-500 dark:text-zinc-400">
+                    <span className="text-sm text-muted-foreground">
                       {t("busTowards", { destination })}
                     </span>
                   )}

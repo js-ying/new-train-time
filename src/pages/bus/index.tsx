@@ -660,7 +660,7 @@ const BusPage: FC = () => {
                     )}
                     {error && <NoTrainData apiError={error} />}
                     {!error && data && data.length === 0 && (
-                      <div className="rounded-xl border border-solid border-foreground p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+                      <div className="rounded-xl border border-solid border-foreground p-4 text-center text-sm text-muted-foreground">
                         {t("busNoRealtime")}
                       </div>
                     )}

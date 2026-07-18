@@ -48,19 +48,19 @@
   --color-primary: var(--color-silver-lake-blue-500);
   --color-primary-foreground: 0 0% 100%; /* 藍底白字為刻意設計，勿以對比度理由改黑；HeroUI theme 同步此值 */
 
-  --color-muted: 0 0% 83%; /* Tailwind neutral-300，thead 等次要區塊底 */
-  --color-muted-foreground: var(--color-eerie-black-400);
-
-  --color-accent: 210 14% 96%;
-  --color-accent-foreground: var(--color-eerie-black-500);
+  --color-muted: 240 6% 90%; /* Tailwind zinc-200，thead、hover 高亮等次要區塊底 */
+  --color-muted-foreground: 240 4% 46%; /* Tailwind zinc-500 */
 
   --color-secondary: 0 0% 45%; /* Tailwind neutral-500，給次要灰底按鈕用 */
   --color-secondary-foreground: 0 0% 100%;
 
+  --color-cta: 240 5% 26%; /* Tailwind zinc-700；主要 CTA（搜尋鈕等），刻意不用 primary */
+  --color-cta-foreground: 0 0% 100%;
+
   /* 狀態色 success / warning / danger 由 tailwind.config.js 的 HeroUI theme 定義（亮 600 / 暗 400） */
 
-  --color-border: 210 14% 83%;
-  --color-input: 210 14% 83%;
+  --color-border: 240 6% 90%; /* Tailwind zinc-200，卡片框 / 分隔線 */
+  --color-input: 240 5% 84%; /* Tailwind zinc-300，輸入類元件框 */
   --color-ring: var(--color-silver-lake-blue-500);
 }
 
@@ -75,14 +75,13 @@
   --color-secondary: 0 0% 32%; /* Tailwind neutral-600，比 light 略深 */
   --color-secondary-foreground: 0 0% 100%;
 
-  --color-muted: 0 0% 25%; /* Tailwind neutral-700，比 background 略亮才能看出邊界 */
-  --color-muted-foreground: var(--color-eerie-black-300);
+  --color-muted: 240 5% 26%; /* Tailwind zinc-700，比 background 略亮才能看出邊界 */
+  --color-muted-foreground: 240 5% 65%; /* Tailwind zinc-400 */
 
-  --color-accent: var(--color-eerie-black-600);
-  --color-accent-foreground: var(--color-eerie-black-100);
+  --color-cta: var(--color-silver-lake-blue-500);
 
-  --color-border: var(--color-eerie-black-400);
-  --color-input: var(--color-eerie-black-400);
+  --color-border: 240 5% 34%; /* Tailwind zinc-600；zinc-700 貼深底不可辨 */
+  --color-input: 240 4% 46%; /* Tailwind zinc-500 */
   --color-ring: var(--color-gamboge-500);
 }
 
@@ -202,10 +201,10 @@ img {
 
 .common-select {
   @apply appearance-none cursor-pointer outline-none
-  rounded-md border border-zinc-300 px-1.5 py-1 text-sm text-zinc-700 bg-transparent
+  rounded-md border border-input px-1.5 py-1 text-sm text-zinc-700 bg-transparent
   transition duration-250 ease-out
   focus:ring-2 focus:ring-zinc-400/80
-  dark:bg-transparent dark:text-white  dark:focus:ring-zinc-400 dark:border-zinc-500;
+  dark:bg-transparent dark:text-white dark:focus:ring-zinc-400;
 }
 
 @keyframes fadeInOut {

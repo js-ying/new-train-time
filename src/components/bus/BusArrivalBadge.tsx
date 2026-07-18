@@ -27,10 +27,10 @@ const STATE_COLOR: Record<BusArrivalState, string> = {
   arriving: "text-danger",
   approaching: "text-success",
   minutes: "text-foreground",
-  notDeparted: "text-zinc-500 dark:text-zinc-400",
+  notDeparted: "text-muted-foreground",
   trafficControl: "text-warning",
-  lastBusPassed: "text-zinc-500 dark:text-zinc-400",
-  notInService: "text-zinc-500 dark:text-zinc-400",
+  lastBusPassed: "text-muted-foreground",
+  notInService: "text-muted-foreground",
   noData: "text-zinc-400 dark:text-zinc-500",
 };
 

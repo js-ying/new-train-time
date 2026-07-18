@@ -94,7 +94,7 @@ const DayLabel: FC<{ which: "busInfoWeekday" | "busInfoHoliday" }> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+    <div className="text-sm font-medium text-muted-foreground">
       {t(which)}
     </div>
   );
@@ -135,10 +135,10 @@ const HeadwaySection: FC<{
   const firstLastBoxes = (fl?: { first: string; last: string }) =>
     fl ? (
       <>
-        <span className="rounded border border-solid border-current px-1 py-0.5 text-sm text-zinc-500 dark:text-zinc-400">
+        <span className="rounded border border-solid border-current px-1 py-0.5 text-sm text-muted-foreground">
           {t("busInfoFirstBus", { time: fl.first })}
         </span>
-        <span className="rounded border border-solid border-current px-1 py-0.5 text-sm text-zinc-500 dark:text-zinc-400">
+        <span className="rounded border border-solid border-current px-1 py-0.5 text-sm text-muted-foreground">
           {t("busInfoLastBus", { time: fl.last })}
         </span>
       </>
@@ -303,7 +303,7 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
               <ModalHeader>{route.routeName}</ModalHeader>
               <ModalBody>
                 {isLoading && !info ? (
-                  <div className="py-4 text-center text-base text-zinc-500 dark:text-zinc-400">
+                  <div className="py-4 text-center text-base text-muted-foreground">
                     {t("busInfoLoading")}
                   </div>
                 ) : error && !info ? (

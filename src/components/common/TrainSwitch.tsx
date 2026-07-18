@@ -60,8 +60,8 @@ const TrainSwitch: FC = () => {
               rounded-md px-3 py-1 text-sm font-bold transition-all
               ${
                 isActive
-                  ? "bg-zinc-200/80 text-primary shadow-sm dark:bg-zinc-700"
-                  : "text-zinc-500 hover:bg-zinc-200/80 hover:text-zinc-600 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-300"
+                  ? "bg-muted/80 text-primary shadow-sm dark:bg-muted"
+                  : "text-muted-foreground hover:bg-muted/80 hover:text-zinc-600 dark:hover:bg-muted dark:hover:text-zinc-300"
               }
             `}
           >

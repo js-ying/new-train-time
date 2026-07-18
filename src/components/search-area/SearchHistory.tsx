@@ -187,7 +187,7 @@ const SearchHistory: FC = () => {
   ) => (
     <div className="text-center">
       {/* 標題：共 X / 5 筆 */}
-      <div className="mb-2.5 text-sm text-zinc-500 dark:text-zinc-400">
+      <div className="mb-2.5 text-sm text-muted-foreground">
         {title}
       </div>
       <div className="flex justify-center">

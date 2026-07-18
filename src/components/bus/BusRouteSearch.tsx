@@ -149,7 +149,7 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
               底色與邊框配色對齊轉乘頁下拉、避免深色下貼背景；空字串不顯示 */}
           {showPanel && (
             // 外層負責邊框/圓角/陰影並 overflow-hidden，使捲動時內層 scrollbar 被裁進圓角內，右上/右下圓角才不消失
-            <div className="mt-2 overflow-hidden rounded-large border border-zinc-300 bg-background shadow-medium dark:border-zinc-500">
+            <div className="mt-2 overflow-hidden rounded-large border border-input bg-background shadow-medium">
               <div
                 id="bus-route-listbox"
                 role="listbox"
@@ -171,7 +171,7 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
                       onMouseEnter={() => setActiveIndex(i)}
                       // 高亮配色對齊轉乘頁下拉（zinc-200 / dark zinc-700）；rounded-medium 圓角貼近外框 rounded-large
                       className={`custom-cursor-pointer flex w-full flex-col rounded-medium px-3 py-2 text-left transition-colors ${
-                        i === activeIndex ? "bg-zinc-200 dark:bg-zinc-700" : ""
+                        i === activeIndex ? "bg-muted" : ""
                       }`}
                     >
                       <span className="font-bold">{route.routeName}</span>

@@ -46,13 +46,13 @@ module.exports = {
           DEFAULT: withOpacity("--color-muted"),
           foreground: withOpacity("--color-muted-foreground"),
         },
-        accent: {
-          DEFAULT: withOpacity("--color-accent"),
-          foreground: withOpacity("--color-accent-foreground"),
-        },
         secondary: {
           DEFAULT: withOpacity("--color-secondary"),
           foreground: withOpacity("--color-secondary-foreground"),
+        },
+        cta: {
+          DEFAULT: withOpacity("--color-cta"),
+          foreground: withOpacity("--color-cta-foreground"),
         },
         border: withOpacity("--color-border"),
         input: withOpacity("--color-input"),

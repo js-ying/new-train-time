@@ -220,7 +220,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
                   )}
                 </>
               ) : (
-                <span className="text-sm text-zinc-500 dark:text-zinc-400">
+                <span className="text-sm text-muted-foreground">
                   {t("loggedIn")}
                 </span>
               )}

@@ -35,7 +35,7 @@ const QuickPickPills: FC<QuickPickPillsProps> = ({
     : "flex flex-wrap justify-center gap-2";
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-3 text-sm text-zinc-500 dark:text-zinc-400">
+      <div className="mb-3 text-sm text-muted-foreground">
         {title}
       </div>
       <div className={listClass}>

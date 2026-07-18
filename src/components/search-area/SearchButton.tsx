@@ -93,7 +93,7 @@ const SearchButton: FC = () => {
   return (
     <>
       <Button
-        className="text-md h-10 min-w-fit bg-zinc-700 text-white dark:bg-silverLakeBlue-500"
+        className="text-md h-10 min-w-fit bg-cta text-cta-foreground"
         radius="sm"
         onPress={() => handleSearch()}
       >

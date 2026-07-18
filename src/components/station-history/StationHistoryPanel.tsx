@@ -192,7 +192,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
     withClear: boolean,
   ) => (
     <div className="text-center">
-      <div className="mb-2.5 text-sm text-zinc-500 dark:text-zinc-400">
+      <div className="mb-2.5 text-sm text-muted-foreground">
         {title}
       </div>
       <div className="flex justify-center">
@@ -263,7 +263,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
           <div
             className={`text-center ${favoriteList.length > 0 ? "mt-4" : ""}`}
           >
-            <div className="mb-2.5 text-sm text-zinc-500 dark:text-zinc-400">
+            <div className="mb-2.5 text-sm text-muted-foreground">
               {t("favoritesStopInquiry", { nowLength: stopCount })}
             </div>
             {stopFavorites?.content}

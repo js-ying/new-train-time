@@ -45,11 +45,11 @@ const OldUpdateList: FC = () => {
       ref={accordionRef}
     >
       <div className="relative flex items-center py-6">
-        <div className="flex-grow border-t border-zinc-300 dark:border-zinc-700"></div>
-        <span className="mx-4 flex-shrink text-xs font-bold tracking-widest text-zinc-500 dark:text-zinc-400">
+        <div className="flex-grow border-t border-border"></div>
+        <span className="mx-4 flex-shrink text-xs font-bold tracking-widest text-muted-foreground">
           ARCHIVE
         </span>
-        <div className="flex-grow border-t border-zinc-300 dark:border-zinc-700"></div>
+        <div className="flex-grow border-t border-border"></div>
       </div>
 
       <Accordion
@@ -71,9 +71,9 @@ const OldUpdateList: FC = () => {
         className="px-0"
         itemClasses={{
           title: "text-zinc-700 dark:text-zinc-200 text-base font-semibold",
-          subtitle: "text-zinc-500 dark:text-zinc-400 text-sm",
+          subtitle: "text-muted-foreground text-sm",
           trigger:
-            "py-3 px-4 hover:bg-zinc-200/80 dark:hover:bg-zinc-700 transition-all rounded-xl",
+            "py-3 px-4 hover:bg-muted/80 dark:hover:bg-muted transition-all rounded-xl",
         }}
       >
         <AccordionItem
@@ -205,7 +205,7 @@ const Updates: FC = () => {
         <Layout>
           <div className="mx-auto w-full max-w-3xl">
             {!isTw && (
-              <p className="mb-6 text-center text-zinc-500 dark:text-zinc-400">
+              <p className="mb-6 text-center text-muted-foreground">
                 {t("pageOnlyTwMsg")}
               </p>
             )}
