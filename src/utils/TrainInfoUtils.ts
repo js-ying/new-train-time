@@ -102,14 +102,7 @@ export const isTrTrainOnlyTicket = (trainTypeCode: string): boolean => {
   return ["1", "2", "11"].includes(trainTypeCode);
 };
 
-/**
- * 取得列車行駛時間
- * @param startTime HH:mm
- * @param endTime HH:mm
- * @param searchAreaDate YYYY-MM-DD
- * @param lang
- * @returns
- */
+/** 取得列車行駛時長；時刻 HH:mm、日期 YYYY-MM-DD，endTime < startTime 視為跨日 */
 export const getTimeDiff = (
   startTime: string,
   endTime: string,

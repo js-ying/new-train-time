@@ -11,7 +11,7 @@ export interface JsyPopularStation {
 
 /**
  * 寫死 fallback：部署當下後端不可達、或某 train_type 無資料時使用，確保裸站頁永遠有可爬
- * 內部連結。內容取自 station_query_log 的 TR 高熱門站。key 對齊後端 train_type。
+ * 內部連結。內容取自實際查詢熱度的 TR 高熱門站。key 對齊後端 train_type。
  */
 export const FALLBACK_POPULAR_STATIONS: Record<string, JsyPopularStation[]> = {
   TR: [

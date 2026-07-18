@@ -1,6 +1,6 @@
 /**
- * 會員狀態契約（camelCase；後端依 premium_until 即時算後回傳）
- * 真實來源 = users.premium_until；isPremium 由後端 SQL 即時算，前端只消費。
+ * 會員狀態契約（camelCase）
+ * isPremium 由後端即時計算，前端只消費、不自行推算。
  */
 
 /** 一次性方案代碼 */

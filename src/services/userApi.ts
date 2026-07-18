@@ -5,9 +5,7 @@ import type { User } from "firebase/auth";
 /**
  * User API 專用呼叫器：自動帶上 Firebase ID Token，並把後端 Problem Details 轉成 ApiError。
  * 呼叫端拿到 ApiError 後可用 `isAuthError(err)` 判斷是否要觸發強制登出。
- *
- * 為何不擴充 fetchData：fetchData 是泛用層不該知道 firebase；
- * user API 與 train API 的差異就在「需要 token」這件事，獨立一支更清楚。
+ * 與泛用 fetchData 刻意分離：僅 user API 需要 token，泛用層不該知道 firebase。
  */
 export async function callUserApi<T = unknown>(options: {
   url: string;

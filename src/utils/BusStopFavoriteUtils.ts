@@ -11,7 +11,7 @@ export interface BusStopFavoriteKey {
   subRouteName?: string;
 }
 
-/** targetId：`stopUid|routeUid|direction[|sub]`（後端欄寬 VARCHAR(80)）。 */
+/** targetId：`stopUid|routeUid|direction[|sub]`。 */
 export const encodeBusStopFavoriteId = (key: BusStopFavoriteKey): string =>
   `${key.stopUid}|${key.routeUid}|${key.direction}` +
   (key.subRouteName ? `|${key.subRouteName}` : "");

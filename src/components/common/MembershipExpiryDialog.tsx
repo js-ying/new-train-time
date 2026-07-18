@@ -11,11 +11,11 @@ const MS_PER_DAY = 86_400_000;
 type ExpiryVariant = "expired" | "expiring";
 
 /**
- * 會員到期提醒（Phase 0 骨架）
+ * 會員到期提醒
  * - 登入後依 /me 的 membershipStatus / premiumUntil 判斷：已到期 → 已到期 modal；
  *   有效且距到期 ≤ 7 天 → 即將到期 modal。
  * - 用 localStorage key（expiryNotice:{premiumUntil}:{variant}）防同一到期日同狀態重複跳。
- * - Phase 0 僅資訊提示、不串金流；續購 CTA 待 Phase 1 接付款後再導 UserDialog。
+ * - 續購 CTA 導 /premium。
  */
 const MembershipExpiryDialog: FC = () => {
   const { profile } = useAuth();

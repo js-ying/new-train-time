@@ -362,14 +362,10 @@ export function SearchHistoryProvider({ children }) {
 
   /**
    * 登入狀態變化的同步策略：union 一次 → 之後一律以 server 為準（canonical）。
-   *
-   * 為何不每次 refresh 都 union：純 union 只能讓集合變大、無法表達「刪除」，
-   * 會讓「別台已清除、本機 localStorage 殘留」的紀錄在 refresh 時被復活並回寫 server。
-   * 改為依 SYNCED_UID_KEY 判斷三種情境：
+   * 依 SYNCED_UID_KEY 分兩種情境：
    *   - 未同步過（匿名期本地紀錄）→ 與雲端 union 一次撈救後上傳，避免登入即丟掉本地搜尋。
    *   - 已同步過（本裝置 cache）/ 切換帳號 → 直接採 server canonical（刪除即可正確傳播）。
-   * 唯一代價是「離線期新增、尚未上傳」的本地紀錄不會被保留；對火車時刻 app 而言
-   * 歷史是線上查詢的副產品，離線無法產生有意義紀錄，此取捨可接受。
+   * 不可改成每次都 union：union 無法表達「刪除」，會復活別台已清除、本機殘留的紀錄。
    */
   useEffect(() => {
     if (!hydrated || authLoading) return;
@@ -392,15 +388,10 @@ export function SearchHistoryProvider({ children }) {
           }
           adoptServerMap(merged);
           // 上傳走 runPush，與 save/delete 共用 seq + abort 紀律：並發 fireDelete 可 abort 此 PUT，
-          // 避免它在 server 端把剛清除的列復活（復活「刻意清除的列」是使用者回報的主病灶，優先消滅）。
+          // 避免它在 server 端把剛清除的列復活。
           const pushed = await runPush(merged);
           // 僅在 PUT 確實落地後才標記同步模式：被 abort / 失敗時 flag 維持 null，下次 refresh 仍走 union；
           // 清除過的車種其 local 已是 []，union([], []) = [] 不會復活，再 union 安全。
-          //
-          // 已接受的邊界：若「首次登入」當下、union 上傳的 sub-second 窗口內清除『另一』車種，
-          // 且 abort 早於 server commit，則該未上傳車種的匿名撈救列會被 DELETE 的 canonical
-          // （adoptServerMap 整批覆寫 local）洗掉而遺失。觸發機率極低且僅損匿名便利資料（重搜即回），
-          // 取捨上優於「不可 abort 導致刻意清除的列復活」，故不為此加複雜度。
           if (pushed && !cancelled) localStorage.setItem(SYNCED_UID_KEY, uid);
         } else {
           // 已同步過 / 切換帳號：server 即唯一真相，不再 union 本機殘留

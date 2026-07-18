@@ -24,10 +24,7 @@ interface UseTrainSearchGenericResult<T> {
 }
 
 /**
- * 共用的搜尋 hook，原本三份 useTrSearch / useThsrSearch / useTymcSearch
- * 重複的 useState + try/catch + setState 邏輯抽出來。
- *
- * 特性：
+ * 三鐵共用的搜尋 hook（useTrSearch / useThsrSearch / useTymcSearch 的共同邏輯）。
  * - AbortController 取消上一次仍在飛行的請求，避免 race condition 後到先覆寫
  * - 元件卸載自動 abort，杜絕「setState on unmounted」警告
  * - 錯誤一律經 toApiError() 收斂為 ApiError，由呼叫端依 code 走 i18n

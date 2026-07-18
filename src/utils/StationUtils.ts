@@ -70,13 +70,7 @@ export const getNearestTrStation = (lat: number, lon: number): string | null => 
   return nearestId;
 };
 
-/**
- * 取得車站名稱 by ID
- * @param page
- * @param stationId
- * @param lang
- * @returns
- */
+/** 取得車站名稱 by ID */
 export const getStationNameById = (
   page: PageEnum,
   stationId: string,
@@ -97,13 +91,7 @@ export const getStationNameById = (
   return "";
 };
 
-/**
- * 取得車站 ID by 名稱
- * @param page
- * @param stationName
- * @param lang
- * @returns
- */
+/** 取得車站 ID by 名稱 */
 export const getStationIdByName = (
   page: PageEnum,
   stationName: string,

@@ -18,7 +18,7 @@ import {
 } from "react";
 
 interface UserProfile {
-  /** premium_until > now（後端即時算，是去廣告等權益的唯一判定） */
+  /** 會員是否有效（後端計算，是去廣告等權益的唯一判定） */
   isPremium: boolean;
   /** ISO 到期日（含 +08:00）；供到期 modal 判斷距到期天數 */
   premiumUntil: string | null;
