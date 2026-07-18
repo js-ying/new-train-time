@@ -1,6 +1,5 @@
 import Area from "@/components/search-area/Area";
 import useBusRouteSearch from "@/hooks/search/useBusRouteSearch";
-import useRwd from "@/hooks/useRwd";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { useTranslation } from "next-i18next";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
@@ -27,7 +26,6 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
   onSelect,
 }) => {
   const { t } = useTranslation();
-  const { isMobile } = useRwd();
   const { suggestions, isLoading, setQuery } = useBusRouteSearch();
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -36,10 +34,10 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // 展開時電腦版自動 focus 搜尋框（比照 TR 單站 picker）
+  // 展開時自動 focus 搜尋框（PC / 手機皆同）
   useEffect(() => {
-    if (isOpen && !isMobile) inputRef.current?.focus();
-  }, [isOpen, isMobile]);
+    if (isOpen) inputRef.current?.focus();
+  }, [isOpen]);
 
   // 換已選路線（選定 / 分享連結 / 上一頁）→ 清空搜尋字串與候選
   useEffect(() => {
