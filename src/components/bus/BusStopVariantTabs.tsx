@@ -11,7 +11,7 @@ interface BusStopVariantTabsProps {
 
 /**
  * [公車] 同名多座標的站柱 tab：切到正確那根柱（如「消防局(松仁)」不同方向柱）。
- * 標籤用站牌地址 + 方位（i18n，無地址則退站名）；長地址只截地址、方位永遠顯示。
+ * tab 文字 = label + 方位（i18n）；label 過長截斷，方位永遠顯示。
  */
 const BusStopVariantTabs: FC<BusStopVariantTabsProps> = ({
   variants,
@@ -23,10 +23,9 @@ const BusStopVariantTabs: FC<BusStopVariantTabsProps> = ({
     const dir = v.bearing
       ? t(`busBearing.${v.bearing}`, { defaultValue: v.bearing })
       : "";
-    const base = v.address || v.stopName;
     return (
       <span className="flex items-center gap-0.5">
-        <span className="block max-w-56 truncate">{base}</span>
+        <span className="block max-w-56 truncate">{v.label}</span>
         {dir && <span className="shrink-0">·{dir}</span>}
       </span>
     );
@@ -39,7 +38,8 @@ const BusStopVariantTabs: FC<BusStopVariantTabsProps> = ({
         radius="full"
         size="sm"
         classNames={{
-          tabList: "!bg-transparent flex-wrap justify-center",
+          // 解除 HeroUI 預設 overflow-x-scroll 的裁切；否則 flex-wrap 換行後，貼容器圓角的選中 tab border 會被削掉一角
+          tabList: "!bg-transparent flex-wrap justify-center !overflow-visible",
           cursor:
             "!bg-transparent !border border-zinc-700 dark:!border-zinc-200 !shadow-none",
           // 覆寫 base 的 w-full：flex-wrap 下各 tab 會撐滿整列致 border 過寬，改 w-auto 貼齊文字

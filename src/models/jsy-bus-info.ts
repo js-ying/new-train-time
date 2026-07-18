@@ -186,8 +186,8 @@ export interface JsyBusStopVariant {
   /** 該柱代表 StopUID；點 tab 以此 push 站牌看板。 */
   stopUid: string;
   stopName: string;
-  /** 站牌地址（tab 標籤，如「松仁路3號」）。 */
-  address?: string;
+  /** tab 主文字（站柱顯示標籤）。 */
+  label: string;
   /** 方位（tab 標籤，如「N」；前端轉 i18n 方向詞）。 */
   bearing?: string;
   lat: number;
