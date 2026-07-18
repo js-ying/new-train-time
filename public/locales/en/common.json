@@ -20,11 +20,11 @@
   "trSearchPageDynamicDescription": "Quickly check the {{page}} timetable, fares, and delay info from {{startStation}} to {{endStation}}. We provide service alerts, historical search, and booking guidance for a smoother commute or trip.",
   "thsrSearchPageDynamicDescription": "Quickly check the {{page}} timetable and fares from {{startStation}} to {{endStation}}. We provide service alerts, historical search, free seat car details, and real-time seat booking guidance for a smoother commute or trip.",
   "tymcSearchPageDynamicDescription": "Quickly check the {{page}} timetable and fares from {{startStation}} to {{endStation}}. We provide service alerts and historical search for a seamless commute or airport transfer.",
-  "subTitle": "Quick and Easy Multi-Rail Schedule Lookup.",
-  "webDescription": "Easily check Taiwan Railways, High-Speed Rail, and Taoyuan Airport MRT schedules. We provide fares, delays, transfers, booking redirection, and historical search for a smoother commute or trip.",
+  "subTitle": "Quick and Easy Multi-Rail Schedule and Live Bus Lookup.",
+  "webDescription": "Easily check Taiwan Railways, High-Speed Rail, and Taoyuan Airport MRT schedules, plus live bus arrivals across Taiwan. We provide fares, delays, transfers, booking redirection, and historical search for a smoother commute or trip.",
   "thsrPageDescription": "Quickly check Taiwan High Speed Rail schedules. We provide fare info, service announcements, historical search, free seat car details, and real-time seat booking guidance for a smoother commute or trip.",
   "tymcPageDescription": "Easily check Taoyuan Airport MRT schedules. We provide fare info, service announcements, and historical search for a seamless commute or airport transfer.",
-  "featuresPageDescription": "Explore key features, user guides, and learn how to install the website as an app for a faster and more convenient browsing experience.",
+  "featuresPageDescription": "Explore key features of our rail schedule and live bus lookup, user guides, and learn how to install the website as an app for a faster and more convenient browsing experience.",
   "updatesPageDescription": "Stay updated with the latest announcements, version releases, and new features of the website.",
   "privacyPageDescription": "Learn how this website collects, uses, and protects your personal information to safeguard your privacy.",
   "termsPageDescription": "Read the terms of service and usage guidelines to understand your rights and responsibilities when using this website.",
@@ -285,7 +285,7 @@
   "featureIntroductionMenu": "Feature Introduction",
   "updateAnnouncementsMenu": "Update Announcements",
   "feedbackMenu": "Feedback",
-  "feedbackDescription": "This system is independently developed by an individual and aims to provide a simple and fast timetable lookup service for various railways. It is not an official platform. If you have any questions or suggestions regarding the system, feel free to click the button below to submit feedback.",
+  "feedbackDescription": "This system is independently developed by an individual and aims to provide a simple and fast lookup service for various railway timetables and live bus arrivals. It is not an official platform. If you have any questions or suggestions regarding the system, feel free to click the button below to submit feedback.",
   "feedbackBtn": "Go to Google Form",
   "nowTimeBtn": "Now",
   "installToDesktopBtn": "Install to desktop",
@@ -375,7 +375,8 @@
   "siteAlternateNames": [
     "TRA Timetable",
     "THSR Timetable",
-    "Airport MRT Timetable"
+    "Airport MRT Timetable",
+    "Live Bus Arrivals"
   ],
   "sessionExpiredTitle": "Session Expired",
   "sessionExpiredMsg": "Your login session has expired. Please sign in again to access member features.",
