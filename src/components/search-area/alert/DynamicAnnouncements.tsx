@@ -1,5 +1,5 @@
+import CommonAlert from "@/components/common/CommonAlert";
 import { JsyAnnouncement } from "@/models/jsy-announcement";
-import Alert from "@mui/material/Alert";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 
@@ -19,14 +19,12 @@ const DynamicAnnouncements: FC<DynamicAnnouncementsProps> = ({
   return (
     <div className="mb-5 flex flex-col gap-4">
       {announcements.map((ann) => (
-        <Alert
+        <CommonAlert
           key={ann.id}
           severity={ann.severity === "CRITICAL" ? "error" : "warning"}
-          variant="outlined"
-          className="rounded-xl"
         >
           {isEn ? ann.contentEn : ann.contentZhTw}
-        </Alert>
+        </CommonAlert>
       ))}
     </div>
   );

@@ -1,3 +1,4 @@
+import CommonAlert from "@/components/common/CommonAlert";
 import CommonDialog from "@/components/common/CommonDialog";
 import { ApiError } from "@/models/problem-details";
 import {
@@ -7,7 +8,6 @@ import {
 } from "@/services/reportService";
 import DateUtils from "@/utils/DateUtils";
 import { Button } from "@heroui/react";
-import Alert from "@mui/material/Alert";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { LocaleEnum } from "../../enums/LocaleEnum";
@@ -119,22 +119,22 @@ const NoTrainData: FC<NoTrainDataProps> = ({
     const trailingSpace = i18n.language === LocaleEnum.TW ? "" : " ";
 
     return (
-      <Alert severity="error" variant="outlined" className="rounded-xl">
+      <CommonAlert severity="error">
         <div className="font-bold">
           {messageText}
           {trailingSpace}
           {`(${DateUtils.getCurrentDatetime()})`}
         </div>
-      </Alert>
+      </CommonAlert>
     );
   }
 
   // 單站發車看板：今日班次已發完（不需轉乘 / 起迄站字樣，只提示時間太晚）
   if (isStation) {
     return (
-      <Alert severity="warning" variant="outlined" className="rounded-xl">
+      <CommonAlert severity="warning">
         <div className="font-bold">{t("trStationBoardNoMoreTrains")}</div>
-      </Alert>
+      </CommonAlert>
     );
   }
 
@@ -143,10 +143,8 @@ const NoTrainData: FC<NoTrainDataProps> = ({
     const canReport = !!reportPayload;
     return (
       <>
-        <Alert
+        <CommonAlert
           severity="warning"
-          variant="outlined"
-          className="rounded-xl"
           // MUI Alert root 為 flex，.MuiAlert-message 預設無 flex-grow，寬度會收
           // 到內容寬度；強制 flex-1 讓 message 撐滿，items-center 才能對到 Alert
           // 內可放文字寬度（icon 右側到右 padding 之間）的中心
@@ -202,7 +200,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
               </Button>
             </div>
           )}
-        </Alert>
+        </CommonAlert>
 
         {/* 送出前的二次確認 dialog；點「確認」才真的呼叫 API
             內嵌 radio group 讓 user 選問題類型（預設 missing），餵 user_transfer_reports 表分類聚合 */}
@@ -237,7 +235,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
   }
 
   return (
-    <Alert severity="warning" variant="outlined" className="rounded-xl">
+    <CommonAlert severity="warning">
       <div className="mb-3 font-bold">{t("noTrainDataTitleMsg")}</div>
       <ul className="list-inside list-disc">
         <li>{t("noTrainInThisTimeMsg")}</li>
@@ -248,7 +246,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
           <li>{t("noTrainStopBetweenStationsMsg")}</li>
         )}
       </ul>
-    </Alert>
+    </CommonAlert>
   );
 };
 

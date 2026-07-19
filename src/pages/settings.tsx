@@ -1,3 +1,4 @@
+import CalloutBanner from "@/components/common/CalloutBanner";
 import IOSSwitchSetting from "@/components/common/IOSSwitchSetting";
 import NewLabel from "@/components/common/NewLabel";
 import UserDialog from "@/components/common/UserDialog";
@@ -213,22 +214,12 @@ const Settings: FC = () => {
             <div className="flex flex-col gap-6">
               {/* 未登入時顯示登入引導 banner：強調登入即可跨裝置同步以下設定 */}
               {!user && (
-                <div className="flex items-center justify-between gap-3 rounded-xl border border-primary/40 bg-primary/5 p-4">
-                  <div className="flex min-w-0 flex-col gap-0.5">
-                    <p className="text-sm font-semibold text-primary">
-                      {t("loginSyncBannerTitle")}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {t("loginSyncBannerDescription")}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setUserDialogOpen(true)}
-                    className="shrink-0 rounded-lg bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                  >
-                    {t("login")}
-                  </button>
-                </div>
+                <CalloutBanner
+                  title={t("loginSyncBannerTitle")}
+                  description={t("loginSyncBannerDescription")}
+                  actionLabel={t("login")}
+                  onAction={() => setUserDialogOpen(true)}
+                />
               )}
 
               {/* 1️⃣ 顯示設定（放在最前面） */}
