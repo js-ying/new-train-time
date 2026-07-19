@@ -10,6 +10,7 @@ import {
 import { BusStopFavoriteKey } from "@/utils/BusStopFavoriteUtils";
 
 import fetchData from "./fetchData";
+import { optionalAuthHeader } from "./optionalAuth";
 
 /** 公車路線號模糊搜（後端記憶體索引 contains 比對），回候選清單供 autocomplete。 */
 export const searchBusRoutes = async (
@@ -23,6 +24,7 @@ export const searchBusRoutes = async (
     {},
     "GET",
     signal,
+    await optionalAuthHeader(),
   );
 };
 
@@ -48,6 +50,7 @@ export const getBusRouteArrivals = async (
     {},
     "GET",
     signal,
+    await optionalAuthHeader(),
   );
 };
 
@@ -65,6 +68,7 @@ export const getBusRouteInfo = async (
     {},
     "GET",
     signal,
+    await optionalAuthHeader(),
   );
 };
 
@@ -80,6 +84,7 @@ export const getBusNearestStop = async (
     {},
     "GET",
     signal,
+    await optionalAuthHeader(),
   );
 };
 
@@ -94,6 +99,7 @@ export const getBusStopBoard = async (
     {},
     "GET",
     signal,
+    await optionalAuthHeader(),
   );
 };
 
