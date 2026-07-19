@@ -28,7 +28,7 @@ const SelectDatetime = dynamic(() => import("./SelectDatetime"), {
   ssr: false,
   loading: () => (
     <div className="flex select-none flex-col">
-      <div className="h-[336px] w-80 rounded-md border border-zinc-300 dark:border-zinc-500" />
+      <div className="h-[336px] w-80 rounded-md border border-input" />
       <div className="mt-2 h-10" />
     </div>
   ),
@@ -37,7 +37,7 @@ const SelectDatetime = dynamic(() => import("./SelectDatetime"), {
 /** 搜尋區域 */
 const SearchArea: FC = () => {
   const { t, i18n } = useTranslation();
-  const { page, isTr, isTymc } = usePage();
+  const { page, isTr, isTymc, isHome } = usePage();
   const { isMobile } = useRwd();
   const { params, handleStationAreaClick } = useSearchAreaNavigation();
   // Tab 切換只改 draftMode（不觸發 fetch / URL 變更）；按搜尋按鈕才會把 draftMode 帶到 URL
@@ -167,42 +167,46 @@ const SearchArea: FC = () => {
             <Tab key="direct" title={t("searchModeDirect")} />
             <Tab key="transfer" title={t("searchModeTransfer")} />
           </Tabs>
-          {/* 站別時刻表入口 */}
-          <Tooltip
-            title={t("stationTimetableShort")}
-            arrow
-            placement="top"
-            slotProps={{
-              popper: {
-                modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-              },
-            }}
-          >
-            <Link
-              href="/station"
-              aria-label={t("trStationTimetableMenu")}
-              onClick={() => gaClickEvent(GaEnum.STATION_TIMETABLE_FROM_SEARCH)}
-              className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-1 rounded-full py-1.5 pl-2 pr-0 text-sm"
+          {/* 站別時刻表入口：僅首頁顯示，搜尋結果頁不顯示 */}
+          {isHome && (
+            <Tooltip
+              title={t("stationTimetableShort")}
+              arrow
+              placement="top"
+              slotProps={{
+                popper: {
+                  modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+                },
+              }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-5 shrink-0"
+              <Link
+                href="/station"
+                aria-label={t("trStationTimetableMenu")}
+                onClick={() =>
+                  gaClickEvent(GaEnum.STATION_TIMETABLE_FROM_SEARCH)
+                }
+                className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-1 rounded-full py-1.5 pl-2 pr-0 text-sm"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"
-                />
-              </svg>
-              <span className="hidden sm:inline">
-                {t("stationTimetableShort")}
-              </span>
-            </Link>
-          </Tooltip>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-5 shrink-0"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"
+                  />
+                </svg>
+                <span className="hidden sm:inline">
+                  {t("stationTimetableShort")}
+                </span>
+              </Link>
+            </Tooltip>
+          )}
         </div>
       )}
 

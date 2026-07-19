@@ -12,6 +12,8 @@ import { SearchAreaProvider } from "@/contexts/SearchAreaContext";
 import { SearchHistoryProvider } from "@/contexts/SearchHistoryContext";
 import { SearchModeProvider } from "@/contexts/SearchModeContext";
 import { SettingProvider } from "@/contexts/SettingContext";
+import { StationFavoritesProvider } from "@/contexts/StationFavoritesContext";
+import { StationSearchHistoryProvider } from "@/contexts/StationSearchHistoryContext";
 import useAutoRedirectLastUsedPage from "@/hooks/useAutoRedirectLastUsedPage";
 import { useTrackBrowseSource } from "@/hooks/useTrackBrowseSource";
 import "@/styles/global.scss";
@@ -48,18 +50,24 @@ function App({ Component, pageProps }: AppProps) {
               <SettingProvider>
                 <SearchHistoryProvider>
                   <FavoriteRoutesProvider>
-                    <SearchAreaProvider>
-                      <SearchModeProvider>
-                        <DefaultSeo {...defaultSeoConfig} />
-                        <AppMeta />
-                        {/* 全域 Error Boundary：保底承接元件 render 期未捕捉例外 */}
-                        <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
-                          <Component {...pageProps} />
-                        </ErrorBoundary>
-                        <LocaleSuggestionDialog />
-                        <MembershipExpiryDialog />
-                      </SearchModeProvider>
-                    </SearchAreaProvider>
+                    <StationSearchHistoryProvider>
+                      <StationFavoritesProvider>
+                        <SearchAreaProvider>
+                          <SearchModeProvider>
+                            <DefaultSeo {...defaultSeoConfig} />
+                            <AppMeta />
+                            {/* 全域 Error Boundary：保底承接元件 render 期未捕捉例外 */}
+                            <ErrorBoundary
+                              FallbackComponent={GlobalErrorFallback}
+                            >
+                              <Component {...pageProps} />
+                            </ErrorBoundary>
+                            <LocaleSuggestionDialog />
+                            <MembershipExpiryDialog />
+                          </SearchModeProvider>
+                        </SearchAreaProvider>
+                      </StationFavoritesProvider>
+                    </StationSearchHistoryProvider>
                   </FavoriteRoutesProvider>
                 </SearchHistoryProvider>
               </SettingProvider>

@@ -3,11 +3,25 @@ import { ApiError, ProblemDetails, toApiError } from "@/models/problem-details";
 import type { User } from "firebase/auth";
 
 /**
+ * 取「已登入才有」的 Authorization header。
+ * 未登入、SSR、或取 token 失敗一律回空物件，不阻斷查詢本身。
+ */
+export async function getOptionalAuthHeader(): Promise<Record<string, string>> {
+  if (typeof window === "undefined") return {};
+  try {
+    const { auth } = await loadFirebaseAuth();
+    const user = auth.currentUser;
+    if (!user) return {};
+    return { Authorization: `Bearer ${await user.getIdToken()}` };
+  } catch {
+    return {};
+  }
+}
+
+/**
  * User API 專用呼叫器：自動帶上 Firebase ID Token，並把後端 Problem Details 轉成 ApiError。
  * 呼叫端拿到 ApiError 後可用 `isAuthError(err)` 判斷是否要觸發強制登出。
- *
- * 為何不擴充 fetchData：fetchData 是泛用層不該知道 firebase；
- * user API 與 train API 的差異就在「需要 token」這件事，獨立一支更清楚。
+ * 與泛用 fetchData 刻意分離：僅 user API 需要 token，泛用層不該知道 firebase。
  */
 export async function callUserApi<T = unknown>(options: {
   url: string;
@@ -39,7 +53,8 @@ export async function callUserApi<T = unknown>(options: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: options.method !== "GET" ? JSON.stringify(options.body ?? {}) : null,
+      body:
+        options.method !== "GET" ? JSON.stringify(options.body ?? {}) : null,
       signal: options.signal,
     });
   } catch (error) {

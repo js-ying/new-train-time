@@ -46,17 +46,13 @@ module.exports = {
           DEFAULT: withOpacity("--color-muted"),
           foreground: withOpacity("--color-muted-foreground"),
         },
-        accent: {
-          DEFAULT: withOpacity("--color-accent"),
-          foreground: withOpacity("--color-accent-foreground"),
-        },
         secondary: {
           DEFAULT: withOpacity("--color-secondary"),
           foreground: withOpacity("--color-secondary-foreground"),
         },
-        destructive: {
-          DEFAULT: withOpacity("--color-destructive"),
-          foreground: withOpacity("--color-destructive-foreground"),
+        cta: {
+          DEFAULT: withOpacity("--color-cta"),
+          foreground: withOpacity("--color-cta-foreground"),
         },
         border: withOpacity("--color-border"),
         input: withOpacity("--color-input"),
@@ -137,9 +133,13 @@ module.exports = {
             background: "#ffffff",
             primary: {
               DEFAULT: "#4c85c9", // silverLakeBlue-500
-              foreground: "#000000",
+              foreground: "#ffffff", // 藍底白字，與 global.scss --color-primary-foreground 一致
             },
             focus: "#4c85c9",
+            // 狀態色對齊全站 palette（亮 600 / 暗 400），避免 HeroUI 預設綠紅另成一格
+            success: { DEFAULT: "#059669", foreground: "#000000" }, // emerald-600
+            warning: { DEFAULT: "#d97706", foreground: "#000000" }, // amber-600
+            danger: { DEFAULT: "#dc2626", foreground: "#ffffff" }, // red-600
           },
         },
         dark: {
@@ -150,6 +150,9 @@ module.exports = {
               foreground: "#000000",
             },
             focus: "#f59e0b",
+            success: { DEFAULT: "#34d399", foreground: "#000000" }, // emerald-400
+            warning: { DEFAULT: "#fbbf24", foreground: "#000000" }, // amber-400
+            danger: { DEFAULT: "#f87171", foreground: "#000000" }, // red-400
           },
         },
       },

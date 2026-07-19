@@ -30,12 +30,12 @@ const Privacy: FC = () => {
         <Layout>
           <article className="mx-auto w-full max-w-3xl space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-200">
             {!isTw && (
-              <p className="text-center text-zinc-500 dark:text-zinc-400">
+              <p className="text-center text-muted-foreground">
                 {t("pageOnlyTwMsg")}
               </p>
             )}
             <h1 className="text-2xl font-bold">隱私權政策</h1>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-sm text-muted-foreground">
               最後更新日期：2026 年 4 月 15 日
             </p>
 

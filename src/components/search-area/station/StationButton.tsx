@@ -27,7 +27,7 @@ const StationButton = memo(function StationButton({
         ${
           isTopStation
             ? "bg-gradient-to-r from-silverLakeBlue-300 via-silverLakeBlue-500 to-silverLakeBlue-300 dark:from-gamboge-400 dark:via-gamboge-600 dark:to-gamboge-400"
-            : "bg-neutral-500 dark:bg-neutral-600"
+            : "bg-secondary"
         }`}
       radius="sm"
       onPress={() => onSelect(value)}

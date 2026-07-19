@@ -67,7 +67,7 @@ const TrainInfoBanner: FC = () => {
           data-ad-slot={process.env.NEXT_PUBLIC_AD_SLOT_TRAIN_INFO}
         ></ins>
       </div>
-      <div className="mt-1 whitespace-pre-line text-xs text-zinc-500 dark:text-zinc-400">
+      <div className="mt-1 whitespace-pre-line text-xs text-muted-foreground">
         {t("adMsg")}
       </div>
     </>

@@ -1,6 +1,7 @@
 import CommonDialog from "@/components/common/CommonDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
+import { FREE_MAX_PER_TYPE, PREMIUM_MAX_PER_TYPE } from "@/models/membership";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
@@ -96,14 +97,14 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
               <p className="text-md truncate font-semibold">
                 {user.displayName}
               </p>
-              <p className="truncate text-sm text-zinc-500 dark:text-zinc-400">
+              <p className="truncate text-sm text-muted-foreground">
                 {user.email}
               </p>
             </div>
           </div>
 
           {/* 會員狀態與權益 */}
-          <div className="rounded-lg border border-zinc-200 p-3 text-left [text-align-last:left] dark:border-zinc-600">
+          <div className="rounded-lg border border-border p-3 text-left [text-align-last:left]">
             {/* 會員稱謂列：左側稱謂、右側槽位；付費會員標主題色（亮藍暗橘），一般會員用一般字色 */}
             <div className="flex items-center justify-between gap-2">
               <p
@@ -152,10 +153,21 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
                     </Link>
                   )}
             </div>
-            <ul className="mt-1 list-disc pl-4 text-sm text-zinc-500 dark:text-zinc-400">
+            <ul className="mt-1 list-disc pl-4 text-sm text-muted-foreground">
               <li>{t("syncSettingsBenefit")}</li>
               <li>{t("favoriteRoutesBenefit")}</li>
-              {profile?.isPremium && <li>{t("adFreeBenefit")}</li>}
+              <li>{t("busAutoRefreshBenefit")}</li>
+              {profile?.isPremium && (
+                <>
+                  <li>
+                    {t("higherLimitBenefit", {
+                      free: FREE_MAX_PER_TYPE,
+                      premium: PREMIUM_MAX_PER_TYPE,
+                    })}
+                  </li>
+                  <li>{t("adFreeBenefit")}</li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -181,6 +193,7 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
             <ul className="mt-1 list-disc pl-4 text-sm text-muted-foreground">
               <li>{t("syncSettingsBenefit")}</li>
               <li>{t("favoriteRoutesBenefit")}</li>
+              <li>{t("busAutoRefreshBenefit")}</li>
               <li>{t("premiumPreviewBenefit")}</li>
             </ul>
           </div>

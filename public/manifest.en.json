@@ -1,7 +1,7 @@
 {
   "name": "TRA Schedule Inquiry",
   "short_name": "TRA Schedule Inquiry",
-  "description": "Check TRA/THSR schedules easily and quickly. Instant delay information and historical search function make daily commuting hassle-free. New features provide one-click switching between TRA/THSR, Chinese/English, and dark mode themes, enhancing the query experience once again.",
+  "description": "Check TRA, THSR, and Taoyuan Airport MRT schedules plus live bus arrivals across Taiwan, easily and quickly. Instant delay information, real-time bus arrivals, and historical search make daily commuting hassle-free. One-click switching between Chinese/English and dark mode themes enhances the query experience.",
   "icons": [
     {
       "src": "/images/logos/logo-192.png",

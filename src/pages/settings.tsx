@@ -1,3 +1,4 @@
+import CalloutBanner from "@/components/common/CalloutBanner";
 import IOSSwitchSetting from "@/components/common/IOSSwitchSetting";
 import NewLabel from "@/components/common/NewLabel";
 import UserDialog from "@/components/common/UserDialog";
@@ -72,7 +73,7 @@ const LocaleSegmentedControl: FC = () => {
       <span className="text-sm">
         {i18n.language === LocaleEnum.TW ? "語系" : "Language"}
       </span>
-      <div className="flex overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-600">
+      <div className="flex overflow-hidden rounded-lg border border-border">
         {locales.map((locale) => (
           <button
             key={locale.value}
@@ -80,7 +81,7 @@ const LocaleSegmentedControl: FC = () => {
             className={`px-4 py-1 text-sm font-medium transition-colors
               ${
                 i18n.language === locale.value
-                  ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                  ? "bg-primary text-primary-foreground"
                   : "bg-white text-zinc-600 hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               }`}
           >
@@ -118,7 +119,7 @@ const DefaultSearchTabSegmentedControl: FC = () => {
       <span className="flex items-center gap-2 text-sm">
         {t("defaultSearchTabLabel")}
       </span>
-      <div className="flex overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-600">
+      <div className="flex overflow-hidden rounded-lg border border-border">
         {tabs.map((tab) => (
           <button
             key={tab.value}
@@ -126,7 +127,7 @@ const DefaultSearchTabSegmentedControl: FC = () => {
             className={`px-2 py-1 text-sm font-medium transition-colors
               ${
                 defaultSearchTab === tab.value
-                  ? "bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+                  ? "bg-primary text-primary-foreground"
                   : "bg-white text-zinc-600 hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               }`}
           >
@@ -213,22 +214,12 @@ const Settings: FC = () => {
             <div className="flex flex-col gap-6">
               {/* 未登入時顯示登入引導 banner：強調登入即可跨裝置同步以下設定 */}
               {!user && (
-                <div className="flex items-center justify-between gap-3 rounded-xl border border-primary/40 bg-primary/5 p-4">
-                  <div className="flex min-w-0 flex-col gap-0.5">
-                    <p className="text-sm font-semibold text-primary">
-                      {t("loginSyncBannerTitle")}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {t("loginSyncBannerDescription")}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setUserDialogOpen(true)}
-                    className="shrink-0 rounded-lg bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                  >
-                    {t("login")}
-                  </button>
-                </div>
+                <CalloutBanner
+                  title={t("loginSyncBannerTitle")}
+                  description={t("loginSyncBannerDescription")}
+                  actionLabel={t("login")}
+                  onAction={() => setUserDialogOpen(true)}
+                />
               )}
 
               {/* 1️⃣ 顯示設定（放在最前面） */}

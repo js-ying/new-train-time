@@ -30,7 +30,7 @@ const TimeSelect: FC<TimeSelectProps> = ({ value, options, onSelect }) => {
         // 縮到 6rem (96px)，剛好容納雙位數字 + 左側打勾 icon + padding，與 trigger 寬度視覺較協調。
         // 注意：不要動 w-full，否則 inline-flex 在沒寬度父層下會塌掉。
         content:
-          "!min-w-[6rem] bg-background border border-zinc-300 dark:border-zinc-500",
+          "!min-w-[6rem] bg-background border border-input",
       }}
     >
       <DropdownTrigger>
@@ -39,7 +39,7 @@ const TimeSelect: FC<TimeSelectProps> = ({ value, options, onSelect }) => {
           size="sm"
           radius="md"
           // 去掉 Button 預設較寬的 min-w，僅夠容納兩位數字；邊框色對齊 panel
-          className="h-8 min-w-fit border border-zinc-300 px-2 text-foreground dark:border-zinc-500"
+          className="h-8 min-w-fit border border-input px-2 text-foreground"
           aria-label="time-select"
         >
           {value}
@@ -57,12 +57,12 @@ const TimeSelect: FC<TimeSelectProps> = ({ value, options, onSelect }) => {
           list: "max-h-60 overflow-y-auto",
         }}
         itemClasses={{
-          // 全站下拉選單統一 hover 配色：亮色 zinc-200、暗色 zinc-700。
+          // 全站下拉選單統一 hover 配色用 muted。
           // HeroUI DropdownItem (基於 menuItem theme) 預設 solid+default 同時掛了
           // data-[hover=true]:bg-default 與 data-[selectable=true]:focus:bg-default；
           // shouldFocusOnHover 讓滑鼠 hover 時兩條都觸發，且 focus 那條 specificity
           // 較高（0,2,0 > 0,1,0），不一起覆蓋就會被吃掉
-          base: "data-[hover=true]:bg-zinc-200 data-[selectable=true]:focus:bg-zinc-200 dark:data-[hover=true]:bg-zinc-700 dark:data-[selectable=true]:focus:bg-zinc-700",
+          base: "data-[hover=true]:bg-muted data-[selectable=true]:focus:bg-muted",
         }}
       >
         {options.map((opt) => (

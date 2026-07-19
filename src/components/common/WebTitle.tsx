@@ -39,6 +39,7 @@ const WebTitle: FC = () => {
     if (targetPage === PageEnum.TR) gaClickEvent(GaEnum.TR_TITLE);
     else if (targetPage === PageEnum.THSR) gaClickEvent(GaEnum.THSR_TITLE);
     else if (targetPage === PageEnum.TYMC) gaClickEvent(GaEnum.TYMC_TITLE);
+    else if (targetPage === PageEnum.BUS) gaClickEvent(GaEnum.BUS_TITLE);
   };
 
   return (
@@ -50,10 +51,17 @@ const WebTitle: FC = () => {
         className="custom-cursor-pointer mb-2"
       >
         <h1 className={`font-bold ${isTw ? "text-xl" : "text-lg"}`}>
-          <span className={`${isTw ? "" : "pr-1"}`}>
-            {notTransportPage.includes(page) ? t(PageEnum.TR) : t(page)}
-          </span>
-          {t("scheduleInquiry")}
+          {/* 公車為即時到站、非時刻表，用專屬 busTitle，不接「時刻查詢」後綴 */}
+          {page === PageEnum.BUS ? (
+            t("busTitle")
+          ) : (
+            <>
+              <span className={`${isTw ? "" : "pr-1"}`}>
+                {notTransportPage.includes(page) ? t(PageEnum.TR) : t(page)}
+              </span>
+              {t("scheduleInquiry")}
+            </>
+          )}
         </h1>
       </Link>
 

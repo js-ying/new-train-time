@@ -26,6 +26,8 @@ const SearchButton: FC = () => {
 
   const [lastQueryTime, setLastQueryTime] = useState<number | null>(null);
   const queryInterval = 5000; // 5 seconds
+  // 被擋下當下凍結的剩餘秒數（不即時倒數，提示維持顯示這個數字）
+  const [sameQuerySeconds, setSameQuerySeconds] = useState(0);
   const { saveHistory } = useSearchHistory();
 
   const handleSearch = () => {
@@ -60,6 +62,13 @@ const SearchButton: FC = () => {
 
     if (isSameQuery) {
       if (lastQueryTime && Date.now() - lastQueryTime < queryInterval) {
+        // 凍結被擋當下的剩餘秒數（無條件進位，至少 1 秒）
+        setSameQuerySeconds(
+          Math.max(
+            1,
+            Math.ceil((lastQueryTime + queryInterval - Date.now()) / 1000),
+          ),
+        );
         validationAlert.setMessage("sameQueryMsg");
         validationAlert.setOpen(true);
         return;
@@ -84,7 +93,7 @@ const SearchButton: FC = () => {
   return (
     <>
       <Button
-        className="text-md h-10 min-w-fit bg-zinc-700 text-white dark:bg-silverLakeBlue-500"
+        className="text-md h-10 min-w-fit bg-cta text-cta-foreground"
         radius="sm"
         onPress={() => handleSearch()}
       >
@@ -99,7 +108,9 @@ const SearchButton: FC = () => {
         }
         setOpen={validationAlert.setOpen}
       >
-        {t(validationAlert.message)}
+        {validationAlert.message === "sameQueryMsg"
+          ? t("sameQueryCountdownMsg", { seconds: sameQuerySeconds })
+          : t(validationAlert.message)}
       </CommonDialog>
     </>
   );

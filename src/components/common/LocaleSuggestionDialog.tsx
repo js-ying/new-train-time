@@ -12,13 +12,8 @@ import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 
 /**
- * 對話框文案：以「目標語系」為主體呈現，使對方一定看得懂。
- *
- * 例外說明（為何不走 i18n common.json）：
- * 這個 Dialog 的文字 **必須以目標語系顯示**，跟當前頁面的 locale 無關。
- * next-i18next 在 SSG 下只 bundle 當前 locale 的翻譯，動態載入目標語系需要 fetch JSON、
- * 或讓每個頁面都同時 bundle 兩個 locale（浪費 HTML 體積），都不划算。
- * 因 Dialog 僅一段文字、支援語系固定為兩種（LocaleEnum），直接用常數表最簡潔。
+ * 對話框文案：必須以「目標語系」顯示（與當前頁面 locale 無關），使對方一定看得懂。
+ * i18n 例外：next-i18next SSG 只 bundle 當前 locale 的翻譯，故不走 common.json，直接用常數表。
  */
 const DIALOG_COPY: Record<
   LocaleEnum,

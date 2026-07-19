@@ -18,10 +18,8 @@ export const apiProxyHandler = async (
   targetUrl: string,
   method: string = "POST",
 ) => {
-  // 來源 IP 轉發策略：優先轉發 CF 注入的 cf-connecting-ip（CF 會覆寫，client 無法偽造）。
-  // 後端 getClientIp 以它為第一優先，故即使 client 另外偽造 x-forwarded-for 也會被忽略 → 關掉偽造繞限流。
-  // 仍保留 x-forwarded-for 轉發作為「無 CF（dev / CF 標頭未送達 BFF）」退路：此時後端才會採用它，
-  // 避免 IP 塌成 localhost 而讓 IP 級限流誤鎖全體。cf-connecting-ip 存在時這條 XFF 不會被採用。
+  // 轉發 cf-connecting-ip 與 x-forwarded-for 供後端辨識真實 client IP；
+  // 無 CF 環境（如 dev）才會用到 XFF，避免 IP 塌成 localhost。
   const cfIp = req.headers["cf-connecting-ip"];
   const xff =
     (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
@@ -48,11 +46,9 @@ export const apiProxyHandler = async (
     const payload = isJson ? await response.json() : await response.text();
 
     if (!response.ok) {
-      // Cloudflare 會攔截 origin 回的 502 / 504，把整個 body 換成自家 "error code: 5xx"
-      // 純文字頁，導致前端 fetchData 讀不到 Problem Details 的 code、所有上游錯誤都塌成
-      // INTERNAL_ERROR。BFF 即是 CF 的適配層：把這兩個會被吃掉 body 的 gateway 狀態碼
-      // 改寫成 503（CF 對 origin 503 原樣放行），內層 Problem Details body（含 code）不動，
-      // 前端便能依 code 正確顯示對應 i18n。後端維持回 502 以保留誠實的上游語意（log 用）。
+      // Cloudflare 會攔截 origin 回的 502 / 504，把整個 body 換成自家純文字頁，
+      // 導致前端讀不到 Problem Details 的 code。故把這兩個 gateway 狀態碼改寫成 503
+      // （CF 對 origin 503 原樣放行），內層 body（含 code）不動，前端便能依 code 顯示 i18n。
       const clientStatus =
         response.status === 502 || response.status === 504
           ? 503

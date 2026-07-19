@@ -12,6 +12,7 @@ import {
 } from "@/models/jsy-tr-info";
 
 import fetchData from "./fetchData";
+import { optionalAuthHeader } from "./optionalAuth";
 
 /** 取得台鐵單站全日方向別時刻表（北上/南下時刻表頁） */
 export const getJsyTrStationTimetable = async (
@@ -24,6 +25,7 @@ export const getJsyTrStationTimetable = async (
     { stationId, ...(date ? { date } : {}) },
     "POST",
     signal,
+    await optionalAuthHeader(),
   );
 };
 
@@ -38,6 +40,7 @@ export const getJsyTrTrainStopTimes = async (
     { trainNo, ...(date ? { date } : {}) },
     "POST",
     signal,
+    await optionalAuthHeader(),
   );
 };
 
@@ -54,6 +57,7 @@ export const getJsyTrInfo = async (
     { startStationId, endStationId, date, time },
     "POST",
     signal,
+    await optionalAuthHeader(),
   );
 };
 
@@ -70,6 +74,7 @@ export const getJsyTrTransferInfo = async (
     { startStationId, endStationId, date, time },
     "POST",
     signal,
+    await optionalAuthHeader(),
   );
 };
 

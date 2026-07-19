@@ -1,6 +1,7 @@
 import { JsyOperationAlert } from "@/models/jsy-operation-alert";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import fetchData from "./fetchData";
+import { optionalAuthHeader } from "./optionalAuth";
 
 /** 取得桃捷詳細資訊 */
 export const getTymcInfo = async (
@@ -15,6 +16,7 @@ export const getTymcInfo = async (
     { startStationId, endStationId, date, time },
     "POST",
     signal,
+    await optionalAuthHeader(),
   );
 };
 

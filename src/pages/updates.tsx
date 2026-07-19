@@ -1,9 +1,11 @@
 import Layout from "@/components/layout/Layout";
 import PageSeo from "@/components/seo/PageSeo";
+import { SOLID_BADGE } from "@/configs/badgeStyles";
 import {
   oldThsrUpdateDataList,
   oldTrUpdateDataList,
   updateDataList,
+  type UpdateContent,
 } from "@/data/updatesData";
 import { GaEnum } from "@/enums/GaEnum";
 import useLang from "@/hooks/useLang";
@@ -44,11 +46,11 @@ const OldUpdateList: FC = () => {
       ref={accordionRef}
     >
       <div className="relative flex items-center py-6">
-        <div className="flex-grow border-t border-zinc-300 dark:border-zinc-700"></div>
-        <span className="mx-4 flex-shrink text-xs font-bold tracking-widest text-zinc-500 dark:text-zinc-400">
+        <div className="flex-grow border-t border-border"></div>
+        <span className="mx-4 flex-shrink text-xs font-bold tracking-widest text-muted-foreground">
           ARCHIVE
         </span>
-        <div className="flex-grow border-t border-zinc-300 dark:border-zinc-700"></div>
+        <div className="flex-grow border-t border-border"></div>
       </div>
 
       <Accordion
@@ -70,9 +72,9 @@ const OldUpdateList: FC = () => {
         className="px-0"
         itemClasses={{
           title: "text-zinc-700 dark:text-zinc-200 text-base font-semibold",
-          subtitle: "text-zinc-500 dark:text-zinc-400 text-sm",
+          subtitle: "text-muted-foreground text-sm",
           trigger:
-            "py-3 px-4 hover:bg-zinc-200/80 dark:hover:bg-zinc-700 transition-all rounded-xl",
+            "py-3 px-4 hover:bg-muted/80 dark:hover:bg-muted transition-all rounded-xl",
         }}
       >
         <AccordionItem
@@ -117,28 +119,46 @@ interface UpdateListProps {
     date: string;
     type: string;
     ver: string;
-    items: { type: string; content: string }[] | string[];
+    items: { type: string; content: UpdateContent }[] | string[];
   }[];
 }
+
+/**
+ * 公告內文渲染
+ * 片段陣列時逐段套 className，純字串維持原樣
+ */
+const UpdateContentText: FC<{ content: UpdateContent }> = ({ content }) => {
+  if (typeof content === "string") return <>{content}</>;
+
+  return (
+    <>
+      {content.map((segment, index) => (
+        <span key={index} className={segment.className}>
+          {segment.text}
+        </span>
+      ))}
+    </>
+  );
+};
 
 /**
  * 更新記錄類型與顯示樣式的映射表
  */
 const chipColorMap = {
   new: {
-    color: "bg-rose-500 text-white dark:bg-rose-500/80",
+    color: SOLID_BADGE.rose,
     desc: "新增",
   },
   fix: {
-    color: "bg-sky-500 text-white dark:bg-sky-500/80",
+    color: SOLID_BADGE.sky,
     desc: "修正",
   },
   refactor: {
-    color: "bg-indigo-500 text-white dark:bg-indigo-500/80",
+    color: SOLID_BADGE.indigo,
     desc: "重構",
   },
   update: {
-    color: "bg-teal-500 text-white dark:bg-teal-500/80",
+    color: SOLID_BADGE.teal,
     desc: "更新",
   },
 } as const;
@@ -161,18 +181,18 @@ const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
               <div>{`${data.date}`}</div>
             </div>
             <div className="flex list-inside list-decimal flex-col gap-1.5 whitespace-pre-line">
-              {data.items.map((item) => {
+              {data.items.map((item, index) => {
                 return (
-                  <div
-                    key={item.content || item}
-                    className="flex items-center gap-2"
-                  >
+                  <div key={index} className="flex items-start gap-2">
                     {item.type && (
                       <Chip className={chipColorMap[item.type].color} size="sm">
                         {chipColorMap[item.type].desc}
                       </Chip>
                     )}
-                    {item.content || item}
+                    {/* 包一層避免多個片段各自成為 flex item 被 gap 撐開 */}
+                    <div className="min-w-0 flex-1">
+                      <UpdateContentText content={item.content || item} />
+                    </div>
                   </div>
                 );
               })}
@@ -204,7 +224,7 @@ const Updates: FC = () => {
         <Layout>
           <div className="mx-auto w-full max-w-3xl">
             {!isTw && (
-              <p className="mb-6 text-center text-zinc-500 dark:text-zinc-400">
+              <p className="mb-6 text-center text-muted-foreground">
                 {t("pageOnlyTwMsg")}
               </p>
             )}

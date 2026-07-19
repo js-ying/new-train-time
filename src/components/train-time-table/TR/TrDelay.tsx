@@ -9,10 +9,8 @@ interface DelayDotProps {
 const DelayDot: FC<DelayDotProps> = ({ isGreen }) => {
   return (
     <>
-      {isGreen && (
-        <span className="dot bg-emerald-600 dark:bg-emerald-400"></span>
-      )}
-      {!isGreen && <span className="dot bg-red-600 dark:bg-red-400"></span>}
+      {isGreen && <span className="dot bg-success"></span>}
+      {!isGreen && <span className="dot bg-danger"></span>}
     </>
   );
 };
@@ -29,12 +27,12 @@ const TrDelay: FC<TrDelayProps> = ({ dataList }) => {
       {dataList?.length > 0 && (
         <>
           {dataList[0].delayTime === 0 ? (
-            <span className="relative text-sm text-emerald-600 dark:text-emerald-400">
+            <span className="relative text-sm text-success">
               {t("onTime")}
               <DelayDot isGreen={true}></DelayDot>
             </span>
           ) : (
-            <span className="relative text-sm text-red-600 dark:text-red-400">
+            <span className="relative text-sm text-danger">
               {t("delay")} {dataList[0].delayTime} {t("minute")}
               <DelayDot isGreen={false}></DelayDot>
             </span>

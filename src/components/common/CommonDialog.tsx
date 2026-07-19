@@ -137,7 +137,7 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
                       props.onConfirm?.();
                       props.setOpen(false);
                     }}
-                    className="min-w-fit text-white dark:text-eerieBlack-500"
+                    className="min-w-fit"
                   >
                     {t(props.confirmText)}
                   </Button>

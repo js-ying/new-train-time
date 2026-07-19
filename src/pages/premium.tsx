@@ -4,7 +4,11 @@ import Layout from "@/components/layout/Layout";
 import { PREMIUM_PLANS } from "@/configs/premiumPlans";
 import { isAuthError, useAuth } from "@/contexts/AuthContext";
 import useMuiTheme from "@/hooks/useMuiTheme";
-import type { MembershipPlanCode } from "@/models/membership";
+import {
+  FREE_MAX_PER_TYPE,
+  PREMIUM_MAX_PER_TYPE,
+  type MembershipPlanCode,
+} from "@/models/membership";
 import { createCheckout } from "@/services/checkoutService";
 import { submitEcpayForm } from "@/utils/submitEcpayForm";
 import { Accordion, AccordionItem, Checkbox } from "@heroui/react";
@@ -86,6 +90,15 @@ const Premium: FC = () => {
   const compareRows = [
     { label: t("syncSettingsBenefit"), basic: true, premium: true },
     { label: t("favoriteRoutesBenefit"), basic: true, premium: true },
+    { label: t("busAutoRefreshBenefit"), basic: true, premium: true },
+    {
+      label: t("higherLimitBenefit", {
+        free: FREE_MAX_PER_TYPE,
+        premium: PREMIUM_MAX_PER_TYPE,
+      }),
+      basic: false,
+      premium: true,
+    },
     { label: t("adFreeBenefit"), basic: false, premium: true },
   ];
 
@@ -114,7 +127,7 @@ const Premium: FC = () => {
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-sm">
                   <thead>
-                    <tr className="border-b border-zinc-200 dark:border-zinc-700">
+                    <tr className="border-b border-border">
                       <th className="py-2 pr-3 text-left font-semibold">
                         {t("premium.compareFeature")}
                       </th>
@@ -134,7 +147,7 @@ const Premium: FC = () => {
                     {compareRows.map((row) => (
                       <tr
                         key={row.label}
-                        className="border-b border-zinc-200 dark:border-zinc-700"
+                        className="border-b border-border"
                       >
                         <td className="py-2 pr-3">{row.label}</td>
                         <td className="px-3 py-2">
@@ -232,7 +245,7 @@ const Premium: FC = () => {
                 </span>
               </div>
               {!user && (
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                <p className="text-sm text-muted-foreground">
                   {t("premium.loginHint")}
                 </p>
               )}
@@ -254,7 +267,7 @@ const Premium: FC = () => {
                       className={`relative flex flex-col gap-1 rounded-xl border p-4 ${
                         isBest
                           ? "border-primary"
-                          : "border-zinc-200 dark:border-zinc-700"
+                          : "border-border"
                       }`}
                     >
                       {isBest && (
@@ -279,7 +292,7 @@ const Premium: FC = () => {
                           </span>
                         </p>
                       )}
-                      <p className="mb-3 text-sm text-zinc-500 dark:text-zinc-400">
+                      <p className="mb-3 text-sm text-muted-foreground">
                         {t("premium.planPerMonth", { price: perMonth })}
                       </p>
                       <button
@@ -292,7 +305,7 @@ const Premium: FC = () => {
                         className={
                           buyable
                             ? "mt-auto w-full rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90"
-                            : "mt-auto w-full cursor-not-allowed rounded-lg bg-zinc-200 px-4 py-2 text-sm font-medium text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400"
+                            : "mt-auto w-full cursor-not-allowed rounded-lg bg-muted px-4 py-2 text-sm font-medium text-muted-foreground"
                         }
                       >
                         {submittingPlan === plan.code

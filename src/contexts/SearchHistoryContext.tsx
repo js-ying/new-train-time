@@ -2,15 +2,16 @@ import { isAuthError, useAuth } from "@/contexts/AuthContext";
 import {
   HistoryInquiry,
   HistoryMap,
-  MAX_HISTORY,
   StoredHistoryInquiry,
   TrainType,
 } from "@/models/history";
+import { PREMIUM_MAX_PER_TYPE, maxPerType } from "@/models/membership";
 import { callUserApi } from "@/services/userApi";
 import {
   createContext,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -18,8 +19,8 @@ import {
 /** 支援同步的車種；順序固定供 flatten / 遍歷使用 */
 const TRAIN_TYPES: TrainType[] = ["TR", "THSR", "TYMC"];
 
-/** 各車種保留筆數上限（與後端一致） */
-const MAX_PER_TYPE = MAX_HISTORY;
+/** 本地保留筆數上限；取付費上限保底，對外顯示再依當下身分截斷（避免 auth 載入期誤砍） */
+const MAX_PER_TYPE = PREMIUM_MAX_PER_TYPE;
 
 /** 推送到 server 的 debounce 延遲（毫秒，對齊 SettingContext） */
 const SYNC_DEBOUNCE_MS = 800;
@@ -194,7 +195,10 @@ async function deleteServerHistory(t: TrainType): Promise<HistoryMap> {
 }
 
 export interface SearchHistoryContextValue {
+  /** 各車種歷史（已依當下會員身分截斷至 limit 筆） */
   history: HistoryMap;
+  /** 當下會員身分的各車種顯示上限 */
+  limit: number;
   /** 新增一筆歷史（會打時間戳、dedupe、trim；登入則排程同步） */
   saveHistory: (trainType: TrainType, inquiry: HistoryInquiry) => void;
   /** 清除某車種歷史（登入則同步刪 server） */
@@ -205,13 +209,14 @@ export interface SearchHistoryContextValue {
 
 export const SearchHistoryContext = createContext<SearchHistoryContextValue>({
   history: emptyMap(),
+  limit: maxPerType(false),
   saveHistory: () => {},
   clearHistory: () => {},
   consumeLocalSaveFlag: () => false,
 });
 
 export function SearchHistoryProvider({ children }) {
-  const { user, loading: authLoading, notifySessionExpired } = useAuth();
+  const { user, profile, loading: authLoading, notifySessionExpired } = useAuth();
   const [history, setHistory] = useState<HistoryMap>(emptyMap());
   const [hydrated, setHydrated] = useState(false);
   /** 最新 history 鏡像，供事件處理器在 setHistory 外計算下一狀態（保持 updater 純粹） */
@@ -362,14 +367,10 @@ export function SearchHistoryProvider({ children }) {
 
   /**
    * 登入狀態變化的同步策略：union 一次 → 之後一律以 server 為準（canonical）。
-   *
-   * 為何不每次 refresh 都 union：純 union 只能讓集合變大、無法表達「刪除」，
-   * 會讓「別台已清除、本機 localStorage 殘留」的紀錄在 refresh 時被復活並回寫 server。
-   * 改為依 SYNCED_UID_KEY 判斷三種情境：
+   * 依 SYNCED_UID_KEY 分兩種情境：
    *   - 未同步過（匿名期本地紀錄）→ 與雲端 union 一次撈救後上傳，避免登入即丟掉本地搜尋。
    *   - 已同步過（本裝置 cache）/ 切換帳號 → 直接採 server canonical（刪除即可正確傳播）。
-   * 唯一代價是「離線期新增、尚未上傳」的本地紀錄不會被保留；對火車時刻 app 而言
-   * 歷史是線上查詢的副產品，離線無法產生有意義紀錄，此取捨可接受。
+   * 不可改成每次都 union：union 無法表達「刪除」，會復活別台已清除、本機殘留的紀錄。
    */
   useEffect(() => {
     if (!hydrated || authLoading) return;
@@ -392,15 +393,10 @@ export function SearchHistoryProvider({ children }) {
           }
           adoptServerMap(merged);
           // 上傳走 runPush，與 save/delete 共用 seq + abort 紀律：並發 fireDelete 可 abort 此 PUT，
-          // 避免它在 server 端把剛清除的列復活（復活「刻意清除的列」是使用者回報的主病灶，優先消滅）。
+          // 避免它在 server 端把剛清除的列復活。
           const pushed = await runPush(merged);
           // 僅在 PUT 確實落地後才標記同步模式：被 abort / 失敗時 flag 維持 null，下次 refresh 仍走 union；
           // 清除過的車種其 local 已是 []，union([], []) = [] 不會復活，再 union 安全。
-          //
-          // 已接受的邊界：若「首次登入」當下、union 上傳的 sub-second 窗口內清除『另一』車種，
-          // 且 abort 早於 server commit，則該未上傳車種的匿名撈救列會被 DELETE 的 canonical
-          // （adoptServerMap 整批覆寫 local）洗掉而遺失。觸發機率極低且僅損匿名便利資料（重搜即回），
-          // 取捨上優於「不可 abort 導致刻意清除的列復活」，故不為此加複雜度。
           if (pushed && !cancelled) localStorage.setItem(SYNCED_UID_KEY, uid);
         } else {
           // 已同步過 / 切換帳號：server 即唯一真相，不再 union 本機殘留
@@ -455,9 +451,23 @@ export function SearchHistoryProvider({ children }) {
     };
   }, []);
 
+  /** 對外只給當下身分可用的筆數；本地仍保留至付費上限，續費即恢復 */
+  const limit = maxPerType(!!profile?.isPremium);
+  const visibleHistory = useMemo(() => {
+    const m = emptyMap();
+    for (const t of TRAIN_TYPES) m[t] = history[t].slice(0, limit);
+    return m;
+  }, [history, limit]);
+
   return (
     <SearchHistoryContext.Provider
-      value={{ history, saveHistory, clearHistory, consumeLocalSaveFlag }}
+      value={{
+        history: visibleHistory,
+        limit,
+        saveHistory,
+        clearHistory,
+        consumeLocalSaveFlag,
+      }}
     >
       {children}
     </SearchHistoryContext.Provider>

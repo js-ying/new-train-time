@@ -60,6 +60,13 @@ export const seoConfigs: Record<PageEnum, SeoConfig> = {
     ogDescription: (t) => t("subTitle"),
     ogImage: defaultOgImage,
   },
+  [PageEnum.BUS]: {
+    title: (t) => `${t("busTitle")}`,
+    description: (t) => t("busPageDescription"),
+    ogTitle: (t) => t("busTitle"),
+    ogDescription: (t) => t("subTitle"),
+    ogImage: defaultOgImage,
+  },
   [PageEnum.FEATURES]: {
     title: (t) => `${t("featureIntroductionMenu")} - ${t("trTitle")}`,
     description: (t) => t("featuresPageDescription"),

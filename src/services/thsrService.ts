@@ -6,6 +6,7 @@ import {
 import { JsyOperationAlert } from "@/models/jsy-operation-alert";
 import { JsyThsrInfo } from "@/models/jsy-thsr-info";
 import fetchData from "./fetchData";
+import { optionalAuthHeader } from "./optionalAuth";
 
 /** 取得高鐵詳細資訊 (含時刻表、票價、自由座) */
 export const getThsrInfo = async (
@@ -20,6 +21,7 @@ export const getThsrInfo = async (
     { startStationId, endStationId, date, time },
     "POST",
     signal,
+    await optionalAuthHeader(),
   );
 };
 

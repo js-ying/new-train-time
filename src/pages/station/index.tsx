@@ -1,9 +1,13 @@
 import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
 import Loading from "@/components/common/Loading";
+import RefreshButton from "@/components/common/RefreshButton";
 import Layout from "@/components/layout/Layout";
+import PopularStations from "@/components/search-area/PopularStations";
 import DynamicAnnouncements from "@/components/search-area/alert/DynamicAnnouncements";
 import OperationAlert from "@/components/search-area/alert/OperationAlert";
+import StationFavoriteButton from "@/components/station-history/StationFavoriteButton";
+import StationHistoryPanel from "@/components/station-history/StationHistoryPanel";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
 import TrStationPageSeo from "@/components/train-time-table/TR/station/TrStationPageSeo";
 import TrStationPicker from "@/components/train-time-table/TR/station/TrStationPicker";
@@ -11,11 +15,16 @@ import TrStationTimeTable from "@/components/train-time-table/TR/station/TrStati
 import { GaEnum } from "@/enums/GaEnum";
 import useTrStationTimetable from "@/hooks/search/useTrStationTimetable";
 import useMuiTheme from "@/hooks/useMuiTheme";
+import useRefreshCooldown from "@/hooks/useRefreshCooldown";
+import useStationHistory from "@/hooks/useStationHistory";
+import { JsyPopularStation } from "@/models/jsy-popular-stations";
 import { JsyTrStationTimetable } from "@/models/jsy-tr-info";
+import { StationTarget } from "@/models/station-history";
+import { fetchPopularStations } from "@/services/popularStationsService";
 import { fetchTrStationTimetableServerSide } from "@/services/trStationTimetableServerService";
 import AdUtils from "@/utils/AdUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { isValidTrStationId } from "@/utils/StationUtils";
+import { getTrStationNameById, isValidTrStationId } from "@/utils/StationUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { GetServerSidePropsContext } from "next";
 import { useTranslation } from "next-i18next";
@@ -28,6 +37,8 @@ interface StationPageProps {
   initialStationId: string | null;
   initialDir: "north" | "south" | null;
   initialData: JsyTrStationTimetable | null;
+  /** 裸 hub 頁的熱門車站（DB 取數，失敗為 fallback）；帶站頁為空陣列 */
+  popularStations: JsyPopularStation[];
 }
 
 // i18n + 站/方向 query 解析；帶站時於 server 取好時刻表寫進 HTML（SSR）
@@ -44,12 +55,16 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     ? await fetchTrStationTimetableServerSide(stationId)
     : null;
 
+  // 只在裸 hub 頁取熱門車站當可爬內容；帶站頁不需，省每次請求的後端呼叫
+  const popularStations = stationId ? [] : await fetchPopularStations("TR");
+
   return {
     props: {
       ...(await serverSideTranslations(locale)),
       initialStationId: stationId,
       initialDir,
       initialData,
+      popularStations,
     },
   };
 }
@@ -73,22 +88,22 @@ const resolveDirection = (
   return (north ?? dirs[0]).direction;
 };
 
-/** 同一站重複查詢的最小間隔（毫秒），比照 OD sameQueryMsg */
-const SAME_QUERY_INTERVAL_MS = 5000;
-
 /** [頁面] 台鐵單站方向別時刻表（北上/南下時刻表） */
 const StationTimetablePage: FC<StationPageProps> = ({
   initialStationId,
   initialDir,
   initialData,
+  popularStations,
 }) => {
   const muiTheme = useMuiTheme();
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data, error, isLoading, fetchStation, reset } = useTrStationTimetable(
     initialStationId,
     initialData,
   );
+  // 單站歷史（TR）：查過的車站；常用車站由 picker 愛心 / 面板愛心經 StationFavoritesContext 管理
+  const { saveHistory: saveStationHistory } = useStationHistory("TR");
 
   const [selectedStationId, setSelectedStationId] = useState<string | null>(
     initialStationId,
@@ -96,9 +111,13 @@ const StationTimetablePage: FC<StationPageProps> = ({
   const [directionFilter, setDirectionFilter] = useState<number>(
     resolveDirection(initialDir, initialData),
   );
-  const [sameQueryOpen, setSameQueryOpen] = useState(false);
-  // 記上次查詢的站與時間戳，用以擋「同一站太快重複查詢」
-  const lastQueryRef = useRef<{ stationId: string; at: number } | null>(null);
+  // 重新整理目前車站時刻表的 5s 冷卻（誤點資訊不開放自動輪詢，僅手動刷新）；
+  // 冷卻中再按 → 彈窗提示「請於 X 秒後再試」（比照 OD/單站 sameQuery）
+  const refreshCooldown = useRefreshCooldown(5000);
+  const handleRefresh = () => {
+    if (!selectedStationId) return;
+    refreshCooldown.attempt(() => fetchStation(selectedStationId));
+  };
 
   // 換站取得新資料後，把方向重設為該站預設（北上或第一個有車方向）；
   // ref 守住首載：SSR 帶站時不覆寫 initialDir 解析出的初值。
@@ -106,28 +125,56 @@ const StationTimetablePage: FC<StationPageProps> = ({
   useEffect(() => {
     if (data && data.stationId !== lastResolvedStation.current) {
       lastResolvedStation.current = data.stationId;
-      setDirectionFilter(resolveDirection(null, data));
+      // 返回/前進到帶 dir 的 URL 時還原該方向；一般選站 URL 無 dir → 預設方向
+      const urlDir =
+        router.query.dir === "north" || router.query.dir === "south"
+          ? router.query.dir
+          : null;
+      setDirectionFilter(resolveDirection(urlDir, data));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  // 選站（picker 或定位）→ 重查 + 淺層更新 URL（不重跑 GSSP）；方向待新資料到位由上方 effect 重設
-  const handleSelectStation = (stationId: string) => {
-    // 同一站 5 秒內重複查詢 → 擋下並提示（比照 OD sameQueryMsg）
-    const now = Date.now();
-    const last = lastQueryRef.current;
-    if (
-      last &&
-      last.stationId === stationId &&
-      now - last.at < SAME_QUERY_INTERVAL_MS
-    ) {
-      setSameQueryOpen(true);
-      return;
-    }
-    lastQueryRef.current = { stationId, at: now };
+  // 只記「主動選擇」(picker / 定位 / 歷史面板點選)；URL 直連 / 冷載還原不寫歷史。
+  // 以 stationId 為 guard 避免同站重複寫，換語言不重存（站名由面板即時重解析）
+  const activeSelectRef = useRef<string | null>(null);
+  const lastSavedStation = useRef<string | null>(null);
+  useEffect(() => {
+    const sid = data?.stationId;
+    if (!sid || activeSelectRef.current !== sid) return;
+    if (lastSavedStation.current === sid) return;
+    lastSavedStation.current = sid;
+    saveStationHistory({
+      targetId: sid,
+      targetName: getTrStationNameById(sid, i18n.language) ?? sid,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
+  // 瀏覽器返回/前進改了 URL station（非經 picker）→ 同步重查；經 picker 選站時 state 已同步、此處 no-op
+  useEffect(() => {
+    if (!router.isReady) return;
+    const urlStation =
+      typeof router.query.station === "string" &&
+      isValidTrStationId(router.query.station)
+        ? router.query.station
+        : null;
+    if (urlStation === selectedStationId) return;
+    setSelectedStationId(urlStation);
+    refreshCooldown.reset();
+    if (urlStation) fetchStation(urlStation);
+    else reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady, router.query.station]);
+
+  // 選站（picker 或定位）→ 重查 + 淺層 push URL（留歷史可返回、不重跑 GSSP）；方向待新資料到位由上方 effect 重設
+  // 「同站太快重複查詢」的攔截在 TrStationPicker.select()（三入口都經它），此處不再重複擋
+  const handleSelectStation = (stationId: string) => {
+    activeSelectRef.current = stationId; // 標記為主動選擇（歷史只記主動選擇，URL 直連不記）
     setSelectedStationId(stationId);
     fetchStation(stationId);
-    router.replace(
+    refreshCooldown.reset(); // 換站資料已新鮮，刷新冷卻歸零
+    router.push(
       { pathname: "/station", query: { station: stationId } },
       undefined,
       { shallow: true },
@@ -158,7 +205,7 @@ const StationTimetablePage: FC<StationPageProps> = ({
     setSelectedStationId(null);
     setDirectionFilter(0);
     lastResolvedStation.current = null;
-    lastQueryRef.current = null;
+    refreshCooldown.reset();
     reset();
   };
 
@@ -201,7 +248,47 @@ const StationTimetablePage: FC<StationPageProps> = ({
             <TrStationPicker
               selectedStationId={selectedStationId}
               onSelectStation={handleSelectStation}
+              // 收藏愛心掛在「離我最近車站」同列最右（對應 OD 時刻表愛心）；未選站不顯示
+              rightSlot={
+                selectedStationId ? (
+                  <StationFavoriteButton
+                    trainType="TR"
+                    target={{
+                      targetId: selectedStationId,
+                      targetName:
+                        getTrStationNameById(
+                          selectedStationId,
+                          i18n.language,
+                        ) ?? selectedStationId,
+                    }}
+                  />
+                ) : undefined
+              }
             />
+
+            {/* 未選站時顯示歷史 / 常用車站（選站後由時刻表取代，比照 OD 首頁→搜尋頁） */}
+            {!selectedStationId && (
+              <div className="mt-2 text-center empty:hidden">
+                <StationHistoryPanel
+                  trainType="TR"
+                  onSelect={(target: StationTarget) =>
+                    handleSelectStation(target.targetId)
+                  }
+                  resolveLabel={(target) =>
+                    getTrStationNameById(target.targetId, i18n.language) ??
+                    target.targetName
+                  }
+                />
+              </div>
+            )}
+
+            {/* 裸 hub 頁的熱門車站快查（SSR 可爬內鏈，導向各站別時刻表頁）；
+                顯示與否同首頁熱門路線，由 _document、SettingContext 控制 */}
+            {!selectedStationId && (
+              <div className="js-popular-routes mt-6">
+                <PopularStations stations={popularStations} />
+              </div>
+            )}
 
             <div className="mt-2">
               {data && data.announcements?.length > 0 && (
@@ -215,6 +302,8 @@ const StationTimetablePage: FC<StationPageProps> = ({
                   data={data}
                   directionFilter={directionFilter}
                   onDirectionChange={handleDirectionChange}
+                  // 刷新掛在北上/南下同列最右（absolute），與公車頁一致
+                  cornerSlot={<RefreshButton onRefresh={handleRefresh} />}
                 />
               )}
 
@@ -228,13 +317,20 @@ const StationTimetablePage: FC<StationPageProps> = ({
 
           {isLoading && <Loading />}
 
-          {/* 同一站查詢太快提示（比照 OD sameQueryMsg） */}
-          <CommonDialog open={sameQueryOpen} setOpen={setSameQueryOpen}>
-            {t("sameQueryMsg")}
+          {/* 手動刷新冷卻提示（比照 OD sameQuery，凍結秒數） */}
+          <CommonDialog
+            open={refreshCooldown.dialogOpen}
+            setOpen={refreshCooldown.setDialogOpen}
+          >
+            {t("sameQueryCountdownMsg", {
+              seconds: refreshCooldown.frozenSeconds,
+            })}
           </CommonDialog>
 
-          {/* 底部可關閉廣告（mode=bottom，固定底部、可按 X） */}
-          {AdUtils.showAd(0, 0) && showBottomAd && <AdBanner mode="bottom" />}
+          {/* 底部可關閉廣告：查過站才掛（首入未查詢、未打 TDX，不跳廣告） */}
+          {AdUtils.showAd(0, 0) && showBottomAd && selectedStationId && (
+            <AdBanner mode="bottom" />
+          )}
         </Layout>
       </MuiThemeProvider>
     </>

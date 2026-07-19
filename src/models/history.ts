@@ -1,9 +1,6 @@
 /** 歷史查詢的車種；對齊後端 DB enum 與 PageEnum（TR/THSR/TYMC） */
 export type TrainType = "TR" | "THSR" | "TYMC";
 
-/** 歷史查詢分頁顯示上限（純時間序） */
-export const MAX_HISTORY = 5;
-
 /** 歷史查詢的最小語意（點擊回填、輸入比對只需起迄站） */
 export interface HistoryInquiry {
   startStationId: string;
@@ -18,5 +15,5 @@ export interface StoredHistoryInquiry extends HistoryInquiry {
   lastUsedAt: number;
 }
 
-/** 依車種分組的歷史 map（各車種已排序 newest-first 且 ≤ MAX_HISTORY 筆） */
+/** 依車種分組的歷史 map（各車種已排序 newest-first 且 ≤ 會員上限） */
 export type HistoryMap = Record<TrainType, StoredHistoryInquiry[]>;

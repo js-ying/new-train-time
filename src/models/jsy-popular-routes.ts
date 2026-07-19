@@ -20,7 +20,7 @@ export interface JsyPopularRoutes {
 
 /**
  * 寫死 fallback：build 期後端不可達、查詢失敗、或某鐵路無資料時使用，確保首頁永遠有
- * 熱門路線可顯示與被爬取。內容沿用上線前的 GA4 熱門路線。
+ * 熱門路線可顯示與被爬取。
  */
 export const FALLBACK_POPULAR_ROUTES: JsyPopularRoutes = {
   TR: [

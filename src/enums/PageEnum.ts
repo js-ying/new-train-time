@@ -2,6 +2,7 @@ export enum PageEnum {
   TR = "tr",
   THSR = "thsr",
   TYMC = "tymc",
+  BUS = "bus",
   FEATURES = "features",
   UPDATES = "updates",
   SETTINGS = "settings",

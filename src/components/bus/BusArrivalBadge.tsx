@@ -1,0 +1,83 @@
+import { BusArrivalState } from "@/models/jsy-bus-info";
+import { useTranslation } from "next-i18next";
+import { FC } from "react";
+
+interface BusArrivalBadgeProps {
+  state: BusArrivalState;
+  estimateMinutes: number | null;
+  /** 起站未發車時的下一班發車時刻（HH:mm）；有值則取代「尚未發車」顯示。 */
+  nextDepartTime?: string;
+}
+
+/** 各狀態 → i18n key（minutes 單獨渲染數字+單位，不走此表）。 */
+const STATE_LABEL_KEY: Record<BusArrivalState, string> = {
+  arriving: "busArriving",
+  approaching: "busApproaching",
+  minutes: "busMinuteUnit",
+  notDeparted: "busNotDeparted",
+  trafficControl: "busTrafficControl",
+  lastBusPassed: "busLastBusPassed",
+  notInService: "busNotInService",
+  noData: "busNoData",
+};
+
+/** 各狀態 → 文字色（沿用 TrDelay 色票風格）；分鐘數用一般前景色，靠數字大小凸顯。 */
+const STATE_COLOR: Record<BusArrivalState, string> = {
+  // 進站中＝車已到，用紅色凸顯急迫；即將到站維持綠色（綠→紅遞進）
+  arriving: "text-danger",
+  approaching: "text-success",
+  minutes: "text-foreground",
+  notDeparted: "text-muted-foreground",
+  trafficControl: "text-warning",
+  lastBusPassed: "text-muted-foreground",
+  notInService: "text-muted-foreground",
+  noData: "text-zinc-400 dark:text-zinc-500",
+};
+
+/** [公車] 單站到站狀態徽章：依後端推導的 state 對應 i18n 文字 + 顏色。 */
+const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
+  state,
+  estimateMinutes,
+  nextDepartTime,
+}) => {
+  const { t } = useTranslation();
+  const color = STATE_COLOR[state];
+  // min-h 對齊最高狀態（分鐘數 text-lg）的行高，避免無到站時間的列比有到站時間的列矮
+  const base =
+    "inline-flex min-h-7 min-w-14 items-center justify-center whitespace-nowrap";
+
+  // 起站未發車且班表有下一班 → 顯示發車時刻（資訊比「尚未發車」多）；字級略大、不加粗
+  if (state === "notDeparted" && nextDepartTime) {
+    return (
+      <span
+        className={`${base} text-base font-medium tabular-nums ${STATE_COLOR.minutes}`}
+      >
+        {nextDepartTime}
+      </span>
+    );
+  }
+
+  // 「X 分」：分鐘數放大、單位維持小字，整體用一般色
+  if (state === "minutes") {
+    return (
+      <span className={`${base} items-baseline font-medium ${color}`}>
+        <span className="text-lg font-semibold tabular-nums">
+          {estimateMinutes ?? 0}
+        </span>
+        <span className="ml-1 text-sm">{t("busMinuteUnit")}</span>
+      </span>
+    );
+  }
+
+  // 進站中／即將到站語意最急迫：粗體凸顯，其餘狀態維持一般字重
+  const emphasized = state === "arriving" || state === "approaching";
+  return (
+    <span
+      className={`${base} text-sm ${emphasized ? "font-bold" : "font-medium"} ${color}`}
+    >
+      {t(STATE_LABEL_KEY[state])}
+    </span>
+  );
+};
+
+export default BusArrivalBadge;

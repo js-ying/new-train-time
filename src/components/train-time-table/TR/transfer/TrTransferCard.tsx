@@ -1,4 +1,5 @@
 import ChevronToggleIcon from "@/components/common/ChevronToggleIcon";
+import { SOLID_BADGE } from "@/configs/badgeStyles";
 import { GaEnum } from "@/enums/GaEnum";
 import { JsyTrTransferCombination } from "@/models/jsy-tr-info";
 import { gaClickEvent } from "@/utils/GaUtils";
@@ -99,7 +100,7 @@ const TrTransferCard: FC<TrTransferCardProps> = ({
             {t("transferLegCount", { count: legs.length - 1 })}
           </span>
           {hasOnlyTicket && (
-            <span className="mt-0.5 rounded bg-amber-500 px-2 py-0.5 text-xs text-white dark:bg-amber-500/80">
+            <span className={`mt-0.5 rounded px-2 py-0.5 text-xs ${SOLID_BADGE.amber}`}>
               {t("transferTicketRequired")}
             </span>
           )}

@@ -26,14 +26,11 @@ interface TrStationTimeInfoProps {
 
 /**
  * [台鐵] 單站時刻表的一班車（發車看板）。
- * 版面比照 OD 列車卡(TrTrainTimeInfo) 的左中右三欄。
- * 左：車次（放大）/ 山海線、車種；中：誤點 + 發車時刻；右：開往⟨迄站⟩（強調）+ ⟨起站⟩起。
- * 右欄保留起站：起站離本站越遠、車上累積乘客越多，可輔助判斷座位是否充足。
- * 車種 label 中文版手機占滿、桌機限寬；英文版維持無底色（不傳 className）。
- * min-h 拉高卡片，避免右欄文字撞到右上角的服務 icon（絕對定位）。
+ * 版面比照 OD 列車卡(TrTrainTimeInfo) 的左中右三欄：左 車次 / 山海線、車種；中 誤點 + 發車時刻；
+ * 右 開往⟨迄站⟩（強調）+ ⟨起站⟩起（起站越遠、車上累積乘客越多，輔助判斷座位）。
+ * min-h 拉高卡片，避免右欄文字撞到右上角絕對定位的服務 icon。
  * 卡片下方比照 OD：無站票提醒（依車種）+ 台鐵註記（吃 Settings showTrTrainNote）。
- * 點卡片 → 即時查該車完整停靠（CSR on-demand，命中後端 cache），複用 OD 詳情 dialog；
- * 詳情停靠表只強調查詢站（停靠表為該車完整路徑，無迄站概念）。
+ * 點卡片 → 即時查該車完整停靠並複用 OD 詳情 dialog；停靠表只強調查詢站（完整路徑無迄站概念）。
  * 已過站班次於上層 TrStationTimeTable 已濾除。
  */
 const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({ data, trainDate }) => {

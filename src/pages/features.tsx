@@ -36,7 +36,7 @@ const WebIntroduction: FC = () => {
           <div className="text-lg font-bold text-zinc-700 dark:text-zinc-200">
             {t("trTitle")}
           </div>
-          <div className="text-zinc-500 dark:text-zinc-400">
+          <div className="text-muted-foreground">
             {t("webDescription")}
           </div>
         </div>

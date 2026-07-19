@@ -24,7 +24,7 @@ const FeedbackDialog: FC<FeedbackDialogProps> = ({ open, setOpen }) => {
         <div className="flex justify-center">
           <Button
             color="primary"
-            className="w-fit bg-silverLakeBlue-500 text-white dark:bg-gamboge-500 dark:text-eerieBlack-500"
+            className="w-fit"
             onPress={() =>
               window.open("https://forms.gle/y9VGhdMwMhbiZVW88", "_blank")
             }

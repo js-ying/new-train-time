@@ -9,7 +9,7 @@ import {
 } from "@/utils/TrainInfoUtils";
 import { Button, ButtonGroup } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { FC, useMemo, useState } from "react";
+import { FC, ReactNode, useMemo, useState } from "react";
 import TrainTimeNavbar from "../../TrainTimeNavbar";
 import NoTrainData from "../../NoTrainData";
 import TrStationDirectionFilter from "./TrStationDirectionFilter";
@@ -22,6 +22,8 @@ interface TrStationTimeTableProps {
   /** 方向篩選由頁面持有（同步進 URL） */
   directionFilter: number;
   onDirectionChange: (value: number) => void;
+  /** 掛在方向切換同列最右的元件（如刷新按鈕）；absolute 不影響 tab 置中 */
+  cornerSlot?: ReactNode;
 }
 
 /** [台鐵] 單站時刻表：方向 + 對號/非對號雙篩選（皆前端），不顯示已過站班次、無票價 */
@@ -29,6 +31,7 @@ const TrStationTimeTable: FC<TrStationTimeTableProps> = ({
   data,
   directionFilter,
   onDirectionChange,
+  cornerSlot,
 }) => {
   const { t } = useTranslation();
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
@@ -70,13 +73,18 @@ const TrStationTimeTable: FC<TrStationTimeTableProps> = ({
   return (
     <>
       <div className="mb-4 flex flex-col gap-3">
-        {/* 方向篩選（北上/南下 或 往X，置中） */}
-        <div className="mb-2">
+        {/* 方向篩選（北上/南下 或 往X）置中；刷新 cornerSlot absolute 掛同列最右，不影響置中 */}
+        <div className="relative mb-2">
           <TrStationDirectionFilter
             directions={data.directions}
             value={directionFilter}
             onChange={onDirectionChange}
           />
+          {cornerSlot && (
+            <div className="absolute right-0 top-1/2 -translate-y-1/2">
+              {cornerSlot}
+            </div>
+          )}
         </div>
 
         {/* 對號 / 非對號 + 筆數 */}

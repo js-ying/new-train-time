@@ -10,9 +10,9 @@ import {
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
+import QuickPickPills, { QuickPickItem } from "./QuickPickPills";
 
 /** 取該鐵路的 DB 熱門路線並轉成元件內部 {s,e}；DB 缺漏或空時用寫死 fallback */
 const pickRoutes = (
@@ -90,41 +90,25 @@ const PopularRoutes: FC<PopularRoutesProps> = ({ popularRoutes }) => {
     });
   };
 
-  return (
-    <div className="flex flex-col items-center">
-      <div className="mb-3 text-sm text-zinc-500 dark:text-zinc-400">
-        {t("popularRoutes")}
-      </div>
-      <div className="flex flex-wrap justify-center gap-2">
-        {routes.map((route) => {
-          const sName = isTymc
-            ? route.s
-            : getStationNameById(page, route.s, i18n.language) || route.s;
-          const eName = isTymc
-            ? route.e
-            : getStationNameById(page, route.e, i18n.language) || route.e;
-          const label = `${sName} ➔ ${eName}`;
-          return (
-            <Link
-              key={`${route.s}-${route.e}`}
-              href={{
-                pathname: searchPath,
-                query: {
-                  s: route.s,
-                  e: route.e,
-                },
-              }}
-              onClick={(e) => handleRouteClick(e, route.s, route.e)}
-              title={`${label} ${t(page + "Title")}`}
-              className="rounded-full border border-zinc-400 px-4 py-1.5 text-xs text-zinc-600 transition-all hover:border-silverLakeBlue-500 hover:text-silverLakeBlue-500 dark:border-zinc-500 dark:text-zinc-300 dark:hover:border-gamboge-500 dark:hover:text-gamboge-500"
-            >
-              {label}
-            </Link>
-          );
-        })}
-      </div>
-    </div>
-  );
+  const items: QuickPickItem[] = routes.map((route) => {
+    const sName = isTymc
+      ? route.s
+      : getStationNameById(page, route.s, i18n.language) || route.s;
+    const eName = isTymc
+      ? route.e
+      : getStationNameById(page, route.e, i18n.language) || route.e;
+    const label = `${sName} ➔ ${eName}`;
+    return {
+      key: `${route.s}-${route.e}`,
+      label,
+      href: { pathname: searchPath, query: { s: route.s, e: route.e } },
+      onClick: (e: React.MouseEvent<HTMLAnchorElement>) =>
+        handleRouteClick(e, route.s, route.e),
+      title: `${label} ${t(page + "Title")}`,
+    };
+  });
+
+  return <QuickPickPills title={t("popularRoutes")} items={items} />;
 };
 
 export default PopularRoutes;

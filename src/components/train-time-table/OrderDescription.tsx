@@ -21,11 +21,11 @@ const AnnouncementContent: FC = () => {
           return (
             <div
               key={index}
-              className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-700"
+              className="overflow-x-auto rounded-lg border border-border"
             >
               <table className="w-full border-collapse text-center text-sm [text-align-last:center]">
                 <thead>
-                  <tr className="border-b border-zinc-200 bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-700">
+                  <tr className="border-b border-border bg-muted">
                     <th className="px-3 py-2 font-semibold">{t("railway")}</th>
                     <th className="px-3 py-2 font-semibold">
                       <span className="flex justify-center text-center">
@@ -40,10 +40,10 @@ const AnnouncementContent: FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
+                  <tr className="border-b border-border">
                     <td className="px-3 py-2 font-medium">{t("tr")}</td>
                     <td className="px-3 py-2">
-                      <span className="flex justify-center text-center text-orange-500 dark:text-orange-400">
+                      <span className="flex justify-center text-center text-warning">
                         {t("waitingForTdx")}
                       </span>
                     </td>
@@ -56,7 +56,7 @@ const AnnouncementContent: FC = () => {
                   <tr>
                     <td className="px-3 py-2 font-medium">{t("thsr")}</td>
                     <td className="px-3 py-2">
-                      <span className="flex justify-center text-center text-emerald-600 dark:text-emerald-400">
+                      <span className="flex justify-center text-center text-success">
                         {t("seatDataConnected")}
                       </span>
                     </td>

@@ -18,7 +18,8 @@ const FavoriteButton: FC = () => {
   const { t } = useTranslation();
   const params = useContext(SearchAreaContext);
   const { user, loginWithGoogle } = useAuth();
-  const { addFavorite, removeFavorite, isFavorite } = useFavoriteRoutes();
+  const { limit, addFavorite, removeFavorite, isFavorite } =
+    useFavoriteRoutes();
   const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
 
   const [loginOpen, setLoginOpen] = useState(false);
@@ -84,7 +85,7 @@ const FavoriteButton: FC = () => {
         title="favoriteLimitTitle"
         confirmText="gotItLabel"
       >
-        {t("favoriteLimitReached")}
+        {t("favoriteLimitReached", { max: limit })}
       </CommonDialog>
     </>
   );

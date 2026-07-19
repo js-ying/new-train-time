@@ -1,4 +1,50 @@
+/** 公告內文片段，className 吃 Tailwind class 以套用字級/顏色 */
+export interface UpdateContentSegment {
+  text: string;
+  className?: string;
+}
+
+/** 公告內文：純文字，或需要分段套樣式時改用片段陣列 */
+export type UpdateContent = string | UpdateContentSegment[];
+
 export const updateDataList = [
+  {
+    date: "2026-07",
+    type: "both",
+    ver: "4.0.0",
+    items: [
+      {
+        type: "new",
+        content: [
+          {
+            text: "新功能：公車動態查詢，掌握全台公車即時到站時間\n",
+            className: "",
+          },
+          {
+            text: "1. 登入一般會員，即可收藏 5 組「常用站牌」（付費會員 10 組）\n",
+            className: "text-sm",
+          },
+          {
+            text: "2. 登入一般會員，即可每 10 秒自動更新公車到站時間",
+            className: "text-sm",
+          },
+        ],
+      },
+      {
+        type: "update",
+        content: "台鐵北上 / 南下時刻表加入歷史查詢與常用路線功能",
+      },
+      {
+        type: "update",
+        content: "台鐵北上 / 南下時刻表加入手動更新按鈕以因應無搜尋按鈕的情境",
+      },
+      {
+        type: "update",
+        content:
+          "台鐵北上 / 南下時刻表隱藏「離我最近車站」按鈕的文字，僅留定位圖示",
+      },
+    ],
+  },
   {
     date: "2026-06",
     type: "both",

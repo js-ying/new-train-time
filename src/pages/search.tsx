@@ -2,6 +2,7 @@ import AdBanner from "@/components/common/AdBanner";
 import Loading from "@/components/common/Loading";
 import Layout from "@/components/layout/Layout";
 
+import CommonAlert from "@/components/common/CommonAlert";
 import CommonDialog from "@/components/common/CommonDialog";
 import DynamicAnnouncements from "@/components/search-area/alert/DynamicAnnouncements";
 import OperationAlert from "@/components/search-area/alert/OperationAlert";
@@ -23,7 +24,6 @@ import usePage from "@/hooks/usePage";
 import { ReportTrainType } from "@/services/reportService";
 import AdUtils from "@/utils/AdUtils";
 import DateUtils from "@/utils/DateUtils";
-import Alert from "@mui/material/Alert";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -151,13 +151,9 @@ const Search: FC = () => {
             {/* 超過 27 天的高鐵定期時刻表提示 */}
             {hasResult && isGeneralTimetable && (
               <div className="mb-5 pt-2">
-                <Alert
-                  severity="info"
-                  variant="outlined"
-                  className="rounded-xl"
-                >
+                <CommonAlert severity="info">
                   {t("generalTimetableAlertMsg")}
-                </Alert>
+                </CommonAlert>
               </div>
             )}
 

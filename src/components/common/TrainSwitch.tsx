@@ -18,7 +18,7 @@ const TrainSwitch: FC = () => {
   const { page } = usePage();
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const trains = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC];
+  const trains = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC, PageEnum.BUS];
 
   const handleTrainSwitch = (targetPage: PageEnum) => {
     setParams({
@@ -37,6 +37,7 @@ const TrainSwitch: FC = () => {
     if (targetPage === PageEnum.TR) gaClickEvent(GaEnum.TR_TITLE);
     else if (targetPage === PageEnum.THSR) gaClickEvent(GaEnum.THSR_TITLE);
     else if (targetPage === PageEnum.TYMC) gaClickEvent(GaEnum.TYMC_TITLE);
+    else if (targetPage === PageEnum.BUS) gaClickEvent(GaEnum.BUS_TITLE);
   };
 
   return (
@@ -59,8 +60,8 @@ const TrainSwitch: FC = () => {
               rounded-md px-3 py-1 text-sm font-bold transition-all
               ${
                 isActive
-                  ? "bg-zinc-200/80 text-silverLakeBlue-500 shadow-sm dark:bg-zinc-700 dark:text-gamboge-500"
-                  : "text-zinc-400 hover:bg-zinc-200/80 hover:text-zinc-600 dark:hover:bg-zinc-700 dark:hover:text-zinc-300"
+                  ? "bg-muted/80 text-primary shadow-sm dark:bg-muted"
+                  : "text-muted-foreground hover:bg-muted/80 hover:text-zinc-600 dark:hover:bg-muted dark:hover:text-zinc-300"
               }
             `}
           >

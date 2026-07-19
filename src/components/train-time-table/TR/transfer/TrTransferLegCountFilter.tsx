@@ -63,27 +63,26 @@ const TrTransferLegCountFilter: FC<TrTransferLegCountFilterProps> = ({
         // Table 層可改傳 grid col-span + 響應式寬度做手機配比
         base: className,
         // bg-background + text-foreground：light 白底黑字、dark 深底白字。
-        // border 顏色對齊 common-input 的 border-zinc-300；
-        // hover 配色對齊 Area.tsx：light = zinc-700 白字、dark = silverLakeBlue-500 白字。
-        // 加 group：value slot 文字色用 group-data 響應 trigger hover 才能變白。
+        // hover 配色用 cta token（與 Area / SearchButton 同組）。
+        // 加 group：value slot 文字色用 group-data 響應 trigger hover 才能變色。
         // transition-colors + duration-200 給 hover 顏色切換動畫
         trigger:
-          "group h-8 min-h-fit bg-background text-foreground border border-zinc-300 dark:border-zinc-500 transition-colors duration-200 data-[hover=true]:bg-zinc-700 data-[hover=true]:text-white data-[hover=true]:border-zinc-700 dark:data-[hover=true]:bg-silverLakeBlue-500 dark:data-[hover=true]:border-silverLakeBlue-500",
-        value: "text-sm transition-colors duration-200 group-data-[hover=true]:text-white",
+          "group h-8 min-h-fit bg-background text-foreground border border-input transition-colors duration-200 data-[hover=true]:bg-cta data-[hover=true]:text-cta-foreground data-[hover=true]:border-cta",
+        value: "text-sm transition-colors duration-200 group-data-[hover=true]:text-cta-foreground",
         // 下拉開啟後的選項面板：跟 trigger 一致用 background；dark 加 border 拉開層次
         popoverContent:
-          "bg-background border border-zinc-300 dark:border-zinc-500",
+          "bg-background border border-input",
       }}
     >
       {options.map((opt) => (
         <SelectItem
           key={opt.key}
           classNames={{
-            // 亮色 hover 用 zinc-200（zinc-50/100 在白底上幾乎看不出反白）；dark 保留 zinc-700 確保對比。
+            // hover 用 muted（更淺的階在白底上幾乎看不出反白）。
             // HeroUI SelectItem 預設 solid+default 同時掛了 data-[hover=true]:bg-default
             // 以及 data-[selectable=true]:focus:bg-default；shouldFocusOnHover 讓滑鼠 hover 時
             // 兩條都觸發，且 focus 那條 specificity 較高（0,2,0 > 0,1,0），不一起覆蓋就會被吃掉
-            base: "data-[hover=true]:bg-zinc-200 data-[selectable=true]:focus:bg-zinc-200 dark:data-[hover=true]:bg-zinc-700 dark:data-[selectable=true]:focus:bg-zinc-700",
+            base: "data-[hover=true]:bg-muted data-[selectable=true]:focus:bg-muted",
           }}
         >
           {opt.label}
