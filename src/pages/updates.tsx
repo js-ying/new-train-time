@@ -5,6 +5,7 @@ import {
   oldThsrUpdateDataList,
   oldTrUpdateDataList,
   updateDataList,
+  type UpdateContent,
 } from "@/data/updatesData";
 import { GaEnum } from "@/enums/GaEnum";
 import useLang from "@/hooks/useLang";
@@ -118,9 +119,27 @@ interface UpdateListProps {
     date: string;
     type: string;
     ver: string;
-    items: { type: string; content: string }[] | string[];
+    items: { type: string; content: UpdateContent }[] | string[];
   }[];
 }
+
+/**
+ * 公告內文渲染
+ * 片段陣列時逐段套 className，純字串維持原樣
+ */
+const UpdateContentText: FC<{ content: UpdateContent }> = ({ content }) => {
+  if (typeof content === "string") return <>{content}</>;
+
+  return (
+    <>
+      {content.map((segment, index) => (
+        <span key={index} className={segment.className}>
+          {segment.text}
+        </span>
+      ))}
+    </>
+  );
+};
 
 /**
  * 更新記錄類型與顯示樣式的映射表
@@ -162,18 +181,18 @@ const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
               <div>{`${data.date}`}</div>
             </div>
             <div className="flex list-inside list-decimal flex-col gap-1.5 whitespace-pre-line">
-              {data.items.map((item) => {
+              {data.items.map((item, index) => {
                 return (
-                  <div
-                    key={item.content || item}
-                    className="flex items-center gap-2"
-                  >
+                  <div key={index} className="flex items-start gap-2">
                     {item.type && (
                       <Chip className={chipColorMap[item.type].color} size="sm">
                         {chipColorMap[item.type].desc}
                       </Chip>
                     )}
-                    {item.content || item}
+                    {/* 包一層避免多個片段各自成為 flex item 被 gap 撐開 */}
+                    <div className="min-w-0 flex-1">
+                      <UpdateContentText content={item.content || item} />
+                    </div>
                   </div>
                 );
               })}
