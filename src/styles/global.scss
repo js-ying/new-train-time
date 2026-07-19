@@ -121,6 +121,11 @@ body .subpixel-antialiased {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* HeroUI 元件 base 自帶 font-normal(400)，與 body 的 500 不同字重，故需覆寫 */
+body .font-normal {
+  font-weight: 500;
+}
+
 h1 {
   @apply text-xl;
 }
