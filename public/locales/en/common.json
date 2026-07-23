@@ -190,7 +190,7 @@
   "favoriteStationLimitReached": "You can save up to {{ max }} favorite stations. Please remove one first.",
   "favoritesStopTab": "Favorite Stops",
   "favoritesStopInquiry": "Favorite Stops: {{ nowLength }} / {{ max }}",
-  "favoritesStopEmptyHint": "No favorites yet. Tap the heart on a route at any stop page.",
+  "favoritesStopEmptyHint": "No favorite stops yet.",
   "favoriteStopRequiresLogin": "Saving stop arrivals requires login. Sign in now?",
   "favoriteStopLimitReached": "You can save up to {{ max }} stop arrivals. Please remove one first.",
   "autoRefreshIdleTitle": "You seem to have stepped away",

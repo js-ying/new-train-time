@@ -347,7 +347,9 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
             key="stopFavorites"
             title={tabTitle(t("favoritesStopTab"), stopCount, favoriteLimit)}
           >
-            <div className="-mt-1 flex justify-center">
+            <div
+              className={`${stopCount > 0 ? "-mt-1" : "mt-1"} flex justify-center`}
+            >
               {stopCount > 0 ? (
                 stopFavorites.content
               ) : (

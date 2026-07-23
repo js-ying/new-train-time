@@ -190,7 +190,7 @@
   "favoriteStationLimitReached": "最多只能收藏 {{ max }} 個車站，請先移除一個再收藏。",
   "favoritesStopTab": "常用站牌",
   "favoritesStopInquiry": "常用站牌：共 {{ nowLength }} / {{ max }} 筆",
-  "favoritesStopEmptyHint": "尚無收藏，可在站牌頁對路線點愛心收藏",
+  "favoritesStopEmptyHint": "尚無收藏常用站牌",
   "favoriteStopRequiresLogin": "收藏站牌路線需要登入，要現在登入嗎？",
   "favoriteStopLimitReached": "最多只能收藏 {{ max }} 筆站牌路線，請先移除一筆再收藏。",
   "autoRefreshIdleTitle": "您似乎已離開",
