@@ -37,6 +37,8 @@ const CommonLightbox: FC<CommonLightboxProps> = ({
       styles={{
         icon: { height: 22, width: 22 },
         container: { backgroundColor: "rgba(0, 0, 0, .8)" },
+        // 讓出頂部 toolbar（頁數/放大鏡/關閉）與左右導覽箭頭空間，避免被圖片蓋住
+        slide: { paddingTop: 56, paddingLeft: 56, paddingRight: 56 },
       }}
     />
   );
