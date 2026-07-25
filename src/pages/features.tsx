@@ -10,6 +10,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { featureImgList } from "@/data/featuresData";
 import { FC, useMemo, useState } from "react";
 
+// 功能截圖 S3 base：v3 改用 webp + us-east-1 區域端點
+const FEATURE_IMG_BASE =
+  "https://jsying1994.s3.us-east-1.amazonaws.com/traintime/features/v3";
+
 export async function getStaticProps({ locale }) {
   return {
     props: {
@@ -53,7 +57,7 @@ const FeaturesGallery: FC = () => {
     () =>
       featureImgList.map((img) => {
         return {
-          src: `https://jsying1994.s3.amazonaws.com/traintime/features/v2/${img.imgName}`,
+          src: `${FEATURE_IMG_BASE}/${img.imgName}`,
         };
       }),
     [],
@@ -65,7 +69,7 @@ const FeaturesGallery: FC = () => {
     <div className="overflow-x-auto whitespace-nowrap">
       {featureImgList.map((img, index) => (
         <Image
-          src={`https://jsying1994.s3.amazonaws.com/traintime/features/v2/${img.imgName}`}
+          src={`${FEATURE_IMG_BASE}/${img.imgName}`}
           alt={`${img.title}`}
           key={img.imgName}
           width={248}

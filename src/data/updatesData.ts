@@ -17,6 +17,10 @@ export const updateDataList = [
         type: "update",
         content: "手機版彈窗支援手勢下拉關閉，操作更貼近原生 App",
       },
+      {
+        type: "update",
+        content: "更新「特色介紹」頁面圖片",
+      },
     ],
   },
   {

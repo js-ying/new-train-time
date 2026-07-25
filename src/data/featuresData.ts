@@ -1,43 +1,51 @@
 const featureImgList = [
   {
-    imgName: "jsy_traintime_feature_01-light-dark-mode.png",
-    title: "light-dark-mode",
+    imgName: "1_light-dark-theme.webp",
+    title: "light-dark-theme",
   },
   {
-    imgName: "jsy_traintime_feature_02-ch-en-lang.png",
-    title: "ch-en-lang",
+    imgName: "2_i18n.webp",
+    title: "i18n",
   },
   {
-    imgName: "jsy_traintime_feature_03-multi-rail-switch.png",
-    title: "multi-rail-switch",
+    imgName: "3_multi-train-and-bus.webp",
+    title: "multi-train-and-bus",
   },
   {
-    imgName: "jsy_traintime_feature_04-tra-delay-info.png",
-    title: "tra-delay-info",
+    imgName: "4_tr-delay-info.webp",
+    title: "tr-delay-info",
   },
   {
-    imgName: "jsy_traintime_feature_05-realtime-operation-message.png",
-    title: "realtime-operation-message",
+    imgName: "5_operation-info.webp",
+    title: "operation-info",
   },
   {
-    imgName: "jsy_traintime_feature_06-install-to-desktop.png",
-    title: "install-to-desktop",
+    imgName: "6_tr-single-station-timetable.webp",
+    title: "tr-single-station-timetable",
   },
   {
-    imgName: "jsy_traintime_feature_07-pwa.png",
-    title: "pwa",
+    imgName: "7_tr-transfer.webp",
+    title: "tr-transfer",
   },
   {
-    imgName: "jsy_traintime_feature_08-hisotry-inquiry.png",
-    title: "hisotry-inquiry",
+    imgName: "8_detail-capture.webp",
+    title: "detail-capture",
   },
   {
-    imgName: "jsy_traintime_feature_09-station-select.png",
-    title: "station-select",
+    imgName: "9_all-taiwan-bus-route.webp",
+    title: "all-taiwan-bus-route",
   },
   {
-    imgName: "jsy_traintime_feature_10-traininfo-detail.png",
-    title: "traininfo-detail",
+    imgName: "10_favorite-bus-stop.webp",
+    title: "favorite-bus-stop",
+  },
+  {
+    imgName: "11_web-to-app-1.webp",
+    title: "web-to-app-1",
+  },
+  {
+    imgName: "12_web-to-app-2.webp",
+    title: "web-to-app-2",
   },
 ];
 
