@@ -1,12 +1,11 @@
 import {
-  Button,
-  Checkbox,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@heroui/react";
+} from "@/components/common/SwipeableModal";
+import { Button, Checkbox } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useState } from "react";
 

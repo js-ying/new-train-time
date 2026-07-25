@@ -11,13 +11,13 @@ import {
 import { getNameLangKey } from "@/utils/LocaleUtils";
 import { getThsrGeneralTrainInfo } from "@/utils/TrainInfoUtils";
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@heroui/react";
+} from "@/components/common/SwipeableModal";
+import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import ThsrStopTimesTable from "./details/ThsrStopTimesTable";

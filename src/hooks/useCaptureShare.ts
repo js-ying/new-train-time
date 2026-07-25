@@ -19,6 +19,8 @@ export const useCaptureShare = ({
   const [_, downloadPng] = useToPng<HTMLDivElement>({
     selector,
     quality: 0.8,
+    // 截圖排除下滑握把等標記 .capture-ignore 的節點
+    filter: (node) => !node.classList?.contains("capture-ignore"),
     onSuccess: async (base64Image: string) => {
       const imageName = `${imageNamePrefix}_${new Date().getTime()}`;
 

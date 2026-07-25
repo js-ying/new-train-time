@@ -4,7 +4,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@heroui/react";
+} from "@/components/common/SwipeableModal";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { FC } from "react";

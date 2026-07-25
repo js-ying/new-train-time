@@ -12,13 +12,13 @@ import {
 } from "@/models/jsy-bus-info";
 import { ApiError } from "@/models/problem-details";
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@heroui/react";
+} from "@/components/common/SwipeableModal";
+import { Button } from "@heroui/react";
 import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC, Fragment, ReactNode } from "react";

@@ -11,6 +11,17 @@ export const updateDataList = [
   {
     date: "2026-07",
     type: "both",
+    ver: "4.0.1",
+    items: [
+      {
+        type: "update",
+        content: "手機版彈窗支援手勢下拉關閉，操作更貼近原生 App",
+      },
+    ],
+  },
+  {
+    date: "2026-07",
+    type: "both",
     ver: "4.0.0",
     items: [
       {

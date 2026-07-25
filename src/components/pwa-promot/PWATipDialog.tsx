@@ -1,10 +1,10 @@
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalHeader,
-} from "@heroui/react";
+} from "@/components/common/SwipeableModal";
+import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useState } from "react";
 import AndroidPWATip from "./AndroidPWATip";

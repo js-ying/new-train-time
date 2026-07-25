@@ -4,13 +4,13 @@ import { GaEnum } from "@/enums/GaEnum";
 import { useCaptureShare } from "@/hooks/useCaptureShare";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@heroui/react";
+} from "@/components/common/SwipeableModal";
+import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { Dispatch, FC, SetStateAction } from "react";
 import TymcStoppingStations from "./details/TymcStoppingStations";

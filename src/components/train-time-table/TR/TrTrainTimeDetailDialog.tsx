@@ -10,13 +10,13 @@ import {
   getTrTripLineNameByValue,
 } from "@/utils/TrainInfoUtils";
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@heroui/react";
+} from "@/components/common/SwipeableModal";
+import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import TrStopTimesTable from "./details/TrStopTimesTable";
