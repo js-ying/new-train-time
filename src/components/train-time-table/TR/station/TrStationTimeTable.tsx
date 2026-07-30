@@ -24,6 +24,8 @@ interface TrStationTimeTableProps {
   onDirectionChange: (value: number) => void;
   /** 掛在方向切換同列最右的元件（如刷新按鈕）；absolute 不影響 tab 置中 */
   cornerSlot?: ReactNode;
+  /** 卡片點詳情時發現資料已非當日 → 交由頁面提示並重查 */
+  onStaleDate: () => void;
 }
 
 /** [台鐵] 單站時刻表：方向 + 對號/非對號雙篩選（皆前端），不顯示已過站班次、無票價 */
@@ -32,6 +34,7 @@ const TrStationTimeTable: FC<TrStationTimeTableProps> = ({
   directionFilter,
   onDirectionChange,
   cornerSlot,
+  onStaleDate,
 }) => {
   const { t } = useTranslation();
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
@@ -117,7 +120,11 @@ const TrStationTimeTable: FC<TrStationTimeTableProps> = ({
         <div className="flex flex-col gap-4">
           {filtered.map((trn, index) => (
             <div key={trn.trainInfo.trainNo}>
-              <TrStationTimeInfo data={trn} trainDate={data.trainDate} />
+              <TrStationTimeInfo
+                data={trn}
+                trainDate={data.trainDate}
+                onStaleDate={onStaleDate}
+              />
               {/* 最多第三筆後插廣告，不足三筆依序遞減（同 OD） */}
               {AdUtils.showAd(filtered.length, index) && (
                 <div className="mt-4 empty:hidden">

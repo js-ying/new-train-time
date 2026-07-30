@@ -23,6 +23,7 @@ import { StationTarget } from "@/models/station-history";
 import { fetchPopularStations } from "@/services/popularStationsService";
 import { fetchTrStationTimetableServerSide } from "@/services/trStationTimetableServerService";
 import AdUtils from "@/utils/AdUtils";
+import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getTrStationNameById, isValidTrStationId } from "@/utils/StationUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
@@ -117,6 +118,16 @@ const StationTimetablePage: FC<StationPageProps> = ({
   const handleRefresh = () => {
     if (!selectedStationId) return;
     refreshCooldown.attempt(() => fetchStation(selectedStationId));
+  };
+
+  // 分頁擱置跨日 → 提示已重設為今日並重查（比照 OD 日期超範圍的處理）；
+  // 不走 refreshCooldown.attempt，冷卻僅約束手動刷新鈕
+  const [staleDateDialogOpen, setStaleDateDialogOpen] = useState(false);
+  const handleStaleDate = () => {
+    if (!selectedStationId) return;
+    setStaleDateDialogOpen(true);
+    fetchStation(selectedStationId);
+    refreshCooldown.reset();
   };
 
   // 換站取得新資料後，把方向重設為該站預設（北上或第一個有車方向）；
@@ -304,6 +315,7 @@ const StationTimetablePage: FC<StationPageProps> = ({
                   onDirectionChange={handleDirectionChange}
                   // 刷新掛在北上/南下同列最右（absolute），與公車頁一致
                   cornerSlot={<RefreshButton onRefresh={handleRefresh} />}
+                  onStaleDate={handleStaleDate}
                 />
               )}
 
@@ -325,6 +337,15 @@ const StationTimetablePage: FC<StationPageProps> = ({
             {t("sameQueryCountdownMsg", {
               seconds: refreshCooldown.frozenSeconds,
             })}
+          </CommonDialog>
+
+          {/* 資料已非當日（分頁擱置跨日）：提示並已重查今日時刻表 */}
+          <CommonDialog
+            open={staleDateDialogOpen}
+            setOpen={setStaleDateDialogOpen}
+            title="reminderAlertTitle"
+          >
+            {t("datetimeNotAllowMsg", { date: DateUtils.getCurrentDate() })}
           </CommonDialog>
 
           {/* 底部可關閉廣告：查過站才掛（首入未查詢、未打 TDX，不跳廣告） */}

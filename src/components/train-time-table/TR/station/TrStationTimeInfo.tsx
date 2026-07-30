@@ -4,6 +4,7 @@ import { GaEnum } from "@/enums/GaEnum";
 import useLang from "@/hooks/useLang";
 import { JsyTrStationTrain, JsyTrTimetable } from "@/models/jsy-tr-info";
 import { getJsyTrTrainStopTimes } from "@/services/trService";
+import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getNameLangKey } from "@/utils/LocaleUtils";
 import {
@@ -22,6 +23,8 @@ interface TrStationTimeInfoProps {
   data: JsyTrStationTrain;
   /** 該班所屬日期（查列車詳情用；單站時刻表只有今日，但仍由上層帶入以利日後跨日） */
   trainDate: string;
+  /** 點詳情時發現這份時刻表已非當日（分頁擱置跨日）→ 交由上層提示並重查 */
+  onStaleDate: () => void;
 }
 
 /**
@@ -33,7 +36,11 @@ interface TrStationTimeInfoProps {
  * 點卡片 → 即時查該車完整停靠並複用 OD 詳情 dialog；停靠表只強調查詢站（完整路徑無迄站概念）。
  * 已過站班次於上層 TrStationTimeTable 已濾除。
  */
-const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({ data, trainDate }) => {
+const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
+  data,
+  trainDate,
+  onStaleDate,
+}) => {
   const { t, i18n } = useTranslation();
   const { isTw } = useLang();
   const { showTrTrainNote } = useContext(SettingContext);
@@ -52,6 +59,12 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({ data, trainDate }) => {
   const [detail, setDetail] = useState<JsyTrTimetable | null>(null);
 
   const openDetail = async () => {
+    // 分頁擱置跨日：這份時刻表已非當日，查詳情會帶到舊日期 → 改由上層提示並重查
+    if (trainDate !== DateUtils.getCurrentDate()) {
+      onStaleDate();
+      return;
+    }
+
     gaClickEvent(GaEnum.TR_TRAIN_INFO);
     if (detail) {
       setOpen(true);
