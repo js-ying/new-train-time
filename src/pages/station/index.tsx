@@ -53,7 +53,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   // GSSP 在 Next server 上跑、可達後端；取數失敗回 null 由 client 補抓
   const initialData = stationId
-    ? await fetchTrStationTimetableServerSide(stationId)
+    ? await fetchTrStationTimetableServerSide(stationId, ctx.req)
     : null;
 
   // 只在裸 hub 頁取熱門車站當可爬內容；帶站頁不需，省每次請求的後端呼叫

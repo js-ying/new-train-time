@@ -1,6 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 /**
+ * 組出轉發給後端的真實 client IP headers（cf-connecting-ip / x-forwarded-for）；
+ * 無 CF 環境（如 dev）才會用到 XFF，避免 IP 塌成 localhost。
+ */
+export const clientIpForwardHeaders = (
+  req: Pick<NextApiRequest, "headers" | "socket">,
+): Record<string, string> => {
+  const headers: Record<string, string> = {};
+  const cfIp = req.headers["cf-connecting-ip"];
+  if (typeof cfIp === "string" && cfIp) headers["cf-connecting-ip"] = cfIp;
+  const xff =
+    (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
+  if (xff) headers["x-forwarded-for"] = xff;
+  return headers;
+};
+
+/**
  * 通用的 API Proxy 處理器
  * 成功：原封不動轉發後端回應；
  * 失敗：
@@ -18,18 +34,11 @@ export const apiProxyHandler = async (
   targetUrl: string,
   method: string = "POST",
 ) => {
-  // 轉發 cf-connecting-ip 與 x-forwarded-for 供後端辨識真實 client IP；
-  // 無 CF 環境（如 dev）才會用到 XFF，避免 IP 塌成 localhost。
-  const cfIp = req.headers["cf-connecting-ip"];
-  const xff =
-    (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
-
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
+      ...clientIpForwardHeaders(req),
     };
-    if (typeof cfIp === "string" && cfIp) headers["cf-connecting-ip"] = cfIp;
-    if (xff) headers["x-forwarded-for"] = xff;
 
     if (req.headers.authorization) {
       headers["Authorization"] = req.headers.authorization as string;
