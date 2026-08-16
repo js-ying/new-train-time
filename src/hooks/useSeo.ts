@@ -1,5 +1,6 @@
 import { SeoConfig, baseUrl, seoConfigs } from "@/configs/seoConfig";
 import { PageEnum } from "@/enums/PageEnum";
+import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { localeToHreflang } from "@/utils/HreflangUtils";
 import { getOgLocale } from "@/utils/LocaleUtils";
 import { getStationNameById } from "@/utils/StationUtils";
@@ -8,7 +9,7 @@ import { useRouter } from "next/router";
 import usePage from "./usePage";
 import useSearchAreaParams from "./useSearchAreaParams";
 
-const useSeo = () => {
+const useSeo = (busRoute: JsyBusRoute | null = null) => {
   const { i18n, t } = useTranslation();
   const router = useRouter();
   const { page } = usePage();
@@ -37,11 +38,21 @@ const useSeo = () => {
     // 首頁 pathname 為 "/"，但 trailingSlash:false 下實際服務的是無尾斜線的根網址；
     // 正規化成 "" 避免 canonical / hreflang 指向會 308 重導的 "/" 或 "/en/"。
     const basePath = router.pathname === "/" ? "" : router.pathname;
+    // 公車路線頁（與 s/e 互斥）：canonical 收斂到 routeUid(+子線)，不帶 dir——兩方向同屬一條路線。
+    // 子線名取後端權威值，URL 帶非展開候選的 sub 會自然退回 route 粒度。
+    const busQueryPath = busRoute
+      ? `?routeUid=${encodeURIComponent(busRoute.routeUid)}${
+          busRoute.subRouteName
+            ? `&sub=${encodeURIComponent(busRoute.subRouteName)}`
+            : ""
+        }`
+      : "";
+
     // 僅在站號有效時才附加 query，否則 canonical / hreflang 自指乾淨的 /search 基礎路徑，
     // 不把無效 OD（?s=9999&e=8888）寫進 canonical 製造雜訊。
     const queryPath = hasValidStations
       ? `?s=${startStationId}&e=${endStationId}`
-      : "";
+      : busQueryPath;
 
     // Construct the self-referencing URL for the current page (for canonical/og:url)
     const currentLocale = i18n.language;
@@ -122,6 +133,40 @@ const useSeo = () => {
 
       return {
         seo: dynamicSeo,
+        selfUrl,
+        languageAlternates,
+        ogLocale,
+        ogAlternateLocales,
+        breadcrumbs,
+      };
+    }
+
+    // 公車路線頁：以路線名（子線優先）產出獨立 title / description
+    if (busRoute) {
+      const routeLabel = busRoute.subRouteName ?? busRoute.routeName;
+      const titleText = t("busRouteTitle", { routeName: routeLabel });
+      const fullTitle = `${titleText} - ${t(page + "Title")}`;
+
+      const description = (t: Function) =>
+        t("busRoutePageDynamicDescription", {
+          routeName: routeLabel,
+          departureStop: busRoute.departureStop,
+          destinationStop: busRoute.destinationStop,
+        });
+
+      breadcrumbs.push({
+        name: titleText,
+        item: selfUrl,
+      });
+
+      return {
+        seo: {
+          ...seoConfig,
+          title: () => fullTitle,
+          description: (t: Function) => description(t),
+          ogTitle: () => fullTitle,
+          ogDescription: (t: Function) => description(t),
+        } as SeoConfig,
         selfUrl,
         languageAlternates,
         ogLocale,

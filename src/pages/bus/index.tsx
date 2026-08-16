@@ -42,20 +42,39 @@ import {
   JsyBusStopBoardRoute,
 } from "@/models/jsy-bus-info";
 import { StationTarget } from "@/models/station-history";
+import { fetchBusRouteMetaServerSide } from "@/services/busRouteMetaServerService";
 import AdUtils from "@/utils/AdUtils";
 import { parseBusStopFavoriteId } from "@/utils/BusStopFavoriteUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import type { GetServerSidePropsContext } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import { FC, useEffect, useRef, useState } from "react";
 
-// i18n（公車頁為即時看板，不做 SSR 取數；資料於 client 抓 + 輪詢）
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return { props: { ...(await serverSideTranslations(locale)) } };
+interface BusPageProps {
+  /** SSR 取得的路線識別（供 SEO title / canonical）；站牌模式或取數失敗為 null */
+  routeMeta: JsyBusRoute | null;
+}
+
+// i18n + 路線識別（看板即時資料仍於 client 抓 + 輪詢，此處只取路線名等識別資訊供 SEO）
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { locale, query } = ctx;
+  const routeUid = typeof query.routeUid === "string" ? query.routeUid : null;
+  const sub = typeof query.sub === "string" ? query.sub : null;
+
+  // 站牌模式（?stopUid=）與路線互斥，不取；取數失敗回 null，title 退回通用文案
+  const routeMeta =
+    routeUid && !query.stopUid
+      ? await fetchBusRouteMetaServerSide(routeUid, sub, ctx.req)
+      : null;
+
+  return {
+    props: { ...(await serverSideTranslations(locale)), routeMeta },
+  };
 }
 
 const VALID_SOURCES: BusSource[] = ["city", "intercity", "taiwantrip"];
@@ -140,7 +159,7 @@ const InfoIcon: FC = () => (
 );
 
 /** [頁面] 公車路線即時到站查詢（模糊搜 → 選路線 → 去/返程即時看板，輪詢刷新）。 */
-const BusPage: FC = () => {
+const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
   const muiTheme = useMuiTheme();
   const router = useRouter();
   const { t } = useTranslation();
@@ -500,9 +519,25 @@ const BusPage: FC = () => {
       <StationFavoriteButton trainType="BUS" target={busFavoriteTarget} />
     ) : null;
 
+  // SEO 身分以當前 URL 為準（換路線走 shallow push 不重跑 gSSP，routeMeta 可能已非當前這條）；
+  // routeMeta 優先於 selectedRoute——後者在首次 SSR 渲染時尚未設定、冷開名稱亦僅為佔位。
+  const queryRouteUid =
+    typeof router.query.routeUid === "string" ? router.query.routeUid : null;
+  const querySub =
+    typeof router.query.sub === "string" ? router.query.sub : null;
+  const matchesUrl = (r: JsyBusRoute | null | undefined): boolean =>
+    !!queryRouteUid &&
+    r?.routeUid === queryRouteUid &&
+    (r?.subRouteName ?? null) === querySub;
+  const seoRoute = matchesUrl(routeMeta)
+    ? routeMeta
+    : matchesUrl(selectedRoute)
+      ? selectedRoute
+      : null;
+
   return (
     <>
-      <PageSeo />
+      <PageSeo busRoute={seoRoute} />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto w-full max-w-xl">

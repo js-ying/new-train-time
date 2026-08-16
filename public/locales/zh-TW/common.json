@@ -52,6 +52,8 @@
   "busTitle": "公車動態查詢",
   "busDropdown": "公車",
   "busPageDescription": "查詢全台市區公車、公路客運與台灣好行路線的即時動態與到站時間。輸入路線號即可看去程／返程各站的進站狀態與預估到站，通勤候車更從容。",
+  "busRouteTitle": "{{routeName}} 公車路線",
+  "busRoutePageDynamicDescription": "查詢 {{routeName}} 公車（{{departureStop}} - {{destinationStop}}）的即時動態與到站時間。提供去程／返程各站的進站狀態、預估到站與班表資訊，候車更從容。",
   "busRouteSearchLabel": "公車路線",
   "busRouteSearchPlaceholder": "輸入路線號（例：182）",
   "busRouteSearchEmpty": "查無路線",

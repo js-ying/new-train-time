@@ -5,11 +5,17 @@ import WebSiteJsonLd from "@/components/seo/json-ld/WebSiteJsonLd";
 import usePage from "@/hooks/usePage";
 import useSearchAreaParams from "@/hooks/useSearchAreaParams";
 import useSeo from "@/hooks/useSeo";
+import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { getStationNameById } from "@/utils/StationUtils";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import { FC } from "react";
+
+interface PageSeoProps {
+  /** 公車路線頁的 SSR 路線識別；有值時 title / canonical 改走該路線 */
+  busRoute?: JsyBusRoute | null;
+}
 
 /**
  * 各 page 在最外層渲染的 SEO 元件。
@@ -20,7 +26,7 @@ import { FC } from "react";
  * - 首頁額外加 Organization JSON-LD
  * - 搜尋頁含起訖站時額外加 TrainTrip JSON-LD
  */
-const PageSeo: FC = () => {
+const PageSeo: FC<PageSeoProps> = ({ busRoute = null }) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useRouter();
   const { isTr, page } = usePage();
@@ -32,7 +38,7 @@ const PageSeo: FC = () => {
     ogLocale,
     ogAlternateLocales,
     breadcrumbs,
-  } = useSeo();
+  } = useSeo(busRoute);
 
   // 站台根（台鐵首頁 /）掛 site-level 實體：WebSite + Organization 都是全站單例，
   // 只在根首頁宣告一次（THSR / TYMC 共用 Home 元件，但不重複掛）。

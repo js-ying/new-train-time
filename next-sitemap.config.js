@@ -2,10 +2,12 @@
 module.exports = {
   siteUrl: "https://traintime.jsy.tw",
   generateRobotsTxt: true,
-  // 排除不需要被索引的路徑
-  exclude: ["/api/*"],
+  // 排除不需要被索引的路徑；bus-sitemap.xml 是 sitemap 本身而非網頁（含語系變體）
+  exclude: ["/api/*", "/bus-sitemap.xml", "/en/bus-sitemap.xml"],
   // 設定 robots.txt 的內容
   robotsTxtOptions: {
+    // 公車路線頁 sitemap 為 server 端動態產生、不在 build 產物內，需顯式列出才會被搜尋引擎發現
+    additionalSitemaps: ["https://traintime.jsy.tw/bus-sitemap.xml"],
     policies: [
       {
         userAgent: "*",

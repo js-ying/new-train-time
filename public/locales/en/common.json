@@ -52,6 +52,8 @@
   "busTitle": "Bus Arrival Times",
   "busDropdown": "Bus",
   "busPageDescription": "Check real-time bus arrivals across Taiwan — city buses, intercity coaches, and the Taiwan Tourist Shuttle. Enter a route number to see live arrival status for each stop in both directions.",
+  "busRouteTitle": "Bus Route {{routeName}}",
+  "busRoutePageDynamicDescription": "Real-time arrivals for bus route {{routeName}} ({{departureStop}} - {{destinationStop}}). See live arrival status, estimated times, and schedules for every stop in both directions.",
   "busRouteSearchLabel": "Bus route",
   "busRouteSearchPlaceholder": "Enter a route number (e.g. 182)",
   "busRouteSearchEmpty": "No matching routes",
