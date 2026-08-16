@@ -1,5 +1,7 @@
 import Area from "@/components/search-area/Area";
-import useBusRouteSearch from "@/hooks/search/useBusRouteSearch";
+import useBusRouteSearch, {
+  BUS_ROUTE_QUERY_MAX_LEN,
+} from "@/hooks/search/useBusRouteSearch";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { useTranslation } from "next-i18next";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
@@ -129,7 +131,7 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
         <div className="mx-auto w-full md:max-w-[342px]">
           <input
             ref={inputRef}
-            type="input"
+            type="text"
             role="combobox"
             aria-expanded={showPanel}
             aria-controls="bus-route-listbox"
@@ -137,6 +139,7 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
               activeIndex >= 0 ? `bus-route-opt-${activeIndex}` : undefined
             }
             value={inputValue}
+            maxLength={BUS_ROUTE_QUERY_MAX_LEN}
             onChange={(e) => handleInput(e.target.value)}
             onKeyDown={handleKeyDown}
             className="common-input mt-2"

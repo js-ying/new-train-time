@@ -7,6 +7,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 const SEARCH_DEBOUNCE_MS = 300;
 /** 候選數量上限（後端會 clamp 至 50，前端取較精簡值）。 */
 const SEARCH_LIMIT = 30;
+/** 查詢字串長度上限，對齊後端 MAX_SEARCH_Q_LEN；超過必被擋成 400，不送。 */
+export const BUS_ROUTE_QUERY_MAX_LEN = 50;
 
 interface UseBusRouteSearchResult {
   suggestions: JsyBusRoute[];
@@ -19,7 +21,7 @@ interface UseBusRouteSearchResult {
 /**
  * 公車路線模糊搜 hook。
  * - 鍵入防抖 300ms，後一次查詢會 abort 前一次仍在飛行的請求。
- * - 空字串清空候選、不打後端（後端 q 必填）。
+ * - 空字串或超過長度上限清空候選、不打後端（後端 q 必填且限長）。
  */
 export const useBusRouteSearch = (): UseBusRouteSearchResult => {
   const [suggestions, setSuggestions] = useState<JsyBusRoute[]>([]);
@@ -65,8 +67,8 @@ export const useBusRouteSearch = (): UseBusRouteSearchResult => {
     (q: string) => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
       const trimmed = q.trim();
-      // 空字串：清空候選、取消飛行請求，不打後端
-      if (!trimmed) {
+      // 空字串或超長：清空候選、取消飛行請求，不打後端（後端 q 必填且有長度上限）
+      if (!trimmed || trimmed.length > BUS_ROUTE_QUERY_MAX_LEN) {
         abortRef.current?.abort();
         setSuggestions([]);
         setError(null);
