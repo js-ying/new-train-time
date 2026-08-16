@@ -54,7 +54,7 @@ const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
   const [isShowOtherFareList, setIsShowOtherFareList] = useState(false);
 
   return (
-    <div className={`sticky top-0 flex flex-wrap gap-2`}>
+    <div className="flex flex-wrap gap-2">
       {adultFares.map((fare) => {
         return (
           <span

@@ -14,7 +14,8 @@ interface ThsrTrainTimeTableProps {
 const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
   return (
     <>
-      <div className="sticky top-0 z-10 mb-2 bg-background pb-2 pt-2">
+      {/* sticky 頂部：票價與班次數，-mx-4/px-4 讓毛玻璃底延伸至內容區左右邊 */}
+      <div className="sticky top-0 z-10 -mx-4 mb-2 bg-background/20 px-4 py-2 backdrop-blur-md">
         <TrainTimeNavbar totalCount={data.timeTables.length} filterCount={null}>
           <ThsrPriceInfo dataList={data.fareList} showLabel={true} />
         </TrainTimeNavbar>
