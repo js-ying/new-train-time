@@ -30,7 +30,7 @@ const WebIntroduction: FC = () => {
     <div className="grid grid-cols-3 gap-4 pt-4">
       <div className="max-h-[200px] max-w-[200px]">
         <Image
-          src={`https://jsying1994.s3.amazonaws.com/traintime/logo/logo-lg.png`}
+          src="https://jsying1994.s3.us-east-1.amazonaws.com/traintime/logo/logo-lg.png"
           alt="traintime-logo"
           sizes="100vw"
         />

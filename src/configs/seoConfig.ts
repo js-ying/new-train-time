@@ -5,7 +5,7 @@ export const baseUrl = "https://traintime.jsy.tw";
 
 /** 全站固定 OG 圖（NextSeo 未覆寫時的 fallback） */
 export const defaultOgImage =
-  "https://jsying1994.s3.amazonaws.com/traintime/logo/og-new-train-time-v2.png";
+  "https://jsying1994.s3.us-east-1.amazonaws.com/traintime/logo/og-new-train-time-v2.png";
 
 /**
  * next-seo 的 <DefaultSeo> 全域設定。

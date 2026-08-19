@@ -11,7 +11,7 @@ const OrganizationJsonLd: FC = () => {
     "@type": "Organization",
     name: "JSY",
     url: baseUrl,
-    logo: "https://jsying1994.s3.amazonaws.com/traintime/logo/logo.png",
+    logo: "https://jsying1994.s3.us-east-1.amazonaws.com/traintime/logo/logo.png",
   };
 
   return (
