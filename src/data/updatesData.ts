@@ -9,6 +9,31 @@ export type UpdateContent = string | UpdateContentSegment[];
 
 export const updateDataList = [
   {
+    date: "2026-08",
+    type: "both",
+    ver: "4.0.2",
+    items: [
+      {
+        type: "update",
+        content:
+          "現在點擊已過期的台鐵轉乘與台鐵北上 / 南下時刻表的列車資訊時，會提示使用者需重新查詢",
+      },
+      {
+        type: "fix",
+        content: "修正台鐵轉乘的訂票功能，部份列車會帶入錯誤起迄站的問題",
+      },
+      {
+        type: "fix",
+        content:
+          "修正台鐵轉乘中，部份對號列車因始發站發車時間已過而未顯示訂票按鈕的問題",
+      },
+      {
+        type: "refactor",
+        content: "重構前後端系統，提升效能與穩定性",
+      },
+    ],
+  },
+  {
     date: "2026-07",
     type: "both",
     ver: "4.0.1",
