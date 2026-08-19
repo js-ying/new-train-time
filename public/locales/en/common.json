@@ -173,6 +173,7 @@
   "endStationIsBlankMsg": "Please select 'Arrival Station'.",
   "sameStationMsg": "'Departure Station' and 'Arrival Station' cannot be the same.",
   "datetimeNotAllowMsg": "The date is empty or out of range, so it has been reset to today. Showing results for {{date}}.",
+  "dataExpiredMsg": "This data is out of date. Please search the timetable again.",
   "sameQueryCountdownMsg": "You are querying too fast! Please try again in {{seconds}}s.",
   "closeBtn": "Close",
   "historyInquiry": "History Inquiry: {{ nowLength }} / {{ max }}",

@@ -23,7 +23,6 @@ import { StationTarget } from "@/models/station-history";
 import { fetchPopularStations } from "@/services/popularStationsService";
 import { fetchTrStationTimetableServerSide } from "@/services/trStationTimetableServerService";
 import AdUtils from "@/utils/AdUtils";
-import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { getTrStationNameById, isValidTrStationId } from "@/utils/StationUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
@@ -120,15 +119,9 @@ const StationTimetablePage: FC<StationPageProps> = ({
     refreshCooldown.attempt(() => fetchStation(selectedStationId));
   };
 
-  // 分頁擱置跨日 → 提示已重設為今日並重查（比照 OD 日期超範圍的處理）；
-  // 不走 refreshCooldown.attempt，冷卻僅約束手動刷新鈕
+  // 分頁擱置跨日 → 只提示資料已過期，重查交還使用者（不代查今日，避免畫面無預警換掉）
   const [staleDateDialogOpen, setStaleDateDialogOpen] = useState(false);
-  const handleStaleDate = () => {
-    if (!selectedStationId) return;
-    setStaleDateDialogOpen(true);
-    fetchStation(selectedStationId);
-    refreshCooldown.reset();
-  };
+  const handleStaleDate = () => setStaleDateDialogOpen(true);
 
   // 換站取得新資料後，把方向重設為該站預設（北上或第一個有車方向）；
   // ref 守住首載：SSR 帶站時不覆寫 initialDir 解析出的初值。
@@ -339,13 +332,13 @@ const StationTimetablePage: FC<StationPageProps> = ({
             })}
           </CommonDialog>
 
-          {/* 資料已非當日（分頁擱置跨日）：提示並已重查今日時刻表 */}
+          {/* 資料已非當日（分頁擱置跨日）：提示過期，由使用者自行重查 */}
           <CommonDialog
             open={staleDateDialogOpen}
             setOpen={setStaleDateDialogOpen}
             title="reminderAlertTitle"
           >
-            {t("datetimeNotAllowMsg", { date: DateUtils.getCurrentDate() })}
+            {t("dataExpiredMsg")}
           </CommonDialog>
 
           {/* 底部可關閉廣告：查過站才掛（首入未查詢、未打 TDX，不跳廣告） */}

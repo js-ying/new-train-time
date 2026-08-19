@@ -99,8 +99,6 @@ export interface JsyTrTransferLeg {
   boardStopTime: JsyTrStopTime;
   /** 下車站停靠資訊 */
   alightStopTime: JsyTrStopTime;
-  /** 該段車次完整停靠時刻（含起訖站） */
-  stopTimes: JsyTrStopTime[];
   /** 該段票價；無票價資料時為 null（UI 不顯示票價，欄位保留以備未來使用） */
   fare: JsyTrFare | null;
 }
