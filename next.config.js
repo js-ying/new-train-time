@@ -24,6 +24,17 @@ const withPWA = require("next-pwa")({
 
 module.exports = withPWA({
   i18n,
+  // 回應壓縮交給上游 Apache（mod_brotli），Next 內建只有 gzip 且與 SSR 搶同一條 event loop
+  compress: false,
+  async headers() {
+    return [
+      {
+        // public/images 檔名不帶 hash，給可 revalidate 的 7 天而非 immutable
+        source: "/images/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=604800" }],
+      },
+    ];
+  },
   // Next 14 內建：只把實際 import 到的子模組打進 client bundle，
   // 對 barrel export（@heroui/react）效果最顯著；MUI 已多用路徑式 import，
   // 加進來主要是把仍有 barrel import 的子模組（@mui/x-date-pickers）一併最佳化。
