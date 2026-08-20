@@ -1,11 +1,14 @@
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { FC } from "react";
+import useDeviceDetect from "../../hooks/useDeviceDetect";
 import AddToScreenIcon from "../icons/AddToScreenIcon";
 import ShareIcon from "../icons/ShareIcon";
 
 const IOSandSafariPWATip: FC = () => {
   const { t } = useTranslation();
+  // macOS Safari 的選項是「加入 Dock 中」，非 iOS 的「加入主畫面」
+  const { isMacSafari } = useDeviceDetect();
 
   return (
     <>
@@ -16,7 +19,9 @@ const IOSandSafariPWATip: FC = () => {
         </li>
         <li className="mb-1 flex items-center">
           <AddToScreenIcon />
-          <div>2. {t("pwaStep2")}</div>
+          <div>
+            2. {isMacSafari ? t("pwaSafariDesktopStep2") : t("pwaStep2")}
+          </div>
         </li>
         <li className="flex items-center">
           <div className="flex h-8 w-12 items-center justify-center">

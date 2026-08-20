@@ -93,7 +93,7 @@ const scheduleIdle = (cb: () => void): (() => void) => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
-  const { isIOS, isStandalone } = useDeviceDetect();
+  const { isAppleMobile, isStandalone } = useDeviceDetect();
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -269,9 +269,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { signInWithPopup, signInWithRedirect } = await import(
         "firebase/auth"
       );
-      // iOS standalone PWA 必須走 redirect flow（popup 帶不回 session）；
+      // Apple 手機 PWA 必須走 redirect flow（popup 帶不回 session）；
       // 其他環境維持 popup 體驗，避免整頁 reload 打斷使用者操作
-      if (isIOS && isStandalone) {
+      if (isAppleMobile && isStandalone) {
         await signInWithRedirect(auth, provider);
         return;
       }

@@ -1,15 +1,14 @@
+import CommonAlert from "@/components/common/CommonAlert";
 import {
   Modal,
   ModalBody,
   ModalContent,
   ModalHeader,
 } from "@/components/common/SwipeableModal";
-import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { FC, useState } from "react";
-import AndroidPWATip from "./AndroidPWATip";
+import { FC } from "react";
+import useDeviceDetect from "../../hooks/useDeviceDetect";
 import IOSandSafariPWATip from "./IOSandSafariPWATip";
-import PCPWATip from "./PCPWATip";
 
 interface PWATipDialogProps {
   open: boolean;
@@ -18,8 +17,13 @@ interface PWATipDialogProps {
 
 const PWATipDialog: FC<PWATipDialogProps> = ({ open, setOpen }) => {
   const { t } = useTranslation();
-  const [tabList] = useState(["iOS", "Android", "PC"]);
-  const [active, setActive] = useState("iOS");
+  const { isAppleMobile, isMacSafari, isAndroid, canPromptInstall } =
+    useDeviceDetect();
+
+  // 四個條件各排除一種安裝管道：Apple 手機 / macOS Safari /
+  // Android 手機 / Chromium 原生 prompt，全都沒有才是真的裝不了（如桌機版 Firefox）
+  const hasNoInstallPath =
+    !isAppleMobile && !isMacSafari && !isAndroid && !canPromptInstall;
 
   return (
     <Modal
@@ -33,37 +37,27 @@ const PWATipDialog: FC<PWATipDialogProps> = ({ open, setOpen }) => {
       }}
     >
       <ModalContent>
-        {(onClose) => (
+        {() => (
           <>
             <ModalHeader className="pb-2">
               {t("installToDesktopBtn")}
             </ModalHeader>
             <ModalBody className="mb-2">
               <div className="mb-2">{t("pwaIntro")}</div>
-              <div className="mb-2 flex justify-center gap-4">
-                {tabList.map((item) => {
-                  return (
-                    <Button
-                      className={`
-                  ${
-                    active === item
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary text-secondary-foreground"
-                  }`}
-                      radius="full"
-                      size="sm"
-                      onPress={() => setActive(item)}
-                      key={item}
-                    >
-                      {item}
-                    </Button>
-                  );
-                })}
-              </div>
 
-              {active === "iOS" && <IOSandSafariPWATip />}
-              {active === "Android" && <AndroidPWATip />}
-              {active === "PC" && <PCPWATip />}
+              {hasNoInstallPath ? (
+                <CommonAlert severity="warning" className="mb-2 text-left">
+                  {t("pwaUnsupportedBrowserMsg")}
+                </CommonAlert>
+              ) : (
+                <>
+                  <IOSandSafariPWATip />
+
+                  <div className="mt-3 text-sm text-muted-foreground">
+                    {t("pwaAutoInstallMsg")}
+                  </div>
+                </>
+              )}
             </ModalBody>
           </>
         )}
