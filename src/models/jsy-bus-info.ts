@@ -145,6 +145,8 @@ export interface JsyBusRouteInfo {
   /** 平日/假日首末班車（HH:mm，跨子線彙整）；多為市區公車才有，無則略過。 */
   firstLastBus?: JsyBusFirstLastBus;
   schedules: JsyBusScheduleGroup[];
+  /** 班表暫時取不到（上游異常）；與「此路線無定期時刻表」顯示不同訊息。 */
+  schedulesUnavailable?: boolean;
 }
 
 /** 首末班車（平日/假日各一組 first/last，HH:mm）。 */

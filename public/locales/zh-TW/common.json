@@ -109,6 +109,7 @@
   "busInfoWeekday": "平日",
   "busInfoHoliday": "假日",
   "busInfoNoSchedule": "無定期時刻表資料",
+  "busInfoScheduleUnavailable": "班表暫時無法取得，請稍後再試",
   "busInfoLoading": "載入路線資訊中…",
   "busHeadwayTimeRange": "{{start}} ~ {{end}}",
   "busHeadwayInterval": "約 {{mins}} 分一班",

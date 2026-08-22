@@ -109,6 +109,7 @@
   "busInfoWeekday": "Weekday",
   "busInfoHoliday": "Holiday",
   "busInfoNoSchedule": "No timetable data",
+  "busInfoScheduleUnavailable": "Timetable temporarily unavailable, please try again later",
   "busInfoLoading": "Loading route info…",
   "busHeadwayTimeRange": "{{start}} ~ {{end}}",
   "busHeadwayInterval": "every {{mins}} min",

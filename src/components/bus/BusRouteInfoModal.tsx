@@ -356,7 +356,11 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
                           {t("busInfoSchedule")}
                         </div>
                         <div className="text-base text-zinc-400">
-                          {t("busInfoNoSchedule")}
+                          {t(
+                            info.schedulesUnavailable
+                              ? "busInfoScheduleUnavailable"
+                              : "busInfoNoSchedule",
+                          )}
                         </div>
                       </div>
                     ) : (
