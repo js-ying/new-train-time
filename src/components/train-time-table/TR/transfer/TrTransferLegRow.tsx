@@ -2,6 +2,7 @@ import CommonDialog from "@/components/common/CommonDialog";
 import Loading from "@/components/common/Loading";
 import TrTrainTimeDetailDialog from "@/components/train-time-table/TR/TrTrainTimeDetailDialog";
 import { GaEnum } from "@/enums/GaEnum";
+import useLang from "@/hooks/useLang";
 import { JsyTrTimetable, JsyTrTransferLeg } from "@/models/jsy-tr-info";
 import { getJsyTrTrainStopTimes } from "@/services/trService";
 import DateUtils from "@/utils/DateUtils";
@@ -34,6 +35,7 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
   const [loading, setLoading] = useState(false);
   const [staleDialogOpen, setStaleDialogOpen] = useState(false);
   const { t, i18n } = useTranslation();
+  const { isTw } = useLang();
   const langKey = getNameLangKey(i18n.language);
 
   // 把 leg 包成右區塊期待的 JsyTrTimetable 形狀；stopTimes 只帶該段上下車兩站（訂票 OD 與發車時間判斷皆以該段為準）
@@ -135,6 +137,7 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
             <TrTrainType
               code={leg.trainInfo.trainTypeCode}
               trainTypeName={trainTypeName}
+              className={isTw ? "mx-auto block max-w-14 text-center" : ""}
             />
           </div>
           <div>
