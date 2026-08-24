@@ -32,6 +32,7 @@ export enum GaEnum {
   HISTORY = "歷史查詢",
   SHOW_TR_TRAIN_NOTE = "顯示台鐵列車註記",
   SHOW_THSR_TRAIN_NOTE = "顯示高鐵列車註記",
+  SHOW_TYMC_TRAIN_NOTE = "顯示機捷列車註記",
   AUTO_REDIRECT_LAST_USED_PAGE = "自動跳轉至上次使用頁面",
   MOBILE_USE_TR_DIRECT_BOOKING = "切換台鐵手機訂票方式",
   MOBILE_USE_THSR_DIRECT_BOOKING = "切換高鐵手機訂票方式",

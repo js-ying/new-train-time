@@ -1,10 +1,11 @@
 import { SOLID_BADGE } from "@/configs/badgeStyles";
 import { GaEnum } from "@/enums/GaEnum";
+import { SettingContext } from "@/contexts/SettingContext";
 import { useTymcTrainDisplay } from "@/hooks/display/useTymcTrainDisplay";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
-import { FC, memo, useRef, useState } from "react";
+import { FC, memo, useContext, useRef, useState } from "react";
 import TymcTrainTimeDetailDialog from "./TymcTrainTimeDetailDialog";
 
 interface TymcTimeInfoProps {
@@ -31,12 +32,10 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
   const hasOpened = useRef(false);
   if (open) hasOpened.current = true;
   const { t } = useTranslation();
+  const { showTymcTrainNote } = useContext(SettingContext);
 
-  const { isPassed, isNormal, durationText, price } = useTymcTrainDisplay(
-    tymcTimeTable,
-    fareList,
-    trainDate,
-  );
+  const { isPassed, isNormal, durationText, isArrivalApprox, price } =
+    useTymcTrainDisplay(tymcTimeTable, fareList, trainDate);
 
   const openDetail = () => {
     gaClickEvent(GaEnum.THSR_TRAIN_INFO);
@@ -75,21 +74,23 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
               {tymcTimeTable.departureTime} -{" "}
               {tymcTimeTable.arrivalTime || t("unknown")}
             </span>
-            {durationText && (
-              <span className="whitespace-nowrap text-sm">
-                ± 3 {t("minute")}
-              </span>
-            )}
           </div>
           {durationText && (
             <div className="whitespace-nowrap text-sm text-muted-foreground">
-              {t("about")} {durationText}
+              {isArrivalApprox && `${t("about")} `}
+              {durationText}
             </div>
           )}
         </div>
         {/* Right */}
         <div className="text-center text-sm">NTD {price}</div>
       </div>
+
+      {showTymcTrainNote && isArrivalApprox && (
+        <div className="mt-1 text-xs text-muted-foreground">
+          {t("tymcArrivalNote")}
+        </div>
+      )}
 
       {(open || hasOpened.current) && (
         <TymcTrainTimeDetailDialog

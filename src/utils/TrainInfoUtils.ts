@@ -3,6 +3,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
 import { JsyThsrGeneralTimetable } from "@/models/jsy-thsr-info";
+import { JsyTymcTimetable } from "@/models/jsy-tymc-info";
 import { getNameLangKey } from "./LocaleUtils";
 
 dayjs.extend(utc);
@@ -171,3 +172,8 @@ export const isTymcTrainDirect = (trainTypeCode: number): boolean => {
 export const isTymcTrainNormal = (trainTypeCode: number): boolean => {
   return [0, 1].includes(trainTypeCode);
 };
+
+/** 桃捷抵達時刻是否為推估值（非迄站的實際到站時刻）。 */
+export const isTymcArrivalApprox = (
+  arrivalSource?: JsyTymcTimetable["arrivalSource"],
+): boolean => arrivalSource !== "exact";

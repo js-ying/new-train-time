@@ -20,6 +20,7 @@ export type DefaultSearchTab = "history" | "favorites";
 export interface SettingParams {
   showTrTrainNote: boolean;
   showThsrTrainNote: boolean;
+  showTymcTrainNote: boolean;
   autoRedirectLastUsedPage: boolean;
   mobileUseTrDirectBooking: boolean;
   mobileUseThsrDirectBooking: boolean;
@@ -38,6 +39,7 @@ export interface SettingParams {
 export const defaultSetting: SettingParams = {
   showTrTrainNote: true,
   showThsrTrainNote: true,
+  showTymcTrainNote: true,
   autoRedirectLastUsedPage: false,
   mobileUseTrDirectBooking: true,
   mobileUseThsrDirectBooking: true,
@@ -88,9 +90,9 @@ function parseStoredValue<K extends keyof SettingParams>(
     return (isThemeMode(raw) ? raw : defaultSetting.theme) as SettingParams[K];
   }
   if (key === "defaultSearchTab") {
-    return (isDefaultSearchTab(raw)
-      ? raw
-      : defaultSetting.defaultSearchTab) as SettingParams[K];
+    return (
+      isDefaultSearchTab(raw) ? raw : defaultSetting.defaultSearchTab
+    ) as SettingParams[K];
   }
   return (raw === "true") as SettingParams[K];
 }
@@ -174,7 +176,9 @@ async function pushServerSettings(
  * 將任意來源的 settings（可能只含部分欄位）與預設值合併成完整 SettingParams
  * 僅保留 SettingParams 所定義且型別正確的 key，避免後端殘留舊欄位污染 state
  */
-function mergeWithDefault(partial: Partial<SettingParams> | null): SettingParams {
+function mergeWithDefault(
+  partial: Partial<SettingParams> | null,
+): SettingParams {
   const merged: SettingParams = { ...defaultSetting };
   if (!partial) return merged;
   (Object.keys(defaultSetting) as (keyof SettingParams)[]).forEach((key) => {

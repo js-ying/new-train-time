@@ -1,6 +1,6 @@
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import DateUtils from "@/utils/DateUtils";
-import { isTrainPass } from "@/utils/TrainInfoUtils";
+import { isTrainPass, isTymcArrivalApprox } from "@/utils/TrainInfoUtils";
 import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 
@@ -39,6 +39,11 @@ export const useTymcTrainDisplay = (
     return t("trainInfoTimeDiff", { hour, min });
   }, [tymcTimeTable.runTime, t]);
 
+  const isArrivalApprox = useMemo(
+    () => isTymcArrivalApprox(tymcTimeTable.arrivalSource),
+    [tymcTimeTable.arrivalSource],
+  );
+
   const price = useMemo(() => {
     const fare = fareList.find((f) => f.ticketType === 1 && f.fareClass === 1);
     return fare ? fare.price : 0;
@@ -49,6 +54,7 @@ export const useTymcTrainDisplay = (
     isNormal,
     timeRange,
     durationText,
+    isArrivalApprox,
     price,
   };
 };

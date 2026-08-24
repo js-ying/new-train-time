@@ -188,6 +188,8 @@ const Settings: FC = () => {
   const [showTrTrainNote, setShowTrTrainNote] = useSetting("showTrTrainNote");
   const [showThsrTrainNote, setShowThsrTrainNote] =
     useSetting("showThsrTrainNote");
+  const [showTymcTrainNote, setShowTymcTrainNote] =
+    useSetting("showTymcTrainNote");
   const [autoRedirectLastUsedPage, setAutoRedirectLastUsedPage] = useSetting(
     "autoRedirectLastUsedPage",
   );
@@ -275,7 +277,21 @@ const Settings: FC = () => {
                 </div>
               </SectionCard>
 
-              {/* 4️⃣ 通用設定 */}
+              {/* 4️⃣ 機捷設定 */}
+              <SectionCard>
+                <SectionTitle>{t("tymcSetting")}</SectionTitle>
+                <div className="flex flex-col gap-3 text-sm">
+                  <IOSSwitchSetting
+                    value={showTymcTrainNote}
+                    setValue={setShowTymcTrainNote}
+                    label={t("showTymcTrainNoteSwitch")}
+                    gaEnum={GaEnum.SHOW_TYMC_TRAIN_NOTE}
+                    color="primary"
+                  />
+                </div>
+              </SectionCard>
+
+              {/* 5️⃣ 通用設定 */}
               <SectionCard>
                 <SectionTitle>{t("generalSetting")}</SectionTitle>
                 <div className="flex flex-col gap-3 text-sm">

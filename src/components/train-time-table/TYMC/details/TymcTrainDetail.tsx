@@ -2,6 +2,7 @@ import useLang from "@/hooks/useLang";
 import usePage from "@/hooks/usePage";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import { getStationNameById } from "@/utils/StationUtils";
+import { isTymcArrivalApprox } from "@/utils/TrainInfoUtils";
 import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
@@ -25,6 +26,7 @@ const TymcTrainDetail: FC<TymcTrainDetailProps> = ({
   const { page } = usePage();
   const { t, i18n } = useTranslation();
   const { isTw } = useLang();
+  const isArrivalApprox = isTymcArrivalApprox(tymcTimeTable.arrivalSource);
 
   return (
     <div className="flex flex-col gap-2">
@@ -47,15 +49,10 @@ const TymcTrainDetail: FC<TymcTrainDetailProps> = ({
         <div className="text-left">
           {tymcTimeTable.departureTime} -{" "}
           {tymcTimeTable.arrivalTime || t("unknown")}{" "}
-          {tymcTimeTable.arrivalTime && (
-            <>
-              <span className="whitespace-nowrap">± 3 {t("minute")}</span>
-              <span
-                className={`text-muted-foreground ${!isTw && "pl-1"}`}
-              >
-                {t("arrivalTimeAccuracyMsg")}
-              </span>
-            </>
+          {tymcTimeTable.arrivalTime && isArrivalApprox && (
+            <span className={`text-muted-foreground ${!isTw && "pl-1"}`}>
+              {t("arrivalTimeApproxMsg")}
+            </span>
           )}
         </div>
       </div>
