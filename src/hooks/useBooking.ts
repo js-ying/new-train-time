@@ -75,7 +75,8 @@ const useBooking = () => {
         const params: JsyTrDeeplinkDirectParams = {
           startStation,
           endStation,
-          trainDate: data.trainDate,
+          // 台鐵訂票以發車日為準，跨夜車在凌晨顯示時屬前一天
+          trainDate: data.originDate,
           trainNumber: Number(data.trainInfo.trainNo),
         };
         res = await getTrDeeplinkDirect(params);
@@ -83,7 +84,7 @@ const useBooking = () => {
         const params: JsyTrDeeplinkWebParams = {
           startStation,
           endStation,
-          departureDate: data.trainDate,
+          departureDate: data.originDate,
           departureNumber: data.trainInfo.trainNo,
           ticketType: 1,
           ticketCount: 1,

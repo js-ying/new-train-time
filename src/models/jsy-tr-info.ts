@@ -20,6 +20,8 @@ export interface JsyTrTimetable {
   fareList: JsyTrFare[];
   delayInfo: JsyTrDelay[];
   trainDate: string;
+  /** 該班車的發車日（YYYY-MM-DD）；跨夜車在凌晨顯示時為前一天 */
+  originDate: string;
 }
 
 export interface JsyTrTrainInfo {
@@ -58,6 +60,8 @@ export interface JsyTrStationTrain {
   stopTime: JsyTrStopTime;
   /** 誤點資訊（僅今日且該站發車 90 分鐘內的列車有值，其餘為空陣列） */
   delayInfo: JsyTrDelay[];
+  /** 該班車的發車日（YYYY-MM-DD）；跨夜車在凌晨顯示時為前一天 */
+  originDate: string;
 }
 
 /** 單站某方向的標示（北上/南下 與代表終點大站） */
@@ -101,6 +105,8 @@ export interface JsyTrTransferLeg {
   alightStopTime: JsyTrStopTime;
   /** 該段票價；無票價資料時為 null（UI 不顯示票價，欄位保留以備未來使用） */
   fare: JsyTrFare | null;
+  /** 該班車的發車日（YYYY-MM-DD）；跨夜車在凌晨顯示時為前一天 */
+  originDate: string;
 }
 
 /** 跨支線轉乘的單一組合（含兩段或三段） */

@@ -46,6 +46,7 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
       fareList: leg.fare ? [leg.fare] : [],
       delayInfo: [],
       trainDate,
+      originDate: leg.originDate,
     }),
     [leg, trainDate],
   );
@@ -93,6 +94,7 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
       const result = await getJsyTrTrainStopTimes(
         leg.trainInfo.trainNo,
         trainDate,
+        leg.originDate,
       );
       // 詳情 API 不回票價，沿用該段 OD 票價
       setDetail({ ...result, fareList: pseudoTimetable.fareList });

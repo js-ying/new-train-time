@@ -29,15 +29,23 @@ export const getJsyTrStationTimetable = async (
   );
 };
 
-/** 取得單一車次完整停靠時刻（單站時刻表「列車詳細資訊」用） */
+/**
+ * 取得單一車次完整停靠時刻（單站時刻表「列車詳細資訊」用）。
+ * originDate 為該班車的發車日，跨夜車在凌晨顯示時屬前一天。
+ */
 export const getJsyTrTrainStopTimes = async (
   trainNo: string,
   date?: string,
+  originDate?: string,
   signal?: AbortSignal,
 ): Promise<JsyTrTimetable> => {
   return await fetchData(
     "/api/getJsyTrTrainStopTimes",
-    { trainNo, ...(date ? { date } : {}) },
+    {
+      trainNo,
+      ...(date ? { date } : {}),
+      ...(originDate ? { originDate } : {}),
+    },
     "POST",
     signal,
     await optionalAuthHeader(),

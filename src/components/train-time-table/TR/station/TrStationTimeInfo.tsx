@@ -79,6 +79,7 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
       const result = await getJsyTrTrainStopTimes(
         data.trainInfo.trainNo,
         trainDate,
+        data.originDate,
       );
       setDetail(result);
       setOpen(true);
