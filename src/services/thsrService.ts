@@ -33,13 +33,13 @@ export const getThsrAlert = async (): Promise<JsyOperationAlert> => {
 /** 取得高鐵 App 訂票連結 */
 export const getThsrDeeplinkDirect = async (
   params: JsyThsrDeeplinkDirectParams,
-): Promise<{ data: JsyDeeplinkResponse }> => {
+): Promise<JsyDeeplinkResponse | null> => {
   return await fetchData("/api/getThsrDeeplinkDirect", params);
 };
 
 /** 取得高鐵網頁訂票連結 */
 export const getThsrDeeplinkWeb = async (
   params: JsyThsrDeeplinkWebParams,
-): Promise<{ data: JsyDeeplinkResponse }> => {
+): Promise<JsyDeeplinkResponse | null> => {
   return await fetchData("/api/getThsrDeeplinkWeb", params);
 };

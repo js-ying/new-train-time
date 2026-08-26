@@ -92,7 +92,7 @@ const useBooking = () => {
         res = await getTrDeeplinkWeb(params);
       }
 
-      const deeplink = res.data?.deeplink;
+      const deeplink = res?.deeplink;
 
       if (deeplink) {
         navigateToDeeplink(deeplink, isUseDirect, "TR");
@@ -150,7 +150,7 @@ const useBooking = () => {
         res = await getThsrDeeplinkWeb(params);
       }
 
-      const deeplink = res.data?.deeplink;
+      const deeplink = res?.deeplink;
 
       if (deeplink) {
         navigateToDeeplink(deeplink, isUseDirect, "THSR");

@@ -94,13 +94,13 @@ export const getTrAlert = async (): Promise<JsyOperationAlert> => {
 /** 取得台鐵 App 訂票連結 */
 export const getTrDeeplinkDirect = async (
   params: JsyTrDeeplinkDirectParams,
-): Promise<{ data: JsyDeeplinkResponse }> => {
+): Promise<JsyDeeplinkResponse | null> => {
   return await fetchData("/api/getTraDeeplinkDirect", params);
 };
 
 /** 取得台鐵網頁訂票連結 */
 export const getTrDeeplinkWeb = async (
   params: JsyTrDeeplinkWebParams,
-): Promise<{ data: JsyDeeplinkResponse }> => {
+): Promise<JsyDeeplinkResponse | null> => {
   return await fetchData("/api/getTraDeeplinkWeb", params);
 };
