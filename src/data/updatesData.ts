@@ -11,6 +11,32 @@ export const updateDataList = [
   {
     date: "2026-08",
     type: "both",
+    ver: "4.1.0",
+    items: [
+      {
+        type: "new",
+        content:
+          "新功能：系統設定頁面加入「機捷設定」，可切換是否顯示桃園捷運列車下方的註記",
+      },
+      {
+        type: "update",
+        content:
+          "現在桃園捷運的抵達時間改以實際到站時刻顯示，僅推估的班次會標示「約」",
+      },
+      {
+        type: "update",
+        content:
+          "「特色介紹 - 安裝到桌面」的說明改為自動判斷裝置，只顯示適用於您裝置的安裝步驟",
+      },
+      {
+        type: "fix",
+        content: "修正桃園捷運部份尖峰時段增停的直達車未顯示的問題",
+      },
+    ],
+  },
+  {
+    date: "2026-08",
+    type: "both",
     ver: "4.0.2",
     items: [
       {
