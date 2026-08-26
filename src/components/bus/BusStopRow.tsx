@@ -1,5 +1,6 @@
 import HeartIcon from "@/components/icons/HeartIcon";
 import { BusSource, JsyBusStopArrival } from "@/models/jsy-bus-info";
+import useBusName from "@/hooks/useBusName";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import BusArrivalBadge from "./BusArrivalBadge";
@@ -25,12 +26,14 @@ const BusStopRow: FC<BusStopRowProps> = ({
   favorite,
 }) => {
   const { t } = useTranslation();
+  const busName = useBusName();
   const clickable = !!onSelectStop && (source !== "city" || !!stop.city);
+  const stopName = busName(stop.stopName, stop.stopNameEn);
 
   const content = (
     <div className="grid w-full grid-cols-[1fr_auto] items-center gap-2">
       <div className="flex items-center gap-2 text-left">
-        <span className="font-medium">{stop.stopName}</span>
+        <span className="font-medium">{stopName}</span>
         {stop.isLastBus && (
           <span className="rounded bg-amber-100 px-1 text-xs text-amber-600 dark:bg-amber-600/40 dark:text-amber-300">
             {t("busLastBus")}
@@ -68,7 +71,7 @@ const BusStopRow: FC<BusStopRowProps> = ({
         <button
           type="button"
           onClick={() => onSelectStop?.(stop)}
-          aria-label={t("busViewStopRoutes", { stop: stop.stopName })}
+          aria-label={t("busViewStopRoutes", { stop: stopName })}
           className="custom-cursor-pointer flex-1 text-left"
         >
           {content}

@@ -1,3 +1,4 @@
+import useBusName from "@/hooks/useBusName";
 import { JsyBusStopVariant } from "@/models/jsy-bus-info";
 import { Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
@@ -19,13 +20,16 @@ const BusStopVariantTabs: FC<BusStopVariantTabsProps> = ({
   onSelect,
 }) => {
   const { t } = useTranslation();
+  const busName = useBusName();
   const labelNode = (v: JsyBusStopVariant) => {
     const dir = v.bearing
       ? t(`busBearing.${v.bearing}`, { defaultValue: v.bearing })
       : "";
     return (
       <span className="flex items-center gap-0.5">
-        <span className="block max-w-56 truncate">{v.label}</span>
+        <span className="block max-w-56 truncate">
+          {busName(v.label, v.labelEn)}
+        </span>
         {dir && <span className="shrink-0">·{dir}</span>}
       </span>
     );

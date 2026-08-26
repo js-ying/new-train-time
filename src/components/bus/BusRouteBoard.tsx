@@ -2,6 +2,7 @@ import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
+import useBusName from "@/hooks/useBusName";
 import useIsStuck from "@/hooks/useIsStuck";
 import useSetting from "@/hooks/useSetting";
 import useStationFavorites from "@/hooks/useStationFavorites";
@@ -56,13 +57,16 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
   onSelectStop,
 }) => {
   const { t } = useTranslation();
+  const busName = useBusName();
   const current = boards.find((b) => b.direction === direction) ?? boards[0];
   // sticky 吸頂時才顯示路線名（未吸頂時搜尋框已有路線資訊，不重複）
   const { sentinelRef, isStuck } = useIsStuck<HTMLDivElement>();
 
   // tab 標籤直接顯示該方向目的地（「往 X」）；公車方向對使用者的意義是去哪，而非北上/南下
   const labelFor = (board: JsyBusRouteBoard) =>
-    t("busTowards", { destination: board.destinationStop });
+    t("busTowards", {
+      destination: busName(board.destinationStop, board.destinationStopEn),
+    });
 
   // 站列愛心＝收藏該（站牌×本路線×當前方向）到站（BUS_STOP 分組），與站牌看板列愛心同語意
   const { user, loginWithGoogle } = useAuth();
@@ -88,10 +92,11 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
     } else if (
       addFavorite({
         targetId,
+        // 顯示快照存當前語系所見（batch 查無列時原樣顯示）
         targetName: encodeBusStopFavoriteName(
-          routeName || current?.routeName || "",
-          current?.destinationStop ?? "",
-          stop.stopName,
+          routeName || busName(current?.routeName ?? "", current?.routeNameEn),
+          busName(current?.destinationStop ?? "", current?.destinationStopEn),
+          busName(stop.stopName, stop.stopNameEn),
         ),
       }) === "limit"
     ) {

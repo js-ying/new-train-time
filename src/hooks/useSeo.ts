@@ -1,4 +1,5 @@
 import { SeoConfig, baseUrl, seoConfigs } from "@/configs/seoConfig";
+import { LocaleEnum } from "@/enums/LocaleEnum";
 import { PageEnum } from "@/enums/PageEnum";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { localeToHreflang } from "@/utils/HreflangUtils";
@@ -141,17 +142,29 @@ const useSeo = (busRoute: JsyBusRoute | null = null) => {
       };
     }
 
-    // 公車路線頁：以路線名（子線優先）產出獨立 title / description
+    // 公車路線頁：以路線名（子線優先）產出獨立 title / description。
+    // 英文頁取英文名，缺則退中文
     if (busRoute) {
-      const routeLabel = busRoute.subRouteName ?? busRoute.routeName;
+      const pickName = (zh: string, en?: string): string =>
+        i18n.language === LocaleEnum.EN && en ? en : zh;
+      const routeLabel = pickName(
+        busRoute.subRouteName ?? busRoute.routeName,
+        busRoute.routeNameEn,
+      );
       const titleText = t("busRouteTitle", { routeName: routeLabel });
       const fullTitle = `${titleText} - ${t(page + "Title")}`;
 
       const description = (t: Function) =>
         t("busRoutePageDynamicDescription", {
           routeName: routeLabel,
-          departureStop: busRoute.departureStop,
-          destinationStop: busRoute.destinationStop,
+          departureStop: pickName(
+            busRoute.departureStop,
+            busRoute.departureStopEn,
+          ),
+          destinationStop: pickName(
+            busRoute.destinationStop,
+            busRoute.destinationStopEn,
+          ),
         });
 
       breadcrumbs.push({

@@ -2,6 +2,7 @@ import Area from "@/components/search-area/Area";
 import useBusRouteSearch, {
   BUS_ROUTE_QUERY_MAX_LEN,
 } from "@/hooks/search/useBusRouteSearch";
+import useBusName from "@/hooks/useBusName";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { useTranslation } from "next-i18next";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
@@ -28,7 +29,11 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
   onSelect,
 }) => {
   const { t } = useTranslation();
+  const busName = useBusName();
   const { suggestions, isLoading, setQuery } = useBusRouteSearch();
+  // 子線候選的 routeNameEn 為該子線英文
+  const displayName = (r: JsyBusRoute): string =>
+    busName(r.routeName, r.routeNameEn);
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   // 鍵盤高亮的候選 index（-1 = 焦點在輸入框、無高亮）
@@ -51,7 +56,11 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
   useEffect(() => {
     const q = inputValue.trim().toUpperCase();
     const exactIdx = q
-      ? suggestions.findIndex((r) => r.routeName.toUpperCase() === q)
+      ? suggestions.findIndex(
+          (r) =>
+            r.routeName.toUpperCase() === q ||
+            r.routeNameEn?.toUpperCase() === q,
+        )
       : -1;
     setActiveIndex(exactIdx);
   }, [suggestions, inputValue]);
@@ -74,8 +83,15 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
     } else {
       sourceLabel = t(SOURCE_LABEL_KEY[r.source]);
     }
-    const via = r.headsign?.match(/\[[^\]]*\]/)?.[0] ?? "";
-    const route = `${r.departureStop} - ${r.destinationStop}${via ? ` ${via}` : ""}`;
+    // 經停標註：中文方向牌為「[經X]」，英文為 (Via X) 或 [Via X]，
+    // 限定 Via 開頭才取，避免誤抓站名自帶的括號
+    const via = busName(
+      r.headsign?.match(/\[[^\]]*\]/)?.[0] ?? "",
+      r.headsignEn?.match(/[[(]\s*via[^\])]*[\])]/i)?.[0],
+    );
+    const dep = busName(r.departureStop, r.departureStopEn);
+    const dest = busName(r.destinationStop, r.destinationStopEn);
+    const route = `${dep} - ${dest}${via ? ` ${via}` : ""}`;
     return `${route} · ${sourceLabel}`;
   };
 
@@ -109,7 +125,7 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
     }
   };
 
-  const selectedName = selectedRoute?.routeName ?? "";
+  const selectedName = selectedRoute ? displayName(selectedRoute) : "";
   const hasQuery = inputValue.trim() !== "";
   const showPanel = suggestions.length > 0 || isLoading || hasQuery;
 
@@ -175,7 +191,7 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
                         i === activeIndex ? "bg-muted" : ""
                       }`}
                     >
-                      <span className="font-bold">{route.routeName}</span>
+                      <span className="font-bold">{displayName(route)}</span>
                       <span className="text-xs text-default-500">
                         {describe(route)}
                       </span>

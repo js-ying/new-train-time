@@ -3,6 +3,7 @@ import CommonDialog from "@/components/common/CommonDialog";
 import HeartIcon from "@/components/icons/HeartIcon";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
+import useBusName from "@/hooks/useBusName";
 import useSetting from "@/hooks/useSetting";
 import useStationFavorites from "@/hooks/useStationFavorites";
 import { JsyBusStopBoard, JsyBusStopBoardRoute } from "@/models/jsy-bus-info";
@@ -34,6 +35,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
   onSelectRoute,
 }) => {
   const { t } = useTranslation();
+  const busName = useBusName();
   const { user, loginWithGoogle } = useAuth();
   const { limit, addFavorite, removeFavorite, isFavorite } =
     useStationFavorites("BUS_STOP");
@@ -41,6 +43,10 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [limitOpen, setLimitOpen] = useState(false);
+
+  // 子線列顯示子線名，英文用 routeNameEn（已是該子線英文）
+  const routeLabel = (r: JsyBusStopBoardRoute): string =>
+    busName(r.subRouteName || r.routeName, r.routeNameEn);
 
   const handleToggleFavorite = (r: JsyBusStopBoardRoute) => {
     if (!user) {
@@ -61,10 +67,11 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
       addFavorite({
         targetId,
         // batch 查無此列時的顯示 fallback
+        // 顯示快照存當前語系所見（batch 查無列時原樣顯示）
         targetName: encodeBusStopFavoriteName(
-          r.subRouteName || r.routeName,
-          r.destination,
-          board.stopName,
+          routeLabel(r),
+          busName(r.destination, r.destinationEn),
+          busName(board.stopName, board.stopNameEn),
         ),
       }) === "limit"
     ) {
@@ -122,12 +129,12 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
                 className="custom-cursor-pointer grid flex-1 grid-cols-[1fr_auto] items-center gap-2 text-left"
               >
                 <div className="flex flex-wrap items-baseline gap-x-2">
-                  <span className="font-bold">
-                    {r.subRouteName || r.routeName}
-                  </span>
+                  <span className="font-bold">{routeLabel(r)}</span>
                   {r.destination && (
                     <span className="text-sm text-muted-foreground">
-                      {t("busTowards", { destination: r.destination })}
+                      {t("busTowards", {
+                        destination: busName(r.destination, r.destinationEn),
+                      })}
                     </span>
                   )}
                 </div>

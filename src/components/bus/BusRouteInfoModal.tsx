@@ -2,6 +2,8 @@ import Loading from "@/components/common/Loading";
 import CaptureIcon from "@/components/icons/CaptureIcon";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
 import { GaEnum } from "@/enums/GaEnum";
+import useBusName from "@/hooks/useBusName";
+import useLang from "@/hooks/useLang";
 import { useCaptureShare } from "@/hooks/useCaptureShare";
 import {
   JsyBusFirstLastBus,
@@ -94,9 +96,7 @@ const DayLabel: FC<{ which: "busInfoWeekday" | "busInfoHoliday" }> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="text-sm font-medium text-muted-foreground">
-      {t(which)}
-    </div>
+    <div className="text-sm font-medium text-muted-foreground">{t(which)}</div>
   );
 };
 
@@ -246,10 +246,30 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
   error,
 }) => {
   const { t } = useTranslation();
+  const busName = useBusName();
+  const { isEn } = useLang();
+
+  // 標題/起訖/業者等 TDX 原始資料：有英文取英文，缺則退中文
+  const routeName = busName(route.routeName, route.routeNameEn);
+  const departureStop = busName(
+    info?.departureStop ?? "",
+    info?.departureStopEn,
+  );
+  const destinationStop = busName(
+    info?.destinationStop ?? "",
+    info?.destinationStopEn,
+  );
+
+  const operators = info?.operators ?? [];
+  // 任一家缺英文就整組退中文，避免中英混列
+  const useEnOperators = isEn && operators.every((o) => o.en);
+  const operatorNames = operators.map((o) =>
+    useEnOperators ? (o.en ?? o.zhTw) : o.zhTw,
+  );
 
   const { isCapturing, capture } = useCaptureShare({
     selector: ".bus-route-info-dialog",
-    imageNamePrefix: route.routeName,
+    imageNamePrefix: routeName,
     gaEventName: GaEnum.BUS_ROUTE_DETAIL_CAPTURE,
   });
 
@@ -300,7 +320,7 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>{route.routeName}</ModalHeader>
+              <ModalHeader>{routeName}</ModalHeader>
               <ModalBody>
                 {isLoading && !info ? (
                   <div className="py-4 text-center text-base text-muted-foreground">
@@ -314,24 +334,24 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
                       <ChipRow label={t("busInfoCategory")}>
                         {categoryLabel}
                       </ChipRow>
-                      {(info.departureStop || info.destinationStop) && (
+                      {(departureStop || destinationStop) && (
                         <ChipRow label={t("busInfoEndpoints")}>
-                          {info.departureStop} - {info.destinationStop}
+                          {departureStop} - {destinationStop}
                         </ChipRow>
                       )}
-                      {info.operators.length > 0 && (
+                      {operatorNames.length > 0 && (
                         <ChipRow label={t("busInfoOperator")}>
-                          {info.operators.join(t("comma"))}
+                          {operatorNames.join(t("comma"))}
                         </ChipRow>
                       )}
                       {info.ticketPrice && (
                         <ChipRow label={t("busInfoTicketPrice")}>
-                          {info.ticketPrice}
+                          {busName(info.ticketPrice, info.ticketPriceEn)}
                         </ChipRow>
                       )}
                       {info.fareBufferZone && (
                         <ChipRow label={t("busInfoFareBufferZone")}>
-                          {info.fareBufferZone}
+                          {busName(info.fareBufferZone, info.fareBufferZoneEn)}
                         </ChipRow>
                       )}
                       {/* 路線圖外連（官方頁）：併入資訊列同欄對齊；截圖時隱藏（靜態圖中連結無意義） */}
@@ -389,9 +409,9 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
                                 <TimetableBlock
                                   key={`${g.direction}-${g.subRouteName}-${i}`}
                                   group={g}
-                                  departureStop={info.departureStop}
-                                  destinationStop={info.destinationStop}
-                                  routeName={info.routeName}
+                                  departureStop={departureStop}
+                                  destinationStop={destinationStop}
+                                  routeName={routeName}
                                   showHeading={fixedGroups.length > 1}
                                 />
                               ))}

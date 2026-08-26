@@ -1,6 +1,7 @@
 import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { ApiError, toApiError } from "@/models/problem-details";
 import { searchBusRoutes } from "@/services/busService";
+import { useTranslation } from "next-i18next";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /** 路線號輸入防抖（毫秒）：避免每次鍵入都打後端。 */
@@ -24,6 +25,7 @@ interface UseBusRouteSearchResult {
  * - 空字串或超過長度上限清空候選、不打後端（後端 q 必填且限長）。
  */
 export const useBusRouteSearch = (): UseBusRouteSearchResult => {
+  const { i18n } = useTranslation();
   const [suggestions, setSuggestions] = useState<JsyBusRoute[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
@@ -40,28 +42,40 @@ export const useBusRouteSearch = (): UseBusRouteSearchResult => {
     [],
   );
 
-  const runSearch = useCallback(async (q: string) => {
-    abortRef.current?.abort();
-    const controller = new AbortController();
-    abortRef.current = controller;
+  const lang = i18n.language;
+  const runSearch = useCallback(
+    async (q: string) => {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
 
-    setIsLoading(true);
-    setError(null);
+      setIsLoading(true);
+      setError(null);
 
-    try {
-      const result = await searchBusRoutes(q, SEARCH_LIMIT, controller.signal);
-      if (controller.signal.aborted) return;
-      setSuggestions(result);
-    } catch (err) {
-      if (controller.signal.aborted || (err as Error)?.name === "AbortError") {
-        return;
+      try {
+        const result = await searchBusRoutes(
+          q,
+          SEARCH_LIMIT,
+          controller.signal,
+          lang,
+        );
+        if (controller.signal.aborted) return;
+        setSuggestions(result);
+      } catch (err) {
+        if (
+          controller.signal.aborted ||
+          (err as Error)?.name === "AbortError"
+        ) {
+          return;
+        }
+        setError(toApiError(err));
+        setSuggestions([]);
+      } finally {
+        if (!controller.signal.aborted) setIsLoading(false);
       }
-      setError(toApiError(err));
-      setSuggestions([]);
-    } finally {
-      if (!controller.signal.aborted) setIsLoading(false);
-    }
-  }, []);
+    },
+    [lang],
+  );
 
   const setQuery = useCallback(
     (q: string) => {

@@ -6,6 +6,12 @@
 /** 資料來源：市區公車 / 公路客運(含國道) / 觀光台灣好行。 */
 export type BusSource = "city" | "intercity" | "taiwantrip";
 
+/** 中英名稱對。TDX 公車英文非全滿（部分業者只有中文），故 en 選填。 */
+export interface JsyBusName {
+  zhTw: string;
+  en?: string;
+}
+
 /** 路線索引項（模糊搜的候選）。routeUid 跨來源唯一，當主鍵。 */
 export interface JsyBusRoute {
   routeUid: string;
@@ -19,8 +25,13 @@ export interface JsyBusRoute {
   /** 起站名（顯示「起 - 訖」用）。 */
   departureStop: string;
   destinationStop: string;
+  /** 起訖英文名；TDX 缺則無值，顯示退回中文。 */
+  departureStopEn?: string;
+  destinationStopEn?: string;
   /** 子線去程方向牌（如「臺北→苗栗[經林口長庚醫院]」）；有則搜尋候選副標優先用，無則退「起 - 訖」。 */
   headsign?: string;
+  /** 方向牌英文（公路客運才有）。 */
+  headsignEn?: string;
   /** 11:市區公車 12:公路客運 13:國道客運 14:接駁車。 */
   routeType: number;
   /**
@@ -34,6 +45,8 @@ export interface JsyBusRoute {
 export interface JsyBusStop {
   stopUid: string;
   stopName: string;
+  /** 站名英文（TDX StopName.En）；缺則無值。 */
+  stopNameEn?: string;
   stopSequence: number;
   /** 該站所屬縣市碼（後端 StopUID 反查 bus_stop）；有值才可點該站跳站牌看板，無值（公路客運站）不可點。 */
   city?: string;
@@ -43,10 +56,12 @@ export interface JsyBusStop {
 export interface JsyBusRouteStops {
   routeUid: string;
   routeName: string;
+  routeNameEn?: string;
   /** 0:去程 1:返程。 */
   direction: number;
   /** 該方向終點顯示名。 */
   destinationStop: string;
+  destinationStopEn?: string;
   stops: JsyBusStop[];
 }
 
@@ -98,9 +113,11 @@ export interface JsyBusAlert {
 export interface JsyBusRouteBoard {
   routeUid: string;
   routeName: string;
+  routeNameEn?: string;
   direction: number;
   /** 方向 tab 顯示名（TDX 路線定義方向目的地，與站牌看板/詳細資訊一致；非站序末站）。 */
   destinationStop: string;
+  destinationStopEn?: string;
   stops: JsyBusStopArrival[];
   /** 路線來源/縣市（後端 routeUid 反查索引的權威值；存歷史/收藏 meta 用，URL 不帶 source/city）。 */
   source?: BusSource;
@@ -136,11 +153,16 @@ export interface JsyBusScheduleGroup {
 export interface JsyBusRouteInfo {
   routeUid: string;
   routeName: string;
+  routeNameEn?: string;
   departureStop: string;
   destinationStop: string;
-  operators: string[];
+  departureStopEn?: string;
+  destinationStopEn?: string;
+  operators: JsyBusName[];
   ticketPrice?: string;
+  ticketPriceEn?: string;
   fareBufferZone?: string;
+  fareBufferZoneEn?: string;
   routeMapImageUrl?: string;
   /** 平日/假日首末班車（HH:mm，跨子線彙整）；多為市區公車才有，無則略過。 */
   firstLastBus?: JsyBusFirstLastBus;
@@ -163,6 +185,7 @@ export interface JsyBusNearestStop {
   /** 站牌來源（全站表含三來源，nearest 可能落在公路客運/台灣好行站）；顯示用。 */
   source?: BusSource;
   stopName: string;
+  stopNameEn?: string;
   lat: number;
   lon: number;
   /** 與使用者的距離（公尺）。 */
@@ -174,10 +197,12 @@ export interface JsyBusStopBoardRoute {
   /** 路線 UID（供點擊跳路線看板；source 固定 city、city 取看板所在縣市）。 */
   routeUid: string;
   routeName: string;
+  routeNameEn?: string;
   /** 子線名（如 1822A）；為索引展開候選時才有，點擊帶 sub 精確導向該子線。route 粒度為 undefined。 */
   subRouteName?: string;
   /** 往的終點站名。 */
   destination: string;
+  destinationEn?: string;
   direction: number;
   state: BusArrivalState;
   estimateMinutes: number | null;
@@ -188,8 +213,11 @@ export interface JsyBusStopVariant {
   /** 該柱代表 StopUID；點 tab 以此 push 站牌看板。 */
   stopUid: string;
   stopName: string;
+  stopNameEn?: string;
   /** tab 主文字（站柱顯示標籤）。 */
   label: string;
+  /** 英文 tab 文字；無值時退回中文 label。 */
+  labelEn?: string;
   /** 方位（tab 標籤，如「N」；前端轉 i18n 方向詞）。 */
   bearing?: string;
   lat: number;
@@ -204,8 +232,11 @@ export interface JsyBusStopBoardsBatchItem {
   subRouteName?: string;
   /** 權威站名 / 路線名 / 終點（該站看板此刻查無該路線列時為空字串，前端退回收藏快照）。 */
   stopName: string;
+  stopNameEn?: string;
   routeName: string;
+  routeNameEn?: string;
   destination: string;
+  destinationEn?: string;
   state: BusArrivalState;
   estimateMinutes: number | null;
 }
@@ -223,6 +254,7 @@ export interface JsyBusStopBoard {
   /** 站所屬縣市碼（市區公車＝City；公路客運/台灣好行＝LocationCityCode）。 */
   city: string;
   stopName: string;
+  stopNameEn?: string;
   /** 站牌來源；點某列跳路線看板時據此帶對 source。 */
   source: BusSource;
   routes: JsyBusStopBoardRoute[];

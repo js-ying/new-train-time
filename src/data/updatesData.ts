@@ -29,6 +29,10 @@ export const updateDataList = [
           "「特色介紹 - 安裝到桌面」的說明改為自動判斷裝置，只顯示適用於您裝置的安裝步驟",
       },
       {
+        type: "update",
+        content: "強化公車動態查詢英文介面",
+      },
+      {
         type: "fix",
         content: "修正桃園捷運部份尖峰時段增停的直達車未顯示的問題",
       },

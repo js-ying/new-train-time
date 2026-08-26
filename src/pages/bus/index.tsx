@@ -32,6 +32,7 @@ import useBusStopBoard, {
 import useNearestBusStop from "@/hooks/search/useNearestBusStop";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import useRefreshCooldown from "@/hooks/useRefreshCooldown";
+import useBusName from "@/hooks/useBusName";
 import useStationFavorites from "@/hooks/useStationFavorites";
 import useStationHistory from "@/hooks/useStationHistory";
 import {
@@ -163,6 +164,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
   const muiTheme = useMuiTheme();
   const router = useRouter();
   const { t } = useTranslation();
+  const busName = useBusName();
   const { loginWithGoogle } = useAuth();
 
   const [selectedRoute, setSelectedRoute] = useState<JsyBusRoute | null>(null);
@@ -239,8 +241,13 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
       // 子線顯示名固定為子線名（如 1822A）；arrivals 回的是原路線號（1822）不含子線，
       // 只有 route 粒度（無子線）才用它補權威顯示名
       const displayName = prev.subRouteName ?? authoritativeName;
-      return prev.routeName !== displayName
-        ? { ...prev, routeName: displayName }
+      // 英文名同理只在 route 粒度補
+      const displayNameEn = prev.subRouteName
+        ? prev.routeNameEn
+        : (data?.[0]?.routeNameEn ?? prev.routeNameEn);
+      return prev.routeName !== displayName ||
+        prev.routeNameEn !== displayNameEn
+        ? { ...prev, routeName: displayName, routeNameEn: displayNameEn }
         : prev;
     });
   }, [data]);
@@ -290,7 +297,8 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
     lastSavedRoute.current = key;
     saveBusHistory({
       targetId: key,
-      targetName: selectedRoute.routeName,
+      // 顯示快照存當前語系所見（歷史/常用面板直接顯示此字串）
+      targetName: busName(selectedRoute.routeName, selectedRoute.routeNameEn),
       // source/city 取後端回應的權威值（routeUid 反查索引），冷載/分享也正確
       meta: encodeBusMeta(
         data[0]?.source ?? selectedRoute.source,
@@ -306,7 +314,10 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
   const stopBoard = useBusStopBoard(stopSelection);
   const isStopMode = !!stopSelection;
   // 站牌頁標題：後端回的權威站名（單錨無 URL stopName，載入前留白由 loading 佔位）
-  const stopDisplayName = stopBoard.data?.stopName || "";
+  const stopDisplayName = busName(
+    stopBoard.data?.stopName || "",
+    stopBoard.data?.stopNameEn,
+  );
 
   // 依模式取作用中看板的共用狀態（data 型別不同故各自取）
   const active = isStopMode ? stopBoard : routeArrivals;
@@ -340,9 +351,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
         })
       : null;
   const staleWarningBox = staleWarning ? (
-    <div className="text-center text-xs text-warning">
-      {staleWarning}
-    </div>
+    <div className="text-center text-xs text-warning">{staleWarning}</div>
   ) : null;
 
   // 路線營運通阻公告（arrivals 附帶、兩方向同組故取 [0]）；入口掛「離我最近站牌」列最左，
@@ -424,11 +433,13 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
       {
         routeUid: route.routeUid,
         routeName: route.subRouteName || route.routeName,
+        routeNameEn: route.routeNameEn,
         subRouteName: route.subRouteName,
         source: stopBoard.data?.source ?? "city",
         city: stopBoard.data?.city || undefined,
         departureStop: "",
         destinationStop: route.destination,
+        destinationStopEn: route.destinationEn,
         routeType: 0,
       },
       route.direction,
@@ -504,7 +515,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
           selectedRoute.routeUid,
           selectedRoute.subRouteName,
         ),
-        targetName: selectedRoute.routeName,
+        targetName: busName(selectedRoute.routeName, selectedRoute.routeNameEn),
         // source/city 優先取後端回應權威值（冷載/分享也正確）；看板未載入時退回 selectedRoute
         meta: encodeBusMeta(
           data?.[0]?.source ?? selectedRoute.source,
@@ -674,7 +685,10 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
                     boards={data}
                     direction={direction}
                     onDirectionChange={handleDirectionChange}
-                    routeName={selectedRoute.routeName}
+                    routeName={busName(
+                      selectedRoute.routeName,
+                      selectedRoute.routeNameEn,
+                    )}
                     subRouteName={selectedRoute.subRouteName}
                     leadingSlot={routeInfoButton}
                     cornerSlot={autoRefreshRing ?? refreshControls}

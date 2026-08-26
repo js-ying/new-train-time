@@ -1,5 +1,6 @@
 import HeartIcon from "@/components/icons/HeartIcon";
 import useBusFavoriteStopBoards from "@/hooks/search/useBusFavoriteStopBoards";
+import useBusName from "@/hooks/useBusName";
 import { JsyBusStopBoardsBatchItem } from "@/models/jsy-bus-info";
 import { StationFavorite } from "@/models/station-favorites";
 import {
@@ -31,6 +32,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
   onRemove,
 }) => {
   const { t } = useTranslation();
+  const busName = useBusName();
 
   const keys = useMemo(
     () =>
@@ -90,9 +92,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
         )
       )}
       {staleWarning && (
-        <div className="text-center text-xs text-warning">
-          {staleWarning}
-        </div>
+        <div className="text-center text-xs text-warning">{staleWarning}</div>
       )}
 
       {favorites.map((fav) => {
@@ -100,11 +100,16 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
         if (!key) return null;
         const row = itemById.get(fav.targetId);
         const snapshot = parseBusStopFavoriteName(fav.targetName);
-        // batch 查無該列時退收藏快照
-        const routeLabel =
-          (row && (row.subRouteName || row.routeName)) || snapshot.routeLabel;
-        const destination = row?.destination || snapshot.destination;
-        const stopName = row?.stopName || snapshot.stopName;
+        // batch 查無該列時退收藏快照（快照為收藏當下語系，無中英兩版）
+        const routeLabel = row
+          ? busName(row.subRouteName || row.routeName, row.routeNameEn)
+          : snapshot.routeLabel;
+        const destination = row?.destination
+          ? busName(row.destination, row.destinationEn)
+          : snapshot.destination;
+        const stopName = row?.stopName
+          ? busName(row.stopName, row.stopNameEn)
+          : snapshot.stopName;
         return (
           <div
             key={fav.targetId}

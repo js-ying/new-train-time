@@ -17,8 +17,11 @@ export const searchBusRoutes = async (
   q: string,
   limit = 30,
   signal?: AbortSignal,
+  /** "en" 時比對英文路線名/方向牌；其餘走中文欄位。 */
+  lang?: string,
 ): Promise<JsyBusRoute[]> => {
   const params = new URLSearchParams({ q, limit: String(limit) });
+  if (lang === "en") params.set("lang", "en");
   return await fetchData(
     `/api/bus/routes?${params.toString()}`,
     {},
