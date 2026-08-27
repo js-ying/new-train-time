@@ -1,4 +1,5 @@
 import CommonDialog from "@/components/common/CommonDialog";
+import { resolveAlertImpactI18n } from "@/components/search-area/alert/alertImpactLabel";
 import { ALERT_STATUS_COLORS } from "@/components/search-area/alert/alertStatusColors";
 import { GaEnum } from "@/enums/GaEnum";
 import { PageEnum } from "@/enums/PageEnum";
@@ -31,17 +32,10 @@ const OperationAlert: FC<OperationAlertProps> = ({ compact }) => {
 
   const displayBtnName = useMemo(() => {
     if (!jsyOperationAlert) return "";
-    if (
-      jsyOperationAlert.alerts.some((alert) => alert.title.includes("颱風"))
-    ) {
-      return "typhoonImpact";
-    }
-    if (
-      jsyOperationAlert.alerts.some((alert) => alert.title.includes("地震"))
-    ) {
-      return "earthquakeImpact";
-    }
-    return statusColorMap.get(jsyOperationAlert.status)?.i18n || "";
+    return resolveAlertImpactI18n(
+      jsyOperationAlert.alerts.map((alert) => alert.title),
+      statusColorMap.get(jsyOperationAlert.status)?.i18n || "",
+    );
   }, [jsyOperationAlert, statusColorMap]);
 
   if (!jsyOperationAlert) return;

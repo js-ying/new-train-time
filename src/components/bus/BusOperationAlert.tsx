@@ -1,4 +1,5 @@
 import CommonDialog from "@/components/common/CommonDialog";
+import { resolveAlertImpactI18n } from "@/components/search-area/alert/alertImpactLabel";
 import { ALERT_STATUS_COLORS } from "@/components/search-area/alert/alertStatusColors";
 import { GaEnum } from "@/enums/GaEnum";
 import { JsyBusAlert } from "@/models/jsy-bus-info";
@@ -24,11 +25,10 @@ const BusOperationAlert: FC<BusOperationAlertProps> = ({ alerts }) => {
     ? "danger"
     : "warning";
   const colors = ALERT_STATUS_COLORS.get(status)!;
-  const displayBtnName = alerts.some((a) => a.title.includes("颱風"))
-    ? "typhoonImpact"
-    : alerts.some((a) => a.title.includes("地震"))
-      ? "earthquakeImpact"
-      : colors.i18n;
+  const displayBtnName = resolveAlertImpactI18n(
+    alerts.map((a) => a.title),
+    colors.i18n,
+  );
 
   return (
     <>

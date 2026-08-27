@@ -206,6 +206,7 @@
   "dangerOpStatus": "DISRUPTED",
   "typhoonImpact": "Typhoon Impact",
   "earthquakeImpact": "Earthquake Impact",
+  "heavyRainImpact": "Heavy Rain Impact",
   "trainTypeFilterAll": "All",
   "trainTypeFilterReserved": "Reserved",
   "trainTypeFilterNonReserved": "Non Reserved",

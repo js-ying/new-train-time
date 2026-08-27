@@ -206,6 +206,7 @@
   "dangerOpStatus": "全線異常",
   "typhoonImpact": "颱風影響",
   "earthquakeImpact": "地震影響",
+  "heavyRainImpact": "豪雨影響",
   "trainTypeFilterAll": "全部",
   "trainTypeFilterReserved": "對號列車",
   "trainTypeFilterNonReserved": "非對號列車",
