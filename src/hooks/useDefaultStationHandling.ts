@@ -1,46 +1,32 @@
-import {
-  SearchAreaContext,
-  SearchAreaUpdateContext,
-} from "@/contexts/SearchAreaContext";
+import { SearchAreaUpdateContext } from "@/contexts/SearchAreaContext";
+import { PageEnum } from "@/enums/PageEnum";
 import usePage from "@/hooks/usePage";
-import { HistoryInquiry } from "@/models/history";
+import useSearchHistory from "@/hooks/useSearchHistory";
 import { useContext, useEffect } from "react";
 
+/** 本次頁面載入中已帶入過預設車站的鐵路；整頁重新載入即重置 */
+const filledPages = new Set<PageEnum>();
+
 const useDefaultStationHandling = () => {
-  const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);
-  const { localStorageKey } = usePage();
+  const { page } = usePage();
+  // historyList 為 newest-first，且已處理 legacy 格式與登入後的跨裝置同步
+  const { historyList } = useSearchHistory();
 
   useEffect(() => {
-    const alreadyMountedKey = `alreadyMounted`;
-    const alreadyMounted = localStorage.getItem(alreadyMountedKey);
+    const latest = historyList[0];
 
-    // 僅第一次載入時執行
-    // 元件 re-mounted (切換 page 時) 也不執行
-    if (!alreadyMounted || alreadyMounted === "false") {
-      const valueString = window.localStorage.getItem(localStorageKey);
-      if (valueString) {
-        const value: HistoryInquiry[] = JSON.parse(valueString);
-        if (Array.isArray(value) && value.length > 0) {
-          setParams((prev) => ({
-            ...prev,
-            startStationId:
-              prev.startStationId || value[value.length - 1].startStationId,
-            endStationId:
-              prev.endStationId || value[value.length - 1].endStationId,
-          }));
-        }
-      }
+    // 歷史尚未水合完成時先跳過，待載入後再帶入
+    if (!latest || filledPages.has(page)) return;
 
-      // 設定 localStorage，表示已經執行過
-      localStorage.setItem(alreadyMountedKey, "true");
-
-      // 關閉瀏覽器分頁時，刪除 localStorage 中的值，以便下次進入此系統時可預設車站
-      window.addEventListener("beforeunload", () => {
-        localStorage.setItem(alreadyMountedKey, "false");
-      });
-    }
-  }, []);
+    // 每條鐵路各帶入一次自己的最後查詢；已選好的站不覆蓋
+    filledPages.add(page);
+    setParams((prev) => ({
+      ...prev,
+      startStationId: prev.startStationId || latest.startStationId,
+      endStationId: prev.endStationId || latest.endStationId,
+    }));
+  }, [historyList, page, setParams]);
 };
 
 export default useDefaultStationHandling;
