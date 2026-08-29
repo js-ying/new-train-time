@@ -35,8 +35,10 @@ const usePage = (): UsePageResult => {
     !isSettings &&
     !isPrivacy &&
     !isTerms;
-  const isHome =
-    (isTr || isThsr || isTymc) && !pathname.toLowerCase().includes("search");
+  // 僅三鐵首頁；/station、/premium 等雖走 isTr fallback，但不是鐵路首頁
+  const isHome = (
+    [PathEnum.trHome, PathEnum.thsrHome, PathEnum.tymcHome] as string[]
+  ).includes(pathname);
 
   /** 依據路徑判斷當前所在頁面 */
   let page: PageEnum;

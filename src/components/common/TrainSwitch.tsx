@@ -1,44 +1,16 @@
-import {
-  SearchAreaContext,
-  SearchAreaUpdateContext,
-} from "@/contexts/SearchAreaContext";
-import { GaEnum } from "@/enums/GaEnum";
 import { PageEnum } from "@/enums/PageEnum";
-import { SearchAreaActiveIndexEnum } from "@/enums/SearchAreaParamsEnum";
 import usePage from "@/hooks/usePage";
-import DateUtils from "@/utils/DateUtils";
-import { gaClickEvent } from "@/utils/GaUtils";
-import { getHomePath, recordLastUsedPage } from "@/utils/PageUtils";
+import useTransportNavClick from "@/hooks/useTransportNavClick";
+import { getHomePath } from "@/utils/PageUtils";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import { FC, useContext } from "react";
+import { FC } from "react";
 
 const TrainSwitch: FC = () => {
   const { t } = useTranslation();
   const { page } = usePage();
-  const params = useContext(SearchAreaContext);
-  const setParams = useContext(SearchAreaUpdateContext);
+  const handleTrainSwitch = useTransportNavClick();
   const trains = [PageEnum.TR, PageEnum.THSR, PageEnum.TYMC, PageEnum.BUS];
-
-  const handleTrainSwitch = (targetPage: PageEnum) => {
-    setParams({
-      ...params,
-      startStationId: null,
-      endStationId: null,
-      date: DateUtils.getCurrentDate(),
-      time: DateUtils.getCurrentTime(),
-      activeIndex: SearchAreaActiveIndexEnum.EMPTY,
-    });
-
-    // Record usage
-    recordLastUsedPage(targetPage);
-
-    // GA Tracking based on target page
-    if (targetPage === PageEnum.TR) gaClickEvent(GaEnum.TR_TITLE);
-    else if (targetPage === PageEnum.THSR) gaClickEvent(GaEnum.THSR_TITLE);
-    else if (targetPage === PageEnum.TYMC) gaClickEvent(GaEnum.TYMC_TITLE);
-    else if (targetPage === PageEnum.BUS) gaClickEvent(GaEnum.BUS_TITLE);
-  };
 
   return (
     <nav
