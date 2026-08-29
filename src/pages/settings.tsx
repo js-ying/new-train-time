@@ -4,7 +4,13 @@ import NewLabel from "@/components/common/NewLabel";
 import UserDialog from "@/components/common/UserDialog";
 import Layout from "@/components/layout/Layout";
 import PageSeo from "@/components/seo/PageSeo";
+import {
+  getAvailableTabs,
+  hasScopeSpecificTab,
+  SearchPanelTabKey,
+} from "@/configs/searchPanelTabs";
 import { useAuth } from "@/contexts/AuthContext";
+import { DefaultSearchTab } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { LocaleEnum } from "@/enums/LocaleEnum";
 import useMuiTheme from "@/hooks/useMuiTheme";
@@ -93,49 +99,93 @@ const LocaleSegmentedControl: FC = () => {
   );
 };
 
+/** 分頁 → 標籤 i18n key */
+const TAB_LABEL_KEY: Record<SearchPanelTabKey, string> = {
+  history: "historyTab",
+  favorites: "favoritesTab",
+  stopFavorites: "favoritesStopTab",
+};
+
 /**
- * 首頁歷史查詢區塊預設分頁 Segmented Control 元件
- * 控制 SearchHistory 開啟時預設停在「歷史查詢」或「常用路線」分頁
+ * 歷史查詢區塊預設分頁 Segmented Control 元件
+ * 選項即當下可用的分頁（由顯示開關決定），不足兩個分頁時整列隱藏
  */
-const DefaultSearchTabSegmentedControl: FC = () => {
+const DefaultTabSetting: FC = () => {
   const { t } = useTranslation();
+  const [showHistory] = useSetting("showHistory");
+  const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
   const [defaultSearchTab, setDefaultSearchTab] =
     useSetting("defaultSearchTab");
 
-  const tabs = [
-    { label: t("historyTab"), value: "history" as const },
-    { label: t("favoritesTab"), value: "favorites" as const },
-  ];
+  const tabs = getAvailableTabs("od", {
+    showHistory,
+    showFavoriteRoutes,
+    // OD 面板無常用站牌分頁，此開關不影響結果
+    showFavoriteStops: false,
+  });
+
+  if (tabs.length < 2) return null;
 
   /** 切換預設分頁 */
-  const handleChange = (value: "history" | "favorites") => {
+  const handleChange = (value: SearchPanelTabKey) => {
     if (value === defaultSearchTab) return;
-    setDefaultSearchTab(value);
+    setDefaultSearchTab(value as DefaultSearchTab);
     gaClickEvent(GaEnum.DEFAULT_SEARCH_TAB);
   };
 
   return (
-    <div className="flex items-center justify-between gap-2">
+    <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
       <span className="flex items-center gap-2 text-sm">
         {t("defaultSearchTabLabel")}
       </span>
-      <div className="flex overflow-hidden rounded-lg border border-border">
+      <div className="flex flex-wrap overflow-hidden rounded-lg border border-border">
         {tabs.map((tab) => (
           <button
-            key={tab.value}
-            onClick={() => handleChange(tab.value)}
+            key={tab}
+            onClick={() => handleChange(tab)}
             className={`px-2 py-1 text-sm font-medium transition-colors
               ${
-                defaultSearchTab === tab.value
+                defaultSearchTab === tab
                   ? "bg-primary text-primary-foreground"
                   : "bg-white text-zinc-600 hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               }`}
           >
-            {tab.label}
+            {t(TAB_LABEL_KEY[tab])}
           </button>
         ))}
       </div>
     </div>
+  );
+};
+
+/**
+ * 公車頁「預設停在常用站牌分頁」開關
+ * 站牌分頁與其他分頁並存時才是有意義的選擇，否則整列隱藏
+ */
+const BusStopTabPreference: FC = () => {
+  const { t } = useTranslation();
+  const [showHistory] = useSetting("showHistory");
+  const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
+  const [showFavoriteStops] = useSetting("showFavoriteStops");
+  const [preferBusStopTab, setPreferBusStopTab] =
+    useSetting("preferBusStopTab");
+
+  const tabs = getAvailableTabs("bus", {
+    showHistory,
+    showFavoriteRoutes,
+    showFavoriteStops,
+  });
+
+  if (!hasScopeSpecificTab("bus", tabs)) return null;
+
+  return (
+    <IOSSwitchSetting
+      value={preferBusStopTab}
+      setValue={setPreferBusStopTab}
+      label={t("preferBusStopTabSwitch")}
+      gaEnum={GaEnum.PREFER_BUS_STOP_TAB}
+      color="primary"
+    />
   );
 };
 
@@ -206,6 +256,9 @@ const Settings: FC = () => {
   /** 控制搜尋區「常用路線」分頁與收藏愛心的顯示 */
   const [showFavoriteRoutes, setShowFavoriteRoutes] =
     useSetting("showFavoriteRoutes");
+  /** 控制公車「常用站牌」分頁與站牌收藏愛心的顯示 */
+  const [showFavoriteStops, setShowFavoriteStops] =
+    useSetting("showFavoriteStops");
 
   return (
     <>
@@ -291,7 +344,24 @@ const Settings: FC = () => {
                 </div>
               </SectionCard>
 
-              {/* 5️⃣ 通用設定 */}
+              {/* 5️⃣ 公車設定 */}
+              <SectionCard>
+                <SectionTitle>{t("busSetting")}</SectionTitle>
+                <div className="flex flex-col gap-3 text-sm">
+                  {/* 顯示常用站牌分頁與站牌收藏愛心 */}
+                  <IOSSwitchSetting
+                    value={showFavoriteStops}
+                    setValue={setShowFavoriteStops}
+                    label={t("showFavoriteStopsSwitch")}
+                    gaEnum={GaEnum.SHOW_FAVORITE_STOPS}
+                    color="primary"
+                    suffix={<NewLabel />}
+                  />
+                  <BusStopTabPreference />
+                </div>
+              </SectionCard>
+
+              {/* 6️⃣ 通用設定 */}
               <SectionCard>
                 <SectionTitle>{t("generalSetting")}</SectionTitle>
                 <div className="flex flex-col gap-3 text-sm">
@@ -302,7 +372,6 @@ const Settings: FC = () => {
                     label={t("showHistorySwitch")}
                     gaEnum={GaEnum.SHOW_HISTORY}
                     color="primary"
-                    suffix={<NewLabel />}
                   />
                   {/* 顯示常用路線分頁；關閉則搜尋區回歸純歷史查詢 */}
                   <IOSSwitchSetting
@@ -311,12 +380,8 @@ const Settings: FC = () => {
                     label={t("showFavoriteRoutesSwitch")}
                     gaEnum={GaEnum.SHOW_FAVORITE_ROUTES}
                     color="primary"
-                    suffix={<NewLabel />}
                   />
-                  {/* 預設分頁僅在歷史查詢與常用路線皆顯示（會出現雙分頁）時才有意義 */}
-                  {showHistory && showFavoriteRoutes && (
-                    <DefaultSearchTabSegmentedControl />
-                  )}
+                  <DefaultTabSetting />
                   {/* 控制首頁熱門路線快查區塊的顯示 */}
                   <IOSSwitchSetting
                     value={showPopularRoutes}

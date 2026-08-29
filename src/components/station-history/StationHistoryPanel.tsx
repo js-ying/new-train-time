@@ -1,3 +1,11 @@
+import {
+  getAvailableTabs,
+  getPanelLayout,
+  resolveDefaultTab,
+  SearchPanelScope,
+  SearchPanelTabKey,
+  SearchPanelTabView,
+} from "@/configs/searchPanelTabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import useSetting from "@/hooks/useSetting";
@@ -10,6 +18,13 @@ import { useTranslation } from "next-i18next";
 import { FC, ReactNode, useState } from "react";
 import CommonDialog from "../common/CommonDialog";
 import HeartIcon from "../icons/HeartIcon";
+
+/** trainType → 分頁全集；BUS_STOP 僅作收藏分類，面板不會以它掛載 */
+const SCOPE_BY_TRAIN_TYPE: Record<StationTrainType, SearchPanelScope> = {
+  TR: "trStation",
+  BUS: "bus",
+  BUS_STOP: "bus",
+};
 
 interface StationHistoryPanelProps {
   /** TR=台鐵單站、BUS=公車路線；決定收藏分組與文案（車站 / 路線） */
@@ -51,9 +66,9 @@ const CloseButton: FC<{ onClick: () => void }> = ({ onClick }) => (
 );
 
 /**
- * 通用單點查詢「歷史 / 常用」面板（台鐵單站 / 公車路線共用）。
- * 對應 OD SearchHistory：依設定 showHistory / showFavoriteRoutes 切單清單或雙分頁，
- * 差別在資料為單一 target（站 / 路線），文案依車種切「車站 / 路線」。
+ * 通用單點查詢「歷史 / 常用」面板（台鐵單站 / 公車共用）。
+ * 對應 OD SearchHistory，差別在資料為單一 target（站 / 路線），文案依車種切「車站 / 路線」；
+ * 公車另有「常用站牌」分頁，內容由頁面注入。
  */
 const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
   trainType,
@@ -65,8 +80,11 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
   const { t } = useTranslation();
   const { user, loginWithGoogle } = useAuth();
 
-  const { historyList, limit: historyLimit, clearHistory } =
-    useStationHistory(trainType);
+  const {
+    historyList,
+    limit: historyLimit,
+    clearHistory,
+  } = useStationHistory(trainType);
   const {
     favoriteList,
     limit: favoriteLimit,
@@ -78,7 +96,9 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
 
   const [showHistory] = useSetting("showHistory");
   const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
+  const [showFavoriteStops] = useSetting("showFavoriteStops");
   const [defaultSearchTab] = useSetting("defaultSearchTab");
+  const [preferBusStopTab] = useSetting("preferBusStopTab");
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [limitOpen, setLimitOpen] = useState(false);
@@ -183,26 +203,15 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
     );
   };
 
-  // 單一清單型態（只開歷史或只開常用時）：標題 + 置中清單；歷史附清除鈕，常用不附
-  const renderFlatList = (
-    title: string,
-    items: StationTarget[],
-    withClear: boolean,
-  ) => (
-    <div className="text-center">
-      <div className="mb-2.5 text-sm text-muted-foreground">
-        {title}
-      </div>
-      <div className="flex justify-center">
-        <div className="flex max-w-[10rem] flex-col gap-2.5">
-          {items.map(renderRow)}
-          {withClear && (
-            <div className="flex justify-center">
-              <CloseButton onClick={handleClear} />
-            </div>
-          )}
+  // 清單本體：等寬單欄；歷史附清除鈕，常用不附
+  const renderList = (items: StationTarget[], withClear: boolean) => (
+    <div className="flex max-w-[10rem] flex-col gap-2.5">
+      {items.map(renderRow)}
+      {withClear && (
+        <div className="flex justify-center">
+          <CloseButton onClick={handleClear} />
         </div>
-      </div>
+      )}
     </div>
   );
 
@@ -233,63 +242,101 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
     </>
   );
 
-  // 兩者皆關 → 整塊不顯示
-  if (!showHistory && !showFavoriteRoutes) return null;
+  const emptyHint = (text: string, spacing = "px-4") => (
+    <p className={`${spacing} text-sm text-zinc-400 dark:text-zinc-500`}>
+      {text}
+    </p>
+  );
 
-  // 只開歷史：純歷史清單（無分頁、無愛心）
-  if (showHistory && !showFavoriteRoutes) {
-    if (historyList.length === 0) return null;
-    return renderFlatList(
-      t("historyInquiry", {
+  // 可用分頁與版面由 registry 決定；可用性只看設定與該頁是否具備，與有無資料無關
+  const scope = SCOPE_BY_TRAIN_TYPE[trainType];
+  const availableTabs = getAvailableTabs(
+    scope,
+    { showHistory, showFavoriteRoutes, showFavoriteStops },
+    { stopFavorites: !!stopFavorites },
+  );
+  const layout = getPanelLayout(availableTabs);
+  // 站牌分頁在場且使用者選了優先 → 覆寫通用設定；否則一律跟隨通用設定
+  const selectedTab = resolveDefaultTab(
+    preferBusStopTab && availableTabs.includes("stopFavorites")
+      ? "stopFavorites"
+      : defaultSearchTab,
+    availableTabs,
+  );
+
+  const tabViews: Partial<Record<SearchPanelTabKey, SearchPanelTabView>> = {
+    history: {
+      label: t("historyTab"),
+      count: historyList.length,
+      max: historyLimit,
+      inquiryTitle: t("historyInquiry", {
         nowLength: historyList.length,
         max: historyLimit,
       }),
-      historyList,
-      true,
-    );
-  }
+      emptyNode: emptyHint(t("historyEmptyHint"), "px-4 py-2"),
+      list: renderList(historyList, true),
+    },
+    favorites: {
+      label: t(favTabKey),
+      count: favoriteList.length,
+      max: favoriteLimit,
+      inquiryTitle: t(favInquiryKey, {
+        nowLength: favoriteList.length,
+        max: favoriteLimit,
+      }),
+      emptyNode: emptyHint(t(favEmptyKey)),
+      list: renderList(favoriteList, false),
+    },
+    stopFavorites: stopFavorites
+      ? {
+          label: t("favoritesStopTab"),
+          count: stopCount,
+          max: favoriteLimit,
+          inquiryTitle: t("favoritesStopInquiry", {
+            nowLength: stopCount,
+            max: favoriteLimit,
+          }),
+          emptyNode: emptyHint(t("favoritesStopEmptyHint")),
+          list: stopFavorites.content,
+          flatWrapList: false,
+          tabBodyClass: stopCount > 0 ? "-mt-1" : "mt-1",
+        }
+      : undefined,
+  };
 
-  // 只開常用：純常用清單（無分頁、含愛心）；有站點收藏時接在路線清單下
-  if (!showHistory && showFavoriteRoutes) {
-    if (favoriteList.length === 0 && stopCount === 0) return null;
+  if (layout === "none") return null;
+
+  // 可用分頁全無資料 → 整塊不顯示
+  const filled = availableTabs.filter((tab) => tabViews[tab]!.count > 0);
+  if (filled.length === 0) return null;
+
+  // 單一分頁 → 標題 + 內容直接呈現（無分頁列）
+  if (layout === "flat") {
+    const view = tabViews[availableTabs[0]]!;
     return (
       <>
-        {favoriteList.length > 0 &&
-          renderFlatList(
-            t(favInquiryKey, {
-              nowLength: favoriteList.length,
-              max: favoriteLimit,
-            }),
-            favoriteList,
-            false,
-          )}
-        {stopCount > 0 && (
-          <div
-            className={`text-center ${favoriteList.length > 0 ? "mt-4" : ""}`}
-          >
-            <div className="mb-2.5 text-sm text-muted-foreground">
-              {t("favoritesStopInquiry", {
-                nowLength: stopCount,
-                max: favoriteLimit,
-              })}
-            </div>
-            {stopFavorites?.content}
+        <div className="text-center">
+          <div className="mb-2.5 text-sm text-muted-foreground">
+            {view.inquiryTitle}
           </div>
-        )}
-        {favoriteDialogs}
+          {view.flatWrapList !== false ? (
+            <div className="flex justify-center">{view.list}</div>
+          ) : (
+            view.list
+          )}
+        </div>
+        {showFavoriteRoutes && favoriteDialogs}
       </>
     );
   }
 
-  // 兩者皆開 → 雙分頁（公車頁另有站牌分頁）；全部皆空 → 整塊不顯示
-  if (historyList.length === 0 && favoriteList.length === 0 && stopCount === 0)
-    return null;
-
   return (
     <>
+      {/* 預設停在設定選的分頁（不可用時沿 fallback 鏈收斂）；
+          key 綁定該值，設定水合較慢時讓 Tabs 重掛以套用新預設 */}
       <Tabs
-        key={defaultSearchTab}
-        defaultSelectedKey={defaultSearchTab}
+        key={selectedTab}
+        defaultSelectedKey={selectedTab}
         aria-label="歷史查詢與常用"
         size="md"
         variant="underlined"
@@ -305,61 +352,18 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
             "group-data-[hover-unselected=true]:text-zinc-600 dark:group-data-[hover-unselected=true]:text-zinc-300",
         }}
       >
-        <Tab
-          key="history"
-          title={tabTitle(t("historyTab"), historyList.length, historyLimit)}
-        >
-          <div className="mt-1 flex justify-center">
-            {historyList.length > 0 ? (
-              <div className="flex max-w-[10rem] flex-col gap-2.5">
-                {historyList.map(renderRow)}
-                <div className="flex justify-center">
-                  <CloseButton onClick={handleClear} />
-                </div>
+        {availableTabs.map((tab) => {
+          const view = tabViews[tab]!;
+          return (
+            <Tab key={tab} title={tabTitle(view.label, view.count, view.max)}>
+              <div
+                className={`${view.tabBodyClass ?? "mt-1"} flex justify-center`}
+              >
+                {view.count > 0 ? view.list : view.emptyNode}
               </div>
-            ) : (
-              <p className="px-4 py-2 text-sm text-zinc-400 dark:text-zinc-500">
-                {t("historyEmptyHint")}
-              </p>
-            )}
-          </div>
-        </Tab>
-
-        <Tab
-          key="favorites"
-          title={tabTitle(t(favTabKey), favoriteList.length, favoriteLimit)}
-        >
-          <div className="mt-1 flex justify-center">
-            {favoriteList.length > 0 ? (
-              <div className="flex max-w-[10rem] flex-col gap-2.5">
-                {favoriteList.map(renderRow)}
-              </div>
-            ) : (
-              <p className="px-4 text-sm text-zinc-400 dark:text-zinc-500">
-                {t(favEmptyKey)}
-              </p>
-            )}
-          </div>
-        </Tab>
-
-        {stopFavorites ? (
-          <Tab
-            key="stopFavorites"
-            title={tabTitle(t("favoritesStopTab"), stopCount, favoriteLimit)}
-          >
-            <div
-              className={`${stopCount > 0 ? "-mt-1" : "mt-1"} flex justify-center`}
-            >
-              {stopCount > 0 ? (
-                stopFavorites.content
-              ) : (
-                <p className="px-4 text-sm text-zinc-400 dark:text-zinc-500">
-                  {t("favoritesStopEmptyHint")}
-                </p>
-              )}
-            </div>
-          </Tab>
-        ) : null}
+            </Tab>
+          );
+        })}
       </Tabs>
 
       {favoriteDialogs}

@@ -11,8 +11,13 @@ export const updateDataList = [
   {
     date: "2026-08",
     type: "both",
-    ver: "4.1.1",
+    ver: "4.2.0",
     items: [
+      {
+        type: "new",
+        content:
+          "新功能：系統設定頁面加入「公車設定」，可切換歷史查詢區塊預設分頁為「常用站牌」分頁",
+      },
       {
         type: "update",
         content:

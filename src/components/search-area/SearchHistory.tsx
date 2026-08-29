@@ -1,3 +1,10 @@
+import {
+  getAvailableTabs,
+  getPanelLayout,
+  resolveDefaultTab,
+  SearchPanelTabKey,
+  SearchPanelTabView,
+} from "@/configs/searchPanelTabs";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   SearchAreaContext,
@@ -51,9 +58,8 @@ const CloseButton: FC<CloseButtonProps> = ({ onClick }) => {
 };
 
 /**
- * 搜尋區塊。依設定 showFavoriteRoutes 切換兩種型態：
- *  - 開啟：「歷史查詢 / 常用路線」雙分頁 + 收藏愛心（歷史、收藏各為獨立資料源）
- *  - 關閉：純歷史查詢清單（無分頁、無愛心），給不需要常用路線的使用者
+ * 搜尋區塊：「歷史查詢 / 常用路線」分頁（兩者各為獨立資料源，常用附收藏愛心）。
+ * 可用分頁由顯示開關決定；只剩一個時不出分頁列，直接呈現標題 + 清單。
  */
 const SearchHistory: FC = () => {
   const { t, i18n } = useTranslation();
@@ -186,28 +192,18 @@ const SearchHistory: FC = () => {
     );
   };
 
-  // 單一清單型態（只開歷史或只開常用時）：標題 + 置中清單。
-  // 歷史附清除鈕；常用不附（逐筆靠愛心移除）。
-  const renderFlatList = (
-    title: string,
+  // 清單本體：等寬單欄。歷史附清除鈕；常用不附（逐筆靠愛心移除）。
+  const renderList = (
     items: { startStationId: string; endStationId: string }[],
     withClear: boolean,
   ) => (
-    <div className="text-center">
-      {/* 標題：共 X / 5 筆 */}
-      <div className="mb-2.5 text-sm text-muted-foreground">
-        {title}
-      </div>
-      <div className="flex justify-center">
-        <div className="flex flex-col gap-2.5">
-          {items.map(renderRow)}
-          {withClear && (
-            <div className="flex justify-center">
-              <CloseButton onClick={handleClear} />
-            </div>
-          )}
+    <div className="flex flex-col gap-2.5">
+      {items.map(renderRow)}
+      {withClear && (
+        <div className="flex justify-center">
+          <CloseButton onClick={handleClear} />
         </div>
-      </div>
+      )}
     </div>
   );
 
@@ -241,54 +237,81 @@ const SearchHistory: FC = () => {
     </>
   );
 
-  // 兩者皆關 → 整塊不顯示
-  if (!showHistory && !showFavoriteRoutes) return null;
+  const emptyHint = (text: string, spacing = "px-4") => (
+    <p className={`${spacing} text-sm text-zinc-400 dark:text-zinc-500`}>
+      {text}
+    </p>
+  );
 
-  // 只開歷史查詢：純歷史清單（無分頁、無愛心），標題「歷史查詢：共 X / Y 筆」。
-  // 無歷史 → 整塊不顯示（導頁前不重排：靠 displayHistory 快照）
-  if (showHistory && !showFavoriteRoutes) {
-    if (displayHistory.length === 0) return null;
-    return renderFlatList(
-      t("historyInquiry", {
+  // 可用分頁與版面由 registry 決定；可用性只看設定，與有無資料無關
+  const availableTabs = getAvailableTabs("od", {
+    showHistory,
+    showFavoriteRoutes,
+    // OD 面板無常用站牌分頁，此開關不影響結果
+    showFavoriteStops: false,
+  });
+  const layout = getPanelLayout(availableTabs);
+  const selectedTab = resolveDefaultTab(defaultSearchTab, availableTabs);
+
+  const tabViews: Partial<Record<SearchPanelTabKey, SearchPanelTabView>> = {
+    // 歷史查詢：純時間序
+    history: {
+      label: t("historyTab"),
+      count: displayHistory.length,
+      max: historyLimit,
+      inquiryTitle: t("historyInquiry", {
         nowLength: displayHistory.length,
         max: historyLimit,
       }),
-      displayHistory,
-      true,
-    );
-  }
+      emptyNode: emptyHint(t("historyEmptyHint"), "px-4 py-2"),
+      list: renderList(displayHistory, true),
+    },
+    // 常用路線：收藏
+    favorites: {
+      label: t("favoritesTab"),
+      count: favoriteList.length,
+      max: favoriteLimit,
+      inquiryTitle: t("favoritesInquiry", {
+        nowLength: favoriteList.length,
+        max: favoriteLimit,
+      }),
+      emptyNode: emptyHint(t("favoritesEmptyHint")),
+      list: renderList(favoriteList, false),
+    },
+  };
 
-  // 只開常用路線：純常用清單（無分頁、含愛心），標題「常用路線：共 X / Y 筆」。
-  // 無收藏 → 整塊不顯示
-  if (!showHistory && showFavoriteRoutes) {
-    if (favoriteList.length === 0) return null;
+  if (layout === "none") return null;
+
+  // 可用分頁全無資料 → 整塊不顯示（連帶不需要 dialog）。
+  // 歷史用 displayHistory（快照）而非 historyList：空清單按搜尋時 localSaveFlag 會讓快照維持空、
+  // 跳過重排，導頁前就不會先閃出 tab 標題（與歷史既有的「導頁前不重排」一致）。
+  const filled = availableTabs.filter((tab) => tabViews[tab]!.count > 0);
+  if (filled.length === 0) return null;
+
+  // 單一分頁 → 標題 + 清單直接呈現（無分頁列）
+  if (layout === "flat") {
+    const view = tabViews[availableTabs[0]]!;
     return (
       <>
-        {renderFlatList(
-          t("favoritesInquiry", {
-            nowLength: favoriteList.length,
-            max: favoriteLimit,
-          }),
-          favoriteList,
-          false,
-        )}
-        {favoriteDialogs}
+        <div className="text-center">
+          {/* 標題：共 X / 5 筆 */}
+          <div className="mb-2.5 text-sm text-muted-foreground">
+            {view.inquiryTitle}
+          </div>
+          <div className="flex justify-center">{view.list}</div>
+        </div>
+        {showFavoriteRoutes && favoriteDialogs}
       </>
     );
   }
 
-  // 兩者皆開 → 雙分頁。
-  // 兩分頁皆空 → 整塊不顯示（連帶不需要 dialog）。
-  // 用 displayHistory（快照）而非 historyList：空清單按搜尋時 localSaveFlag 會讓快照維持空、
-  // 跳過重排，導頁前就不會先閃出 tab 標題（與歷史既有的「導頁前不重排」一致）。
-  if (displayHistory.length === 0 && favoriteList.length === 0) return null;
-
   return (
     <>
-      {/* 預設停在設定選的分頁；key 綁定設定值，設定水合較慢時讓 Tabs 重掛以套用新預設 */}
+      {/* 預設停在設定選的分頁（不可用時沿 fallback 鏈收斂）；
+          key 綁定該值，設定水合較慢時讓 Tabs 重掛以套用新預設 */}
       <Tabs
-        key={defaultSearchTab}
-        defaultSelectedKey={defaultSearchTab}
+        key={selectedTab}
+        defaultSelectedKey={selectedTab}
         aria-label="歷史查詢與常用路線"
         size="md"
         variant="underlined"
@@ -303,45 +326,18 @@ const SearchHistory: FC = () => {
             "group-data-[hover-unselected=true]:text-zinc-600 dark:group-data-[hover-unselected=true]:text-zinc-300",
         }}
       >
-        {/* 歷史查詢：純時間序 */}
-        <Tab
-          key="history"
-          title={tabTitle(t("historyTab"), displayHistory.length, historyLimit)}
-        >
-          <div className="mt-1 flex justify-center">
-            {displayHistory.length > 0 ? (
-              <div className="flex flex-col gap-2.5">
-                {displayHistory.map(renderRow)}
-                {/* 清除歷史 */}
-                <div className="flex justify-center">
-                  <CloseButton onClick={handleClear} />
-                </div>
+        {availableTabs.map((tab) => {
+          const view = tabViews[tab]!;
+          return (
+            <Tab key={tab} title={tabTitle(view.label, view.count, view.max)}>
+              <div
+                className={`${view.tabBodyClass ?? "mt-1"} flex justify-center`}
+              >
+                {view.count > 0 ? view.list : view.emptyNode}
               </div>
-            ) : (
-              <p className="px-4 py-2 text-sm text-zinc-400 dark:text-zinc-500">
-                {t("historyEmptyHint")}
-              </p>
-            )}
-          </div>
-        </Tab>
-
-        {/* 常用路線：收藏 */}
-        <Tab
-          key="favorites"
-          title={tabTitle(t("favoritesTab"), favoriteList.length, favoriteLimit)}
-        >
-          <div className="mt-1 flex justify-center">
-            {favoriteList.length > 0 ? (
-              <div className="flex flex-col gap-2.5">
-                {favoriteList.map(renderRow)}
-              </div>
-            ) : (
-              <p className="px-4 text-sm text-zinc-400 dark:text-zinc-500">
-                {t("favoritesEmptyHint")}
-              </p>
-            )}
-          </div>
-        </Tab>
+            </Tab>
+          );
+        })}
       </Tabs>
 
       {favoriteDialogs}

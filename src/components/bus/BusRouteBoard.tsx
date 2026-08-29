@@ -72,7 +72,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
   const { user, loginWithGoogle } = useAuth();
   const { limit, addFavorite, removeFavorite, isFavorite } =
     useStationFavorites("BUS_STOP");
-  const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
+  const [showFavoriteStops] = useSetting("showFavoriteStops");
   const [loginOpen, setLoginOpen] = useState(false);
   const [limitOpen, setLimitOpen] = useState(false);
 
@@ -107,7 +107,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
   // 不可收藏（設定關閉 / 市區公車站不在 bus_stop）回 undefined → 該列不掛愛心；
   // 可收藏條件與可點跳站牌頁一致（batch 反查 bus_stop，同一前提）
   const favoriteFor = (stop: JsyBusStopArrival) => {
-    if (!showFavoriteRoutes || !current) return undefined;
+    if (!showFavoriteStops || !current) return undefined;
     if (current.source === "city" && !stop.city) return undefined;
     const targetId = encodeBusStopFavoriteId({
       stopUid: stop.stopUid,

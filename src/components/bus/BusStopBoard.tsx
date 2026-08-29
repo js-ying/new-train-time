@@ -39,7 +39,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
   const { user, loginWithGoogle } = useAuth();
   const { limit, addFavorite, removeFavorite, isFavorite } =
     useStationFavorites("BUS_STOP");
-  const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
+  const [showFavoriteStops] = useSetting("showFavoriteStops");
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [limitOpen, setLimitOpen] = useState(false);
@@ -97,7 +97,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
     <div className="flex flex-col gap-3">
       {board.routes.map((r, index) => {
         const fav =
-          showFavoriteRoutes &&
+          showFavoriteStops &&
           isFavorite(
             encodeBusStopFavoriteId({
               stopUid,
@@ -109,7 +109,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
         return (
           <div key={`${r.routeUid}-${r.subRouteName ?? ""}-${r.direction}`}>
             <div className="flex items-center gap-3 rounded-md border border-solid border-foreground p-3">
-              {showFavoriteRoutes && (
+              {showFavoriteStops && (
                 <button
                   type="button"
                   aria-label="favorite-toggle"

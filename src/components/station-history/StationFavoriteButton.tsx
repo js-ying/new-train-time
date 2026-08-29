@@ -52,6 +52,7 @@ const StationFavoriteButton: FC<StationFavoriteButtonProps> = ({
   const { limit, addFavorite, removeFavorite, isFavorite } =
     useStationFavorites(trainType);
   const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
+  const [showFavoriteStops] = useSetting("showFavoriteStops");
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [limitOpen, setLimitOpen] = useState(false);
@@ -60,7 +61,8 @@ const StationFavoriteButton: FC<StationFavoriteButtonProps> = ({
     FAVORITE_TEXT_KEYS[trainType];
 
   // 使用者關閉常用功能 → 不顯示愛心（與 OD 一致）
-  if (!showFavoriteRoutes) return null;
+  if (!(trainType === "BUS_STOP" ? showFavoriteStops : showFavoriteRoutes))
+    return null;
   if (!target) return null;
 
   const isFavorited = isFavorite(target.targetId);

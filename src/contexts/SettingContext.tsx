@@ -30,10 +30,14 @@ export interface SettingParams {
   showHistory: boolean;
   /** 是否在搜尋區顯示「常用路線」分頁與收藏愛心（關閉則回歸純歷史查詢） */
   showFavoriteRoutes: boolean;
+  /** 是否在公車頁顯示「常用站牌」分頁與站牌收藏愛心 */
+  showFavoriteStops: boolean;
   /** 色彩主題（light / dark / system）*/
   theme: ThemeMode;
   /** 首頁歷史查詢區塊預設顯示的分頁（history / favorites）*/
   defaultSearchTab: DefaultSearchTab;
+  /** 公車頁是否以「常用站牌」為預設分頁（覆寫 defaultSearchTab）*/
+  preferBusStopTab: boolean;
 }
 
 export const defaultSetting: SettingParams = {
@@ -49,10 +53,14 @@ export const defaultSetting: SettingParams = {
   showHistory: true,
   /** 預設顯示常用路線分頁（不想用的人可於設定關閉） */
   showFavoriteRoutes: true,
+  /** 預設顯示常用站牌分頁（不想用的人可於設定關閉） */
+  showFavoriteStops: true,
   /** 預設跟隨系統色彩偏好（對齊 next-themes 行為） */
   theme: "system",
   /** 預設顯示歷史查詢分頁 */
   defaultSearchTab: "history",
+  /** 預設不覆寫，公車頁跟隨 defaultSearchTab */
+  preferBusStopTab: false,
 };
 
 /** localStorage 上存放「最後一次設定變更時間（毫秒）」的 key */
@@ -76,6 +84,16 @@ function isThemeMode(v: unknown): v is ThemeMode {
  */
 function isDefaultSearchTab(v: unknown): v is DefaultSearchTab {
   return v === "history" || v === "favorites";
+}
+
+/** 未設定過的新欄位改繼承既有欄位，而非套硬編預設值 */
+function inheritDefault(
+  settings: SettingParams,
+  key: keyof SettingParams,
+): void {
+  if (key === "showFavoriteStops") {
+    settings.showFavoriteStops = settings.showFavoriteRoutes;
+  }
 }
 
 /**
@@ -118,15 +136,20 @@ export const SettingUpdateContext =
  */
 function readLocalSettings(): SettingParams {
   const next: SettingParams = { ...defaultSetting };
+  const missing: (keyof SettingParams)[] = [];
   (Object.keys(defaultSetting) as (keyof SettingParams)[]).forEach((key) => {
     const raw = localStorage.getItem(key);
     if (raw === null) {
-      localStorage.setItem(key, serializeValue(defaultSetting[key]));
-      (next as any)[key] = defaultSetting[key];
+      missing.push(key);
     } else {
       (next as any)[key] = parseStoredValue(key, raw);
     }
   });
+  // 繼承須在回寫前套用
+  missing.forEach((key) => inheritDefault(next, key));
+  missing.forEach((key) =>
+    localStorage.setItem(key, serializeValue(next[key])),
+  );
   return next;
 }
 
@@ -181,16 +204,22 @@ function mergeWithDefault(
 ): SettingParams {
   const merged: SettingParams = { ...defaultSetting };
   if (!partial) return merged;
+  const missing: (keyof SettingParams)[] = [];
   (Object.keys(defaultSetting) as (keyof SettingParams)[]).forEach((key) => {
     const v = (partial as any)[key];
     if (key === "theme") {
       if (isThemeMode(v)) merged.theme = v;
+      else missing.push(key);
     } else if (key === "defaultSearchTab") {
       if (isDefaultSearchTab(v)) merged.defaultSearchTab = v;
+      else missing.push(key);
     } else if (typeof v === "boolean") {
       (merged as any)[key] = v;
+    } else {
+      missing.push(key);
     }
   });
+  missing.forEach((key) => inheritDefault(merged, key));
   return merged;
 }
 
