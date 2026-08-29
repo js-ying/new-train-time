@@ -173,7 +173,7 @@ export const isTymcTrainNormal = (trainTypeCode: number): boolean => {
   return [0, 1].includes(trainTypeCode);
 };
 
-/** 桃捷抵達時刻是否為推估值（非迄站的實際到站時刻）。 */
+/** 桃捷抵達時刻是否標示為約略；僅 exact 為迄站的實際到站時刻。 */
 export const isTymcArrivalApprox = (
   arrivalSource?: JsyTymcTimetable["arrivalSource"],
 ): boolean => arrivalSource !== "exact";

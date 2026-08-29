@@ -19,8 +19,8 @@ export interface JsyTymcTimetable {
   departureTime: string;
   /** 抵達迄站時刻 hh:mm */
   arrivalTime: string;
-  /** 抵達時刻來源：exact 為實際到站時刻，estimated / degraded 為推估 */
-  arrivalSource?: "exact" | "estimated" | "degraded";
+  /** 抵達時刻來源：exact / stitched 為實際到站時刻，estimated / degraded 為推估 */
+  arrivalSource?: "exact" | "stitched" | "estimated" | "degraded";
   /** 行駛時間 hh:mm */
   runTime: string;
   /** 0:不分車種 1:普通車 2:直達車 */
