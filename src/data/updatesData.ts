@@ -11,6 +11,36 @@ export const updateDataList = [
   {
     date: "2026-08",
     type: "both",
+    ver: "4.1.1",
+    items: [
+      {
+        type: "update",
+        content:
+          "現在台鐵 / 高鐵 / 桃園捷運會各自記住上次查詢的起迄站，切換鐵路不再互相覆蓋",
+      },
+      {
+        type: "update",
+        content: "現在切換鐵路時會沿用目前選擇的日期與時間，不再自動重設為現在",
+      },
+      {
+        type: "update",
+        content:
+          "現在於首頁點選所在鐵路的頁籤或上方標題，即可清空起迄站並將日期時間拉回現在",
+      },
+      {
+        type: "fix",
+        content: "修正桃園捷運部份跳站行駛的班次，在未停靠的車站仍被列出的問題",
+      },
+      {
+        type: "fix",
+        content:
+          "修正部份公車路線收藏後會跳回未收藏狀態，且未記錄於歷史查詢的問題",
+      },
+    ],
+  },
+  {
+    date: "2026-08",
+    type: "both",
     ver: "4.1.0",
     items: [
       {
