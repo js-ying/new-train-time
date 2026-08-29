@@ -16,6 +16,9 @@ export const clientIpForwardHeaders = (
   return headers;
 };
 
+const isJsonObject = (body: unknown): boolean =>
+  typeof body === "object" && body !== null && !Array.isArray(body);
+
 /**
  * 通用的 API Proxy 處理器
  * 成功：原封不動轉發後端回應；
@@ -34,6 +37,17 @@ export const apiProxyHandler = async (
   targetUrl: string,
   method: string = "POST",
 ) => {
+  // 非 JSON 物件的 body 直接擋下不轉發：缺 Content-Type 時 Next 會把 body 解析成字串
+  if (method !== "GET" && !isJsonObject(req.body)) {
+    return res.status(400).json({
+      type: "https://traintime.jsy.tw/problems/invalid_input",
+      title: "INVALID_INPUT",
+      status: 400,
+      code: "INVALID_INPUT",
+      instance: req.url,
+    });
+  }
+
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
