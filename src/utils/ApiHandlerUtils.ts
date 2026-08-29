@@ -1,3 +1,4 @@
+import type { ProblemCode, ProblemDetails } from "@/models/problem-details";
 import { NextApiRequest, NextApiResponse } from "next";
 
 /**
@@ -19,6 +20,23 @@ export const clientIpForwardHeaders = (
 const isJsonObject = (body: unknown): boolean =>
   typeof body === "object" && body !== null && !Array.isArray(body);
 
+const PROBLEM_TYPE_BASE = "https://traintime.jsy.tw/problems/";
+
+/** BFF 自行產生的 Problem Details (RFC 9457)，格式對齊後端：type 為 code 小寫。 */
+const problemDetails = (
+  code: ProblemCode,
+  status: number,
+  instance: string,
+  detail?: string,
+): ProblemDetails => ({
+  type: `${PROBLEM_TYPE_BASE}${code.toLowerCase()}`,
+  title: code,
+  status,
+  code,
+  detail,
+  instance,
+});
+
 /**
  * 通用的 API Proxy 處理器
  * 成功：原封不動轉發後端回應；
@@ -37,15 +55,11 @@ export const apiProxyHandler = async (
   targetUrl: string,
   method: string = "POST",
 ) => {
-  // 非 JSON 物件的 body 直接擋下不轉發：缺 Content-Type 時 Next 會把 body 解析成字串
+  // 非 JSON 物件的 body 直接擋下不轉發：缺 Content-Type 時 Next 會把 body 解析成字串。
+  // 前提：呼叫端一律經 fetchData / callUserApi，兩者 non-GET 都送 JSON.stringify(body ?? {})，
+  // 故無 body 的 DELETE 也會是 {}；若日後新增直接用 fetch 的呼叫端，需一併帶 JSON body。
   if (method !== "GET" && !isJsonObject(req.body)) {
-    return res.status(400).json({
-      type: "https://traintime.jsy.tw/problems/invalid_input",
-      title: "INVALID_INPUT",
-      status: 400,
-      code: "INVALID_INPUT",
-      instance: req.url,
-    });
+    return res.status(400).json(problemDetails("INVALID_INPUT", 400, req.url));
   }
 
   try {
@@ -86,14 +100,16 @@ export const apiProxyHandler = async (
       ) {
         return res.status(clientStatus).json(payload);
       }
-      return res.status(clientStatus).json({
-        type: "https://traintime.jsy.tw/problems/internal_error",
-        title: "INTERNAL_ERROR",
-        status: clientStatus,
-        code: "INTERNAL_ERROR",
-        detail: typeof payload === "string" ? payload : undefined,
-        instance: req.url,
-      });
+      return res
+        .status(clientStatus)
+        .json(
+          problemDetails(
+            "INTERNAL_ERROR",
+            clientStatus,
+            req.url,
+            typeof payload === "string" ? payload : undefined,
+          ),
+        );
     }
 
     return res.status(200).json(payload);
@@ -101,13 +117,8 @@ export const apiProxyHandler = async (
     console.error(`API Proxy Error [${targetUrl}]:`, error);
     // 後端 Express 不可達：本應是 502，但 CF 會吃掉 502 的 body（見上方說明），
     // 故對前端回 503 讓 body 中的 code 存活；語意仍為 BFF→Express 的 upstream 失敗。
-    return res.status(503).json({
-      type: "https://traintime.jsy.tw/problems/bff_upstream_error",
-      title: "BFF_UPSTREAM_ERROR",
-      status: 503,
-      code: "BFF_UPSTREAM_ERROR",
-      detail: error?.message,
-      instance: req.url,
-    });
+    return res
+      .status(503)
+      .json(problemDetails("BFF_UPSTREAM_ERROR", 503, req.url, error?.message));
   }
 };
