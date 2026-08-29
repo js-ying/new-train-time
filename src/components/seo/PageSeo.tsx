@@ -40,14 +40,14 @@ const PageSeo: FC<PageSeoProps> = ({ busRoute = null }) => {
     breadcrumbs,
   } = useSeo(busRoute);
 
-  // 站台根（台鐵首頁 /）掛 site-level 實體：WebSite + Organization 都是全站單例，
-  // 只在根首頁宣告一次（THSR / TYMC 共用 Home 元件，但不重複掛）。
-  const isHome = !pathname.includes("search");
-  const showSiteEntity = isHome && isTr;
-
   // 搜尋頁：用「能否解析出實際站名」判斷是否為有效結果頁，而非只看 query 是否存在。
   // 無效起訖站（如 s=9999&e=8888）會解析成 null，視同空查詢。
   const isSearchPage = pathname.includes("search");
+
+  // 站台根（台鐵首頁 /）掛 site-level 實體：WebSite + Organization 都是全站單例，
+  // 只在根首頁宣告一次（THSR / TYMC 共用 Home 元件，但不重複掛）。
+  // 涵蓋範圍比 usePage 的 isHome 寬：/station 等 isTr fallback 頁也掛，故不共用該判定。
+  const showSiteEntity = !isSearchPage && isTr;
   const startStationName = getStationNameById(
     page,
     urlSearchAreaParams.startStationId,

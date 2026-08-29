@@ -74,8 +74,11 @@ export const applySearchAreaUpdate = (
   };
 };
 
+/** 更新 SearchAreaParams；只給部分欄位即可，未提及的欄位維持原值 */
+export type SetSearchAreaParams = (updater: SearchAreaUpdater) => void;
+
 export const SearchAreaContext = createContext<SearchAreaParams>(null);
-export const SearchAreaUpdateContext = createContext(null);
+export const SearchAreaUpdateContext = createContext<SetSearchAreaParams>(null);
 
 export function SearchAreaProvider({ children }) {
   const { page } = usePage();
