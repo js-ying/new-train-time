@@ -22,6 +22,10 @@ export const updateDataList = [
         content:
           "現在「自動跳轉至上次使用頁面」支援台鐵北上 / 南下時刻表與公車頁面",
       },
+      {
+        type: "update",
+        content: "現在會員可點擊公車的自動更新倒數圖示，立即更新到站時間",
+      },
     ],
   },
   {

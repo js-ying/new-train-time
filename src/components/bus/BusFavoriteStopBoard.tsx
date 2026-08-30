@@ -1,6 +1,9 @@
+import CommonDialog from "@/components/common/CommonDialog";
 import HeartIcon from "@/components/icons/HeartIcon";
+import { REFRESH_COOLDOWN_MS } from "@/hooks/search/useAutoRefreshData";
 import useBusFavoriteStopBoards from "@/hooks/search/useBusFavoriteStopBoards";
 import useBusName from "@/hooks/useBusName";
+import useRefreshCooldown from "@/hooks/useRefreshCooldown";
 import { JsyBusStopBoardsBatchItem } from "@/models/jsy-bus-info";
 import { StationFavorite } from "@/models/station-favorites";
 import {
@@ -45,12 +48,19 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
   const {
     data,
     error,
+    lastUpdatedAt,
     isAutoRefresh,
     nextUpdateAt,
     pollIntervalMs,
+    refresh,
     isIdle,
     resumeAutoRefresh,
   } = useBusFavoriteStopBoards(keys);
+
+  // 點倒數環提前刷新；冷卻中改跳提示，比照路線/站牌看板
+  const refreshCooldown = useRefreshCooldown(REFRESH_COOLDOWN_MS);
+  const handleRefresh = () =>
+    refreshCooldown.attempt(refresh, { since: lastUpdatedAt });
 
   // 以 targetId 對回收藏列（防收藏增減瞬間錯位）
   const itemById = useMemo(() => {
@@ -88,6 +98,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
             <BusAutoRefreshRing
               nextUpdateAt={nextUpdateAt}
               intervalMs={pollIntervalMs}
+              onRefresh={handleRefresh}
             />
           </div>
         )
@@ -149,6 +160,16 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
           </div>
         );
       })}
+
+      {/* 手動刷新冷卻提示（凍結秒數）；此看板僅登入會員可見，故不附登入引導 */}
+      <CommonDialog
+        open={refreshCooldown.dialogOpen}
+        setOpen={refreshCooldown.setDialogOpen}
+      >
+        {t("sameQueryCountdownMsg", {
+          seconds: refreshCooldown.frozenSeconds,
+        })}
+      </CommonDialog>
     </div>
   );
 };

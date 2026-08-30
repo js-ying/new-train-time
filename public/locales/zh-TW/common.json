@@ -92,6 +92,7 @@
     "NW": "西北"
   },
   "busAutoRefreshHintTitle": "自動更新",
+  "busAutoRefreshRingLabel": "自動更新倒數，點擊立即更新",
   "busAutoRefreshHint": "登入會員即可自動更新到站時間，不用再手動更新。",
   "refreshBtnLabel": "重新整理",
   "busRouteInfo": "路線詳細資訊",

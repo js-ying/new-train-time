@@ -92,6 +92,7 @@
     "NW": "NW"
   },
   "busAutoRefreshHintTitle": "Auto-refresh",
+  "busAutoRefreshRingLabel": "Auto-refresh countdown, tap to refresh now",
   "busAutoRefreshHint": "Sign in to auto-refresh arrival times — no need to refresh manually.",
   "refreshBtnLabel": "Refresh",
   "busRouteInfo": "Route Details",

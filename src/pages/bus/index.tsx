@@ -21,18 +21,18 @@ import NoTrainData from "@/components/train-time-table/NoTrainData";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { PathEnum } from "@/enums/PathEnum";
+import { REFRESH_COOLDOWN_MS } from "@/hooks/search/useAutoRefreshData";
 import useBusRouteArrivals, {
   BusRouteSelection,
-  POLL_INTERVAL_MS,
 } from "@/hooks/search/useBusRouteArrivals";
 import useBusRouteInfo from "@/hooks/search/useBusRouteInfo";
 import useBusStopBoard, {
   BusStopSelection,
 } from "@/hooks/search/useBusStopBoard";
 import useNearestBusStop from "@/hooks/search/useNearestBusStop";
+import useBusName from "@/hooks/useBusName";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import useRefreshCooldown from "@/hooks/useRefreshCooldown";
-import useBusName from "@/hooks/useBusName";
 import useStationFavorites from "@/hooks/useStationFavorites";
 import useStationHistory from "@/hooks/useStationHistory";
 import {
@@ -362,8 +362,9 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
   const routeAlerts = !isStopMode ? data?.[0]?.alerts : undefined;
 
   // 手動刷新冷卻（route/stop 共用一份；refresh 指向作用中看板）；冷卻中再按 → 彈窗「請於 X 秒後再試」
-  const busRefreshCooldown = useRefreshCooldown(POLL_INTERVAL_MS);
-  const handleRefresh = () => busRefreshCooldown.attempt(refresh);
+  const busRefreshCooldown = useRefreshCooldown(REFRESH_COOLDOWN_MS);
+  const handleRefresh = () =>
+    busRefreshCooldown.attempt(refresh, { since: lastUpdatedAt });
   // 同查詢冷卻：選同路線 / 定位到同站牌 5 秒內擋下並提示（按 key 區分，不同查詢不互擋），比照 TR 單站
   const busQueryCooldown = useRefreshCooldown(SAME_QUERY_COOLDOWN_MS);
   // 換路線/換站牌：新查詢可立即刷新
@@ -375,13 +376,16 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
   // 離我最近站牌：定位解析後 push URL（StopUID 為錨，改 stop 模式）；push 留歷史讓瀏覽器可返回。
   // 不提前清 selectedRoute（避免閃歷史面板，同 handleSelectStopFromRoute）；同站牌 5 秒內重定位擋下。
   const handleNearestStop = (stop: JsyBusNearestStop) => {
-    busQueryCooldown.attempt(() => {
-      router.push(
-        { pathname: "/bus", query: { stopUid: stop.stopUid } },
-        undefined,
-        { shallow: true },
-      );
-    }, `stopuid:${stop.stopUid}`);
+    busQueryCooldown.attempt(
+      () => {
+        router.push(
+          { pathname: "/bus", query: { stopUid: stop.stopUid } },
+          undefined,
+          { shallow: true },
+        );
+      },
+      { key: `stopuid:${stop.stopUid}` },
+    );
   };
   const { locate, geoError } = useNearestBusStop(handleNearestStop);
 
@@ -398,24 +402,27 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
   // 同路線 5 秒內重選 → 擋下並提示（key 帶 routeUid）
   const handleSelectRoute = (route: JsyBusRoute, dir?: number) => {
     const key = encodeBusTargetId(route.routeUid, route.subRouteName);
-    busQueryCooldown.attempt(() => {
-      gaClickEvent(GaEnum.BUS_ROUTE_SELECT);
-      activeSelectRef.current = key; // 標記為主動選擇（歷史只記主動選擇，直連/冷載不記）
-      setSelectedRoute(route);
-      // URL 不帶 name（後端不用；顯示名改取 arrivals 回應權威值，見下方 useEffect）
-      router.push(
-        {
-          pathname: "/bus",
-          query: {
-            routeUid: route.routeUid,
-            ...(route.subRouteName ? { sub: route.subRouteName } : {}),
-            ...(dir != null ? { dir: String(dir) } : {}),
+    busQueryCooldown.attempt(
+      () => {
+        gaClickEvent(GaEnum.BUS_ROUTE_SELECT);
+        activeSelectRef.current = key; // 標記為主動選擇（歷史只記主動選擇，直連/冷載不記）
+        setSelectedRoute(route);
+        // URL 不帶 name（後端不用；顯示名改取 arrivals 回應權威值，見下方 useEffect）
+        router.push(
+          {
+            pathname: "/bus",
+            query: {
+              routeUid: route.routeUid,
+              ...(route.subRouteName ? { sub: route.subRouteName } : {}),
+              ...(dir != null ? { dir: String(dir) } : {}),
+            },
           },
-        },
-        undefined,
-        { shallow: true },
-      );
-    }, `route:${key}`);
+          undefined,
+          { shallow: true },
+        );
+      },
+      { key: `route:${key}` },
+    );
   };
 
   // 切換方向 → 更新 state + 寫 URL dir（replace 不增歷史，與 TR 一致）；refresh/分享可還原
@@ -457,25 +464,31 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
   const handleSelectStopFromRoute = (stop: JsyBusStopArrival) => {
     const source = data?.[0]?.source ?? selectedRoute?.source ?? "city";
     if (source === "city" && !stop.city) return; // 市區公車站需在 bus_stop（有 city）才查得到
-    busQueryCooldown.attempt(() => {
-      router.push(
-        { pathname: "/bus", query: { stopUid: stop.stopUid } },
-        undefined,
-        { shallow: true },
-      );
-    }, `stopuid:${stop.stopUid}`);
+    busQueryCooldown.attempt(
+      () => {
+        router.push(
+          { pathname: "/bus", query: { stopUid: stop.stopUid } },
+          undefined,
+          { shallow: true },
+        );
+      },
+      { key: `stopuid:${stop.stopUid}` },
+    );
   };
 
   // 站柱 tab 切換（同名多座標）→ push 該柱 stopUid（仍單錨）；已在此柱則不動
   const handleSelectVariant = (variantStopUid: string) => {
     if (variantStopUid === stopUid) return;
-    busQueryCooldown.attempt(() => {
-      router.push(
-        { pathname: "/bus", query: { stopUid: variantStopUid } },
-        undefined,
-        { shallow: true },
-      );
-    }, `stopuid:${variantStopUid}`);
+    busQueryCooldown.attempt(
+      () => {
+        router.push(
+          { pathname: "/bus", query: { stopUid: variantStopUid } },
+          undefined,
+          { shallow: true },
+        );
+      },
+      { key: `stopuid:${variantStopUid}` },
+    );
   };
 
   // 從收藏站點點入時，帶著該筆三元組讓站牌看板標記那一列（stopUid 不符即忽略）
@@ -490,12 +503,13 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
     setShowBottomAd(true);
   }, []);
 
-  // 登入會員：自動輪詢倒數環，掛在方向切換同列最右（cornerSlot），不額外佔一列
+  // 登入會員：自動輪詢倒數環，掛在方向切換同列最右（cornerSlot），不額外佔一列；點擊可提前刷新
   const autoRefreshRing =
     isAutoRefresh && nextUpdateAt != null ? (
       <BusAutoRefreshRing
         nextUpdateAt={nextUpdateAt}
         intervalMs={pollIntervalMs}
+        onRefresh={handleRefresh}
       />
     ) : null;
 
@@ -506,15 +520,19 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
     ) : null;
 
   // 路線詳細資訊：icon-only，掛在方向切換同列最左（leadingSlot）；無看板時退回置中列
+  // -m-1.5 抵銷按鈕內距，footprint 維持 20px（位置不變）
   const routeInfoButton = (
-    <button
-      type="button"
-      onClick={() => setInfoModalOpen(true)}
+    <Button
+      isIconOnly
+      size="sm"
+      radius="full"
+      variant="light"
+      className="-m-1.5 text-zinc-600 dark:text-zinc-300"
       aria-label={t("busRouteInfo")}
-      className="custom-cursor-pointer inline-flex text-zinc-600 dark:text-zinc-300"
+      onPress={() => setInfoModalOpen(true)}
     >
       <InfoIcon />
-    </button>
+    </Button>
   );
 
   // 收藏 target（當前選定路線）；meta 帶 source/city 供副標顯示縣市/來源
@@ -629,17 +647,20 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
                       <BusFavoriteStopBoard
                         favorites={validStopFavorites}
                         onSelect={(key) => {
-                          busQueryCooldown.attempt(() => {
-                            setStopHighlight(key);
-                            router.push(
-                              {
-                                pathname: "/bus",
-                                query: { stopUid: key.stopUid },
-                              },
-                              undefined,
-                              { shallow: true },
-                            );
-                          }, `stopuid:${key.stopUid}`);
+                          busQueryCooldown.attempt(
+                            () => {
+                              setStopHighlight(key);
+                              router.push(
+                                {
+                                  pathname: "/bus",
+                                  query: { stopUid: key.stopUid },
+                                },
+                                undefined,
+                                { shallow: true },
+                              );
+                            },
+                            { key: `stopuid:${key.stopUid}` },
+                          );
                         }}
                         onRemove={removeStopFavorite}
                       />
@@ -748,16 +769,20 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
               />
             )}
 
-            {/* 手動刷新冷卻提示（凍結秒數）+ 引導登入解鎖自動更新（取代原 info 按鈕） */}
+            {/* 手動刷新冷卻提示（凍結秒數）；未登入才附帶引導登入解鎖自動更新 */}
             <CommonDialog
               open={busRefreshCooldown.dialogOpen}
               setOpen={busRefreshCooldown.setDialogOpen}
-              cancelText="cancel"
-              confirmText="login"
-              onConfirm={() => {
-                gaClickEvent(GaEnum.LOGIN_WITH_GOOGLE);
-                void loginWithGoogle();
-              }}
+              cancelText={isAutoRefresh ? undefined : "cancel"}
+              confirmText={isAutoRefresh ? undefined : "login"}
+              onConfirm={
+                isAutoRefresh
+                  ? undefined
+                  : () => {
+                      gaClickEvent(GaEnum.LOGIN_WITH_GOOGLE);
+                      void loginWithGoogle();
+                    }
+              }
             >
               <div className="flex flex-col gap-2">
                 <p>
@@ -765,9 +790,11 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
                     seconds: busRefreshCooldown.frozenSeconds,
                   })}
                 </p>
-                <p className="text-sm text-primary">
-                  {t("busAutoRefreshHint")}
-                </p>
+                {!isAutoRefresh && (
+                  <p className="text-sm text-primary">
+                    {t("busAutoRefreshHint")}
+                  </p>
+                )}
               </div>
             </CommonDialog>
 

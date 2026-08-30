@@ -1,9 +1,15 @@
 import { useCallback, useRef, useState } from "react";
 
+interface AttemptOptions {
+  /** 「同查詢」判定鍵：同 key 才擋，不同 key 視為新查詢直接放行；不傳即單一冷卻。 */
+  key?: string;
+  /** 外部最後更新時間；與上次 attempt 取較晚者當冷卻起點。 */
+  since?: number | null;
+}
+
 interface UseRefreshCooldownResult {
-  /** 嘗試執行 action：未冷卻→執行並起算冷卻；冷卻中→開彈窗顯示凍結剩餘秒數、不執行。
-   *  傳 key 作「同查詢」判定（同 key 才擋，不同 key 視為新查詢直接放行）；不傳 key 即單一冷卻。 */
-  attempt: (action: () => void, key?: string) => void;
+  /** 嘗試執行 action：未冷卻→執行並起算冷卻；冷卻中→開彈窗顯示凍結剩餘秒數、不執行。 */
+  attempt: (action: () => void, options?: AttemptOptions) => void;
   /** 冷卻彈窗開關 */
   dialogOpen: boolean;
   setDialogOpen: (open: boolean) => void;
@@ -21,18 +27,22 @@ export const useRefreshCooldown = (
   intervalMs: number,
 ): UseRefreshCooldownResult => {
   // 上次查詢的 key 與時間；key 用於「同查詢」判定（不同 key 視為不同查詢、不擋）
-  const lastRef = useRef<{ key: string | undefined; time: number } | null>(null);
+  const lastRef = useRef<{ key: string | undefined; time: number } | null>(
+    null,
+  );
   const [dialogOpen, setDialogOpen] = useState(false);
   const [frozenSeconds, setFrozenSeconds] = useState(0);
 
   const attempt = useCallback(
-    (action: () => void, key?: string) => {
+    (action: () => void, { key, since }: AttemptOptions = {}) => {
       const now = Date.now();
       const last = lastRef.current;
-      if (last != null && last.key === key && now - last.time < intervalMs) {
+      const lastAttemptAt = last != null && last.key === key ? last.time : 0;
+      const baseAt = Math.max(lastAttemptAt, since ?? 0);
+      if (baseAt > 0 && now - baseAt < intervalMs) {
         // 凍結被擋當下的剩餘秒數（無條件進位，至少 1 秒）
         setFrozenSeconds(
-          Math.max(1, Math.ceil((last.time + intervalMs - now) / 1000)),
+          Math.max(1, Math.ceil((baseAt + intervalMs - now) / 1000)),
         );
         setDialogOpen(true);
         return;

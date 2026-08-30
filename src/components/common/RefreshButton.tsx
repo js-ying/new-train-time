@@ -1,3 +1,4 @@
+import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useState } from "react";
 
@@ -24,7 +25,7 @@ interface RefreshButtonProps {
   onRefresh: () => void;
 }
 
-/** 共用「重新整理」：純 icon（無按鈕底色 / hover），點擊旋轉，比照 ThemeSwitch。 */
+/** 共用「重新整理」：icon-only 按鈕，點擊旋轉。 */
 const RefreshButton: FC<RefreshButtonProps> = ({ onRefresh }) => {
   const { t } = useTranslation();
   // 每次按下 +1，藉 key 變更 remount icon 以重播 .rotate（>0 才轉，避免初次出現就轉）
@@ -36,19 +37,18 @@ const RefreshButton: FC<RefreshButtonProps> = ({ onRefresh }) => {
   };
 
   return (
-    <div
-      tabIndex={0}
-      role="button"
+    // -m-1.5 抵銷按鈕內距，footprint 維持 20px（與收藏愛心、倒數環同中心）
+    <Button
+      isIconOnly
+      size="sm"
+      radius="full"
+      variant="light"
+      className="-m-1.5 text-zinc-600 dark:text-zinc-300"
       aria-label={t("refreshBtnLabel")}
-      // 16px icon 置中於 20px 方框（size-5）：icon 較小，但 footprint/中心與收藏愛心、倒數環（皆 20px）一致而對齊
-      className="custom-cursor-pointer inline-flex size-5 items-center justify-center text-zinc-600 dark:text-zinc-300"
-      onClick={handlePress}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") handlePress();
-      }}
+      onPress={handlePress}
     >
       <RefreshIcon key={spinCount} spin={spinCount > 0} />
-    </div>
+    </Button>
   );
 };
 

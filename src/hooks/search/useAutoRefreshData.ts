@@ -8,6 +8,9 @@ export const POLL_INTERVAL_MS = 10 * 1000;
 /** 輪詢連續失敗的退避間隔上限（毫秒）；失敗 streak 指數放大間隔（10s→20s→40s→60s），成功即回復。 */
 export const MAX_POLL_BACKOFF_MS = 60 * 1000;
 
+/** 手動刷新冷卻（毫秒）；登入（點倒數環）/ 未登入（刷新鈕）共用。 */
+export const REFRESH_COOLDOWN_MS = 5 * 1000;
+
 /**
  * 連續無操作達此時間 → 暫停自動輪詢，由頁面跳「您似乎已離開」彈窗。
  * 5 分鐘：大於「等車時盯著倒數」的連續觀看窗（手機純看畫面不產生事件），不誤打斷正在看的人。
@@ -26,7 +29,7 @@ export interface AutoRefreshDataResult<T> {
   nextUpdateAt: number | null;
   /** 目前生效的輪詢間隔（毫秒）；連續失敗退避時會大於 POLL_INTERVAL_MS，供倒數環換算。 */
   pollIntervalMs: number;
-  /** 手動重新整理（單純重抓一次；冷卻攔截由頁面處理）。 */
+  /** 手動重新整理：重抓一次並重排輪詢（環補滿）；冷卻攔截由頁面處理。 */
   refresh: () => void;
   /** 久無操作已暫停輪詢、待使用者確認是否續看（僅自動輪詢會員會 true）。 */
   isIdle: boolean;
@@ -65,6 +68,8 @@ export const useAutoRefreshData = <T>(
   const idleRef = useRef(false);
   const lastActivityRef = useRef(0);
   const resumeRef = useRef<(() => void) | null>(null);
+  // 由 effect 注入重排輪詢的函式，供手動刷新重置倒數（未登入無輪詢則維持 null）
+  const scheduleRef = useRef<(() => void) | null>(null);
   // fetcher 每 render 換 identity（closure 抓最新選擇）→ 用 ref 取最新，不為此重建輪詢
   const fetcherRef = useRef(fetcher);
   fetcherRef.current = fetcher;
@@ -173,6 +178,7 @@ export const useAutoRefreshData = <T>(
     };
 
     scheduleNext();
+    scheduleRef.current = scheduleNext;
 
     // AFK 偵測：任何操作更新最後操作時間；idle 判斷由 tick 折進輪詢（同一 isActive() gate）
     const onActivity = () => {
@@ -226,6 +232,7 @@ export const useAutoRefreshData = <T>(
       abortRef.current?.abort();
       if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
       resumeRef.current = null;
+      scheduleRef.current = null;
       activityEvents.forEach((e) => window.removeEventListener(e, onActivity));
       document.removeEventListener("visibilitychange", handleResume);
       window.removeEventListener("focus", handleResume);
@@ -233,8 +240,10 @@ export const useAutoRefreshData = <T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, isAutoRefresh]);
 
+  // 手動刷新：重抓並重排輪詢（倒數環隨即補滿）
   const refresh = useCallback(() => {
     void runFetch(false);
+    scheduleRef.current?.();
   }, [runFetch]);
 
   /** 解除 idle（由頁面彈窗確認觸發）；effect 已注入實作於 resumeRef。 */
