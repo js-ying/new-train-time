@@ -11,6 +11,22 @@ export const updateDataList = [
   {
     date: "2026-08",
     type: "both",
+    ver: "4.2.1",
+    items: [
+      {
+        type: "update",
+        content: "現在點擊公車常用站牌，會自動標記並捲到該列",
+      },
+      {
+        type: "update",
+        content:
+          "現在「自動跳轉至上次使用頁面」支援台鐵北上 / 南下時刻表與公車頁面",
+      },
+    ],
+  },
+  {
+    date: "2026-08",
+    type: "both",
     ver: "4.2.0",
     items: [
       {
@@ -31,6 +47,10 @@ export const updateDataList = [
         type: "update",
         content:
           "現在於首頁點選所在鐵路的頁籤或上方標題，即可清空起迄站並將日期時間拉回現在",
+      },
+      {
+        type: "fix",
+        content: "修正「自動跳轉至上次使用頁面」可能帶入錯誤的起迄站的問題",
       },
       {
         type: "fix",
