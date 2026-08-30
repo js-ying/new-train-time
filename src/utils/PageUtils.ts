@@ -1,24 +1,44 @@
 import { PageEnum } from "@/enums/PageEnum";
 import { PathEnum } from "@/enums/PathEnum";
-import { LAST_USED_PAGE_KEY } from "@/hooks/useAutoRedirectLastUsedPage";
 
-const getHomePath = (page: PageEnum | string) => {
+// 上次使用頁面的 localStorage key，值為站內路徑
+export const LAST_USED_PATH_KEY = "lastUsedPath";
+
+const getHomePath = (page: PageEnum): string => {
   switch (page) {
-    case PageEnum.TR || PageEnum.TR.toString():
+    case PageEnum.TR:
       return PathEnum.trHome;
-    case PageEnum.THSR || PageEnum.THSR.toString():
+    case PageEnum.THSR:
       return PathEnum.thsrHome;
-    case PageEnum.TYMC || PageEnum.TYMC.toString():
+    case PageEnum.TYMC:
       return PathEnum.tymcHome;
     case PageEnum.BUS:
       return PathEnum.busHome;
     default:
-      return "/";
+      return PathEnum.trHome;
   }
 };
 
-const recordLastUsedPage = (page: PageEnum) => {
-  localStorage.setItem(LAST_USED_PAGE_KEY, page);
+// 記錄上次使用頁面；須傳入固定路徑，不可用 router.asPath（會連 query 一起記）
+const recordLastUsedPath = (path: string) => {
+  localStorage.setItem(LAST_USED_PATH_KEY, path);
 };
 
-export { getHomePath, recordLastUsedPage };
+// localStorage 可被竄改，導頁前限定站內路徑；"//" 開頭會被當 protocol-relative 導向外站
+const isInternalPath = (path: string | null): path is string =>
+  !!path && path.startsWith("/") && !path.startsWith("//");
+
+/** 自動導頁的目標路徑；不該導頁時回 null（未啟用 / 非三鐵首頁 / 值無效 / 已在目標頁） */
+const resolveRedirectTarget = (params: {
+  enabled: boolean;
+  isHome: boolean;
+  lastUsedPath: string | null;
+  currentPathname: string;
+}): string | null => {
+  const { enabled, isHome, lastUsedPath, currentPathname } = params;
+  if (!enabled || !isHome) return null;
+  if (!isInternalPath(lastUsedPath)) return null;
+  return lastUsedPath === currentPathname ? null : lastUsedPath;
+};
+
+export { getHomePath, recordLastUsedPath, resolveRedirectTarget };

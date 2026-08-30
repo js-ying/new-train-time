@@ -1,28 +1,23 @@
 import usePage from "@/hooks/usePage";
-import { getHomePath } from "@/utils/PageUtils";
+import { LAST_USED_PATH_KEY, resolveRedirectTarget } from "@/utils/PageUtils";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-// 上次使用頁面的 localStorage key
-export const LAST_USED_PAGE_KEY = "lastUsedPage";
-
+// 僅整頁載入時判定一次（_app 不隨 SPA 導航 remount）
 const useAutoRedirectLastUsedPage = () => {
   const router = useRouter();
-  const { page, isHome } = usePage();
+  const { isHome } = usePage();
 
   useEffect(() => {
-    const autoRedirectLastUsedPage: boolean =
-      localStorage.getItem("autoRedirectLastUsedPage") === "true";
-    const lastUsedPage: string = localStorage.getItem(LAST_USED_PAGE_KEY);
+    const target = resolveRedirectTarget({
+      enabled: localStorage.getItem("autoRedirectLastUsedPage") === "true",
+      isHome,
+      lastUsedPath: localStorage.getItem(LAST_USED_PATH_KEY),
+      currentPathname: router.pathname,
+    });
 
-    // 若有啟用自動導頁，且目前頁面為首頁類型 (TR/THSR/TYMC 任一)，且上次使用頁面不是目前頁面，則導頁
-    if (
-      autoRedirectLastUsedPage &&
-      isHome &&
-      lastUsedPage !== page.toString()
-    ) {
-      router.push(getHomePath(lastUsedPage));
-    }
+    if (target) router.push(target);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

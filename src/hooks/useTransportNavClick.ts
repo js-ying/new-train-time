@@ -8,7 +8,7 @@ import { SearchAreaActiveIndexEnum } from "@/enums/SearchAreaParamsEnum";
 import usePage from "@/hooks/usePage";
 import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { recordLastUsedPage } from "@/utils/PageUtils";
+import { getHomePath, recordLastUsedPath } from "@/utils/PageUtils";
 import { useContext } from "react";
 
 /** 各運具的標題點擊事件；非交通工具頁不發 GA */
@@ -44,7 +44,7 @@ const useTransportNavClick = () => {
         : {}),
     });
 
-    recordLastUsedPage(targetPage);
+    recordLastUsedPath(getHomePath(targetPage));
 
     const gaEvent = TITLE_GA_EVENT[targetPage];
     if (gaEvent) gaClickEvent(gaEvent);

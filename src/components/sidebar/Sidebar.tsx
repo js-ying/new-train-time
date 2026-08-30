@@ -15,6 +15,8 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useMemo, useState } from "react";
+import { PathEnum } from "@/enums/PathEnum";
+import { recordLastUsedPath } from "@/utils/PageUtils";
 import { GaEnum } from "../../enums/GaEnum";
 import { gaClickEvent } from "../../utils/GaUtils";
 
@@ -94,6 +96,7 @@ const DrawerList: FC<DrawerListProps> = ({ setSidebarOpen }) => {
 
       case "trStationTimetableMenu":
         gaClickEvent(GaEnum.STATION_TIMETABLE);
+        recordLastUsedPath(PathEnum.trStation);
         setSidebarOpen(false);
         break;
 

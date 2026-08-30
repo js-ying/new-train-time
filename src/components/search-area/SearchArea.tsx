@@ -1,4 +1,5 @@
 import { GaEnum } from "@/enums/GaEnum";
+import { PathEnum } from "@/enums/PathEnum";
 import { SearchAreaActiveIndexEnum } from "@/enums/SearchAreaParamsEnum";
 import useSearchMode from "@/hooks/search/useSearchMode";
 import { useSearchAreaNavigation } from "@/hooks/station/useSearchAreaNavigation";
@@ -6,6 +7,7 @@ import useDefaultStationHandling from "@/hooks/useDefaultStationHandling";
 import usePage from "@/hooks/usePage";
 import useRwd from "@/hooks/useRwd";
 import { gaClickEvent } from "@/utils/GaUtils";
+import { recordLastUsedPath } from "@/utils/PageUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Tab, Tabs } from "@heroui/react";
 import Tooltip from "@mui/material/Tooltip";
@@ -179,11 +181,12 @@ const SearchArea: FC = () => {
               }}
             >
               <Link
-                href="/station"
+                href={PathEnum.trStation}
                 aria-label={t("trStationTimetableMenu")}
-                onClick={() =>
-                  gaClickEvent(GaEnum.STATION_TIMETABLE_FROM_SEARCH)
-                }
+                onClick={() => {
+                  gaClickEvent(GaEnum.STATION_TIMETABLE_FROM_SEARCH);
+                  recordLastUsedPath(PathEnum.trStation);
+                }}
                 className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-1 rounded-full py-1.5 pl-2 pr-0 text-sm"
               >
                 <svg
