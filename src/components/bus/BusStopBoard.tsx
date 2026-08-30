@@ -9,12 +9,13 @@ import useStationFavorites from "@/hooks/useStationFavorites";
 import { JsyBusStopBoard, JsyBusStopBoardRoute } from "@/models/jsy-bus-info";
 import AdUtils from "@/utils/AdUtils";
 import {
+  BusStopFavoriteKey,
   encodeBusStopFavoriteId,
   encodeBusStopFavoriteName,
 } from "@/utils/BusStopFavoriteUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import BusArrivalBadge from "./BusArrivalBadge";
 
 interface BusStopBoardProps {
@@ -23,7 +24,21 @@ interface BusStopBoardProps {
   stopUid: string;
   /** 點某路線 → 跳該路線看板（帶 routeUid + board 所在縣市）。 */
   onSelectRoute: (route: JsyBusStopBoardRoute) => void;
+  /** 從收藏點入時要標記的那一列（stopUid 不符即忽略，防返回上頁殘留）。 */
+  highlight?: BusStopFavoriteKey | null;
+  /** highlight 已處理（不論找不找得到列），請呼叫端清掉。 */
+  onHighlightApplied?: () => void;
 }
+
+/** 列 key＝路線×子線×方向，與收藏三元組同粒度 */
+const rowKey = (r: {
+  routeUid: string;
+  subRouteName?: string;
+  direction: number;
+}): string => `${r.routeUid}-${r.subRouteName ?? ""}-${r.direction}`;
+
+/** 高亮持續毫秒（.stop-highlight 動畫 1.2s × 2 輪） */
+const HIGHLIGHT_DURATION_MS = 2400;
 
 /**
  * [公車] 站牌即時看板：列出該站牌所有路線的到站（可點進路線看板），依到站排序。
@@ -33,6 +48,8 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
   board,
   stopUid,
   onSelectRoute,
+  highlight,
+  onHighlightApplied,
 }) => {
   const { t } = useTranslation();
   const busName = useBusName();
@@ -43,6 +60,26 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [limitOpen, setLimitOpen] = useState(false);
+
+  // 收藏點入的標記列：捲到畫面中央並亮邊框，逾時自動熄
+  const rowRefs = useRef(new Map<string, HTMLDivElement>());
+  const glowTimer = useRef<ReturnType<typeof setTimeout>>();
+  const [glowKey, setGlowKey] = useState<string | null>(null);
+  useEffect(() => () => clearTimeout(glowTimer.current), []);
+  useEffect(() => {
+    if (!highlight || highlight.stopUid !== stopUid) return;
+    onHighlightApplied?.();
+    const key = rowKey(highlight);
+    const el = rowRefs.current.get(key);
+    if (!el) return; // 該站此刻查無此路線列（TDX 未回）→ 只是不捲
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    setGlowKey(key);
+    clearTimeout(glowTimer.current);
+    glowTimer.current = setTimeout(
+      () => setGlowKey(null),
+      HIGHLIGHT_DURATION_MS,
+    );
+  }, [highlight, stopUid, onHighlightApplied]);
 
   // 子線列顯示子線名，英文用 routeNameEn（已是該子線英文）
   const routeLabel = (r: JsyBusStopBoardRoute): string =>
@@ -96,6 +133,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
   return (
     <div className="flex flex-col gap-3">
       {board.routes.map((r, index) => {
+        const key = rowKey(r);
         const fav =
           showFavoriteStops &&
           isFavorite(
@@ -107,8 +145,16 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
             }),
           );
         return (
-          <div key={`${r.routeUid}-${r.subRouteName ?? ""}-${r.direction}`}>
-            <div className="flex items-center gap-3 rounded-md border border-solid border-foreground p-3">
+          <div key={key}>
+            <div
+              ref={(el) => {
+                if (el) rowRefs.current.set(key, el);
+                else rowRefs.current.delete(key);
+              }}
+              className={`flex items-center gap-3 rounded-md border border-solid p-3 transition-colors ${
+                glowKey === key ? "stop-highlight" : "border-foreground"
+              }`}
+            >
               {showFavoriteStops && (
                 <button
                   type="button"

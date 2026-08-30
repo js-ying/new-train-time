@@ -186,6 +186,24 @@ img {
   animation: fadeIn 0.5s ease-in forwards;
 }
 
+@keyframes stopHighlightGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgb(244 63 94 / 0);
+  }
+  35% {
+    box-shadow: 0 0 14px 3px rgb(244 63 94 / 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(244 63 94 / 0);
+  }
+}
+
+/* 站牌看板：標記使用者剛從收藏點進來的那一列（粉紅邊框 + 兩次外擴光暈） */
+.stop-highlight {
+  @apply border-rose-500/80;
+  animation: stopHighlightGlow 1.2s ease-out 2;
+}
+
 .common-input {
   @apply w-full rounded-md border border-zinc-300 px-3 py-1.5 text-zinc-700 outline-none 
   transition duration-250 ease-out

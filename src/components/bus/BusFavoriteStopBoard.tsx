@@ -4,6 +4,7 @@ import useBusName from "@/hooks/useBusName";
 import { JsyBusStopBoardsBatchItem } from "@/models/jsy-bus-info";
 import { StationFavorite } from "@/models/station-favorites";
 import {
+  BusStopFavoriteKey,
   encodeBusStopFavoriteId,
   parseBusStopFavoriteId,
   parseBusStopFavoriteName,
@@ -16,8 +17,8 @@ import BusAutoRefreshRing from "./BusAutoRefreshRing";
 interface BusFavoriteStopBoardProps {
   /** BUS_STOP 收藏（呼叫端已過濾為有效三元組），順序即顯示順序。 */
   favorites: StationFavorite[];
-  /** 點某列 → 跳該站牌看板。 */
-  onSelect: (stopUid: string) => void;
+  /** 點某列 → 跳該站牌看板（帶整組三元組，讓該站牌看板標記這一列）。 */
+  onSelect: (key: BusStopFavoriteKey) => void;
   /** 點愛心 → 移除該筆收藏。 */
   onRemove: (targetId: string) => void;
 }
@@ -126,7 +127,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => onSelect(key.stopUid)}
+              onClick={() => onSelect(key)}
               className="custom-cursor-pointer grid flex-1 grid-cols-[1fr_auto] items-center gap-2 text-left"
             >
               <div>

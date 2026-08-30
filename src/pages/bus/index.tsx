@@ -45,7 +45,10 @@ import {
 import { StationTarget } from "@/models/station-history";
 import { fetchBusRouteMetaServerSide } from "@/services/busRouteMetaServerService";
 import AdUtils from "@/utils/AdUtils";
-import { parseBusStopFavoriteId } from "@/utils/BusStopFavoriteUtils";
+import {
+  BusStopFavoriteKey,
+  parseBusStopFavoriteId,
+} from "@/utils/BusStopFavoriteUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
@@ -54,7 +57,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 
 interface BusPageProps {
   /** SSR 取得的路線識別（供 SEO title / canonical）；站牌模式或取數失敗為 null */
@@ -475,6 +478,12 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
     }, `stopuid:${variantStopUid}`);
   };
 
+  // 從收藏站點點入時，帶著該筆三元組讓站牌看板標記那一列（stopUid 不符即忽略）
+  const [stopHighlight, setStopHighlight] = useState<BusStopFavoriteKey | null>(
+    null,
+  );
+  const clearStopHighlight = useCallback(() => setStopHighlight(null), []);
+
   // 底部廣告：mount 後才掛（比照其他頁，避免 SSR/hydration 掛 adsbygoogle）
   const [showBottomAd, setShowBottomAd] = useState(false);
   useEffect(() => {
@@ -619,17 +628,18 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
                     content: (
                       <BusFavoriteStopBoard
                         favorites={validStopFavorites}
-                        onSelect={(favStopUid) => {
+                        onSelect={(key) => {
                           busQueryCooldown.attempt(() => {
+                            setStopHighlight(key);
                             router.push(
                               {
                                 pathname: "/bus",
-                                query: { stopUid: favStopUid },
+                                query: { stopUid: key.stopUid },
                               },
                               undefined,
                               { shallow: true },
                             );
-                          }, `stopuid:${favStopUid}`);
+                          }, `stopuid:${key.stopUid}`);
                         }}
                         onRemove={removeStopFavorite}
                       />
@@ -669,6 +679,8 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
                       board={stopBoard.data}
                       stopUid={stopUid ?? ""}
                       onSelectRoute={handleSelectStopRoute}
+                      highlight={stopHighlight}
+                      onHighlightApplied={clearStopHighlight}
                     />
                   ) : (
                     error && <NoTrainData apiError={error} />
