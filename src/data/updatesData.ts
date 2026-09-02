@@ -9,6 +9,22 @@ export type UpdateContent = string | UpdateContentSegment[];
 
 export const updateDataList = [
   {
+    date: "2026-09",
+    type: "both",
+    ver: "4.3.0",
+    items: [
+      {
+        type: "new",
+        content:
+          "新功能：台鐵轉乘查詢加入「轉乘站」篩選，除了原本的預設轉乘站，現在可「指定轉乘站」或「不限轉乘站」查看所有組合",
+      },
+      {
+        type: "update",
+        content: "現在台鐵轉乘查詢會算出更多可行的轉乘組合",
+      },
+    ],
+  },
+  {
     date: "2026-08",
     type: "both",
     ver: "4.2.1",

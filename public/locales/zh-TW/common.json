@@ -265,6 +265,9 @@
   "transferLegCountFilterLabel": "轉乘次數",
   "transferLegCountAll": "不限轉乘次數",
   "transferLegCountN": "{{ count }} 次",
+  "transferHubFilterLabel": "轉乘站",
+  "transferHubAll": "不限轉乘站",
+  "transferNoResultAfterFilterMsg": "目前篩選條件下沒有轉乘方案，請放寬條件或改選其他轉乘站。",
   "transferExpandAll": "全部展開",
   "transferCollapseAll": "全部收合",
   "noTransferDataTitleMsg": "沒有查到轉乘方案！可能原因：",
@@ -449,5 +452,8 @@
     "INTERNAL_ERROR": "系統發生錯誤，請稍後再試或聯繫系統管理員。",
     "NETWORK_OFFLINE": "網路連線中斷，請檢查網路後再試。",
     "UNKNOWN": "發生未知錯誤，請稍後再試。"
-  }
+  },
+  "transferHubDefault": "預設轉乘站",
+  "transferDirectPreferredMsg": "此區間有直達車可搭，預設不列出轉乘方案。若仍需轉乘，可從上方「轉乘站」選擇其他站。",
+  "transferNoDefaultHubMsg": "預設不列出此區間的轉乘方案。可從上方「轉乘站」選擇其他站查看可行組合。"
 }

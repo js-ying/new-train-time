@@ -126,4 +126,9 @@ export interface JsyTrTransferInfo {
   announcements: JsyAnnouncement[];
   /** 該 OD 在查詢時間後是否有直達車；轉乘 0 筆時用以引導切『直達』查詢 */
   hasDirect: boolean;
+  /**
+   * 該 OD 的預設轉乘站站號，作為結果的預設篩選。
+   * 非空 = 預設只顯示經這些站的方案；空陣列 = 預設不顯示轉乘；undefined = 無預設，全部顯示。
+   */
+  defaultHubIds?: string[];
 }
