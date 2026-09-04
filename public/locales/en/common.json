@@ -448,6 +448,7 @@
     "UNAUTHORIZED": "You're not signed in. Please sign in and try again.",
     "INVALID_TOKEN": "Your login session has expired. Please sign in again.",
     "USER_NOT_FOUND": "User account not found. Please contact the administrator.",
+    "NOT_FOUND": "Not found. It may have been discontinued or removed.",
     "RATE_LIMITED": "Too many requests. Please wait a moment and try again.",
     "TDX_UPSTREAM_ERROR": "The upstream data source (MOTC TDX) is temporarily unavailable. Please try again later.",
     "TDX_TIMEOUT": "The data source (MOTC TDX) timed out. Please try again later.",

@@ -15,6 +15,8 @@ import { FC } from "react";
 interface PageSeoProps {
   /** 公車路線頁的 SSR 路線識別；有值時 title / canonical 改走該路線 */
   busRoute?: JsyBusRoute | null;
+  /** 後端明確回 404（路線不存在）；逾時 / 故障不得傳 true，否則一次故障會讓正常路線頁全被 deindex */
+  busRouteNotFound?: boolean;
 }
 
 /**
@@ -26,7 +28,10 @@ interface PageSeoProps {
  * - 首頁額外加 Organization JSON-LD
  * - 搜尋頁含起訖站時額外加 TrainTrip JSON-LD
  */
-const PageSeo: FC<PageSeoProps> = ({ busRoute = null }) => {
+const PageSeo: FC<PageSeoProps> = ({
+  busRoute = null,
+  busRouteNotFound = false,
+}) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useRouter();
   const { isTr, page } = usePage();
@@ -65,7 +70,8 @@ const PageSeo: FC<PageSeoProps> = ({ busRoute = null }) => {
   // 無 SEO 價值 → noindex（仍 follow，保留對帶參數結果頁的連結權重）。改用 hasValidStations
   // 後，無效站號不再產出「從  到 」的 soft-404 被索引，也不會輸出空殼 TrainTrip schema。
   // 帶有效起訖站的結果頁維持可索引，是工具型網站主要的 SEO 著陸頁。
-  const noindex = isSearchPage && !hasValidStations;
+  // 公車路線頁：後端明確回 404 才 noindex（soft-404 防護）；逾時 / 故障不可 noindex
+  const noindex = (isSearchPage && !hasValidStations) || busRouteNotFound;
 
   return (
     <>

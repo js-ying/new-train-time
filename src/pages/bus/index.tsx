@@ -62,6 +62,8 @@ import { FC, useCallback, useEffect, useRef, useState } from "react";
 interface BusPageProps {
   /** SSR 取得的路線識別（供 SEO title / canonical）；站牌模式或取數失敗為 null */
   routeMeta: JsyBusRoute | null;
+  /** 後端明確回 404 的 routeUid；供 SEO 判定 noindex，逾時 / 故障時為 null */
+  notFoundRouteUid: string | null;
 }
 
 // i18n + 路線識別（看板即時資料仍於 client 抓 + 輪詢，此處只取路線名等識別資訊供 SEO）
@@ -71,13 +73,18 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const sub = typeof query.sub === "string" ? query.sub : null;
 
   // 站牌模式（?stopUid=）與路線互斥，不取；取數失敗回 null，title 退回通用文案
-  const routeMeta =
+  const meta =
     routeUid && !query.stopUid
       ? await fetchBusRouteMetaServerSide(routeUid, sub, ctx.req)
       : null;
 
   return {
-    props: { ...(await serverSideTranslations(locale)), routeMeta },
+    props: {
+      ...(await serverSideTranslations(locale)),
+      routeMeta: meta?.route ?? null,
+      // 綁 uid 而非布林：換路線走 shallow push 不重跑 gSSP，比對 URL 即自動失效
+      notFoundRouteUid: meta?.notFound ? routeUid : null,
+    },
   };
 }
 
@@ -163,7 +170,7 @@ const InfoIcon: FC = () => (
 );
 
 /** [頁面] 公車路線即時到站查詢（模糊搜 → 選路線 → 去/返程即時看板，輪詢刷新）。 */
-const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
+const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
   const muiTheme = useMuiTheme();
   const router = useRouter();
   const { t } = useTranslation();
@@ -572,10 +579,13 @@ const BusPage: FC<BusPageProps> = ({ routeMeta }) => {
     : matchesUrl(selectedRoute)
       ? selectedRoute
       : null;
+  // 後端明確回 404 才視為無效路線；仍在當前 URL 時才適用
+  const isInvalidRoute =
+    !!queryRouteUid && queryRouteUid === notFoundRouteUid && !seoRoute;
 
   return (
     <>
-      <PageSeo busRoute={seoRoute} />
+      <PageSeo busRoute={seoRoute} busRouteNotFound={isInvalidRoute} />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto w-full max-w-xl">
