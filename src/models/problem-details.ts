@@ -11,6 +11,8 @@ export type ProblemCode =
   | "INVALID_TOKEN"
   /** 已驗證身份但內部 user 資料不存在；多半屬資料不一致 */
   | "USER_NOT_FOUND"
+  /** 查無此資源（如已停駛的公車路線 / 已撤除的站牌） */
+  | "NOT_FOUND"
   | "RATE_LIMITED"
   /** 後端 Express → TDX：TDX 回 4xx/5xx（有回應但是錯誤，含金鑰 401/403）→ 502 */
   | "TDX_UPSTREAM_ERROR"
