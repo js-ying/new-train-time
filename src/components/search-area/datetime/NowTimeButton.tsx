@@ -22,9 +22,10 @@ const NowTimeButton: FC = () => {
 
   return (
     <Button
-      className="text-md min-w-fit text-silverLakeBlue-500 dark:text-gamboge-500"
-      variant="light"
+      className="h-7 min-w-fit px-2 text-xs"
       size="sm"
+      radius="sm"
+      color="primary"
       onPress={resetDateTime}
     >
       {t("nowTimeBtn")}

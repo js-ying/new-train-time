@@ -3,7 +3,6 @@ import {
   SearchAreaUpdateContext,
 } from "@/contexts/SearchAreaContext";
 import { FC, useContext, useMemo } from "react";
-import NowTimeButton from "./NowTimeButton";
 import TimeSelect from "./TimeSelect";
 
 const TimePicker: FC = () => {
@@ -46,13 +45,10 @@ const TimePicker: FC = () => {
   };
 
   return (
-    <div className="relative flex items-center">
+    <div className="flex items-center">
       <TimeSelect value={hour} options={hourOptions} onSelect={setHour} />
       <span className="mx-1">:</span>
       <TimeSelect value={min} options={minOptions} onSelect={setMin} />
-      <div className="absolute -right-14 text-sm">
-        <NowTimeButton />
-      </div>
     </div>
   );
 };
