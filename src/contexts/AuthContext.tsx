@@ -91,6 +91,84 @@ const scheduleIdle = (cb: () => void): (() => void) => {
   return () => window.clearTimeout(handle);
 };
 
+/** 後端 /api/users/me 的回應契約 */
+interface MeResponse {
+  uid: string;
+  email: string;
+  isPremium: boolean;
+  premiumUntil: string | null;
+  status: MembershipState;
+  lastPlan: MembershipPlanCode | null;
+  displayName: string | null;
+  photoUrl: string | null;
+  signInProvider: string | null;
+}
+
+/** /me 回應轉成 context 用的 UserProfile */
+const toProfile = (data: MeResponse): UserProfile => ({
+  isPremium: data.isPremium,
+  premiumUntil: data.premiumUntil,
+  membershipStatus: data.status,
+  lastPlan: data.lastPlan,
+  displayName: data.displayName,
+  photoUrl: data.photoUrl,
+  signInProvider: data.signInProvider,
+});
+
+const fetchMe = (user: User) =>
+  callUserApi<MeResponse>({ url: "/api/users/me", method: "GET", user });
+
+/** 取 profile 的三種結果：invalid 才可登出，unavailable 必須保留登入狀態 */
+type MeOutcome =
+  | { kind: "ok"; profile: UserProfile }
+  | { kind: "invalid" }
+  | { kind: "unavailable" };
+
+/** 暫時取不到 profile 時，延遲多久在背景補拉一次 */
+const PROFILE_RETRY_DELAY_MS = 5000;
+
+/** 延後多久才申請持久化儲存：Firefox 會跳權限提示，避免與登入 Loading 覆蓋層重疊 */
+const PERSIST_REQUEST_DELAY_MS = 2000;
+
+/**
+ * 取 /me；憑證錯誤先強制換發 ID token 再試一次（背景分頁久置會讓 SDK 送出過期 token），
+ * 換發後仍被拒才算憑證失效。後端 5xx / 網路瞬斷一律歸 unavailable。
+ */
+const loadMe = async (user: User): Promise<MeOutcome> => {
+  try {
+    return { kind: "ok", profile: toProfile(await fetchMe(user)) };
+  } catch (error) {
+    if (!isAuthError(error)) return { kind: "unavailable" };
+  }
+  try {
+    await user.getIdToken(true);
+    return { kind: "ok", profile: toProfile(await fetchMe(user)) };
+  } catch (retryError) {
+    if (isAuthError(retryError)) return { kind: "invalid" };
+    // 換發失敗時拋的是 FirebaseError；除連線問題外都代表 refresh token 已不可用
+    const code = (retryError as { code?: unknown })?.code;
+    const isFirebaseAuthFailure =
+      typeof code === "string" &&
+      code.startsWith("auth/") &&
+      code !== "auth/network-request-failed";
+    return isFirebaseAuthFailure ? { kind: "invalid" } : { kind: "unavailable" };
+  }
+};
+
+/**
+ * 申請持久化儲存，避免 Firebase session 所在的 IndexedDB 被瀏覽器當可丟棄資料清掉。
+ * 授予與否由瀏覽器決定，不支援或被拒都不影響登入流程。
+ */
+const requestPersistentStorage = async (): Promise<void> => {
+  try {
+    if (!navigator.storage?.persist) return;
+    if (await navigator.storage.persisted()) return;
+    await navigator.storage.persist();
+  } catch {
+    // 隱私模式等環境呼叫即 throw，忽略
+  }
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
   const { isAppleMobile, isStandalone } = useDeviceDetect();
@@ -99,6 +177,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   /** Google 登入流程中（按下登入鍵 → onAuthStateChanged 處理完）顯示全螢幕 Loading 覆蓋 */
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  /** 同 isLoggingIn，供 onAuthStateChanged callback 讀取（state 閉包拿不到最新值） */
+  const isLoggingInRef = useRef(false);
   /** 初次登入時後端錯誤（DB / 網路）→ 提示「登入失敗」 */
   const [loginError, setLoginError] = useState(false);
   /** 已登入後 token 失效（401）時觸發的提示對話框 */
@@ -163,24 +243,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { auth } = await ensureAuth();
       const currentUser = auth.currentUser;
       if (!currentUser) return;
-      const data = await callUserApi<{
-        isPremium: boolean;
-        premiumUntil: string | null;
-        status: MembershipState;
-        lastPlan: MembershipPlanCode | null;
-        displayName: string | null;
-        photoUrl: string | null;
-        signInProvider: string | null;
-      }>({ url: "/api/users/me", method: "GET", user: currentUser });
-      setProfile({
-        isPremium: data.isPremium,
-        premiumUntil: data.premiumUntil,
-        membershipStatus: data.status,
-        lastPlan: data.lastPlan,
-        displayName: data.displayName,
-        photoUrl: data.photoUrl,
-        signInProvider: data.signInProvider,
-      });
+      setProfile(toProfile(await fetchMe(currentUser)));
     } catch (error) {
       console.error("refreshProfile 失敗", error);
     }
@@ -189,6 +252,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
     let cancelled = false;
+    let profileRetryTimer: number | undefined;
+    let persistRequestTimer: number | undefined;
 
     const cancelIdle = scheduleIdle(() => {
       void (async () => {
@@ -206,42 +271,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
           if (currentUser) {
-            try {
-              const data = await callUserApi<{
-                uid: string;
-                email: string;
-                isPremium: boolean;
-                premiumUntil: string | null;
-                status: MembershipState;
-                lastPlan: MembershipPlanCode | null;
-                displayName: string | null;
-                photoUrl: string | null;
-                signInProvider: string | null;
-              }>({
-                url: "/api/users/me",
-                method: "GET",
-                user: currentUser,
-              });
-              setProfile({
-                isPremium: data.isPremium,
-                premiumUntil: data.premiumUntil,
-                membershipStatus: data.status,
-                lastPlan: data.lastPlan,
-                displayName: data.displayName,
-                photoUrl: data.photoUrl,
-                signInProvider: data.signInProvider,
-              });
+            const outcome = await loadMe(currentUser);
+            if (outcome.kind === "ok") {
+              setProfile(outcome.profile);
               setUser(currentUser);
-            } catch (error) {
-              // 初次取得 profile 就失敗：登出 firebase 並顯示提示
-              // 401 類錯誤靜默登出（多半是帳號被停用），其他錯誤彈出 loginServerErrorMsg
-              console.error("後端使用者資料取得失敗，強制登出 Firebase", error);
+              window.clearTimeout(persistRequestTimer);
+              persistRequestTimer = window.setTimeout(
+                () => void requestPersistentStorage(),
+                PERSIST_REQUEST_DELAY_MS,
+              );
+            } else if (outcome.kind === "invalid" || isLoggingInRef.current) {
+              // 憑證確定失效、或使用者主動登入的當下就失敗 → 登出；
+              // 後者額外提示，避免停在「按了登入卻沒有會員資料」的半完成狀態
               await signOut(auth);
               setUser(null);
               setProfile(null);
-              if (!isAuthError(error)) {
-                setLoginError(true);
-              }
+              if (outcome.kind === "unavailable") setLoginError(true);
+            } else {
+              // 後端暫時不可用：保留登入狀態，profile 留空並於稍後背景補拉
+              console.error("取得使用者資料失敗，保留登入狀態");
+              setUser(currentUser);
+              setProfile(null);
+              profileRetryTimer = window.setTimeout(() => {
+                void fetchMe(currentUser)
+                  .then((data) => {
+                    if (!cancelled) setProfile(toProfile(data));
+                  })
+                  .catch(() => {});
+              }, PROFILE_RETRY_DELAY_MS);
             }
           } else {
             setUser(null);
@@ -249,6 +306,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           }
           setLoading(false);
           // 不論成功失敗，都把登入中覆蓋層收掉（包含 popup 流程結束、redirect 回來、登出）
+          isLoggingInRef.current = false;
           setIsLoggingIn(false);
         });
       })();
@@ -257,6 +315,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       cancelled = true;
       cancelIdle();
+      window.clearTimeout(profileRetryTimer);
+      window.clearTimeout(persistRequestTimer);
       unsubscribe?.();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- ensureAuth 為穩定 useCallback；
@@ -264,6 +324,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const loginWithGoogle = async () => {
+    // 標記為使用者主動發起：onAuthStateChanged 對「登入當下就取不到 profile」改採登出 + 提示
+    isLoggingInRef.current = true;
     try {
       const { auth, provider } = await ensureAuth();
       const { signInWithPopup, signInWithRedirect } = await import(
@@ -281,6 +343,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       // popup 成功授權後才顯示 Loading，覆蓋「視野回到網頁 → onAuthStateChanged 取回 profile」之間的等待
       setIsLoggingIn(true);
     } catch (error) {
+      isLoggingInRef.current = false;
       console.error("Login failed", error);
     }
   };
