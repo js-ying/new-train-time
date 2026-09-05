@@ -26,7 +26,7 @@ interface TrTransferLegRowProps {
  * 轉乘卡片展開後的單段列車 row。
  * 排版對齊直達卡片 TrTrainTimeInfo（grid-cols-4，左 1 / 中 2 / 右 1 + 右上 absolute 服務 icon）。
  * 與直達的差異：中間欄上方多一行該段「上車站 → 下車站」；其餘（車號/車種/全程起迄、時刻、搭乘時長、票價、訂票、列車服務）皆對齊直達樣式。
- * 點擊即時查該車完整停靠（後端不隨轉乘結果回傳），複用既有 detail dialog；停靠表強調該段上下車站。
+ * 點擊即時查該車完整停靠（後端不隨轉乘結果回傳），複用既有 detail dialog；車站 / 時程與停靠表強調皆為該段上下車站。
  */
 const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
   const [open, setOpen] = useState(false);
@@ -175,7 +175,7 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
           open={open}
           setOpen={setOpen}
           data={detail}
-          highlightStationIds={[
+          queryStationIds={[
             leg.boardStopTime.stationId,
             leg.alightStopTime.stationId,
           ]}

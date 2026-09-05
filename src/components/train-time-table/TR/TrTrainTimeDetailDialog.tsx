@@ -26,15 +26,18 @@ interface TrTrainTimeDetailDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   data: JsyTrTimetable;
-  /** 停靠表要強調的站 stationId；不傳則 TrStopTimesTable 預設頭尾（OD 直達） */
-  highlightStationIds?: string[];
+  /**
+   * 使用者查詢的站 stationId（決定「車站 / 時程」兩列與停靠表強調的站）。
+   * 不傳則預設頭尾（OD 直達：stopTimes 已裁到查詢起迄）。
+   */
+  queryStationIds?: string[];
 }
 
 const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
   open,
   setOpen,
   data,
-  highlightStationIds,
+  queryStationIds,
 }) => {
   const { t, i18n } = useTranslation();
   const langKey = getNameLangKey(i18n.language);
@@ -77,11 +80,11 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
                 {data.trainInfo.endingStationName[langKey]}
               </ModalHeader>
               <ModalBody>
-                <TrTrainDetail data={data} />
+                <TrTrainDetail data={data} queryStationIds={queryStationIds} />
                 <div className="mt-6">
                   <TrStopTimesTable
                     data={data}
-                    highlightStationIds={highlightStationIds}
+                    highlightStationIds={queryStationIds}
                   />
                 </div>
               </ModalBody>

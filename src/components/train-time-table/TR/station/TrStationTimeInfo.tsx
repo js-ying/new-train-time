@@ -165,13 +165,13 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
         <div className="mt-1 text-xs text-muted-foreground">{note}</div>
       )}
 
-      {/* 列車詳情 dialog（複用 OD）：停靠表只強調查詢站（該班在此站的 stopTime） */}
+      {/* 列車詳情 dialog（複用 OD）：車站 / 時程與停靠表強調皆以查詢站為準 */}
       {detail && (
         <TrTrainTimeDetailDialog
           open={open}
           setOpen={setOpen}
           data={detail}
-          highlightStationIds={[data.stopTime.stationId]}
+          queryStationIds={[data.stopTime.stationId]}
         />
       )}
       {loading && <Loading />}
