@@ -30,8 +30,19 @@ module.exports = withPWA({
     return [
       {
         // public/images 檔名不帶 hash，給可 revalidate 的 7 天而非 immutable
+        // 線上此路徑由反向代理直送，改值需兩邊同步
         source: "/images/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=604800" }],
+      },
+      {
+        // next-pwa 產物落在 public/ 會吃到 max-age=0 預設；檔名帶 hash 故可 immutable
+        source: "/workbox-:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
     ];
   },
