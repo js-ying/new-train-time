@@ -11,6 +11,30 @@ export const updateDataList = [
   {
     date: "2026-09",
     type: "both",
+    ver: "4.4.0",
+    items: [
+      {
+        type: "new",
+        content: "新功能：常用路線 / 常用車站 / 常用站牌自訂排序",
+      },
+      {
+        type: "update",
+        content: "出發時間的「此刻」按鈕更名為「現在」，並移至日曆上方",
+      },
+      {
+        type: "update",
+        content: "按「現在」按鈕時，若出發 / 抵達車站已有值，則會立即查詢",
+      },
+      {
+        type: "fix",
+        content:
+          "修正台鐵單站時刻與轉乘的列車詳情，「車站 / 時程」顯示為列車全程起訖，而非您查詢的區間的問題",
+      },
+    ],
+  },
+  {
+    date: "2026-09",
+    type: "both",
     ver: "4.3.0",
     items: [
       {
