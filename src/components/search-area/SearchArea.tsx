@@ -1,7 +1,9 @@
+import { SearchSubmitContext } from "@/contexts/SearchSubmitContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { PathEnum } from "@/enums/PathEnum";
 import { SearchAreaActiveIndexEnum } from "@/enums/SearchAreaParamsEnum";
 import useSearchMode from "@/hooks/search/useSearchMode";
+import useSearchSubmit from "@/hooks/search/useSearchSubmit";
 import { useSearchAreaNavigation } from "@/hooks/station/useSearchAreaNavigation";
 import useDefaultStationHandling from "@/hooks/useDefaultStationHandling";
 import usePage from "@/hooks/usePage";
@@ -17,6 +19,7 @@ import Link from "next/link";
 import { FC } from "react";
 import Area from "./Area";
 import SearchButton from "./SearchButton";
+import SearchValidationDialog from "./SearchValidationDialog";
 import SelectStation from "./SelectStation";
 import SwitchButton from "./SwitchButton";
 
@@ -49,8 +52,11 @@ const SearchArea: FC = () => {
   // 處理預設車站
   useDefaultStationHandling();
 
+  // 送出搜尋在此持有一份，SearchButton 與 NowTimeButton 共用同一組節流與提示
+  const { submitSearch, validationAlert, sameQuerySeconds } = useSearchSubmit();
+
   return (
-    <>
+    <SearchSubmitContext.Provider value={submitSearch}>
       <div className="flex items-center gap-3">
         <Area
           className="flex-1"
@@ -215,7 +221,12 @@ const SearchArea: FC = () => {
       <div className="mt-6 flex items-center justify-center">
         <SearchButton />
       </div>
-    </>
+
+      <SearchValidationDialog
+        validationAlert={validationAlert}
+        sameQuerySeconds={sameQuerySeconds}
+      />
+    </SearchSubmitContext.Provider>
   );
 };
 

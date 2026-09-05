@@ -7,7 +7,7 @@ import TimePicker from "./datetime/TimePicker";
 const SelectDatetime: FC = () => {
   return (
     <div className="flex select-none flex-col">
-      <div className="mb-2 flex justify-center">
+      <div className="-mt-2 mb-4 flex justify-center">
         <NowTimeButton />
       </div>
       <div className="rounded-md border border-input">
