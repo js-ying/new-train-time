@@ -40,17 +40,26 @@ function isValidRoute(x: unknown): boolean {
   );
 }
 
-/** dedupe（同 OD 取較新 createdAt）→ createdAt 由新到舊 → 取前 MAX_PER_TYPE */
-function sortTrim(items: FavoriteRoute[]): FavoriteRoute[] {
+/** 同 OD 的 key（收藏唯一性與重排對位皆用它） */
+export function routeKey(x: {
+  startStationId: string;
+  endStationId: string;
+}): string {
+  return `${x.startStationId}|${x.endStationId}`;
+}
+
+/**
+ * dedupe（同 OD 取較新 createdAt）→ 取前 MAX_PER_TYPE。
+ * 陣列順序即顯示順序，故不重排；Map.set 覆蓋不改變首次出現的位置。
+ */
+function dedupeTrim(items: FavoriteRoute[]): FavoriteRoute[] {
   const map = new Map<string, FavoriteRoute>();
   for (const it of items) {
-    const k = `${it.startStationId}|${it.endStationId}`;
+    const k = routeKey(it);
     const ex = map.get(k);
     if (!ex || it.createdAt > ex.createdAt) map.set(k, it);
   }
-  return [...map.values()]
-    .sort((a, b) => b.createdAt - a.createdAt)
-    .slice(0, MAX_PER_TYPE);
+  return [...map.values()].slice(0, MAX_PER_TYPE);
 }
 
 /** 清洗任意來源（localStorage / server）成乾淨 FavoriteRouteMap */
@@ -61,7 +70,7 @@ function sanitizeMap(raw: unknown): FavoriteRouteMap {
   for (const t of TRAIN_TYPES) {
     const arr = (raw as any)[t];
     if (!Array.isArray(arr)) continue;
-    m[t] = sortTrim(
+    m[t] = dedupeTrim(
       arr.filter(isValidRoute).map((x: any) => ({
         startStationId: String(x.startStationId),
         endStationId: String(x.endStationId),
@@ -141,6 +150,8 @@ export interface FavoriteRoutesContextValue {
     startStationId: string,
     endStationId: string,
   ) => boolean;
+  /** 重排該車種收藏；orderedKeys 為 `start|end` 的新順序（僅涵蓋可見清單） */
+  reorderFavorites: (trainType: TrainType, orderedKeys: string[]) => void;
 }
 
 export const FavoriteRoutesContext = createContext<FavoriteRoutesContextValue>({
@@ -149,6 +160,7 @@ export const FavoriteRoutesContext = createContext<FavoriteRoutesContextValue>({
   addFavorite: () => "added",
   removeFavorite: () => {},
   isFavorite: () => false,
+  reorderFavorites: () => {},
 });
 
 export function FavoriteRoutesProvider({ children }) {
@@ -253,7 +265,7 @@ export function FavoriteRoutesProvider({ children }) {
         return "added"; // 已收藏，idempotent
       }
       if (list.length >= limit) return "limit";
-      const nextType = sortTrim([
+      const nextType = dedupeTrim([
         { startStationId, endStationId, createdAt: Date.now() },
         ...list,
       ]);
@@ -289,6 +301,29 @@ export function FavoriteRoutesProvider({ children }) {
   );
 
   /**
+   * 依 orderedKeys 重排可見清單；未列到的（重排期間被別的分頁改動）依原順序補在尾端。
+   * 超出當下上限、僅本地保留的隱藏筆維持在後段，續費後順序不變。
+   */
+  const reorderFavorites = useCallback(
+    (trainType: TrainType, orderedKeys: string[]) => {
+      const visible = visibleRef.current[trainType];
+      const byKey = new Map(visible.map((x) => [routeKey(x), x]));
+      const next: FavoriteRoute[] = [];
+      for (const k of orderedKeys) {
+        const it = byKey.get(k);
+        if (it) {
+          next.push(it);
+          byKey.delete(k);
+        }
+      }
+      next.push(...byKey.values());
+      const hidden = favRef.current[trainType].slice(visible.length);
+      commit({ ...favRef.current, [trainType]: [...next, ...hidden] });
+    },
+    [commit],
+  );
+
+  /**
    * 登入狀態同步：
    *   - 未登入：收藏為會員功能，清掉本地（資料仍在 server，重新登入還原）。
    *   - 未同步過（匿名殘留 / 上次未清乾淨）：與 server union 一次後上傳（replace）。
@@ -319,7 +354,7 @@ export function FavoriteRoutesProvider({ children }) {
           const local = readLocal();
           const merged = emptyMap();
           for (const t of TRAIN_TYPES) {
-            merged[t] = sortTrim([...remote[t], ...local[t]]);
+            merged[t] = dedupeTrim([...remote[t], ...local[t]]);
           }
           adoptServerMap(merged);
           const pushed = await runPush(merged);
@@ -375,6 +410,7 @@ export function FavoriteRoutesProvider({ children }) {
         addFavorite,
         removeFavorite,
         isFavorite,
+        reorderFavorites,
       }}
     >
       {children}

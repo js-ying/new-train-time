@@ -6,6 +6,7 @@ import {
   SearchPanelTabView,
 } from "@/configs/searchPanelTabs";
 import { useAuth } from "@/contexts/AuthContext";
+import { routeKey } from "@/contexts/FavoriteRoutesContext";
 import {
   SearchAreaContext,
   SearchAreaUpdateContext,
@@ -13,6 +14,7 @@ import {
 import { GaEnum } from "@/enums/GaEnum";
 import useFavoriteRoutes from "@/hooks/useFavoriteRoutes";
 import usePage from "@/hooks/usePage";
+import useReorderMode from "@/hooks/useReorderMode";
 import useRwd from "@/hooks/useRwd";
 import useSearchHistory from "@/hooks/useSearchHistory";
 import useSetting from "@/hooks/useSetting";
@@ -21,8 +23,16 @@ import { gaClickEvent } from "@/utils/GaUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { Button, Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { FC, useContext, useEffect, useState } from "react";
+import {
+  FC,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import CommonDialog from "../common/CommonDialog";
+import { ReorderArrows, ReorderToolbar } from "../common/ReorderControls";
 import HeartIcon from "../icons/HeartIcon";
 
 interface CloseButtonProps {
@@ -84,6 +94,7 @@ const SearchHistory: FC = () => {
     addFavorite,
     removeFavorite,
     isFavorite,
+    reorderFavorites,
   } = useFavoriteRoutes();
 
   // 歷史查詢 / 常用路線各自的顯示開關；皆開時才出現雙分頁，並以 defaultSearchTab 決定預設停在哪個分頁
@@ -102,6 +113,16 @@ const SearchHistory: FC = () => {
     if (consumeLocalSaveFlag()) return;
     setDisplayHistory(historyList);
   }, [historyList, consumeLocalSaveFlag]);
+
+  // 常用路線排序：進入模式後該列不再觸發查詢，愛心換成上下移，按「完成」才寫入
+  const handleSaveOrder = useCallback(
+    (orderedKeys: string[]) => {
+      gaClickEvent(GaEnum.REORDER_FAVORITE);
+      reorderFavorites(orderedKeys);
+    },
+    [reorderFavorites],
+  );
+  const reorder = useReorderMode(favoriteList, routeKey, handleSaveOrder);
 
   const handleHistoryClick = (startStationId: string, endStationId: string) => {
     gaClickEvent(GaEnum.HISTORY);
@@ -143,67 +164,80 @@ const SearchHistory: FC = () => {
   );
 
   // 單列站名按鈕；showFavoriteRoutes 開啟時於右側附收藏愛心（愛心狀態一律查收藏 context）。
-  // 等寬：列為 relative 區塊，被 flex-col 的 align-items:stretch 撐成最寬按鈕寬，按鈕 w-full 撐滿。
-  const renderRow = (item: {
-    startStationId: string;
-    endStationId: string;
-  }) => {
+  // 等寬：列被 flex-col 的 align-items:stretch 撐成最寬列寬，按鈕 w-full 撐滿。
+  // 愛心不佔文檔流（absolute），排序箭頭則佔位，避免窄螢幕溢出畫面右緣。
+  const renderRow = (
+    item: { startStationId: string; endStationId: string },
+    ctx: { index: number; total: number; reordering: boolean },
+  ) => {
     const fav =
       showFavoriteRoutes && isFavorite(item.startStationId, item.endStationId);
     return (
       <div
-        className="relative"
+        className="flex items-center gap-1.5"
         key={`${item.startStationId}-${item.endStationId}`}
       >
-        <Button
-          className="h-8 w-full min-w-fit bg-secondary text-sm text-secondary-foreground"
-          size="sm"
-          radius="sm"
-          onPress={() =>
-            handleHistoryClick(item.startStationId, item.endStationId)
-          }
-        >
-          {onlyShowStationId ? (
-            `${item.startStationId} ➔ ${item.endStationId}`
-          ) : (
-            <>
-              {getStationNameById(page, item.startStationId, i18n.language)} ➔{" "}
-              {getStationNameById(page, item.endStationId, i18n.language)}
-            </>
-          )}
-        </Button>
-        {showFavoriteRoutes && (
-          <button
-            type="button"
-            aria-label="favorite-toggle"
-            className={`absolute left-full top-1/2 ml-1.5 -translate-y-1/2 ${
-              fav
-                ? "text-rose-500 dark:text-rose-500/80"
-                : "text-zinc-400 dark:text-zinc-500"
-            }`}
-            onClick={() =>
-              handleToggleFavorite(item.startStationId, item.endStationId)
+        <div className="relative flex-1">
+          <Button
+            className="h-8 w-full min-w-fit bg-secondary text-sm text-secondary-foreground"
+            size="sm"
+            radius="sm"
+            isDisabled={ctx.reordering}
+            onPress={() =>
+              handleHistoryClick(item.startStationId, item.endStationId)
             }
           >
-            <HeartIcon filled={fav} className="h-4 w-4" />
-          </button>
+            {onlyShowStationId ? (
+              `${item.startStationId} ➔ ${item.endStationId}`
+            ) : (
+              <>
+                {getStationNameById(page, item.startStationId, i18n.language)} ➔{" "}
+                {getStationNameById(page, item.endStationId, i18n.language)}
+              </>
+            )}
+          </Button>
+          {!ctx.reordering && showFavoriteRoutes && (
+            <button
+              type="button"
+              aria-label="favorite-toggle"
+              className={`absolute left-full top-1/2 ml-1.5 -translate-y-1/2 ${
+                fav
+                  ? "text-rose-500 dark:text-rose-500/80"
+                  : "text-zinc-400 dark:text-zinc-500"
+              }`}
+              onClick={() =>
+                handleToggleFavorite(item.startStationId, item.endStationId)
+              }
+            >
+              <HeartIcon filled={fav} className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+        {ctx.reordering && (
+          <ReorderArrows
+            index={ctx.index}
+            total={ctx.total}
+            onMove={reorder.move}
+          />
         )}
       </div>
     );
   };
 
-  // 清單本體：等寬單欄。歷史附清除鈕；常用不附（逐筆靠愛心移除）。
+  // 清單本體：等寬單欄。歷史附清除鈕；常用附排序鈕（逐筆移除仍靠愛心）。
   const renderList = (
     items: { startStationId: string; endStationId: string }[],
-    withClear: boolean,
+    options: { reordering?: boolean; footer?: ReactNode } = {},
   ) => (
     <div className="flex flex-col gap-2.5">
-      {items.map(renderRow)}
-      {withClear && (
-        <div className="flex justify-center">
-          <CloseButton onClick={handleClear} />
-        </div>
+      {items.map((item, index) =>
+        renderRow(item, {
+          index,
+          total: items.length,
+          reordering: !!options.reordering,
+        }),
       )}
+      {options.footer}
     </div>
   );
 
@@ -264,7 +298,13 @@ const SearchHistory: FC = () => {
         max: historyLimit,
       }),
       emptyNode: emptyHint(t("historyEmptyHint"), "px-4 py-2"),
-      list: renderList(displayHistory, true),
+      list: renderList(displayHistory, {
+        footer: (
+          <div className="flex justify-center">
+            <CloseButton onClick={handleClear} />
+          </div>
+        ),
+      }),
     },
     // 常用路線：收藏
     favorites: {
@@ -276,7 +316,19 @@ const SearchHistory: FC = () => {
         max: favoriteLimit,
       }),
       emptyNode: emptyHint(t("favoritesEmptyHint")),
-      list: renderList(favoriteList, false),
+      // 排序中渲染草稿；僅 1 筆無從排序，但已在排序中則保留工具列讓使用者收尾
+      list: renderList(reorder.list, {
+        reordering: reorder.isReordering,
+        footer:
+          favoriteList.length > 1 || reorder.isReordering ? (
+            <ReorderToolbar
+              isReordering={reorder.isReordering}
+              onStart={reorder.start}
+              onSave={reorder.save}
+              onCancel={reorder.cancel}
+            />
+          ) : undefined,
+      }),
     },
   };
 
@@ -312,6 +364,7 @@ const SearchHistory: FC = () => {
       <Tabs
         key={selectedTab}
         defaultSelectedKey={selectedTab}
+        onSelectionChange={reorder.cancel}
         aria-label="歷史查詢與常用路線"
         size="md"
         variant="underlined"

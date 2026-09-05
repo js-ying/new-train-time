@@ -4,6 +4,7 @@ import { REFRESH_COOLDOWN_MS } from "@/hooks/search/useAutoRefreshData";
 import useBusFavoriteStopBoards from "@/hooks/search/useBusFavoriteStopBoards";
 import useBusName from "@/hooks/useBusName";
 import useRefreshCooldown from "@/hooks/useRefreshCooldown";
+import useReorderMode from "@/hooks/useReorderMode";
 import { JsyBusStopBoardsBatchItem } from "@/models/jsy-bus-info";
 import { StationFavorite } from "@/models/station-favorites";
 import {
@@ -12,8 +13,11 @@ import {
   parseBusStopFavoriteId,
   parseBusStopFavoriteName,
 } from "@/utils/BusStopFavoriteUtils";
+import { GaEnum } from "@/enums/GaEnum";
+import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
-import { FC, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
+import { ReorderArrows, ReorderToolbar } from "../common/ReorderControls";
 import BusArrivalBadge from "./BusArrivalBadge";
 import BusAutoRefreshRing from "./BusAutoRefreshRing";
 
@@ -24,6 +28,8 @@ interface BusFavoriteStopBoardProps {
   onSelect: (key: BusStopFavoriteKey) => void;
   /** 點愛心 → 移除該筆收藏。 */
   onRemove: (targetId: string) => void;
+  /** 排序完成 → 以 targetId 新順序寫回收藏。 */
+  onReorder: (orderedIds: string[]) => void;
 }
 
 /**
@@ -34,6 +40,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
   favorites,
   onSelect,
   onRemove,
+  onReorder,
 }) => {
   const { t } = useTranslation();
   const busName = useBusName();
@@ -45,6 +52,20 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
         .filter((k): k is NonNullable<typeof k> => k !== null),
     [favorites],
   );
+  // 排序模式：進入後卡片不再可點，愛心換成上下移，按「完成」才寫入
+  const handleSaveOrder = useCallback(
+    (orderedIds: string[]) => {
+      gaClickEvent(GaEnum.REORDER_FAVORITE);
+      onReorder(orderedIds);
+    },
+    [onReorder],
+  );
+  const reorder = useReorderMode(
+    favorites,
+    (fav: StationFavorite) => fav.targetId,
+    handleSaveOrder,
+  );
+
   const {
     data,
     error,
@@ -107,7 +128,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
         <div className="text-center text-xs text-warning">{staleWarning}</div>
       )}
 
-      {favorites.map((fav) => {
+      {reorder.list.map((fav, index) => {
         const key = parseBusStopFavoriteId(fav.targetId);
         if (!key) return null;
         const row = itemById.get(fav.targetId);
@@ -123,43 +144,64 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
           ? busName(row.stopName, row.stopNameEn)
           : snapshot.stopName;
         return (
-          <div
-            key={fav.targetId}
-            className="flex items-center gap-3 rounded-md border border-solid border-foreground p-3"
-          >
-            {/* 愛心＝移除此收藏（恆實心） */}
-            <button
-              type="button"
-              aria-label="favorite-remove"
-              className="shrink-0 text-rose-500 dark:text-rose-500/80"
-              onClick={() => onRemove(fav.targetId)}
-            >
-              <HeartIcon filled className="size-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => onSelect(key)}
-              className="custom-cursor-pointer grid flex-1 grid-cols-[1fr_auto] items-center gap-2 text-left"
-            >
-              <div>
-                <div className="flex flex-wrap items-baseline gap-x-2">
-                  <span className="font-bold">{routeLabel}</span>
-                  {destination && (
-                    <span className="text-sm text-muted-foreground">
-                      {t("busTowards", { destination })}
-                    </span>
-                  )}
-                </div>
-                <div className="mt-0.5 text-sm">{stopName}</div>
-              </div>
-              <BusArrivalBadge
-                state={row?.state ?? "noData"}
-                estimateMinutes={row?.estimateMinutes ?? null}
+          <div key={fav.targetId} className="flex items-center gap-2">
+            {/* 排序箭頭置於卡片外：卡片高度與內部佈局不因進出排序模式而變動 */}
+            {reorder.isReordering && (
+              <ReorderArrows
+                index={index}
+                total={reorder.list.length}
+                onMove={reorder.move}
+                vertical
               />
-            </button>
+            )}
+            <div className="flex flex-1 items-center gap-3 rounded-md border border-solid border-foreground p-3">
+              {/* 愛心＝移除此收藏（恆實心）；排序模式讓位給外側箭頭，內容改齊左邊框 */}
+              {!reorder.isReordering && (
+                <button
+                  type="button"
+                  aria-label="favorite-remove"
+                  className="shrink-0 text-rose-500 dark:text-rose-500/80"
+                  onClick={() => onRemove(fav.targetId)}
+                >
+                  <HeartIcon filled className="size-4" />
+                </button>
+              )}
+              <button
+                type="button"
+                disabled={reorder.isReordering}
+                onClick={() => onSelect(key)}
+                className="custom-cursor-pointer grid flex-1 grid-cols-[1fr_auto] items-center gap-2 text-left"
+              >
+                <div>
+                  <div className="flex flex-wrap items-baseline gap-x-2">
+                    <span className="font-bold">{routeLabel}</span>
+                    {destination && (
+                      <span className="text-sm text-muted-foreground">
+                        {t("busTowards", { destination })}
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-0.5 text-sm">{stopName}</div>
+                </div>
+                <BusArrivalBadge
+                  state={row?.state ?? "noData"}
+                  estimateMinutes={row?.estimateMinutes ?? null}
+                />
+              </button>
+            </div>
           </div>
         );
       })}
+
+      {/* 僅 1 筆無從排序，但已在排序中則保留工具列讓使用者收尾 */}
+      {(favorites.length > 1 || reorder.isReordering) && (
+        <ReorderToolbar
+          isReordering={reorder.isReordering}
+          onStart={reorder.start}
+          onSave={reorder.save}
+          onCancel={reorder.cancel}
+        />
+      )}
 
       {/* 手動刷新冷卻提示（凍結秒數）；此看板僅登入會員可見，故不附登入引導 */}
       <CommonDialog

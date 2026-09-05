@@ -55,6 +55,7 @@ export enum GaEnum {
   TR_TRANSFER_LEG_INFO = "台鐵轉乘段 info",
   FAVORITE_ROUTE = "常用路線收藏",
   UNFAVORITE_ROUTE = "常用路線取消收藏",
+  REORDER_FAVORITE = "常用清單排序",
   DEFAULT_SEARCH_TAB = "切換預設查詢分頁",
   PREFER_BUS_STOP_TAB = "切換公車預設常用站牌分頁",
   SHOW_HISTORY = "顯示歷史查詢",

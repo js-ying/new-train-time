@@ -15,9 +15,11 @@ export const useBusFavoriteStopBoards = (
 ): AutoRefreshDataResult<JsyBusStopBoardsBatch> =>
   useAutoRefreshData<JsyBusStopBoardsBatch>(
     keys.length > 0 ? (signal) => getBusStopBoardsBatch(keys, signal) : null,
+    // 排序後再組 key：回應以三元組對回各列，順序不影響內容，重排不必重抓
     keys.length > 0
       ? keys
           .map((k) => `${k.stopUid}|${k.routeUid}|${k.direction}|${k.subRouteName ?? ""}`)
+          .sort()
           .join(",")
       : null,
   );

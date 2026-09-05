@@ -8,6 +8,7 @@ import {
 } from "@/configs/searchPanelTabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
+import useReorderMode from "@/hooks/useReorderMode";
 import useSetting from "@/hooks/useSetting";
 import useStationFavorites from "@/hooks/useStationFavorites";
 import useStationHistory from "@/hooks/useStationHistory";
@@ -15,8 +16,9 @@ import { StationTarget, StationTrainType } from "@/models/station-history";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button, Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useCallback, useState } from "react";
 import CommonDialog from "../common/CommonDialog";
+import { ReorderArrows, ReorderToolbar } from "../common/ReorderControls";
 import HeartIcon from "../icons/HeartIcon";
 
 /** trainType → 分頁全集；BUS_STOP 僅作收藏分類，面板不會以它掛載 */
@@ -91,6 +93,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
     addFavorite,
     removeFavorite,
     isFavorite,
+    reorderFavorites,
   } = useStationFavorites(trainType);
   const stopCount = stopFavorites?.count ?? 0;
 
@@ -118,6 +121,20 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
   const limitReachedKey = isStation
     ? "favoriteStationLimitReached"
     : "favoriteLimitReached";
+
+  // 常用分頁排序：進入模式後該列不再觸發查詢，愛心換成上下移，按「完成」才寫入
+  const handleSaveOrder = useCallback(
+    (orderedIds: string[]) => {
+      gaClickEvent(GaEnum.REORDER_FAVORITE);
+      reorderFavorites(orderedIds);
+    },
+    [reorderFavorites],
+  );
+  const reorder = useReorderMode(
+    favoriteList,
+    (item: StationTarget) => item.targetId,
+    handleSaveOrder,
+  );
 
   const labelOf = (item: StationTarget) =>
     resolveLabel?.(item) ?? item.targetName;
@@ -165,53 +182,74 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
 
   // 單列：名稱按鈕（點擊重查）+ 收藏愛心（showFavoriteRoutes 開啟時）。
   // 次要標籤（公車縣市/來源）以淡色接在名稱後，區分同名不同路線。
-  const renderRow = (item: StationTarget) => {
+  // 愛心不佔文檔流（absolute），排序箭頭則佔位，避免窄螢幕溢出畫面右緣。
+  const renderRow = (
+    item: StationTarget,
+    ctx: { index: number; total: number; reordering: boolean },
+  ) => {
     const fav = showFavoriteRoutes && isFavorite(item.targetId);
     const subLabel = resolveSubLabel?.(item);
     return (
-      <div className="relative" key={item.targetId}>
-        <Button
-          className="h-8 w-full bg-secondary text-sm text-secondary-foreground"
-          size="sm"
-          radius="sm"
-          onPress={() => handleSelect(item)}
-        >
-          {/* 名稱過長以 … 截斷（保留前段路線號）；縣市/來源副標 shrink-0 永不被截。
-              TR/THSR/TYMC 名稱短、不會觸及上限，維持原樣 */}
-          <span className="flex w-full items-center justify-center gap-1.5 overflow-hidden">
-            <span className="min-w-0 truncate">{labelOf(item)}</span>
-            {subLabel && (
-              <span className="shrink-0 text-xs text-white/70">{subLabel}</span>
-            )}
-          </span>
-        </Button>
-        {showFavoriteRoutes && (
-          <button
-            type="button"
-            aria-label="favorite-toggle"
-            className={`absolute left-full top-1/2 ml-1.5 -translate-y-1/2 ${
-              fav
-                ? "text-rose-500 dark:text-rose-500/80"
-                : "text-zinc-400 dark:text-zinc-500"
-            }`}
-            onClick={() => handleToggleFavorite(item)}
+      <div className="flex items-center gap-1.5" key={item.targetId}>
+        <div className="relative max-w-[10rem] flex-1">
+          <Button
+            className="h-8 w-full bg-secondary text-sm text-secondary-foreground"
+            size="sm"
+            radius="sm"
+            isDisabled={ctx.reordering}
+            onPress={() => handleSelect(item)}
           >
-            <HeartIcon filled={fav} className="h-4 w-4" />
-          </button>
+            {/* 名稱過長以 … 截斷（保留前段路線號）；縣市/來源副標 shrink-0 永不被截。
+              TR/THSR/TYMC 名稱短、不會觸及上限，維持原樣 */}
+            <span className="flex w-full items-center justify-center gap-1.5 overflow-hidden">
+              <span className="min-w-0 truncate">{labelOf(item)}</span>
+              {subLabel && (
+                <span className="shrink-0 text-xs text-white/70">
+                  {subLabel}
+                </span>
+              )}
+            </span>
+          </Button>
+          {!ctx.reordering && showFavoriteRoutes && (
+            <button
+              type="button"
+              aria-label="favorite-toggle"
+              className={`absolute left-full top-1/2 ml-1.5 -translate-y-1/2 ${
+                fav
+                  ? "text-rose-500 dark:text-rose-500/80"
+                  : "text-zinc-400 dark:text-zinc-500"
+              }`}
+              onClick={() => handleToggleFavorite(item)}
+            >
+              <HeartIcon filled={fav} className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+        {ctx.reordering && (
+          <ReorderArrows
+            index={ctx.index}
+            total={ctx.total}
+            onMove={reorder.move}
+          />
         )}
       </div>
     );
   };
 
-  // 清單本體：等寬單欄；歷史附清除鈕，常用不附
-  const renderList = (items: StationTarget[], withClear: boolean) => (
-    <div className="flex max-w-[10rem] flex-col gap-2.5">
-      {items.map(renderRow)}
-      {withClear && (
-        <div className="flex justify-center">
-          <CloseButton onClick={handleClear} />
-        </div>
+  // 清單本體：等寬單欄；歷史附清除鈕，常用附排序鈕
+  const renderList = (
+    items: StationTarget[],
+    options: { reordering?: boolean; footer?: ReactNode } = {},
+  ) => (
+    <div className="flex flex-col gap-2.5">
+      {items.map((item, index) =>
+        renderRow(item, {
+          index,
+          total: items.length,
+          reordering: !!options.reordering,
+        }),
       )}
+      {options.footer}
     </div>
   );
 
@@ -274,7 +312,13 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
         max: historyLimit,
       }),
       emptyNode: emptyHint(t("historyEmptyHint"), "px-4 py-2"),
-      list: renderList(historyList, true),
+      list: renderList(historyList, {
+        footer: (
+          <div className="flex justify-center">
+            <CloseButton onClick={handleClear} />
+          </div>
+        ),
+      }),
     },
     favorites: {
       label: t(favTabKey),
@@ -285,7 +329,19 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
         max: favoriteLimit,
       }),
       emptyNode: emptyHint(t(favEmptyKey)),
-      list: renderList(favoriteList, false),
+      // 排序中渲染草稿；僅 1 筆無從排序，但已在排序中則保留工具列讓使用者收尾
+      list: renderList(reorder.list, {
+        reordering: reorder.isReordering,
+        footer:
+          favoriteList.length > 1 || reorder.isReordering ? (
+            <ReorderToolbar
+              isReordering={reorder.isReordering}
+              onStart={reorder.start}
+              onSave={reorder.save}
+              onCancel={reorder.cancel}
+            />
+          ) : undefined,
+      }),
     },
     stopFavorites: stopFavorites
       ? {
@@ -337,6 +393,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
       <Tabs
         key={selectedTab}
         defaultSelectedKey={selectedTab}
+        onSelectionChange={reorder.cancel}
         aria-label="歷史查詢與常用"
         size="md"
         variant="underlined"

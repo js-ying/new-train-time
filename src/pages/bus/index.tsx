@@ -281,8 +281,11 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
   const { saveHistory: saveBusHistory } = useStationHistory("BUS");
 
   // 收藏站點（BUS_STOP，站牌×路線×方向）；舊版純 stopUid 收藏解析失敗即清除
-  const { favoriteList: stopFavoriteList, removeFavorite: removeStopFavorite } =
-    useStationFavorites("BUS_STOP");
+  const {
+    favoriteList: stopFavoriteList,
+    removeFavorite: removeStopFavorite,
+    reorderFavorites: reorderStopFavorites,
+  } = useStationFavorites("BUS_STOP");
   const validStopFavorites = stopFavoriteList.filter(
     (f) => parseBusStopFavoriteId(f.targetId) !== null,
   );
@@ -673,6 +676,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                           );
                         }}
                         onRemove={removeStopFavorite}
+                        onReorder={reorderStopFavorites}
                       />
                     ),
                   }}
