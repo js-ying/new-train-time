@@ -148,6 +148,7 @@
   "searchBtn": "搜尋",
   "errorAlertTitle": "錯誤訊息",
   "reminderAlertTitle": "提示訊息",
+  "cooldownAlertTitle": "請稍候",
   "announcementTitle": "公告",
   "doNotShowAgainMsg": "不再顯示",
   "trOrderDescription": "訂票說明",

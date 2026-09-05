@@ -5,13 +5,11 @@ import CommonDialog from "../common/CommonDialog";
 
 interface SearchValidationDialogProps {
   validationAlert: ValidationAlert;
-  sameQuerySeconds: number;
 }
 
 /** 送出搜尋的檢核提示；日期錯誤不在此顯示，直接導頁由 search 頁面處理 */
 const SearchValidationDialog: FC<SearchValidationDialogProps> = ({
   validationAlert,
-  sameQuerySeconds,
 }) => {
   const { t } = useTranslation();
 
@@ -23,9 +21,7 @@ const SearchValidationDialog: FC<SearchValidationDialogProps> = ({
       }
       setOpen={validationAlert.setOpen}
     >
-      {validationAlert.message === "sameQueryMsg"
-        ? t("sameQueryCountdownMsg", { seconds: sameQuerySeconds })
-        : t(validationAlert.message)}
+      {t(validationAlert.message)}
     </CommonDialog>
   );
 };

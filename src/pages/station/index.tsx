@@ -1,6 +1,7 @@
 import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
 import Loading from "@/components/common/Loading";
+import QueryCooldownDialog from "@/components/common/QueryCooldownDialog";
 import RefreshButton from "@/components/common/RefreshButton";
 import Layout from "@/components/layout/Layout";
 import PopularStations from "@/components/search-area/PopularStations";
@@ -15,7 +16,9 @@ import TrStationTimeTable from "@/components/train-time-table/TR/station/TrStati
 import { GaEnum } from "@/enums/GaEnum";
 import useTrStationTimetable from "@/hooks/search/useTrStationTimetable";
 import useMuiTheme from "@/hooks/useMuiTheme";
-import useRefreshCooldown from "@/hooks/useRefreshCooldown";
+import useRefreshCooldown, {
+  QUERY_COOLDOWN_MS,
+} from "@/hooks/useRefreshCooldown";
 import useStationHistory from "@/hooks/useStationHistory";
 import { JsyPopularStation } from "@/models/jsy-popular-stations";
 import { JsyTrStationTimetable } from "@/models/jsy-tr-info";
@@ -111,9 +114,9 @@ const StationTimetablePage: FC<StationPageProps> = ({
   const [directionFilter, setDirectionFilter] = useState<number>(
     resolveDirection(initialDir, initialData),
   );
-  // 重新整理目前車站時刻表的 5s 冷卻（誤點資訊不開放自動輪詢，僅手動刷新）；
-  // 冷卻中再按 → 彈窗提示「請於 X 秒後再試」（比照 OD/單站 sameQuery）
-  const refreshCooldown = useRefreshCooldown(5000);
+  // 重新整理目前車站時刻表的冷卻（誤點資訊不開放自動輪詢，僅手動刷新）；
+  // 冷卻中再按 → 彈窗提示「請於 X 秒後再試」
+  const refreshCooldown = useRefreshCooldown(QUERY_COOLDOWN_MS);
   const handleRefresh = () => {
     if (!selectedStationId) return;
     refreshCooldown.attempt(() => fetchStation(selectedStationId));
@@ -322,15 +325,8 @@ const StationTimetablePage: FC<StationPageProps> = ({
 
           {isLoading && <Loading />}
 
-          {/* 手動刷新冷卻提示（比照 OD sameQuery，凍結秒數） */}
-          <CommonDialog
-            open={refreshCooldown.dialogOpen}
-            setOpen={refreshCooldown.setDialogOpen}
-          >
-            {t("sameQueryCountdownMsg", {
-              seconds: refreshCooldown.frozenSeconds,
-            })}
-          </CommonDialog>
+          {/* 手動刷新冷卻提示（凍結秒數） */}
+          <QueryCooldownDialog cooldown={refreshCooldown} />
 
           {/* 資料已非當日（分頁擱置跨日）：提示過期，由使用者自行重查 */}
           <CommonDialog

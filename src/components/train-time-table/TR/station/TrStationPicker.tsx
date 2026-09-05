@@ -1,8 +1,11 @@
-import CommonDialog from "@/components/common/CommonDialog";
+import QueryCooldownDialog from "@/components/common/QueryCooldownDialog";
 import LocateIcon from "@/components/icons/LocateIcon";
 import Area from "@/components/search-area/Area";
 import StationButton from "@/components/search-area/station/StationButton";
 import { trMainLines, trStationDataList } from "@/data/stationsData";
+import useRefreshCooldown, {
+  QUERY_COOLDOWN_MS,
+} from "@/hooks/useRefreshCooldown";
 import useRwd from "@/hooks/useRwd";
 import { getTdxLang } from "@/utils/LocaleUtils";
 import {
@@ -50,14 +53,10 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
   const [county, setCounty] = useState<string | null>(null);
   const [locating, setLocating] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
-  const [sameQueryOpen, setSameQueryOpen] = useState(false);
-  // 被擋下當下凍結的剩餘秒數（提示用，不即時倒數）
-  const [sameQuerySeconds, setSameQuerySeconds] = useState(0);
   const deferredInput = useDeferredValue(inputValue);
   const inputRef = useRef<HTMLInputElement>(null);
-  // 5 秒內重選同一站擋下（防連點 / 同查詢重洗 SSR+後端），比照 OD sameQueryMsg
-  const lastQueryRef = useRef<{ id: string; time: number } | null>(null);
-  const queryInterval = 5000;
+  // 冷卻內重選同一站擋下（防連點 / 同查詢重洗 SSR+後端），比照 OD 送出節流
+  const cooldown = useRefreshCooldown(QUERY_COOLDOWN_MS);
 
   // 展開選單時，電腦版自動 focus 搜尋框（比照 OD 起迄站查詢）
   useEffect(() => {
@@ -69,23 +68,17 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
     : null;
 
   const select = (stationId: string) => {
-    // 同一站於 queryInterval 內重選 → 擋下並提示（三入口：站名 button / input / 最近車站都經此）
-    const now = Date.now();
-    const last = lastQueryRef.current;
-    if (last && last.id === stationId && now - last.time < queryInterval) {
-      // 凍結被擋當下的剩餘秒數（無條件進位，至少 1 秒）
-      setSameQuerySeconds(
-        Math.max(1, Math.ceil((last.time + queryInterval - now) / 1000)),
-      );
-      setSameQueryOpen(true);
-      return;
-    }
-    lastQueryRef.current = { id: stationId, time: now };
-    onSelectStation(stationId);
-    setIsOpen(false);
-    setInputValue("");
-    setCounty(null);
-    setGeoError(null);
+    // 冷卻內重選同一站 → 擋下並提示（三入口：站名 button / input / 最近車站都經此）
+    cooldown.attempt(
+      () => {
+        onSelectStation(stationId);
+        setIsOpen(false);
+        setInputValue("");
+        setCounty(null);
+        setGeoError(null);
+      },
+      { key: stationId },
+    );
   };
 
   // 搜尋框按 Enter（沿用 OD StationInputs 規則）：
@@ -219,10 +212,8 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
         </div>
       )}
 
-      {/* 同站快速重選提示（比照 OD sameQueryMsg） */}
-      <CommonDialog open={sameQueryOpen} setOpen={setSameQueryOpen}>
-        {t("sameQueryCountdownMsg", { seconds: sameQuerySeconds })}
-      </CommonDialog>
+      {/* 同站快速重選提示 */}
+      <QueryCooldownDialog cooldown={cooldown} />
     </div>
   );
 };

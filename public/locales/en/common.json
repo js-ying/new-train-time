@@ -148,6 +148,7 @@
   "searchBtn": "Search",
   "errorAlertTitle": "Error Message",
   "reminderAlertTitle": "Reminder",
+  "cooldownAlertTitle": "Please wait",
   "announcementTitle": "Announcement",
   "doNotShowAgainMsg": "Don't show again",
   "trOrderDescription": "Ticket Booking Description",

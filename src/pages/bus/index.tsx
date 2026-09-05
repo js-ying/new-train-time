@@ -11,6 +11,7 @@ import BusStopVariantTabs from "@/components/bus/BusStopVariantTabs";
 import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
 import Loading from "@/components/common/Loading";
+import QueryCooldownDialog from "@/components/common/QueryCooldownDialog";
 import RefreshButton from "@/components/common/RefreshButton";
 import LocateIcon from "@/components/icons/LocateIcon";
 import Layout from "@/components/layout/Layout";
@@ -21,7 +22,6 @@ import NoTrainData from "@/components/train-time-table/NoTrainData";
 import { useAuth } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { PathEnum } from "@/enums/PathEnum";
-import { REFRESH_COOLDOWN_MS } from "@/hooks/search/useAutoRefreshData";
 import useBusRouteArrivals, {
   BusRouteSelection,
 } from "@/hooks/search/useBusRouteArrivals";
@@ -32,7 +32,9 @@ import useBusStopBoard, {
 import useNearestBusStop from "@/hooks/search/useNearestBusStop";
 import useBusName from "@/hooks/useBusName";
 import useMuiTheme from "@/hooks/useMuiTheme";
-import useRefreshCooldown from "@/hooks/useRefreshCooldown";
+import useRefreshCooldown, {
+  QUERY_COOLDOWN_MS,
+} from "@/hooks/useRefreshCooldown";
 import useStationFavorites from "@/hooks/useStationFavorites";
 import useStationHistory from "@/hooks/useStationHistory";
 import {
@@ -89,9 +91,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 }
 
 const VALID_SOURCES: BusSource[] = ["city", "intercity", "taiwantrip"];
-
-// 同查詢冷卻：5 秒內重查同路線 / 定位到同站牌 → 擋下並提示，比照 TR 單站 picker
-const SAME_QUERY_COOLDOWN_MS = 5000;
 
 /** 從 URL query 還原已選路線（重新整理 / 分享連結可直接看板；route 為顯示用最小資訊）。 */
 const parseRouteFromQuery = (query: ParsedUrlQuery): JsyBusRoute | null => {
@@ -372,11 +371,10 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
   const routeAlerts = !isStopMode ? data?.[0]?.alerts : undefined;
 
   // 手動刷新冷卻（route/stop 共用一份；refresh 指向作用中看板）；冷卻中再按 → 彈窗「請於 X 秒後再試」
-  const busRefreshCooldown = useRefreshCooldown(REFRESH_COOLDOWN_MS);
-  const handleRefresh = () =>
-    busRefreshCooldown.attempt(refresh, { since: lastUpdatedAt });
-  // 同查詢冷卻：選同路線 / 定位到同站牌 5 秒內擋下並提示（按 key 區分，不同查詢不互擋），比照 TR 單站
-  const busQueryCooldown = useRefreshCooldown(SAME_QUERY_COOLDOWN_MS);
+  const busRefreshCooldown = useRefreshCooldown(QUERY_COOLDOWN_MS);
+  const handleRefresh = () => busRefreshCooldown.attempt(refresh);
+  // 同查詢冷卻：冷卻內選同路線 / 定位到同站牌擋下並提示（按 key 區分，不同查詢不互擋），比照 TR 單站
+  const busQueryCooldown = useRefreshCooldown(QUERY_COOLDOWN_MS);
   // 換路線/換站牌：新查詢可立即刷新
   useEffect(() => {
     busRefreshCooldown.reset();
@@ -384,7 +382,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
   }, [selectedRoute?.routeUid, selectedRoute?.subRouteName, stopUid]);
 
   // 離我最近站牌：定位解析後 push URL（StopUID 為錨，改 stop 模式）；push 留歷史讓瀏覽器可返回。
-  // 不提前清 selectedRoute（避免閃歷史面板，同 handleSelectStopFromRoute）；同站牌 5 秒內重定位擋下。
+  // 不提前清 selectedRoute（避免閃歷史面板，同 handleSelectStopFromRoute）；冷卻內同站牌重定位擋下。
   const handleNearestStop = (stop: JsyBusNearestStop) => {
     busQueryCooldown.attempt(
       () => {
@@ -409,7 +407,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
 
   // 選定路線 → 更新 state + 淺層 push URL（不重跑 GSSP）；push 留歷史讓瀏覽器可返回
   // dir（站牌看板點某向進來時帶）寫進 URL，讓 route board 初始化即切到對應 tab
-  // 同路線 5 秒內重選 → 擋下並提示（key 帶 routeUid）
+  // 冷卻內重選同路線 → 擋下並提示（key 帶 routeUid）
   const handleSelectRoute = (route: JsyBusRoute, dir?: number) => {
     const key = encodeBusTargetId(route.routeUid, route.subRouteName);
     busQueryCooldown.attempt(
@@ -468,7 +466,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
 
   // 路線站序某站 → 跳該站牌看板（StopUID 為錨，改 stop 模式），等於反向讓使用者搜站牌。
   // source 取路線權威值：市區公車站需在 bus_stop（city 有值）才查得到 → 無 city 不可點；
-  // 公路客運/台灣好行 StopUID 直查、一律可點。同站 5 秒內重入擋下，比照 handleNearestStop。
+  // 公路客運/台灣好行 StopUID 直查、一律可點。冷卻內同站重入擋下，比照 handleNearestStop。
   // 不在此提前清 selectedRoute：否則 URL 落地前會有一瞬 !selectedRoute && !isStopMode → 閃歷史面板；
   // 改靠 URL 落地後既有 useEffect 自動清，路線看板以 !isStopMode 守互斥，直接切站牌看板不抖動。
   const handleSelectStopFromRoute = (stop: JsyBusStopArrival) => {
@@ -523,7 +521,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
       />
     ) : null;
 
-  // 未登入：手動刷新（冷卻中再按彈窗提示 + 引導登入解鎖自動更新）
+  // 未登入：手動刷新（冷卻中彈窗提示 + 引導登入解鎖自動更新）
   const refreshControls =
     !isAutoRefresh && (lastUpdatedAt || error) ? (
       <RefreshButton onRefresh={handleRefresh} />
@@ -653,7 +651,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                       ? t(`busCity.${city}`, { defaultValue: city })
                       : t(SOURCE_LABEL_KEY[source]);
                   }}
-                  // 點卡片 → 跳該站牌看板（同站 5 秒內重入擋下）
+                  // 點卡片 → 跳該站牌看板（冷卻內同站重入擋下）
                   stopFavorites={{
                     count: validStopFavorites.length,
                     content: (
@@ -787,6 +785,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
             <CommonDialog
               open={busRefreshCooldown.dialogOpen}
               setOpen={busRefreshCooldown.setDialogOpen}
+              title="cooldownAlertTitle"
               cancelText={isAutoRefresh ? undefined : "cancel"}
               confirmText={isAutoRefresh ? undefined : "login"}
               onConfirm={
@@ -812,15 +811,8 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
               </div>
             </CommonDialog>
 
-            {/* 同查詢冷卻提示（選同路線 / 定位同站牌 5 秒內），比照 TR 單站 */}
-            <CommonDialog
-              open={busQueryCooldown.dialogOpen}
-              setOpen={busQueryCooldown.setDialogOpen}
-            >
-              {t("sameQueryCountdownMsg", {
-                seconds: busQueryCooldown.frozenSeconds,
-              })}
-            </CommonDialog>
+            {/* 同查詢冷卻提示（選同路線 / 定位同站牌），比照 TR 單站 */}
+            <QueryCooldownDialog cooldown={busQueryCooldown} />
 
             {/* 久無操作暫停自動更新：任何關閉動作（繼續更新 / X / 背景 / Esc）都代表使用者在場 → 恢復輪詢 */}
             <CommonDialog

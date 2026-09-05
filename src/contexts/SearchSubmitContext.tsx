@@ -13,6 +13,6 @@ export type SubmitSearch = (overrides?: SubmitOverrides) => void;
 
 /**
  * 由 SearchArea 提供，讓搜尋按鈕與「現在」共用同一份送出邏輯，
- * 5 秒同筆查詢節流與提示彈窗因此只有一份，不會互相繞過。
+ * 同筆查詢節流與提示彈窗因此只有一份，不會互相繞過。
  */
-export const SearchSubmitContext = createContext<SubmitSearch>(null);
+export const SearchSubmitContext = createContext<SubmitSearch>(() => undefined);

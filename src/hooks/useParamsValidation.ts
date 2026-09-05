@@ -18,7 +18,6 @@ export interface ValidationAlert {
     | "endStationIsBlankMsg"
     | "sameStationMsg"
     | "datetimeNotAllowMsg"
-    | "sameQueryMsg"
     | "";
   setMessage: (msg: ValidationAlert["message"]) => void;
   open: boolean;

@@ -17,6 +17,7 @@ import { useTranslation } from "next-i18next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { FC } from "react";
+import QueryCooldownDialog from "../common/QueryCooldownDialog";
 import Area from "./Area";
 import SearchButton from "./SearchButton";
 import SearchValidationDialog from "./SearchValidationDialog";
@@ -53,7 +54,7 @@ const SearchArea: FC = () => {
   useDefaultStationHandling();
 
   // 送出搜尋在此持有一份，SearchButton 與 NowTimeButton 共用同一組節流與提示
-  const { submitSearch, validationAlert, sameQuerySeconds } = useSearchSubmit();
+  const { submitSearch, validationAlert, cooldown } = useSearchSubmit();
 
   return (
     <SearchSubmitContext.Provider value={submitSearch}>
@@ -222,10 +223,9 @@ const SearchArea: FC = () => {
         <SearchButton />
       </div>
 
-      <SearchValidationDialog
-        validationAlert={validationAlert}
-        sameQuerySeconds={sameQuerySeconds}
-      />
+      <SearchValidationDialog validationAlert={validationAlert} />
+
+      <QueryCooldownDialog cooldown={cooldown} />
     </SearchSubmitContext.Provider>
   );
 };

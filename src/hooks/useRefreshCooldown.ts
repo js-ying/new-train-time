@@ -1,13 +1,14 @@
 import { useCallback, useRef, useState } from "react";
 
+/** 同筆查詢 / 手動刷新的冷卻長度；三鐵 OD、單站時刻表、公車共用 */
+export const QUERY_COOLDOWN_MS = 5000;
+
 interface AttemptOptions {
   /** 「同查詢」判定鍵：同 key 才擋，不同 key 視為新查詢直接放行；不傳即單一冷卻。 */
   key?: string;
-  /** 外部最後更新時間；與上次 attempt 取較晚者當冷卻起點。 */
-  since?: number | null;
 }
 
-interface UseRefreshCooldownResult {
+export interface UseRefreshCooldownResult {
   /** 嘗試執行 action：未冷卻→執行並起算冷卻；冷卻中→開彈窗顯示凍結剩餘秒數、不執行。 */
   attempt: (action: () => void, options?: AttemptOptions) => void;
   /** 冷卻彈窗開關 */
@@ -20,8 +21,9 @@ interface UseRefreshCooldownResult {
 }
 
 /**
- * 手動刷新冷卻：冷卻中再按 → 彈窗提示「請於 X 秒後再試」（凍結秒數），比照 OD/單站 sameQuery。
- * 按鈕本身不 disable，攔截與提示都在這裡；秒數於被擋當下算一次並凍結。
+ * 查詢 / 刷新冷卻：冷卻中再按 → 彈窗提示「請於 X 秒後再試」；秒數於被擋當下算一次並凍結。
+ *
+ * 冷卻只由使用者的 attempt 起算：自動輪詢、換查詢對象的首抓都不是使用者按的，不佔冷卻。
  */
 export const useRefreshCooldown = (
   intervalMs: number,
@@ -34,11 +36,10 @@ export const useRefreshCooldown = (
   const [frozenSeconds, setFrozenSeconds] = useState(0);
 
   const attempt = useCallback(
-    (action: () => void, { key, since }: AttemptOptions = {}) => {
+    (action: () => void, { key }: AttemptOptions = {}) => {
       const now = Date.now();
       const last = lastRef.current;
-      const lastAttemptAt = last != null && last.key === key ? last.time : 0;
-      const baseAt = Math.max(lastAttemptAt, since ?? 0);
+      const baseAt = last != null && last.key === key ? last.time : 0;
       if (baseAt > 0 && now - baseAt < intervalMs) {
         // 凍結被擋當下的剩餘秒數（無條件進位，至少 1 秒）
         setFrozenSeconds(
