@@ -19,6 +19,8 @@ import ThsrTrainTimeDetailDialog from "./ThsrTrainTimeDetailDialog";
 
 interface ThsrTrainTimeInfoProps {
   thsrTrainTimeTable: JsyThsrTimetable;
+  /** 查詢日，用來標示隔日午夜後上車的班次 */
+  queryDate: string;
   thsrFreeSeatingCars: JsyThsrFreeSeatingCar[];
   thsrGeneralTimeTable: JsyThsrGeneralTimetable[];
   thsrOdFare: JsyThsrOdFare[];
@@ -30,6 +32,7 @@ interface ThsrTrainTimeInfoProps {
  */
 const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
   thsrTrainTimeTable,
+  queryDate,
   thsrFreeSeatingCars,
   thsrGeneralTimeTable,
   thsrOdFare,
@@ -39,8 +42,8 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
   const [open, setOpen] = useState(false);
   const { showThsrTrainNote } = useContext(SettingContext);
 
-  const { isPassed, trainNo, timeRange, durationText } =
-    useThsrTrainDisplay(thsrTrainTimeTable);
+  const { isPassed, trainNo, timeRange, durationText, isNextDay } =
+    useThsrTrainDisplay(thsrTrainTimeTable, queryDate);
 
   const openDetail = () => {
     gaClickEvent(GaEnum.THSR_TRAIN_INFO);
@@ -69,6 +72,7 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           <ThsrTimeInfoMidArea
             timeRange={timeRange}
             durationText={durationText}
+            isNextDay={isNextDay}
           />
         </div>
         <div className="text-center">

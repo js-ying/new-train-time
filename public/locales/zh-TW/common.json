@@ -230,6 +230,7 @@
   "trainType": "車種",
   "station": "車站",
   "timeRange": "時程",
+  "thsrNextDayBadge": "隔日",
   "date": "日期",
   "time": "時間",
   "ticketFare": "票價",

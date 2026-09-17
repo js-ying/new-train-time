@@ -5,6 +5,8 @@ import { JsyAnnouncement } from "./jsy-announcement";
 import { JsyName } from "./jsy-tr-info";
 
 export interface JsyThsrInfo {
+  /** 查詢日；timeTables 內 trainDate 與此不同者為隔日午夜後上車 */
+  trainDate: string;
   timeTables: JsyThsrTimetable[];
   fareList: JsyThsrOdFare[];
   freeSeatingCars: JsyThsrFreeSeatingCar[];

@@ -5,8 +5,17 @@ import { getTimeDiff, isTrainPass } from "@/utils/TrainInfoUtils";
 import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 
-export const useThsrTrainDisplay = (data: JsyThsrTimetable) => {
+/**
+ * [高鐵] 列車時刻顯示資料
+ * @param queryDate 查詢日；班次乘車日與其不同即為隔日午夜後上車
+ */
+export const useThsrTrainDisplay = (
+  data: JsyThsrTimetable,
+  queryDate?: string,
+) => {
   const { t } = useTranslation();
+
+  const isNextDay = !!queryDate && data.trainDate !== queryDate;
 
   const isPassed = useMemo(
     () =>
@@ -37,6 +46,7 @@ export const useThsrTrainDisplay = (data: JsyThsrTimetable) => {
     isPassed,
     timeRange,
     durationText,
+    isNextDay,
     trainNo: data.trainInfo.trainNo,
   };
 };
