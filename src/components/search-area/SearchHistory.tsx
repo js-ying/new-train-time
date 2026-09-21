@@ -175,7 +175,11 @@ const SearchHistory: FC = () => {
     return (
       <div
         className="flex items-center gap-1.5"
-        key={`${item.startStationId}-${item.endStationId}`}
+        key={
+          ctx.reordering
+            ? `pos-${ctx.index}`
+            : `${item.startStationId}-${item.endStationId}`
+        }
       >
         <div className="relative flex-1">
           <Button

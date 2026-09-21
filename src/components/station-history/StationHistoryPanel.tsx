@@ -190,7 +190,10 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
     const fav = showFavoriteRoutes && isFavorite(item.targetId);
     const subLabel = resolveSubLabel?.(item);
     return (
-      <div className="flex items-center gap-1.5" key={item.targetId}>
+      <div
+        className="flex items-center gap-1.5"
+        key={ctx.reordering ? `pos-${ctx.index}` : item.targetId}
+      >
         <div className="relative max-w-[10rem] flex-1">
           <Button
             className="h-8 w-full bg-secondary text-sm text-secondary-foreground"

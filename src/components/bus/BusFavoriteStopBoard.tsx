@@ -143,7 +143,10 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
           ? busName(row.stopName, row.stopNameEn)
           : snapshot.stopName;
         return (
-          <div key={fav.targetId} className="flex items-center gap-2">
+          <div
+            key={reorder.isReordering ? `pos-${index}` : fav.targetId}
+            className="flex items-center gap-2"
+          >
             {/* 排序箭頭置於卡片外：卡片高度與內部佈局不因進出排序模式而變動 */}
             {reorder.isReordering && (
               <ReorderArrows

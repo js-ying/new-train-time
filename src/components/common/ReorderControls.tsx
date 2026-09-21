@@ -48,7 +48,11 @@ interface ReorderArrowsProps {
   vertical?: boolean;
 }
 
-/** 排序模式的單列上下移按鈕；已在端點的方向自動 disabled */
+/**
+ * 排序模式的單列上下移按鈕；已在端點的方向自動 disabled。
+ * 呼叫端排序模式下須以位置（index）當列 key，按鈕的 hover / ripple / disabled
+ * 才會固定對應所在位置。
+ */
 export const ReorderArrows: FC<ReorderArrowsProps> = ({
   index,
   total,
@@ -112,7 +116,7 @@ export const ReorderToolbar: FC<ReorderToolbarProps> = ({
           size="sm"
           radius="sm"
           variant="light"
-          className="size-8 min-w-8 text-zinc-400 dark:text-zinc-500"
+          className="size-8 min-w-8 text-zinc-700 dark:text-zinc-200"
           aria-label={t("reorderLabel")}
           onPress={onStart}
         >
