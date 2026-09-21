@@ -1,5 +1,6 @@
 import Layout from "@/components/layout/Layout";
 import PageSeo from "@/components/seo/PageSeo";
+import { CONTACT_EMAIL } from "@/configs/contact";
 import useLang from "@/hooks/useLang";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
@@ -124,10 +125,10 @@ const Privacy: FC = () => {
             <p>
               如對本政策有任何疑問，請來信：
               <a
-                href="mailto:jsy-traintime@googlegroups.com"
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600 dark:text-silverLakeBlue-400 dark:hover:text-silverLakeBlue-300"
               >
-                jsy-traintime@googlegroups.com
+                {CONTACT_EMAIL}
               </a>
             </p>
           </article>

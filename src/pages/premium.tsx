@@ -1,6 +1,7 @@
 import ChevronToggleIcon from "@/components/common/ChevronToggleIcon";
 import CommonDialog from "@/components/common/CommonDialog";
 import Layout from "@/components/layout/Layout";
+import { CONTACT_EMAIL } from "@/configs/contact";
 import { PREMIUM_PLANS } from "@/configs/premiumPlans";
 import { isAuthError, useAuth } from "@/contexts/AuthContext";
 import useMuiTheme from "@/hooks/useMuiTheme";
@@ -331,10 +332,10 @@ const Premium: FC = () => {
               <p className="">
                 {t("premium.contactText")}{" "}
                 <a
-                  href="mailto:jsy-traintime@googlegroups.com"
+                  href={`mailto:${CONTACT_EMAIL}`}
                   className="text-silverLakeBlue-500 underline hover:text-silverLakeBlue-600 dark:text-silverLakeBlue-400 dark:hover:text-silverLakeBlue-300"
                 >
-                  jsy-traintime@googlegroups.com
+                  {CONTACT_EMAIL}
                 </a>
               </p>
             </section>
