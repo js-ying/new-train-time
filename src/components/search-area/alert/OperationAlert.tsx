@@ -105,7 +105,8 @@ const OperationAlert: FC<OperationAlertProps> = ({ compact }) => {
                   ${index < jsyOperationAlert.alerts.length - 1 ? " mb-4 " : ""}
                 `}
               >
-                {alert.status === "normal" && (
+                {/* TDX 可能不回 publishTime，空值不可交給 dayjs（會變成當下時間） */}
+                {alert.status === "normal" && alert.publishTime && (
                   <div>
                     {DateUtils.dateFormatter(
                       alert.publishTime,
