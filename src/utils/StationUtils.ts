@@ -7,16 +7,22 @@ import {
 } from "@/data/stationsData";
 import { getTdxLang } from "./LocaleUtils";
 
-// 環島之星列車起訖標記，非實體車站，一律排除
-const EXCLUDED_STATION_IDS = ["1001"];
+/** 不列入車站選單、搜尋與定位的台鐵站（無一般旅客列車停靠） */
+export const EXCLUDED_TR_STATION_IDS: readonly string[] = [
+  "1001", // 臺北-環島：環島之星列車起訖標記
+  "5170", // 枋野：號誌站
+  "5998", // 南方小站：機廠員工月台
+  "5999", // 潮州基地：車輛基地
+  "7140", // 新馬：暫停客運
+];
 
 /** 把「台」「臺」視為同字（全域替換，供站名比對；前後端篩選須一致） */
 export const normalizeTaiTai = (s: string): string => s.replace(/台/g, "臺");
 
-/** 是否為有效台鐵站號（存在且非環島標記站） */
+/** 是否為有效台鐵站號（存在且不在排除清單） */
 export const isValidTrStationId = (stationId: string): boolean =>
   !!stationId &&
-  !EXCLUDED_STATION_IDS.includes(stationId) &&
+  !EXCLUDED_TR_STATION_IDS.includes(stationId) &&
   trStationDataList.some((s) => s.StationID === stationId);
 
 /** 站名是否符合輸入（En / Zh / 站號比對，台↔臺同字） */
@@ -24,7 +30,7 @@ export const isTrStationMatchInput = (
   station: TrStationData,
   input: string,
 ): boolean => {
-  if (EXCLUDED_STATION_IDS.includes(station.StationID)) return false;
+  if (EXCLUDED_TR_STATION_IDS.includes(station.StationID)) return false;
   if (!input) return true;
   const enMatch = station.StationName.En.toLowerCase().includes(
     input.toLowerCase(),
@@ -41,7 +47,7 @@ export const isTrStationInCounty = (
   station: TrStationData,
   county: string,
 ): boolean => {
-  if (!county || EXCLUDED_STATION_IDS.includes(station.StationID)) return false;
+  if (!county || EXCLUDED_TR_STATION_IDS.includes(station.StationID)) return false;
   return (
     station.StationAddress.replace(/[0-9]/g, "").substring(0, 3) === county
   );
@@ -53,7 +59,7 @@ export const getNearestTrStation = (lat: number, lon: number): string | null => 
   let nearestId: string | null = null;
   let minDist = Infinity;
   for (const s of trStationDataList) {
-    if (EXCLUDED_STATION_IDS.includes(s.StationID)) continue;
+    if (EXCLUDED_TR_STATION_IDS.includes(s.StationID)) continue;
     const dLat = toRad(s.StationPosition.PositionLat - lat);
     const dLon = toRad(s.StationPosition.PositionLon - lon);
     const a =

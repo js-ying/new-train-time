@@ -11,11 +11,8 @@ import {
   TrStationData,
   TymcStationData,
 } from "@/data/stationsData";
+import { EXCLUDED_TR_STATION_IDS } from "@/utils/StationUtils";
 import { useCallback, useContext } from "react";
-
-// 排除非實體站（1001 = 環島之星列車起訖標記）。
-// 搜尋與縣市瀏覽兩條路徑共用，避免只擋一邊造成入口不一致。
-const EXCLUDED_STATION_IDS = ["1001"];
 
 export const useStationSearch = () => {
   const params = useContext(SearchAreaContext);
@@ -25,7 +22,7 @@ export const useStationSearch = () => {
   const isStationBelowMainLine = useCallback(
     (trStationData: TrStationData, mainLine: string | null): boolean => {
       if (!mainLine) return false;
-      if (EXCLUDED_STATION_IDS.includes(trStationData.StationID)) return false;
+      if (EXCLUDED_TR_STATION_IDS.includes(trStationData.StationID)) return false;
       return (
         trStationData.StationAddress.replace(/[0-9]/g, "").substring(0, 3) ===
         mainLine
@@ -51,7 +48,7 @@ export const useStationSearch = () => {
 
       const idFilter = stationData.StationID.includes(inputValue);
 
-      const excludeFilter = !EXCLUDED_STATION_IDS.includes(
+      const excludeFilter = !EXCLUDED_TR_STATION_IDS.includes(
         stationData.StationID,
       );
 
