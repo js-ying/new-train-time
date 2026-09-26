@@ -13,6 +13,12 @@ interface BusStopRowProps {
   onSelectStop?: (stop: JsyBusStopArrival) => void;
   /** 收藏愛心（站點三元組：本站×本路線×當前方向）；未提供則不顯示。 */
   favorite?: { isFavorited: boolean; onToggle: () => void };
+  /** 常駐粉紅框（從收藏 / 站牌看板點入的目標站）。 */
+  marked?: boolean;
+  /** 進場光暈（僅落地時播放，需搭配 marked）。 */
+  glowing?: boolean;
+  /** 列容器 ref（供看板捲動定位）。 */
+  rowRef?: (el: HTMLDivElement | null) => void;
 }
 
 /**
@@ -24,6 +30,9 @@ const BusStopRow: FC<BusStopRowProps> = ({
   source,
   onSelectStop,
   favorite,
+  marked,
+  glowing,
+  rowRef,
 }) => {
   const { t } = useTranslation();
   const busName = useBusName();
@@ -49,7 +58,14 @@ const BusStopRow: FC<BusStopRowProps> = ({
   );
 
   return (
-    <div className="flex items-center gap-1.5 rounded-md border border-solid border-foreground p-3">
+    <div
+      ref={rowRef}
+      className={`flex items-center gap-1.5 rounded-md border border-solid p-3 transition-colors ${
+        marked
+          ? `stop-marked${glowing ? " stop-marked-glow" : ""}`
+          : "border-foreground"
+      }`}
+    >
       <span className="w-5 shrink-0 text-center text-xs tabular-nums text-zinc-400">
         {stop.stopSequence}
       </span>

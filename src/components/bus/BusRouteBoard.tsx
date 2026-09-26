@@ -9,14 +9,23 @@ import useStationFavorites from "@/hooks/useStationFavorites";
 import { JsyBusRouteBoard, JsyBusStopArrival } from "@/models/jsy-bus-info";
 import AdUtils from "@/utils/AdUtils";
 import {
+  BusStopFavoriteKey,
   encodeBusStopFavoriteId,
   encodeBusStopFavoriteName,
 } from "@/utils/BusStopFavoriteUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import BusStopRow from "./BusStopRow";
+
+/** 要捲到並標記的站（收藏 / 站牌看板點入）；stopName 供 stopUid 對不上時備援比對。 */
+export interface BusRouteStopHighlight extends BusStopFavoriteKey {
+  stopName?: string;
+}
+
+/** 進場光暈毫秒（.stop-marked-glow 動畫 1.2s × 1 輪） */
+const GLOW_DURATION_MS = 1200;
 
 interface BusRouteBoardProps {
   /** 後端回傳的雙向看板（通常 2 筆：去程 0 / 返程 1，部分路線僅 1 向） */
@@ -38,6 +47,10 @@ interface BusRouteBoardProps {
   warningSlot?: ReactNode;
   /** 點站序某站 → 跳該站牌看板（市區公車站才可點，由 BusStopRow 依 city 自判） */
   onSelectStop?: (stop: JsyBusStopArrival) => void;
+  /** 從收藏 / 站牌看板點入時要捲到並標記的站（路線/子線/方向尚未到位即等待）。 */
+  highlight?: BusRouteStopHighlight | null;
+  /** highlight 已處理（不論找不找得到站），請呼叫端清掉。 */
+  onHighlightApplied?: () => void;
 }
 
 /**
@@ -55,12 +68,63 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
   favoriteSlot,
   warningSlot,
   onSelectStop,
+  highlight,
+  onHighlightApplied,
 }) => {
   const { t } = useTranslation();
   const busName = useBusName();
   const current = boards.find((b) => b.direction === direction) ?? boards[0];
   // sticky 吸頂時才顯示路線名（未吸頂時搜尋框已有路線資訊，不重複）
   const { sentinelRef, isStuck } = useIsStuck<HTMLDivElement>();
+
+  // 點入的目標站：落地時捲到畫面中央並播光暈，粉紅框常駐至離開本路線（看板 unmount）
+  const rowRefs = useRef(new Map<number, HTMLDivElement>());
+  const glowTimer = useRef<ReturnType<typeof setTimeout>>();
+  const [marked, setMarked] = useState<{
+    direction: number;
+    stopUid: string;
+  } | null>(null);
+  const [glowing, setGlowing] = useState(false);
+  useEffect(() => () => clearTimeout(glowTimer.current), []);
+  useEffect(() => {
+    if (!highlight || !current) return;
+    // 看板仍是前一條路線（新資料未到位）→ 等
+    if (
+      current.routeUid !== highlight.routeUid ||
+      subRouteName !== highlight.subRouteName
+    )
+      return;
+    // 方向 tab 尚未切到位 → 等；該方向已不存在 → 放棄
+    const hasDirection = boards.some(
+      (b) => b.direction === highlight.direction,
+    );
+    if (hasDirection && current.direction !== highlight.direction) return;
+    onHighlightApplied?.();
+    if (!hasDirection) return;
+    // stopUid 優先；站牌看板同名多柱聚合，收藏的柱可能非本方向停靠柱 → 退站名，皆取第一次經過
+    const byUid = current.stops.findIndex(
+      (s) => s.stopUid === highlight.stopUid,
+    );
+    const index =
+      byUid >= 0 || !highlight.stopName
+        ? byUid
+        : current.stops.findIndex((s) => s.stopName === highlight.stopName);
+    const target = current.stops[index];
+    if (!target) return; // 站序已無此站 → 只是不捲
+    rowRefs.current
+      .get(index)
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setMarked({ direction: current.direction, stopUid: target.stopUid });
+    setGlowing(true);
+    clearTimeout(glowTimer.current);
+    glowTimer.current = setTimeout(() => setGlowing(false), GLOW_DURATION_MS);
+  }, [highlight, current, boards, subRouteName, onHighlightApplied]);
+
+  // 標記列＝本方向第一次經過該 stopUid（以 uid 而非 index 記，輪詢後站序變動仍對得上）
+  const markedIndex =
+    marked && current?.direction === marked.direction
+      ? current.stops.findIndex((s) => s.stopUid === marked.stopUid)
+      : -1;
 
   // tab 標籤直接顯示該方向目的地（「往 X」）；公車方向對使用者的意義是去哪，而非北上/南下
   const labelFor = (board: JsyBusRouteBoard) =>
@@ -192,6 +256,12 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
                   source={current.source}
                   onSelectStop={onSelectStop}
                   favorite={favoriteFor(stop)}
+                  marked={index === markedIndex}
+                  glowing={glowing}
+                  rowRef={(el) => {
+                    if (el) rowRefs.current.set(index, el);
+                    else rowRefs.current.delete(index);
+                  }}
                 />
                 {/* 站序內插廣告：最多第三筆後，不足三筆遞減（同 OD） */}
                 {AdUtils.showAd(current.stops.length, index) && (

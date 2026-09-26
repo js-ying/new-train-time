@@ -25,8 +25,11 @@ import BusAutoRefreshRing from "./BusAutoRefreshRing";
 interface BusFavoriteStopBoardProps {
   /** BUS_STOP 收藏（呼叫端已過濾為有效三元組），順序即顯示順序。 */
   favorites: StationFavorite[];
-  /** 點某列 → 跳該站牌看板（帶整組三元組，讓該站牌看板標記這一列）。 */
-  onSelect: (key: BusStopFavoriteKey) => void;
+  /** 點某列 → 跳該路線看板並捲到該站（帶三元組 + 看板到位前的路線顯示名、站名備援比對用）。 */
+  onSelect: (
+    key: BusStopFavoriteKey,
+    names: { routeName: string; routeNameEn?: string; stopName: string },
+  ) => void;
   /** 點愛心 → 移除該筆收藏。 */
   onRemove: (targetId: string) => void;
   /** 排序完成 → 以 targetId 新順序寫回收藏。 */
@@ -171,7 +174,17 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
               <button
                 type="button"
                 disabled={reorder.isReordering}
-                onClick={() => onSelect(key)}
+                // 原始中文名優先（同站牌看板點入路線）；batch 查無該列才退收藏快照
+                onClick={() =>
+                  onSelect(key, {
+                    routeName:
+                      row?.subRouteName ||
+                      row?.routeName ||
+                      snapshot.routeLabel,
+                    routeNameEn: row?.routeNameEn,
+                    stopName: row?.stopName || snapshot.stopName,
+                  })
+                }
                 className="custom-cursor-pointer grid flex-1 grid-cols-[1fr_auto] items-center gap-2 text-left"
               >
                 <div>

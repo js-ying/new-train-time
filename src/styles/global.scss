@@ -198,10 +198,14 @@ img {
   }
 }
 
-/* 站牌看板：標記使用者剛從收藏點進來的那一列（粉紅邊框 + 兩次外擴光暈） */
-.stop-highlight {
+/* 路線看板：從收藏 / 站牌看板點入的目標站（粉紅邊框常駐） */
+.stop-marked {
   @apply border-rose-500/80;
-  animation: stopHighlightGlow 1.2s ease-out 2;
+}
+
+/* 目標站進場光暈：一次外擴，僅落地時播放 */
+.stop-marked-glow {
+  animation: stopHighlightGlow 1.2s ease-out 1;
 }
 
 .common-input {

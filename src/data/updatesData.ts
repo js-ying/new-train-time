@@ -11,6 +11,27 @@ export const updateDataList = [
   {
     date: "2026-09",
     type: "both",
+    ver: "4.4.1",
+    items: [
+      {
+        type: "update",
+        content:
+          "調整公車頁面點擊「常用站牌」的行為，從前往站牌頁改為路線頁下的該站牌",
+      },
+      {
+        type: "update",
+        content: "現在從公車的站牌頁點擊某路線，也會自動標記並捲到該列",
+      },
+      {
+        type: "update",
+        content:
+          "現在從公車的「常用站牌」或站牌頁點擊某路線，自動標記的粉紅色框框會常駐不會消失",
+      },
+    ],
+  },
+  {
+    date: "2026-09",
+    type: "both",
     ver: "4.4.0",
     items: [
       {

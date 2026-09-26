@@ -1,7 +1,9 @@
 import BusAutoRefreshRing from "@/components/bus/BusAutoRefreshRing";
 import BusFavoriteStopBoard from "@/components/bus/BusFavoriteStopBoard";
 import BusOperationAlert from "@/components/bus/BusOperationAlert";
-import BusRouteBoard from "@/components/bus/BusRouteBoard";
+import BusRouteBoard, {
+  BusRouteStopHighlight,
+} from "@/components/bus/BusRouteBoard";
 import BusRouteInfoModal from "@/components/bus/BusRouteInfoModal";
 import BusRouteSearch, {
   SOURCE_LABEL_KEY,
@@ -47,10 +49,7 @@ import {
 import { StationTarget } from "@/models/station-history";
 import { fetchBusRouteMetaServerSide } from "@/services/busRouteMetaServerService";
 import AdUtils from "@/utils/AdUtils";
-import {
-  BusStopFavoriteKey,
-  parseBusStopFavoriteId,
-} from "@/utils/BusStopFavoriteUtils";
+import { parseBusStopFavoriteId } from "@/utils/BusStopFavoriteUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
@@ -405,15 +404,26 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
   } = useBusRouteInfo(selection);
   const [infoModalOpen, setInfoModalOpen] = useState(false);
 
+  // 從收藏 / 站牌看板點入時要捲到的站（路線看板到位後套用並清掉）
+  const [stopHighlight, setStopHighlight] =
+    useState<BusRouteStopHighlight | null>(null);
+  const clearStopHighlight = useCallback(() => setStopHighlight(null), []);
+
   // 選定路線 → 更新 state + 淺層 push URL（不重跑 GSSP）；push 留歷史讓瀏覽器可返回
-  // dir（站牌看板點某向進來時帶）寫進 URL，讓 route board 初始化即切到對應 tab
+  // dir（站牌看板 / 收藏點某向進來時帶）寫進 URL，讓 route board 初始化即切到對應 tab
+  // highlight（收藏 / 站牌看板點入才帶）＝看板到位後捲到並標記的站；未帶即清掉殘留
   // 冷卻內重選同路線 → 擋下並提示（key 帶 routeUid）
-  const handleSelectRoute = (route: JsyBusRoute, dir?: number) => {
+  const handleSelectRoute = (
+    route: JsyBusRoute,
+    opts?: { dir?: number; highlight?: BusRouteStopHighlight },
+  ) => {
     const key = encodeBusTargetId(route.routeUid, route.subRouteName);
+    const dir = opts?.dir;
     busQueryCooldown.attempt(
       () => {
         gaClickEvent(GaEnum.BUS_ROUTE_SELECT);
         activeSelectRef.current = key; // 標記為主動選擇（歷史只記主動選擇，直連/冷載不記）
+        setStopHighlight(opts?.highlight ?? null);
         setSelectedRoute(route);
         // URL 不帶 name（後端不用；顯示名改取 arrivals 回應權威值，見下方 useEffect）
         router.push(
@@ -446,6 +456,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
   // 站牌看板某列 → 跳該路線看板（source/city 取看板的權威值；公路客運/台灣好行 city 為空）
   // 帶該列的 subRouteName（展開候選才有）＋ direction：有 sub 精確導向該子線、無 sub 走 route 粒度，
   // 兩看板同粒度故到站時間天然一致（不經任何 fallback 轉換）。
+  // 並標記本站：錨點柱可能非該方向停靠柱，由路線看板以站名備援比對。
   const handleSelectStopRoute = (route: JsyBusStopBoardRoute) => {
     handleSelectRoute(
       {
@@ -460,7 +471,18 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
         destinationStopEn: route.destinationEn,
         routeType: 0,
       },
-      route.direction,
+      {
+        dir: route.direction,
+        highlight: stopUid
+          ? {
+              stopUid,
+              routeUid: route.routeUid,
+              direction: route.direction,
+              subRouteName: route.subRouteName || undefined,
+              stopName: stopBoard.data?.stopName,
+            }
+          : undefined,
+      },
     );
   };
 
@@ -498,12 +520,6 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
       { key: `stopuid:${variantStopUid}` },
     );
   };
-
-  // 從收藏站點點入時，帶著該筆三元組讓站牌看板標記那一列（stopUid 不符即忽略）
-  const [stopHighlight, setStopHighlight] = useState<BusStopFavoriteKey | null>(
-    null,
-  );
-  const clearStopHighlight = useCallback(() => setStopHighlight(null), []);
 
   // 底部廣告：mount 後才掛（比照其他頁，避免 SSR/hydration 掛 adsbygoogle）
   const [showBottomAd, setShowBottomAd] = useState(false);
@@ -651,28 +667,31 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                       ? t(`busCity.${city}`, { defaultValue: city })
                       : t(SOURCE_LABEL_KEY[source]);
                   }}
-                  // 點卡片 → 跳該站牌看板（冷卻內同站重入擋下）
+                  // 點卡片 → 跳該路線看板、切到收藏方向並捲到該站
                   stopFavorites={{
                     count: validStopFavorites.length,
                     content: (
                       <BusFavoriteStopBoard
                         favorites={validStopFavorites}
-                        onSelect={(key) => {
-                          busQueryCooldown.attempt(
-                            () => {
-                              setStopHighlight(key);
-                              router.push(
-                                {
-                                  pathname: "/bus",
-                                  query: { stopUid: key.stopUid },
-                                },
-                                undefined,
-                                { shallow: true },
-                              );
+                        onSelect={(key, names) =>
+                          handleSelectRoute(
+                            {
+                              routeUid: key.routeUid,
+                              routeName: names.routeName,
+                              routeNameEn: names.routeNameEn,
+                              subRouteName: key.subRouteName,
+                              // 收藏不存 source/city；後端依 routeUid 反查索引（同冷開連結）
+                              source: "city",
+                              departureStop: "",
+                              destinationStop: "",
+                              routeType: 0,
                             },
-                            { key: `stopuid:${key.stopUid}` },
-                          );
-                        }}
+                            {
+                              dir: key.direction,
+                              highlight: { ...key, stopName: names.stopName },
+                            },
+                          )
+                        }
                         onRemove={removeStopFavorite}
                         onReorder={reorderStopFavorites}
                       />
@@ -712,8 +731,6 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                       board={stopBoard.data}
                       stopUid={stopUid ?? ""}
                       onSelectRoute={handleSelectStopRoute}
-                      highlight={stopHighlight}
-                      onHighlightApplied={clearStopHighlight}
                     />
                   ) : (
                     error && <NoTrainData apiError={error} />
@@ -740,6 +757,8 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                     favoriteSlot={renderBusFavorite()}
                     warningSlot={staleWarningBox}
                     onSelectStop={handleSelectStopFromRoute}
+                    highlight={stopHighlight}
+                    onHighlightApplied={clearStopHighlight}
                   />
                 ) : (
                   <>
