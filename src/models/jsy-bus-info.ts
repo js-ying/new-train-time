@@ -71,6 +71,7 @@ export interface JsyBusRouteStops {
  * - approaching    即將到站（≤120s）
  * - minutes        X 分（estimateMinutes 有值）
  * - notDeparted    尚未發車
+ * - beyondHorizon  30+ 分（有車前來、預估超過 30 分）
  * - trafficControl 交管不停靠
  * - lastBusPassed  末班車已過
  * - notInService   今日未營運
@@ -81,6 +82,7 @@ export type BusArrivalState =
   | "approaching"
   | "minutes"
   | "notDeparted"
+  | "beyondHorizon"
   | "trafficControl"
   | "lastBusPassed"
   | "notInService"
@@ -94,7 +96,7 @@ export interface JsyBusStopArrival extends JsyBusStop {
   /** 有車進站時的車牌（供前端標示）。 */
   plateNumb?: string;
   isLastBus?: boolean;
-  /** 起站未發車時，定期時刻表推得的下一班發車時刻（HH:mm）。 */
+  /** 未發車時的下一班表定時刻（HH:mm）。 */
   nextDepartTime?: string;
 }
 

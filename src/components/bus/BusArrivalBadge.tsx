@@ -5,16 +5,17 @@ import { FC } from "react";
 interface BusArrivalBadgeProps {
   state: BusArrivalState;
   estimateMinutes: number | null;
-  /** 起站未發車時的下一班發車時刻（HH:mm）；有值則取代「尚未發車」顯示。 */
+  /** 未發車時的下一班表定時刻（HH:mm）；有值則取代「尚未發車」顯示。 */
   nextDepartTime?: string;
 }
 
-/** 各狀態 → i18n key（minutes 單獨渲染數字+單位，不走此表）。 */
+/** 各狀態 → i18n key（minutes / beyondHorizon 單獨渲染數字+單位，不走此表）。 */
 const STATE_LABEL_KEY: Record<BusArrivalState, string> = {
   arriving: "busArriving",
   approaching: "busApproaching",
   minutes: "busMinuteUnit",
   notDeparted: "busNotDeparted",
+  beyondHorizon: "busMinuteUnit",
   trafficControl: "busTrafficControl",
   lastBusPassed: "busLastBusPassed",
   notInService: "busNotInService",
@@ -28,11 +29,15 @@ const STATE_COLOR: Record<BusArrivalState, string> = {
   approaching: "text-success",
   minutes: "text-foreground",
   notDeparted: "text-muted-foreground",
+  beyondHorizon: "text-muted-foreground",
   trafficControl: "text-warning",
   lastBusPassed: "text-muted-foreground",
   notInService: "text-muted-foreground",
   noData: "text-zinc-400 dark:text-zinc-500",
 };
+
+/** beyondHorizon 顯示的分鐘下限（「30+ 分」）。 */
+const BEYOND_HORIZON_MINUTES = 30;
 
 /** [公車] 單站到站狀態徽章：依後端推導的 state 對應 i18n 文字 + 顏色。 */
 const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
@@ -46,7 +51,7 @@ const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
   const base =
     "inline-flex min-h-7 min-w-14 items-center justify-center whitespace-nowrap";
 
-  // 起站未發車且班表有下一班 → 顯示發車時刻（資訊比「尚未發車」多）；字級略大、不加粗
+  // 未發車且有下一班表定時刻 → 顯示時刻（資訊比「尚未發車」多）；字級略大、不加粗
   if (state === "notDeparted" && nextDepartTime) {
     return (
       <span
@@ -57,12 +62,14 @@ const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
     );
   }
 
-  // 「X 分」：分鐘數放大、單位維持小字，整體用一般色
-  if (state === "minutes") {
+  // 「X 分」「30+ 分」：數字放大、單位維持小字，整體用一般色
+  if (state === "minutes" || state === "beyondHorizon") {
     return (
       <span className={`${base} items-baseline font-medium ${color}`}>
         <span className="text-lg font-semibold tabular-nums">
-          {estimateMinutes ?? 0}
+          {state === "minutes"
+            ? (estimateMinutes ?? 0)
+            : `${BEYOND_HORIZON_MINUTES}+`}
         </span>
         <span className="ml-1 text-sm">{t("busMinuteUnit")}</span>
       </span>
