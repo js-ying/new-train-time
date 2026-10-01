@@ -14,6 +14,13 @@ module.exports = {
         allow: "/",
         disallow: ["/api/*"],
       },
+      // ClaudeBot 放行但限速；專屬群組會取代 *，須自帶 /api 排除
+      {
+        userAgent: "ClaudeBot",
+        allow: "/",
+        disallow: ["/api/*"],
+        crawlDelay: 1,
+      },
     ],
   },
   // 新增熱門起訖站組合到 Sitemap，提升工具型網站的 SEO 覆蓋率
