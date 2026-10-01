@@ -230,7 +230,7 @@
   "trainType": "Train Type",
   "station": "Station",
   "timeRange": "Time Range",
-  "thsrNextDayBadge": "Next day",
+  "nextDayBadge": "Next day",
   "date": "Date",
   "time": "Time",
   "ticketFare": "Ticket Fare",

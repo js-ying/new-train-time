@@ -15,6 +15,8 @@ export interface JsyTymcInfo {
 
 export interface JsyTymcTimetable {
   sequence: number;
+  /** 乘車日 YYYY-MM-DD；與 JsyTymcInfo.date 不同者為隔日午夜後上車（舊版後端未帶） */
+  trainDate?: string;
   /** 起站發車時刻 hh:mm */
   departureTime: string;
   /** 抵達迄站時刻 hh:mm */

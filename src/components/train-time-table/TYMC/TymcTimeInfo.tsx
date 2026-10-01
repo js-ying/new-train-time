@@ -6,12 +6,14 @@ import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
 import { FC, memo, useContext, useRef, useState } from "react";
+import NextDayBadge from "../NextDayBadge";
 import TymcTrainTimeDetailDialog from "./TymcTrainTimeDetailDialog";
 
 interface TymcTimeInfoProps {
   tymcTimeTable: JsyTymcInfo["timeTables"][0];
   fareList: JsyTymcInfo["fareList"];
-  trainDate: string;
+  /** 查詢日 */
+  queryDate: string;
   startStationId: string;
   endStationId: string;
 }
@@ -22,7 +24,7 @@ interface TymcTimeInfoProps {
 const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
   tymcTimeTable,
   fareList,
-  trainDate,
+  queryDate,
   startStationId,
   endStationId,
 }) => {
@@ -34,8 +36,15 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
   const { t } = useTranslation();
   const { showTymcTrainNote } = useContext(SettingContext);
 
-  const { isPassed, isNormal, durationText, isArrivalApprox, price } =
-    useTymcTrainDisplay(tymcTimeTable, fareList, trainDate);
+  const {
+    trainDate,
+    isNextDay,
+    isPassed,
+    isNormal,
+    durationText,
+    isArrivalApprox,
+    price,
+  } = useTymcTrainDisplay(tymcTimeTable, fareList, queryDate);
 
   const openDetail = () => {
     gaClickEvent(GaEnum.THSR_TRAIN_INFO);
@@ -69,6 +78,7 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
         </div>
         {/* Mid */}
         <div className="col-span-2 text-center">
+          {isNextDay && <NextDayBadge />}
           <div className="flex items-center justify-center gap-1.5">
             <span className="whitespace-nowrap">
               {tymcTimeTable.departureTime} -{" "}

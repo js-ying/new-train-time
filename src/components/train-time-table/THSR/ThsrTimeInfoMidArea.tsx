@@ -1,5 +1,5 @@
-import { useTranslation } from "next-i18next";
 import { FC } from "react";
+import NextDayBadge from "../NextDayBadge";
 
 interface ThsrTimeInfoMidAreaProps {
   timeRange: string;
@@ -13,18 +13,9 @@ const ThsrTimeInfoMidArea: FC<ThsrTimeInfoMidAreaProps> = ({
   durationText,
   isNextDay,
 }) => {
-  const { t } = useTranslation();
-
   return (
     <>
-      {/* 獨立一行疊在時程上方，避免撐寬中欄擠壓右欄 */}
-      {isNextDay && (
-        <div>
-          <span className="rounded bg-amber-100 px-1 text-xs text-amber-600 dark:bg-amber-600/40 dark:text-amber-300">
-            {t("thsrNextDayBadge")}
-          </span>
-        </div>
-      )}
+      {isNextDay && <NextDayBadge />}
       <div>{timeRange}</div>
       <div className="text-sm text-muted-foreground">
         {durationText}
