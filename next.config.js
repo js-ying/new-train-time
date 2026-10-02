@@ -19,6 +19,9 @@ const runtimeCaching = [
 const withPWA = require("next-pwa")({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
+  // next/font 的 CJK 字型切成上百個 unicode-range 子集，不進 precache，
+  // 由瀏覽器依頁面用字按需下載（檔名帶 hash，immutable 快取）
+  buildExcludes: [/^static\/media\/.+\.woff2$/],
   runtimeCaching,
 });
 
