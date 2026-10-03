@@ -13,6 +13,21 @@ const runtimeCaching = [
       /^\/api\/(users|payments)\//.test(url.pathname),
     handler: "NetworkOnly",
   },
+  {
+    // next/font 產出的 woff2 檔名帶 hash 不會變，以 CacheFirst 長期保存用過的子集；
+    // 預設的 static-font-assets 只留 4 個，CJK 子集一頁就超過
+    urlPattern: ({ url }) =>
+      self.origin === url.origin &&
+      /^\/_next\/static\/media\/.+\.woff2$/.test(url.pathname),
+    handler: "CacheFirst",
+    options: {
+      cacheName: "next-font-assets",
+      expiration: {
+        maxEntries: 150,
+        maxAgeSeconds: 365 * 24 * 60 * 60,
+      },
+    },
+  },
   ...defaultRuntimeCaching,
 ];
 
