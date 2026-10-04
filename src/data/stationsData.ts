@@ -486,6 +486,24 @@ export const trStationDataList: TrStationData[] = [
     StationURL:
       "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1100",
   },
+  // 資料依台鐵官網車站頁（未提供電話與站等級）
+  {
+    StationUID: "TRA-1105",
+    StationID: "1105",
+    StationName: {
+      Zh_tw: "平鎮",
+      En: "Pingzhen",
+    },
+    StationPosition: {
+      PositionLon: 121.21467,
+      PositionLat: 24.94278,
+    },
+    StationAddress: "324003桃園市平鎮區新富一街 66 號",
+    StationPhone: "",
+    StationClass: "",
+    StationURL:
+      "https://www.railway.gov.tw/tra-tip-web/tip/tip00H/tipH41/viewStaInfo/1105",
+  },
   {
     StationUID: "TRA-1110",
     StationID: "1110",
