@@ -25,7 +25,8 @@ const TimePicker: FC = () => {
   };
 
   const hourOptions = useMemo(() => generateOptions(0, 23), []);
-  const minOptions = useMemo(() => generateOptions(0, 59), []);
+  // 分鐘以 10 分為一格；「現在」帶入的非整十分鐘值只顯示在按鈕上，不列入選項
+  const minOptions = useMemo(() => generateOptions(0, 50, 10), []);
 
   const hour = params.time?.split(":")[0];
   const min = params.time?.split(":")[1];

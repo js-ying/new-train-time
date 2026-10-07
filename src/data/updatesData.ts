@@ -9,6 +9,18 @@ export type UpdateContent = string | UpdateContentSegment[];
 
 export const updateDataList = [
   {
+    date: "2026-10",
+    type: "both",
+    ver: "4.4.2",
+    items: [
+      {
+        type: "update",
+        content:
+          "出發時間的「分」選單改為每 10 分鐘一格，不用再從 60 個選項中挑選",
+      },
+    ],
+  },
+  {
     date: "2026-09",
     type: "both",
     ver: "4.4.1",
