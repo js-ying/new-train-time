@@ -214,31 +214,42 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
               {leadingSlot}
             </div>
           )}
-          {/* 單向也渲染 tab（單一 active pill）：列高與多向一致，leadingSlot/cornerSlot 才不會歪 */}
-          <div className="flex justify-center">
+          {/* 單向也渲染 tab（單一 active pill）：列高與多向一致，leadingSlot/cornerSlot 才不會歪。
+              左右對稱 px-12 讓出兩側按鈕位置，tab 過長時換行而不疊到按鈕 */}
+          <div className="flex justify-center px-12">
             <Tabs
               variant="solid"
               radius="full"
               size="md"
               classNames={{
-                tabList: "!bg-transparent",
+                base: "max-w-full",
+                // flex-wrap 換行；解除預設 overflow-x-scroll，否則換行後選中 tab 的圓角 border 被削角
+                tabList:
+                  "!bg-transparent max-w-full flex-wrap justify-center !overflow-visible",
                 cursor:
                   "!bg-transparent !border border-zinc-700 dark:!border-zinc-200 !shadow-none",
-                tab: "data-[hover-unselected=true]:opacity-100",
+                // 覆寫預設 w-full：換行後各 tab 貼齊文字寬；max-w-full 讓單一過長標籤截斷
+                tab: "!w-auto max-w-full data-[hover-unselected=true]:opacity-100",
                 tabContent:
-                  "group-data-[hover-unselected=true]:text-zinc-600 dark:group-data-[hover-unselected=true]:text-zinc-300",
+                  "min-w-0 max-w-full group-data-[hover-unselected=true]:text-zinc-600 dark:group-data-[hover-unselected=true]:text-zinc-300",
               }}
               selectedKey={String(current?.direction ?? 0)}
               onSelectionChange={(key) => onDirectionChange(Number(key))}
             >
               {boards.map((b) => (
-                <Tab key={String(b.direction)} title={labelFor(b)} />
+                <Tab
+                  key={String(b.direction)}
+                  titleValue={labelFor(b)}
+                  title={
+                    <span className="block truncate">{labelFor(b)}</span>
+                  }
+                />
               ))}
             </Tabs>
           </div>
 
           {cornerSlot && (
-            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            <div className="absolute right-4 top-6 -translate-y-1/2">
               {cornerSlot}
             </div>
           )}
