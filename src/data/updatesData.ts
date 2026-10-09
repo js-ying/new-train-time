@@ -11,6 +11,21 @@ export const updateDataList = [
   {
     date: "2026-10",
     type: "both",
+    ver: "4.4.4",
+    items: [
+      {
+        type: "update",
+        content: "調整台鐵單站時刻的列車卡片排版",
+      },
+      {
+        type: "update",
+        content: "改善多處英文介面於小螢幕手機的排版",
+      },
+    ],
+  },
+  {
+    date: "2026-10",
+    type: "both",
     ver: "4.4.3",
     items: [
       {
