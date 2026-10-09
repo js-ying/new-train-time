@@ -249,10 +249,10 @@
   "onTime": "On Time",
   "delay": "Delay",
   "minute": "m",
-  "noTrainDataTitleMsg": "No train information found! Possible reasons:",
-  "noTrainInThisTimeMsg": "The departure time set is too late and there are no more scheduled trips.",
+  "noTrainDataTitleMsg": "No train information found.",
+  "noTrainInThisTimeMsg": "The departure time may be set too late; there are no more trains after this time.",
   "noTrainStopBetweenStationsMsg": "There are no trains stopping between these two stations.",
-  "noTrainDataTryTransferMsg": "There may be no direct trains between these stations; try \"Transfer\" instead.",
+  "noTrainDataTryTransferMsg": "There may be no direct trains between these stations; you can try \"Transfer\" instead.",
   "noTrainDataDueToApiErrorMsg": "System anomaly, please try again later or notify the system administrator.",
   "searchModeDirect": "Direct",
   "searchModeTransfer": "Transfer",
@@ -276,10 +276,10 @@
   "transferNoResultAfterFilterMsg": "No transfer plans match the current filters. Try relaxing them or picking another transfer station.",
   "transferExpandAll": "Expand all",
   "transferCollapseAll": "Collapse all",
-  "noTransferDataTitleMsg": "No transfer plans found! Possible reasons:",
+  "noTransferDataTitleMsg": "No transfer plans found.",
   "noSuitableTransferRouteMsg": "There may be no suitable transfer routes between these stations.",
-  "hasDirectTrainMsg": "Direct trains are available for this route — try the Direct search instead.",
-  "noTransferInThisTimeMsg": "The departure time set is too late; no connecting trains remain today.",
+  "hasDirectTrainMsg": "Direct trains are available for this route — we suggest switching to the Direct search.",
+  "noTransferInThisTimeMsg": "The departure time may be set too late; no connecting trains remain after this time.",
   "reportTransferIssuePrefix": "This may be a system error. Click the button to report.",
   "reportTransferIssueBtnDone": "Reported",
   "reportIssueBtn": "Report Issue",
@@ -466,6 +466,6 @@
     "UNKNOWN": "An unknown error occurred. Please try again later."
   },
   "transferHubDefault": "Default stations",
-  "transferDirectPreferredMsg": "Direct trains are available for this route, so no transfer plans are shown by default. Pick another station from the “Transfer station” menu above if you still want to transfer.",
-  "transferNoDefaultHubMsg": "No transfer plans are shown for this route by default. Pick a station from the “Transfer station” menu above to see the available options."
+  "transferDirectPreferredMsg": "Direct trains are available for this route, so no transfer plans are shown by default. If you still want to transfer, pick a transfer station from the “Default stations” menu above.",
+  "transferNoDefaultHubMsg": "No transfer plans are shown for this route by default. Pick a transfer station from the “Default stations” menu above."
 }

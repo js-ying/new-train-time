@@ -151,8 +151,8 @@ const NoTrainData: FC<NoTrainDataProps> = ({
           classes={{ message: "flex-1" }}
         >
           <div className="mb-3 font-bold">{t("noTransferDataTitleMsg")}</div>
-          {/* Tailwind Preflight 會把 ul 的 list-style 重置成 none，需用 list-disc 還原符號 */}
-          <ul className="list-inside list-disc">
+          {/* Tailwind Preflight 會把 ul 的 list-style 重置成 none，需用 list-disc 還原符號；list-outside + pl-5 讓換行對齊文字 */}
+          <ul className="list-outside list-disc pl-5">
             {/* 該區間有直達車：以「建議改用直達查詢」取代泛用原因（避免使用者誤判系統壞掉而回報） */}
             {hasDirect ? (
               <li>{t("hasDirectTrainMsg")}</li>
@@ -237,7 +237,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
   return (
     <CommonAlert severity="warning">
       <div className="mb-3 font-bold">{t("noTrainDataTitleMsg")}</div>
-      <ul className="list-inside list-disc">
+      <ul className="list-outside list-disc pl-5">
         <li>{t("noTrainInThisTimeMsg")}</li>
         {/* 台鐵有「轉乘」模式可引導；高鐵/桃捷無 transfer，維持「兩站間無停靠列車」 */}
         {isTr ? (

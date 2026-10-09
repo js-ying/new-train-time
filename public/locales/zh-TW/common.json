@@ -249,10 +249,10 @@
   "onTime": "準點",
   "delay": "誤點",
   "minute": "分",
-  "noTrainDataTitleMsg": "沒有查到列車資訊！可能原因：",
-  "noTrainInThisTimeMsg": "出發時間設定太晚，已無班次。",
+  "noTrainDataTitleMsg": "沒有查到列車資訊。",
+  "noTrainInThisTimeMsg": "可能是出發時間設定太晚，目前時段已無班次。",
   "noTrainStopBetweenStationsMsg": "兩站間無停靠列車。",
-  "noTrainDataTryTransferMsg": "兩站間可能無直達列車，請嘗試轉乘查詢。",
+  "noTrainDataTryTransferMsg": "兩站間可能無直達列車，可嘗試轉乘查詢。",
   "noTrainDataDueToApiErrorMsg": "系統異常，請稍後再試，或通知系統管理員。",
   "searchModeDirect": "直達",
   "searchModeTransfer": "轉乘",
@@ -276,10 +276,10 @@
   "transferNoResultAfterFilterMsg": "目前篩選條件下沒有轉乘方案，請放寬條件或改選其他轉乘站。",
   "transferExpandAll": "全部展開",
   "transferCollapseAll": "全部收合",
-  "noTransferDataTitleMsg": "沒有查到轉乘方案！可能原因：",
+  "noTransferDataTitleMsg": "沒有查到轉乘方案。",
   "noSuitableTransferRouteMsg": "兩站間可能無適合轉乘路線。",
-  "hasDirectTrainMsg": "此區間有直達車，建議切換『直達』查詢。",
-  "noTransferInThisTimeMsg": "出發時間設定太晚，當日已無可銜接班次。",
+  "hasDirectTrainMsg": "此區間有直達車可搭乘，建議您切換為『直達』查詢。",
+  "noTransferInThisTimeMsg": "可能是出發時間設定太晚，目前時段已無可銜接班次。",
   "reportTransferIssuePrefix": "可能為系統錯誤，點擊按鈕進行回報。",
   "reportTransferIssueBtnDone": "已回報",
   "reportIssueBtn": "錯誤回報",
@@ -461,6 +461,6 @@
     "UNKNOWN": "發生未知錯誤，請稍後再試。"
   },
   "transferHubDefault": "預設轉乘站",
-  "transferDirectPreferredMsg": "此區間有直達車可搭，預設不列出轉乘方案。若仍需轉乘，可從上方「轉乘站」選擇其他站。",
-  "transferNoDefaultHubMsg": "預設不列出此區間的轉乘方案。可從上方「轉乘站」選擇其他站查看可行組合。"
+  "transferDirectPreferredMsg": "此區間有直達車可搭，預設不列出轉乘方案。若仍需轉乘，可從上方「預設轉乘站」選單來指定轉乘站。",
+  "transferNoDefaultHubMsg": "預設不列出此區間的轉乘方案。可從上方「預設轉乘站」選單來指定轉乘站。"
 }

@@ -28,6 +28,16 @@ interface TrTransferTimeTableProps {
 }
 
 /**
+ * 轉乘站篩選的初始值：有預設站組時停在預設；
+ * 預設站組為空（只列直達）但查詢時間後已無直達車時改為不限轉乘站。
+ */
+const getInitialHubFilter = (data: JsyTrTransferInfo): string => {
+  if (data.defaultHubIds === undefined) return "all";
+  if (data.defaultHubIds.length === 0 && !data.hasDirect) return "all";
+  return "default";
+};
+
+/**
  * 台鐵跨支線轉乘清單容器。佈局：
  *   - 第一行：「全部展開／收合」按鈕 + 右側計數（沿用 TrainTimeNavbar）
  *   - 第二行：「等待時間」「段數」「轉乘站」三個下拉篩選（手機版主因，避免擠成多排）
@@ -54,8 +64,8 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({
   // 'default' = 預設那組站、'all' = 不限、其餘為單一站號
   const defaultHubIds = data.defaultHubIds;
   const hasDefaultHubs = defaultHubIds !== undefined;
-  const [hubFilter, setHubFilter] = useState<string>(
-    hasDefaultHubs ? "default" : "all",
+  const [hubFilter, setHubFilter] = useState<string>(() =>
+    getInitialHubFilter(data),
   );
 
   // 轉乘說明 Dialog 開關（Beta 階段揭露資料涵蓋限制）
@@ -118,8 +128,8 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({
     setAllExpanded(false);
     setWaitLimit(Infinity);
     setLegCount(null);
-    setHubFilter(hasDefaultHubs ? "default" : "all");
-  }, [data.combinations, hasDefaultHubs]);
+    setHubFilter(getInitialHubFilter(data));
+  }, [data]);
 
   const handleToggleAll = () => {
     const next = !allExpanded;
