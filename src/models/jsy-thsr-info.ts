@@ -10,7 +10,6 @@ export interface JsyThsrInfo {
   timeTables: JsyThsrTimetable[];
   fareList: JsyThsrOdFare[];
   freeSeatingCars: JsyThsrFreeSeatingCar[];
-  generalTimeTable: JsyThsrGeneralTimetable[];
   announcements: JsyAnnouncement[];
   /** 是否為定期時刻表 (查詢日超過 27 天) */
   isGeneralTimetable?: boolean;
@@ -24,6 +23,10 @@ export interface JsyThsrTimetable {
   /** 標準車廂剩餘座位 (X 售完 / L 即將售完 / O 充足) */
   standardSeatStatus: "X" | "L" | "O" | null;
   businessSeatStatus: "X" | "L" | "O" | null;
+  /** 該班完整停靠 */
+  stopTimes: JsyThsrTrainStopTime[];
+  /** 定期時刻表的每週行駛日；不在定期時刻表的班次（如疏運加班車）為 null */
+  serviceDay: JsyThsrServiceDay | null;
 }
 
 export interface JsyThsrTrainInfo {
@@ -56,21 +59,18 @@ export interface JsyThsrFreeSeatingCar {
   carConfig: string;
 }
 
-export interface JsyThsrGeneralTimetable {
-  trainInfo: JsyThsrTrainInfo;
-  stopTimes: JsyThsrGeneralStopTime[];
-  serviceDay: {
-    monday: number;
-    tuesday: number;
-    wednesday: number;
-    thursday: number;
-    friday: number;
-    saturday: number;
-    sunday: number;
-  };
+export interface JsyThsrServiceDay {
+  monday: number;
+  tuesday: number;
+  wednesday: number;
+  thursday: number;
+  friday: number;
+  saturday: number;
+  sunday: number;
 }
 
-export interface JsyThsrGeneralStopTime {
+/** 車次停靠；起站無到站、終站無離站 */
+export interface JsyThsrTrainStopTime {
   stopSequence: number;
   stationId: string;
   stationName: JsyName;

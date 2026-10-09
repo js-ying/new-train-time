@@ -1,5 +1,4 @@
 import {
-  JsyThsrGeneralTimetable,
   JsyThsrInfo,
   JsyThsrOdFare,
   JsyThsrTimetable,
@@ -16,14 +15,12 @@ interface ThsrTrainDetailProps {
   thsrTrainTimeTable: JsyThsrTimetable;
   thsrFreeSeatingCars: JsyThsrInfo["freeSeatingCars"];
   thsrOdFare: JsyThsrOdFare[];
-  thsrGeneralTimeTable: JsyThsrGeneralTimetable[];
 }
 
 const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
   thsrTrainTimeTable,
   thsrFreeSeatingCars,
   thsrOdFare,
-  thsrGeneralTimeTable,
 }) => {
   const { t, i18n } = useTranslation();
   const langKey = getNameLangKey(i18n.language);
@@ -61,15 +58,14 @@ const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
           />
         </div>
       </div>
-      <div className="flex gap-2">
-        <Chip label={t("note")} size="small" color="primary" />
-        <div className="flex items-center">
-          <ThsrServiceDay
-            trainNo={thsrTrainTimeTable.trainInfo.trainNo}
-            generalTimeTable={thsrGeneralTimeTable}
-          />
+      {thsrTrainTimeTable.serviceDay && (
+        <div className="flex gap-2">
+          <Chip label={t("note")} size="small" color="primary" />
+          <div className="flex items-center">
+            <ThsrServiceDay serviceDay={thsrTrainTimeTable.serviceDay} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

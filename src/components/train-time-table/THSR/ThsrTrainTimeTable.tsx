@@ -28,7 +28,6 @@ const ThsrTrainTimeTable: FC<ThsrTrainTimeTableProps> = ({ data }) => {
               thsrTrainTimeTable={timeTable}
               queryDate={data.trainDate}
               thsrFreeSeatingCars={data.freeSeatingCars}
-              thsrGeneralTimeTable={data.generalTimeTable}
               thsrOdFare={data.fareList}
               isGeneralTimetable={data.isGeneralTimetable}
             />

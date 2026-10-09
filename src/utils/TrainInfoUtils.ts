@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
-import { JsyThsrGeneralTimetable } from "@/models/jsy-thsr-info";
 import { JsyTymcTimetable } from "@/models/jsy-tymc-info";
 import { getNameLangKey } from "./LocaleUtils";
 
@@ -136,27 +135,6 @@ export const getTimeDiff = (
     hour: hours.toString(),
     min: minutes.toString(),
   };
-};
-
-/**
- * 取得 [高鐵] 列車資訊 by 定期時刻表
- * @param generalTimeTable
- * @param trainNo
- * @returns
- */
-export const getThsrGeneralTrainInfo = (
-  generalTimeTable: JsyThsrGeneralTimetable[],
-  trainNo?: string,
-): JsyThsrGeneralTimetable | null => {
-  if (!trainNo) return null;
-
-  if (generalTimeTable.length > 0) {
-    return (
-      generalTimeTable.find((gtt) => gtt.trainInfo.trainNo === trainNo) || null
-    );
-  }
-
-  return null;
 };
 
 /**

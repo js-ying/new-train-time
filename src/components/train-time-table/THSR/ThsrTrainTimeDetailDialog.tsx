@@ -3,13 +3,11 @@ import CaptureIcon from "@/components/icons/CaptureIcon";
 import { GaEnum } from "@/enums/GaEnum";
 import { useCaptureShare } from "@/hooks/useCaptureShare";
 import {
-  JsyThsrGeneralTimetable,
   JsyThsrInfo,
   JsyThsrOdFare,
   JsyThsrTimetable,
 } from "@/models/jsy-thsr-info";
 import { getNameLangKey } from "@/utils/LocaleUtils";
-import { getThsrGeneralTrainInfo } from "@/utils/TrainInfoUtils";
 import {
   Modal,
   ModalBody,
@@ -28,7 +26,6 @@ interface ThsrTrainTimeDetailDialogProps {
   setOpen: (open: boolean) => void;
   thsrTrainTimeTable: JsyThsrTimetable;
   thsrFreeSeatingCars: JsyThsrInfo["freeSeatingCars"];
-  thsrGeneralTimeTable: JsyThsrGeneralTimetable[];
   thsrOdFare: JsyThsrOdFare[];
   isGeneralTimetable: boolean;
 }
@@ -38,7 +35,6 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
   setOpen,
   thsrTrainTimeTable,
   thsrFreeSeatingCars,
-  thsrGeneralTimeTable,
   thsrOdFare,
   isGeneralTimetable,
 }) => {
@@ -78,14 +74,10 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
                   thsrTrainTimeTable={thsrTrainTimeTable}
                   thsrFreeSeatingCars={thsrFreeSeatingCars}
                   thsrOdFare={thsrOdFare}
-                  thsrGeneralTimeTable={thsrGeneralTimeTable}
                 />
                 <div className="mt-6">
                   <ThsrStopTimesTable
-                    data={getThsrGeneralTrainInfo(
-                      thsrGeneralTimeTable,
-                      thsrTrainTimeTable.trainInfo.trainNo,
-                    )}
+                    stopTimes={thsrTrainTimeTable.stopTimes}
                     startStationId={thsrTrainTimeTable.originStopTime.stationId}
                     endStationId={
                       thsrTrainTimeTable.destinationStopTime.stationId

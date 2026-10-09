@@ -3,7 +3,6 @@ import { GaEnum } from "@/enums/GaEnum";
 import { useThsrTrainDisplay } from "@/hooks/display/useThsrTrainDisplay";
 import {
   JsyThsrFreeSeatingCar,
-  JsyThsrGeneralTimetable,
   JsyThsrOdFare,
   JsyThsrTimetable,
 } from "@/models/jsy-thsr-info";
@@ -22,7 +21,6 @@ interface ThsrTrainTimeInfoProps {
   /** 查詢日，用來標示隔日午夜後上車的班次 */
   queryDate: string;
   thsrFreeSeatingCars: JsyThsrFreeSeatingCar[];
-  thsrGeneralTimeTable: JsyThsrGeneralTimetable[];
   thsrOdFare: JsyThsrOdFare[];
   isGeneralTimetable: boolean;
 }
@@ -34,7 +32,6 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
   thsrTrainTimeTable,
   queryDate,
   thsrFreeSeatingCars,
-  thsrGeneralTimeTable,
   thsrOdFare,
   isGeneralTimetable,
 }) => {
@@ -89,13 +86,10 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           freeSeatData={thsrFreeSeatingCars}
           showLabel={true}
         />
-        {showThsrTrainNote && (
+        {showThsrTrainNote && thsrTrainTimeTable.serviceDay && (
           <>
             <span className="mx-1">|</span>
-            <ThsrServiceDay
-              trainNo={trainNo}
-              generalTimeTable={thsrGeneralTimeTable}
-            />
+            <ThsrServiceDay serviceDay={thsrTrainTimeTable.serviceDay} />
           </>
         )}
       </div>
@@ -106,7 +100,6 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           setOpen={setOpen}
           thsrTrainTimeTable={thsrTrainTimeTable}
           thsrFreeSeatingCars={thsrFreeSeatingCars}
-          thsrGeneralTimeTable={thsrGeneralTimeTable}
           thsrOdFare={thsrOdFare}
           isGeneralTimetable={isGeneralTimetable}
         />

@@ -1,14 +1,13 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
-import { JsyThsrGeneralTimetable } from "../../../models/jsy-thsr-info";
+import { JsyThsrServiceDay } from "../../../models/jsy-thsr-info";
 import { getNameLangKey } from "../../../utils/LocaleUtils";
-import { getThsrGeneralTrainInfo } from "../../../utils/TrainInfoUtils";
 
 type LangKey = "zhTw" | "en";
 
 const getServiceDaysMsg = (
   langKey: LangKey,
-  data?: JsyThsrGeneralTimetable["serviceDay"],
+  data: JsyThsrServiceDay | null,
 ): string => {
   if (!data) return "";
 
@@ -58,19 +57,11 @@ const getServiceDaysMsg = (
 };
 
 interface ThsrServiceDayProps {
-  trainNo: string;
-  generalTimeTable: JsyThsrGeneralTimetable[];
+  serviceDay: JsyThsrServiceDay | null;
 }
 
-const ThsrServiceDay: FC<ThsrServiceDayProps> = ({
-  trainNo,
-  generalTimeTable,
-}) => {
+const ThsrServiceDay: FC<ThsrServiceDayProps> = ({ serviceDay }) => {
   const { i18n } = useTranslation();
-  const serviceDay = getThsrGeneralTrainInfo(
-    generalTimeTable,
-    trainNo,
-  )?.serviceDay;
   return (
     <div>{getServiceDaysMsg(getNameLangKey(i18n.language), serviceDay)}</div>
   );

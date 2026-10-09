@@ -1,17 +1,17 @@
 import Dot from "@/components/common/Dot";
-import { JsyThsrGeneralTimetable } from "@/models/jsy-thsr-info";
+import { JsyThsrTrainStopTime } from "@/models/jsy-thsr-info";
 import { getNameLangKey } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 
 interface ThsrStopTimesTableProps {
-  data: JsyThsrGeneralTimetable | null;
+  stopTimes: JsyThsrTrainStopTime[];
   startStationId: string;
   endStationId: string;
 }
 
 const ThsrStopTimesTable: FC<ThsrStopTimesTableProps> = ({
-  data,
+  stopTimes,
   startStationId,
   endStationId,
 }) => {
@@ -32,7 +32,7 @@ const ThsrStopTimesTable: FC<ThsrStopTimesTableProps> = ({
           );
         })}
       </div>
-      {data?.stopTimes.map((stopTime) => {
+      {stopTimes.map((stopTime) => {
         return (
           <div
             className={`mt-2 flex ${
