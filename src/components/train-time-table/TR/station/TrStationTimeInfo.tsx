@@ -29,9 +29,8 @@ interface TrStationTimeInfoProps {
 
 /**
  * [台鐵] 單站時刻表的一班車（發車看板）。
- * 版面比照 OD 列車卡(TrTrainTimeInfo) 的左中右三欄：左 車次 / 山海線、車種；中 誤點 + 發車時刻；
- * 右 開往⟨迄站⟩（強調）+ ⟨起站⟩起（起站越遠、車上累積乘客越多，輔助判斷座位）。
- * min-h 拉高卡片，避免右欄文字撞到右上角絕對定位的服務 icon。
+ * 版面比照 OD 列車卡(TrTrainTimeInfo) 的左中右三欄：左 車次 / 山海線、車種、自⟨起站⟩
+ * （起站越遠、車上累積乘客越多，輔助判斷座位）；中 誤點 + 發車時刻；右 往⟨迄站⟩（強調）。
  * 卡片下方比照 OD：無站票提醒（依車種）+ 台鐵註記（吃 Settings showTrTrainNote）。
  * 點卡片 → 即時查該車完整停靠並複用 OD 詳情 dialog；停靠表只強調查詢站（完整路徑無迄站概念）。
  * 已過站班次於上層 TrStationTimeTable 已濾除。
@@ -100,15 +99,17 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") openDetail();
         }}
-        className="custom-cursor-pointer relative grid min-h-[100px] grid-cols-4
-          items-center rounded-md border border-solid border-foreground p-2"
+        className="custom-cursor-pointer relative grid grid-cols-4
+          items-center rounded-md border border-solid border-foreground p-2 pt-2.5"
       >
-        {/* 左：車次（放大）+ 山海線（小字）、車種 */}
+        {/* 左：車次 / 山海線、車種、自⟨起站⟩ */}
         <div className="flex flex-col gap-1.5 text-center">
           <div className="flex flex-wrap items-baseline justify-center gap-1">
-            <span className="text-lg">{data.trainInfo.trainNo}</span>
+            <span className="text-lg leading-none">
+              {data.trainInfo.trainNo}
+            </span>
             {tripLineName && (
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm leading-none text-muted-foreground">
                 {tripLineName}
               </span>
             )}
@@ -123,6 +124,11 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
               className={isTw ? "mx-auto block max-w-14 text-center" : ""}
             />
           </div>
+          <span className="text-xs text-muted-foreground">
+            {t("trStationFromOrigin", {
+              origin: data.trainInfo.startingStationName[langKey],
+            })}
+          </span>
         </div>
 
         {/* 中：誤點（僅今日 90 分鐘內列車有值）+ 發車時刻 */}
@@ -133,19 +139,13 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
           </div>
         </div>
 
-        {/* 右：開往⟨迄站⟩（強調）+ ⟨起站⟩起（輔助判斷人潮 / 座位） */}
-        <div className="flex flex-col gap-0.5 text-center">
-          {/* 「開往」維持與「XX 起」同級，只放大終點站名以強調 */}
+        {/* 右：往⟨迄站⟩ */}
+        <div className="text-center">
           <span className="flex flex-wrap items-baseline justify-center gap-1">
             <span className="text-sm">{t("trStationBoundForPrefix")}</span>
             <span className="text-base font-semibold">
               {data.trainInfo.endingStationName[langKey]}
             </span>
-          </span>
-          <span className="text-sm text-muted-foreground">
-            {t("trStationFromOrigin", {
-              origin: data.trainInfo.startingStationName[langKey],
-            })}
           </span>
         </div>
 
