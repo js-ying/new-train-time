@@ -11,12 +11,33 @@ export const updateDataList = [
   {
     date: "2026-10",
     type: "both",
+    ver: "4.4.3",
+    items: [
+      {
+        type: "update",
+        content:
+          "查詢台鐵轉乘時，若該起迄站預設只推薦直達車（不列轉乘方案），但所選出發時間之後已無直達車可搭，現在系統會自動改選「不限轉乘站」以列出所有轉乘方案",
+      },
+      {
+        type: "update",
+        content:
+          "調整查無列車 / 轉乘方案時的提示文字，並改善小螢幕手機上的換行排版",
+      },
+    ],
+  },
+  {
+    date: "2026-10",
+    type: "both",
     ver: "4.4.2",
     items: [
       {
         type: "update",
         content:
           "出發時間的「分」選單改為每 10 分鐘一格，不用再從 60 個選項中挑選",
+      },
+      {
+        type: "update",
+        content: "更新台鐵車站清單，新增「平鎮」車站",
       },
     ],
   },
