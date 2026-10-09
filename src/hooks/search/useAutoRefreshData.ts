@@ -34,6 +34,11 @@ export interface AutoRefreshDataResult<T> {
   resumeAutoRefresh: () => void;
 }
 
+export interface AutoRefreshDataOptions {
+  /** key 變更時保留上一份資料直到新資料回來（資料可依 id 對回各列時才適用，如收藏看板）。 */
+  keepPreviousData?: boolean;
+}
+
 /**
  * 即時看板通用輪詢 hook（路線看板 / 站牌看板共用）。
  * - 選擇變更（key）→ 清舊資料、抓首筆、登入會員再掛輪詢；失敗保留前一份（stale-on-error）。
@@ -42,10 +47,12 @@ export interface AutoRefreshDataResult<T> {
  * @param fetcher 依 signal 抓一份資料；null = 無選擇。可直接取最新 state（閉包已處理）。
  *               isInitial=true 僅在「換選擇的首抓」傳入（輪詢/刷新/回前景皆為 false），供呼叫端做 analytics 去重。
  * @param key 選擇 key（變更時重抓 + 重掛輪詢）；null/"" = 無選擇（清空）。
+ * @param options 見 AutoRefreshDataOptions。
  */
 export const useAutoRefreshData = <T>(
   fetcher: ((signal: AbortSignal, isInitial: boolean) => Promise<T>) | null,
   key: string | null,
+  { keepPreviousData = false }: AutoRefreshDataOptions = {},
 ): AutoRefreshDataResult<T> => {
   const { user } = useAuth();
   const isAutoRefresh = !!user;
@@ -130,10 +137,12 @@ export const useAutoRefreshData = <T>(
       return;
     }
 
-    // 換選擇先清舊資料，避免閃到上一份殘影
-    setData(null);
+    // 換選擇先清舊資料，避免閃到上一份殘影（keepPreviousData 則保留到新資料回來）
+    if (!keepPreviousData) {
+      setData(null);
+      setLastUpdatedAt(null);
+    }
     setError(null);
-    setLastUpdatedAt(null);
     void runFetch(true);
 
     if (!isAutoRefresh) {

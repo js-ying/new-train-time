@@ -71,6 +71,7 @@
   "busLastBusPassed": "末班已過",
   "busNotInService": "未營運",
   "busNoData": "無資料",
+  "busArrivalLoading": "載入中",
   "busLastBus": "末班車",
   "busBoardEmpty": "此方向暫無站序資料",
   "busNoRealtime": "此路線暫無即時到站資料",

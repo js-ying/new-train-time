@@ -71,6 +71,7 @@
   "busLastBusPassed": "Last bus gone",
   "busNotInService": "Not in service",
   "busNoData": "No data",
+  "busArrivalLoading": "Loading",
   "busLastBus": "Last bus",
   "busBoardEmpty": "No stop data for this direction",
   "busNoRealtime": "No real-time arrival data for this route",

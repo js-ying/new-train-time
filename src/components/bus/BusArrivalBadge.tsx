@@ -36,6 +36,10 @@ const STATE_COLOR: Record<BusArrivalState, string> = {
   noData: "text-zinc-400 dark:text-zinc-500",
 };
 
+/** min-h 對齊最高狀態（分鐘數 text-lg）的行高，避免無到站時間的列比有到站時間的列矮 */
+const BADGE_BASE =
+  "inline-flex min-h-7 min-w-14 items-center justify-center whitespace-nowrap";
+
 /** beyondHorizon 顯示的分鐘下限（「30+ 分」）。 */
 const BEYOND_HORIZON_MINUTES = 30;
 
@@ -47,9 +51,7 @@ const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
 }) => {
   const { t } = useTranslation();
   const color = STATE_COLOR[state];
-  // min-h 對齊最高狀態（分鐘數 text-lg）的行高，避免無到站時間的列比有到站時間的列矮
-  const base =
-    "inline-flex min-h-7 min-w-14 items-center justify-center whitespace-nowrap";
+  const base = BADGE_BASE;
 
   // 未發車且有下一班表定時刻 → 顯示時刻（資訊比「尚未發車」多）；字級略大、不加粗
   if (state === "notDeparted" && nextDepartTime) {
@@ -83,6 +85,30 @@ const BusArrivalBadge: FC<BusArrivalBadgeProps> = ({
       className={`${base} text-sm ${emphasized ? "font-bold" : "font-medium"} ${color}`}
     >
       {t(STATE_LABEL_KEY[state])}
+    </span>
+  );
+};
+
+/**
+ * [公車] 到站徽章佔位（尚無該列資料時）：載入中顯示骨架、更新失敗顯示「—」。
+ * 與 BusArrivalBadge 同尺寸，資料到位時版面不跳動。
+ */
+export const BusArrivalBadgePlaceholder: FC<{
+  variant: "loading" | "failed";
+}> = ({ variant }) => {
+  const { t } = useTranslation();
+  if (variant === "failed") {
+    return (
+      <span className={`${BADGE_BASE} text-sm ${STATE_COLOR.noData}`}>—</span>
+    );
+  }
+  return (
+    <span role="status" className={BADGE_BASE}>
+      <span
+        aria-hidden="true"
+        className="h-5 w-10 rounded-md bg-zinc-200 motion-safe:animate-pulse dark:bg-zinc-700"
+      />
+      <span className="sr-only">{t("busArrivalLoading")}</span>
     </span>
   );
 };

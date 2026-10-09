@@ -18,7 +18,7 @@ import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
 import { FC, useCallback, useMemo } from "react";
 import { ReorderArrows, ReorderToolbar } from "../common/ReorderControls";
-import BusArrivalBadge from "./BusArrivalBadge";
+import BusArrivalBadge, { BusArrivalBadgePlaceholder } from "./BusArrivalBadge";
 import QueryCooldownDialog from "@/components/common/QueryCooldownDialog";
 import BusAutoRefreshRing from "./BusAutoRefreshRing";
 
@@ -73,6 +73,7 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
   const {
     data,
     error,
+    isLoading,
     isAutoRefresh,
     nextUpdateAt,
     pollIntervalMs,
@@ -198,10 +199,19 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
                   </div>
                   <div className="mt-0.5 text-sm">{stopName}</div>
                 </div>
-                <BusArrivalBadge
-                  state={row?.state ?? "noData"}
-                  estimateMinutes={row?.estimateMinutes ?? null}
-                />
+                {/* 尚無該列：首抓前/載入中 → 骨架；更新失敗 → —；已回應仍查無 → 無資料 */}
+                {row ? (
+                  <BusArrivalBadge
+                    state={row.state}
+                    estimateMinutes={row.estimateMinutes}
+                  />
+                ) : isLoading || (data == null && error == null) ? (
+                  <BusArrivalBadgePlaceholder variant="loading" />
+                ) : error != null ? (
+                  <BusArrivalBadgePlaceholder variant="failed" />
+                ) : (
+                  <BusArrivalBadge state="noData" estimateMinutes={null} />
+                )}
               </button>
             </div>
           </div>
