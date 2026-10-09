@@ -23,6 +23,10 @@ export const updateDataList = [
         content:
           "調整查無列車 / 轉乘方案時的提示文字，並改善小螢幕手機上的換行排版",
       },
+      {
+        type: "fix",
+        content: "修正高鐵加班車的列車詳情未顯示停靠站的問題",
+      },
     ],
   },
   {
