@@ -109,6 +109,10 @@ module.exports = {
         // 對應現有 max-w-[728px] (Google Ads leaderboard)
         "ad-leaderboard": "728px",
       },
+      gridTemplateColumns: {
+        // 標籤欄取最寬內容、值欄填滿剩餘（DetailInfoList）
+        "label-value": "auto minmax(0, 1fr)",
+      },
     },
     fontFamily: {
       body: [

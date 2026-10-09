@@ -1,9 +1,12 @@
+import {
+  DetailInfoList,
+  DetailInfoRow,
+} from "@/components/common/DetailInfoList";
 import useLang from "@/hooks/useLang";
 import usePage from "@/hooks/usePage";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import { getStationNameById } from "@/utils/StationUtils";
 import { isTymcArrivalApprox } from "@/utils/TrainInfoUtils";
-import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import TymcFareInfo from "../TymcFareInfo";
@@ -29,41 +32,25 @@ const TymcTrainDetail: FC<TymcTrainDetailProps> = ({
   const isArrivalApprox = isTymcArrivalApprox(tymcTimeTable.arrivalSource);
 
   return (
-    <div className="flex flex-col gap-2">
-      {/* 車站 */}
-      <div className="flex gap-2">
-        <Chip label={t("station")} size="small" color="primary" />
-        <div className="flex items-center text-left">
-          {getStationNameById(page, startStationId, i18n.language)} -{" "}
-          {getStationNameById(page, endStationId, i18n.language)}
-        </div>
-      </div>
-      {/* 日期 */}
-      <div className="flex gap-2">
-        <Chip label={t("date")} size="small" color="primary" />
-        <div className="flex items-center text-left">{trainDate}</div>
-      </div>
-      {/* 時間 */}
-      <div className="flex gap-2">
-        <Chip label={t("time")} size="small" color="primary" />
-        <div className="text-left">
-          {tymcTimeTable.departureTime} -{" "}
-          {tymcTimeTable.arrivalTime || t("unknown")}{" "}
-          {tymcTimeTable.arrivalTime && isArrivalApprox && (
-            <span className={`text-muted-foreground ${!isTw && "pl-1"}`}>
-              {t("arrivalTimeApproxMsg")}
-            </span>
-          )}
-        </div>
-      </div>
-      {/* 票價 */}
-      <div className="flex gap-2">
-        <Chip label={t("ticketFare")} size="small" color="primary" />
-        <div className="text-left">
-          <TymcFareInfo fares={fareList} />
-        </div>
-      </div>
-    </div>
+    <DetailInfoList>
+      <DetailInfoRow label={t("station")}>
+        {getStationNameById(page, startStationId, i18n.language)} -{" "}
+        {getStationNameById(page, endStationId, i18n.language)}
+      </DetailInfoRow>
+      <DetailInfoRow label={t("date")}>{trainDate}</DetailInfoRow>
+      <DetailInfoRow label={t("time")}>
+        {tymcTimeTable.departureTime} -{" "}
+        {tymcTimeTable.arrivalTime || t("unknown")}{" "}
+        {tymcTimeTable.arrivalTime && isArrivalApprox && (
+          <span className={`text-muted-foreground ${!isTw && "pl-1"}`}>
+            {t("arrivalTimeApproxMsg")}
+          </span>
+        )}
+      </DetailInfoRow>
+      <DetailInfoRow label={t("ticketFare")}>
+        <TymcFareInfo fares={fareList} />
+      </DetailInfoRow>
+    </DetailInfoList>
   );
 };
 

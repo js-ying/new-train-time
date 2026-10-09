@@ -1,10 +1,13 @@
 import {
+  DetailInfoList,
+  DetailInfoRow,
+} from "@/components/common/DetailInfoList";
+import {
   JsyThsrInfo,
   JsyThsrOdFare,
   JsyThsrTimetable,
 } from "@/models/jsy-thsr-info";
 import { getNameLangKey } from "@/utils/LocaleUtils";
-import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import ThsrFreeSeat from "../ThsrFreeSeat";
@@ -26,47 +29,32 @@ const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
   const langKey = getNameLangKey(i18n.language);
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex gap-2">
-        <Chip label={t("station")} size="small" color="primary" />
-        <div className="flex items-center">
-          {thsrTrainTimeTable.originStopTime.stationName[langKey]} -{" "}
-          {thsrTrainTimeTable.destinationStopTime.stationName[langKey]}
-        </div>
-      </div>
-      <div className="flex gap-2">
-        <Chip label={t("timeRange")} size="small" color="primary" />
-        <div className="flex items-center">
-          {thsrTrainTimeTable.trainDate}{" "}
-          {thsrTrainTimeTable.originStopTime.departureTime} -{" "}
-          {thsrTrainTimeTable.destinationStopTime.arrivalTime}
-        </div>
-      </div>
-      <div className="flex gap-2">
-        <Chip label={t("ticketFare")} size="small" color="primary" />
-        <div className="flex items-center">
-          <ThsrPriceInfo dataList={thsrOdFare} showLabel={false} />
-        </div>
-      </div>
-      <div className="flex gap-2">
-        <Chip label={t("freeSeating")} size="small" color="primary" />
-        <div className="flex items-center">
-          <ThsrFreeSeat
-            trainNo={thsrTrainTimeTable.trainInfo.trainNo}
-            freeSeatData={thsrFreeSeatingCars}
-            showLabel={false}
-          />
-        </div>
-      </div>
+    <DetailInfoList>
+      <DetailInfoRow label={t("station")}>
+        {thsrTrainTimeTable.originStopTime.stationName[langKey]} -{" "}
+        {thsrTrainTimeTable.destinationStopTime.stationName[langKey]}
+      </DetailInfoRow>
+      <DetailInfoRow label={t("timeRange")}>
+        {thsrTrainTimeTable.trainDate}{" "}
+        {thsrTrainTimeTable.originStopTime.departureTime} -{" "}
+        {thsrTrainTimeTable.destinationStopTime.arrivalTime}
+      </DetailInfoRow>
+      <DetailInfoRow label={t("ticketFare")}>
+        <ThsrPriceInfo dataList={thsrOdFare} showLabel={false} />
+      </DetailInfoRow>
+      <DetailInfoRow label={t("freeSeating")}>
+        <ThsrFreeSeat
+          trainNo={thsrTrainTimeTable.trainInfo.trainNo}
+          freeSeatData={thsrFreeSeatingCars}
+          showLabel={false}
+        />
+      </DetailInfoRow>
       {thsrTrainTimeTable.serviceDay && (
-        <div className="flex gap-2">
-          <Chip label={t("note")} size="small" color="primary" />
-          <div className="flex items-center">
-            <ThsrServiceDay serviceDay={thsrTrainTimeTable.serviceDay} />
-          </div>
-        </div>
+        <DetailInfoRow label={t("note")}>
+          <ThsrServiceDay serviceDay={thsrTrainTimeTable.serviceDay} />
+        </DetailInfoRow>
       )}
-    </div>
+    </DetailInfoList>
   );
 };
 

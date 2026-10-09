@@ -139,7 +139,7 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
         onClick={() => setIsOpen((v) => !v)}
       >
         {t("busRouteSearchLabel")}
-        <div>{selectedName}</div>
+        <div className="whitespace-normal">{selectedName}</div>
       </Area>
 
       {isOpen && (

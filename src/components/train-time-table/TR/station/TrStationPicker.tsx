@@ -150,7 +150,7 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
         onClick={() => setIsOpen((v) => !v)}
       >
         {t("startStation")}
-        <div>{selectedName ?? ""}</div>
+        <div className="whitespace-normal">{selectedName ?? ""}</div>
       </Area>
 
       <div className="relative flex w-full justify-center">

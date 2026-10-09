@@ -1,8 +1,11 @@
+import {
+  DetailInfoList,
+  DetailInfoRow,
+} from "@/components/common/DetailInfoList";
 import useLang from "@/hooks/useLang";
 import { JsyTrTimetable } from "@/models/jsy-tr-info";
 
 import { getNameLangKey } from "@/utils/LocaleUtils";
-import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo } from "react";
 import { trTrainServiceList } from "../TrTrainServices";
@@ -39,62 +42,50 @@ const TrTrainDetail: FC<TrTrainDetailProps> = ({ data, queryStationIds }) => {
   const isSingleStop = boardStop === alightStop;
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex gap-2">
-        <Chip label={t("station")} size="small" color="primary" />
-        <div className="flex items-center">
-          {boardStop.stationName[langKey]}
-          {!isSingleStop && <> - {alightStop.stationName[langKey]}</>}
-        </div>
-      </div>
-      <div className="flex gap-2">
-        <Chip label={t("timeRange")} size="small" color="primary" />
-        <div className="flex items-center">
-          {data.trainDate} {boardStop.departureTime}
-          {!isSingleStop && <> - {alightStop.arrivalTime}</>}
-        </div>
-      </div>
+    <DetailInfoList>
+      <DetailInfoRow label={t("station")}>
+        {boardStop.stationName[langKey]}
+        {!isSingleStop && <> - {alightStop.stationName[langKey]}</>}
+      </DetailInfoRow>
+      <DetailInfoRow label={t("timeRange")}>
+        {data.trainDate} {boardStop.departureTime}
+        {!isSingleStop && <> - {alightStop.arrivalTime}</>}
+      </DetailInfoRow>
       {/* 票價列：fareList 為空時整列略過（轉乘 leg 點開 dialog 不顯示票價） */}
       {data.fareList.length > 0 && (
-        <div className="flex gap-2">
-          <Chip label={t("ticketFare")} size="small" color="primary" />
-          <div className="items-center">
-            <span>
-              {t("adultPrice")} NTD {data.fareList[0].price}
-            </span>
-            {/* 無半票資料時不顯示 */}
-            {data.fareList[0].discountedPrice !== undefined && (
-              <>
-                {t("comma")}
-                <span>
-                  {t("discountedPrice")} NTD{" "}
-                  {data.fareList[0].discountedPrice}
-                </span>
-              </>
-            )}
-          </div>
-        </div>
+        <DetailInfoRow label={t("ticketFare")}>
+          <span>
+            {t("adultPrice")}{" "}
+            {t("fareAmount", { price: data.fareList[0].price })}
+          </span>
+          {/* 無半票資料時不顯示 */}
+          {data.fareList[0].discountedPrice !== undefined && (
+            <>
+              {t("comma")}
+              <span>
+                {t("discountedPrice")}{" "}
+                {t("fareAmount", {
+                  price: data.fareList[0].discountedPrice,
+                })}
+              </span>
+            </>
+          )}
+        </DetailInfoRow>
       )}
-      <div className="flex gap-2">
-        <Chip label={t("trainServices")} size="small" color="primary" />
-        <div>
-          {trTrainServiceList
-            .filter((service) => data.trainInfo[service.flagName] === 1)
-            .map((service) => t(service.i18nKey))
-            .join(t("comma"))}
+      <DetailInfoRow label={t("trainServices")}>
+        {trTrainServiceList
+          .filter((service) => data.trainInfo[service.flagName] === 1)
+          .map((service) => t(service.i18nKey))
+          .join(t("comma"))}
 
-          {trTrainServiceList.filter(
-            (service) => data.trainInfo[service.flagName] === 1,
-          ).length === 0 && t("none")}
-        </div>
-      </div>
+        {trTrainServiceList.filter(
+          (service) => data.trainInfo[service.flagName] === 1,
+        ).length === 0 && t("none")}
+      </DetailInfoRow>
       {isTw && (
-        <div className="flex gap-2">
-          <Chip label={t("note")} size="small" color="primary" />
-          <div className="flex items-center">{data.trainInfo.note}</div>
-        </div>
+        <DetailInfoRow label={t("note")}>{data.trainInfo.note}</DetailInfoRow>
       )}
-    </div>
+    </DetailInfoList>
   );
 };
 

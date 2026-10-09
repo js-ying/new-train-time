@@ -24,7 +24,7 @@ const ThsrStopTimesTable: FC<ThsrStopTimesTableProps> = ({
         {["stationName", "arrivalTime", "leaveTime"].map((title) => {
           return (
             <div
-              className="flex-1 border-y border-primary py-2 text-center text-primary"
+              className="flex flex-1 items-center justify-center border-y border-primary py-2 text-center text-primary"
               key={title}
             >
               {t(title)}
@@ -33,20 +33,21 @@ const ThsrStopTimesTable: FC<ThsrStopTimesTableProps> = ({
         })}
       </div>
       {stopTimes.map((stopTime) => {
+        const isHighlight = [startStationId, endStationId].includes(
+          stopTime.stationId,
+        );
         return (
           <div
-            className={`mt-2 flex ${
-              [startStationId, endStationId].includes(stopTime.stationId)
-                ? "font-bold text-primary"
-                : ""
-            }`}
+            className={`mt-2 flex ${isHighlight ? "font-bold text-primary" : ""}`}
             key={stopTime.stationId}
           >
-            <div className="relative flex-1 text-center">
-              {[startStationId, endStationId].includes(stopTime.stationId) && (
-                <Dot />
-              )}
-              {stopTime.stationName[langKey]}
+            {/* 右側透明 Dot 對稱佔位，讓站名維持置中 */}
+            <div className="flex flex-1 items-center justify-center gap-1.5">
+              {isHighlight && <Dot />}
+              <span className="text-center">
+                {stopTime.stationName[langKey]}
+              </span>
+              {isHighlight && <Dot className="invisible" />}
             </div>
             <div className="flex-1 text-center">{stopTime.arrivalTime}</div>
             <div className="flex-1 text-center">{stopTime.departureTime}</div>

@@ -1,7 +1,7 @@
 import { JsyThsrTimetable } from "@/models/jsy-thsr-info";
 
 import { useTranslation } from "next-i18next";
-import { FC } from "react";
+import { FC, Fragment } from "react";
 
 interface ThsrAvailableSeatStatusProps {
   timeTable: JsyThsrTimetable;
@@ -58,7 +58,21 @@ const ThsrAvailableSeatStatus: FC<ThsrAvailableSeatStatusProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      {statusText && <span className="">{statusText}</span>}
+      {statusText && (
+        <span>
+          {/* 斜線後補斷行點：Chrome / Safari 不在「/」後斷行，窄欄會溢出卡片 */}
+          {statusText.split("/").map((part, i) => (
+            <Fragment key={i}>
+              {i > 0 && (
+                <>
+                  /<wbr />
+                </>
+              )}
+              {part}
+            </Fragment>
+          ))}
+        </span>
+      )}
     </div>
   );
 };

@@ -58,7 +58,8 @@ const SearchArea: FC = () => {
 
   return (
     <SearchSubmitContext.Provider value={submitSearch}>
-      <div className="flex items-center gap-3">
+      {/* stretch：任一站名換行時兩側按鈕等高 */}
+      <div className="flex items-stretch gap-3">
         <Area
           className="flex-1"
           isActive={
@@ -75,12 +76,12 @@ const SearchArea: FC = () => {
           {onlyShowStationId ? (
             <div>{params.startStationId}</div>
           ) : (
-            <div>
+            <div className="whitespace-normal">
               {getStationNameById(page, params.startStationId, i18n.language)}
             </div>
           )}
         </Area>
-        <SwitchButton />
+        <SwitchButton className="self-center" />
         <Area
           className="flex-1"
           isActive={
@@ -97,7 +98,7 @@ const SearchArea: FC = () => {
           {onlyShowStationId ? (
             <div>{params.endStationId}</div>
           ) : (
-            <div>
+            <div className="whitespace-normal">
               {getStationNameById(page, params.endStationId, i18n.language)}
             </div>
           )}

@@ -1,8 +1,13 @@
 import { FC } from "react";
 
-const Dot: FC = () => {
+interface DotProps {
+  className?: string;
+}
+
+/** 強調站點的圓點標記（行內排列，與站名並排不重疊） */
+const Dot: FC<DotProps> = ({ className = "" }) => {
   return (
-    <div className="bg-silverLakeBlue-500 dark:bg-gamboge-500 absolute left-1 top-1/2 h-2 w-2 -translate-y-1/2 transform rounded-full md:left-10"></div>
+    <span className={`size-2 shrink-0 rounded-full bg-primary ${className}`} />
   );
 };
 

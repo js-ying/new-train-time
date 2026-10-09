@@ -8,7 +8,7 @@ import {
 } from "@/models/jsy-thsr-info";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
-import { FC, useContext, useState } from "react";
+import { FC, ReactNode, useContext, useState } from "react";
 import ThsrFreeSeat from "./ThsrFreeSeat";
 import ThsrServiceDay from "./ThsrServiceDay";
 import ThsrTimeInfoLeftArea from "./ThsrTimeInfoLeftArea";
@@ -24,6 +24,14 @@ interface ThsrTrainTimeInfoProps {
   thsrOdFare: JsyThsrOdFare[];
   isGeneralTimetable: boolean;
 }
+
+/** 卡片下方資訊組：整組換行，前置分隔線 */
+const FooterGroup: FC<{ children: ReactNode }> = ({ children }) => (
+  <div className="flex items-center">
+    <span className="w-5 shrink-0 text-center">|</span>
+    <div className="flex items-center gap-1">{children}</div>
+  </div>
+);
 
 /**
  * [高鐵] 列車時刻資訊
@@ -79,19 +87,23 @@ const ThsrTrainTimeInfo: FC<ThsrTrainTimeInfoProps> = ({
           />
         </div>
       </div>
-      <div className="mt-1.5 flex items-center gap-1 text-xs text-muted-foreground">
-        <span>{t("freeSeating")}</span>
-        <ThsrFreeSeat
-          trainNo={trainNo}
-          freeSeatData={thsrFreeSeatingCars}
-          showLabel={true}
-        />
-        {showThsrTrainNote && thsrTrainTimeTable.serviceDay && (
-          <>
-            <span className="mx-1">|</span>
-            <ThsrServiceDay serviceDay={thsrTrainTimeTable.serviceDay} />
-          </>
-        )}
+      {/* 每組前置分隔線，-ml-5 + overflow-hidden 讓位於行首（含換行後）的分隔線被裁掉 */}
+      <div className="mt-1.5 overflow-hidden text-xs text-muted-foreground">
+        <div className="-ml-5 flex flex-wrap items-center gap-y-0.5">
+          <FooterGroup>
+            <span>{t("freeSeating")}</span>
+            <ThsrFreeSeat
+              trainNo={trainNo}
+              freeSeatData={thsrFreeSeatingCars}
+              showLabel={true}
+            />
+          </FooterGroup>
+          {showThsrTrainNote && thsrTrainTimeTable.serviceDay && (
+            <FooterGroup>
+              <ThsrServiceDay serviceDay={thsrTrainTimeTable.serviceDay} />
+            </FooterGroup>
+          )}
+        </div>
       </div>
 
       {thsrTrainTimeTable && (

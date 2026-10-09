@@ -93,7 +93,7 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
           )}
         </div>
         {/* Right */}
-        <div className="text-center text-sm">NTD {price}</div>
+        <div className="text-center text-sm">{t("fareAmount", { price })}</div>
       </div>
 
       {showTymcTrainNote && isArrivalApprox && (
