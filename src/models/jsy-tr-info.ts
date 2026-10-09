@@ -89,6 +89,8 @@ export interface JsyTrStationTimetable {
 
 export interface JsyTrFare {
   price: number;
+  /** 半票（孩童/敬老/愛心同價）；無資料時省略 */
+  discountedPrice?: number;
 }
 
 export interface JsyTrDelay {

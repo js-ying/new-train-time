@@ -62,11 +62,16 @@ const TrTrainDetail: FC<TrTrainDetailProps> = ({ data, queryStationIds }) => {
             <span>
               {t("adultPrice")} NTD {data.fareList[0].price}
             </span>
-            {t("comma")}
-            <span>
-              {t("discountedPrice")} NTD{" "}
-              {(data.fareList[0].price / 2).toFixed(0)}
-            </span>
+            {/* 無半票資料時不顯示 */}
+            {data.fareList[0].discountedPrice !== undefined && (
+              <>
+                {t("comma")}
+                <span>
+                  {t("discountedPrice")} NTD{" "}
+                  {data.fareList[0].discountedPrice}
+                </span>
+              </>
+            )}
           </div>
         </div>
       )}
