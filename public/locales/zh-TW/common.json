@@ -1,6 +1,5 @@
 {
   "comma": "、",
-  "colon": "：",
   "none": "無",
   "about": "約",
   "unknown": "未知",
@@ -367,8 +366,6 @@
   "pwaAutoInstallMsg": "Android 與桌機版 Chrome、Edge 會由瀏覽器直接提供安裝，不需要照上面的步驟操作。",
   "pwaUnsupportedBrowserMsg": "此瀏覽器不支援安裝為 APP，請改用 Chrome、Edge 或 Safari 開啟本站。",
   "adMsg": "台鐵/高鐵資料已開始收費。以廣告減少部份負擔，請見諒。",
-  "email": "信箱",
-  "personalWebsite": "個人網站",
   "pageOnlyTwMsg": "本頁面暫時不提供繁體中文以外的語言。",
   "order": "訂票",
   "orderFailMsg": "訂票導頁失敗，請稍後再試。",

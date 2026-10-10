@@ -1,6 +1,5 @@
 {
   "comma": ", ",
-  "colon": ": ",
   "none": "None",
   "about": "~",
   "unknown": "Unknown",
@@ -369,8 +368,6 @@
   "pwaAutoInstallMsg": "On Android and desktop Chrome or Edge, the browser offers installation directly — the steps above are not needed.",
   "pwaUnsupportedBrowserMsg": "This browser cannot install the app. Please open this site in Chrome, Edge, or Safari.",
   "adMsg": "Taiwan Railway and THSR data now come at a cost. Ads help cover part of it — thank you for understanding.",
-  "email": "Email",
-  "personalWebsite": "Personal website",
   "pageOnlyTwMsg": "This page is temporarily unavailable in languages other than Traditional Chinese.",
   "order": "Book",
   "orderFailMsg": "Booking redirect failed. Please try again later.",
