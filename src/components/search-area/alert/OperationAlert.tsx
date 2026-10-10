@@ -95,7 +95,6 @@ const OperationAlert: FC<OperationAlertProps> = ({ compact }) => {
             size="2xl"
             open={open}
             setOpen={setOpen}
-            bodyTextAlign="text-left"
           >
             {jsyOperationAlert.alerts.map((alert, index) => (
               <div

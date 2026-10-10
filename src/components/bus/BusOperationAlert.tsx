@@ -54,7 +54,6 @@ const BusOperationAlert: FC<BusOperationAlertProps> = ({ alerts }) => {
         size="2xl"
         open={open}
         setOpen={setOpen}
-        bodyTextAlign="text-left"
       >
         {alerts.map((alert, index) => (
           <div

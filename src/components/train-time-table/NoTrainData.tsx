@@ -211,7 +211,6 @@ const NoTrainData: FC<NoTrainDataProps> = ({
           confirmText="confirm"
           cancelText="cancel"
           onConfirm={handleReportConfirm}
-          bodyTextAlign="text-left"
         >
           <div className="flex flex-col gap-3">
             <div>{t("reportConfirmMsg")}</div>

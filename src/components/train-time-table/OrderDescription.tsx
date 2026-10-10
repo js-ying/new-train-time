@@ -84,7 +84,6 @@ const OrderDescription: FC<OrderDescriptionProps> = ({ open, setOpen }) => {
       open={open}
       setOpen={setOpen}
       title="trOrderDescription"
-      bodyTextAlign="text-left"
       size="md"
     >
       <AnnouncementContent />

@@ -103,7 +103,6 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
         open={open}
         setOpen={setOpen}
         title="trTransferDescription"
-        bodyTextAlign="text-left"
         size="md"
       >
         <div className="flex flex-col gap-4">
@@ -137,7 +136,6 @@ const TrTransferDescription: FC<TrTransferDescriptionProps> = ({
         confirmText="confirm"
         cancelText="cancel"
         onConfirm={handleReportConfirm}
-        bodyTextAlign="text-left"
       >
         <div className="flex flex-col gap-3">
           <div>{t("reportConfirmMsg")}</div>

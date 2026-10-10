@@ -419,7 +419,7 @@
   "premiumPreviewBenefit": "付費會員享無廣告體驗",
   "upgradeCta": "查看付費方案",
   "membershipExpiredTitle": "會員已到期",
-  "membershipExpiredMsg": "您的付費會員已到期，無廣告等權益已暫停。可重新續購恢復權益。",
+  "membershipExpiredMsg": "付費會員已到期，無廣告等權益已暫停，續購即可恢復。",
   "membershipExpiringTitle": "會員即將到期",
   "membershipExpiringMsg": "您的付費會員將於 {{date}} 到期。",
   "gotItLabel": "知道了",
