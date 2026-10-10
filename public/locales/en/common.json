@@ -101,7 +101,7 @@
   "busInfoEndpoints": "Terminals",
   "busInfoOperator": "Operator",
   "busInfoTicketPrice": "Fare",
-  "busInfoFareBufferZone": "Fare buffer zone",
+  "busInfoFareBufferZone": "Fare\nbuffer zone",
   "busInfoRouteMap": "Route map",
   "busInfoRouteMapView": "View",
   "busInfoSchedule": "Timetable",

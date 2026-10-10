@@ -1,3 +1,7 @@
+import {
+  DetailInfoList,
+  DetailInfoRow,
+} from "@/components/common/DetailInfoList";
 import Loading from "@/components/common/Loading";
 import CaptureIcon from "@/components/icons/CaptureIcon";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
@@ -21,7 +25,6 @@ import {
   ModalHeader,
 } from "@/components/common/SwipeableModal";
 import { Button } from "@heroui/react";
-import Chip from "@mui/material/Chip";
 import { useTranslation } from "next-i18next";
 import { FC, Fragment, ReactNode } from "react";
 
@@ -52,17 +55,6 @@ interface BusRouteInfoModalProps {
   isLoading: boolean;
   error: ApiError | null;
 }
-
-/** 詳細資訊單列：左主題色 chip 標籤、右內容（沿用 TR detail 樣式）。 */
-const ChipRow: FC<{ label: string; children: ReactNode }> = ({
-  label,
-  children,
-}) => (
-  <div className="flex gap-2 text-base">
-    <Chip label={label} size="small" color="primary" />
-    <div className="flex items-center">{children}</div>
-  </div>
-);
 
 /** 平日/假日雙欄外框（時刻表與班距共用）；suffix 與日別標籤同列（如首末班）。 */
 const DayColumns: FC<{
@@ -330,33 +322,33 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
                   <NoTrainData apiError={error} />
                 ) : info ? (
                   <div className="flex flex-col gap-3 text-left">
-                    <div className="flex flex-col gap-2">
-                      <ChipRow label={t("busInfoCategory")}>
+                    <DetailInfoList>
+                      <DetailInfoRow label={t("busInfoCategory")}>
                         {categoryLabel}
-                      </ChipRow>
+                      </DetailInfoRow>
                       {(departureStop || destinationStop) && (
-                        <ChipRow label={t("busInfoEndpoints")}>
+                        <DetailInfoRow label={t("busInfoEndpoints")}>
                           {departureStop} - {destinationStop}
-                        </ChipRow>
+                        </DetailInfoRow>
                       )}
                       {operatorNames.length > 0 && (
-                        <ChipRow label={t("busInfoOperator")}>
+                        <DetailInfoRow label={t("busInfoOperator")}>
                           {operatorNames.join(t("comma"))}
-                        </ChipRow>
+                        </DetailInfoRow>
                       )}
                       {info.ticketPrice && (
-                        <ChipRow label={t("busInfoTicketPrice")}>
+                        <DetailInfoRow label={t("busInfoTicketPrice")}>
                           {busName(info.ticketPrice, info.ticketPriceEn)}
-                        </ChipRow>
+                        </DetailInfoRow>
                       )}
                       {info.fareBufferZone && (
-                        <ChipRow label={t("busInfoFareBufferZone")}>
+                        <DetailInfoRow label={t("busInfoFareBufferZone")}>
                           {busName(info.fareBufferZone, info.fareBufferZoneEn)}
-                        </ChipRow>
+                        </DetailInfoRow>
                       )}
                       {/* 路線圖外連（官方頁）：併入資訊列同欄對齊；截圖時隱藏（靜態圖中連結無意義） */}
                       {!isCapturing && info.routeMapImageUrl && (
-                        <ChipRow label={t("busInfoRouteMap")}>
+                        <DetailInfoRow label={t("busInfoRouteMap")}>
                           <a
                             href={info.routeMapImageUrl}
                             target="_blank"
@@ -366,9 +358,9 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
                             {t("busInfoRouteMapView")}
                             <ExternalLinkIcon />
                           </a>
-                        </ChipRow>
+                        </DetailInfoRow>
                       )}
-                    </div>
+                    </DetailInfoList>
 
                     {!hasFixed && !hasHeadway ? (
                       <div className="mt-2">

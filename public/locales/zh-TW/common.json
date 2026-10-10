@@ -101,7 +101,7 @@
   "busInfoEndpoints": "起訖",
   "busInfoOperator": "業者",
   "busInfoTicketPrice": "票價",
-  "busInfoFareBufferZone": "分段緩衝",
+  "busInfoFareBufferZone": "分段\n緩衝",
   "busInfoRouteMap": "路線圖",
   "busInfoRouteMapView": "查看",
   "busInfoSchedule": "定期時刻表",

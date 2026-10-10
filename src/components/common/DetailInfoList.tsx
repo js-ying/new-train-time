@@ -15,11 +15,27 @@ interface DetailInfoRowProps {
   children: ReactNode;
 }
 
+/** 標籤含換行（\n）時 chip 隨內容增高、多行置中；單行標籤維持原樣 */
+const MULTILINE_CHIP_SX = {
+  height: "auto",
+  "& .MuiChip-label": {
+    whiteSpace: "pre-line",
+    textAlign: "center",
+    lineHeight: 1.3,
+    py: 0.25,
+  },
+};
+
 /** 清單中的一列（回傳兩個 grid cell，須放在 DetailInfoList 內） */
 export const DetailInfoRow: FC<DetailInfoRowProps> = ({ label, children }) => {
   return (
     <>
-      <Chip label={label} size="small" color="primary" />
+      <Chip
+        label={label}
+        size="small"
+        color="primary"
+        sx={label.includes("\n") ? MULTILINE_CHIP_SX : undefined}
+      />
       <div className="break-words">{children}</div>
     </>
   );

@@ -101,7 +101,7 @@
   "busInfoEndpoints": "起終点",
   "busInfoOperator": "運行会社",
   "busInfoTicketPrice": "運賃",
-  "busInfoFareBufferZone": "運賃区間の緩衝区間",
+  "busInfoFareBufferZone": "運賃区間の\n緩衝区間",
   "busInfoRouteMap": "路線図",
   "busInfoRouteMapView": "表示",
   "busInfoSchedule": "時刻表",

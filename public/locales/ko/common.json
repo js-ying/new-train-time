@@ -101,7 +101,7 @@
   "busInfoEndpoints": "기종점",
   "busInfoOperator": "운수사",
   "busInfoTicketPrice": "요금",
-  "busInfoFareBufferZone": "요금 구간 완충 구역",
+  "busInfoFareBufferZone": "요금 구간\n완충 구역",
   "busInfoRouteMap": "노선도",
   "busInfoRouteMapView": "보기",
   "busInfoSchedule": "시간표",
