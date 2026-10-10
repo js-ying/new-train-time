@@ -1,8 +1,8 @@
 import BreadcrumbJsonLd from "@/components/seo/json-ld/BreadcrumbJsonLd";
 import { baseUrl } from "@/configs/seoConfig";
 import { JsyTrStationTimetable } from "@/models/jsy-tr-info";
-import { localeToHreflang } from "@/utils/HreflangUtils";
 import { getOgLocale } from "@/utils/LocaleUtils";
+import { buildLocaleSeoLinks } from "@/utils/SeoLinkUtils";
 import { getTrStationNameById } from "@/utils/StationUtils";
 import { useTranslation } from "next-i18next";
 import { NextSeo } from "next-seo";
@@ -58,21 +58,13 @@ const TrStationPageSeo: FC<TrStationPageSeoProps> = ({
   const queryPath = isValid
     ? `?station=${stationId}${dir ? `&dir=${dir}` : ""}`
     : "";
-  const selfLocalePrefix =
-    i18n.language === router.defaultLocale ? "" : `/${i18n.language}`;
-  const selfUrl = `${baseUrl}${selfLocalePrefix}/station${queryPath}`;
-
-  const languageAlternates = router.locales.map((loc) => {
-    const prefix = loc === router.defaultLocale ? "" : `/${loc}`;
-    return {
-      hrefLang: localeToHreflang(loc),
-      href: `${baseUrl}${prefix}/station${queryPath}`,
-    };
-  });
-  languageAlternates.push({
-    hrefLang: "x-default",
-    href: `${baseUrl}/station${queryPath}`,
-  });
+  const { selfUrl, languageAlternates, ogAlternateMetaTags } =
+    buildLocaleSeoLinks(
+      `/station${queryPath}`,
+      i18n.language,
+      router.locales,
+      router.defaultLocale,
+    );
 
   const homeUrl =
     i18n.language === router.defaultLocale
@@ -98,6 +90,7 @@ const TrStationPageSeo: FC<TrStationPageSeoProps> = ({
           siteName: t("trTitle"),
           locale: getOgLocale(i18n.language),
         }}
+        additionalMetaTags={ogAlternateMetaTags}
       />
       <BreadcrumbJsonLd breadcrumbs={breadcrumbs} />
     </>

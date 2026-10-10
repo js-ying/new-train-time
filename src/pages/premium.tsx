@@ -17,6 +17,8 @@ import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { Trans, useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { NextSeo } from "next-seo";
+import { getOgLocale } from "@/utils/LocaleUtils";
+import { buildLocaleSeoLinks } from "@/utils/SeoLinkUtils";
 import { useRouter } from "next/router";
 import { FC, useRef, useState } from "react";
 
@@ -37,6 +39,12 @@ const Premium: FC = () => {
   const muiTheme = useMuiTheme();
   const { t } = useTranslation();
   const router = useRouter();
+  const seoLinks = buildLocaleSeoLinks(
+    "/premium",
+    router.locale ?? router.defaultLocale,
+    router.locales,
+    router.defaultLocale,
+  );
   const { user, loginWithGoogle, notifySessionExpired } = useAuth();
 
   // 消保法：結帳前須勾選同意排除七日猶豫期，未勾不可購買
@@ -108,6 +116,13 @@ const Premium: FC = () => {
       <NextSeo
         title={`${t("premium.pageTitle")} - ${t("trTitle")}`}
         description={t("premium.seoDescription")}
+        canonical={seoLinks.selfUrl}
+        languageAlternates={seoLinks.languageAlternates}
+        openGraph={{
+          url: seoLinks.selfUrl,
+          locale: getOgLocale(router.locale ?? router.defaultLocale),
+        }}
+        additionalMetaTags={seoLinks.ogAlternateMetaTags}
       />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
