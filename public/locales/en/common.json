@@ -49,7 +49,7 @@
   "thsrDropdown": "THSR",
   "tymcDropdown": "Airport MRT",
   "bus": "Bus",
-  "busTitle": "Bus Arrival Times",
+  "busTitle": "Taiwan Bus Arrivals",
   "busDropdown": "Bus",
   "busPageDescription": "Check real-time bus arrivals across Taiwan — city buses, intercity coaches, and the Taiwan Tourist Shuttle. Enter a route number to see live arrival status for each stop in both directions.",
   "busRouteTitle": "Bus Route {{routeName}}",
