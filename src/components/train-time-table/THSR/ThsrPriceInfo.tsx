@@ -29,7 +29,7 @@ export const fareClassMap: Record<number, Record<LangKey, string>> = {
 };
 
 export const cabinClassMap: Record<number, Record<LangKey, string>> = {
-  1: { zhTw: "標準", en: "Regular" },
+  1: { zhTw: "標準", en: "Standard" },
   2: { zhTw: "商務", en: "Business" },
   3: { zhTw: "自由", en: "Non-Reserved" },
 };

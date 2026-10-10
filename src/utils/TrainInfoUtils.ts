@@ -49,7 +49,7 @@ export const getTrTripLineNameByValue = (tripLineValue, lang) => {
   const tripLines = {
     0: { zhTw: "", en: "" },
     1: { zhTw: "山線", en: "Mountain" },
-    2: { zhTw: "海線", en: "Sea" },
+    2: { zhTw: "海線", en: "Coast" },
     3: { zhTw: "成追線", en: "Chengzhui" },
   };
 
@@ -66,15 +66,15 @@ export const getTrTrainTypeNameByCode = (trainTypeCode, lang): string => {
   if (!trainTypeCode) return null;
 
   const trTrainTypes = {
-    "1": { zhTw: "太魯閣", en: "TAROKO" },
-    "2": { zhTw: "普悠瑪", en: "PUYUMA" },
-    "3": { zhTw: "自強", en: "TZE CHIANG" },
-    "4": { zhTw: "莒光", en: "CHU KUANG" },
-    "5": { zhTw: "復興", en: "FU HSING" },
-    "6": { zhTw: "區間", en: "LOCAL" },
-    "7": { zhTw: "普快", en: "ORDINARY" },
-    "10": { zhTw: "區間快", en: "FAST LOCAL" },
-    "11": { zhTw: "新自強", en: "TZE CHIANG" },
+    "1": { zhTw: "太魯閣", en: "Taroko" },
+    "2": { zhTw: "普悠瑪", en: "Puyuma" },
+    "3": { zhTw: "自強", en: "Tze-Chiang" },
+    "4": { zhTw: "莒光", en: "Chu-Kuang" },
+    "5": { zhTw: "復興", en: "Fu-Hsing" },
+    "6": { zhTw: "區間", en: "Local" },
+    "7": { zhTw: "普快", en: "Ordinary" },
+    "10": { zhTw: "區間快", en: "Fast Local" },
+    "11": { zhTw: "新自強", en: "Tze-Chiang" },
   };
 
   return trTrainTypes[trainTypeCode]?.[getNameLangKey(lang)] || "";

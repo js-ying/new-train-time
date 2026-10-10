@@ -293,7 +293,7 @@ const Settings: FC = () => {
                   <IOSSwitchSetting
                     value={showTrTrainNote}
                     setValue={setShowTrTrainNote}
-                    label={t("showTrTrainNoteSwitch")}
+                    label={t("showTrainNoteSwitch")}
                     gaEnum={GaEnum.SHOW_TR_TRAIN_NOTE}
                     color="primary"
                   />
@@ -315,7 +315,7 @@ const Settings: FC = () => {
                   <IOSSwitchSetting
                     value={showThsrTrainNote}
                     setValue={setShowThsrTrainNote}
-                    label={t("showThsrTrainNoteSwitch")}
+                    label={t("showTrainNoteSwitch")}
                     gaEnum={GaEnum.SHOW_THSR_TRAIN_NOTE}
                     color="primary"
                   />
@@ -337,7 +337,7 @@ const Settings: FC = () => {
                   <IOSSwitchSetting
                     value={showTymcTrainNote}
                     setValue={setShowTymcTrainNote}
-                    label={t("showTymcTrainNoteSwitch")}
+                    label={t("showTrainNoteSwitch")}
                     gaEnum={GaEnum.SHOW_TYMC_TRAIN_NOTE}
                     color="primary"
                   />

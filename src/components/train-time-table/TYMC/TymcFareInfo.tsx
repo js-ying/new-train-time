@@ -24,7 +24,7 @@ type LangKey = "zhTw" | "en";
 
 // 票價等級名稱對應（多語系）
 const FARE_CLASS_MAP: Record<number, Record<LangKey, string>> = {
-  [FareClass.FULL]: { zhTw: "全票", en: "Full" },
+  [FareClass.FULL]: { zhTw: "全票", en: "Adult" },
   [FareClass.STUDENT]: { zhTw: "學生票", en: "Student" },
   [FareClass.CHILD]: { zhTw: "孩童票", en: "Child" },
   [FareClass.SENIOR]: { zhTw: "敬老票", en: "Senior" },

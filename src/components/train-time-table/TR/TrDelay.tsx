@@ -33,7 +33,7 @@ const TrDelay: FC<TrDelayProps> = ({ dataList }) => {
             </span>
           ) : (
             <span className="relative text-sm text-danger">
-              {t("delay")} {dataList[0].delayTime} {t("minute")}
+              {t("delayMinutes", { minutes: dataList[0].delayTime })}
               <DelayDot isGreen={false}></DelayDot>
             </span>
           )}

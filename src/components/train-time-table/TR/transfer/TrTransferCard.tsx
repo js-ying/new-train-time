@@ -101,7 +101,7 @@ const TrTransferCard: FC<TrTransferCardProps> = ({
           </span>
           {hasOnlyTicket && (
             <span className={`mt-0.5 rounded px-2 py-0.5 text-xs ${SOLID_BADGE.amber}`}>
-              {t("transferTicketRequired")}
+              {t("transferReservedOnly")}
             </span>
           )}
           {/* 轉乘等待：label 與數值拆兩行，數值可能為 "19 分 + 45 分" */}

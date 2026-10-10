@@ -43,10 +43,10 @@ const ThsrAvailableSeatStatus: FC<ThsrAvailableSeatStatusProps> = ({
 
   const getSeatStatusText = () => {
     if (standardSeatStatus !== "X" && businessSeatStatus !== "X") {
-      return t("regularBusinessSeat");
+      return t("standardBusinessSeat");
     }
     if (standardSeatStatus !== "X") {
-      return t("regularSeat");
+      return t("standardSeat");
     }
     if (businessSeatStatus !== "X") {
       return t("businessSeat");
