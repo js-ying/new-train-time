@@ -11,6 +11,17 @@ export const updateDataList = [
   {
     date: "2026-10",
     type: "both",
+    ver: "4.5.0",
+    items: [
+      {
+        type: "new",
+        content: "新功能：日文 / 韓文介面",
+      },
+    ],
+  },
+  {
+    date: "2026-10",
+    type: "both",
     ver: "4.4.4",
     items: [
       {
@@ -20,6 +31,10 @@ export const updateDataList = [
       {
         type: "update",
         content: "調整台鐵單站時刻的列車卡片排版",
+      },
+      {
+        type: "update",
+        content: "調整公車路線資訊的排版",
       },
       {
         type: "update",
