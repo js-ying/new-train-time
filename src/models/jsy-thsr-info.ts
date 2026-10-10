@@ -31,7 +31,9 @@ export interface JsyThsrTimetable {
 
 export interface JsyThsrTrainInfo {
   trainNo: string;
+  startingStationId: string;
   startingStationName: JsyName;
+  endingStationId: string;
   endingStationName: JsyName;
 }
 

@@ -1,7 +1,8 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import Dot from "@/components/common/Dot";
 import { JsyTrTimetable } from "@/models/jsy-tr-info";
 
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo } from "react";
 
@@ -19,8 +20,8 @@ const TrStopTimesTable: FC<TrStopTimesTableProps> = ({
   data,
   highlightStationIds,
 }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const stationName = useStationName(PageEnum.TR);
 
   // 未指定時 fallback 頭尾（維持 OD 既有行為）
   const highlightSet = useMemo(() => {
@@ -58,7 +59,7 @@ const TrStopTimesTable: FC<TrStopTimesTableProps> = ({
             <div className="flex flex-1 items-center justify-center gap-1.5">
               {isHighlight && <Dot />}
               <span className="text-center">
-                {stopTime.stationName[langKey]}
+                {stationName(stopTime.stationId, stopTime.stationName)}
               </span>
               {isHighlight && <Dot className="invisible" />}
             </div>

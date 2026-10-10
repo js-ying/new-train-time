@@ -5,7 +5,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@/components/common/SwipeableModal";
-import { LocaleEnum } from "@/enums/LocaleEnum";
+import useLang from "@/hooks/useLang";
 import { Button, Checkbox } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useState } from "react";
@@ -54,7 +54,8 @@ interface CommonDialogProps {
  * 通用彈窗
  */
 const CommonDialog: FC<CommonDialogProps> = (props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const { isCjkLayout } = useLang();
   const [doNotShowAgain, setDoNotShowAgain] = useState(false);
 
   const customCloseEvent = () => {
@@ -65,18 +66,17 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
     }
   };
 
-  // 純文字＝短提示 → 置中（英文平衡各行長度；中文只在標點 / 空白處換行，過長才強制斷）
-  // 其餘內容：中文左右切齊、英文靠左
+  // 純文字＝短提示 → 置中（英文平衡各行長度；中日韓只在標點 / 空白處換行，過長才強制斷）
+  // 其餘內容：中日韓左右切齊、英文靠左
   // （必須用完整字串，Tailwind JIT 才能掃描到 arbitrary value）
-  const isEn = i18n.language === LocaleEnum.EN;
   const bodyAlignClass =
     typeof props.children === "string"
-      ? isEn
-        ? "text-center [text-wrap:balance]"
-        : "text-center [word-break:keep-all] [overflow-wrap:anywhere]"
-      : isEn
-        ? "text-left [text-wrap:pretty]"
-        : "text-justify [text-align-last:left] [text-wrap:pretty]";
+      ? isCjkLayout
+        ? "text-center [word-break:keep-all] [overflow-wrap:anywhere]"
+        : "text-center [text-wrap:balance]"
+      : isCjkLayout
+        ? "text-justify [text-align-last:left] [text-wrap:pretty]"
+        : "text-left [text-wrap:pretty]";
 
   return (
     <Modal

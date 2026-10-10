@@ -22,7 +22,7 @@ export async function getStaticProps({ locale }) {
 const Terms: FC = () => {
   const muiTheme = useMuiTheme();
   const { t } = useTranslation();
-  const { isTw } = useLang();
+  const { isZh } = useLang();
 
   return (
     <>
@@ -30,7 +30,7 @@ const Terms: FC = () => {
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <article className="mx-auto w-full max-w-3xl space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-200">
-            {!isTw && (
+            {!isZh && (
               <p className="text-center text-muted-foreground">
                 {t("pageOnlyTwMsg")}
               </p>

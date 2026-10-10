@@ -1,3 +1,5 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import Loading from "@/components/common/Loading";
 import { SettingContext } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
@@ -6,7 +8,6 @@ import { JsyTrStationTrain, JsyTrTimetable } from "@/models/jsy-tr-info";
 import { getJsyTrTrainStopTimes } from "@/services/trService";
 import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import {
   getTrTrainTypeNameByCode,
   getTrTripLineNameByValue,
@@ -40,10 +41,10 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
   trainDate,
   onStaleDate,
 }) => {
-  const { t, i18n } = useTranslation();
-  const { isTw } = useLang();
+  const { t } = useTranslation();
+  const { isZh, isCjkLayout } = useLang();
   const { showTrTrainNote } = useContext(SettingContext);
-  const langKey = getNameLangKey(i18n.language);
+  const stationName = useStationName(PageEnum.TR);
   const tripLineName = getTrTripLineNameByValue(data.trainInfo.tripLine, t);
   // 無站票提醒（依車種）與台鐵註記，比照 OD 卡片
   const isOnlyTicket = isTrTrainOnlyTicket(data.trainInfo.trainTypeCode);
@@ -118,12 +119,17 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
                 data.trainInfo.trainTypeCode,
                 t,
               )}
-              className={isTw ? "mx-auto block max-w-14 text-center" : ""}
+              className={
+                isCjkLayout ? "mx-auto block max-w-14 text-center" : ""
+              }
             />
           </div>
           <span className="text-xs text-muted-foreground">
             {t("trStationFromOrigin", {
-              origin: data.trainInfo.startingStationName[langKey],
+              origin: stationName(
+                data.trainInfo.startingStationId,
+                data.trainInfo.startingStationName,
+              ),
             })}
           </span>
         </div>
@@ -143,7 +149,10 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
           <span className="flex flex-wrap items-baseline justify-center gap-1">
             <span className="text-sm">{t("trStationBoundForPrefix")}</span>
             <span className="text-base font-semibold">
-              {data.trainInfo.endingStationName[langKey]}
+              {stationName(
+                data.trainInfo.endingStationId,
+                data.trainInfo.endingStationName,
+              )}
             </span>
           </span>
         </div>
@@ -160,7 +169,7 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
       )}
 
       {/* 台鐵註記：僅中文且 Settings 開啟、有 note 時顯示 */}
-      {isTw && showTrTrainNote && note && (
+      {isZh && showTrTrainNote && note && (
         <div className="mt-1 text-xs text-muted-foreground">{note}</div>
       )}
 

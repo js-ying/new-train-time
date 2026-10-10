@@ -1,3 +1,5 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import AdBanner from "@/components/common/AdBanner";
 import CommonAlert from "@/components/common/CommonAlert";
 import { GaEnum } from "@/enums/GaEnum";
@@ -5,7 +7,6 @@ import { JsyTrTransferInfo } from "@/models/jsy-tr-info";
 import { ReportTrainType } from "@/services/reportService";
 import AdUtils from "@/utils/AdUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useMemo, useState } from "react";
@@ -55,8 +56,8 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({
   data,
   reportPayload,
 }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const stationName = useStationName(PageEnum.TR);
 
   // filter 條件（controlled，由子 dropdown 報告）
   const [waitLimit, setWaitLimit] = useState<number>(Infinity);
@@ -88,13 +89,13 @@ const TrTransferTimeTable: FC<TrTransferTimeTableProps> = ({
         else
           map.set(id, {
             id,
-            name: leg.alightStopTime.stationName[langKey],
+            name: stationName(leg.alightStopTime.stationId, leg.alightStopTime.stationName),
             count: 1,
           });
       }
     }
     return Array.from(map.values()).sort((a, b) => b.count - a.count);
-  }, [data.combinations, langKey]);
+  }, [data.combinations, stationName]);
 
   const filteredCombinations = useMemo(() => {
     return data.combinations.filter((c) => {

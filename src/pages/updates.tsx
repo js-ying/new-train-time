@@ -214,7 +214,7 @@ const UpdateList: FC<UpdateListProps> = ({ dataList }) => {
 const Updates: FC = () => {
   const muiTheme = useMuiTheme();
   const { t } = useTranslation();
-  const { isTw } = useLang();
+  const { isZh } = useLang();
 
   const dataList = useMemo(() => {
     return updateDataList;
@@ -226,7 +226,7 @@ const Updates: FC = () => {
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto w-full max-w-3xl">
-            {!isTw && (
+            {!isZh && (
               <p className="mb-6 text-center text-muted-foreground">
                 {t("pageOnlyTwMsg")}
               </p>

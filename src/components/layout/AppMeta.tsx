@@ -9,7 +9,7 @@ import { FC } from "react";
  * SEO 相關（title、og、twitter、canonical、hreflang、JSON-LD）由 PageSeo 元件處理。
  */
 const AppMeta: FC = () => {
-  const { isTw } = useLang();
+  const { isZh } = useLang();
   const { theme } = useTheme();
 
   return (
@@ -28,7 +28,7 @@ const AppMeta: FC = () => {
       <link
         key="manifest"
         rel="manifest"
-        href={`${isTw ? "/manifest.json" : "/manifest.en.json"}`}
+        href={`${isZh ? "/manifest.json" : "/manifest.en.json"}`}
       />
       <meta
         key="theme-color"

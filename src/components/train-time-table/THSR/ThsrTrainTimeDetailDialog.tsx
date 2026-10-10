@@ -1,3 +1,5 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import Loading from "@/components/common/Loading";
 import CaptureIcon from "@/components/icons/CaptureIcon";
 import { GaEnum } from "@/enums/GaEnum";
@@ -7,7 +9,6 @@ import {
   JsyThsrOdFare,
   JsyThsrTimetable,
 } from "@/models/jsy-thsr-info";
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import {
   Modal,
   ModalBody,
@@ -38,8 +39,8 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
   thsrOdFare,
   isGeneralTimetable,
 }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const stationName = useStationName(PageEnum.THSR);
 
   const { isCapturing, capture } = useCaptureShare({
     selector: ".thsr-detail-dialog",
@@ -66,8 +67,15 @@ const ThsrTrainTimeDetailDialog: FC<ThsrTrainTimeDetailDialogProps> = ({
             <>
               <ModalHeader>
                 {thsrTrainTimeTable.trainInfo.trainNo}{" "}
-                {thsrTrainTimeTable.trainInfo.startingStationName[langKey]} -{" "}
-                {thsrTrainTimeTable.trainInfo.endingStationName[langKey]}
+                {stationName(
+                  thsrTrainTimeTable.trainInfo.startingStationId,
+                  thsrTrainTimeTable.trainInfo.startingStationName,
+                )}{" "}
+                -{" "}
+                {stationName(
+                  thsrTrainTimeTable.trainInfo.endingStationId,
+                  thsrTrainTimeTable.trainInfo.endingStationName,
+                )}
               </ModalHeader>
               <ModalBody>
                 <ThsrTrainDetail

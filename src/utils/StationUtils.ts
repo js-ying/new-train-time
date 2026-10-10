@@ -5,7 +5,9 @@ import {
   trStationDataList,
   tymcStationDataList,
 } from "@/data/stationsData";
-import { getTdxLang } from "./LocaleUtils";
+import { LocaleEnum } from "@/enums/LocaleEnum";
+import { JsyName } from "@/models/jsy-tr-info";
+import { getNameLangKey, getTdxLang } from "./LocaleUtils";
 
 /** 不列入車站選單、搜尋與定位的台鐵站（無一般旅客列車停靠） */
 export const EXCLUDED_TR_STATION_IDS: readonly string[] = [
@@ -242,4 +244,43 @@ export const getTymcStationIdByName = (stationName: string, lang: string) => {
   }
 
   return null;
+};
+
+type RailPage = PageEnum.TR | PageEnum.THSR | PageEnum.TYMC;
+
+/** 站號 → 本地站資料索引（首次使用時建立） */
+let stationIndex: Record<
+  RailPage,
+  Map<string, { StationName: Record<"Zh_tw" | "En" | "Ja" | "Ko", string> }>
+> | null = null;
+
+const getStationIndex = () => {
+  if (!stationIndex) {
+    const toMap = <T extends { StationID: string }>(list: T[]) =>
+      new Map(list.map((s) => [s.StationID, s]));
+    stationIndex = {
+      [PageEnum.TR]: toMap(trStationDataList),
+      [PageEnum.THSR]: toMap(thsrStationDataList),
+      [PageEnum.TYMC]: toMap(tymcStationDataList),
+    };
+  }
+  return stationIndex;
+};
+
+/**
+ * 取後端回傳站名的當前語系版本：
+ * 中英直接用後端名稱；日韓依站號查本地站資料，查無時退回後端名稱（日文取中文、韓文取英文）
+ */
+export const getLocalizedStationName = (
+  page: RailPage,
+  stationId: string | undefined,
+  name: JsyName | undefined,
+  lang: string,
+): string => {
+  const fallback = name?.[getNameLangKey(lang)] ?? "";
+  if (lang !== LocaleEnum.JA && lang !== LocaleEnum.KO) return fallback;
+  const station = stationId
+    ? getStationIndex()[page].get(stationId)
+    : undefined;
+  return station?.StationName[getTdxLang(lang)] ?? fallback;
 };

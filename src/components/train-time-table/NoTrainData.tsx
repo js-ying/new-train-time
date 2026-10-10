@@ -10,7 +10,7 @@ import DateUtils from "@/utils/DateUtils";
 import { Button } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC, useEffect, useMemo, useState } from "react";
-import { LocaleEnum } from "../../enums/LocaleEnum";
+import useLang from "../../hooks/useLang";
 import TransferReportReasonRadioGroup, {
   DEFAULT_REPORT_REASON,
 } from "./TransferReportReasonRadioGroup";
@@ -52,6 +52,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
   reportPayload,
 }) => {
   const { t, i18n } = useTranslation();
+  const { isSpaceSeparated } = useLang();
 
   // 錯誤回報狀態：reported 用於同次查詢避免重覆送出；查詢條件變動即 reset
   const [isReporting, setIsReporting] = useState(false);
@@ -116,7 +117,7 @@ const NoTrainData: FC<NoTrainDataProps> = ({
     const messageText = i18n.exists(messageKey)
       ? t(messageKey)
       : t("noTrainDataDueToApiErrorMsg");
-    const trailingSpace = i18n.language === LocaleEnum.TW ? "" : " ";
+    const trailingSpace = isSpaceSeparated ? " " : "";
 
     return (
       <CommonAlert severity="error">

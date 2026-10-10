@@ -28,7 +28,7 @@ const TymcTrainDetail: FC<TymcTrainDetailProps> = ({
 }) => {
   const { page } = usePage();
   const { t, i18n } = useTranslation();
-  const { isTw } = useLang();
+  const { isSpaceSeparated } = useLang();
   const isArrivalApprox = isTymcArrivalApprox(tymcTimeTable.arrivalSource);
 
   return (
@@ -42,7 +42,9 @@ const TymcTrainDetail: FC<TymcTrainDetailProps> = ({
         {tymcTimeTable.departureTime} -{" "}
         {tymcTimeTable.arrivalTime || t("unknown")}{" "}
         {tymcTimeTable.arrivalTime && isArrivalApprox && (
-          <span className={`text-muted-foreground ${!isTw && "pl-1"}`}>
+          <span
+            className={`text-muted-foreground ${isSpaceSeparated && "pl-1"}`}
+          >
             {t("arrivalTimeApproxMsg")}
           </span>
         )}

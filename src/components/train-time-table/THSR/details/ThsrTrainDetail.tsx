@@ -1,3 +1,5 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import {
   DetailInfoList,
   DetailInfoRow,
@@ -7,7 +9,6 @@ import {
   JsyThsrOdFare,
   JsyThsrTimetable,
 } from "@/models/jsy-thsr-info";
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import ThsrFreeSeat from "../ThsrFreeSeat";
@@ -25,14 +26,21 @@ const ThsrTrainDetail: FC<ThsrTrainDetailProps> = ({
   thsrFreeSeatingCars,
   thsrOdFare,
 }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const stationName = useStationName(PageEnum.THSR);
 
   return (
     <DetailInfoList>
       <DetailInfoRow label={t("station")}>
-        {thsrTrainTimeTable.originStopTime.stationName[langKey]} -{" "}
-        {thsrTrainTimeTable.destinationStopTime.stationName[langKey]}
+        {stationName(
+          thsrTrainTimeTable.originStopTime.stationId,
+          thsrTrainTimeTable.originStopTime.stationName,
+        )}{" "}
+        -{" "}
+        {stationName(
+          thsrTrainTimeTable.destinationStopTime.stationId,
+          thsrTrainTimeTable.destinationStopTime.stationName,
+        )}
       </DetailInfoRow>
       <DetailInfoRow label={t("timeRange")}>
         {thsrTrainTimeTable.trainDate}{" "}

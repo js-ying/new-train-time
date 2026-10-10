@@ -1,6 +1,7 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import Dot from "@/components/common/Dot";
 import { JsyThsrTrainStopTime } from "@/models/jsy-thsr-info";
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 
@@ -15,8 +16,8 @@ const ThsrStopTimesTable: FC<ThsrStopTimesTableProps> = ({
   startStationId,
   endStationId,
 }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const stationName = useStationName(PageEnum.THSR);
 
   return (
     <>
@@ -45,7 +46,7 @@ const ThsrStopTimesTable: FC<ThsrStopTimesTableProps> = ({
             <div className="flex flex-1 items-center justify-center gap-1.5">
               {isHighlight && <Dot />}
               <span className="text-center">
-                {stopTime.stationName[langKey]}
+                {stationName(stopTime.stationId, stopTime.stationName)}
               </span>
               {isHighlight && <Dot className="invisible" />}
             </div>

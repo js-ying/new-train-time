@@ -1,3 +1,5 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import {
   DetailInfoList,
   DetailInfoRow,
@@ -5,7 +7,6 @@ import {
 import useLang from "@/hooks/useLang";
 import { JsyTrTimetable } from "@/models/jsy-tr-info";
 
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo } from "react";
 import { trTrainServiceList } from "../TrTrainServices";
@@ -21,9 +22,9 @@ interface TrTrainDetailProps {
 }
 
 const TrTrainDetail: FC<TrTrainDetailProps> = ({ data, queryStationIds }) => {
-  const { t, i18n } = useTranslation();
-  const { isTw } = useLang();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const { isZh } = useLang();
+  const stationName = useStationName(PageEnum.TR);
 
   // 查詢區間的停靠；未指定（或指定站不在停靠表）時 fallback 頭尾
   const querySegment = useMemo(() => {
@@ -44,8 +45,10 @@ const TrTrainDetail: FC<TrTrainDetailProps> = ({ data, queryStationIds }) => {
   return (
     <DetailInfoList>
       <DetailInfoRow label={t("station")}>
-        {boardStop.stationName[langKey]}
-        {!isSingleStop && <> - {alightStop.stationName[langKey]}</>}
+        {stationName(boardStop.stationId, boardStop.stationName)}
+        {!isSingleStop && (
+          <> - {stationName(alightStop.stationId, alightStop.stationName)}</>
+        )}
       </DetailInfoRow>
       <DetailInfoRow label={t("timeRange")}>
         {data.trainDate} {boardStop.departureTime}
@@ -82,7 +85,7 @@ const TrTrainDetail: FC<TrTrainDetailProps> = ({ data, queryStationIds }) => {
           (service) => data.trainInfo[service.flagName] === 1,
         ).length === 0 && t("none")}
       </DetailInfoRow>
-      {isTw && (
+      {isZh && (
         <DetailInfoRow label={t("note")}>{data.trainInfo.note}</DetailInfoRow>
       )}
     </DetailInfoList>

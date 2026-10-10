@@ -1,9 +1,10 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import { JsyTrTimetable } from "../../../models/jsy-tr-info";
 
 import useLang from "@/hooks/useLang";
-import { getNameLangKey } from "../../../utils/LocaleUtils";
 import { getTrTrainTypeNameByCode } from "../../../utils/TrainInfoUtils";
 import TrTrainType from "./TrTrainType";
 import TrTripLine from "./TrTripLine";
@@ -13,9 +14,9 @@ interface TrTimeInfoLeftAreaProps {
 }
 
 const TrTimeInfoLeftArea: FC<TrTimeInfoLeftAreaProps> = ({ data }) => {
-  const { t, i18n } = useTranslation();
-  const { isTw } = useLang();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const { isCjkLayout } = useLang();
+  const stationName = useStationName(PageEnum.TR);
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -35,14 +36,21 @@ const TrTimeInfoLeftArea: FC<TrTimeInfoLeftAreaProps> = ({ data }) => {
             data.trainInfo.trainTypeCode,
             t,
           )}
-          className={isTw ? "mx-auto block max-w-14 text-center" : ""}
+          className={isCjkLayout ? "mx-auto block max-w-14 text-center" : ""}
         />
       </div>
 
       {/* 起迄站 */}
       <div className="text-sm">
-        {data.trainInfo.startingStationName[langKey]} -{" "}
-        {data.trainInfo.endingStationName[langKey]}
+        {stationName(
+          data.trainInfo.startingStationId,
+          data.trainInfo.startingStationName,
+        )}{" "}
+        -{" "}
+        {stationName(
+          data.trainInfo.endingStationId,
+          data.trainInfo.endingStationName,
+        )}
       </div>
     </div>
   );

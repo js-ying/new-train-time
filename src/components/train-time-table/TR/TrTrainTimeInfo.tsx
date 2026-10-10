@@ -23,7 +23,7 @@ interface TrTrainTimeInfoProps {
  */
 const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
   const [open, setOpen] = useState(false);
-  const { isTw } = useLang();
+  const { isZh } = useLang();
   const { t } = useTranslation();
   const { showTrTrainNote } = useContext(SettingContext);
 
@@ -79,7 +79,7 @@ const TrTrainTimeInfo: FC<TrTrainTimeInfoProps> = ({ trTrainTimeTable }) => {
         </div>
       )}
 
-      {isTw && showTrTrainNote && note && (
+      {isZh && showTrTrainNote && note && (
         <div className="mt-1 text-xs text-muted-foreground">
           {note}
         </div>

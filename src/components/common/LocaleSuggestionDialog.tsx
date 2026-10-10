@@ -32,6 +32,18 @@ const DIALOG_COPY: Record<
     confirmBtn: "切換至繁體中文",
     cancelBtn: "暫不切換",
   },
+  [LocaleEnum.JA]: {
+    title: "言語設定",
+    message: "このサイトは日本語でもご利用いただけます。切り替えますか？",
+    confirmBtn: "日本語に切り替える",
+    cancelBtn: "今はしない",
+  },
+  [LocaleEnum.KO]: {
+    title: "언어 설정",
+    message: "이 사이트는 한국어로도 이용할 수 있습니다. 전환하시겠습니까?",
+    confirmBtn: "한국어로 전환",
+    cancelBtn: "나중에",
+  },
 };
 
 /**

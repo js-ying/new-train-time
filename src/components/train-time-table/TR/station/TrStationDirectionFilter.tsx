@@ -1,5 +1,6 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import { JsyTrStationDirection } from "@/models/jsy-tr-info";
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import { Tab, Tabs } from "@heroui/react";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
@@ -22,8 +23,8 @@ const TrStationDirectionFilter: FC<TrStationDirectionFilterProps> = ({
   value,
   onChange,
 }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const stationName = useStationName(PageEnum.TR);
 
   const labelFor = (d: JsyTrStationDirection): string => {
     if (d.showNorthSouth) {
@@ -34,7 +35,9 @@ const TrStationDirectionFilter: FC<TrStationDirectionFilterProps> = ({
       );
     }
     return t("trStationBoardTowards", {
-      terminal: d.terminals.map((n) => n[langKey]).join(t("comma")),
+      terminal: d.terminals
+        .map((n, i) => stationName(d.terminalIds[i], n))
+        .join(t("comma")),
     });
   };
 

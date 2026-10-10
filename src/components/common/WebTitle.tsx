@@ -9,7 +9,7 @@ import TrainSwitch from "./TrainSwitch";
 
 const WebTitle: FC = () => {
   const { t } = useTranslation();
-  const { isTw } = useLang();
+  const { isCjkLayout, isSpaceSeparated } = useLang();
   const { homePath, page } = usePage();
   const handleTitleClick = useTransportNavClick();
 
@@ -21,13 +21,13 @@ const WebTitle: FC = () => {
         onClick={() => handleTitleClick(page)}
         className="custom-cursor-pointer mb-2"
       >
-        <h1 className={`font-bold ${isTw ? "text-xl" : "text-lg"}`}>
+        <h1 className={`font-bold ${isCjkLayout ? "text-xl" : "text-lg"}`}>
           {/* 公車為即時到站、非時刻表，用專屬 busTitle，不接「時刻查詢」後綴 */}
           {page === PageEnum.BUS ? (
             t("busTitle")
           ) : (
             <>
-              <span className={`${isTw ? "" : "pr-1"}`}>
+              <span className={`${isSpaceSeparated ? "pr-1" : ""}`}>
                 {notTransportPage.includes(page) ? t(PageEnum.TR) : t(page)}
               </span>
               {t("scheduleInquiry")}

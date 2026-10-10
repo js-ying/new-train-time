@@ -1,15 +1,14 @@
-import { useTranslation } from "next-i18next";
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import { FC } from "react";
 import { JsyThsrTimetable } from "../../../models/jsy-thsr-info";
-import { getNameLangKey } from "../../../utils/LocaleUtils";
 
 interface ThsrTimeInfoLeftAreaProps {
   data: JsyThsrTimetable;
 }
 
 const ThsrTimeInfoLeftArea: FC<ThsrTimeInfoLeftAreaProps> = ({ data }) => {
-  const { i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const stationName = useStationName(PageEnum.THSR);
 
   return (
     <div className="gap-1.3 flex flex-col text-sm">
@@ -18,8 +17,15 @@ const ThsrTimeInfoLeftArea: FC<ThsrTimeInfoLeftAreaProps> = ({ data }) => {
 
       {/* 起迄站 */}
       <div>
-        {data.trainInfo.startingStationName[langKey]} -{" "}
-        {data.trainInfo.endingStationName[langKey]}
+        {stationName(
+          data.trainInfo.startingStationId,
+          data.trainInfo.startingStationName,
+        )}{" "}
+        -{" "}
+        {stationName(
+          data.trainInfo.endingStationId,
+          data.trainInfo.endingStationName,
+        )}
       </div>
     </div>
   );

@@ -2,78 +2,116 @@ export const trMainLines = [
   {
     Zh_tw: "基隆市",
     En: "Keelung City",
+    Ja: "基隆市",
+    Ko: "지룽시",
   },
   {
     Zh_tw: "新北市",
     En: "New Taipei City",
+    Ja: "新北市",
+    Ko: "신베이시",
   },
   {
     Zh_tw: "臺北市",
     En: "Taipei City",
+    Ja: "台北市",
+    Ko: "타이베이시",
   },
   {
     Zh_tw: "桃園市",
     En: "Taoyuan City",
+    Ja: "桃園市",
+    Ko: "타오위안시",
   },
   {
     Zh_tw: "新竹縣",
     En: "Hsinchu County",
+    Ja: "新竹県",
+    Ko: "신주현",
   },
   {
     Zh_tw: "新竹市",
     En: "Hsinchu City",
+    Ja: "新竹市",
+    Ko: "신주시",
   },
   {
     Zh_tw: "苗栗縣",
     En: "Miaoli County",
+    Ja: "苗栗県",
+    Ko: "먀오리현",
   },
   {
     Zh_tw: "臺中市",
     En: "Taichung City",
+    Ja: "台中市",
+    Ko: "타이중시",
   },
   {
     Zh_tw: "彰化縣",
     En: "Changhua County",
+    Ja: "彰化県",
+    Ko: "장화현",
   },
   {
     Zh_tw: "南投縣",
     En: "Nantou County",
+    Ja: "南投県",
+    Ko: "난터우현",
   },
   {
     Zh_tw: "雲林縣",
     En: "Yunlin County",
+    Ja: "雲林県",
+    Ko: "윈린현",
   },
   {
     Zh_tw: "嘉義縣",
     En: "Chiayi County",
+    Ja: "嘉義県",
+    Ko: "자이현",
   },
   {
     Zh_tw: "嘉義市",
     En: "Chiayi City",
+    Ja: "嘉義市",
+    Ko: "자이시",
   },
   {
     Zh_tw: "臺南市",
     En: "Tainan City",
+    Ja: "台南市",
+    Ko: "타이난시",
   },
   {
     Zh_tw: "高雄市",
     En: "Kaohsiung City",
+    Ja: "高雄市",
+    Ko: "가오슝시",
   },
   {
     Zh_tw: "屏東縣",
     En: "Pingtung County",
+    Ja: "屏東県",
+    Ko: "핑둥현",
   },
   {
     Zh_tw: "臺東縣",
     En: "Taitung County",
+    Ja: "台東県",
+    Ko: "타이둥현",
   },
   {
     Zh_tw: "花蓮縣",
     En: "Hualien County",
+    Ja: "花蓮県",
+    Ko: "화롄현",
   },
   {
     Zh_tw: "宜蘭縣",
     En: "Yilan County",
+    Ja: "宜蘭県",
+    Ko: "이란현",
   },
 ];
 
@@ -83,6 +121,8 @@ export interface TrStationData {
   StationName: {
     Zh_tw: string;
     En: string;
+    Ja: string;
+    Ko: string;
   };
   StationPosition: {
     PositionLat: number;
@@ -101,6 +141,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "基隆",
       En: "Keelung",
+      Ja: "基隆",
+      Ko: "지룽",
     },
     StationPosition: {
       PositionLon: 121.73837,
@@ -118,6 +160,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "三坑",
       En: "Sankeng",
+      Ja: "三坑",
+      Ko: "싼컹",
     },
     StationPosition: {
       PositionLon: 121.74202,
@@ -135,6 +179,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "八堵",
       En: "Badu",
+      Ja: "八堵",
+      Ko: "바두",
     },
     StationPosition: {
       PositionLon: 121.72904,
@@ -152,6 +198,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "七堵",
       En: "Qidu",
+      Ja: "七堵",
+      Ko: "치두",
     },
     StationPosition: {
       PositionLon: 121.71415,
@@ -169,6 +217,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "百福",
       En: "Baifu",
+      Ja: "百福",
+      Ko: "바이푸",
     },
     StationPosition: {
       PositionLon: 121.69379,
@@ -186,6 +236,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "五堵",
       En: "Wudu",
+      Ja: "五堵",
+      Ko: "우두",
     },
     StationPosition: {
       PositionLon: 121.66758,
@@ -203,6 +255,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "汐止",
       En: "Xizhi",
+      Ja: "汐止",
+      Ko: "시즈",
     },
     StationPosition: {
       PositionLon: 121.66113,
@@ -220,6 +274,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "汐科",
       En: "Xike",
+      Ja: "汐科",
+      Ko: "시커",
     },
     StationPosition: {
       PositionLon: 121.65233,
@@ -237,6 +293,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "南港",
       En: "Nangang",
+      Ja: "南港",
+      Ko: "난강",
     },
     StationPosition: {
       PositionLon: 121.60706,
@@ -254,6 +312,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "松山",
       En: "Songshan",
+      Ja: "松山",
+      Ko: "쑹산",
     },
     StationPosition: {
       PositionLon: 121.57906,
@@ -271,6 +331,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "臺北",
       En: "Taipei",
+      Ja: "台北",
+      Ko: "타이베이",
     },
     StationPosition: {
       PositionLon: 121.51711,
@@ -288,6 +350,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "臺北-環島",
       En: "Taipei Surround Island",
+      Ja: "台北-環島",
+      Ko: "타이베이-환다오",
     },
     StationPosition: {
       PositionLon: 121.51711,
@@ -305,6 +369,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "萬華",
       En: "Wanhua",
+      Ja: "萬華",
+      Ko: "완화",
     },
     StationPosition: {
       PositionLon: 121.49996,
@@ -322,6 +388,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "板橋",
       En: "Banqiao",
+      Ja: "板橋",
+      Ko: "반차오",
     },
     StationPosition: {
       PositionLon: 121.46377,
@@ -339,6 +407,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "浮洲",
       En: "Fuzhou",
+      Ja: "浮洲",
+      Ko: "푸저우",
     },
     StationPosition: {
       PositionLon: 121.44477,
@@ -356,6 +426,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "樹林",
       En: "Shulin",
+      Ja: "樹林",
+      Ko: "수린",
     },
     StationPosition: {
       PositionLon: 121.42442,
@@ -373,6 +445,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "南樹林",
       En: "South Shulin",
+      Ja: "南樹林",
+      Ko: "난수린",
     },
     StationPosition: {
       PositionLon: 121.40884,
@@ -390,6 +464,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "山佳",
       En: "Shanjia",
+      Ja: "山佳",
+      Ko: "산자",
     },
     StationPosition: {
       PositionLon: 121.39254,
@@ -407,6 +483,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "鶯歌",
       En: "Yingge",
+      Ja: "鶯歌",
+      Ko: "잉거",
     },
     StationPosition: {
       PositionLon: 121.35517,
@@ -424,6 +502,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "鳳鳴",
       En: "Fengming",
+      Ja: "鳳鳴",
+      Ko: "펑밍",
     },
     StationPosition: {
       PositionLon: 121.33658,
@@ -441,6 +521,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "桃園",
       En: "Taoyuan",
+      Ja: "桃園",
+      Ko: "타오위안",
     },
     StationPosition: {
       PositionLon: 121.31449,
@@ -458,6 +540,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "內壢",
       En: "Neili",
+      Ja: "内壢",
+      Ko: "네이리",
     },
     StationPosition: {
       PositionLon: 121.25826,
@@ -475,6 +559,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "中壢",
       En: "Zhongli_Taoyuan",
+      Ja: "中壢",
+      Ko: "중리(타오위안)",
     },
     StationPosition: {
       PositionLon: 121.22589,
@@ -492,6 +578,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "平鎮",
       En: "Pingzhen",
+      Ja: "平鎮",
+      Ko: "핑전",
     },
     StationPosition: {
       PositionLon: 121.21481,
@@ -509,6 +597,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "埔心",
       En: "Puxin",
+      Ja: "埔心",
+      Ko: "푸신",
     },
     StationPosition: {
       PositionLon: 121.18363,
@@ -526,6 +616,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "楊梅",
       En: "Yangmei",
+      Ja: "楊梅",
+      Ko: "양메이",
     },
     StationPosition: {
       PositionLon: 121.14637,
@@ -543,6 +635,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "富岡",
       En: "Fugang",
+      Ja: "富岡",
+      Ko: "푸강",
     },
     StationPosition: {
       PositionLon: 121.08309,
@@ -560,6 +654,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新富",
       En: "Xinfu",
+      Ja: "新富",
+      Ko: "신푸",
     },
     StationPosition: {
       PositionLon: 121.06751,
@@ -577,6 +673,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "北湖",
       En: "Beihu",
+      Ja: "北湖",
+      Ko: "베이후",
     },
     StationPosition: {
       PositionLon: 121.05575,
@@ -594,6 +692,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "湖口",
       En: "Hukou",
+      Ja: "湖口",
+      Ko: "후커우",
     },
     StationPosition: {
       PositionLon: 121.04412,
@@ -611,6 +711,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新豐",
       En: "Xinfeng",
+      Ja: "新豊",
+      Ko: "신펑",
     },
     StationPosition: {
       PositionLon: 120.99626,
@@ -628,6 +730,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "竹北",
       En: "Zhubei",
+      Ja: "竹北",
+      Ko: "주베이",
     },
     StationPosition: {
       PositionLon: 121.00946,
@@ -645,6 +749,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "北新竹",
       En: "North Hsinchu",
+      Ja: "北新竹",
+      Ko: "베이신주",
     },
     StationPosition: {
       PositionLon: 120.98381,
@@ -662,6 +768,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "千甲",
       En: "Qianjia",
+      Ja: "千甲",
+      Ko: "첸자",
     },
     StationPosition: {
       PositionLon: 121.0034,
@@ -679,6 +787,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新莊",
       En: "Xinzhuang",
+      Ja: "新荘",
+      Ko: "신좡",
     },
     StationPosition: {
       PositionLon: 121.02196,
@@ -696,6 +806,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "竹中",
       En: "Zhuzhong",
+      Ja: "竹中",
+      Ko: "주중",
     },
     StationPosition: {
       PositionLon: 121.03141,
@@ -713,6 +825,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "六家",
       En: "Liujia",
+      Ja: "六家",
+      Ko: "류자",
     },
     StationPosition: {
       PositionLon: 121.03941,
@@ -730,6 +844,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "上員",
       En: "Shangyuan",
+      Ja: "上員",
+      Ko: "상위안",
     },
     StationPosition: {
       PositionLon: 121.05582,
@@ -747,6 +863,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "榮華",
       En: "Ronghua",
+      Ja: "栄華",
+      Ko: "룽화",
     },
     StationPosition: {
       PositionLon: 121.08319,
@@ -764,6 +882,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "竹東",
       En: "Zhudong",
+      Ja: "竹東",
+      Ko: "주둥",
     },
     StationPosition: {
       PositionLon: 121.09472,
@@ -781,6 +901,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "橫山",
       En: "Hengshan",
+      Ja: "横山",
+      Ko: "헝산",
     },
     StationPosition: {
       PositionLon: 121.11772,
@@ -798,6 +920,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "九讚頭",
       En: "Jiuzantou",
+      Ja: "九讃頭",
+      Ko: "주짠터우",
     },
     StationPosition: {
       PositionLon: 121.13622,
@@ -815,6 +939,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "合興",
       En: "Hexing",
+      Ja: "合興",
+      Ko: "허싱",
     },
     StationPosition: {
       PositionLon: 121.15437,
@@ -832,6 +958,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "富貴",
       En: "Fugui",
+      Ja: "富貴",
+      Ko: "푸구이",
     },
     StationPosition: {
       PositionLon: 121.16743,
@@ -849,6 +977,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "內灣",
       En: "Neiwan",
+      Ja: "内湾",
+      Ko: "네이완",
     },
     StationPosition: {
       PositionLon: 121.18255,
@@ -866,6 +996,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新竹",
       En: "Hsinchu",
+      Ja: "新竹",
+      Ko: "신주",
     },
     StationPosition: {
       PositionLon: 120.97157,
@@ -883,6 +1015,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "三姓橋",
       En: "Sanxingqiao",
+      Ja: "三姓橋",
+      Ko: "싼싱차오",
     },
     StationPosition: {
       PositionLon: 120.92844,
@@ -900,6 +1034,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "香山",
       En: "Xiangshan",
+      Ja: "香山",
+      Ko: "샹산",
     },
     StationPosition: {
       PositionLon: 120.91388,
@@ -917,6 +1053,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "崎頂",
       En: "Qiding",
+      Ja: "崎頂",
+      Ko: "치딩",
     },
     StationPosition: {
       PositionLon: 120.87183,
@@ -934,6 +1072,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "竹南",
       En: "Zhunan",
+      Ja: "竹南",
+      Ko: "주난",
     },
     StationPosition: {
       PositionLon: 120.88041,
@@ -951,6 +1091,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "談文",
       En: "Tanwen",
+      Ja: "談文",
+      Ko: "탄원",
     },
     StationPosition: {
       PositionLon: 120.85825,
@@ -968,6 +1110,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大山",
       En: "Dashan",
+      Ja: "大山",
+      Ko: "다산",
     },
     StationPosition: {
       PositionLon: 120.80376,
@@ -985,6 +1129,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "後龍",
       En: "Houlong",
+      Ja: "後龍",
+      Ko: "허우룽",
     },
     StationPosition: {
       PositionLon: 120.78731,
@@ -1002,6 +1148,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "龍港",
       En: "Longgang",
+      Ja: "龍港",
+      Ko: "룽강",
     },
     StationPosition: {
       PositionLon: 120.75812,
@@ -1019,6 +1167,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "白沙屯",
       En: "Baishatun",
+      Ja: "白沙屯",
+      Ko: "바이사툰",
     },
     StationPosition: {
       PositionLon: 120.70824,
@@ -1036,6 +1186,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新埔",
       En: "Xinpu",
+      Ja: "新埔",
+      Ko: "신푸",
     },
     StationPosition: {
       PositionLon: 120.69518,
@@ -1053,6 +1205,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "通霄",
       En: "Tongxiao",
+      Ja: "通霄",
+      Ko: "퉁샤오",
     },
     StationPosition: {
       PositionLon: 120.67843,
@@ -1070,6 +1224,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "苑裡",
       En: "Yuanli",
+      Ja: "苑裡",
+      Ko: "위안리",
     },
     StationPosition: {
       PositionLon: 120.65146,
@@ -1087,6 +1243,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "日南",
       En: "Rinan",
+      Ja: "日南",
+      Ko: "르난",
     },
     StationPosition: {
       PositionLon: 120.65412,
@@ -1104,6 +1262,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大甲",
       En: "Dajia",
+      Ja: "大甲",
+      Ko: "다자",
     },
     StationPosition: {
       PositionLon: 120.62702,
@@ -1121,6 +1281,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "臺中港",
       En: "Taichung Port",
+      Ja: "台中港",
+      Ko: "타이중강",
     },
     StationPosition: {
       PositionLon: 120.60231,
@@ -1138,6 +1300,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "清水",
       En: "Qingshui",
+      Ja: "清水",
+      Ko: "칭수이",
     },
     StationPosition: {
       PositionLon: 120.56918,
@@ -1155,6 +1319,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "沙鹿",
       En: "Shalu",
+      Ja: "沙鹿",
+      Ko: "사루",
     },
     StationPosition: {
       PositionLon: 120.55752,
@@ -1172,6 +1338,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "龍井",
       En: "Longjing",
+      Ja: "龍井",
+      Ko: "룽징",
     },
     StationPosition: {
       PositionLon: 120.54335,
@@ -1189,6 +1357,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大肚",
       En: "Dadu",
+      Ja: "大肚",
+      Ko: "다두",
     },
     StationPosition: {
       PositionLon: 120.54249,
@@ -1206,6 +1376,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "追分",
       En: "Zhuifen",
+      Ja: "追分",
+      Ko: "주이펀",
     },
     StationPosition: {
       PositionLon: 120.57018,
@@ -1223,6 +1395,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "造橋",
       En: "Zaoqiao",
+      Ja: "造橋",
+      Ko: "짜오차오",
     },
     StationPosition: {
       PositionLon: 120.86721,
@@ -1240,6 +1414,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "豐富",
       En: "Fengfu",
+      Ja: "豊富",
+      Ko: "펑푸",
     },
     StationPosition: {
       PositionLon: 120.82637,
@@ -1257,6 +1433,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "苗栗",
       En: "Miaoli",
+      Ja: "苗栗",
+      Ko: "먀오리",
     },
     StationPosition: {
       PositionLon: 120.82233,
@@ -1274,6 +1452,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "南勢",
       En: "Nanshi",
+      Ja: "南勢",
+      Ko: "난스",
     },
     StationPosition: {
       PositionLon: 120.79154,
@@ -1291,6 +1471,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "銅鑼",
       En: "Tongluo",
+      Ja: "銅鑼",
+      Ko: "퉁뤄",
     },
     StationPosition: {
       PositionLon: 120.78617,
@@ -1308,6 +1490,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "三義",
       En: "Sanyi",
+      Ja: "三義",
+      Ko: "싼이",
     },
     StationPosition: {
       PositionLon: 120.77393,
@@ -1325,6 +1509,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "泰安",
       En: "Tai'an",
+      Ja: "泰安",
+      Ko: "타이안",
     },
     StationPosition: {
       PositionLon: 120.74181,
@@ -1342,6 +1528,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "后里",
       En: "Houli",
+      Ja: "后里",
+      Ko: "허우리",
     },
     StationPosition: {
       PositionLon: 120.73288,
@@ -1359,6 +1547,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "豐原",
       En: "Fengyuan",
+      Ja: "豊原",
+      Ko: "펑위안",
     },
     StationPosition: {
       PositionLon: 120.72374,
@@ -1376,6 +1566,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "栗林",
       En: "Lilin",
+      Ja: "栗林",
+      Ko: "리린",
     },
     StationPosition: {
       PositionLon: 120.7106,
@@ -1393,6 +1585,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "潭子",
       En: "Tanzi",
+      Ja: "潭子",
+      Ko: "탄쯔",
     },
     StationPosition: {
       PositionLon: 120.70564,
@@ -1410,6 +1604,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "頭家厝",
       En: "Toujiacuo",
+      Ja: "頭家厝",
+      Ko: "터우자춰",
     },
     StationPosition: {
       PositionLon: 120.70398,
@@ -1427,6 +1623,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "松竹",
       En: "Songzhu",
+      Ja: "松竹",
+      Ko: "쑹주",
     },
     StationPosition: {
       PositionLon: 120.70193,
@@ -1444,6 +1642,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "太原",
       En: "Taiyuan",
+      Ja: "太原",
+      Ko: "타이위안",
     },
     StationPosition: {
       PositionLon: 120.69988,
@@ -1461,6 +1661,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "精武",
       En: "Jingwu",
+      Ja: "精武",
+      Ko: "징우",
     },
     StationPosition: {
       PositionLon: 120.69784,
@@ -1478,6 +1680,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "臺中",
       En: "Taichung",
+      Ja: "台中",
+      Ko: "타이중",
     },
     StationPosition: {
       PositionLon: 120.68691,
@@ -1495,6 +1699,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "五權",
       En: "Wuquan",
+      Ja: "五権",
+      Ko: "우취안",
     },
     StationPosition: {
       PositionLon: 120.66654,
@@ -1512,6 +1718,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大慶",
       En: "Daqing",
+      Ja: "大慶",
+      Ko: "다칭",
     },
     StationPosition: {
       PositionLon: 120.64795,
@@ -1529,6 +1737,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "烏日",
       En: "Wuri",
+      Ja: "烏日",
+      Ko: "우르",
     },
     StationPosition: {
       PositionLon: 120.62244,
@@ -1546,6 +1756,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新烏日",
       En: "Xinwuri",
+      Ja: "新烏日",
+      Ko: "신우르",
     },
     StationPosition: {
       PositionLon: 120.61421,
@@ -1563,6 +1775,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "成功",
       En: "Chenggong",
+      Ja: "成功",
+      Ko: "청궁",
     },
     StationPosition: {
       PositionLon: 120.59021,
@@ -1580,6 +1794,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "彰化",
       En: "Changhua",
+      Ja: "彰化",
+      Ko: "장화",
     },
     StationPosition: {
       PositionLon: 120.53854,
@@ -1597,6 +1813,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "花壇",
       En: "Huatan",
+      Ja: "花壇",
+      Ko: "화탄",
     },
     StationPosition: {
       PositionLon: 120.53742,
@@ -1614,6 +1832,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大村",
       En: "Dacun",
+      Ja: "大村",
+      Ko: "다춘",
     },
     StationPosition: {
       PositionLon: 120.56062,
@@ -1631,6 +1851,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "員林",
       En: "Yuanlin",
+      Ja: "員林",
+      Ko: "위안린",
     },
     StationPosition: {
       PositionLon: 120.56977,
@@ -1648,6 +1870,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "永靖",
       En: "Yongjing",
+      Ja: "永靖",
+      Ko: "융징",
     },
     StationPosition: {
       PositionLon: 120.57173,
@@ -1665,6 +1889,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "社頭",
       En: "Shetou",
+      Ja: "社頭",
+      Ko: "서터우",
     },
     StationPosition: {
       PositionLon: 120.58077,
@@ -1682,6 +1908,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "田中",
       En: "Tianzhong",
+      Ja: "田中",
+      Ko: "톈중",
     },
     StationPosition: {
       PositionLon: 120.59146,
@@ -1699,6 +1927,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "二水",
       En: "Ershui",
+      Ja: "二水",
+      Ko: "얼수이",
     },
     StationPosition: {
       PositionLon: 120.61805,
@@ -1716,6 +1946,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "源泉",
       En: "Yuanquan",
+      Ja: "源泉",
+      Ko: "위안취안",
     },
     StationPosition: {
       PositionLon: 120.64211,
@@ -1733,6 +1965,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "濁水",
       En: "Zhuoshui",
+      Ja: "濁水",
+      Ko: "줘수이",
     },
     StationPosition: {
       PositionLon: 120.70467,
@@ -1750,6 +1984,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "龍泉",
       En: "Longquan",
+      Ja: "龍泉",
+      Ko: "룽취안",
     },
     StationPosition: {
       PositionLon: 120.75014,
@@ -1767,6 +2003,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "集集",
       En: "Jiji",
+      Ja: "集集",
+      Ko: "지지",
     },
     StationPosition: {
       PositionLon: 120.78495,
@@ -1784,6 +2022,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "水里",
       En: "Shuili",
+      Ja: "水里",
+      Ko: "수이리",
     },
     StationPosition: {
       PositionLon: 120.85332,
@@ -1801,6 +2041,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "車埕",
       En: "Checheng",
+      Ja: "車埕",
+      Ko: "처청",
     },
     StationPosition: {
       PositionLon: 120.86572,
@@ -1818,6 +2060,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "林內",
       En: "Linnei",
+      Ja: "林内",
+      Ko: "린네이",
     },
     StationPosition: {
       PositionLon: 120.61499,
@@ -1835,6 +2079,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "石榴",
       En: "Shiliu",
+      Ja: "石榴",
+      Ko: "스류",
     },
     StationPosition: {
       PositionLon: 120.57998,
@@ -1852,6 +2098,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "斗六",
       En: "Douliu",
+      Ja: "斗六",
+      Ko: "더우류",
     },
     StationPosition: {
       PositionLon: 120.54099,
@@ -1869,6 +2117,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "斗南",
       En: "Dounan",
+      Ja: "斗南",
+      Ko: "더우난",
     },
     StationPosition: {
       PositionLon: 120.48089,
@@ -1886,6 +2136,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "石龜",
       En: "Shigui",
+      Ja: "石亀",
+      Ko: "스구이",
     },
     StationPosition: {
       PositionLon: 120.47106,
@@ -1903,6 +2155,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大林",
       En: "Dalin",
+      Ja: "大林",
+      Ko: "다린",
     },
     StationPosition: {
       PositionLon: 120.45597,
@@ -1920,6 +2174,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "民雄",
       En: "Minxiong",
+      Ja: "民雄",
+      Ko: "민슝",
     },
     StationPosition: {
       PositionLon: 120.43165,
@@ -1937,6 +2193,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "嘉北",
       En: "Jiabei",
+      Ja: "嘉北",
+      Ko: "자베이",
     },
     StationPosition: {
       PositionLon: 120.44851,
@@ -1954,6 +2212,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "嘉義",
       En: "Chiayi",
+      Ja: "嘉義",
+      Ko: "자이",
     },
     StationPosition: {
       PositionLon: 120.44114,
@@ -1971,6 +2231,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "水上",
       En: "Shuishang",
+      Ja: "水上",
+      Ko: "수이상",
     },
     StationPosition: {
       PositionLon: 120.39971,
@@ -1988,6 +2250,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "南靖",
       En: "Nanjing",
+      Ja: "南靖",
+      Ko: "난징",
     },
     StationPosition: {
       PositionLon: 120.38654,
@@ -2005,6 +2269,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "後壁",
       En: "Houbi",
+      Ja: "後壁",
+      Ko: "허우비",
     },
     StationPosition: {
       PositionLon: 120.36058,
@@ -2022,6 +2288,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新營",
       En: "Xinying",
+      Ja: "新営",
+      Ko: "신잉",
     },
     StationPosition: {
       PositionLon: 120.32307,
@@ -2039,6 +2307,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "柳營",
       En: "Liuying",
+      Ja: "柳営",
+      Ko: "류잉",
     },
     StationPosition: {
       PositionLon: 120.32252,
@@ -2056,6 +2326,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "林鳳營",
       En: "Linfengying",
+      Ja: "林鳳営",
+      Ko: "린펑잉",
     },
     StationPosition: {
       PositionLon: 120.32107,
@@ -2073,6 +2345,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "隆田",
       En: "Longtian",
+      Ja: "隆田",
+      Ko: "룽톈",
     },
     StationPosition: {
       PositionLon: 120.31917,
@@ -2090,6 +2364,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "拔林",
       En: "Balin",
+      Ja: "抜林",
+      Ko: "바린",
     },
     StationPosition: {
       PositionLon: 120.32125,
@@ -2107,6 +2383,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "善化",
       En: "Shanhua",
+      Ja: "善化",
+      Ko: "산화",
     },
     StationPosition: {
       PositionLon: 120.30653,
@@ -2124,6 +2402,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "南科",
       En: "Nanke",
+      Ja: "南科",
+      Ko: "난커",
     },
     StationPosition: {
       PositionLon: 120.30202,
@@ -2141,6 +2421,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新市",
       En: "Xinshi",
+      Ja: "新市",
+      Ko: "신스",
     },
     StationPosition: {
       PositionLon: 120.29004,
@@ -2158,6 +2440,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "永康",
       En: "Yongkang",
+      Ja: "永康",
+      Ko: "융캉",
     },
     StationPosition: {
       PositionLon: 120.25347,
@@ -2175,6 +2459,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大橋",
       En: "Daqiao",
+      Ja: "大橋",
+      Ko: "다차오",
     },
     StationPosition: {
       PositionLon: 120.22429,
@@ -2192,6 +2478,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "臺南",
       En: "Tainan",
+      Ja: "台南",
+      Ko: "타이난",
     },
     StationPosition: {
       PositionLon: 120.21295,
@@ -2209,6 +2497,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "保安",
       En: "Bao'an",
+      Ja: "保安",
+      Ko: "바오안",
     },
     StationPosition: {
       PositionLon: 120.23158,
@@ -2226,6 +2516,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "仁德",
       En: "Rende",
+      Ja: "仁徳",
+      Ko: "런더",
     },
     StationPosition: {
       PositionLon: 120.24054,
@@ -2243,6 +2535,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "中洲",
       En: "Zhongzhou",
+      Ja: "中洲",
+      Ko: "중저우",
     },
     StationPosition: {
       PositionLon: 120.25284,
@@ -2260,6 +2554,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "長榮大學",
       En: "Chang Jung Christian University",
+      Ja: "長栄大学",
+      Ko: "창룽대학",
     },
     StationPosition: {
       PositionLon: 120.27263,
@@ -2277,6 +2573,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "沙崙",
       En: "Shalun",
+      Ja: "沙崙",
+      Ko: "사룬",
     },
     StationPosition: {
       PositionLon: 120.28622,
@@ -2294,6 +2592,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大湖",
       En: "Dahu",
+      Ja: "大湖",
+      Ko: "다후",
     },
     StationPosition: {
       PositionLon: 120.25384,
@@ -2311,6 +2611,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "路竹",
       En: "Luzhu",
+      Ja: "路竹",
+      Ko: "루주",
     },
     StationPosition: {
       PositionLon: 120.26619,
@@ -2328,6 +2630,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "岡山",
       En: "Gangshan",
+      Ja: "岡山",
+      Ko: "강산",
     },
     StationPosition: {
       PositionLon: 120.30004,
@@ -2345,6 +2649,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "橋頭",
       En: "Qiaotou",
+      Ja: "橋頭",
+      Ko: "차오터우",
     },
     StationPosition: {
       PositionLon: 120.31011,
@@ -2362,6 +2668,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "楠梓",
       En: "Nanzi",
+      Ja: "楠梓",
+      Ko: "난쯔",
     },
     StationPosition: {
       PositionLon: 120.32425,
@@ -2379,6 +2687,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新左營",
       En: "Xinzuoying",
+      Ja: "新左営",
+      Ko: "신쭤잉",
     },
     StationPosition: {
       PositionLon: 120.30678,
@@ -2396,6 +2706,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "左營",
       En: "Zuoying",
+      Ja: "左営",
+      Ko: "쭤잉",
     },
     StationPosition: {
       PositionLon: 120.29401,
@@ -2413,6 +2725,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "內惟",
       En: "Neiwei",
+      Ja: "内惟",
+      Ko: "네이웨이",
     },
     StationPosition: {
       PositionLon: 120.28701,
@@ -2430,6 +2744,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "美術館",
       En: "Museum of Fine Arts",
+      Ja: "高雄美術館",
+      Ko: "가오슝미술관",
     },
     StationPosition: {
       PositionLon: 120.28148,
@@ -2447,6 +2763,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "鼓山",
       En: "Gushan",
+      Ja: "鼓山",
+      Ko: "구산",
     },
     StationPosition: {
       PositionLon: 120.28071,
@@ -2464,6 +2782,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "三塊厝",
       En: "Sankuaicuo",
+      Ja: "三塊厝",
+      Ko: "싼콰이춰",
     },
     StationPosition: {
       PositionLon: 120.29414,
@@ -2481,6 +2801,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "高雄",
       En: "Kaohsiung",
+      Ja: "高雄",
+      Ko: "가오슝",
     },
     StationPosition: {
       PositionLon: 120.30292,
@@ -2498,6 +2820,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "民族",
       En: "Minzu",
+      Ja: "民族",
+      Ko: "민쭈",
     },
     StationPosition: {
       PositionLon: 120.31494,
@@ -2515,6 +2839,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "科工館",
       En: "Science And Technology Museum",
+      Ja: "国立科学技術博物館",
+      Ko: "과학기술박물관",
     },
     StationPosition: {
       PositionLon: 120.32603,
@@ -2532,6 +2858,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "正義",
       En: "Zhengyi",
+      Ja: "正義",
+      Ko: "정이",
     },
     StationPosition: {
       PositionLon: 120.34245,
@@ -2549,6 +2877,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "鳳山",
       En: "Fongshan",
+      Ja: "鳳山",
+      Ko: "펑산",
     },
     StationPosition: {
       PositionLon: 120.35745,
@@ -2566,6 +2896,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "後庄",
       En: "Houzhuang",
+      Ja: "後庄",
+      Ko: "허우좡",
     },
     StationPosition: {
       PositionLon: 120.39131,
@@ -2583,6 +2915,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "九曲堂",
       En: "Jiuqutang",
+      Ja: "九曲堂",
+      Ko: "주취탕",
     },
     StationPosition: {
       PositionLon: 120.42089,
@@ -2600,6 +2934,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "六塊厝",
       En: "Liukuaicuo",
+      Ja: "六塊厝",
+      Ko: "류콰이춰",
     },
     StationPosition: {
       PositionLon: 120.46497,
@@ -2617,6 +2953,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "屏東",
       En: "Pingtung",
+      Ja: "屏東",
+      Ko: "핑둥",
     },
     StationPosition: {
       PositionLon: 120.48617,
@@ -2634,6 +2972,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "歸來",
       En: "Guilai",
+      Ja: "帰来",
+      Ko: "구이라이",
     },
     StationPosition: {
       PositionLon: 120.50263,
@@ -2651,6 +2991,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "麟洛",
       En: "Linluo",
+      Ja: "麟洛",
+      Ko: "린뤄",
     },
     StationPosition: {
       PositionLon: 120.51432,
@@ -2668,6 +3010,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "西勢",
       En: "Xishi",
+      Ja: "西勢",
+      Ko: "시스",
     },
     StationPosition: {
       PositionLon: 120.52649,
@@ -2685,6 +3029,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "竹田",
       En: "Zhutian",
+      Ja: "竹田",
+      Ko: "주톈",
     },
     StationPosition: {
       PositionLon: 120.53978,
@@ -2702,6 +3048,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "潮州",
       En: "Chaozhou",
+      Ja: "潮州",
+      Ko: "차오저우",
     },
     StationPosition: {
       PositionLon: 120.53604,
@@ -2719,6 +3067,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "崁頂",
       En: "Kanding",
+      Ja: "崁頂",
+      Ko: "칸딩",
     },
     StationPosition: {
       PositionLon: 120.51481,
@@ -2736,6 +3086,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "南州",
       En: "Nanzhou",
+      Ja: "南州",
+      Ko: "난저우",
     },
     StationPosition: {
       PositionLon: 120.51174,
@@ -2753,6 +3105,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "鎮安",
       En: "Zhen'an",
+      Ja: "鎮安",
+      Ko: "전안",
     },
     StationPosition: {
       PositionLon: 120.51129,
@@ -2770,6 +3124,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "林邊",
       En: "Linbian",
+      Ja: "林辺",
+      Ko: "린볜",
     },
     StationPosition: {
       PositionLon: 120.51529,
@@ -2787,6 +3143,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "佳冬",
       En: "Jiadong",
+      Ja: "佳冬",
+      Ko: "자둥",
     },
     StationPosition: {
       PositionLon: 120.54774,
@@ -2804,6 +3162,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "東海",
       En: "Donghai",
+      Ja: "東海",
+      Ko: "둥하이",
     },
     StationPosition: {
       PositionLon: 120.57236,
@@ -2821,6 +3181,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "枋寮",
       En: "Fangliao",
+      Ja: "枋寮",
+      Ko: "팡랴오",
     },
     StationPosition: {
       PositionLon: 120.59511,
@@ -2838,6 +3200,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "加祿",
       En: "Jialu",
+      Ja: "加禄",
+      Ko: "자루",
     },
     StationPosition: {
       PositionLon: 120.62445,
@@ -2855,6 +3219,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "內獅",
       En: "Neishi",
+      Ja: "内獅",
+      Ko: "네이스",
     },
     StationPosition: {
       PositionLon: 120.64331,
@@ -2872,6 +3238,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "枋山",
       En: "Fangshan",
+      Ja: "枋山",
+      Ko: "팡산",
     },
     StationPosition: {
       PositionLon: 120.65947,
@@ -2889,6 +3257,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "枋野",
       En: "Fangye",
+      Ja: "枋野",
+      Ko: "팡예",
     },
     StationPosition: {
       PositionLon: 120.71709,
@@ -2906,6 +3276,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大武",
       En: "Dawu",
+      Ja: "大武",
+      Ko: "다우",
     },
     StationPosition: {
       PositionLon: 120.90094,
@@ -2923,6 +3295,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "瀧溪",
       En: "Longxi",
+      Ja: "瀧渓",
+      Ko: "룽시",
     },
     StationPosition: {
       PositionLon: 120.94176,
@@ -2940,6 +3314,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "金崙",
       En: "Jinlun",
+      Ja: "金崙",
+      Ko: "진룬",
     },
     StationPosition: {
       PositionLon: 120.96721,
@@ -2957,6 +3333,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "太麻里",
       En: "Taimali",
+      Ja: "太麻里",
+      Ko: "타이마리",
     },
     StationPosition: {
       PositionLon: 121.00492,
@@ -2974,6 +3352,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "知本",
       En: "Zhiben",
+      Ja: "知本",
+      Ko: "즈번",
     },
     StationPosition: {
       PositionLon: 121.06068,
@@ -2991,6 +3371,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "康樂",
       En: "Kangle",
+      Ja: "康楽",
+      Ko: "캉러",
     },
     StationPosition: {
       PositionLon: 121.09356,
@@ -3008,6 +3390,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "南方小站",
       En: "South",
+      Ja: "みなみ駅",
+      Ko: "남쪽역",
     },
     StationPosition: {
       PositionLon: 120.53658,
@@ -3025,6 +3409,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "潮州基地",
       En: "Chaozhou Railway Workshop",
+      Ja: "潮州基地",
+      Ko: "차오저우기지",
     },
     StationPosition: {
       PositionLon: 120.52642,
@@ -3042,6 +3428,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "臺東",
       En: "Taitung",
+      Ja: "台東",
+      Ko: "타이둥",
     },
     StationPosition: {
       PositionLon: 121.1231,
@@ -3059,6 +3447,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "山里",
       En: "Shanli",
+      Ja: "山里",
+      Ko: "산리",
     },
     StationPosition: {
       PositionLon: 121.13778,
@@ -3076,6 +3466,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "鹿野",
       En: "Luye",
+      Ja: "鹿野",
+      Ko: "루예",
     },
     StationPosition: {
       PositionLon: 121.13701,
@@ -3093,6 +3485,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "瑞源",
       En: "Ruiyuan",
+      Ja: "瑞源",
+      Ko: "루이위안",
     },
     StationPosition: {
       PositionLon: 121.15901,
@@ -3110,6 +3504,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "瑞和",
       En: "Ruihe",
+      Ja: "瑞和",
+      Ko: "루이허",
     },
     StationPosition: {
       PositionLon: 121.15595,
@@ -3127,6 +3523,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "關山",
       En: "Guanshan",
+      Ja: "関山",
+      Ko: "관산",
     },
     StationPosition: {
       PositionLon: 121.16431,
@@ -3144,6 +3542,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "海端",
       En: "Haiduan",
+      Ja: "海端",
+      Ko: "하이돤",
     },
     StationPosition: {
       PositionLon: 121.17676,
@@ -3161,6 +3561,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "池上",
       En: "Chishang",
+      Ja: "池上",
+      Ko: "츠상",
     },
     StationPosition: {
       PositionLon: 121.21949,
@@ -3178,6 +3580,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "富里",
       En: "Fuli",
+      Ja: "富里",
+      Ko: "푸리",
     },
     StationPosition: {
       PositionLon: 121.24864,
@@ -3195,6 +3599,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "東竹",
       En: "Dongzhu",
+      Ja: "東竹",
+      Ko: "둥주",
     },
     StationPosition: {
       PositionLon: 121.27842,
@@ -3212,6 +3618,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "東里",
       En: "Dongli",
+      Ja: "東里",
+      Ko: "둥리",
     },
     StationPosition: {
       PositionLon: 121.30418,
@@ -3229,6 +3637,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "玉里",
       En: "Yuli",
+      Ja: "玉里",
+      Ko: "위리",
     },
     StationPosition: {
       PositionLon: 121.31172,
@@ -3246,6 +3656,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "三民",
       En: "Sanmin",
+      Ja: "三民",
+      Ko: "싼민",
     },
     StationPosition: {
       PositionLon: 121.34539,
@@ -3263,6 +3675,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "瑞穗",
       En: "Ruisui",
+      Ja: "瑞穂",
+      Ko: "루이쑤이",
     },
     StationPosition: {
       PositionLon: 121.37684,
@@ -3280,6 +3694,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "富源",
       En: "Fuyuan",
+      Ja: "富源",
+      Ko: "푸위안",
     },
     StationPosition: {
       PositionLon: 121.38008,
@@ -3297,6 +3713,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大富",
       En: "Dafu",
+      Ja: "大富",
+      Ko: "다푸",
     },
     StationPosition: {
       PositionLon: 121.38963,
@@ -3314,6 +3732,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "光復",
       En: "Guangfu",
+      Ja: "光復",
+      Ko: "광푸",
     },
     StationPosition: {
       PositionLon: 121.42117,
@@ -3331,6 +3751,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "萬榮",
       En: "Wanrong",
+      Ja: "萬栄",
+      Ko: "완룽",
     },
     StationPosition: {
       PositionLon: 121.41907,
@@ -3348,6 +3770,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "鳳林",
       En: "Fenglin",
+      Ja: "鳳林",
+      Ko: "펑린",
     },
     StationPosition: {
       PositionLon: 121.44701,
@@ -3365,6 +3789,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "南平",
       En: "Nanping",
+      Ja: "南平",
+      Ko: "난핑",
     },
     StationPosition: {
       PositionLon: 121.45824,
@@ -3382,6 +3808,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "林榮新光",
       En: "Linrong Shin Kong",
+      Ja: "林栄新光",
+      Ko: "린룽신광",
     },
     StationPosition: {
       PositionLon: 121.46169,
@@ -3399,6 +3827,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "豐田",
       En: "Fengtian",
+      Ja: "豊田",
+      Ko: "펑톈",
     },
     StationPosition: {
       PositionLon: 121.49618,
@@ -3416,6 +3846,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "壽豐",
       En: "Shoufeng",
+      Ja: "寿豊",
+      Ko: "서우펑",
     },
     StationPosition: {
       PositionLon: 121.51064,
@@ -3433,6 +3865,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "平和",
       En: "Pinghe",
+      Ja: "平和",
+      Ko: "핑허",
     },
     StationPosition: {
       PositionLon: 121.52045,
@@ -3450,6 +3884,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "志學",
       En: "Zhixue",
+      Ja: "志学",
+      Ko: "즈쉐",
     },
     StationPosition: {
       PositionLon: 121.5295,
@@ -3467,6 +3903,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "吉安",
       En: "Ji'an",
+      Ja: "吉安",
+      Ko: "지안",
     },
     StationPosition: {
       PositionLon: 121.58266,
@@ -3484,6 +3922,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "花蓮",
       En: "Hualien",
+      Ja: "花蓮",
+      Ko: "화롄",
     },
     StationPosition: {
       PositionLon: 121.60131,
@@ -3501,6 +3941,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "北埔",
       En: "Beipu",
+      Ja: "北埔",
+      Ko: "베이푸",
     },
     StationPosition: {
       PositionLon: 121.60166,
@@ -3518,6 +3960,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "景美",
       En: "Jingmei",
+      Ja: "景美",
+      Ko: "징메이",
     },
     StationPosition: {
       PositionLon: 121.61095,
@@ -3535,6 +3979,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新城",
       En: "Xincheng",
+      Ja: "新城",
+      Ko: "신청",
     },
     StationPosition: {
       PositionLon: 121.64086,
@@ -3552,6 +3998,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "崇德",
       En: "Chongde",
+      Ja: "崇徳",
+      Ko: "충더",
     },
     StationPosition: {
       PositionLon: 121.65536,
@@ -3569,6 +4017,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "和仁",
       En: "Heren",
+      Ja: "和仁",
+      Ko: "허런",
     },
     StationPosition: {
       PositionLon: 121.71182,
@@ -3586,6 +4036,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "和平",
       En: "Heping",
+      Ja: "和平",
+      Ko: "허핑",
     },
     StationPosition: {
       PositionLon: 121.75344,
@@ -3603,6 +4055,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "漢本",
       En: "Hanben",
+      Ja: "漢本",
+      Ko: "한번",
     },
     StationPosition: {
       PositionLon: 121.76838,
@@ -3620,6 +4074,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "武塔",
       En: "Wuta",
+      Ja: "武塔",
+      Ko: "우타",
     },
     StationPosition: {
       PositionLon: 121.77601,
@@ -3637,6 +4093,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "南澳",
       En: "Nan'ao",
+      Ja: "南澳",
+      Ko: "난아오",
     },
     StationPosition: {
       PositionLon: 121.80103,
@@ -3654,6 +4112,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "東澳",
       En: "Dong'ao",
+      Ja: "東澳",
+      Ko: "둥아오",
     },
     StationPosition: {
       PositionLon: 121.83072,
@@ -3671,6 +4131,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "永樂",
       En: "Yongle",
+      Ja: "永楽",
+      Ko: "융러",
     },
     StationPosition: {
       PositionLon: 121.84458,
@@ -3688,6 +4150,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "蘇澳",
       En: "Su'ao",
+      Ja: "蘇澳",
+      Ko: "쑤아오",
     },
     StationPosition: {
       PositionLon: 121.85143,
@@ -3705,6 +4169,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "蘇澳新",
       En: "Su'aoxin",
+      Ja: "蘇澳新",
+      Ko: "쑤아오신",
     },
     StationPosition: {
       PositionLon: 121.82735,
@@ -3722,6 +4188,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "新馬",
       En: "Xinma",
+      Ja: "新馬",
+      Ko: "신마",
     },
     StationPosition: {
       PositionLon: 121.82291,
@@ -3739,6 +4207,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "冬山",
       En: "Dongshan",
+      Ja: "冬山",
+      Ko: "둥산",
     },
     StationPosition: {
       PositionLon: 121.79211,
@@ -3756,6 +4226,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "羅東",
       En: "Luodong",
+      Ja: "羅東",
+      Ko: "뤄둥",
     },
     StationPosition: {
       PositionLon: 121.77464,
@@ -3773,6 +4245,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "中里",
       En: "Zhongli_Yilan",
+      Ja: "中里",
+      Ko: "중리(이란)",
     },
     StationPosition: {
       PositionLon: 121.77526,
@@ -3790,6 +4264,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "二結",
       En: "Erjie",
+      Ja: "二結",
+      Ko: "얼제",
     },
     StationPosition: {
       PositionLon: 121.77409,
@@ -3807,6 +4283,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "宜蘭",
       En: "Yilan",
+      Ja: "宜蘭",
+      Ko: "이란",
     },
     StationPosition: {
       PositionLon: 121.75803,
@@ -3824,6 +4302,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "四城",
       En: "Sicheng",
+      Ja: "四城",
+      Ko: "쓰청",
     },
     StationPosition: {
       PositionLon: 121.76271,
@@ -3841,6 +4321,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "礁溪",
       En: "Jiaoxi",
+      Ja: "礁渓",
+      Ko: "자오시",
     },
     StationPosition: {
       PositionLon: 121.77535,
@@ -3858,6 +4340,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "頂埔",
       En: "Dingpu",
+      Ja: "頂埔",
+      Ko: "딩푸",
     },
     StationPosition: {
       PositionLon: 121.80913,
@@ -3875,6 +4359,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "頭城",
       En: "Toucheng",
+      Ja: "頭城",
+      Ko: "터우청",
     },
     StationPosition: {
       PositionLon: 121.82258,
@@ -3892,6 +4378,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "外澳",
       En: "Wai'ao",
+      Ja: "外澳",
+      Ko: "와이아오",
     },
     StationPosition: {
       PositionLon: 121.84572,
@@ -3909,6 +4397,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "龜山",
       En: "Guishan",
+      Ja: "亀山",
+      Ko: "구이산",
     },
     StationPosition: {
       PositionLon: 121.8689,
@@ -3926,6 +4416,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大溪",
       En: "Daxi",
+      Ja: "大渓",
+      Ko: "다시",
     },
     StationPosition: {
       PositionLon: 121.88983,
@@ -3943,6 +4435,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大里",
       En: "Dali",
+      Ja: "大里",
+      Ko: "다리",
     },
     StationPosition: {
       PositionLon: 121.92253,
@@ -3960,6 +4454,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "石城",
       En: "Shicheng",
+      Ja: "石城",
+      Ko: "스청",
     },
     StationPosition: {
       PositionLon: 121.94507,
@@ -3977,6 +4473,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "福隆",
       En: "Fulong",
+      Ja: "福隆",
+      Ko: "푸롱",
     },
     StationPosition: {
       PositionLon: 121.94471,
@@ -3994,6 +4492,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "貢寮",
       En: "Gongliao",
+      Ja: "貢寮",
+      Ko: "궁랴오",
     },
     StationPosition: {
       PositionLon: 121.90879,
@@ -4011,6 +4511,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "雙溪",
       En: "Shuangxi",
+      Ja: "双渓",
+      Ko: "솽시",
     },
     StationPosition: {
       PositionLon: 121.86654,
@@ -4028,6 +4530,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "牡丹",
       En: "Mudan",
+      Ja: "牡丹",
+      Ko: "무단",
     },
     StationPosition: {
       PositionLon: 121.85197,
@@ -4045,6 +4549,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "三貂嶺",
       En: "Sandiaoling",
+      Ja: "三貂嶺",
+      Ko: "싼댜오링",
     },
     StationPosition: {
       PositionLon: 121.82257,
@@ -4062,6 +4568,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "大華",
       En: "Dahua",
+      Ja: "大華",
+      Ko: "다화",
     },
     StationPosition: {
       PositionLon: 121.79732,
@@ -4079,6 +4587,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "十分",
       En: "Shifen",
+      Ja: "十分",
+      Ko: "스펀",
     },
     StationPosition: {
       PositionLon: 121.77514,
@@ -4096,6 +4606,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "望古",
       En: "Wanggu",
+      Ja: "望古",
+      Ko: "왕구",
     },
     StationPosition: {
       PositionLon: 121.76349,
@@ -4113,6 +4625,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "嶺腳",
       En: "Lingjiao",
+      Ja: "嶺脚",
+      Ko: "링자오",
     },
     StationPosition: {
       PositionLon: 121.74795,
@@ -4130,6 +4644,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "平溪",
       En: "Pingxi",
+      Ja: "平渓",
+      Ko: "핑시",
     },
     StationPosition: {
       PositionLon: 121.74019,
@@ -4147,6 +4663,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "菁桐",
       En: "Jingtong",
+      Ja: "菁桐",
+      Ko: "징퉁",
     },
     StationPosition: {
       PositionLon: 121.72391,
@@ -4164,6 +4682,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "猴硐",
       En: "Houtong",
+      Ja: "猴硐",
+      Ko: "허우통",
     },
     StationPosition: {
       PositionLon: 121.82743,
@@ -4181,6 +4701,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "瑞芳",
       En: "Ruifang",
+      Ja: "瑞芳",
+      Ko: "루이팡",
     },
     StationPosition: {
       PositionLon: 121.80599,
@@ -4198,6 +4720,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "海科館",
       En: "Haikeguan",
+      Ja: "海科館",
+      Ko: "하이커관",
     },
     StationPosition: {
       PositionLon: 121.79997,
@@ -4215,6 +4739,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "八斗子",
       En: "Badouzi",
+      Ja: "八斗子",
+      Ko: "바더우쯔",
     },
     StationPosition: {
       PositionLon: 121.80286,
@@ -4233,6 +4759,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "四腳亭",
       En: "Sijiaoting",
+      Ja: "四脚亭",
+      Ko: "쓰자오팅",
     },
     StationPosition: {
       PositionLon: 121.76195,
@@ -4250,6 +4778,8 @@ export const trStationDataList: TrStationData[] = [
     StationName: {
       Zh_tw: "暖暖",
       En: "Nuannuan",
+      Ja: "暖暖",
+      Ko: "놘놘",
     },
     StationPosition: {
       PositionLon: 121.74031,
@@ -4270,6 +4800,8 @@ export interface ThsrStationData {
   StationName: {
     Zh_tw: string;
     En: string;
+    Ja: string;
+    Ko: string;
   };
   StationAddress: string;
   OperatorID: string;
@@ -4294,6 +4826,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "南港",
       En: "Nangang",
+      Ja: "南港",
+      Ko: "난강",
     },
     StationAddress: "台北市南港區南港路一段313號",
     OperatorID: "THSR",
@@ -4316,6 +4850,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "台北",
       En: "Taipei",
+      Ja: "台北",
+      Ko: "타이베이",
     },
     StationAddress: "台北市北平西路3號",
     OperatorID: "THSR",
@@ -4338,6 +4874,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "板橋",
       En: "Banqiao",
+      Ja: "板橋",
+      Ko: "반차오",
     },
     StationAddress: "新北市板橋區縣民大道二段7號",
     OperatorID: "THSR",
@@ -4360,6 +4898,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "桃園",
       En: "Taoyuan",
+      Ja: "桃園",
+      Ko: "타오위안",
     },
     StationAddress: "桃園市中壢區高鐵北路一段6號",
     OperatorID: "THSR",
@@ -4382,6 +4922,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "新竹",
       En: "Hsinchu",
+      Ja: "新竹",
+      Ko: "신주",
     },
     StationAddress: "新竹縣竹北市高鐵七路6號",
     OperatorID: "THSR",
@@ -4404,6 +4946,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "苗栗",
       En: "Miaoli",
+      Ja: "苗栗",
+      Ko: "먀오리",
     },
     StationAddress: "苗栗縣後龍鎮高鐵三路268號",
     OperatorID: "THSR",
@@ -4426,6 +4970,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "台中",
       En: "Taichung",
+      Ja: "台中",
+      Ko: "타이중",
     },
     StationAddress: "台中市烏日區站區二路8號",
     OperatorID: "THSR",
@@ -4448,6 +4994,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "彰化",
       En: "Changhua",
+      Ja: "彰化",
+      Ko: "장화",
     },
     StationAddress: "彰化縣田中鎮站區路二段99號",
     OperatorID: "THSR",
@@ -4470,6 +5018,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "雲林",
       En: "Yunlin",
+      Ja: "雲林",
+      Ko: "윈린",
     },
     StationAddress: "雲林縣虎尾鎮站前東路301號",
     OperatorID: "THSR",
@@ -4492,6 +5042,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "嘉義",
       En: "Chiayi",
+      Ja: "嘉義",
+      Ko: "자이",
     },
     StationAddress: "嘉義縣太保市高鐵西路168號",
     OperatorID: "THSR",
@@ -4514,6 +5066,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "台南",
       En: "Tainan",
+      Ja: "台南",
+      Ko: "타이난",
     },
     StationAddress: "台南市歸仁區歸仁大道100號",
     OperatorID: "THSR",
@@ -4536,6 +5090,8 @@ export const thsrStationDataList: ThsrStationData[] = [
     StationName: {
       Zh_tw: "左營",
       En: "Zuoying",
+      Ja: "左營",
+      Ko: "쭤잉",
     },
     StationAddress: "高雄市左營區高鐵路105號",
     OperatorID: "THSR",
@@ -4562,6 +5118,8 @@ export interface TymcStationData {
   StationName: {
     Zh_tw: string;
     En: string;
+    Ja: string;
+    Ko: string;
   };
   /** 車站地址 */
   StationAddress: string;
@@ -4599,6 +5157,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "台北車站",
       En: "Taipei Main Station",
+      Ja: "台北駅",
+      Ko: "타이베이 역",
     },
     StationAddress: "台北市中正區鄭州路8號",
     BikeAllowOnHoliday: true,
@@ -4621,6 +5181,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "三重站",
       En: "Sanchong Station",
+      Ja: "三重駅",
+      Ko: "싼충 역",
     },
     StationAddress: "新北市三重區捷運路36號",
     BikeAllowOnHoliday: true,
@@ -4643,6 +5205,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "新北產業園區站",
       En: "New Taipei Industrial Park Station",
+      Ja: "新北産業園区駅",
+      Ko: "뉴 타이베이 산업 단지 역",
     },
     StationAddress: "新北市新莊區五工路37號",
     BikeAllowOnHoliday: true,
@@ -4665,6 +5229,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "新莊副都心站",
       En: "Xinzhuang Fuduxin Station",
+      Ja: "新荘副都心駅",
+      Ko: "신좡 부도심 역",
     },
     StationAddress: "新北市新莊區新北大道四段188號",
     BikeAllowOnHoliday: true,
@@ -4687,6 +5253,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "泰山站",
       En: "Taishan Station",
+      Ja: "泰山駅",
+      Ko: "타이산 역",
     },
     StationAddress: "新北市泰山區新北大道四段431號",
     BikeAllowOnHoliday: true,
@@ -4709,6 +5277,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "泰山貴和站",
       En: "Taishan Guihe Station",
+      Ja: "泰山貴和駅",
+      Ko: "타이산 구이허 역",
     },
     StationAddress: "新北市泰山區新北大道六段460號",
     BikeAllowOnHoliday: true,
@@ -4731,6 +5301,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "體育大學站",
       En: "National Taiwan Sport University Station",
+      Ja: "体育大学駅",
+      Ko: "국립 체육대학교 역",
     },
     StationAddress: "桃園市龜山區文化一路688號",
     BikeAllowOnHoliday: true,
@@ -4753,6 +5325,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "長庚醫院站",
       En: "Chang Gung Memorial Hospital Station",
+      Ja: "長庚病院駅",
+      Ko: "창겅병원 역",
     },
     StationAddress: "桃園市龜山區文化一路6號",
     BikeAllowOnHoliday: true,
@@ -4775,6 +5349,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "林口站",
       En: "Linkou Station",
+      Ja: "林口駅",
+      Ko: "린커우 역",
     },
     StationAddress: "新北市林口區八德路290號",
     BikeAllowOnHoliday: true,
@@ -4797,6 +5373,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "山鼻站",
       En: "Shanbi Station",
+      Ja: "山鼻駅",
+      Ko: "산비 역",
     },
     StationAddress: "桃園市蘆竹區南山路三段155號",
     BikeAllowOnHoliday: true,
@@ -4819,6 +5397,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "坑口站",
       En: "Kengkou Station",
+      Ja: "坑口駅",
+      Ko: "컹커우 역",
     },
     StationAddress: "桃園市蘆竹區坑菓路460號",
     BikeAllowOnHoliday: true,
@@ -4841,6 +5421,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "機場第一航廈站",
       En: "Airport Terminal 1 Station",
+      Ja: "空港第1ターミナル駅",
+      Ko: "공항 터미널 1 역",
     },
     StationAddress: "桃園市大園區航站南路17之1號",
     BikeAllowOnHoliday: true,
@@ -4863,6 +5445,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "機場第二航廈站",
       En: "Airport Terminal 2 Station",
+      Ja: "空港第2ターミナル駅",
+      Ko: "공항 터미널 2 역",
     },
     StationAddress: "桃園市大園區航站南路9號地下一層之1號",
     BikeAllowOnHoliday: true,
@@ -4885,6 +5469,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "機場旅館站",
       En: "Airport Hotel Station",
+      Ja: "空港ホテル駅",
+      Ko: "공항호텔 역",
     },
     StationAddress: "桃園市大園區航站南路1之2號",
     BikeAllowOnHoliday: true,
@@ -4907,6 +5493,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "大園站",
       En: "Dayuan Station",
+      Ja: "大園駅",
+      Ko: "다위안 역",
     },
     StationAddress: "桃園市大園區橫湳一路50號",
     BikeAllowOnHoliday: true,
@@ -4929,6 +5517,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "橫山站",
       En: "Hengshan Station",
+      Ja: "橫山駅",
+      Ko: "헝산 역",
     },
     StationAddress: "桃園市大園區大竹南路1180號",
     BikeAllowOnHoliday: true,
@@ -4951,6 +5541,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "領航站",
       En: "Linghang Station",
+      Ja: "領航駅",
+      Ko: "링항 역",
     },
     StationAddress: "桃園市大園區橫峰里37鄰領航北路四段351號",
     BikeAllowOnHoliday: true,
@@ -4973,6 +5565,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "高鐵桃園站",
       En: "Taoyuan HSR Station",
+      Ja: "高鉄桃園駅",
+      Ko: "타오위안 고속철도 역",
     },
     StationAddress: "桃園市中壢區青埔里2鄰高鐵北路一段5號",
     BikeAllowOnHoliday: true,
@@ -4995,6 +5589,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "桃園體育園區站",
       En: "Taoyuan Sports Park Station",
+      Ja: "桃園体育園区駅",
+      Ko: "타오위안 체육 공원 역",
     },
     StationAddress: "桃園市中壢區芝芭里1鄰高鐵南路二段350號",
     BikeAllowOnHoliday: true,
@@ -5017,6 +5613,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "興南站",
       En: "Xingnan Station",
+      Ja: "興南駅",
+      Ko: "싱난 역",
     },
     StationAddress: "桃園市中壢區興和里6鄰中豐北路一段685號",
     BikeAllowOnHoliday: true,
@@ -5039,6 +5637,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "環北站",
       En: "Huanbei Station",
+      Ja: "環北駅",
+      Ko: "환베이 역",
     },
     StationAddress: "桃園市中壢區中豐北路一段26號",
     BikeAllowOnHoliday: true,
@@ -5061,6 +5661,8 @@ export const tymcStationDataList: TymcStationData[] = [
     StationName: {
       Zh_tw: "老街溪站",
       En: "Laojie River Station",
+      Ja: "老街溪駅",
+      Ko: "라오제시 역",
     },
     StationAddress: "桃園市中壢區中豐路289號",
     BikeAllowOnHoliday: true,

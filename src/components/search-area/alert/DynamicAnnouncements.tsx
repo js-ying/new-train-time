@@ -1,6 +1,6 @@
 import CommonAlert from "@/components/common/CommonAlert";
 import { JsyAnnouncement } from "@/models/jsy-announcement";
-import { useTranslation } from "next-i18next";
+import useLang from "@/hooks/useLang";
 import { FC } from "react";
 
 interface DynamicAnnouncementsProps {
@@ -11,8 +11,8 @@ interface DynamicAnnouncementsProps {
 const DynamicAnnouncements: FC<DynamicAnnouncementsProps> = ({
   announcements,
 }) => {
-  const { i18n } = useTranslation();
-  const isEn = i18n.language === "en";
+  // 公告只有中英，非中文語系一律顯示英文
+  const { isZh } = useLang();
 
   if (!announcements || announcements.length === 0) return null;
 
@@ -23,7 +23,7 @@ const DynamicAnnouncements: FC<DynamicAnnouncementsProps> = ({
           key={ann.id}
           severity={ann.severity === "CRITICAL" ? "error" : "warning"}
         >
-          {isEn ? ann.contentEn : ann.contentZhTw}
+          {isZh ? ann.contentZhTw : ann.contentEn}
         </CommonAlert>
       ))}
     </div>

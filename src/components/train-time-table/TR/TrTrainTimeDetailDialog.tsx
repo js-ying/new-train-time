@@ -1,10 +1,11 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import Loading from "@/components/common/Loading";
 import CaptureIcon from "@/components/icons/CaptureIcon";
 import { GaEnum } from "@/enums/GaEnum";
 import { useCaptureShare } from "@/hooks/useCaptureShare";
 import { JsyTrTimetable } from "@/models/jsy-tr-info";
 
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import {
   getTrTrainTypeNameByCode,
   getTrTripLineNameByValue,
@@ -39,8 +40,8 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
   data,
   queryStationIds,
 }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const stationName = useStationName(PageEnum.TR);
 
   const { isCapturing, capture } = useCaptureShare({
     selector: ".tr-detail-dialog",
@@ -70,8 +71,15 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
                 {data.trainInfo.trainNo}{" "}
                 {getTrTripLineNameByValue(data.trainInfo.tripLine, t)}{" "}
                 {getTrTrainTypeNameByCode(data.trainInfo.trainTypeCode, t)}{" "}
-                {data.trainInfo.startingStationName[langKey]} -{" "}
-                {data.trainInfo.endingStationName[langKey]}
+                {stationName(
+                  data.trainInfo.startingStationId,
+                  data.trainInfo.startingStationName,
+                )}{" "}
+                -{" "}
+                {stationName(
+                  data.trainInfo.endingStationId,
+                  data.trainInfo.endingStationName,
+                )}
               </ModalHeader>
               <ModalBody>
                 <TrTrainDetail data={data} queryStationIds={queryStationIds} />

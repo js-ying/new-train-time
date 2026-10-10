@@ -1,9 +1,10 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import ChevronToggleIcon from "@/components/common/ChevronToggleIcon";
 import { SOLID_BADGE } from "@/configs/badgeStyles";
 import { GaEnum } from "@/enums/GaEnum";
 import { JsyTrTransferCombination } from "@/models/jsy-tr-info";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import { getTimeDiff, isTrTrainOnlyTicket } from "@/utils/TrainInfoUtils";
 import { useTranslation } from "next-i18next";
 import { FC, Fragment, useEffect, useMemo, useState } from "react";
@@ -28,8 +29,8 @@ const TrTransferCard: FC<TrTransferCardProps> = ({
   trainDate,
   expandSignal,
 }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const stationName = useStationName(PageEnum.TR);
   const [expanded, setExpanded] = useState(false);
 
   // 父層送出新 signal 時同步；signal.key 變化 effect 才觸發，使用者個別摺收不受干擾
@@ -37,7 +38,7 @@ const TrTransferCard: FC<TrTransferCardProps> = ({
     if (expandSignal) setExpanded(expandSignal.value);
   }, [expandSignal]);
 
-  const { legs, hubStations, waitMinutes } = combination;
+  const { legs, hubStations, hubStationIds, waitMinutes } = combination;
   const firstLeg = legs[0];
   const lastLeg = legs[legs.length - 1];
 
@@ -50,12 +51,12 @@ const TrTransferCard: FC<TrTransferCardProps> = ({
   // 起 → hub → ... → 終 的站名串，hubStations 已含所有中間轉乘站
   const stationPath = useMemo(() => {
     const stations = [
-      firstLeg.boardStopTime.stationName[langKey],
-      ...hubStations.map((h) => h[langKey]),
-      lastLeg.alightStopTime.stationName[langKey],
+      stationName(firstLeg.boardStopTime.stationId, firstLeg.boardStopTime.stationName),
+      ...hubStations.map((h, i) => stationName(hubStationIds[i], h)),
+      stationName(lastLeg.alightStopTime.stationId, lastLeg.alightStopTime.stationName),
     ];
     return stations.join(" ➔ ");
-  }, [firstLeg, lastLeg, hubStations, langKey]);
+  }, [firstLeg, lastLeg, hubStations, hubStationIds, stationName]);
 
   const timeRange = `${firstLeg.boardStopTime.departureTime} - ${lastLeg.alightStopTime.arrivalTime}`;
 
@@ -135,7 +136,7 @@ const TrTransferCard: FC<TrTransferCardProps> = ({
               {i < legs.length - 1 && (
                 <div className="text-center text-xs text-muted-foreground">
                   {t("transferWaitAt", {
-                    station: hubStations[i][langKey],
+                    station: stationName(hubStationIds[i], hubStations[i]),
                     minutes: waitMinutes[i],
                   })}
                 </div>

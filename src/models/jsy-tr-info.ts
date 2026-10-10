@@ -74,6 +74,8 @@ export interface JsyTrStationDirection {
   northSouth: "north" | "south" | null;
   /** 代表終點大站（取該站該方向實際列車終點最常見的 1-2 站） */
   terminals: JsyName[];
+  /** 與 terminals 同序的站號 */
+  terminalIds: string[];
 }
 
 /** 單站全日方向別時刻表（北上/南下時刻表頁用） */
@@ -120,6 +122,8 @@ export interface JsyTrTransferCombination {
   totalMinutes: number;
   /** 該方案經過的轉乘站（length = legs.length - 1） */
   hubStations: JsyName[];
+  /** 與 hubStations 同序的站號 */
+  hubStationIds: string[];
 }
 
 export interface JsyTrTransferInfo {

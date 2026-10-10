@@ -1,3 +1,5 @@
+import useStationName from "@/hooks/useStationName";
+import { PageEnum } from "@/enums/PageEnum";
 import CommonDialog from "@/components/common/CommonDialog";
 import Loading from "@/components/common/Loading";
 import TrTrainTimeDetailDialog from "@/components/train-time-table/TR/TrTrainTimeDetailDialog";
@@ -7,7 +9,6 @@ import { JsyTrTimetable, JsyTrTransferLeg } from "@/models/jsy-tr-info";
 import { getJsyTrTrainStopTimes } from "@/services/trService";
 import DateUtils from "@/utils/DateUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import { getTimeDiff, getTrTrainTypeNameByCode } from "@/utils/TrainInfoUtils";
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
@@ -34,9 +35,9 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
   const [detail, setDetail] = useState<JsyTrTimetable | null>(null);
   const [loading, setLoading] = useState(false);
   const [staleDialogOpen, setStaleDialogOpen] = useState(false);
-  const { t, i18n } = useTranslation();
-  const { isTw } = useLang();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
+  const { isCjkLayout } = useLang();
+  const stationName = useStationName(PageEnum.TR);
 
   // 把 leg 包成右區塊期待的 JsyTrTimetable 形狀；stopTimes 只帶該段上下車兩站（訂票 OD 與發車時間判斷皆以該段為準）
   const pseudoTimetable: JsyTrTimetable = useMemo(
@@ -139,21 +140,36 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
             <TrTrainType
               code={leg.trainInfo.trainTypeCode}
               trainTypeName={trainTypeName}
-              className={isTw ? "mx-auto block max-w-14 text-center" : ""}
+              className={
+                isCjkLayout ? "mx-auto block max-w-14 text-center" : ""
+              }
             />
           </div>
           <div>
-            {leg.trainInfo.startingStationName[langKey]} -{" "}
-            {leg.trainInfo.endingStationName[langKey]}
+            {stationName(
+              leg.trainInfo.startingStationId,
+              leg.trainInfo.startingStationName,
+            )}{" "}
+            -{" "}
+            {stationName(
+              leg.trainInfo.endingStationId,
+              leg.trainInfo.endingStationName,
+            )}
           </div>
         </div>
 
         {/* 中：該段上下車站 / 時刻區間 / 搭乘時長 — 對齊直達 TrTimeInfoMidArea，多加上方該段 OD */}
         <div className="col-span-2 text-center">
           <div className="mb-1 truncate text-sm text-muted-foreground">
-            {leg.boardStopTime.stationName[langKey]}
+            {stationName(
+              leg.boardStopTime.stationId,
+              leg.boardStopTime.stationName,
+            )}
             {" ➔ "}
-            {leg.alightStopTime.stationName[langKey]}
+            {stationName(
+              leg.alightStopTime.stationId,
+              leg.alightStopTime.stationName,
+            )}
           </div>
           <div className="text-md">{timeRange}</div>
           <div className="text-sm text-muted-foreground">{durationText}</div>
