@@ -15,6 +15,10 @@ export const updateDataList = [
     items: [
       {
         type: "update",
+        content: "調整全系統彈窗的內文排版",
+      },
+      {
+        type: "update",
         content: "調整台鐵單站時刻的列車卡片排版",
       },
       {
