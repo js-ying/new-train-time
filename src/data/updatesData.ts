@@ -27,7 +27,7 @@ export const updateDataList = [
       },
       {
         type: "update",
-        content: "調整英文用詞",
+        content: "統一英文介面的用詞與大小寫，並改用各營運商的官方英文名稱",
       },
     ],
   },
