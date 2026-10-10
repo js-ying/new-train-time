@@ -21,6 +21,10 @@ export const updateDataList = [
         type: "update",
         content: "改善多處英文介面於小螢幕手機的排版",
       },
+      {
+        type: "update",
+        content: "調整英文用詞",
+      },
     ],
   },
   {
