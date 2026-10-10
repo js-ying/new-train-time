@@ -91,10 +91,12 @@ const PageSeo: FC<PageSeoProps> = ({
             ? { images: [{ url: seo.ogImage, alt: seo.ogTitle(t) }] }
             : {}),
         }}
-        // og:locale:alternate 不在 next-seo 的 openGraph 型別內，用 additionalMetaTags 補
+        // og:locale:alternate 不在 next-seo 的 openGraph 型別內，用 additionalMetaTags 補；
+        // next-seo 以 property 去重，多個語系須各給 keyOverride
         additionalMetaTags={ogAlternateLocales.map((loc) => ({
           property: "og:locale:alternate",
           content: loc,
+          keyOverride: `og:locale:alternate:${loc}`,
         }))}
       />
       {showSiteEntity && <WebSiteJsonLd />}

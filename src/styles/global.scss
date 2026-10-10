@@ -112,6 +112,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 韓文以詞（空格）為換行單位；單詞過長仍可斷開 */
+html:lang(ko) body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 韓文頁中只有中文的內容（標 lang="zh-Hant"）無空格可斷，恢復一般斷行 */
+html:lang(ko) :lang(zh) {
+  word-break: normal;
+}
+
+/* 日韓頁中只有中文的內容（標 lang="zh-Hant"）沿用繁中字體 */
+html:lang(ja) :lang(zh),
+html:lang(ko) :lang(zh) {
+  font-family: var(--font-app-latin), var(--font-app-sans-zh);
+}
+
 /* HeroUI 多個元件（Button / Input / Select / Tabs…）base 自帶 subpixel-antialiased，
    會在 macOS 上把字「增肥」並蓋掉 body 的 antialiased，使這些元件比全站其他文字粗。
    統一覆寫回灰階抗鋸齒，讓全站在 macOS 上字重一致；用 body 前綴提高 specificity

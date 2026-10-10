@@ -1,4 +1,5 @@
 import { LocaleEnum } from "@/enums/LocaleEnum";
+import { ALL_LOCALES } from "@/utils/LocaleUtils";
 import {
   Modal,
   ModalBody,
@@ -89,7 +90,7 @@ const LocaleSuggestionDialog: FC = () => {
       return;
     }
 
-    const supported: LocaleEnum[] = [LocaleEnum.TW, LocaleEnum.EN];
+    const supported = ALL_LOCALES;
     const browserLangs = Array.from(
       navigator.languages || [navigator.language || ""],
     );

@@ -63,7 +63,8 @@ const BusOperationAlert: FC<BusOperationAlertProps> = ({ alerts }) => {
               ${index < alerts.length - 1 ? " mb-4 " : ""}
             `}
           >
-            <div className="whitespace-pre-line">
+            {/* 通阻內容只有中文 */}
+            <div className="whitespace-pre-line" lang="zh-Hant">
               <span
                 className={`font-bold ${ALERT_STATUS_COLORS.get(alert.status)!.text}`}
               >

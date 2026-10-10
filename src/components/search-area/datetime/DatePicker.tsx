@@ -8,9 +8,12 @@ import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/en";
+import "dayjs/locale/ja";
+import "dayjs/locale/ko";
 import "dayjs/locale/zh-tw";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import { LocaleEnum } from "@/enums/LocaleEnum";
 import { useTranslation } from "next-i18next";
 import { FC, useContext } from "react";
 
@@ -18,9 +21,17 @@ import { FC, useContext } from "react";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+/** 語系 → dayjs locale */
+const DAYJS_LOCALE: Record<string, string> = {
+  [LocaleEnum.TW]: "zh-tw",
+  [LocaleEnum.EN]: "en",
+  [LocaleEnum.JA]: "ja",
+  [LocaleEnum.KO]: "ko",
+};
+
 const DatePicker: FC = () => {
   const { i18n } = useTranslation();
-  const adapterLocale = i18n.language === "en" ? "en" : "zh-tw";
+  const adapterLocale = DAYJS_LOCALE[i18n.language] ?? "zh-tw";
 
   const params = useContext(SearchAreaContext);
   const setParams = useContext(SearchAreaUpdateContext);

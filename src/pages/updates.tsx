@@ -231,7 +231,7 @@ const Updates: FC = () => {
                 {t("pageOnlyTwMsg")}
               </p>
             )}
-            <div className="flex flex-col gap-6">
+            <div lang="zh-Hant" className="flex flex-col gap-6">
               <UpdateList dataList={dataList} />
 
               <OldUpdateList />

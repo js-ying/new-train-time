@@ -55,7 +55,7 @@ interface CommonDialogProps {
  */
 const CommonDialog: FC<CommonDialogProps> = (props) => {
   const { t } = useTranslation();
-  const { isCjkLayout } = useLang();
+  const { isSpaceSeparated } = useLang();
   const [doNotShowAgain, setDoNotShowAgain] = useState(false);
 
   const customCloseEvent = () => {
@@ -66,17 +66,17 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
     }
   };
 
-  // 純文字＝短提示 → 置中（英文平衡各行長度；中日韓只在標點 / 空白處換行，過長才強制斷）
-  // 其餘內容：中日韓左右切齊、英文靠左
+  // 純文字＝短提示 → 置中（英韓平衡各行長度；中日只在標點 / 空白處換行，過長才強制斷）
+  // 其餘內容：中日左右切齊、英韓靠左
   // （必須用完整字串，Tailwind JIT 才能掃描到 arbitrary value）
   const bodyAlignClass =
     typeof props.children === "string"
-      ? isCjkLayout
-        ? "text-center [word-break:keep-all] [overflow-wrap:anywhere]"
-        : "text-center [text-wrap:balance]"
-      : isCjkLayout
-        ? "text-justify [text-align-last:left] [text-wrap:pretty]"
-        : "text-left [text-wrap:pretty]";
+      ? isSpaceSeparated
+        ? "text-center [text-wrap:balance]"
+        : "text-center [word-break:keep-all] [overflow-wrap:anywhere]"
+      : isSpaceSeparated
+        ? "text-left [text-wrap:pretty]"
+        : "text-justify [text-align-last:left] [text-wrap:pretty]";
 
   return (
     <Modal

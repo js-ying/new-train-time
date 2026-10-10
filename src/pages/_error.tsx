@@ -6,21 +6,29 @@ interface ErrorPageProps {
   statusCode?: number;
 }
 
+/** 各語系的站名與錯誤頁標題 */
+const ERROR_COPY: Record<string, { siteName: string; error: string }> = {
+  "zh-TW": { siteName: "台鐵時刻查詢", error: "錯誤頁面" },
+  en: { siteName: "Taiwan Railway Timetable", error: "Error" },
+  ja: { siteName: "台鉄 時刻表検索", error: "エラー" },
+  ko: { siteName: "대만철도 시간표 조회", error: "오류" },
+};
+
 /**
  * Next.js 原生錯誤頁（404 / 500 等）。
  * _error.tsx 不能用 getStaticProps / getServerSideProps，i18n bundle 在這條路徑
- * 無法可靠載入；訊息直接以 router.locale 切中英雙語，避開 i18n。
+ * 無法可靠載入；訊息直接以 router.locale 查常數表，避開 i18n。
  */
 const ErrorPage = ({ statusCode }: ErrorPageProps) => {
   const router = useRouter();
-  const isZh = (router.locale ?? "").startsWith("zh");
+  const copy = ERROR_COPY[router.locale ?? ""] ?? ERROR_COPY.en;
 
   const headline =
     statusCode === 404
       ? "404 Not Found"
       : `${statusCode || ""} Sorry, something went wrong.`;
-  const siteName = isZh ? "台鐵時刻查詢" : "Taiwan Railway Timetable";
-  const titleTag = isZh ? "錯誤頁面 - 台鐵時刻查詢" : "Error - Taiwan Railway Timetable";
+  const siteName = copy.siteName;
+  const titleTag = `${copy.error} - ${copy.siteName}`;
 
   return (
     <>

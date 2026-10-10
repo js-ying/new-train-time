@@ -51,3 +51,19 @@ export const getOgLocale = (locale: LocaleEnum | string): string => {
 
   return map[locale] || "zh_TW";
 };
+
+/** 各語系在選單上的名稱（以該語言本身書寫） */
+export const LOCALE_LABELS: Record<LocaleEnum, string> = {
+  [LocaleEnum.TW]: "繁體中文",
+  [LocaleEnum.EN]: "English",
+  [LocaleEnum.JA]: "日本語",
+  [LocaleEnum.KO]: "한국어",
+};
+
+/** 全站支援的語系（選單顯示順序） */
+export const ALL_LOCALES: readonly LocaleEnum[] = [
+  LocaleEnum.TW,
+  LocaleEnum.EN,
+  LocaleEnum.JA,
+  LocaleEnum.KO,
+];

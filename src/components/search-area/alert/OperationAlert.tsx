@@ -113,7 +113,11 @@ const OperationAlert: FC<OperationAlertProps> = ({ compact }) => {
                     )}
                   </div>
                 )}
-                <div className="whitespace-pre-line">
+                {/* 通阻內容只有中文 */}
+                <div
+                  className="whitespace-pre-line"
+                  lang={alert.title === "ALERT_NORMAL" ? undefined : "zh-Hant"}
+                >
                   <span
                     className={`font-bold ${statusColorMap.get(jsyOperationAlert.status).text}`}
                   >

@@ -26,7 +26,9 @@ const AnnouncementContent: FC = () => {
               <table className="w-full border-collapse text-center text-sm [text-align-last:center]">
                 <thead>
                   <tr className="border-b border-border bg-muted">
-                    <th className="px-3 py-2 font-semibold">{t("railway")}</th>
+                    <th className="whitespace-nowrap px-3 py-2 font-semibold">
+                      {t("railway")}
+                    </th>
                     <th className="px-3 py-2 font-semibold">
                       <span className="flex justify-center text-center">
                         {t("realTimeSeatData")}
@@ -41,7 +43,9 @@ const AnnouncementContent: FC = () => {
                 </thead>
                 <tbody>
                   <tr className="border-b border-border">
-                    <td className="px-3 py-2 font-medium">{t("tr")}</td>
+                    <td className="whitespace-nowrap px-3 py-2 font-medium">
+                      {t("tr")}
+                    </td>
                     <td className="px-3 py-2">
                       <span className="flex justify-center text-center text-warning">
                         {t("waitingForTdx")}
@@ -54,7 +58,9 @@ const AnnouncementContent: FC = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-3 py-2 font-medium">{t("thsr")}</td>
+                    <td className="whitespace-nowrap px-3 py-2 font-medium">
+                      {t("thsr")}
+                    </td>
                     <td className="px-3 py-2">
                       <span className="flex justify-center text-center text-success">
                         {t("seatDataConnected")}

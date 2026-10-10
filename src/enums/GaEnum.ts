@@ -23,6 +23,8 @@ export enum GaEnum {
   DARK_MODE = "深色模式",
   CH_LANG = "中文介面",
   EN_LANG = "英語介面",
+  JA_LANG = "日語介面",
+  KO_LANG = "韓語介面",
   TR_ORDER_WEB = "台鐵訂票 (Web)",
   TR_ORDER_DIRECT = "台鐵訂票 (Direct)",
   THSR_ORDER_WEB = "高鐵訂票 (Web)",

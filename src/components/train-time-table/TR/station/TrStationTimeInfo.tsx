@@ -144,15 +144,18 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
           </div>
         </div>
 
-        {/* 右：往⟨迄站⟩ */}
+        {/* 右：往⟨迄站⟩（依語系為前綴或後綴，如「往台北」「台北行き」） */}
         <div className="text-center">
           <span className="flex flex-wrap items-baseline justify-center gap-1">
-            <span className="text-sm">{t("trStationBoundForPrefix")}</span>
+            {t("trStationBoundForPrefix") && (
+              <span className="text-sm">{t("trStationBoundForPrefix")}</span>
+            )}
             <span className="text-base font-semibold">
               {stationName(
                 data.trainInfo.endingStationId,
                 data.trainInfo.endingStationName,
               )}
+              {t("trStationBoundForSuffix")}
             </span>
           </span>
         </div>

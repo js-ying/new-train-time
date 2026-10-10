@@ -37,6 +37,7 @@
   "trStationBoardSouthbound": "南下",
   "trStationBoardTowards": "往{{terminal}}",
   "trStationBoundForPrefix": "往",
+  "trStationBoundForSuffix": "",
   "trStationFromOrigin": "自 {{origin}}",
   "trStationBoardNoMoreTrains": "今日已無班次。",
   "trStationSearchPlaceholder": "搜尋車站（e.g. 台北）",

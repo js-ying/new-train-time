@@ -2,7 +2,7 @@
 module.exports = {
   i18n: {
     defaultLocale: "zh-TW",
-    locales: ["zh-TW", "en"],
+    locales: ["zh-TW", "en", "ja", "ko"],
     // 關閉 Accept-Language 自動重導。避免 Google OAuth 驗證器以英文 locale 打「/」時
     // 被 307 重導至「/en」而讀到空 body
     localeDetection: false,

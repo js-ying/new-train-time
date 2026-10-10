@@ -23,9 +23,14 @@ import { appWithTranslation } from "next-i18next";
 import { DefaultSeo } from "next-seo";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { AppProps, NextWebVitalsMetric } from "next/app";
+import dynamic from "next/dynamic";
 import { ErrorBoundary } from "react-error-boundary";
 
-function App({ Component, pageProps }: AppProps) {
+/** 日韓介面字體：各自獨立 chunk，字體 CSS 只隨該語系頁面載入 */
+const JaLocaleFont = dynamic(() => import("@/components/layout/JaLocaleFont"));
+const KoLocaleFont = dynamic(() => import("@/components/layout/KoLocaleFont"));
+
+function App({ Component, pageProps, router }: AppProps) {
   useTrackBrowseSource();
   useAutoRedirectLastUsedPage();
 
@@ -36,13 +41,18 @@ function App({ Component, pageProps }: AppProps) {
         放在 :root 讓 body（global.scss）與 MUI（含 portal 到 body 的 Dialog /
         日期選擇器）都能取用。import appLatin / appSans 即會注入對應 @font-face。
         字體堆疊中 --font-app-latin（Inter，僅英數）需排在 --font-app-sans（Noto，CJK）之前。
+        日文 / 韓文介面的主字體由 JaLocaleFont / KoLocaleFont 覆寫 --font-app-sans；--font-app-sans-zh
+        供頁面中只有中文的內容（lang="zh-Hant"）沿用繁中字體（見 global.scss）。
       */}
       <style jsx global>{`
         :root {
           --font-app-latin: ${appLatin.style.fontFamily};
           --font-app-sans: ${appSans.style.fontFamily};
+          --font-app-sans-zh: ${appSans.style.fontFamily};
         }
       `}</style>
+      {router.locale === "ja" && <JaLocaleFont />}
+      {router.locale === "ko" && <KoLocaleFont />}
       <PwaProvider>
         <HeroUIProvider>
           <NextThemesProvider attribute="class">

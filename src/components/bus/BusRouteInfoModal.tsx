@@ -247,7 +247,7 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const busName = useBusName();
-  const { isEn } = useLang();
+  const { usesEnglishNames } = useLang();
 
   // 標題/起訖/業者等 TDX 原始資料：有英文取英文，缺則退中文
   const routeName = busName(route.routeName, route.routeNameEn);
@@ -262,7 +262,7 @@ const BusRouteInfoModal: FC<BusRouteInfoModalProps> = ({
 
   const operators = info?.operators ?? [];
   // 任一家缺英文就整組退中文，避免中英混列
-  const useEnOperators = isEn && operators.every((o) => o.en);
+  const useEnOperators = usesEnglishNames && operators.every((o) => o.en);
   const operatorNames = operators.map((o) =>
     useEnOperators ? (o.en ?? o.zhTw) : o.zhTw,
   );

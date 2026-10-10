@@ -14,12 +14,12 @@ import { DefaultSearchTab } from "@/contexts/SettingContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { LocaleEnum } from "@/enums/LocaleEnum";
 import useMuiTheme from "@/hooks/useMuiTheme";
+import useLocaleSwitch from "@/hooks/useLocaleSwitch";
 import useSetting from "@/hooks/useSetting";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 
 export async function getStaticProps({ locale }) {
@@ -49,49 +49,46 @@ const SectionCard: FC<{ children: React.ReactNode }> = ({ children }) => (
   </div>
 );
 
+/** 語系選擇器標題（各語系的寫法） */
+const LOCALE_HEADING: Record<LocaleEnum, string> = {
+  [LocaleEnum.TW]: "語系",
+  [LocaleEnum.EN]: "Language",
+  [LocaleEnum.JA]: "言語",
+  [LocaleEnum.KO]: "언어",
+};
+
+/** 語系選項簡稱 */
+const LOCALE_SHORT_LABELS: Record<LocaleEnum, string> = {
+  [LocaleEnum.TW]: "繁中",
+  [LocaleEnum.EN]: "EN",
+  [LocaleEnum.JA]: "日本語",
+  [LocaleEnum.KO]: "한국어",
+};
+
 /**
  * 語系 Segmented Control 元件
  */
 const LocaleSegmentedControl: FC = () => {
-  const { i18n } = useTranslation();
-  const router = useRouter();
-
-  const locales = [
-    { label: "繁中", value: LocaleEnum.TW },
-    { label: "EN", value: LocaleEnum.EN },
-  ];
-
-  /** 切換語系 */
-  const handleLocaleChange = (locale: string) => {
-    if (locale === i18n.language) return;
-
-    gaClickEvent(locale === LocaleEnum.EN ? GaEnum.EN_LANG : GaEnum.CH_LANG);
-
-    router.replace(
-      { pathname: router.pathname, query: router.query },
-      undefined,
-      { locale },
-    );
-  };
+  const { locales, currentLocale, switchLocale } = useLocaleSwitch();
 
   return (
     <div className="flex items-center justify-between gap-2">
       <span className="text-sm">
-        {i18n.language === LocaleEnum.TW ? "語系" : "Language"}
+        {LOCALE_HEADING[currentLocale] ?? LOCALE_HEADING[LocaleEnum.EN]}
       </span>
       <div className="flex overflow-hidden rounded-lg border border-border">
         {locales.map((locale) => (
           <button
-            key={locale.value}
-            onClick={() => handleLocaleChange(locale.value)}
-            className={`px-4 py-1 text-sm font-medium transition-colors
+            key={locale}
+            onClick={() => switchLocale(locale)}
+            className={`whitespace-nowrap px-3 py-1 text-sm font-medium transition-colors
               ${
-                i18n.language === locale.value
+                currentLocale === locale
                   ? "bg-primary text-primary-foreground"
                   : "bg-white text-zinc-600 hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               }`}
           >
-            {locale.label}
+            {LOCALE_SHORT_LABELS[locale]}
           </button>
         ))}
       </div>

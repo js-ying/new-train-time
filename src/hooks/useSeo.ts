@@ -1,9 +1,8 @@
 import { SeoConfig, baseUrl, seoConfigs } from "@/configs/seoConfig";
-import { LocaleEnum } from "@/enums/LocaleEnum";
 import { PageEnum } from "@/enums/PageEnum";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { localeToHreflang } from "@/utils/HreflangUtils";
-import { getOgLocale } from "@/utils/LocaleUtils";
+import { getNameLangKey, getOgLocale } from "@/utils/LocaleUtils";
 import { getStationNameById } from "@/utils/StationUtils";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
@@ -143,10 +142,10 @@ const useSeo = (busRoute: JsyBusRoute | null = null) => {
     }
 
     // 公車路線頁：以路線名（子線優先）產出獨立 title / description。
-    // 英文頁取英文名，缺則退中文
+    // 英文、韓文頁取英文名，缺則退中文
     if (busRoute) {
       const pickName = (zh: string, en?: string): string =>
-        i18n.language === LocaleEnum.EN && en ? en : zh;
+        getNameLangKey(i18n.language) === "en" && en ? en : zh;
       const routeLabel = pickName(
         busRoute.subRouteName ?? busRoute.routeName,
         busRoute.routeNameEn,

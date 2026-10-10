@@ -43,11 +43,11 @@ const BADGE_BASE =
 
 /**
  * 徽章固定寬度並置中，各列共用同一條中軸；寬度依語系最長標籤
- * （中文 4 字 56px、英文 Approaching / Not departed 89px）。
+ * （中日韓 4 字 56px、英文 Approaching / Not departed 89px）。
  */
 const useBadgeBase = () => {
-  const { isEn } = useLang();
-  return `${BADGE_BASE} ${isEn ? "w-24" : "w-14"}`;
+  const { isCjkLayout } = useLang();
+  return `${BADGE_BASE} ${isCjkLayout ? "w-14" : "w-24"}`;
 };
 
 /** beyondHorizon 顯示的分鐘下限（「30+ 分」）。 */

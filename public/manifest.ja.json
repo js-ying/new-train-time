@@ -1,0 +1,28 @@
+{
+  "name": "台鉄 時刻表検索",
+  "short_name": "台鉄 時刻表",
+  "description": "台湾鉄道・台湾高鉄・桃園空港MRTの時刻表と台湾全土のバス運行状況を、かんたん・スピーディーに検索。遅延情報、バスの到着予定、検索履歴で毎日の移動がもっと快適に。ダークモードにも対応しています。",
+  "icons": [
+    {
+      "src": "/images/logos/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/logos/logo-384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/logos/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/ja",
+  "display": "standalone",
+  "orientation": "portrait"
+}

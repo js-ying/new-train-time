@@ -1,9 +1,35 @@
+const SITE_URL = "https://traintime.jsy.tw";
+
+// 語系 URL 前綴 → hreflang（繁中為預設語系、無前綴）
+const LOCALE_HREFLANG = [
+  { prefix: "", hreflang: "zh-Hant" },
+  { prefix: "/en", hreflang: "en" },
+  { prefix: "/ja", hreflang: "ja" },
+  { prefix: "/ko", hreflang: "ko" },
+];
+
+/** 一組語系替代連結（含 x-default 指向繁中）；pathSuffix 須已做 XML escape */
+const buildAlternateRefs = (pathSuffix) => [
+  ...LOCALE_HREFLANG.map(({ prefix, hreflang }) => ({
+    href: `${SITE_URL}${prefix}${pathSuffix}`,
+    hreflang,
+    hrefIsAbsolute: true,
+  })),
+  { href: `${SITE_URL}${pathSuffix}`, hreflang: "x-default", hrefIsAbsolute: true },
+];
+
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: "https://traintime.jsy.tw",
   generateRobotsTxt: true,
   // 排除不需要被索引的路徑；bus-sitemap.xml 是 sitemap 本身而非網頁（含語系變體）
-  exclude: ["/api/*", "/bus-sitemap.xml", "/en/bus-sitemap.xml"],
+  exclude: [
+    "/api/*",
+    "/bus-sitemap.xml",
+    "/en/bus-sitemap.xml",
+    "/ja/bus-sitemap.xml",
+    "/ko/bus-sitemap.xml",
+  ],
   // 設定 robots.txt 的內容
   robotsTxtOptions: {
     // 公車路線頁 sitemap 為 server 端動態產生、不在 build 產物內，需顯式列出才會被搜尋引擎發現
@@ -136,8 +162,8 @@ module.exports = {
       { s: "A9", e: "A18", type: "/TYMC" }, // 林口站 - 高鐵桃園站
     ];
 
-    const siteUrl = "https://traintime.jsy.tw";
-    const locales = ["", "/en"];
+    const siteUrl = SITE_URL;
+    const locales = LOCALE_HREFLANG.map(({ prefix }) => prefix);
 
     popularRoutes.forEach((route) => {
       const routePath = `${route.type}/search?s=${route.s}&e=${route.e}`;
@@ -148,12 +174,8 @@ module.exports = {
 
       // 與 transform 的靜態頁一致：每個語系變體各自一筆 <url>，且都掛完整 hreflang cluster。
       // additionalPaths 不會經過 transform，故 alternateRefs 必須在此自行補上，否則這些
-      // GA4 熱門 OD 著陸頁（站台主要 SEO 落地頁）在 sitemap 缺語系對應、zh/en 被當近重複。
-      const alternateRefs = [
-        { href: `${siteUrl}${xmlRoutePath}`, hreflang: "zh-Hant", hrefIsAbsolute: true },
-        { href: `${siteUrl}/en${xmlRoutePath}`, hreflang: "en", hrefIsAbsolute: true },
-        { href: `${siteUrl}${xmlRoutePath}`, hreflang: "x-default", hrefIsAbsolute: true },
-      ];
+      // GA4 熱門 OD 著陸頁（站台主要 SEO 落地頁）在 sitemap 缺語系對應、各語系被當近重複。
+      const alternateRefs = buildAlternateRefs(xmlRoutePath);
 
       locales.forEach((locale) => {
         paths.push({
@@ -174,11 +196,7 @@ module.exports = {
     const stationQueryToRefs = (queryStr) => {
       const routePath = `/station?${queryStr}`;
       const xmlRoutePath = routePath.replace(/&/g, "&amp;");
-      const alternateRefs = [
-        { href: `${siteUrl}${xmlRoutePath}`, hreflang: "zh-Hant", hrefIsAbsolute: true },
-        { href: `${siteUrl}/en${xmlRoutePath}`, hreflang: "en", hrefIsAbsolute: true },
-        { href: `${siteUrl}${xmlRoutePath}`, hreflang: "x-default", hrefIsAbsolute: true },
-      ];
+      const alternateRefs = buildAlternateRefs(xmlRoutePath);
       locales.forEach((locale) => {
         paths.push({
           loc: `${siteUrl}${locale}${routePath}`,
@@ -208,50 +226,28 @@ module.exports = {
   transform: async (config, path) => {
     const siteUrl = config.siteUrl;
 
-    // 無參數 search 頁（/search、/TYMC/search、/THSR/search 及 /en 變體）是 index 頁的
+    // 無參數 search 頁（/search、/TYMC/search、/THSR/search 及各語系變體）是 index 頁的
     // 重複內容、空查詢無 SEO 價值，從 sitemap 排除（return null）。帶參數的熱門路線由
     // additionalPaths 另行加入、不經過 transform，故不受影響。與 PageSeo 對應頁的 noindex 雙重保險。
     if (path.endsWith("/search")) return null;
 
+    // 去掉語系前綴取得基礎路徑（/ja/THSR → /THSR、/en → /）
+    const basePath = path.replace(/^\/(en|ja|ko)(?=\/|$)/, "") || "/";
+    const pathSuffix = basePath === "/" ? "" : basePath;
+
     // 主要頁面（台鐵、高鐵、機捷）使用較高優先度
-    const mainPages = ["/", "/THSR", "/TYMC"];
-    const isMainPage = mainPages.some(
-      (p) =>
-        path === p || path === `/en${p}` || path === `/en${p === "/" ? "" : p}`,
-    );
+    const isMainPage = ["/", "/THSR", "/TYMC"].includes(basePath);
 
     // 次要頁面（特色介紹、更新公告）
-    const secondaryPages = ["/features", "/updates"];
-    const isSecondaryPage = secondaryPages.some(
-      (p) => path === p || path === `/en${p}`,
-    );
+    const isSecondaryPage = ["/features", "/updates"].includes(basePath);
 
     // 動態生成 alternateRefs，讓每個頁面指向正確的語言版本
     // 注意：`hrefIsAbsolute: true` 必要——否則 next-sitemap 會把 href 當成 domain prefix 再拼上
     // 當前 path，導致 hreflang 全部指向同一 URL、無法正確宣告語系替代版本。
-    const isEnglishPath = path.startsWith("/en");
-    const basePath = isEnglishPath ? path.replace(/^\/en/, "") || "/" : path;
-    const pathSuffix = basePath === "/" ? "" : basePath;
 
     // Google 2023 後建議用 ISO 15924 script code（zh-Hant）取代地區碼（zh-TW）
     // 表達「繁中書寫系統」；與前端 NextSeo languageAlternates 輸出一致
-    const alternateRefs = [
-      {
-        href: `${siteUrl}${pathSuffix}`,
-        hreflang: "zh-Hant",
-        hrefIsAbsolute: true,
-      },
-      {
-        href: `${siteUrl}/en${pathSuffix}`,
-        hreflang: "en",
-        hrefIsAbsolute: true,
-      },
-      {
-        href: `${siteUrl}${pathSuffix}`,
-        hreflang: "x-default",
-        hrefIsAbsolute: true,
-      },
-    ];
+    const alternateRefs = buildAlternateRefs(pathSuffix);
 
     return {
       loc: `${siteUrl}${path === "/" ? "" : path}`, // 強制使用絕對路徑，避免 next-sitemap 自行拼接導致 alternate 異常
@@ -260,7 +256,7 @@ module.exports = {
         : isSecondaryPage
           ? "monthly"
           : "weekly",
-      priority: isMainPage ? (path === "/" || path === "/en" ? 1.0 : 0.8) : 0.6,
+      priority: isMainPage ? (basePath === "/" ? 1.0 : 0.8) : 0.6,
       // 不輸出 lastmod：原本用 build 時間，導致每次部署 16 個靜態頁的 lastmod 同步跳動，
       // 對 Google 是「全站假更新」訊號、稀釋 crawl budget。OD 頁（additionalPaths）本就未給
       // lastmod；靜態頁內容極少變動，省略比給假時間更誠實（Google 多數情況亦忽略此欄）。

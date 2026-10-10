@@ -1,3 +1,4 @@
+import { getNameLangKey } from "@/utils/LocaleUtils";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { ApiError, toApiError } from "@/models/problem-details";
 import { searchBusRoutes } from "@/services/busService";
@@ -42,7 +43,8 @@ export const useBusRouteSearch = (): UseBusRouteSearchResult => {
     [],
   );
 
-  const lang = i18n.language;
+  // 取英文名稱的語系以英文欄位比對路線名 / 方向牌
+  const lang = getNameLangKey(i18n.language) === "en" ? "en" : i18n.language;
   const runSearch = useCallback(
     async (q: string) => {
       abortRef.current?.abort();

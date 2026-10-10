@@ -1,15 +1,16 @@
-import { GaEnum } from "@/enums/GaEnum";
+import useLocaleSwitch from "@/hooks/useLocaleSwitch";
+import { LOCALE_LABELS } from "@/utils/LocaleUtils";
 import { LocaleEnum } from "@/enums/LocaleEnum";
-import { gaClickEvent } from "@/utils/GaUtils";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import { FC, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@heroui/react";
+import { FC } from "react";
 
-interface LocaleIconProps {
-  isRotated: boolean;
-}
-
-const LocaleIcon: FC<LocaleIconProps> = ({ isRotated }) => {
+const LocaleIcon: FC = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,8 +18,7 @@ const LocaleIcon: FC<LocaleIconProps> = ({ isRotated }) => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`h-6 w-6 ${isRotated ? "rotate" : ""}`}
-      id="locale-icon"
+      className="size-6"
     >
       <path
         strokeLinecap="round"
@@ -29,161 +29,45 @@ const LocaleIcon: FC<LocaleIconProps> = ({ isRotated }) => {
   );
 };
 
-interface LocaleDropdownProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-}
-
-const LocaleDropdown: FC<LocaleDropdownProps> = ({ open, setOpen }) => {
-  const dropdownRef = useRef(null);
-  const router = useRouter();
-
-  const localeOptions = useMemo(
-    () => [
-      { label: "繁體中文", value: LocaleEnum.TW },
-      { label: "English", value: LocaleEnum.EN },
-    ],
-    [],
-  );
-
-  const handleChange = (value: string) => {
-    // 紀錄使用者已顯式選擇語系，避免日後再跳出語系建議彈窗
-    try {
-      window.localStorage.setItem("manualLocale", value);
-    } catch {}
-
-    router.push(
-      { pathname: router.pathname, query: router.query },
-      router.asPath,
-      { locale: value },
-    );
-
-    setOpen(!open);
-  };
-
-  const handleClickOutside = (event) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target) &&
-      // 若只是要取得 dom 值，不一定需要使用 useRef
-      !document.getElementById("locale-icon").contains(event.target)
-    ) {
-      setOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={dropdownRef}
-      className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md
-      bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-      aria-labelledby="translate-btn"
-    >
-      <div className="py-1" role="none">
-        {localeOptions.map((locale) => {
-          return (
-            <div
-              className="custom-cursor-pointer block px-4 py-2 text-sm text-zinc-700
-            transition hover:bg-zinc-200"
-              role="menuitem"
-              tabIndex={-1}
-              key={locale.value}
-              onClick={() => handleChange(locale.value)}
-            >
-              {locale.label}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
 /**
- * 語系變更（下拉選單版）
- */
-const LocaleChangeByDropdown = () => {
-  const [open, setOpen] = useState(null);
-
-  return (
-    <div
-      className="custom-cursor-pointer inline-block"
-      onClick={() => setOpen(!open)}
-    >
-      <LocaleIcon isRotated={true} />
-      {open && <LocaleDropdown open={open} setOpen={setOpen} />}
-    </div>
-  );
-};
-
-/**
- * 語系變更（Switch 版）
- */
-const LocaleChangeBySwitch: FC = () => {
-  const { i18n } = useTranslation();
-  const router = useRouter();
-  const [isRotated, setIsRotated] = useState(true);
-
-  const handleChange = () => {
-    setIsRotated(false);
-    setTimeout(() => {
-      setIsRotated(true);
-    });
-
-    const locale =
-      i18n.language === LocaleEnum.EN ? LocaleEnum.TW : LocaleEnum.EN;
-
-    // 紀錄使用者已顯式選擇語系，避免日後再跳出語系建議彈窗
-    try {
-      window.localStorage.setItem("manualLocale", locale);
-    } catch {}
-
-    gaClickEvent(
-      i18n.language === LocaleEnum.EN ? GaEnum.CH_LANG : GaEnum.EN_LANG,
-    );
-
-    // 改變語系不會改變 pathname，若使用 router.push，同 pathname 的話會無法觸發 query 的改變
-    // 所以使用 router.replace
-    router.replace(
-      {
-        pathname: router.pathname,
-        query: router.query,
-      },
-      undefined,
-      { locale: locale },
-    );
-  };
-
-  return (
-    <div
-      tabIndex={0}
-      role="button"
-      aria-label="Change locale"
-      className="custom-cursor-pointer inline-block"
-      onClick={handleChange}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          handleChange();
-        }
-      }}
-    >
-      <LocaleIcon isRotated={isRotated} />
-    </div>
-  );
-};
-
-/**
- * 語系變更
+ * 語系切換下拉選單：以各語言本身的名稱顯示
  */
 const LocaleChange: FC = () => {
-  return <LocaleChangeBySwitch />;
+  const { locales, currentLocale, switchLocale } = useLocaleSwitch();
+
+  return (
+    <Dropdown
+      placement="bottom-end"
+      classNames={{ content: "min-w-32 bg-background border border-input" }}
+    >
+      <DropdownTrigger>
+        <Button
+          isIconOnly
+          variant="light"
+          disableRipple
+          aria-label="Language"
+          className="size-6 min-w-6 text-inherit data-[hover=true]:bg-transparent"
+        >
+          <LocaleIcon />
+        </Button>
+      </DropdownTrigger>
+      <DropdownMenu
+        aria-label="Language"
+        selectionMode="single"
+        disallowEmptySelection
+        selectedKeys={new Set([currentLocale])}
+        onAction={(key) => switchLocale(key as LocaleEnum)}
+        itemClasses={{
+          // 比照 TrTransferTimeFilter：hover 與 focus 兩條預設底色都要以 muted 覆蓋
+          base: "data-[hover=true]:bg-muted data-[selectable=true]:focus:bg-muted",
+        }}
+      >
+        {locales.map((locale) => (
+          <DropdownItem key={locale}>{LOCALE_LABELS[locale]}</DropdownItem>
+        ))}
+      </DropdownMenu>
+    </Dropdown>
+  );
 };
 
 export default LocaleChange;

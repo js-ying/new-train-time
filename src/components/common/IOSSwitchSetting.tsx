@@ -36,7 +36,7 @@ const IOSSwitchSetting: FC<IOSSwitchSettingProps> = ({
     <div className="flex items-center justify-between gap-2">
       <span className="inline-flex items-center gap-2">
         {isOnlyMobile && (
-          <span className="mr-2 border border-zinc-700 px-1 py-0.5 text-xs dark:border-zinc-200">
+          <span className="mr-2 shrink-0 whitespace-nowrap border border-zinc-700 px-1 py-0.5 text-xs dark:border-zinc-200">
             {t("mobile")}
           </span>
         )}

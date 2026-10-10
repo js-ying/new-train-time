@@ -37,6 +37,7 @@
   "trStationBoardSouthbound": "Southbound",
   "trStationBoardTowards": "To {{terminal}}",
   "trStationBoundForPrefix": "To",
+  "trStationBoundForSuffix": "",
   "trStationFromOrigin": "From {{origin}}",
   "trStationBoardNoMoreTrains": "No more trains today.",
   "trStationSearchPlaceholder": "Search station (e.g. Taipei)",

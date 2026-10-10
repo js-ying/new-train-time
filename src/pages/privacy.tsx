@@ -21,7 +21,7 @@ export async function getStaticProps({ locale }) {
 /** 隱私權政策頁：OAuth 同意畫面必要連結 */
 const Privacy: FC = () => {
   const muiTheme = useMuiTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isZh } = useLang();
 
   return (
@@ -29,9 +29,15 @@ const Privacy: FC = () => {
       <PageSeo />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
-          <article className="mx-auto w-full max-w-3xl space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-200">
+          <article
+            lang="zh-Hant"
+            className="mx-auto w-full max-w-3xl space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-200"
+          >
             {!isZh && (
-              <p className="text-center text-muted-foreground">
+              <p
+                lang={i18n.language}
+                className="text-center text-muted-foreground"
+              >
                 {t("pageOnlyTwMsg")}
               </p>
             )}

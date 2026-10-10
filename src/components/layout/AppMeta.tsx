@@ -1,15 +1,24 @@
 import { PWA_THEME_COLOR } from "@/configs/themeColors";
-import useLang from "@/hooks/useLang";
+import { LocaleEnum } from "@/enums/LocaleEnum";
+import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import Head from "next/head";
 import { FC } from "react";
+
+/** 各語系的 PWA manifest */
+const MANIFEST_PATH: Record<string, string> = {
+  [LocaleEnum.TW]: "/manifest.json",
+  [LocaleEnum.EN]: "/manifest.en.json",
+  [LocaleEnum.JA]: "/manifest.ja.json",
+  [LocaleEnum.KO]: "/manifest.ko.json",
+};
 
 /**
  * 全站固定的非 SEO meta（PWA / icon / theme-color / viewport）。
  * SEO 相關（title、og、twitter、canonical、hreflang、JSON-LD）由 PageSeo 元件處理。
  */
 const AppMeta: FC = () => {
-  const { isZh } = useLang();
+  const { i18n } = useTranslation();
   const { theme } = useTheme();
 
   return (
@@ -28,7 +37,7 @@ const AppMeta: FC = () => {
       <link
         key="manifest"
         rel="manifest"
-        href={`${isZh ? "/manifest.json" : "/manifest.en.json"}`}
+        href={MANIFEST_PATH[i18n.language] ?? MANIFEST_PATH[LocaleEnum.TW]}
       />
       <meta
         key="theme-color"
