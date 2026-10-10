@@ -53,7 +53,7 @@ const TrTransferLegRow: FC<TrTransferLegRowProps> = ({ leg, trainDate }) => {
 
   const trainTypeName = getTrTrainTypeNameByCode(
     leg.trainInfo.trainTypeCode,
-    i18n.language,
+    t,
   );
 
   // 該段上下車時間區間（依 boardStopTime / alightStopTime，避免使用 stopTimes[0]/[末] 誤抓全程起迄時刻）

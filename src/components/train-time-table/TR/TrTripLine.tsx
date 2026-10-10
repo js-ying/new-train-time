@@ -8,11 +8,11 @@ interface TrTripLineProps {
 }
 
 const TrTripLine: FC<TrTripLineProps> = ({ trainNo, tripLine }) => {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div>
-      {trainNo} {getTrTripLineNameByValue(tripLine, i18n.language)}
+      {trainNo} {getTrTripLineNameByValue(tripLine, t)}
     </div>
   );
 };

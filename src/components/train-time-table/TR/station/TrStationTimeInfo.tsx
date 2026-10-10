@@ -44,10 +44,7 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
   const { isTw } = useLang();
   const { showTrTrainNote } = useContext(SettingContext);
   const langKey = getNameLangKey(i18n.language);
-  const tripLineName = getTrTripLineNameByValue(
-    data.trainInfo.tripLine,
-    i18n.language,
-  );
+  const tripLineName = getTrTripLineNameByValue(data.trainInfo.tripLine, t);
   // 無站票提醒（依車種）與台鐵註記，比照 OD 卡片
   const isOnlyTicket = isTrTrainOnlyTicket(data.trainInfo.trainTypeCode);
   const note = data.trainInfo.note;
@@ -119,7 +116,7 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
               code={data.trainInfo.trainTypeCode}
               trainTypeName={getTrTrainTypeNameByCode(
                 data.trainInfo.trainTypeCode,
-                i18n.language,
+                t,
               )}
               className={isTw ? "mx-auto block max-w-14 text-center" : ""}
             />

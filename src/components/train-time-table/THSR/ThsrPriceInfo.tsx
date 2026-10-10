@@ -1,44 +1,11 @@
 import { useTranslation } from "next-i18next";
 import { FC, useMemo, useState } from "react";
 import { JsyThsrFare, JsyThsrOdFare } from "../../../models/jsy-thsr-info";
-import { getNameLangKey } from "../../../utils/LocaleUtils";
+import type { TFunction } from "i18next";
 
-type LangKey = "zhTw" | "en";
-
-export const ticketTypeMap = {
-  1: "一般票",
-  2: "來回票",
-  3: "電子票證",
-  4: "回數票",
-  5: "定期票(30天)",
-  6: "定期票(60天)",
-  7: "早鳥票",
-  8: "團體票",
-};
-
-export const fareClassMap: Record<number, Record<LangKey, string>> = {
-  1: { zhTw: "成人", en: "Adult" },
-  2: { zhTw: "學生", en: "" },
-  3: { zhTw: "孩童", en: "" },
-  4: { zhTw: "敬老", en: "" },
-  5: { zhTw: "愛心", en: "" },
-  6: { zhTw: "愛心孩童", en: "" },
-  7: { zhTw: "愛心優待/愛心陪伴", en: "" },
-  8: { zhTw: "軍警", en: "" },
-  9: { zhTw: "法優", en: "Concession" },
-};
-
-export const cabinClassMap: Record<number, Record<LangKey, string>> = {
-  1: { zhTw: "標準", en: "Standard" },
-  2: { zhTw: "商務", en: "Business" },
-  3: { zhTw: "自由", en: "Non-Reserved" },
-};
-
-export const fareMap = {
-  ticketTypeMap,
-  fareClassMap,
-  cabinClassMap,
-};
+/** [高鐵] 票價標籤：票種 + 車廂（文字定義於 common.json `thsrFareClass` / `thsrCabinClass`） */
+const getFareLabel = (t: TFunction, fare: JsyThsrFare): string =>
+  `${t(`thsrFareClass.${fare.fareClass}`)} ${t(`thsrCabinClass.${fare.cabinClass}`)}`;
 
 interface LabelPriceInfoProps {
   adultFares: JsyThsrFare[];
@@ -49,8 +16,7 @@ const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
   adultFares,
   otherFareList,
 }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
   const [isShowOtherFareList, setIsShowOtherFareList] = useState(false);
 
   return (
@@ -61,8 +27,7 @@ const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
             className={`common-babel text-sm`}
             key={`${fare.ticketType}${fare.fareClass}${fare.cabinClass}`}
           >
-            {fareMap.fareClassMap[fare.fareClass][langKey]}{" "}
-            {fareMap.cabinClassMap[fare.cabinClass][langKey]} {fare.price}
+            {getFareLabel(t, fare)} {fare.price}
           </span>
         );
       })}
@@ -74,8 +39,7 @@ const LabelPriceInfo: FC<LabelPriceInfoProps> = ({
               className={`common-babel text-sm`}
               key={`${fare.ticketType}${fare.fareClass}${fare.cabinClass}`}
             >
-              {fareMap.fareClassMap[fare.fareClass][langKey]}{" "}
-              {fareMap.cabinClassMap[fare.cabinClass][langKey]} {fare.price}
+              {getFareLabel(t, fare)} {fare.price}
             </span>
           );
         })}
@@ -104,17 +68,10 @@ interface TextPriceInfoProps {
 }
 
 const TextPriceInfo: FC<TextPriceInfoProps> = ({ fareList }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
-  const textFareList = fareList.map((fare) => {
-    return (
-      fareMap.fareClassMap[fare.fareClass][langKey] +
-      " " +
-      fareMap.cabinClassMap[fare.cabinClass][langKey] +
-      " " +
-      fare.price
-    );
-  });
+  const { t } = useTranslation();
+  const textFareList = fareList.map(
+    (fare) => `${getFareLabel(t, fare)} ${fare.price}`,
+  );
 
   return textFareList.join(t("comma"));
 };

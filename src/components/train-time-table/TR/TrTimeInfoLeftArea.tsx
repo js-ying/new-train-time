@@ -13,7 +13,7 @@ interface TrTimeInfoLeftAreaProps {
 }
 
 const TrTimeInfoLeftArea: FC<TrTimeInfoLeftAreaProps> = ({ data }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isTw } = useLang();
   const langKey = getNameLangKey(i18n.language);
 
@@ -33,7 +33,7 @@ const TrTimeInfoLeftArea: FC<TrTimeInfoLeftAreaProps> = ({ data }) => {
           code={data.trainInfo.trainTypeCode}
           trainTypeName={getTrTrainTypeNameByCode(
             data.trainInfo.trainTypeCode,
-            i18n.language,
+            t,
           )}
           className={isTw ? "mx-auto block max-w-14 text-center" : ""}
         />

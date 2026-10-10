@@ -216,6 +216,22 @@
   "trainTypeFilterAll": "全部",
   "trainTypeFilterReserved": "對號列車",
   "trainTypeFilterNonReserved": "非對號列車",
+  "trTrainType": {
+    "1": "太魯閣",
+    "2": "普悠瑪",
+    "3": "自強",
+    "4": "莒光",
+    "5": "復興",
+    "6": "區間",
+    "7": "普快",
+    "10": "區間快",
+    "11": "新自強"
+  },
+  "trTripLine": {
+    "1": "山線",
+    "2": "海線",
+    "3": "成追線"
+  },
   "trainTableLengthCount": "共 {{ filter }} / {{ total }} 筆",
   "thsrTrainTableLengthCount": "共 {{ total }} 筆",
   "trainInfoTimeDiff": "{{ hour }} 時 {{ min }} 分",
@@ -235,6 +251,32 @@
   "adultPrice": "全票",
   "discountedPrice": "半票",
   "fareAmount": "NT$\u00a0{{price}}",
+  "thsrFareClass": {
+    "1": "成人",
+    "2": "學生",
+    "3": "孩童",
+    "4": "敬老",
+    "5": "愛心",
+    "6": "愛心孩童",
+    "7": "愛心優待/愛心陪伴",
+    "8": "軍警",
+    "9": "法優"
+  },
+  "thsrCabinClass": {
+    "1": "標準",
+    "2": "商務",
+    "3": "自由"
+  },
+  "tymcFareClass": {
+    "1": "全票",
+    "2": "學生票",
+    "3": "孩童票",
+    "4": "敬老票",
+    "5": "愛心票",
+    "6": "愛心孩童票",
+    "7": "愛心優待/陪伴票",
+    "8": "團體票"
+  },
   "trainServices": "服務",
   "note": "註記",
   "arrivalTimeApproxMsg": "（抵達時間為推估值，僅供參考）",
@@ -297,6 +339,17 @@
   "disclaimerMsg": "本站提供之資訊僅供參考，實際情況請以官方公佈的資訊為主。",
   "otherBtn": "其它",
   "freeSeating": "自由座",
+  "thsrServiceDaily": "每日行駛。",
+  "thsrServiceDays": "星期{{ days }}行駛。",
+  "thsrServiceWeekday": {
+    "monday": "一",
+    "tuesday": "二",
+    "wednesday": "三",
+    "thursday": "四",
+    "friday": "五",
+    "saturday": "六",
+    "sunday": "日"
+  },
   "confirmOnSiteMsg": "請於現場確認",
   "featureIntroductionMenu": "特色介紹",
   "updateAnnouncementsMenu": "更新公告",

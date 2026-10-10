@@ -3,7 +3,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
 import { JsyTymcTimetable } from "@/models/jsy-tymc-info";
-import { getNameLangKey } from "./LocaleUtils";
+import type { TFunction } from "i18next";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -38,46 +38,22 @@ export const isTrainPass = (
 export const isTrTrainOrderable = () => {};
 
 /**
- * 取得 [台鐵] 山海線名稱 by Value
- * @param tripLineValue
- * @param lang
- * @returns
+ * 取得 [台鐵] 山海線名稱 by Value（文字定義於 common.json `trTripLine`）
  */
-export const getTrTripLineNameByValue = (tripLineValue, lang) => {
+export const getTrTripLineNameByValue = (tripLineValue, t: TFunction) => {
   if (!tripLineValue) return null;
-
-  const tripLines = {
-    0: { zhTw: "", en: "" },
-    1: { zhTw: "山線", en: "Mountain" },
-    2: { zhTw: "海線", en: "Coast" },
-    3: { zhTw: "成追線", en: "Chengzhui" },
-  };
-
-  return tripLines[tripLineValue]?.[getNameLangKey(lang)] || "";
+  return t(`trTripLine.${tripLineValue}`, { defaultValue: "" });
 };
 
 /**
- * 取得 [台鐵] 車種名稱 by Code
- * @param trainTypeCode
- * @param lang
- * @returns
+ * 取得 [台鐵] 車種名稱 by Code（文字定義於 common.json `trTrainType`）
  */
-export const getTrTrainTypeNameByCode = (trainTypeCode, lang): string => {
+export const getTrTrainTypeNameByCode = (
+  trainTypeCode,
+  t: TFunction,
+): string => {
   if (!trainTypeCode) return null;
-
-  const trTrainTypes = {
-    "1": { zhTw: "太魯閣", en: "Taroko" },
-    "2": { zhTw: "普悠瑪", en: "Puyuma" },
-    "3": { zhTw: "自強", en: "Tze-Chiang" },
-    "4": { zhTw: "莒光", en: "Chu-Kuang" },
-    "5": { zhTw: "復興", en: "Fu-Hsing" },
-    "6": { zhTw: "區間", en: "Local" },
-    "7": { zhTw: "普快", en: "Ordinary" },
-    "10": { zhTw: "區間快", en: "Fast Local" },
-    "11": { zhTw: "新自強", en: "Tze-Chiang" },
-  };
-
-  return trTrainTypes[trainTypeCode]?.[getNameLangKey(lang)] || "";
+  return t(`trTrainType.${trainTypeCode}`, { defaultValue: "" });
 };
 
 /**

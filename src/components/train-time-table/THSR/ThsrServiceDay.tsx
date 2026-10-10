@@ -1,59 +1,22 @@
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import { JsyThsrServiceDay } from "../../../models/jsy-thsr-info";
-import { getNameLangKey } from "../../../utils/LocaleUtils";
+import type { TFunction } from "i18next";
 
-type LangKey = "zhTw" | "en";
-
+/** [高鐵] 行駛日文字：全週行駛顯示每日行駛，否則列出行駛的星期 */
 const getServiceDaysMsg = (
-  langKey: LangKey,
+  t: TFunction,
   data: JsyThsrServiceDay | null,
 ): string => {
   if (!data) return "";
 
-  const serviceDaysArray: string[] = [];
+  const serviceDays = (Object.entries(data) as [keyof typeof data, number][])
+    .filter(([, value]) => value === 1)
+    .map(([day]) => t(`thsrServiceWeekday.${day}`));
 
-  const dayMap: Record<keyof typeof data, Record<LangKey, string>> = {
-    monday: { zhTw: "一", en: "Monday" },
-    tuesday: { zhTw: "二", en: "Tuesday" },
-    wednesday: { zhTw: "三", en: "Wednesday" },
-    thursday: { zhTw: "四", en: "Thursday" },
-    friday: { zhTw: "五", en: "Friday" },
-    saturday: { zhTw: "六", en: "Saturday" },
-    sunday: { zhTw: "日", en: "Sunday" },
-  };
-
-  (Object.entries(data) as [keyof typeof data, number][]).forEach(
-    ([day, value]) => {
-      if (value === 1) {
-        serviceDaysArray.push(dayMap[day][langKey]);
-      }
-    },
-  );
-
-  const operatesDailyMsg: Record<LangKey, string> = {
-    zhTw: "每日行駛。",
-    en: "Operates daily.",
-  };
-
-  const operatesDayMsg: Record<LangKey, string> = {
-    zhTw: "星期%s行駛。",
-    en: "Operates on %s.",
-  };
-
-  const comma: Record<LangKey, string> = {
-    zhTw: "、",
-    en: ", ",
-  };
-
-  if (serviceDaysArray.length === 7) {
-    return operatesDailyMsg[langKey];
-  } else {
-    return operatesDayMsg[langKey].replace(
-      "%s",
-      serviceDaysArray.join(comma[langKey]),
-    );
-  }
+  return serviceDays.length === 7
+    ? t("thsrServiceDaily")
+    : t("thsrServiceDays", { days: serviceDays.join(t("comma")) });
 };
 
 interface ThsrServiceDayProps {
@@ -61,10 +24,8 @@ interface ThsrServiceDayProps {
 }
 
 const ThsrServiceDay: FC<ThsrServiceDayProps> = ({ serviceDay }) => {
-  const { i18n } = useTranslation();
-  return (
-    <div>{getServiceDaysMsg(getNameLangKey(i18n.language), serviceDay)}</div>
-  );
+  const { t } = useTranslation();
+  return <div>{getServiceDaysMsg(t, serviceDay)}</div>;
 };
 
 export default ThsrServiceDay;

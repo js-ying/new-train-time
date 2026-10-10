@@ -216,6 +216,22 @@
   "trainTypeFilterAll": "All",
   "trainTypeFilterReserved": "Reserved",
   "trainTypeFilterNonReserved": "Non-reserved",
+  "trTrainType": {
+    "1": "Taroko",
+    "2": "Puyuma",
+    "3": "Tze-Chiang",
+    "4": "Chu-Kuang",
+    "5": "Fu-Hsing",
+    "6": "Local",
+    "7": "Ordinary",
+    "10": "Fast Local",
+    "11": "Tze-Chiang"
+  },
+  "trTripLine": {
+    "1": "Mountain",
+    "2": "Coast",
+    "3": "Chengzhui"
+  },
   "trainTableLengthCount": "{{ filter }} / {{ total }}",
   "thsrTrainTableLengthCount": "Total: {{ total }}",
   "trainInfoTimeDiff": "{{ hour }} h {{ min }} m",
@@ -235,6 +251,32 @@
   "adultPrice": "Adult",
   "discountedPrice": "Concession",
   "fareAmount": "NT$\u00a0{{price}}",
+  "thsrFareClass": {
+    "1": "Adult",
+    "2": "Student",
+    "3": "Child",
+    "4": "Senior",
+    "5": "Disabled",
+    "6": "Disabled Child",
+    "7": "Disabled Concession",
+    "8": "Military/Police",
+    "9": "Concession"
+  },
+  "thsrCabinClass": {
+    "1": "Standard",
+    "2": "Business",
+    "3": "Non-Reserved"
+  },
+  "tymcFareClass": {
+    "1": "Adult",
+    "2": "Student",
+    "3": "Child",
+    "4": "Senior",
+    "5": "Disabled",
+    "6": "Disabled Child",
+    "7": "Disabled Concession",
+    "8": "Group"
+  },
   "trainServices": "Services",
   "note": "Note",
   "arrivalTimeApproxMsg": "(Arrival time is an estimate, for reference only.)",
@@ -299,6 +341,17 @@
   "disclaimerMsg": "The information provided on this site is for reference only. Please refer to the official announcements for accurate details.",
   "otherBtn": "Other",
   "freeSeating": "Non-Reserved",
+  "thsrServiceDaily": "Operates daily.",
+  "thsrServiceDays": "Operates on {{ days }}.",
+  "thsrServiceWeekday": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
   "confirmOnSiteMsg": "Please confirm on-site.",
   "featureIntroductionMenu": "Features",
   "updateAnnouncementsMenu": "What's new",

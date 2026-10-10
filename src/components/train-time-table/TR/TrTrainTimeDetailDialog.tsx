@@ -68,14 +68,8 @@ const TrTrainTimeDetailDialog: FC<TrTrainTimeDetailDialogProps> = ({
             <>
               <ModalHeader>
                 {data.trainInfo.trainNo}{" "}
-                {getTrTripLineNameByValue(
-                  data.trainInfo.tripLine,
-                  i18n.language,
-                )}{" "}
-                {getTrTrainTypeNameByCode(
-                  data.trainInfo.trainTypeCode,
-                  i18n.language,
-                )}{" "}
+                {getTrTripLineNameByValue(data.trainInfo.tripLine, t)}{" "}
+                {getTrTrainTypeNameByCode(data.trainInfo.trainTypeCode, t)}{" "}
                 {data.trainInfo.startingStationName[langKey]} -{" "}
                 {data.trainInfo.endingStationName[langKey]}
               </ModalHeader>

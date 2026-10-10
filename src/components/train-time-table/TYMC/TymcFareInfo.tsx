@@ -1,5 +1,4 @@
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
-import { getNameLangKey } from "@/utils/LocaleUtils";
 import { useTranslation } from "next-i18next";
 
 // 票種 Enum
@@ -20,33 +19,12 @@ enum FareClass {
   GROUP = 8,
 }
 
-type LangKey = "zhTw" | "en";
-
-// 票價等級名稱對應（多語系）
-const FARE_CLASS_MAP: Record<number, Record<LangKey, string>> = {
-  [FareClass.FULL]: { zhTw: "全票", en: "Adult" },
-  [FareClass.STUDENT]: { zhTw: "學生票", en: "Student" },
-  [FareClass.CHILD]: { zhTw: "孩童票", en: "Child" },
-  [FareClass.SENIOR]: { zhTw: "敬老票", en: "Senior" },
-  [FareClass.DISABLED]: { zhTw: "愛心票", en: "Disabled" },
-  [FareClass.DISABLED_CHILD]: {
-    zhTw: "愛心孩童票",
-    en: "Disabled Child",
-  },
-  [FareClass.DISABLED_SPECIAL]: {
-    zhTw: "愛心優待/陪伴票",
-    en: "Disabled Special",
-  },
-  [FareClass.GROUP]: { zhTw: "團體票", en: "Group" },
-};
-
 interface TymcFareInfoProps {
   fares: JsyTymcInfo["fareList"];
 }
 
 const TymcFareInfo: React.FC<TymcFareInfoProps> = ({ fares }) => {
-  const { t, i18n } = useTranslation();
-  const langKey = getNameLangKey(i18n.language);
+  const { t } = useTranslation();
 
   // 過濾只要單程票，且排除團體票的資料
   const filteredFares = fares.filter(
@@ -55,10 +33,10 @@ const TymcFareInfo: React.FC<TymcFareInfoProps> = ({ fares }) => {
       fare.fareClass !== FareClass.GROUP,
   );
 
-  // 轉換成文字陣列
+  // 轉換成文字陣列（票種文字定義於 common.json `tymcFareClass`）
   const fareTexts = filteredFares.map(
     (fare) =>
-      `${FARE_CLASS_MAP[fare.fareClass][langKey]} ${t("fareAmount", { price: fare.price })}`,
+      `${t(`tymcFareClass.${fare.fareClass}`)} ${t("fareAmount", { price: fare.price })}`,
   );
 
   return fareTexts.join(t("comma"));
