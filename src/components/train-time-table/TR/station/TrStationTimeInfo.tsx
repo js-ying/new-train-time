@@ -96,11 +96,11 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") openDetail();
         }}
-        className="custom-cursor-pointer relative grid grid-cols-4
+        className="custom-cursor-pointer relative grid min-h-[100px] grid-cols-4
           items-center rounded-md border border-solid border-foreground p-2 pt-2.5"
       >
         {/* 左：車次 / 山海線、車種、自⟨起站⟩ */}
-        <div className="flex flex-col gap-1.5 text-center">
+        <div className="flex flex-col gap-2 text-center">
           <div className="flex flex-wrap items-baseline justify-center gap-1">
             <span className="text-lg leading-none">
               {data.trainInfo.trainNo}
@@ -128,11 +128,13 @@ const TrStationTimeInfo: FC<TrStationTimeInfoProps> = ({
           </span>
         </div>
 
-        {/* 中：誤點（僅今日 90 分鐘內列車有值）+ 發車時刻 */}
+        {/* 中：發車時刻垂直置中，誤點（僅今日 90 分鐘內列車有值）疊在其上方不佔高度 */}
         <div className="col-span-2 text-center">
-          <TrDelay dataList={data.delayInfo} />
-          <div className="text-2xl tabular-nums">
+          <div className="relative text-2xl tabular-nums leading-none">
             {data.stopTime.departureTime}
+            <div className="absolute inset-x-0 bottom-full mb-1 text-sm leading-normal">
+              <TrDelay dataList={data.delayInfo} />
+            </div>
           </div>
         </div>
 
