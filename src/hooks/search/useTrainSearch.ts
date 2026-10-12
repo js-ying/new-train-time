@@ -130,7 +130,16 @@ const useTrainSearch = (): UseTrainSearchResult => {
   useEffect(() => {
     if (!router.isReady) return;
 
-    const { startStationId, endStationId, date, time } = urlSearchAreaParams;
+    const { startStationId, endStationId } = urlSearchAreaParams;
+
+    // 網址未帶日期：以今日（與網址時間或現在時間）查詢且不提示；帶了無效日期才提示重設
+    const hasDateParam = !!urlSearchAreaParams.date;
+    const date = hasDateParam
+      ? urlSearchAreaParams.date
+      : DateUtils.getCurrentDate();
+    const time = hasDateParam
+      ? urlSearchAreaParams.time
+      : (urlSearchAreaParams.time ?? DateUtils.getCurrentTime());
 
     const { isValid, isDateInValid } = isParamsValid(
       startStationId,
@@ -155,6 +164,8 @@ const useTrainSearch = (): UseTrainSearchResult => {
       getTrainTimeTable(startStationId, endStationId, currentDate, currentTime);
       return;
     }
+
+    if (!hasDateParam) setParams((prev) => ({ ...prev, date, time }));
 
     getTrainTimeTable(startStationId, endStationId, date, time);
   }, [
