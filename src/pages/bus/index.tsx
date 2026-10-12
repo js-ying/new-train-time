@@ -543,7 +543,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
       <RefreshButton onRefresh={handleRefresh} />
     ) : null;
 
-  // 路線詳細資訊：icon-only，掛在方向切換同列最左（leadingSlot）；無看板時退回置中列
+  // 路線詳細資訊：icon-only，掛在方向切換同列最左（leadingSlot）；無看板時同位置獨立成列
   // -m-1.5 抵銷按鈕內距，footprint 維持 20px（位置不變）
   const routeInfoButton = (
     <Button
@@ -762,13 +762,20 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                   />
                 ) : (
                   <>
-                    {/* 詳細資訊 + 刷新退回置中列（無方向 tab 可掛）。
-                        僅在載入完成但無看板（錯誤 / 無即時）時顯示；載入中不渲染，
-                        避免與 BusRouteBoard 的左右分置方向列互換造成 info/refresh 位移抖動 */}
+                    {/* 無看板（錯誤 / 無即時）時仍比照 BusRouteBoard 方向列左右分置 info/刷新，位置與有看板時相同
+                        （pt-[9px]＝sentinel 1px + py-2，用 padding 免與外層 margin 合併；h-10＝tab 列高）；載入中不渲染 */}
                     {(error || (data != null && data.length === 0)) && (
-                      <div className="mb-3 flex items-center justify-center gap-3">
-                        {routeInfoButton}
-                        {refreshControls}
+                      <div className="mb-4 pt-[9px]">
+                        <div className="relative h-10">
+                          <div className="absolute left-0 top-6 -translate-y-1/2">
+                            {routeInfoButton}
+                          </div>
+                          {refreshControls && (
+                            <div className="absolute right-0 top-6 -translate-y-1/2">
+                              {refreshControls}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     )}
                     {error && <NoTrainData apiError={error} />}
