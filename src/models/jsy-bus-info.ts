@@ -124,6 +124,13 @@ export interface JsyBusRouteBoard {
   /** 路線來源/縣市（後端 routeUid 反查索引的權威值；存歷史/收藏 meta 用，URL 不帶 source/city）。 */
   source?: BusSource;
   city?: string;
+  /** 路線（子線優先）起訖站，非方向終點；供 SEO 標題用。 */
+  routeDepartureStop?: string;
+  routeDestinationStop?: string;
+  routeDepartureStopEn?: string;
+  routeDestinationStopEn?: string;
+  /** 是否為台灣好行。 */
+  isTaiwanTrip?: boolean;
   /** 命中本路線且生效中的營運通阻公告；無則不帶。兩方向帶同組。 */
   alerts?: JsyBusAlert[];
   /** N1 即時資料實際取得時間（epoch ms）；搭配 isStale 標示資料時效。 */

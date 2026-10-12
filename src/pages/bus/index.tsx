@@ -5,9 +5,7 @@ import BusRouteBoard, {
   BusRouteStopHighlight,
 } from "@/components/bus/BusRouteBoard";
 import BusRouteInfoModal from "@/components/bus/BusRouteInfoModal";
-import BusRouteSearch, {
-  SOURCE_LABEL_KEY,
-} from "@/components/bus/BusRouteSearch";
+import BusRouteSearch from "@/components/bus/BusRouteSearch";
 import BusStopBoard from "@/components/bus/BusStopBoard";
 import BusStopVariantTabs from "@/components/bus/BusStopVariantTabs";
 import AdBanner from "@/components/common/AdBanner";
@@ -49,6 +47,7 @@ import {
 import { StationTarget } from "@/models/station-history";
 import { fetchBusRouteMetaServerSide } from "@/services/busRouteMetaServerService";
 import AdUtils from "@/utils/AdUtils";
+import { SOURCE_LABEL_KEY } from "@/utils/BusUtils";
 import { parseBusStopFavoriteId } from "@/utils/BusStopFavoriteUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
@@ -591,10 +590,31 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
     !!queryRouteUid &&
     r?.routeUid === queryRouteUid &&
     (r?.subRouteName ?? null) === querySub;
+  // 站內換路線（shallow push 不重跑 GSSP）時 selectedRoute 可能只是佔位（收藏 / 歷史 / 站牌看板點入），
+  // 以看板回應的路線識別補齊縣市 / 起訖；補不齊前不出路線標題，避免分類標錯
+  const board = data?.[0];
+  const withBoardIdentity = (r: JsyBusRoute): JsyBusRoute | null => {
+    // 佔位物件 routeType 為 0；起訖可能本來就空（TDX 未提供），故以欄位存在與否判斷
+    if (
+      board?.routeUid !== r.routeUid ||
+      board.routeDepartureStop === undefined
+    )
+      return r.routeType ? r : null;
+    return {
+      ...r,
+      source: board.source ?? r.source,
+      city: board.city ?? r.city,
+      departureStop: board.routeDepartureStop,
+      destinationStop: board.routeDestinationStop ?? r.destinationStop,
+      departureStopEn: board.routeDepartureStopEn,
+      destinationStopEn: board.routeDestinationStopEn,
+      isTaiwanTrip: board.isTaiwanTrip ?? r.isTaiwanTrip,
+    };
+  };
   const seoRoute = matchesUrl(routeMeta)
     ? routeMeta
-    : matchesUrl(selectedRoute)
-      ? selectedRoute
+    : matchesUrl(selectedRoute) && selectedRoute
+      ? withBoardIdentity(selectedRoute)
       : null;
   // 後端明確回 404 才視為無效路線；仍在當前 URL 時才適用
   const isInvalidRoute =
@@ -602,7 +622,11 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
 
   return (
     <>
-      <PageSeo busRoute={seoRoute} busRouteNotFound={isInvalidRoute} />
+      <PageSeo
+        busRoute={seoRoute}
+        busRouteNotFound={isInvalidRoute}
+        busStop={isStopMode ? stopBoard.data : null}
+      />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
           <div className="mx-auto w-full max-w-xl">

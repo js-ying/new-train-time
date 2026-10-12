@@ -4,6 +4,7 @@ import useBusRouteSearch, {
 } from "@/hooks/search/useBusRouteSearch";
 import useBusName from "@/hooks/useBusName";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
+import { SOURCE_LABEL_KEY } from "@/utils/BusUtils";
 import { useTranslation } from "next-i18next";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 
@@ -12,13 +13,6 @@ interface BusRouteSearchProps {
   selectedRoute: JsyBusRoute | null;
   onSelect: (route: JsyBusRoute) => void;
 }
-
-/** 路線來源 → i18n key（市區公車另以縣市名取代）。 */
-export const SOURCE_LABEL_KEY: Record<JsyBusRoute["source"], string> = {
-  city: "busSourceCity",
-  intercity: "busSourceIntercity",
-  taiwantrip: "busSourceTaiwanTrip",
-};
 
 /**
  * [公車] 路線號模糊搜：沿用單站「出發車站」按鈕樣式（Area），點開展下拉，

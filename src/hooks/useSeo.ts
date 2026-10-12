@@ -1,6 +1,7 @@
 import { SeoConfig, baseUrl, seoConfigs } from "@/configs/seoConfig";
 import { PageEnum } from "@/enums/PageEnum";
-import { JsyBusRoute } from "@/models/jsy-bus-info";
+import { JsyBusRoute, JsyBusStopBoard } from "@/models/jsy-bus-info";
+import { SOURCE_LABEL_KEY, toBusCityKey } from "@/utils/BusUtils";
 import { localeToHreflang } from "@/utils/HreflangUtils";
 import { getNameLangKey, getOgLocale } from "@/utils/LocaleUtils";
 import { getStationNameById } from "@/utils/StationUtils";
@@ -9,7 +10,16 @@ import { useRouter } from "next/router";
 import usePage from "./usePage";
 import useSearchAreaParams from "./useSearchAreaParams";
 
-const useSeo = (busRoute: JsyBusRoute | null = null) => {
+/** 站牌頁 title 所需的看板識別 */
+export type BusStopSeo = Pick<
+  JsyBusStopBoard,
+  "stopName" | "stopNameEn" | "city"
+>;
+
+const useSeo = (
+  busRoute: JsyBusRoute | null = null,
+  busStop: BusStopSeo | null = null,
+) => {
   const { i18n, t } = useTranslation();
   const router = useRouter();
   const { page } = usePage();
@@ -150,20 +160,47 @@ const useSeo = (busRoute: JsyBusRoute | null = null) => {
         busRoute.subRouteName ?? busRoute.routeName,
         busRoute.routeNameEn,
       );
-      const titleText = t("busRouteTitle", { routeName: routeLabel });
+      const departureStop = pickName(
+        busRoute.departureStop,
+        busRoute.departureStopEn,
+      );
+      const destinationStop = pickName(
+        busRoute.destinationStop,
+        busRoute.destinationStopEn,
+      );
+      // 分類前綴：台灣好行優先，市區公車取縣市，其餘取來源（同搜尋候選）；
+      // 前綴為來源名稱時已含「公車」語意，不另加名詞
+      const isCityLabel =
+        !busRoute.isTaiwanTrip && busRoute.source === "city" && !!busRoute.city;
+      const placeLabel = busRoute.isTaiwanTrip
+        ? t(SOURCE_LABEL_KEY.taiwantrip)
+        : isCityLabel
+          ? t(`busCity.${busRoute.city}`, { defaultValue: busRoute.city })
+          : t(SOURCE_LABEL_KEY[busRoute.source]);
+      const routeTitle =
+        departureStop && destinationStop
+          ? t(
+              isCityLabel ? "busRouteTitleWithStops" : "busRouteNameWithStops",
+              {
+                routeName: routeLabel,
+                departureStop,
+                destinationStop,
+              },
+            )
+          : isCityLabel
+            ? t("busRouteTitle", { routeName: routeLabel })
+            : routeLabel;
+      // 路線名已含分類（如「台灣好行-D線-…」）時不重複加前綴
+      const titleText = routeLabel.includes(placeLabel)
+        ? routeTitle
+        : `${placeLabel} ${routeTitle}`;
       const fullTitle = `${titleText} - ${t(page + "Title")}`;
 
       const description = (t: Function) =>
         t("busRoutePageDynamicDescription", {
           routeName: routeLabel,
-          departureStop: pickName(
-            busRoute.departureStop,
-            busRoute.departureStopEn,
-          ),
-          destinationStop: pickName(
-            busRoute.destinationStop,
-            busRoute.destinationStopEn,
-          ),
+          departureStop,
+          destinationStop,
         });
 
       breadcrumbs.push({
@@ -178,6 +215,34 @@ const useSeo = (busRoute: JsyBusRoute | null = null) => {
           description: (t: Function) => description(t),
           ogTitle: () => fullTitle,
           ogDescription: (t: Function) => description(t),
+        } as SeoConfig,
+        selfUrl,
+        languageAlternates,
+        ogLocale,
+        ogAlternateLocales,
+        breadcrumbs,
+      };
+    }
+
+    // 公車站牌頁：縣市 + 站名（canonical 仍收斂至 /bus，僅供分頁 / 書籤辨識）
+    if (busStop) {
+      const stopName =
+        getNameLangKey(i18n.language) === "en" && busStop.stopNameEn
+          ? busStop.stopNameEn
+          : busStop.stopName;
+      const placeLabel = t(`busCity.${toBusCityKey(busStop.city)}`, {
+        defaultValue: "",
+      });
+      const titleText = [placeLabel, t("busStopTitle", { stopName })]
+        .filter(Boolean)
+        .join(" ");
+      const fullTitle = `${titleText} - ${t(page + "Title")}`;
+
+      return {
+        seo: {
+          ...seoConfig,
+          title: () => fullTitle,
+          ogTitle: () => fullTitle,
         } as SeoConfig,
         selfUrl,
         languageAlternates,

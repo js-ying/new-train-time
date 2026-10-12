@@ -4,7 +4,7 @@ import TrainTripJsonLd from "@/components/seo/json-ld/TrainTripJsonLd";
 import WebSiteJsonLd from "@/components/seo/json-ld/WebSiteJsonLd";
 import usePage from "@/hooks/usePage";
 import useSearchAreaParams from "@/hooks/useSearchAreaParams";
-import useSeo from "@/hooks/useSeo";
+import useSeo, { BusStopSeo } from "@/hooks/useSeo";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { getStationNameById } from "@/utils/StationUtils";
 import { useTranslation } from "next-i18next";
@@ -17,6 +17,8 @@ interface PageSeoProps {
   busRoute?: JsyBusRoute | null;
   /** 後端明確回 404（路線不存在）；逾時 / 故障不得傳 true，否則一次故障會讓正常路線頁全被 deindex */
   busRouteNotFound?: boolean;
+  /** 公車站牌頁的看板識別；有值時 title 改為縣市 + 站名 */
+  busStop?: BusStopSeo | null;
 }
 
 /**
@@ -31,6 +33,7 @@ interface PageSeoProps {
 const PageSeo: FC<PageSeoProps> = ({
   busRoute = null,
   busRouteNotFound = false,
+  busStop = null,
 }) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useRouter();
@@ -43,7 +46,7 @@ const PageSeo: FC<PageSeoProps> = ({
     ogLocale,
     ogAlternateLocales,
     breadcrumbs,
-  } = useSeo(busRoute);
+  } = useSeo(busRoute, busStop);
 
   // 搜尋頁：用「能否解析出實際站名」判斷是否為有效結果頁，而非只看 query 是否存在。
   // 無效起訖站（如 s=9999&e=8888）會解析成 null，視同空查詢。
