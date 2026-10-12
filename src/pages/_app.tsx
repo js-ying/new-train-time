@@ -17,6 +17,7 @@ import { StationSearchHistoryProvider } from "@/contexts/StationSearchHistoryCon
 import useAutoRedirectLastUsedPage from "@/hooks/useAutoRedirectLastUsedPage";
 import { useTrackBrowseSource } from "@/hooks/useTrackBrowseSource";
 import "@/styles/global.scss";
+import { initWebVitalsAttribution } from "@/utils/WebVitalsUtils";
 import { HeroUIProvider } from "@heroui/react";
 import { sendGAEvent } from "@next/third-parties/google";
 import { appWithTranslation } from "next-i18next";
@@ -24,6 +25,7 @@ import { DefaultSeo } from "next-seo";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { AppProps, NextWebVitalsMetric } from "next/app";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 /** 日韓介面字體：各自獨立 chunk，字體 CSS 只隨該語系頁面載入 */
@@ -33,6 +35,10 @@ const KoLocaleFont = dynamic(() => import("@/components/layout/KoLocaleFont"));
 function App({ Component, pageProps, router }: AppProps) {
   useTrackBrowseSource();
   useAutoRedirectLastUsedPage();
+
+  useEffect(() => {
+    initWebVitalsAttribution();
+  }, []);
 
   return (
     <>
@@ -94,12 +100,12 @@ function App({ Component, pageProps, router }: AppProps) {
  * Core Web Vitals 上報 GA4。
  * Next.js 會把 INP / LCP / CLS / FCP / TTFB 等 metric 自動回呼到此函式，
  * 透過 @next/third-parties 的 gtag 介面送出 web_vitals 事件。
+ * CLS / INP 改由 initWebVitalsAttribution 帶歸因送出，此處略過以免重複計數。
  */
 export function reportWebVitals(metric: NextWebVitalsMetric) {
+  if (metric.name === "CLS" || metric.name === "INP") return;
   sendGAEvent("event", metric.name, {
-    value: Math.round(
-      metric.name === "CLS" ? metric.value * 1000 : metric.value,
-    ),
+    value: Math.round(metric.value),
     metric_id: metric.id,
     metric_value: metric.value,
     metric_label: metric.label,
