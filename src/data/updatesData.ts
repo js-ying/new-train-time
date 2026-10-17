@@ -11,6 +11,25 @@ export const updateDataList = [
   {
     date: "2026-10",
     type: "both",
+    ver: "4.5.1",
+    items: [
+      {
+        type: "fix",
+        content: "修正公車站牌頁在部分同名站牌下，路線分頁不一致的問題",
+      },
+      {
+        type: "fix",
+        content: "修正在查詢結果頁重複查詢時，日期 / 車站選擇器未收起的問題",
+      },
+      {
+        type: "update",
+        content: "統一公車與三鐵的查無資料、錯誤提示樣式",
+      },
+    ],
+  },
+  {
+    date: "2026-10",
+    type: "both",
     ver: "4.5.0",
     items: [
       {
