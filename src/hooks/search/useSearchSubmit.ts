@@ -3,6 +3,7 @@ import {
   SearchAreaUpdateContext,
 } from "@/contexts/SearchAreaContext";
 import { SubmitOverrides, SubmitSearch } from "@/contexts/SearchSubmitContext";
+import { SearchAreaActiveIndexEnum } from "@/enums/SearchAreaParamsEnum";
 import useSearchMode from "@/hooks/search/useSearchMode";
 import usePage from "@/hooks/usePage";
 import useParamsValidation, {
@@ -76,9 +77,14 @@ const useSearchSubmit = (): UseSearchSubmitResult => {
           time.replace(":", "") === router.query?.t &&
           draftMode === currentUrlMode;
 
-        // URL 不變時 router.push 不會觸發重抓，改換 uuid 讓查詢 effect 重跑
+        // URL 不變時 router.push 不會觸發重抓，改換 uuid 讓查詢 effect 重跑；
+        // 也不會走 URL 同步收起選擇器，在此一併收起
         if (isSameQuery) {
-          setParams((prev) => ({ ...prev, uuid: Date.now().toString() }));
+          setParams((prev) => ({
+            ...prev,
+            uuid: Date.now().toString(),
+            activeIndex: SearchAreaActiveIndexEnum.EMPTY,
+          }));
           return;
         }
 
