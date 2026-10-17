@@ -1,3 +1,4 @@
+import CommonDialog from "@/components/common/CommonDialog";
 import HeartIcon from "@/components/icons/HeartIcon";
 import useBusFavoriteStopBoards from "@/hooks/search/useBusFavoriteStopBoards";
 import useBusName from "@/hooks/useBusName";
@@ -106,26 +107,14 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
 
   return (
     <div className="flex w-full flex-col gap-3">
-      {/* idle 暫停時顯示恢復提示條，否則顯示輪詢倒數環 */}
-      {isIdle ? (
-        <button
-          type="button"
-          onClick={resumeAutoRefresh}
-          className="custom-cursor-pointer rounded-md border border-solid border-foreground p-2 text-center text-xs text-muted-foreground"
-        >
-          {t("autoRefreshIdleMsg")}
-        </button>
-      ) : (
-        isAutoRefresh &&
-        nextUpdateAt != null && (
-          <div className="flex justify-center pb-1.5">
-            <BusAutoRefreshRing
-              nextUpdateAt={nextUpdateAt}
-              intervalMs={pollIntervalMs}
-              onRefresh={handleRefresh}
-            />
-          </div>
-        )
+      {isAutoRefresh && nextUpdateAt != null && (
+        <div className="flex justify-center pb-1.5">
+          <BusAutoRefreshRing
+            nextUpdateAt={nextUpdateAt}
+            intervalMs={pollIntervalMs}
+            onRefresh={handleRefresh}
+          />
+        </div>
       )}
       {staleWarning && (
         <div className="text-center text-xs text-warning">{staleWarning}</div>
@@ -230,6 +219,18 @@ const BusFavoriteStopBoard: FC<BusFavoriteStopBoardProps> = ({
 
       {/* 手動刷新冷卻提示（凍結秒數）；此看板僅登入會員可見，故不附登入引導 */}
       <QueryCooldownDialog cooldown={refreshCooldown} />
+
+      {/* 久無操作暫停自動更新：比照路線 / 站牌看板，任何關閉動作都恢復輪詢 */}
+      <CommonDialog
+        open={isIdle}
+        setOpen={(o) => {
+          if (!o) resumeAutoRefresh();
+        }}
+        title="autoRefreshIdleTitle"
+        confirmText="autoRefreshIdleConfirm"
+      >
+        {t("autoRefreshIdleMsg")}
+      </CommonDialog>
     </div>
   );
 };

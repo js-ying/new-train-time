@@ -1,3 +1,4 @@
+import CommonAlert from "@/components/common/CommonAlert";
 import QueryCooldownDialog from "@/components/common/QueryCooldownDialog";
 import LocateIcon from "@/components/icons/LocateIcon";
 import Area from "@/components/search-area/Area";
@@ -169,10 +170,11 @@ const TrStationPicker: FC<TrStationPickerProps> = ({
         )}
       </div>
 
+      {/* 定位失敗：比照公車頁的 error Alert，距按鈕列 16px（gap-3 + mt-1） */}
       {geoError && (
-        <div className="mb-3 text-center text-xs text-danger">
-          {geoError}
-        </div>
+        <CommonAlert severity="error" className="mt-1">
+          <div className="font-bold">{geoError}</div>
+        </CommonAlert>
       )}
 
       {/* 選站區：縣市分層 + 搜尋 */}

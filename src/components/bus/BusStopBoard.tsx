@@ -1,3 +1,4 @@
+import BusEmptyNotice from "@/components/bus/BusEmptyNotice";
 import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
 import HeartIcon from "@/components/icons/HeartIcon";
@@ -89,9 +90,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
   if (board.routes.length === 0) {
     return (
       <>
-        <div className="rounded-xl border border-solid border-foreground p-4 text-center text-sm text-muted-foreground">
-          {t("busStopBoardEmpty")}
-        </div>
+        <BusEmptyNotice>{t("busStopBoardEmpty")}</BusEmptyNotice>
         {/* 查過 TDX 即有廣告：查無路線也顯示（同路線頁無即時） */}
         <div className="mt-4 empty:hidden">
           <AdBanner mode="trainInfo" />

@@ -1,3 +1,4 @@
+import BusEmptyNotice from "@/components/bus/BusEmptyNotice";
 import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
 import { useAuth } from "@/contexts/AuthContext";
@@ -204,8 +205,9 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
             )}
           </div>
         )}
+        {/* 吸頂時上下各 12px（gap-2 + my-1），與路線名、方向列等距 */}
         {warningSlot && (
-          <div className={isStuck ? undefined : "mb-3"}>{warningSlot}</div>
+          <div className={isStuck ? "my-1" : "mb-3"}>{warningSlot}</div>
         )}
         {/* 方向切換列：tab/目的地置中，leadingSlot（詳細資訊）掛最左、cornerSlot（刷新/倒數環）掛最右 */}
         <div className="relative">
@@ -284,9 +286,8 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
             ))}
           </div>
         ) : (
-          <div className="text-center text-sm text-muted-foreground">
-            {t("busBoardEmpty")}
-          </div>
+          // mt-2：與站序首張卡片同位置
+          <BusEmptyNotice className="mt-2">{t("busBoardEmpty")}</BusEmptyNotice>
         ))}
 
       {/* 未登入點愛心：引導登入 */}

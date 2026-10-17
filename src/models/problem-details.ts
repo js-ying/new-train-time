@@ -73,10 +73,13 @@ export const toApiError = (err: unknown): ApiError => {
   if (typeof err === "object" && err !== null) {
     const maybeProblem = err as Partial<ProblemDetails>;
     if (typeof maybeProblem.code === "string" && typeof maybeProblem.status === "number") {
+      // 標準欄位以外的擴充欄位（如站牌錯誤附帶的 stopName）放進 extras
+      const { type, title, status, code, detail, instance, ...rest } = maybeProblem;
       return new ApiError(
-        maybeProblem.code as ProblemCode,
-        maybeProblem.status,
-        maybeProblem.detail,
+        code as ProblemCode,
+        status as number,
+        detail,
+        Object.keys(rest).length > 0 ? rest : undefined,
       );
     }
   }

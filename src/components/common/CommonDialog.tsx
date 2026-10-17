@@ -48,6 +48,9 @@ interface CommonDialogProps {
   isDismissable?: boolean;
   // 是否可按 Esc 關閉
   isKeyboardDismissDisabled?: boolean;
+
+  // 內文比照純文字短提示置中（children 為多段元素的短提示用）
+  centerBody?: boolean;
 }
 
 /**
@@ -70,7 +73,7 @@ const CommonDialog: FC<CommonDialogProps> = (props) => {
   // 其餘內容：中日左右切齊、英韓靠左
   // （必須用完整字串，Tailwind JIT 才能掃描到 arbitrary value）
   const bodyAlignClass =
-    typeof props.children === "string"
+    typeof props.children === "string" || props.centerBody
       ? isSpaceSeparated
         ? "text-center [text-wrap:balance]"
         : "text-center [word-break:keep-all] [overflow-wrap:anywhere]"

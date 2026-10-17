@@ -5,7 +5,7 @@ import { useState } from "react";
 
 /**
  * 「離我最近站牌」：geolocation 取座標 → 後端解析最近站牌 → onResolve 回呼（頁面寫 URL）。
- * 定位/查無/失敗各自的提示沿用 TR 定位錯誤 i18n + 公車專屬 key。
+ * 定位/失敗為錯誤（geoError）；附近查無站牌另以 notFound 回報，由頁面以無資料提示呈現。
  */
 export const useNearestBusStop = (
   onResolve: (stop: JsyBusNearestStop) => void,
@@ -13,6 +13,7 @@ export const useNearestBusStop = (
   const { t } = useTranslation();
   const [isLocating, setIsLocating] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
+  const [notFound, setNotFound] = useState(false);
 
   const locate = () => {
     if (typeof navigator === "undefined" || !navigator.geolocation) {
@@ -21,6 +22,7 @@ export const useNearestBusStop = (
     }
     setIsLocating(true);
     setGeoError(null);
+    setNotFound(false);
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         try {
@@ -29,7 +31,7 @@ export const useNearestBusStop = (
             pos.coords.longitude,
           );
           if (stop) onResolve(stop);
-          else setGeoError(t("busNearestNotFound"));
+          else setNotFound(true);
         } catch {
           setGeoError(t("busNearestFailed"));
         } finally {
@@ -45,7 +47,7 @@ export const useNearestBusStop = (
     );
   };
 
-  return { locate, isLocating, geoError };
+  return { locate, isLocating, geoError, notFound };
 };
 
 export default useNearestBusStop;

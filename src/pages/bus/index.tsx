@@ -1,4 +1,5 @@
 import BusAutoRefreshRing from "@/components/bus/BusAutoRefreshRing";
+import BusEmptyNotice from "@/components/bus/BusEmptyNotice";
 import BusFavoriteStopBoard from "@/components/bus/BusFavoriteStopBoard";
 import BusOperationAlert from "@/components/bus/BusOperationAlert";
 import BusRouteBoard, {
@@ -9,6 +10,7 @@ import BusRouteSearch from "@/components/bus/BusRouteSearch";
 import BusStopBoard from "@/components/bus/BusStopBoard";
 import BusStopVariantTabs from "@/components/bus/BusStopVariantTabs";
 import AdBanner from "@/components/common/AdBanner";
+import CommonAlert from "@/components/common/CommonAlert";
 import CommonDialog from "@/components/common/CommonDialog";
 import Loading from "@/components/common/Loading";
 import QueryCooldownDialog from "@/components/common/QueryCooldownDialog";
@@ -90,8 +92,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
 const VALID_SOURCES: BusSource[] = ["city", "intercity", "taiwantrip"];
 
-/** 從 URL query 還原已選路線（重新整理 / 分享連結可直接看板；route 為顯示用最小資訊）。 */
-const parseRouteFromQuery = (query: ParsedUrlQuery): JsyBusRoute | null => {
+/**
+ * 從 URL query 還原已選路線（重新整理 / 分享連結可直接看板；route 為顯示用最小資訊）。
+ * meta 為 SSR 取得的路線識別，與 URL 同一條時用其權威路線名。
+ */
+const parseRouteFromQuery = (
+  query: ParsedUrlQuery,
+  meta?: JsyBusRoute | null,
+): JsyBusRoute | null => {
   const routeUid = typeof query.routeUid === "string" ? query.routeUid : null;
   if (!routeUid) return null;
 
@@ -103,11 +111,16 @@ const parseRouteFromQuery = (query: ParsedUrlQuery): JsyBusRoute | null => {
       : "city";
   const city = typeof query.city === "string" ? query.city : undefined;
   const subRouteName = typeof query.sub === "string" ? query.sub : undefined;
+  const fromMeta =
+    meta?.routeUid === routeUid && (meta.subRouteName ?? undefined) === subRouteName
+      ? meta
+      : null;
   return {
     routeUid,
-    // 冷開/分享顯示名：子線用子線名（如 1822A）、route 粒度先佔位 routeUid，
+    // 冷開/分享顯示名：子線用子線名（如 1822A）、route 粒度用 SSR 路線名，取不到才佔位 routeUid；
     // arrivals 到位後由 useEffect 補權威值（子線名不覆寫；URL 不帶 name）
-    routeName: subRouteName ?? routeUid,
+    routeName: subRouteName ?? fromMeta?.routeName ?? routeUid,
+    routeNameEn: subRouteName ? undefined : fromMeta?.routeNameEn,
     subRouteName,
     source,
     city,
@@ -197,7 +210,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
   // routeUid 相同則保留現有物件（含完整起訖資訊），避免被 URL 精簡版覆蓋。
   useEffect(() => {
     if (!router.isReady) return;
-    const fromUrl = parseRouteFromQuery(router.query);
+    const fromUrl = parseRouteFromQuery(router.query, routeMeta);
     // routeUid + 子線都相同才保留現有物件（含完整起訖）；換子線視為換查詢
     setSelectedRoute((prev) =>
       prev &&
@@ -323,11 +336,19 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
   const stopSelection: BusStopSelection | null = stopUid ? { stopUid } : null;
   const stopBoard = useBusStopBoard(stopSelection);
   const isStopMode = !!stopSelection;
-  // 站牌頁標題：後端回的權威站名（單錨無 URL stopName，載入前留白由 loading 佔位）
-  const stopDisplayName = busName(
-    stopBoard.data?.stopName || "",
-    stopBoard.data?.stopNameEn,
-  );
+  // 站牌頁標題：後端回的權威站名（單錨無 URL stopName，載入前留白由 loading 佔位）；
+  // 看板取數失敗時改用錯誤回應附帶的站名
+  const stopErrorExtras = stopBoard.error?.extras;
+  const stopDisplayName = stopBoard.data
+    ? busName(stopBoard.data.stopName, stopBoard.data.stopNameEn)
+    : busName(
+        typeof stopErrorExtras?.stopName === "string"
+          ? stopErrorExtras.stopName
+          : "",
+        typeof stopErrorExtras?.stopNameEn === "string"
+          ? stopErrorExtras.stopNameEn
+          : undefined,
+      );
 
   // 依模式取作用中看板的共用狀態（data 型別不同故各自取）
   const active = isStopMode ? stopBoard : routeArrivals;
@@ -393,7 +414,8 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
       { key: `stopuid:${stop.stopUid}` },
     );
   };
-  const { locate, geoError } = useNearestBusStop(handleNearestStop);
+  const { locate, geoError, notFound: nearestNotFound } =
+    useNearestBusStop(handleNearestStop);
 
   // 路線詳細資訊（業者/票價/路線圖/時刻表）：選定即抓，供 modal 顯示
   const {
@@ -656,10 +678,17 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                   </div>
                 )}
               </div>
+              {/* 定位失敗：比照 API 錯誤的 error Alert，位置同附近查無站牌 */}
               {geoError && (
-                <div className="mb-2 mt-2 text-center text-xs text-danger">
-                  {geoError}
-                </div>
+                <CommonAlert severity="error" className="mt-3 w-full">
+                  <div className="font-bold">{geoError}</div>
+                </CommonAlert>
+              )}
+              {/* 附近查無站牌：同無資料提示，距上方按鈕列同無即時（gap-1 + mt-3 = 16px） */}
+              {nearestNotFound && (
+                <BusEmptyNotice className="mt-3 w-full">
+                  {t("busNearestNotFound")}
+                </BusEmptyNotice>
               )}
             </div>
 
@@ -757,7 +786,17 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                       onSelectRoute={handleSelectStopRoute}
                     />
                   ) : (
-                    error && <NoTrainData apiError={error} />
+                    error && (
+                      <>
+                        <NoTrainData apiError={error} />
+                        {/* 查過 TDX 即有廣告：錯誤也顯示（同路線頁） */}
+                        {AdUtils.showAd(0, 0) && (
+                          <div className="mt-4">
+                            <AdBanner mode="trainInfo" />
+                          </div>
+                        )}
+                      </>
+                    )
                   )}
                 </div>
               </div>
@@ -804,9 +843,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                     )}
                     {error && <NoTrainData apiError={error} />}
                     {!error && data && data.length === 0 && (
-                      <div className="rounded-xl border border-solid border-foreground p-4 text-center text-sm text-muted-foreground">
-                        {t("busNoRealtime")}
-                      </div>
+                      <BusEmptyNotice>{t("busNoRealtime")}</BusEmptyNotice>
                     )}
                     {/* 查過 TDX 即有廣告：錯誤 / 無即時班次也顯示（同 TR OD NoTrainData，trainInfo 大版）；載入中不掛 */}
                     {AdUtils.showAd(0, 0) &&
@@ -836,6 +873,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
               open={busRefreshCooldown.dialogOpen}
               setOpen={busRefreshCooldown.setDialogOpen}
               title="cooldownAlertTitle"
+              centerBody
               cancelText={isAutoRefresh ? undefined : "cancel"}
               confirmText={isAutoRefresh ? undefined : "login"}
               onConfirm={
@@ -847,7 +885,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                     }
               }
             >
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-3">
                 <p>
                   {t("sameQueryCountdownMsg", {
                     seconds: busRefreshCooldown.frozenSeconds,
