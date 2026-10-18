@@ -11,6 +11,17 @@ export const updateDataList = [
   {
     date: "2026-10",
     type: "both",
+    ver: "4.5.2",
+    items: [
+      {
+        type: "update",
+        content: "調整台鐵「自強」的車種標籤顏色",
+      },
+    ],
+  },
+  {
+    date: "2026-10",
+    type: "both",
     ver: "4.5.1",
     items: [
       {
