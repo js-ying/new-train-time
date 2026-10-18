@@ -27,9 +27,10 @@ export const isTrainPass = (
   const trainInstant = dayjs
     .tz(`${date} ${departureTime}`, "YYYY-MM-DD HH:mm", "Asia/Taipei")
     .valueOf();
-  const nowInstant = Date.now();
+  // 以分鐘為單位比較：發車那一分鐘內視為未發車（與後端 >= 一致）
+  const nowMinuteInstant = Math.floor(Date.now() / 60000) * 60000;
 
-  return trainInstant < nowInstant;
+  return trainInstant < nowMinuteInstant;
 };
 
 /**
