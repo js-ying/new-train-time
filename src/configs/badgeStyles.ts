@@ -9,4 +9,6 @@ export const SOLID_BADGE = {
   indigo: "bg-indigo-500 text-white dark:bg-indigo-500/80",
   rose: "bg-rose-500 text-white dark:bg-rose-500/80",
   amber: "bg-amber-500 text-white dark:bg-amber-500/80",
+  // lime-500 白字對比不足，改用 600
+  lime: "bg-lime-600 text-white dark:bg-lime-600/80",
 } as const;

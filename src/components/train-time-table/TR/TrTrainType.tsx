@@ -10,13 +10,14 @@ interface TrTrainTypeProps {
 }
 
 /** TR 車種顏色 — 列舉色為業務語意，直接用 Tailwind palette；
- * 中日韓實心 badge 共用 SOLID_BADGE，英文文字版（-500 暗色 /80 降飽和）僅此處使用。 */
+ * 中日韓實心 badge 共用 SOLID_BADGE，英文文字版（色階同 SOLID_BADGE，暗色 /80 降飽和）僅此處使用。 */
 type TrTrainTypeStyle = { cjk: string; latin: string };
 const TR_TRAIN_TYPE_STYLE: Record<string, TrTrainTypeStyle> = {
-  // 自強 / 太魯閣自強
-  "3": { cjk: SOLID_BADGE.teal, latin: "font-bold text-teal-500 dark:text-teal-500/80" },
+  // 自強（與新自強區隔）
+  "3": { cjk: SOLID_BADGE.lime, latin: "font-bold text-lime-600 dark:text-lime-600/80" },
+  // 新自強
   "11": { cjk: SOLID_BADGE.teal, latin: "font-bold text-teal-500 dark:text-teal-500/80" },
-  // 區間 / 區間快
+  // 區間 / 普快 / 區間快
   "6": { cjk: SOLID_BADGE.sky, latin: "font-bold text-sky-500 dark:text-sky-500/80" },
   "7": { cjk: SOLID_BADGE.sky, latin: "font-bold text-sky-500 dark:text-sky-500/80" },
   "10": { cjk: SOLID_BADGE.sky, latin: "font-bold text-sky-500 dark:text-sky-500/80" },
