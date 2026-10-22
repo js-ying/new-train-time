@@ -42,6 +42,7 @@ export interface AutoRefreshDataOptions {
 /**
  * 即時看板通用輪詢 hook（路線看板 / 站牌看板共用）。
  * - 選擇變更（key）→ 清舊資料、抓首筆、登入會員再掛輪詢；失敗保留前一份（stale-on-error）。
+ * - 登入狀態變動只重掛輪詢，不重抓首筆（冷開時 Auth 晚於首抓完成）。
  * - 登入會員：頁面 visible 且 focus 時每 10s 自動輪詢；切背景暫停、回前景立即刷新。
  * - 未登入：不自動輪詢，僅靠 refresh。
  * @param fetcher 依 signal 抓一份資料；null = 無選擇。可直接取最新 state（閉包已處理）。
@@ -119,16 +120,8 @@ export const useAutoRefreshData = <T>(
     }
   }, []);
 
+  // 換選擇：清舊資料並抓首筆（只依賴 key，登入狀態晚到不重抓）
   useEffect(() => {
-    cancelledRef.current = false;
-    idleRef.current = false;
-    setIsIdle(false);
-    if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
-    setNextUpdateAt(null);
-    // 換選擇重置退避（新查詢從標準間隔開始）
-    failStreakRef.current = 0;
-    setPollIntervalMs(POLL_INTERVAL_MS);
-
     if (!key) {
       setData(null);
       setError(null);
@@ -145,10 +138,26 @@ export const useAutoRefreshData = <T>(
     setError(null);
     void runFetch(true);
 
-    if (!isAutoRefresh) {
+    return () => {
+      abortRef.current?.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  // 輪詢：換選擇或登入狀態變動時重掛（不清資料、不重抓首筆）
+  useEffect(() => {
+    cancelledRef.current = false;
+    idleRef.current = false;
+    setIsIdle(false);
+    if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
+    setNextUpdateAt(null);
+    // 換選擇重置退避（新查詢從標準間隔開始）
+    failStreakRef.current = 0;
+    setPollIntervalMs(POLL_INTERVAL_MS);
+
+    if (!key || !isAutoRefresh) {
       return () => {
         cancelledRef.current = true;
-        abortRef.current?.abort();
       };
     }
 
@@ -235,7 +244,6 @@ export const useAutoRefreshData = <T>(
 
     return () => {
       cancelledRef.current = true;
-      abortRef.current?.abort();
       if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
       resumeRef.current = null;
       scheduleRef.current = null;
