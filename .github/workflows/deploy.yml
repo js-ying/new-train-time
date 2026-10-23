@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
 
       # 抓 server 的 .env.production 當 build env（NEXT_PUBLIC_* 需在 build 時 inline）；
@@ -77,7 +77,7 @@ jobs:
           command_timeout: 10m # 舊 config 沒設 → build 超時被砍是當初 crash loop 元兇
           script: |
             source ~/.zshrc
-            nvm use v20
+            nvm use v22
             APP=/var/www/html/jsy.tw/fullstack/new-train-time
             STAGE="$APP/.deploy-staging"
             SRC="$STAGE/extract"
