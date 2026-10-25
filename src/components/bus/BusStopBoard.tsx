@@ -2,7 +2,7 @@ import BusEmptyNotice from "@/components/bus/BusEmptyNotice";
 import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
 import HeartIcon from "@/components/icons/HeartIcon";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, usePrepareLogin } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import useBusName from "@/hooks/useBusName";
 import useSetting from "@/hooks/useSetting";
@@ -50,6 +50,7 @@ const BusStopBoard: FC<BusStopBoardProps> = ({
   const [showFavoriteStops] = useSetting("showFavoriteStops");
 
   const [loginOpen, setLoginOpen] = useState(false);
+  usePrepareLogin(loginOpen);
   const [limitOpen, setLimitOpen] = useState(false);
 
   // 子線列顯示子線名，英文用 routeNameEn（已是該子線英文）

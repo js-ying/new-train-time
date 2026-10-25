@@ -1,4 +1,8 @@
-import { loadFirebaseAuth } from "@/configs/firebase";
+import {
+  isFirebaseAuthLoaded,
+  loadFirebaseAuth,
+  mayHaveStoredSession,
+} from "@/configs/firebase";
 import { ApiError, ProblemDetails, toApiError } from "@/models/problem-details";
 import type { User } from "firebase/auth";
 
@@ -9,6 +13,8 @@ import type { User } from "firebase/auth";
 export async function getOptionalAuthHeader(): Promise<Record<string, string>> {
   if (typeof window === "undefined") return {};
   try {
+    // 從未登入過的訪客不載入 firebase/auth
+    if (!isFirebaseAuthLoaded() && !(await mayHaveStoredSession())) return {};
     const { auth } = await loadFirebaseAuth();
     const user = auth.currentUser;
     if (!user) return {};

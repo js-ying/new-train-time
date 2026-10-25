@@ -1,4 +1,4 @@
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, usePrepareLogin } from "@/contexts/AuthContext";
 import { SearchAreaContext } from "@/contexts/SearchAreaContext";
 import { GaEnum } from "@/enums/GaEnum";
 import useFavoriteRoutes from "@/hooks/useFavoriteRoutes";
@@ -23,6 +23,7 @@ const FavoriteButton: FC = () => {
   const [showFavoriteRoutes] = useSetting("showFavoriteRoutes");
 
   const [loginOpen, setLoginOpen] = useState(false);
+  usePrepareLogin(loginOpen);
   const [limitOpen, setLimitOpen] = useState(false);
 
   const start = params?.startStationId;

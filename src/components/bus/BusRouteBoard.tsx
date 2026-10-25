@@ -1,7 +1,7 @@
 import BusEmptyNotice from "@/components/bus/BusEmptyNotice";
 import AdBanner from "@/components/common/AdBanner";
 import CommonDialog from "@/components/common/CommonDialog";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, usePrepareLogin } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import useBusName from "@/hooks/useBusName";
 import useIsStuck from "@/hooks/useIsStuck";
@@ -139,6 +139,7 @@ const BusRouteBoard: FC<BusRouteBoardProps> = ({
     useStationFavorites("BUS_STOP");
   const [showFavoriteStops] = useSetting("showFavoriteStops");
   const [loginOpen, setLoginOpen] = useState(false);
+  usePrepareLogin(loginOpen);
   const [limitOpen, setLimitOpen] = useState(false);
 
   // 未登入跳登入引導；已收藏→移除；未收藏→加入（已滿跳上限提示）

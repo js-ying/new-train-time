@@ -3,7 +3,7 @@ import CommonDialog from "@/components/common/CommonDialog";
 import Layout from "@/components/layout/Layout";
 import { CONTACT_EMAIL } from "@/configs/contact";
 import { PREMIUM_PLANS } from "@/configs/premiumPlans";
-import { isAuthError, useAuth } from "@/contexts/AuthContext";
+import { isAuthError, useAuth, usePrepareLogin } from "@/contexts/AuthContext";
 import useMuiTheme from "@/hooks/useMuiTheme";
 import {
   FREE_MAX_PER_TYPE,
@@ -45,7 +45,9 @@ const Premium: FC = () => {
     router.locales,
     router.defaultLocale,
   );
-  const { user, loginWithGoogle, notifySessionExpired } = useAuth();
+  const { user, loading, loginWithGoogle, notifySessionExpired } = useAuth();
+  // 未登入點購買會直接開登入 popup
+  usePrepareLogin(!loading && !user);
 
   // 消保法：結帳前須勾選同意排除七日猶豫期，未勾不可購買
   const [consent, setConsent] = useState(false);

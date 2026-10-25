@@ -1,5 +1,5 @@
 import HeartIcon from "@/components/icons/HeartIcon";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, usePrepareLogin } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import useStationFavorites from "@/hooks/useStationFavorites";
 import useSetting from "@/hooks/useSetting";
@@ -55,6 +55,7 @@ const StationFavoriteButton: FC<StationFavoriteButtonProps> = ({
   const [showFavoriteStops] = useSetting("showFavoriteStops");
 
   const [loginOpen, setLoginOpen] = useState(false);
+  usePrepareLogin(loginOpen);
   const [limitOpen, setLimitOpen] = useState(false);
 
   const { requiresLogin: requiresLoginKey, limitReached: limitReachedKey } =

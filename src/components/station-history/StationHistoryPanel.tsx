@@ -6,7 +6,7 @@ import {
   SearchPanelTabKey,
   SearchPanelTabView,
 } from "@/configs/searchPanelTabs";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, usePrepareLogin } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import useReorderMode from "@/hooks/useReorderMode";
 import useSetting from "@/hooks/useSetting";
@@ -104,6 +104,7 @@ const StationHistoryPanel: FC<StationHistoryPanelProps> = ({
   const [preferBusStopTab] = useSetting("preferBusStopTab");
 
   const [loginOpen, setLoginOpen] = useState(false);
+  usePrepareLogin(loginOpen);
   const [limitOpen, setLimitOpen] = useState(false);
 
   // 文案依車種切「車站 / 路線」（歷史用語兩者皆通，僅常用 / 收藏需區分）

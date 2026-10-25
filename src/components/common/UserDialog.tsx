@@ -1,5 +1,5 @@
 import CommonDialog from "@/components/common/CommonDialog";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, usePrepareLogin } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { FREE_MAX_PER_TYPE, PREMIUM_MAX_PER_TYPE } from "@/models/membership";
 import { gaClickEvent } from "@/utils/GaUtils";
@@ -56,6 +56,7 @@ const formatExpiryDate = (iso: string): string => {
  */
 const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
   const { user, profile, loginWithGoogle, logout } = useAuth();
+  usePrepareLogin(open && !user);
   const { t } = useTranslation();
 
   /** 處理 Google 登入 */

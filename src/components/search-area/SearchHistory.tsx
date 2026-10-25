@@ -5,7 +5,7 @@ import {
   SearchPanelTabKey,
   SearchPanelTabView,
 } from "@/configs/searchPanelTabs";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, usePrepareLogin } from "@/contexts/AuthContext";
 import { routeKey } from "@/contexts/FavoriteRoutesContext";
 import {
   SearchAreaContext,
@@ -104,6 +104,7 @@ const SearchHistory: FC = () => {
 
   // 未登入點愛心 → 跳登入引導；收藏已滿 → 跳上限提示
   const [loginOpen, setLoginOpen] = useState(false);
+  usePrepareLogin(loginOpen);
   const [limitOpen, setLimitOpen] = useState(false);
 
   // 歷史顯示快照：避免「按搜尋→導頁」前的重排閃動（唯一例外靠 localSaveFlag 跳過）。

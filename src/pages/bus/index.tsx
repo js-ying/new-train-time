@@ -21,7 +21,7 @@ import PageSeo from "@/components/seo/PageSeo";
 import StationFavoriteButton from "@/components/station-history/StationFavoriteButton";
 import StationHistoryPanel from "@/components/station-history/StationHistoryPanel";
 import NoTrainData from "@/components/train-time-table/NoTrainData";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, usePrepareLogin } from "@/contexts/AuthContext";
 import { GaEnum } from "@/enums/GaEnum";
 import { PathEnum } from "@/enums/PathEnum";
 import useBusRouteArrivals, {
@@ -391,6 +391,7 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
 
   // 手動刷新冷卻（route/stop 共用一份；refresh 指向作用中看板）；冷卻中再按 → 彈窗「請於 X 秒後再試」
   const busRefreshCooldown = useRefreshCooldown(QUERY_COOLDOWN_MS);
+  usePrepareLogin(busRefreshCooldown.dialogOpen && !isAutoRefresh);
   const handleRefresh = () => busRefreshCooldown.attempt(refresh);
   // 同查詢冷卻：冷卻內選同路線 / 定位到同站牌擋下並提示（按 key 區分，不同查詢不互擋），比照 TR 單站
   const busQueryCooldown = useRefreshCooldown(QUERY_COOLDOWN_MS);
