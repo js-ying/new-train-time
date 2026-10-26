@@ -17,6 +17,7 @@ import QueryCooldownDialog from "@/components/common/QueryCooldownDialog";
 import RefreshButton from "@/components/common/RefreshButton";
 import LocateIcon from "@/components/icons/LocateIcon";
 import Layout from "@/components/layout/Layout";
+import PopularBusRoutes from "@/components/search-area/PopularBusRoutes";
 import PageSeo from "@/components/seo/PageSeo";
 import StationFavoriteButton from "@/components/station-history/StationFavoriteButton";
 import StationHistoryPanel from "@/components/station-history/StationHistoryPanel";
@@ -46,8 +47,10 @@ import {
   JsyBusStopArrival,
   JsyBusStopBoardRoute,
 } from "@/models/jsy-bus-info";
+import { JsyPopularStation } from "@/models/jsy-popular-stations";
 import { StationTarget } from "@/models/station-history";
 import { fetchBusRouteMetaServerSide } from "@/services/busRouteMetaServerService";
+import { fetchPopularStations } from "@/services/popularStationsService";
 import AdUtils from "@/utils/AdUtils";
 import { SOURCE_LABEL_KEY } from "@/utils/BusUtils";
 import { parseBusStopFavoriteId } from "@/utils/BusStopFavoriteUtils";
@@ -66,6 +69,8 @@ interface BusPageProps {
   routeMeta: JsyBusRoute | null;
   /** 後端明確回 404 的 routeUid；供 SEO 判定 noindex，逾時 / 故障時為 null */
   notFoundRouteUid: string | null;
+  /** 未選路線時顯示的熱門路線；帶路線 / 站牌頁為空陣列 */
+  popularBusRoutes: JsyPopularStation[];
 }
 
 // i18n + 路線識別（看板即時資料仍於 client 抓 + 輪詢，此處只取路線名等識別資訊供 SEO）
@@ -79,6 +84,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     routeUid && !query.stopUid
       ? await fetchBusRouteMetaServerSide(routeUid, sub, ctx.req)
       : null;
+  // 只在未帶路線 / 站牌時取熱門路線
+  const popularBusRoutes =
+    routeUid || query.stopUid ? [] : await fetchPopularStations("BUS");
 
   return {
     props: {
@@ -86,6 +94,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       routeMeta: meta?.route ?? null,
       // 綁 uid 而非布林：換路線走 shallow push 不重跑 gSSP，比對 URL 即自動失效
       notFoundRouteUid: meta?.notFound ? routeUid : null,
+      popularBusRoutes,
     },
   };
 }
@@ -180,7 +189,11 @@ const InfoIcon: FC = () => (
 );
 
 /** [頁面] 公車路線即時到站查詢（模糊搜 → 選路線 → 去/返程即時看板，輪詢刷新）。 */
-const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
+const BusPage: FC<BusPageProps> = ({
+  routeMeta,
+  notFoundRouteUid,
+  popularBusRoutes,
+}) => {
   const muiTheme = useMuiTheme();
   const router = useRouter();
   const { t } = useTranslation();
@@ -752,6 +765,13 @@ const BusPage: FC<BusPageProps> = ({ routeMeta, notFoundRouteUid }) => {
                     ),
                   }}
                 />
+              </div>
+            )}
+
+            {/* 熱門路線快查；顯示與否同首頁熱門路線，由 _document、SettingContext 控制 */}
+            {!selectedRoute && !isStopMode && (
+              <div className="js-popular-routes mt-6">
+                <PopularBusRoutes routes={popularBusRoutes} />
               </div>
             )}
 

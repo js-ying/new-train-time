@@ -48,6 +48,7 @@ export enum GaEnum {
   THSR_POPULAR_ROUTE = "高鐵熱門路線",
   TYMC_POPULAR_ROUTE = "桃捷熱門路線",
   TR_POPULAR_STATION = "台鐵熱門車站",
+  BUS_POPULAR_ROUTE = "公車熱門路線",
   LOGIN_WITH_GOOGLE = "Google 登入",
   SYSTEM_SETTINGS = "系統設定",
   SHOW_POPULAR_ROUTES = "顯示熱門路線快查",

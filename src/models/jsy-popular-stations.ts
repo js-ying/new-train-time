@@ -3,10 +3,14 @@
  * 純型別 + 靜態 fallback，可同時被 getServerSideProps（server）與元件（client）安全 import。
  */
 
-/** 單筆熱門單站（stationId 對 TR 是站號、對未來 BUS 是路線 id） */
+import { JsyBusRoute } from "./jsy-bus-info";
+
+/** 單筆熱門單站（stationId 對 TR 是站號、對 BUS 是 routeUid 或 routeUid|子線名） */
 export interface JsyPopularStation {
   stationId: string;
   stationName?: string;
+  /** BUS 才有：索引中的路線（組路線頁標題與連結） */
+  busRoute?: JsyBusRoute;
 }
 
 /**

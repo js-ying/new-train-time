@@ -1,7 +1,7 @@
 import { SeoConfig, baseUrl, seoConfigs } from "@/configs/seoConfig";
 import { PageEnum } from "@/enums/PageEnum";
 import { JsyBusRoute, JsyBusStopBoard } from "@/models/jsy-bus-info";
-import { SOURCE_LABEL_KEY, toBusCityKey } from "@/utils/BusUtils";
+import { buildBusRouteTitle, toBusCityKey } from "@/utils/BusUtils";
 import { localeToHreflang } from "@/utils/HreflangUtils";
 import { getNameLangKey, getOgLocale } from "@/utils/LocaleUtils";
 import { getStationNameById } from "@/utils/StationUtils";
@@ -154,46 +154,8 @@ const useSeo = (
     // 公車路線頁：以路線名（子線優先）產出獨立 title / description。
     // 英文、韓文頁取英文名，缺則退中文
     if (busRoute) {
-      const pickName = (zh: string, en?: string): string =>
-        getNameLangKey(i18n.language) === "en" && en ? en : zh;
-      const routeLabel = pickName(
-        busRoute.subRouteName ?? busRoute.routeName,
-        busRoute.routeNameEn,
-      );
-      const departureStop = pickName(
-        busRoute.departureStop,
-        busRoute.departureStopEn,
-      );
-      const destinationStop = pickName(
-        busRoute.destinationStop,
-        busRoute.destinationStopEn,
-      );
-      // 分類前綴：台灣好行優先，市區公車取縣市，其餘取來源（同搜尋候選）；
-      // 前綴為來源名稱時已含「公車」語意，不另加名詞
-      const isCityLabel =
-        !busRoute.isTaiwanTrip && busRoute.source === "city" && !!busRoute.city;
-      const placeLabel = busRoute.isTaiwanTrip
-        ? t(SOURCE_LABEL_KEY.taiwantrip)
-        : isCityLabel
-          ? t(`busCity.${busRoute.city}`, { defaultValue: busRoute.city })
-          : t(SOURCE_LABEL_KEY[busRoute.source]);
-      const routeTitle =
-        departureStop && destinationStop
-          ? t(
-              isCityLabel ? "busRouteTitleWithStops" : "busRouteNameWithStops",
-              {
-                routeName: routeLabel,
-                departureStop,
-                destinationStop,
-              },
-            )
-          : isCityLabel
-            ? t("busRouteTitle", { routeName: routeLabel })
-            : routeLabel;
-      // 路線名已含分類（如「台灣好行-D線-…」）時不重複加前綴
-      const titleText = routeLabel.includes(placeLabel)
-        ? routeTitle
-        : `${placeLabel} ${routeTitle}`;
+      const { routeLabel, departureStop, destinationStop, titleText } =
+        buildBusRouteTitle(t, i18n.language, busRoute);
       const fullTitle = `${titleText} - ${t(page + "Title")}`;
 
       const description = (t: Function) =>
