@@ -6,7 +6,7 @@ import useLang from "@/hooks/useLang";
 import usePage from "@/hooks/usePage";
 import { JsyTymcInfo } from "@/models/jsy-tymc-info";
 import { getStationNameById } from "@/utils/StationUtils";
-import { isTymcArrivalApprox } from "@/utils/TrainInfoUtils";
+import { getTymcArrivalApproxMsgKey } from "@/utils/TrainInfoUtils";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import TymcFareInfo from "../TymcFareInfo";
@@ -29,7 +29,7 @@ const TymcTrainDetail: FC<TymcTrainDetailProps> = ({
   const { page } = usePage();
   const { t, i18n } = useTranslation();
   const { isSpaceSeparated } = useLang();
-  const isArrivalApprox = isTymcArrivalApprox(tymcTimeTable.arrivalSource);
+  const approxMsgKey = getTymcArrivalApproxMsgKey(tymcTimeTable.arrivalSource);
 
   return (
     <DetailInfoList>
@@ -41,11 +41,11 @@ const TymcTrainDetail: FC<TymcTrainDetailProps> = ({
       <DetailInfoRow label={t("time")}>
         {tymcTimeTable.departureTime} -{" "}
         {tymcTimeTable.arrivalTime || t("unknown")}{" "}
-        {tymcTimeTable.arrivalTime && isArrivalApprox && (
+        {tymcTimeTable.arrivalTime && approxMsgKey && (
           <span
             className={`text-muted-foreground ${isSpaceSeparated && "pl-1"}`}
           >
-            {t("arrivalTimeApproxMsg")}
+            {t(approxMsgKey)}
           </span>
         )}
       </DetailInfoRow>

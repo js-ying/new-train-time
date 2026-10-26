@@ -282,7 +282,11 @@
   },
   "trainServices": "서비스",
   "note": "비고",
-  "arrivalTimeApproxMsg": "(도착 시간은 추정값이며 참고용입니다.)",
+  "tymcArrivalApproxMsg": {
+    "stitched": "(도착 시간은 추정값이며 오차는 약 1분 이내입니다.)",
+    "estimated": "(도착 시간은 추정값이며 오차는 약 2분 이내입니다.)",
+    "rough": "(도착 시간은 대략적인 추정값이며 오차가 최대 10분까지 날 수 있습니다.)"
+  },
   "tymcSetting": "공항 MRT 설정",
   "tymcArrivalNote": "도착 시간은 추정값입니다. 일정을 세울 때 여유 시간을 두세요.",
   "stoppingStation": "정차역",

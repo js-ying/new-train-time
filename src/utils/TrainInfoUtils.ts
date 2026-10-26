@@ -132,3 +132,18 @@ export const isTymcTrainNormal = (trainTypeCode: number): boolean => {
 export const isTymcArrivalApprox = (
   arrivalSource?: JsyTymcTimetable["arrivalSource"],
 ): boolean => arrivalSource !== "exact";
+
+/** 桃捷抵達時刻是否為粗略推估：degraded 或未帶來源（後端退回 S2S 推算），誤差可達 10 分。 */
+export const isTymcArrivalRough = (
+  arrivalSource?: JsyTymcTimetable["arrivalSource"],
+): boolean => arrivalSource === undefined || arrivalSource === "degraded";
+
+/** 桃捷抵達時刻依來源對應的誤差說明 i18n key；exact 不需說明回傳 null。 */
+export const getTymcArrivalApproxMsgKey = (
+  arrivalSource?: JsyTymcTimetable["arrivalSource"],
+): string | null => {
+  if (arrivalSource === "exact") return null;
+  if (arrivalSource === "stitched") return "tymcArrivalApproxMsg.stitched";
+  if (arrivalSource === "estimated") return "tymcArrivalApproxMsg.estimated";
+  return "tymcArrivalApproxMsg.rough";
+};

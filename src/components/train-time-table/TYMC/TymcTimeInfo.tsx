@@ -43,6 +43,7 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
     isNormal,
     durationText,
     isArrivalApprox,
+    isArrivalRough,
     price,
   } = useTymcTrainDisplay(tymcTimeTable, fareList, queryDate);
 
@@ -96,7 +97,8 @@ const TymcTimeInfo: FC<TymcTimeInfoProps> = ({
         <div className="text-center text-sm">{t("fareAmount", { price })}</div>
       </div>
 
-      {showTymcTrainNote && isArrivalApprox && (
+      {/* 只在粗略推估（誤差可達 10 分）時提醒；一般推估只標「約」 */}
+      {showTymcTrainNote && isArrivalRough && (
         <div className="mt-1 text-xs text-muted-foreground">
           {t("tymcArrivalNote")}
         </div>

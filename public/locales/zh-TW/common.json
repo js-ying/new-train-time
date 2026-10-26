@@ -282,7 +282,11 @@
   },
   "trainServices": "服務",
   "note": "註記",
-  "arrivalTimeApproxMsg": "（抵達時間為推估值，僅供參考）",
+  "tymcArrivalApproxMsg": {
+    "stitched": "（抵達時間為推估值，誤差約 1 分內）",
+    "estimated": "（抵達時間為推估值，誤差約 2 分內）",
+    "rough": "（抵達時間為粗略推估，誤差可能達 10 分）"
+  },
   "tymcSetting": "機捷設定",
   "tymcArrivalNote": "抵達時間為推估值，安排行程請預留緩衝時間。",
   "stoppingStation": "停靠車站",

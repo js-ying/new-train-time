@@ -282,7 +282,11 @@
   },
   "trainServices": "サービス",
   "note": "備考",
-  "arrivalTimeApproxMsg": "（到着時刻は推定値です。参考程度にご覧ください）",
+  "tymcArrivalApproxMsg": {
+    "stitched": "（到着時刻は推定値です。誤差は約1分以内）",
+    "estimated": "（到着時刻は推定値です。誤差は約2分以内）",
+    "rough": "（到着時刻は概算です。最大10分程度の誤差があります）"
+  },
   "tymcSetting": "空港MRTの設定",
   "tymcArrivalNote": "到着時刻は推定値です。余裕を持って予定を立ててください。",
   "stoppingStation": "停車駅",

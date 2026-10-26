@@ -282,7 +282,11 @@
   },
   "trainServices": "Services",
   "note": "Note",
-  "arrivalTimeApproxMsg": "(Arrival time is an estimate, for reference only.)",
+  "tymcArrivalApproxMsg": {
+    "stitched": "(Estimated arrival, within about 1 min.)",
+    "estimated": "(Estimated arrival, within about 2 min.)",
+    "rough": "(Rough estimate, may be off by up to 10 min.)"
+  },
   "tymcSetting": "Taoyuan Metro settings",
   "tymcArrivalNote": "Arrival time is an estimate. Please allow extra buffer when planning.",
   "stoppingStation": "Stops",
