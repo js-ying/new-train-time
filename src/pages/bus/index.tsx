@@ -665,14 +665,15 @@ const BusPage: FC<BusPageProps> = ({
       />
       <MuiThemeProvider theme={muiTheme}>
         <Layout>
-          <div className="mx-auto w-full max-w-xl">
+          <div className="mx-auto w-full">
             <BusRouteSearch
               key={routeSearchResetKey}
               selectedRoute={selectedRoute}
               onSelect={handleSelectRoute}
             />
 
-            <div className="mt-4 flex flex-col items-center gap-1">
+            {/* 定位列、看板與站牌卡片限寬 max-w-xl；其餘區塊隨頁寬 */}
+            <div className="mx-auto mt-4 flex w-full max-w-xl flex-col items-center gap-1">
               <div className="relative flex w-full justify-center">
                 {/* 營運通阻公告入口（有生效公告才顯示） */}
                 <div className="absolute inset-y-0 left-3 flex items-center">
@@ -738,30 +739,32 @@ const BusPage: FC<BusPageProps> = ({
                   stopFavorites={{
                     count: validStopFavorites.length,
                     content: (
-                      <BusFavoriteStopBoard
-                        favorites={validStopFavorites}
-                        onSelect={(key, names) =>
-                          handleSelectRoute(
-                            {
-                              routeUid: key.routeUid,
-                              routeName: names.routeName,
-                              routeNameEn: names.routeNameEn,
-                              subRouteName: key.subRouteName,
-                              // 收藏不存 source/city；後端依 routeUid 反查索引（同冷開連結）
-                              source: "city",
-                              departureStop: "",
-                              destinationStop: "",
-                              routeType: 0,
-                            },
-                            {
-                              dir: key.direction,
-                              highlight: { ...key, stopName: names.stopName },
-                            },
-                          )
-                        }
-                        onRemove={removeStopFavorite}
-                        onReorder={reorderStopFavorites}
-                      />
+                      <div className="mx-auto w-full max-w-xl">
+                        <BusFavoriteStopBoard
+                          favorites={validStopFavorites}
+                          onSelect={(key, names) =>
+                            handleSelectRoute(
+                              {
+                                routeUid: key.routeUid,
+                                routeName: names.routeName,
+                                routeNameEn: names.routeNameEn,
+                                subRouteName: key.subRouteName,
+                                // 收藏不存 source/city；後端依 routeUid 反查索引（同冷開連結）
+                                source: "city",
+                                departureStop: "",
+                                destinationStop: "",
+                                routeType: 0,
+                              },
+                              {
+                                dir: key.direction,
+                                highlight: { ...key, stopName: names.stopName },
+                              },
+                            )
+                          }
+                          onRemove={removeStopFavorite}
+                          onReorder={reorderStopFavorites}
+                        />
+                      </div>
                     ),
                   }}
                 />
@@ -777,7 +780,7 @@ const BusPage: FC<BusPageProps> = ({
 
             {/* 站牌模式：定位到的站牌、其所有路線即時到站 */}
             {isStopMode && (
-              <div className="mt-3">
+              <div className="mx-auto mt-3 w-full max-w-xl">
                 {/* sticky 站名 + 輪詢倒數環，下滑固定可見 */}
                 <div className="sticky top-0 z-[5] -mx-4 flex items-center justify-center bg-background/20 px-4 py-2 backdrop-blur-md">
                   <span className="text-base font-bold">{stopDisplayName}</span>
@@ -824,7 +827,7 @@ const BusPage: FC<BusPageProps> = ({
             )}
 
             {selectedRoute && !isStopMode && (
-              <div className="mt-1">
+              <div className="mx-auto mt-1 w-full max-w-xl">
                 {data && data.length > 0 ? (
                   // 有看板：方向切換同列左掛詳細資訊、右掛角落槽（登入倒數環 / 未登入刷新+登入引導，互斥）
                   <BusRouteBoard
