@@ -5,7 +5,7 @@
  * 前者可安全 noindex，後者不可（一次故障會讓正常路線頁全被 deindex）。
  */
 import { JsyBusRoute } from "@/models/jsy-bus-info";
-import { clientIpForwardHeaders } from "@/utils/ApiHandlerUtils";
+import { clientForwardHeaders } from "@/utils/ApiHandlerUtils";
 import type { GetServerSidePropsContext } from "next";
 
 const FETCH_TIMEOUT_MS = 2000;
@@ -33,7 +33,7 @@ export async function fetchBusRouteMetaServerSide(
   try {
     const res = await fetch(
       `${endpoint}/api/bus/route/${encodeURIComponent(routeUid)}/meta?${params.toString()}`,
-      { headers: clientIpForwardHeaders(req), signal: controller.signal },
+      { headers: clientForwardHeaders(req), signal: controller.signal },
     );
     if (res.status === 404) return { route: null, notFound: true };
     if (!res.ok) return { route: null, notFound: false };

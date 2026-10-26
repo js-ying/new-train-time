@@ -18,6 +18,17 @@ const buildAlternateRefs = (pathSuffix) => [
   { href: `${SITE_URL}${pathSuffix}`, hreflang: "x-default", hrefIsAbsolute: true },
 ];
 
+// robots.txt 排除的 API 路徑（前綴比對）
+const ROBOTS_API_DISALLOW = [
+  "/api/users/",
+  "/api/payments/",
+  "/api/postTransferReport",
+  "/api/getTraDeeplink",
+  "/api/getThsrDeeplink",
+  "/api/bus/stop-board",
+  "/api/bus/nearest-stop",
+];
+
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: "https://traintime.jsy.tw",
@@ -38,13 +49,13 @@ module.exports = {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/*"],
+        disallow: ROBOTS_API_DISALLOW,
       },
       // ClaudeBot 放行但限速；專屬群組會取代 *，須自帶 /api 排除
       {
         userAgent: "ClaudeBot",
         allow: "/",
-        disallow: ["/api/*"],
+        disallow: ROBOTS_API_DISALLOW,
         crawlDelay: 1,
       },
     ],

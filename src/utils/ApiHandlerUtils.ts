@@ -2,10 +2,11 @@ import type { ProblemCode, ProblemDetails } from "@/models/problem-details";
 import { NextApiRequest, NextApiResponse } from "next";
 
 /**
- * 組出轉發給後端的真實 client IP headers（cf-connecting-ip / x-forwarded-for）；
+ * 組出轉發給後端的 client 識別 headers：真實 IP（cf-connecting-ip / x-forwarded-for）
+ * 與原始 UA（x-client-user-agent）；
  * 無 CF 環境（如 dev）才會用到 XFF，避免 IP 塌成 localhost。
  */
-export const clientIpForwardHeaders = (
+export const clientForwardHeaders = (
   req: Pick<NextApiRequest, "headers" | "socket">,
 ): Record<string, string> => {
   const headers: Record<string, string> = {};
@@ -14,6 +15,8 @@ export const clientIpForwardHeaders = (
   const xff =
     (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
   if (xff) headers["x-forwarded-for"] = xff;
+  const ua = req.headers["user-agent"];
+  if (ua) headers["x-client-user-agent"] = ua;
   return headers;
 };
 
@@ -65,7 +68,7 @@ export const apiProxyHandler = async (
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      ...clientIpForwardHeaders(req),
+      ...clientForwardHeaders(req),
     };
 
     if (req.headers.authorization) {

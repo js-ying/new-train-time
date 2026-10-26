@@ -6,7 +6,7 @@
  * 任何失敗（無 endpoint、逾時、非 2xx）一律回 null，由 client 端 hook 首載時自行補抓。
  */
 import { JsyTrStationTimetable } from "@/models/jsy-tr-info";
-import { clientIpForwardHeaders } from "@/utils/ApiHandlerUtils";
+import { clientForwardHeaders } from "@/utils/ApiHandlerUtils";
 import type { GetServerSidePropsContext } from "next";
 
 const FETCH_TIMEOUT_MS = 4000;
@@ -25,7 +25,7 @@ export async function fetchTrStationTimetableServerSide(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...clientIpForwardHeaders(req),
+        ...clientForwardHeaders(req),
       },
       body: JSON.stringify({ stationId }),
       signal: controller.signal,

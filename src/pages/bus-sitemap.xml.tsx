@@ -1,8 +1,8 @@
 /**
- * 公車路線頁 sitemap：於 server 端即時組出，隨路線索引更新自動同步。
+ * 公車路線頁 sitemap：路線清單由後端提供，於 server 端即時組出。
  * 取數失敗回 503 而非空 urlset，讓爬蟲稍後重試而非視為「沒有 URL」。
  */
-import { clientIpForwardHeaders } from "@/utils/ApiHandlerUtils";
+import { clientForwardHeaders } from "@/utils/ApiHandlerUtils";
 import type { GetServerSideProps } from "next";
 
 const SITE_URL = "https://traintime.jsy.tw";
@@ -35,7 +35,7 @@ const routePath = ({ routeUid, subRouteName }: BusRouteKey): string => {
   return `/bus?routeUid=${encodeURIComponent(routeUid)}${sub}`;
 };
 
-/** 取全索引路線鍵；取數失敗回 null（與「索引就緒但為空」區分，供上層決定回 503）。 */
+/** 取路線鍵；取數失敗回 null（與「索引就緒但為空」區分，供上層決定回 503）。 */
 const fetchRouteKeys = async (
   req: Parameters<GetServerSideProps>[0]["req"],
 ): Promise<BusRouteKey[] | null> => {
@@ -46,7 +46,7 @@ const fetchRouteKeys = async (
   const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
     const res = await fetch(`${endpoint}/api/bus/routes/keys`, {
-      headers: clientIpForwardHeaders(req),
+      headers: clientForwardHeaders(req),
       signal: controller.signal,
     });
     if (!res.ok) return null;
@@ -92,7 +92,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   }
 
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  // 索引每日刷新，給 CDN 一小時新鮮期；過期後容許先發舊版再背景更新
+  // 給 CDN 一小時新鮮期；過期後容許先發舊版再背景更新
   res.setHeader(
     "Cache-Control",
     "public, max-age=3600, stale-while-revalidate=86400",
