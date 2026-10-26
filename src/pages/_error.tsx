@@ -6,12 +6,31 @@ interface ErrorPageProps {
   statusCode?: number;
 }
 
-/** 各語系的站名與錯誤頁標題 */
-const ERROR_COPY: Record<string, { siteName: string; error: string }> = {
-  "zh-TW": { siteName: "台鐵時刻查詢", error: "錯誤頁面" },
-  en: { siteName: "Taiwan Railway Timetable", error: "Error" },
-  ja: { siteName: "台鉄 時刻表検索", error: "エラー" },
-  ko: { siteName: "대만철도 시간표 조회", error: "오류" },
+/** 各語系的站名與錯誤頁標題（notFound 供 404 用） */
+const ERROR_COPY: Record<
+  string,
+  { siteName: string; error: string; notFound: string }
+> = {
+  "zh-TW": {
+    siteName: "台鐵時刻查詢",
+    error: "錯誤頁面",
+    notFound: "找不到此頁面",
+  },
+  en: {
+    siteName: "Taiwan Railway Timetable",
+    error: "Error",
+    notFound: "Page not found",
+  },
+  ja: {
+    siteName: "台鉄 時刻表検索",
+    error: "エラー",
+    notFound: "ページが見つかりません",
+  },
+  ko: {
+    siteName: "대만철도 시간표 조회",
+    error: "오류",
+    notFound: "페이지를 찾을 수 없습니다",
+  },
 };
 
 /**
@@ -28,7 +47,7 @@ const ErrorPage = ({ statusCode }: ErrorPageProps) => {
       ? "404 Not Found"
       : `${statusCode || ""} Sorry, something went wrong.`;
   const siteName = copy.siteName;
-  const titleTag = `${copy.error} - ${copy.siteName}`;
+  const titleTag = `${statusCode === 404 ? copy.notFound : copy.error} - ${copy.siteName}`;
 
   return (
     <>
