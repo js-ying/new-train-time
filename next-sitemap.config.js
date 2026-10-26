@@ -27,6 +27,7 @@ const ROBOTS_API_DISALLOW = [
   "/api/getThsrDeeplink",
   "/api/bus/stop-board",
   "/api/bus/nearest-stop",
+  "/api/bus/route/*/info",
 ];
 
 /** @type {import('next-sitemap').IConfig} */
