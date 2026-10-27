@@ -11,6 +11,21 @@ export const updateDataList = [
   {
     date: "2026-10",
     type: "both",
+    ver: "4.5.3",
+    items: [
+      {
+        type: "update",
+        content: "啟用公車頁熱門路線功能",
+      },
+      {
+        type: "update",
+        content: "調整公車頁桌機版站牌卡片寬度",
+      },
+    ],
+  },
+  {
+    date: "2026-10",
+    type: "both",
     ver: "4.5.2",
     items: [
       {
@@ -93,8 +108,7 @@ export const updateDataList = [
       },
       {
         type: "update",
-        content:
-          "調整公車「常用站牌」載入到站時間時的顯示動畫",
+        content: "調整公車「常用站牌」載入到站時間時的顯示動畫",
       },
       {
         type: "fix",
@@ -429,7 +443,7 @@ export const updateDataList = [
       },
       {
         type: "fix",
-        content: "修正 PC 版切換出發/抵達車站時游標沒有自動聚焦在輸入框的問題",
+        content: "修正桌機版切換出發/抵達車站時游標沒有自動聚焦在輸入框的問題",
       },
       {
         type: "refactor",
