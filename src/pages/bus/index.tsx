@@ -672,8 +672,8 @@ const BusPage: FC<BusPageProps> = ({
               onSelect={handleSelectRoute}
             />
 
-            {/* 定位列、看板與站牌卡片限寬 max-w-xl；其餘區塊隨頁寬 */}
-            <div className="mx-auto mt-4 flex w-full max-w-xl flex-col items-center gap-1">
+            {/* 定位列、看板與站牌卡片限寬；其餘區塊隨頁寬 */}
+            <div className="mx-auto mt-4 flex w-full flex-col items-center gap-1 md:max-w-md">
               <div className="relative flex w-full justify-center">
                 {/* 營運通阻公告入口（有生效公告才顯示） */}
                 <div className="absolute inset-y-0 left-3 flex items-center">
@@ -739,7 +739,7 @@ const BusPage: FC<BusPageProps> = ({
                   stopFavorites={{
                     count: validStopFavorites.length,
                     content: (
-                      <div className="mx-auto w-full max-w-xl">
+                      <div className="mx-auto w-full md:max-w-md">
                         <BusFavoriteStopBoard
                           favorites={validStopFavorites}
                           onSelect={(key, names) =>
@@ -780,7 +780,7 @@ const BusPage: FC<BusPageProps> = ({
 
             {/* 站牌模式：定位到的站牌、其所有路線即時到站 */}
             {isStopMode && (
-              <div className="mx-auto mt-3 w-full max-w-xl">
+              <div className="mx-auto mt-3 w-full md:max-w-md">
                 {/* sticky 站名 + 輪詢倒數環，下滑固定可見 */}
                 <div className="sticky top-0 z-[5] -mx-4 flex items-center justify-center bg-background/20 px-4 py-2 backdrop-blur-md">
                   <span className="text-base font-bold">{stopDisplayName}</span>
@@ -827,7 +827,7 @@ const BusPage: FC<BusPageProps> = ({
             )}
 
             {selectedRoute && !isStopMode && (
-              <div className="mx-auto mt-1 w-full max-w-xl">
+              <div className="mx-auto mt-1 w-full md:max-w-md">
                 {data && data.length > 0 ? (
                   // 有看板：方向切換同列左掛詳細資訊、右掛角落槽（登入倒數環 / 未登入刷新+登入引導，互斥）
                   <BusRouteBoard
