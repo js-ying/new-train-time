@@ -27,21 +27,83 @@ export const isValidTrStationId = (stationId: string): boolean =>
   !EXCLUDED_TR_STATION_IDS.includes(stationId) &&
   trStationDataList.some((s) => s.StationID === stationId);
 
-/** 站名是否符合輸入（En / Zh / 站號比對，台↔臺同字） */
+/** 日文新字體 → 繁體（站名常見字），讓日文輸入法打出的字也能命中 */
+const SHINJITAI_TO_TRAD: Record<string, string> = {
+  営: "營",
+  豊: "豐",
+  亀: "龜",
+  渓: "溪",
+  栄: "榮",
+  内: "內",
+  徳: "德",
+  辺: "邊",
+  帰: "歸",
+  関: "關",
+  権: "權",
+  学: "學",
+  楽: "樂",
+  双: "雙",
+  脚: "腳",
+  禄: "祿",
+  寿: "壽",
+  穂: "穗",
+  讃: "讚",
+  横: "橫",
+  荘: "莊",
+  抜: "拔",
+  国: "國",
+  区: "區",
+  産: "產",
+  体: "體",
+  県: "縣",
+  鉄: "鐵",
+  湾: "灣",
+  広: "廣",
+  沢: "澤",
+  竜: "龍",
+  浜: "濱",
+  駅: "站",
+};
+const SHINJITAI_RE = new RegExp(
+  `[${Object.keys(SHINJITAI_TO_TRAD).join("")}]`,
+  "g",
+);
+
+/** 站名比對用正規化：去空白、轉小寫、台↔臺同字、新字體轉繁體 */
+const normalizeStationKeyword = (s: string): string =>
+  normalizeTaiTai(
+    s
+      .replace(/\s+/g, "")
+      .toLowerCase()
+      .replace(SHINJITAI_RE, (c) => SHINJITAI_TO_TRAD[c]),
+  );
+
+/** 站名是否符合輸入（不分介面語系，中英日韓 + 站號皆比對；輸入尾端的 站 / 駅 / 역 可省略） */
+export const isStationNameMatchInput = (
+  station: {
+    StationID: string;
+    StationName: Record<"Zh_tw" | "En" | "Ja" | "Ko", string>;
+  },
+  input: string,
+): boolean => {
+  const keyword = normalizeStationKeyword(input);
+  if (!keyword) return true;
+  if (station.StationID.includes(keyword)) return true;
+  const stripped = keyword.replace(/[站역]$/, "") || keyword;
+  const { Zh_tw, En, Ja, Ko } = station.StationName;
+  return [Zh_tw, En, Ja, Ko].some((name) => {
+    const n = normalizeStationKeyword(name);
+    return n.includes(keyword) || n.includes(stripped);
+  });
+};
+
+/** 台鐵站名是否符合輸入（排除清單內的站一律不命中） */
 export const isTrStationMatchInput = (
   station: TrStationData,
   input: string,
 ): boolean => {
   if (EXCLUDED_TR_STATION_IDS.includes(station.StationID)) return false;
-  if (!input) return true;
-  const enMatch = station.StationName.En.toLowerCase().includes(
-    input.toLowerCase(),
-  );
-  const zhMatch = normalizeTaiTai(station.StationName.Zh_tw).includes(
-    normalizeTaiTai(input),
-  );
-  const idMatch = station.StationID.includes(input);
-  return enMatch || zhMatch || idMatch;
+  return isStationNameMatchInput(station, input);
 };
 
 /** 站是否屬指定縣市（以地址前三字比對，沿用既有 picker 縣市分層規則） */
@@ -49,14 +111,18 @@ export const isTrStationInCounty = (
   station: TrStationData,
   county: string,
 ): boolean => {
-  if (!county || EXCLUDED_TR_STATION_IDS.includes(station.StationID)) return false;
+  if (!county || EXCLUDED_TR_STATION_IDS.includes(station.StationID))
+    return false;
   return (
     station.StationAddress.replace(/[0-9]/g, "").substring(0, 3) === county
   );
 };
 
 /** 由經緯度取最近的台鐵車站站號（haversine 角距）；找不到回 null */
-export const getNearestTrStation = (lat: number, lon: number): string | null => {
+export const getNearestTrStation = (
+  lat: number,
+  lon: number,
+): string | null => {
   const toRad = (deg: number) => (deg * Math.PI) / 180;
   let nearestId: string | null = null;
   let minDist = Infinity;

@@ -21,6 +21,10 @@ export const updateDataList = [
         type: "update",
         content: "調整公車頁桌機版站牌卡片寬度",
       },
+      {
+        type: "fix",
+        content: "修正車站與公車路線無法以外語搜尋的問題",
+      },
     ],
   },
   {

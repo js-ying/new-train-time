@@ -11,7 +11,10 @@ import {
   TrStationData,
   TymcStationData,
 } from "@/data/stationsData";
-import { EXCLUDED_TR_STATION_IDS } from "@/utils/StationUtils";
+import {
+  EXCLUDED_TR_STATION_IDS,
+  isStationNameMatchInput,
+} from "@/utils/StationUtils";
 import { useCallback, useContext } from "react";
 
 export const useStationSearch = () => {
@@ -22,7 +25,8 @@ export const useStationSearch = () => {
   const isStationBelowMainLine = useCallback(
     (trStationData: TrStationData, mainLine: string | null): boolean => {
       if (!mainLine) return false;
-      if (EXCLUDED_TR_STATION_IDS.includes(trStationData.StationID)) return false;
+      if (EXCLUDED_TR_STATION_IDS.includes(trStationData.StationID))
+        return false;
       return (
         trStationData.StationAddress.replace(/[0-9]/g, "").substring(0, 3) ===
         mainLine
@@ -37,22 +41,8 @@ export const useStationSearch = () => {
       stationData: TrStationData | ThsrStationData | TymcStationData,
       inputValue: string,
     ): boolean => {
-      const enFilter = stationData.StationName.En.toLowerCase().includes(
-        inputValue.toLowerCase(),
-      );
-
-      const zhHantFilter =
-        stationData.StationName.Zh_tw.includes(inputValue) ||
-        stationData.StationName.Zh_tw.includes(inputValue.replace("台", "臺")) ||
-        stationData.StationName.Zh_tw.includes(inputValue.replace("臺", "台"));
-
-      const idFilter = stationData.StationID.includes(inputValue);
-
-      const excludeFilter = !EXCLUDED_TR_STATION_IDS.includes(
-        stationData.StationID,
-      );
-
-      return (enFilter || zhHantFilter || idFilter) && excludeFilter;
+      if (EXCLUDED_TR_STATION_IDS.includes(stationData.StationID)) return false;
+      return isStationNameMatchInput(stationData, inputValue);
     },
     [],
   );
