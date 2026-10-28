@@ -109,9 +109,24 @@ module.exports = {
         // 對應現有 max-w-[728px] (Google Ads leaderboard)
         "ad-leaderboard": "728px",
       },
+      height: {
+        // 公車路線搜尋面板（桌機）：固定高度，候選多寡不影響鍵盤位置
+        "bus-search-panel": "min(40rem, 85dvh)",
+        // 公車路線搜尋面板（手機）：底部彈出，露出頂端一截頁面
+        "bus-search-sheet": "90dvh",
+      },
+      maxHeight: {
+        "bus-search-sheet": "90dvh",
+      },
+      padding: {
+        // 底部彈出元件避開 Home 指示條（viewport-fit=cover）
+        "safe-bottom": "env(safe-area-inset-bottom)",
+      },
       gridTemplateColumns: {
         // 標籤欄取最寬內容、值欄填滿剩餘（DetailInfoList）
         "label-value": "auto minmax(0, 1fr)",
+        // 公車路線鍵盤：左兩欄色系（較窄）、右三欄數字
+        "bus-keypad": "repeat(2, minmax(0, 4fr)) repeat(3, minmax(0, 5fr))",
       },
     },
     fontFamily: {

@@ -14,6 +14,8 @@ export const BUS_ROUTE_QUERY_MAX_LEN = 50;
 
 interface UseBusRouteSearchResult {
   suggestions: JsyBusRoute[];
+  /** 產生目前 suggestions 的查詢字串（已 trim）；防抖期間會落後於輸入 */
+  resultQuery: string;
   isLoading: boolean;
   error: ApiError | null;
   /** 設定查詢字串；內部防抖 + 取消前一筆飛行請求後才打後端 */
@@ -28,6 +30,7 @@ interface UseBusRouteSearchResult {
 export const useBusRouteSearch = (): UseBusRouteSearchResult => {
   const { i18n } = useTranslation();
   const [suggestions, setSuggestions] = useState<JsyBusRoute[]>([]);
+  const [resultQuery, setResultQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
 
@@ -63,6 +66,7 @@ export const useBusRouteSearch = (): UseBusRouteSearchResult => {
         );
         if (controller.signal.aborted) return;
         setSuggestions(result);
+        setResultQuery(q);
       } catch (err) {
         if (
           controller.signal.aborted ||
@@ -72,6 +76,7 @@ export const useBusRouteSearch = (): UseBusRouteSearchResult => {
         }
         setError(toApiError(err));
         setSuggestions([]);
+        setResultQuery(q);
       } finally {
         if (!controller.signal.aborted) setIsLoading(false);
       }
@@ -87,6 +92,7 @@ export const useBusRouteSearch = (): UseBusRouteSearchResult => {
       if (!trimmed || trimmed.length > BUS_ROUTE_QUERY_MAX_LEN) {
         abortRef.current?.abort();
         setSuggestions([]);
+        setResultQuery("");
         setError(null);
         setIsLoading(false);
         return;
@@ -99,7 +105,7 @@ export const useBusRouteSearch = (): UseBusRouteSearchResult => {
     [runSearch],
   );
 
-  return { suggestions, isLoading, error, setQuery };
+  return { suggestions, resultQuery, isLoading, error, setQuery };
 };
 
 export default useBusRouteSearch;
