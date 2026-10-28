@@ -1,5 +1,5 @@
 /**
- * 熱門單站 service（server-only，供 /station getServerSideProps 使用）。
+ * 熱門單站 service（server-only，供 /station getServerSideProps、/bus getStaticProps 使用）。
  * 向後端取某 train_type 的 top N 熱門單站；失敗 / 逾時 / 空一律回寫死 fallback，
  * 確保裸站頁永遠有可爬的內部連結。沿用與 getJsyTrInfo 相同的後端 endpoint env。
  */
