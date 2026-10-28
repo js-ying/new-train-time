@@ -6,6 +6,8 @@ interface UseDeviceDetectResult {
   /** macOS Safari */
   isMacSafari: boolean;
   isFirefox: boolean;
+  /** Windows Firefox 143+：網址列可把網站加到工作列（Web apps） */
+  hasFirefoxTaskbarTabs: boolean;
   isAndroid: boolean;
   isPWAPromotable: boolean;
   /** 瀏覽器本身有無 beforeinstallprompt；僅供「是否真的無安裝管道」判斷，不參與 isPWAPromotable */
@@ -20,6 +22,7 @@ const useDeviceDetect = (): UseDeviceDetectResult => {
     isAppleMobile: false,
     isMacSafari: false,
     isFirefox: false,
+    hasFirefoxTaskbarTabs: false,
     isAndroid: false,
     isPWAPromotable: false,
     canPromptInstall: false,
@@ -41,6 +44,9 @@ const useDeviceDetect = (): UseDeviceDetectResult => {
       /macintosh/.test(userAgent) &&
       / version\/\d+/.test(userAgent);
     const isFirefox = /firefox|fxios/i.test(userAgent);
+    const firefoxVersion = Number(/firefox\/(\d+)/.exec(userAgent)?.[1] ?? 0);
+    const hasFirefoxTaskbarTabs =
+      /windows/.test(userAgent) && firefoxVersion >= 143;
     const isAndroid = /android/.test(userAgent);
     const isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -61,6 +67,7 @@ const useDeviceDetect = (): UseDeviceDetectResult => {
       isAppleMobile,
       isMacSafari,
       isFirefox,
+      hasFirefoxTaskbarTabs,
       isAndroid,
       isPWAPromotable,
       canPromptInstall,
