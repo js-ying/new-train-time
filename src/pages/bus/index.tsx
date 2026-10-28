@@ -290,9 +290,8 @@ const BusPage: FC<BusPageProps> = ({
     }
   }, [stopFavoriteList, removeStopFavorite]);
   // 只記「主動選擇」(搜尋/站牌/歷史點選)；直連/冷載還原不寫歷史。
-  // 在看板載入後才存，以取後端回應的權威 source/city（跨縣市 meta 也正確）；routeUid guard 防輪詢重複寫。
+  // 在看板載入後才存，以取後端回應的權威 source/city（跨縣市 meta 也正確）；寫入即清標記，輪詢不重複寫。
   const activeSelectRef = useRef<string | null>(null);
-  const lastSavedRoute = useRef<string | null>(null);
   useEffect(() => {
     if (!selectedRoute || data == null) return;
     // 歷史鍵含子線（routeUid|subRouteName），同路線不同子線各記一筆
@@ -301,8 +300,7 @@ const BusPage: FC<BusPageProps> = ({
       selectedRoute.subRouteName,
     );
     if (activeSelectRef.current !== key) return;
-    if (lastSavedRoute.current === key) return;
-    lastSavedRoute.current = key;
+    activeSelectRef.current = null;
     saveBusHistory({
       targetId: key,
       // 顯示快照存當前語系所見（歷史/常用面板直接顯示此字串）
@@ -736,7 +734,13 @@ const BusPage: FC<BusPageProps> = ({
             {/* 熱門路線快查；顯示與否同首頁熱門路線，由 _document、SettingContext 控制 */}
             {!selectedRoute && !isStopMode && (
               <div className="js-popular-routes mt-6">
-                <PopularBusRoutes routes={popularBusRoutes} />
+                <PopularBusRoutes
+                  routes={popularBusRoutes}
+                  // 熱門藥丸算主動選擇：標記後由看板載入 effect 寫歷史
+                  onSelectRoute={(uid, sub) => {
+                    activeSelectRef.current = encodeBusTargetId(uid, sub);
+                  }}
+                />
               </div>
             )}
 

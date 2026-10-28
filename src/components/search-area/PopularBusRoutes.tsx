@@ -9,13 +9,17 @@ import QuickPickPills, { QuickPickItem } from "./QuickPickPills";
 interface PopularBusRoutesProps {
   /** 由 /bus getServerSideProps 注入的熱門公車路線（DB 取數 + 路線索引補資訊） */
   routes?: JsyPopularStation[];
+  /** 點選藥丸時通知路線頁標記為主動選擇，看板載入後才寫歷史 */
+  onSelectRoute?: (routeUid: string, subRouteName?: string) => void;
 }
 
 /**
- * 公車頁的「熱門路線快速查詢」。藥丸顯示「縣市 / 分類 + 路線名」，連 /bus?routeUid=X(&sub=Y)；
- * 歷史由路線頁載入看板後自行記錄。
+ * 公車頁的「熱門路線快速查詢」。藥丸顯示「縣市 / 分類 + 路線名」，連 /bus?routeUid=X(&sub=Y)。
  */
-const PopularBusRoutes: FC<PopularBusRoutesProps> = ({ routes }) => {
+const PopularBusRoutes: FC<PopularBusRoutesProps> = ({
+  routes,
+  onSelectRoute,
+}) => {
   const { t, i18n } = useTranslation();
 
   // 防 SSR 水合不匹配（比照 PopularRoutes）
@@ -37,7 +41,10 @@ const PopularBusRoutes: FC<PopularBusRoutesProps> = ({ routes }) => {
         pathname: "/bus",
         query: subRouteName ? { routeUid, sub: subRouteName } : { routeUid },
       },
-      onClick: () => gaClickEvent(GaEnum.BUS_POPULAR_ROUTE),
+      onClick: () => {
+        gaClickEvent(GaEnum.BUS_POPULAR_ROUTE);
+        onSelectRoute?.(routeUid, subRouteName);
+      },
       title: titleText,
     };
   });
