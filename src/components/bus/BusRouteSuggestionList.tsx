@@ -2,7 +2,7 @@ import useBusName from "@/hooks/useBusName";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
 import { SOURCE_LABEL_KEY } from "@/utils/BusUtils";
 import { useTranslation } from "next-i18next";
-import { FC, ReactNode, useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 
 export const BUS_ROUTE_LISTBOX_ID = "bus-route-listbox";
 
@@ -11,27 +11,27 @@ export const busRouteOptionId = (i: number): string => `bus-route-opt-${i}`;
 
 interface BusRouteSuggestionListProps {
   suggestions: JsyBusRoute[];
+  /** suggestions 為歷史查詢（無起訖站，描述只列來源 / 縣市，上方加標題） */
+  isRecent?: boolean;
   isLoading: boolean;
   hasQuery: boolean;
   /** 高亮的候選 index（-1 = 無高亮） */
   activeIndex: number;
   onActiveIndexChange: (i: number) => void;
   onSelect: (route: JsyBusRoute) => void;
-  /** 空輸入時顯示的內容 */
-  emptyContent: ReactNode;
 }
 
 /**
- * [公車] 路線候選清單：路線名 + 「起 - 訖（經停）· 來源/縣市」；空輸入渲染 emptyContent。
+ * [公車] 路線候選清單：路線名 + 「起 - 訖（經停）· 來源/縣市」；空輸入列歷史查詢（無歷史則留空）。
  */
 const BusRouteSuggestionList: FC<BusRouteSuggestionListProps> = ({
   suggestions,
+  isRecent = false,
   isLoading,
   hasQuery,
   activeIndex,
   onActiveIndexChange,
   onSelect,
-  emptyContent,
 }) => {
   const { t } = useTranslation();
   const busName = useBusName();
@@ -55,6 +55,7 @@ const BusRouteSuggestionList: FC<BusRouteSuggestionListProps> = ({
     } else {
       sourceLabel = t(SOURCE_LABEL_KEY[r.source]);
     }
+    if (isRecent) return sourceLabel;
     // 經停標註：中文方向牌為「[經X]」，英文為 (Via X) 或 [Via X]，
     // 限定 Via 開頭才取，避免誤抓站名自帶的括號
     const via = busName(
@@ -67,7 +68,7 @@ const BusRouteSuggestionList: FC<BusRouteSuggestionListProps> = ({
     return `${route} · ${sourceLabel}`;
   };
 
-  const hint = (text: ReactNode) => (
+  const hint = (text: string) => (
     <div className="px-3 py-2 text-sm text-default-500">{text}</div>
   );
 
@@ -77,6 +78,14 @@ const BusRouteSuggestionList: FC<BusRouteSuggestionListProps> = ({
       role="listbox"
       className="flex flex-col gap-0.5"
     >
+      {isRecent && suggestions.length > 0 && (
+        <div
+          role="presentation"
+          className="px-3 pb-0.5 pt-1 text-xs text-default-500"
+        >
+          {t("historyTab")}
+        </div>
+      )}
       {suggestions.length > 0
         ? suggestions.map((route, i) => (
             <button
@@ -96,7 +105,7 @@ const BusRouteSuggestionList: FC<BusRouteSuggestionListProps> = ({
                 }
               }}
               // 高亮配色對齊轉乘頁下拉（zinc-200 / dark zinc-700）
-              className={`custom-cursor-pointer flex w-full flex-col rounded-medium px-3 py-1.5 text-left transition-colors ${
+              className={`custom-cursor-pointer flex w-full flex-col !rounded-xl px-3 py-1.5 text-left transition-colors ${
                 i === activeIndex ? "bg-muted" : ""
               }`}
             >
@@ -110,9 +119,7 @@ const BusRouteSuggestionList: FC<BusRouteSuggestionListProps> = ({
           ))
         : isLoading
           ? hint(t("busRouteSearchLoading"))
-          : hasQuery
-            ? hint(t("busRouteSearchEmpty"))
-            : hint(emptyContent)}
+          : hasQuery && hint(t("busRouteSearchEmpty"))}
     </div>
   );
 };

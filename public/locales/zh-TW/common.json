@@ -66,7 +66,6 @@
   "busKeypadClear": "清除",
   "busKeypadBackspace": "刪除一字",
   "busKeypadBackToKeypad": "公車鍵盤",
-  "busKeypadEmptyHint": "用按鍵組合路線名，例：紅＋3＋0",
   "busSourceCity": "市區公車",
   "busSourceIntercity": "公路客運",
   "busSourceTaiwanTrip": "台灣好行",

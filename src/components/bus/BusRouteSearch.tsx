@@ -3,9 +3,12 @@ import Area from "@/components/search-area/Area";
 import useBusRouteSearch from "@/hooks/search/useBusRouteSearch";
 import useBusName from "@/hooks/useBusName";
 import useCoarsePointer from "@/hooks/useCoarsePointer";
+import useSetting from "@/hooks/useSetting";
+import useStationHistory from "@/hooks/useStationHistory";
 import { JsyBusRoute } from "@/models/jsy-bus-info";
+import { busTargetToRoute } from "@/utils/BusUtils";
 import { useTranslation } from "next-i18next";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 
 interface BusRouteSearchProps {
   /** 已選路線（顯示在按鈕內）；null 表未選 */
@@ -23,10 +26,17 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
   const { t } = useTranslation();
   const busName = useBusName();
   const isCoarsePointer = useCoarsePointer();
-  const { suggestions, resultQuery, isLoading, setQuery } =
-    useBusRouteSearch();
+  const { suggestions, resultQuery, isLoading, setQuery } = useBusRouteSearch();
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const { historyList } = useStationHistory("BUS");
+  const [showHistory] = useSetting("showHistory");
+
+  // 空輸入時列出的歷史查詢（設定關閉歷史則不列）
+  const recentRoutes = useMemo(
+    () => (showHistory ? historyList.map(busTargetToRoute) : []),
+    [showHistory, historyList],
+  );
 
   // 換已選路線（選定 / 分享連結 / 上一頁）→ 清空搜尋字串與候選
   useEffect(() => {
@@ -70,6 +80,7 @@ const BusRouteSearch: FC<BusRouteSearchProps> = ({
         inputValue={inputValue}
         onInputChange={handleInput}
         suggestions={suggestions}
+        recentRoutes={recentRoutes}
         resultQuery={resultQuery}
         isLoading={isLoading}
         onSelect={handleSelect}

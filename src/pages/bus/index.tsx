@@ -52,7 +52,14 @@ import { StationTarget } from "@/models/station-history";
 import { fetchBusRouteMetaServerSide } from "@/services/busRouteMetaServerService";
 import { fetchPopularStations } from "@/services/popularStationsService";
 import AdUtils from "@/utils/AdUtils";
-import { SOURCE_LABEL_KEY } from "@/utils/BusUtils";
+import {
+  BUS_SOURCES,
+  busTargetToRoute,
+  decodeBusMeta,
+  encodeBusMeta,
+  encodeBusTargetId,
+  SOURCE_LABEL_KEY,
+} from "@/utils/BusUtils";
 import { parseBusStopFavoriteId } from "@/utils/BusStopFavoriteUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { Button } from "@heroui/react";
@@ -99,8 +106,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   };
 }
 
-const VALID_SOURCES: BusSource[] = ["city", "intercity", "taiwantrip"];
-
 /**
  * 從 URL query 還原已選路線（重新整理 / 分享連結可直接看板；route 為顯示用最小資訊）。
  * meta 為 SSR 取得的路線識別，與 URL 同一條時用其權威路線名。
@@ -115,13 +120,14 @@ const parseRouteFromQuery = (
   // source/city 已不入 URL（後端依 routeUid 反查索引為權威）；舊連結若仍帶則沿用，否則預設 city。
   const source =
     typeof query.source === "string" &&
-    VALID_SOURCES.includes(query.source as BusSource)
+    BUS_SOURCES.includes(query.source as BusSource)
       ? (query.source as BusSource)
       : "city";
   const city = typeof query.city === "string" ? query.city : undefined;
   const subRouteName = typeof query.sub === "string" ? query.sub : undefined;
   const fromMeta =
-    meta?.routeUid === routeUid && (meta.subRouteName ?? undefined) === subRouteName
+    meta?.routeUid === routeUid &&
+    (meta.subRouteName ?? undefined) === subRouteName
       ? meta
       : null;
   return {
@@ -137,40 +143,6 @@ const parseRouteFromQuery = (
     destinationStop: "",
     routeType: 0,
   };
-};
-
-/**
- * 公車歷史 / 收藏的 meta 編解碼：route_uid 不足以重查看板（arrivals 需 source，source=city 需 city），
- * 故把路由資訊存進通用單點表的 meta 欄（"source|city"）。
- */
-const encodeBusMeta = (source: BusSource, city?: string): string =>
-  `${source}|${city ?? ""}`;
-
-const decodeBusMeta = (meta?: string): { source: BusSource; city?: string } => {
-  const [rawSource, rawCity] = (meta ?? "").split("|");
-  const source = VALID_SOURCES.includes(rawSource as BusSource)
-    ? (rawSource as BusSource)
-    : "city";
-  return { source, city: rawCity || undefined };
-};
-
-/**
- * 歷史 / 收藏的 targetId 編解碼：含子線時 `routeUid|subRouteName`，否則純 routeUid。
- * 同 routeUid 多子線需各成一筆（key 唯一），舊純 routeUid 資料解出無子線＝route 粒度，相容。
- */
-const encodeBusTargetId = (routeUid: string, subRouteName?: string): string =>
-  subRouteName ? `${routeUid}|${subRouteName}` : routeUid;
-
-const parseBusTargetId = (
-  targetId: string,
-): { routeUid: string; subRouteName?: string } => {
-  const idx = targetId.indexOf("|");
-  return idx < 0
-    ? { routeUid: targetId }
-    : {
-        routeUid: targetId.slice(0, idx),
-        subRouteName: targetId.slice(idx + 1) || undefined,
-      };
 };
 
 /** 詳細資訊（i）icon。 */
@@ -428,8 +400,11 @@ const BusPage: FC<BusPageProps> = ({
       { key: `stopuid:${stop.stopUid}` },
     );
   };
-  const { locate, geoError, notFound: nearestNotFound } =
-    useNearestBusStop(handleNearestStop);
+  const {
+    locate,
+    geoError,
+    notFound: nearestNotFound,
+  } = useNearestBusStop(handleNearestStop);
 
   // 路線詳細資訊（業者/票價/路線圖/時刻表）：選定即抓，供 modal 顯示
   const {
@@ -712,22 +687,9 @@ const BusPage: FC<BusPageProps> = ({
               <div className="mt-2 text-center empty:hidden">
                 <StationHistoryPanel
                   trainType="BUS"
-                  onSelect={(target: StationTarget) => {
-                    const { source, city } = decodeBusMeta(target.meta);
-                    const { routeUid, subRouteName } = parseBusTargetId(
-                      target.targetId,
-                    );
-                    handleSelectRoute({
-                      routeUid,
-                      routeName: target.targetName,
-                      subRouteName,
-                      source,
-                      city,
-                      departureStop: "",
-                      destinationStop: "",
-                      routeType: 0,
-                    });
-                  }}
+                  onSelect={(target: StationTarget) =>
+                    handleSelectRoute(busTargetToRoute(target))
+                  }
                   // 次要標籤：縣市（市區公車）或來源（公路客運 / 台灣好行），區分同名不同路線（如台中 vs 新竹 182）
                   resolveSubLabel={(target) => {
                     const { source, city } = decodeBusMeta(target.meta);

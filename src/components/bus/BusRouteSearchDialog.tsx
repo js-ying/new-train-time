@@ -28,6 +28,8 @@ interface BusRouteSearchDialogProps {
   inputValue: string;
   onInputChange: (v: string) => void;
   suggestions: JsyBusRoute[];
+  /** 空輸入時取代候選列出的歷史查詢 */
+  recentRoutes: JsyBusRoute[];
   /** 產生 suggestions 的查詢字串；與輸入不一致表示候選尚未更新 */
   resultQuery: string;
   isLoading: boolean;
@@ -48,6 +50,7 @@ const BusRouteSearchPanel: FC<PanelProps> = ({
   inputValue,
   onInputChange,
   suggestions,
+  recentRoutes,
   resultQuery,
   isLoading,
   onSelect,
@@ -71,6 +74,10 @@ const BusRouteSearchPanel: FC<PanelProps> = ({
 
   // 候選仍是上一個查詢的結果（防抖 / 請求中）
   const isStale = resultQuery !== inputValue.trim();
+
+  const hasQuery = inputValue.trim() !== "";
+  // 清單項目：有輸入列候選、空輸入列歷史查詢
+  const listItems = hasQuery ? suggestions : recentRoutes;
 
   // 候選更新後 → 若有與輸入完全相符的路線號（如打「1824」對到「1824」）則自動高亮，方便直接 Enter；否則重置。
   // 舊候選不比對，免得先高亮舊清單後段的同名路線、新清單到了再跳回
@@ -149,22 +156,21 @@ const BusRouteSearchPanel: FC<PanelProps> = ({
     setIsSystemKeyboard(false);
   };
 
-  // 上下鍵移動高亮、Enter 選定（無高亮則選排序最前者，候選未更新時不選）；Esc 由 Modal 關閉
+  // 上下鍵移動高亮、Enter 選定（無高亮則選排序最前者，候選未更新時不選；空輸入須先高亮歷史項）；Esc 由 Modal 關閉
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, suggestions.length - 1));
+      setActiveIndex((i) => Math.min(i + 1, listItems.length - 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActiveIndex((i) => Math.max(i - 1, -1));
     } else if (e.key === "Enter") {
       if (isStale) return;
-      const pick = activeIndex >= 0 ? suggestions[activeIndex] : suggestions[0];
+      if (!hasQuery && activeIndex < 0) return;
+      const pick = activeIndex >= 0 ? listItems[activeIndex] : listItems[0];
       if (pick) onSelect(pick);
     }
   };
-
-  const hasQuery = inputValue.trim() !== "";
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-2 md:flex-row md:gap-5">
@@ -175,7 +181,7 @@ const BusRouteSearchPanel: FC<PanelProps> = ({
               ref={inputRef}
               type="text"
               role="combobox"
-              aria-expanded={suggestions.length > 0}
+              aria-expanded={listItems.length > 0}
               aria-controls={BUS_ROUTE_LISTBOX_ID}
               aria-activedescendant={
                 activeIndex >= 0 ? busRouteOptionId(activeIndex) : undefined
@@ -216,15 +222,15 @@ const BusRouteSearchPanel: FC<PanelProps> = ({
           </Button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto rounded-large border border-input p-1">
+        <div className="min-h-0 flex-1 overflow-y-auto rounded-large border border-input p-2">
           <BusRouteSuggestionList
-            suggestions={suggestions}
+            suggestions={listItems}
+            isRecent={!hasQuery}
             isLoading={isLoading}
             hasQuery={hasQuery}
             activeIndex={activeIndex}
             onActiveIndexChange={setActiveIndex}
             onSelect={onSelect}
-            emptyContent={t("busKeypadEmptyHint")}
           />
         </div>
       </div>

@@ -1,4 +1,5 @@
-import { JsyBusRoute } from "@/models/jsy-bus-info";
+import { BusSource, JsyBusRoute } from "@/models/jsy-bus-info";
+import { StationTarget } from "@/models/station-history";
 import type { TFunction } from "i18next";
 import { getNameLangKey } from "./LocaleUtils";
 
@@ -87,5 +88,61 @@ export const buildBusRouteTitle = (
     destinationStop,
     label: hasPlace ? routeLabel : `${placeLabel} ${routeLabel}`,
     titleText: hasPlace ? routeTitle : `${placeLabel} ${routeTitle}`,
+  };
+};
+
+export const BUS_SOURCES: BusSource[] = ["city", "intercity", "taiwantrip"];
+
+/**
+ * 公車歷史 / 收藏的 meta 編解碼：route_uid 不足以重查看板（arrivals 需 source，source=city 需 city），
+ * 故把路由資訊存進通用單點表的 meta 欄（"source|city"）。
+ */
+export const encodeBusMeta = (source: BusSource, city?: string): string =>
+  `${source}|${city ?? ""}`;
+
+export const decodeBusMeta = (
+  meta?: string,
+): { source: BusSource; city?: string } => {
+  const [rawSource, rawCity] = (meta ?? "").split("|");
+  const source = BUS_SOURCES.includes(rawSource as BusSource)
+    ? (rawSource as BusSource)
+    : "city";
+  return { source, city: rawCity || undefined };
+};
+
+/**
+ * 歷史 / 收藏的 targetId 編解碼：含子線時 `routeUid|subRouteName`，否則純 routeUid。
+ * 同 routeUid 多子線需各成一筆（key 唯一），舊純 routeUid 資料解出無子線＝route 粒度，相容。
+ */
+export const encodeBusTargetId = (
+  routeUid: string,
+  subRouteName?: string,
+): string => (subRouteName ? `${routeUid}|${subRouteName}` : routeUid);
+
+export const parseBusTargetId = (
+  targetId: string,
+): { routeUid: string; subRouteName?: string } => {
+  const idx = targetId.indexOf("|");
+  return idx < 0
+    ? { routeUid: targetId }
+    : {
+        routeUid: targetId.slice(0, idx),
+        subRouteName: targetId.slice(idx + 1) || undefined,
+      };
+};
+
+/** 公車歷史 / 收藏 target → 選路線用的最小 route（無起訖站，看板由 routeUid 重查）。 */
+export const busTargetToRoute = (target: StationTarget): JsyBusRoute => {
+  const { source, city } = decodeBusMeta(target.meta);
+  const { routeUid, subRouteName } = parseBusTargetId(target.targetId);
+  return {
+    routeUid,
+    routeName: target.targetName,
+    subRouteName,
+    source,
+    city,
+    departureStop: "",
+    destinationStop: "",
+    routeType: 0,
   };
 };
