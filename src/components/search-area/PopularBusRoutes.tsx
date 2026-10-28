@@ -1,20 +1,21 @@
 import { GaEnum } from "@/enums/GaEnum";
+import { PathEnum } from "@/enums/PathEnum";
 import { JsyPopularStation } from "@/models/jsy-popular-stations";
-import { buildBusRouteTitle } from "@/utils/BusUtils";
+import { buildBusRouteQuery, buildBusRouteTitle } from "@/utils/BusUtils";
 import { gaClickEvent } from "@/utils/GaUtils";
 import { useTranslation } from "next-i18next";
 import { FC } from "react";
 import QuickPickPills, { QuickPickItem } from "./QuickPickPills";
 
 interface PopularBusRoutesProps {
-  /** 由 /bus getServerSideProps 注入的熱門公車路線（DB 取數 + 路線索引補資訊） */
+  /** 由 /bus getStaticProps 注入的熱門公車路線（DB 取數 + 路線索引補資訊） */
   routes?: JsyPopularStation[];
-  /** 點選藥丸時通知路線頁標記為主動選擇，看板載入後才寫歷史 */
+  /** 點選藥丸時標記為主動選擇，查詢頁看板載入後才寫歷史 */
   onSelectRoute?: (routeUid: string, subRouteName?: string) => void;
 }
 
 /**
- * 公車頁的「熱門路線快速查詢」。藥丸顯示「縣市 / 分類 + 路線名」，連 /bus?routeUid=X(&sub=Y)。
+ * 公車頁的「熱門路線快速查詢」。藥丸顯示「縣市 / 分類 + 路線名」，連 /bus/search?routeUid=X(&sub=Y)。
  */
 const PopularBusRoutes: FC<PopularBusRoutesProps> = ({
   routes,
@@ -38,8 +39,8 @@ const PopularBusRoutes: FC<PopularBusRoutesProps> = ({
       label,
       // 只帶 routeUid + 子線
       href: {
-        pathname: "/bus",
-        query: subRouteName ? { routeUid, sub: subRouteName } : { routeUid },
+        pathname: PathEnum.busSearch,
+        query: buildBusRouteQuery(routeUid, subRouteName),
       },
       onClick: () => {
         gaClickEvent(GaEnum.BUS_POPULAR_ROUTE);

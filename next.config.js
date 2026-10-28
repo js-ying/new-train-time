@@ -44,6 +44,15 @@ module.exports = withPWA({
   i18n,
   // 回應壓縮交給上游 Apache（mod_brotli），Next 內建只有 gzip 且與 SSR 搶同一條 event loop
   compress: false,
+  // 舊公車看板網址（/bus?routeUid= / ?stopUid=）導向查詢頁；query 原樣帶過去，各語系前綴一併涵蓋
+  async redirects() {
+    return ["routeUid", "stopUid"].map((key) => ({
+      source: "/bus",
+      has: [{ type: "query", key }],
+      destination: "/bus/search",
+      permanent: true,
+    }));
+  },
   async headers() {
     return [
       {

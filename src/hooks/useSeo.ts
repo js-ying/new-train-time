@@ -1,5 +1,6 @@
 import { SeoConfig, baseUrl, seoConfigs } from "@/configs/seoConfig";
-import { PageEnum } from "@/enums/PageEnum";
+import { notTransportPage, PageEnum } from "@/enums/PageEnum";
+import { PathEnum } from "@/enums/PathEnum";
 import { JsyBusRoute, JsyBusStopBoard } from "@/models/jsy-bus-info";
 import { buildBusRouteTitle, toBusCityKey } from "@/utils/BusUtils";
 import { localeToHreflang } from "@/utils/HreflangUtils";
@@ -22,7 +23,7 @@ const useSeo = (
 ) => {
   const { i18n, t } = useTranslation();
   const router = useRouter();
-  const { page } = usePage();
+  const { page, homePath } = usePage();
   const { urlSearchAreaParams } = useSearchAreaParams();
 
   const getSeo = () => {
@@ -47,7 +48,13 @@ const useSeo = (
 
     // 首頁 pathname 為 "/"，但 trailingSlash:false 下實際服務的是無尾斜線的根網址；
     // 正規化成 "" 避免 canonical / hreflang 指向會 308 重導的 "/" 或 "/en/"。
-    const basePath = router.pathname === "/" ? "" : router.pathname;
+    // 公車只有路線看板可獨立索引；首頁、站牌看板與取不到路線時都收斂到 /bus
+    const basePath =
+      page === PageEnum.BUS && !busRoute
+        ? PathEnum.busHome
+        : router.pathname === "/"
+          ? ""
+          : router.pathname;
     // 公車路線頁（與 s/e 互斥）：canonical 收斂到 routeUid(+子線)，不帶 dir——兩方向同屬一條路線。
     // 子線名取後端權威值，URL 帶非展開候選的 sub 會自然退回 route 粒度。
     const busQueryPath = busRoute
@@ -104,7 +111,10 @@ const useSeo = (
     if (page !== PageEnum.TR) {
       breadcrumbs.push({
         name: t(`${page.toLowerCase()}`), // 使用專屬標題如「高鐵」
-        item: selfUrl.split("?")[0], // 導向該交通工具的首頁
+        // 交通工具頁導向該運具首頁；特色介紹等非交通頁指向自身
+        item: notTransportPage.includes(page)
+          ? selfUrl.split("?")[0]
+          : `${homeUrl}${homePath}`,
       });
     }
 

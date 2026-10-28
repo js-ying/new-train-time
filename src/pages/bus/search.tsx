@@ -1,0 +1,810 @@
+import BusAutoRefreshRing from "@/components/bus/BusAutoRefreshRing";
+import BusEmptyNotice from "@/components/bus/BusEmptyNotice";
+import BusLocateBar from "@/components/bus/BusLocateBar";
+import BusRouteBoard, {
+  BusRouteStopHighlight,
+} from "@/components/bus/BusRouteBoard";
+import BusRouteInfoModal from "@/components/bus/BusRouteInfoModal";
+import BusRouteSearch from "@/components/bus/BusRouteSearch";
+import BusStopBoard from "@/components/bus/BusStopBoard";
+import BusStopVariantTabs from "@/components/bus/BusStopVariantTabs";
+import AdBanner from "@/components/common/AdBanner";
+import CommonDialog from "@/components/common/CommonDialog";
+import Loading from "@/components/common/Loading";
+import QueryCooldownDialog from "@/components/common/QueryCooldownDialog";
+import RefreshButton from "@/components/common/RefreshButton";
+import Layout from "@/components/layout/Layout";
+import PageSeo from "@/components/seo/PageSeo";
+import StationFavoriteButton from "@/components/station-history/StationFavoriteButton";
+import NoTrainData from "@/components/train-time-table/NoTrainData";
+import { useAuth, usePrepareLogin } from "@/contexts/AuthContext";
+import { GaEnum } from "@/enums/GaEnum";
+import { PathEnum } from "@/enums/PathEnum";
+import useBusRouteArrivals, {
+  BusRouteSelection,
+} from "@/hooks/search/useBusRouteArrivals";
+import useBusRouteInfo from "@/hooks/search/useBusRouteInfo";
+import useBusStopBoard, {
+  BusStopSelection,
+} from "@/hooks/search/useBusStopBoard";
+import useNearestBusStop from "@/hooks/search/useNearestBusStop";
+import useBusName from "@/hooks/useBusName";
+import useMuiTheme from "@/hooks/useMuiTheme";
+import useRefreshCooldown, {
+  QUERY_COOLDOWN_MS,
+} from "@/hooks/useRefreshCooldown";
+import useStationHistory from "@/hooks/useStationHistory";
+import {
+  BusSource,
+  JsyBusNearestStop,
+  JsyBusRoute,
+  JsyBusStopArrival,
+  JsyBusStopBoardRoute,
+} from "@/models/jsy-bus-info";
+import { StationTarget } from "@/models/station-history";
+import { fetchBusRouteMetaServerSide } from "@/services/busRouteMetaServerService";
+import AdUtils from "@/utils/AdUtils";
+import { takePendingBusSelection } from "@/utils/BusPendingSelection";
+import {
+  BUS_SOURCES,
+  buildBusRouteQuery,
+  encodeBusMeta,
+  encodeBusTargetId,
+} from "@/utils/BusUtils";
+import { gaClickEvent } from "@/utils/GaUtils";
+import { Button } from "@heroui/react";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import type { GetServerSidePropsContext } from "next";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
+
+interface BusSearchPageProps {
+  /** SSR 取得的路線識別（供 SEO title / canonical）；站牌模式或取數失敗為 null */
+  routeMeta: JsyBusRoute | null;
+  /** 後端明確回 404 的 routeUid；供 SEO 判定 noindex，逾時 / 故障時為 null */
+  notFoundRouteUid: string | null;
+}
+
+// i18n + 路線識別（看板即時資料仍於 client 抓 + 輪詢，此處只取路線名等識別資訊供 SEO）
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { locale, defaultLocale, query } = ctx;
+  const routeUid = typeof query.routeUid === "string" ? query.routeUid : null;
+  const stopUid = typeof query.stopUid === "string" ? query.stopUid : null;
+  const sub = typeof query.sub === "string" ? query.sub : null;
+
+  // 未帶路線也未帶站牌：導回公車首頁（gSSP 的 redirect 不會自動補語系前綴）
+  if (!routeUid && !stopUid) {
+    const prefix = locale && locale !== defaultLocale ? `/${locale}` : "";
+    return {
+      redirect: {
+        destination: `${prefix}${PathEnum.busHome}`,
+        permanent: false,
+      },
+    };
+  }
+
+  // 站牌模式（?stopUid=）與路線互斥，不取；取數失敗回 null，title 退回通用文案
+  const meta =
+    routeUid && !stopUid
+      ? await fetchBusRouteMetaServerSide(routeUid, sub, ctx.req)
+      : null;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale)),
+      routeMeta: meta?.route ?? null,
+      // 綁 uid 而非布林：換路線走 shallow push 不重跑 gSSP，比對 URL 即自動失效
+      notFoundRouteUid: meta?.notFound ? routeUid : null,
+    },
+  };
+}
+
+/**
+ * 從 URL query 還原已選路線（重新整理 / 分享連結可直接看板；route 為顯示用最小資訊）。
+ * meta 為 SSR 取得的路線識別，與 URL 同一條時用其權威路線名。
+ */
+const parseRouteFromQuery = (
+  query: ParsedUrlQuery,
+  meta?: JsyBusRoute | null,
+): JsyBusRoute | null => {
+  const routeUid = typeof query.routeUid === "string" ? query.routeUid : null;
+  if (!routeUid) return null;
+
+  // source/city 已不入 URL（後端依 routeUid 反查索引為權威）；舊連結若仍帶則沿用，否則預設 city。
+  const source =
+    typeof query.source === "string" &&
+    BUS_SOURCES.includes(query.source as BusSource)
+      ? (query.source as BusSource)
+      : "city";
+  const city = typeof query.city === "string" ? query.city : undefined;
+  const subRouteName = typeof query.sub === "string" ? query.sub : undefined;
+  const fromMeta =
+    meta?.routeUid === routeUid &&
+    (meta.subRouteName ?? undefined) === subRouteName
+      ? meta
+      : null;
+  return {
+    routeUid,
+    // 冷開/分享顯示名：子線用子線名（如 1822A）、route 粒度用 SSR 路線名，取不到才佔位 routeUid；
+    // arrivals 到位後由 useEffect 補權威值（子線名不覆寫；URL 不帶 name）
+    routeName: subRouteName ?? fromMeta?.routeName ?? routeUid,
+    routeNameEn: subRouteName ? undefined : fromMeta?.routeNameEn,
+    subRouteName,
+    source,
+    city,
+    departureStop: "",
+    destinationStop: "",
+    routeType: 0,
+  };
+};
+
+/** 詳細資訊（i）icon。 */
+const InfoIcon: FC = () => (
+  <svg
+    viewBox="0 0 24 24"
+    className="size-5"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.8}
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="9" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 11v5M12 8h.01" />
+  </svg>
+);
+
+/** [頁面] 公車查詢頁：路線看板（去/返程即時到站）與站牌看板，輪詢刷新；兩者互點走 shallow。 */
+const BusSearchPage: FC<BusSearchPageProps> = ({
+  routeMeta,
+  notFoundRouteUid,
+}) => {
+  const muiTheme = useMuiTheme();
+  const router = useRouter();
+  const { t } = useTranslation();
+  const busName = useBusName();
+  const { loginWithGoogle } = useAuth();
+
+  const [selectedRoute, setSelectedRoute] = useState<JsyBusRoute | null>(null);
+  const [direction, setDirection] = useState<number>(0);
+
+  // 只記「主動選擇」(搜尋/站牌/歷史點選)；直連/冷載還原不寫歷史。值為歷史鍵，看板載入後寫入即清
+  const activeSelectRef = useRef<string | null>(null);
+
+  // 從收藏 / 站牌看板點入時要捲到的站（路線看板到位後套用並清掉）
+  const [stopHighlight, setStopHighlight] =
+    useState<BusRouteStopHighlight | null>(null);
+  const clearStopHighlight = useCallback(() => setStopHighlight(null), []);
+
+  // 首載 / 路由 query 變動（含上一頁、分享連結）時，從 URL 還原已選路線；
+  // routeUid 相同則保留現有物件（含完整起訖資訊），避免被 URL 精簡版覆蓋。
+  // 從公車首頁選路線進來時，接手首頁記下的主動選擇（路線物件、要捲到的站）
+  useEffect(() => {
+    if (!router.isReady) return;
+    const fromUrl = parseRouteFromQuery(router.query, routeMeta);
+    const picked = fromUrl
+      ? takePendingBusSelection(
+          encodeBusTargetId(fromUrl.routeUid, fromUrl.subRouteName),
+        )
+      : null;
+    if (picked) {
+      activeSelectRef.current = picked.key;
+      setStopHighlight(picked.highlight ?? null);
+    }
+    // routeUid + 子線都相同才保留現有物件（含完整起訖）；換子線視為換查詢
+    setSelectedRoute((prev) =>
+      picked?.route
+        ? picked.route
+        : prev &&
+            fromUrl &&
+            prev.routeUid === fromUrl.routeUid &&
+            prev.subRouteName === fromUrl.subRouteName
+          ? prev
+          : fromUrl,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady, router.query.routeUid, router.query.sub]);
+
+  // 依 URL dir 設方向：從站牌看板點某向進來自動切到對應 tab，一般選路線(無 dir)預設去程。
+  // deps 含 router.query.dir，讓 push 帶的 dir 落地後補正（避開與 setSelectedRoute 的 race）
+  useEffect(() => {
+    const raw = router.query.dir;
+    const d = typeof raw === "string" ? Number(raw) : NaN;
+    setDirection(Number.isFinite(d) ? d : 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRoute?.routeUid, selectedRoute?.subRouteName, router.query.dir]);
+
+  // 站牌模式錨（?stopUid=，與 routeUid 互斥）：提前取得，供路線 selection 守互斥
+  const stopUid =
+    typeof router.query.stopUid === "string" ? router.query.stopUid : null;
+
+  // 站牌模式下路線 selection 一律 null：防 URL 手動同帶 stopUid+routeUid 時兩看板都發請求/輪詢
+  const selection: BusRouteSelection | null =
+    selectedRoute && !stopUid
+      ? {
+          routeUid: selectedRoute.routeUid,
+          source: selectedRoute.source,
+          city: selectedRoute.city,
+          subRouteName: selectedRoute.subRouteName,
+        }
+      : null;
+
+  // 路線看板（route 模式）
+  const routeArrivals = useBusRouteArrivals(selection);
+  const { data } = routeArrivals;
+
+  // URL 不帶 name：冷開/分享時 routeName 先佔位 routeUid，arrivals 到位後補成後端權威 routeName。
+  // 只更新 routeName（不動 selection 鍵），故不會重抓看板；換路線時 parseRouteFromQuery 會先重置。
+  useEffect(() => {
+    const authoritativeName = data?.[0]?.routeName;
+    if (!authoritativeName) return;
+    setSelectedRoute((prev) => {
+      if (!prev) return prev;
+      // 子線顯示名固定為子線名（如 1822A）；arrivals 回的是原路線號（1822）不含子線，
+      // 只有 route 粒度（無子線）才用它補權威顯示名
+      const displayName = prev.subRouteName ?? authoritativeName;
+      // 英文名同理只在 route 粒度補
+      const displayNameEn = prev.subRouteName
+        ? prev.routeNameEn
+        : (data?.[0]?.routeNameEn ?? prev.routeNameEn);
+      return prev.routeName !== displayName ||
+        prev.routeNameEn !== displayNameEn
+        ? { ...prev, routeName: displayName, routeNameEn: displayNameEn }
+        : prev;
+    });
+  }, [data]);
+
+  // 防呆：dir 指向該路線不存在的方向（單向路線帶 dir=1、手改 URL）時，
+  // 校正回看板第一個方向並同步 URL（replace 不留歷史），避免 state/URL 殘留無效值
+  useEffect(() => {
+    if (stopUid || !data || data.length === 0) return;
+    if (data.some((b) => b.direction === direction)) return;
+    const fallback = data[0].direction;
+    setDirection(fallback);
+    router.replace(
+      {
+        pathname: PathEnum.busSearch,
+        query: { ...router.query, dir: String(fallback) },
+      },
+      undefined,
+      { shallow: true },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, direction, stopUid]);
+
+  // 公車歷史（BUS）：查過的路線；常用路線由搜尋列愛心 / 面板愛心經 StationFavoritesContext 管理
+  const { saveHistory: saveBusHistory } = useStationHistory("BUS");
+
+  // 主動選擇在看板載入後才存，以取後端回應的權威 source/city（跨縣市 meta 也正確）；寫入即清標記，輪詢不重複寫。
+  useEffect(() => {
+    if (!selectedRoute || data == null) return;
+    // 換路線後新看板到位前 data 仍是上一條，等新看板再存
+    if (data[0] && data[0].routeUid !== selectedRoute.routeUid) return;
+    // 歷史鍵含子線（routeUid|subRouteName），同路線不同子線各記一筆
+    const key = encodeBusTargetId(
+      selectedRoute.routeUid,
+      selectedRoute.subRouteName,
+    );
+    if (activeSelectRef.current !== key) return;
+    activeSelectRef.current = null;
+    saveBusHistory({
+      targetId: key,
+      // 顯示快照存當前語系所見（歷史/常用面板直接顯示此字串）
+      targetName: busName(selectedRoute.routeName, selectedRoute.routeNameEn),
+      // source/city 取後端回應的權威值（routeUid 反查索引），冷載/分享也正確
+      meta: encodeBusMeta(
+        data[0]?.source ?? selectedRoute.source,
+        data[0]?.city ?? selectedRoute.city,
+      ),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRoute, data]);
+
+  // 站牌看板（stop 模式）：StopUID 為錨（與路線頁 routeUid 對稱）；
+  // source/city/stopName 全由後端反查 bus_stop，前端不傳。
+  const stopSelection: BusStopSelection | null = stopUid ? { stopUid } : null;
+  const stopBoard = useBusStopBoard(stopSelection);
+  const isStopMode = !!stopSelection;
+  // 站牌頁標題：後端回的權威站名（單錨無 URL stopName，載入前留白由 loading 佔位）；
+  // 看板取數失敗時改用錯誤回應附帶的站名
+  const stopErrorExtras = stopBoard.error?.extras;
+  const stopDisplayName = stopBoard.data
+    ? busName(stopBoard.data.stopName, stopBoard.data.stopNameEn)
+    : busName(
+        typeof stopErrorExtras?.stopName === "string"
+          ? stopErrorExtras.stopName
+          : "",
+        typeof stopErrorExtras?.stopNameEn === "string"
+          ? stopErrorExtras.stopNameEn
+          : undefined,
+      );
+
+  // 依模式取作用中看板的共用狀態（data 型別不同故各自取）
+  const active = isStopMode ? stopBoard : routeArrivals;
+  const {
+    error,
+    isLoading,
+    lastUpdatedAt,
+    isAutoRefresh,
+    nextUpdateAt,
+    pollIntervalMs,
+    refresh,
+    isIdle,
+    resumeAutoRefresh,
+  } = active;
+
+  // 資料時效警示：後端標 isStale（TDX 異常回舊快照）或輪詢更新失敗（後端不可達、有舊資料）時，
+  // 顯示看板資料的實際時間，避免舊到站被誤當即時
+  const activeBoardUpdatedAt = isStopMode
+    ? stopBoard.data?.updatedAt
+    : data?.[0]?.updatedAt;
+  const activeBoardIsStale = isStopMode
+    ? !!stopBoard.data?.isStale
+    : !!data?.[0]?.isStale;
+  const staleWarning =
+    activeBoardUpdatedAt != null && (activeBoardIsStale || error != null)
+      ? t("busStaleDataWarning", {
+          time: new Date(activeBoardUpdatedAt).toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        })
+      : null;
+  const staleWarningBox = staleWarning ? (
+    <div className="text-center text-xs text-warning">{staleWarning}</div>
+  ) : null;
+
+  // 路線營運通阻公告（arrivals 附帶、兩方向同組故取 [0]）；入口掛「離我最近站牌」列最左，
+  // 未選路線 / 無公告時 BusOperationAlert 自回 null 不佔位
+  const routeAlerts = !isStopMode ? data?.[0]?.alerts : undefined;
+
+  // 手動刷新冷卻（route/stop 共用一份；refresh 指向作用中看板）；冷卻中再按 → 彈窗「請於 X 秒後再試」
+  const busRefreshCooldown = useRefreshCooldown(QUERY_COOLDOWN_MS);
+  usePrepareLogin(busRefreshCooldown.dialogOpen && !isAutoRefresh);
+  const handleRefresh = () => busRefreshCooldown.attempt(refresh);
+  // 同查詢冷卻：冷卻內選同路線 / 定位到同站牌擋下並提示（按 key 區分，不同查詢不互擋），比照 TR 單站
+  const busQueryCooldown = useRefreshCooldown(QUERY_COOLDOWN_MS);
+  // 換路線/換站牌：新查詢可立即刷新
+  useEffect(() => {
+    busRefreshCooldown.reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRoute?.routeUid, selectedRoute?.subRouteName, stopUid]);
+
+  // 離我最近站牌：定位解析後 push URL（StopUID 為錨，改 stop 模式）；push 留歷史讓瀏覽器可返回。
+  // 不提前清 selectedRoute（避免看板一瞬清空，同 handleSelectStopFromRoute）；冷卻內同站牌重定位擋下。
+  const handleNearestStop = (stop: JsyBusNearestStop) => {
+    busQueryCooldown.attempt(
+      () => {
+        router.push(
+          { pathname: PathEnum.busSearch, query: { stopUid: stop.stopUid } },
+          undefined,
+          { shallow: true },
+        );
+      },
+      { key: `stopuid:${stop.stopUid}` },
+    );
+  };
+  const {
+    locate,
+    geoError,
+    notFound: nearestNotFound,
+  } = useNearestBusStop(handleNearestStop);
+
+  // 路線詳細資訊（業者/票價/路線圖/時刻表）：選定即抓，供 modal 顯示
+  const {
+    info: routeInfo,
+    isLoading: infoLoading,
+    error: infoError,
+  } = useBusRouteInfo(selection);
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
+
+  // 選定路線 → 更新 state + 淺層 push URL（不重跑 GSSP）；push 留歷史讓瀏覽器可返回
+  // dir（站牌看板 / 收藏點某向進來時帶）寫進 URL，讓 route board 初始化即切到對應 tab
+  // highlight（收藏 / 站牌看板點入才帶）＝看板到位後捲到並標記的站；未帶即清掉殘留
+  // 冷卻內重選同路線 → 擋下並提示（key 帶 routeUid）
+  const handleSelectRoute = (
+    route: JsyBusRoute,
+    opts?: { dir?: number; highlight?: BusRouteStopHighlight },
+  ) => {
+    const key = encodeBusTargetId(route.routeUid, route.subRouteName);
+    const dir = opts?.dir;
+    busQueryCooldown.attempt(
+      () => {
+        gaClickEvent(GaEnum.BUS_ROUTE_SELECT);
+        activeSelectRef.current = key; // 標記為主動選擇（歷史只記主動選擇，直連/冷載不記）
+        setStopHighlight(opts?.highlight ?? null);
+        setSelectedRoute(route);
+        // URL 不帶 name（後端不用；顯示名改取 arrivals 回應權威值，見下方 useEffect）
+        router.push(
+          {
+            pathname: PathEnum.busSearch,
+            query: buildBusRouteQuery(route.routeUid, route.subRouteName, dir),
+          },
+          undefined,
+          { shallow: true },
+        );
+      },
+      { key: `route:${key}` },
+    );
+  };
+
+  // 切換方向 → 更新 state + 寫 URL dir（replace 不增歷史，與 TR 一致）；refresh/分享可還原
+  const handleDirectionChange = (dir: number) => {
+    setDirection(dir);
+    router.replace(
+      {
+        pathname: PathEnum.busSearch,
+        query: { ...router.query, dir: String(dir) },
+      },
+      undefined,
+      { shallow: true },
+    );
+  };
+
+  // 站牌看板某列 → 跳該路線看板（source/city 取看板的權威值；公路客運/台灣好行 city 為空）
+  // 帶該列的 subRouteName（展開候選才有）＋ direction：有 sub 精確導向該子線、無 sub 走 route 粒度，
+  // 兩看板同粒度故到站時間天然一致（不經任何 fallback 轉換）。
+  // 並標記本站：錨點柱可能非該方向停靠柱，由路線看板以站名備援比對。
+  const handleSelectStopRoute = (route: JsyBusStopBoardRoute) => {
+    handleSelectRoute(
+      {
+        routeUid: route.routeUid,
+        routeName: route.subRouteName || route.routeName,
+        routeNameEn: route.routeNameEn,
+        subRouteName: route.subRouteName,
+        source: stopBoard.data?.source ?? "city",
+        city: stopBoard.data?.city || undefined,
+        departureStop: "",
+        destinationStop: route.destination,
+        destinationStopEn: route.destinationEn,
+        routeType: 0,
+      },
+      {
+        dir: route.direction,
+        highlight: stopUid
+          ? {
+              stopUid,
+              routeUid: route.routeUid,
+              direction: route.direction,
+              subRouteName: route.subRouteName || undefined,
+              stopName: stopBoard.data?.stopName,
+            }
+          : undefined,
+      },
+    );
+  };
+
+  // 路線站序某站 → 跳該站牌看板（StopUID 為錨，改 stop 模式），等於反向讓使用者搜站牌。
+  // source 取路線權威值：市區公車站需在 bus_stop（city 有值）才查得到 → 無 city 不可點；
+  // 公路客運/台灣好行 StopUID 直查、一律可點。冷卻內同站重入擋下，比照 handleNearestStop。
+  // 不在此提前清 selectedRoute：否則 URL 落地前會有一瞬 !selectedRoute && !isStopMode → 看板清空；
+  // 改靠 URL 落地後既有 useEffect 自動清，路線看板以 !isStopMode 守互斥，直接切站牌看板不抖動。
+  const handleSelectStopFromRoute = (stop: JsyBusStopArrival) => {
+    const source = data?.[0]?.source ?? selectedRoute?.source ?? "city";
+    if (source === "city" && !stop.city) return; // 市區公車站需在 bus_stop（有 city）才查得到
+    busQueryCooldown.attempt(
+      () => {
+        router.push(
+          { pathname: PathEnum.busSearch, query: { stopUid: stop.stopUid } },
+          undefined,
+          { shallow: true },
+        );
+      },
+      { key: `stopuid:${stop.stopUid}` },
+    );
+  };
+
+  // 站柱 tab 切換（同名多座標）→ push 該柱 stopUid（仍單錨）；已在此柱則不動
+  const handleSelectVariant = (variantStopUid: string) => {
+    if (variantStopUid === stopUid) return;
+    busQueryCooldown.attempt(
+      () => {
+        router.push(
+          { pathname: PathEnum.busSearch, query: { stopUid: variantStopUid } },
+          undefined,
+          { shallow: true },
+        );
+      },
+      { key: `stopuid:${variantStopUid}` },
+    );
+  };
+
+  // 底部廣告：mount 後才掛（比照其他頁，避免 SSR/hydration 掛 adsbygoogle）
+  const [showBottomAd, setShowBottomAd] = useState(false);
+  useEffect(() => {
+    setShowBottomAd(true);
+  }, []);
+
+  // 登入會員：自動輪詢倒數環，掛在方向切換同列最右（cornerSlot），不額外佔一列；點擊可提前刷新
+  const autoRefreshRing =
+    isAutoRefresh && nextUpdateAt != null ? (
+      <BusAutoRefreshRing
+        nextUpdateAt={nextUpdateAt}
+        intervalMs={pollIntervalMs}
+        onRefresh={handleRefresh}
+      />
+    ) : null;
+
+  // 未登入：手動刷新（冷卻中彈窗提示 + 引導登入解鎖自動更新）
+  const refreshControls =
+    !isAutoRefresh && (lastUpdatedAt || error) ? (
+      <RefreshButton onRefresh={handleRefresh} />
+    ) : null;
+
+  // 路線詳細資訊：icon-only，掛在方向切換同列最左（leadingSlot）；無看板時同位置獨立成列
+  // -m-1.5 抵銷按鈕內距，footprint 維持 20px（位置不變）
+  const routeInfoButton = (
+    <Button
+      isIconOnly
+      size="sm"
+      radius="full"
+      variant="light"
+      className="-m-1.5 text-zinc-600 dark:text-zinc-300"
+      aria-label={t("busRouteInfo")}
+      onPress={() => setInfoModalOpen(true)}
+    >
+      <InfoIcon />
+    </Button>
+  );
+
+  // 收藏 target（當前選定路線）；meta 帶 source/city 供副標顯示縣市/來源
+  const busFavoriteTarget: StationTarget | null = selectedRoute
+    ? {
+        targetId: encodeBusTargetId(
+          selectedRoute.routeUid,
+          selectedRoute.subRouteName,
+        ),
+        targetName: busName(selectedRoute.routeName, selectedRoute.routeNameEn),
+        // source/city 優先取後端回應權威值（冷載/分享也正確）；看板未載入時退回 selectedRoute
+        meta: encodeBusMeta(
+          data?.[0]?.source ?? selectedRoute.source,
+          data?.[0]?.city ?? selectedRoute.city,
+        ),
+      }
+    : null;
+  // 愛心出現在兩處（搜尋列「離我最近站牌」同列最右 + 看板吸頂時路線名同列最右），
+  // 依捲動位置互斥可見；各處各自建立實例，不共用同一 element。
+  const renderBusFavorite = () =>
+    busFavoriteTarget ? (
+      <StationFavoriteButton trainType="BUS" target={busFavoriteTarget} />
+    ) : null;
+
+  // SEO 身分以當前 URL 為準（換路線走 shallow push 不重跑 gSSP，routeMeta 可能已非當前這條）；
+  // routeMeta 優先於 selectedRoute——後者在首次 SSR 渲染時尚未設定、冷開名稱亦僅為佔位。
+  const queryRouteUid =
+    typeof router.query.routeUid === "string" ? router.query.routeUid : null;
+  const querySub =
+    typeof router.query.sub === "string" ? router.query.sub : null;
+  const matchesUrl = (r: JsyBusRoute | null | undefined): boolean =>
+    !!queryRouteUid &&
+    r?.routeUid === queryRouteUid &&
+    (r?.subRouteName ?? null) === querySub;
+  // 站內換路線（shallow push 不重跑 GSSP）時 selectedRoute 可能只是佔位（收藏 / 歷史 / 站牌看板點入），
+  // 以看板回應的路線識別補齊縣市 / 起訖；補不齊前不出路線標題，避免分類標錯
+  const board = data?.[0];
+  const withBoardIdentity = (r: JsyBusRoute): JsyBusRoute | null => {
+    // 佔位物件 routeType 為 0；起訖可能本來就空（TDX 未提供），故以欄位存在與否判斷
+    if (
+      board?.routeUid !== r.routeUid ||
+      board.routeDepartureStop === undefined
+    )
+      return r.routeType ? r : null;
+    return {
+      ...r,
+      source: board.source ?? r.source,
+      city: board.city ?? r.city,
+      departureStop: board.routeDepartureStop,
+      destinationStop: board.routeDestinationStop ?? r.destinationStop,
+      departureStopEn: board.routeDepartureStopEn,
+      destinationStopEn: board.routeDestinationStopEn,
+      isTaiwanTrip: board.isTaiwanTrip ?? r.isTaiwanTrip,
+    };
+  };
+  const seoRoute = matchesUrl(routeMeta)
+    ? routeMeta
+    : matchesUrl(selectedRoute) && selectedRoute
+      ? withBoardIdentity(selectedRoute)
+      : null;
+  // 後端明確回 404 才視為無效路線；仍在當前 URL 時才適用
+  const isInvalidRoute =
+    !!queryRouteUid && queryRouteUid === notFoundRouteUid && !seoRoute;
+
+  return (
+    <>
+      <PageSeo
+        busRoute={seoRoute}
+        busRouteNotFound={isInvalidRoute}
+        busStop={isStopMode ? stopBoard.data : null}
+      />
+      <MuiThemeProvider theme={muiTheme}>
+        <Layout>
+          <div className="mx-auto w-full">
+            <BusRouteSearch
+              selectedRoute={selectedRoute}
+              onSelect={handleSelectRoute}
+            />
+
+            <BusLocateBar
+              onLocate={locate}
+              geoError={geoError}
+              notFound={nearestNotFound}
+              alerts={routeAlerts}
+              favoriteSlot={renderBusFavorite()}
+            />
+
+            {/* 站牌模式：定位到的站牌、其所有路線即時到站 */}
+            {isStopMode && (
+              <div className="mx-auto mt-3 w-full md:max-w-md">
+                {/* sticky 站名 + 輪詢倒數環，下滑固定可見 */}
+                <div className="sticky top-0 z-[5] -mx-4 flex items-center justify-center bg-background/20 px-4 py-2 backdrop-blur-md">
+                  <span className="text-base font-bold">{stopDisplayName}</span>
+                  {(autoRefreshRing ?? refreshControls) && (
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                      {autoRefreshRing ?? refreshControls}
+                    </div>
+                  )}
+                </div>
+                <div className="mt-3">
+                  {staleWarningBox && (
+                    <div className="mb-3">{staleWarningBox}</div>
+                  )}
+                  {/* 同名多座標：站柱 tab（消防局松仁 4 柱），切柱＝push 該柱 stopUid */}
+                  {stopBoard.data?.variants &&
+                    stopBoard.data.variants.length > 1 && (
+                      <BusStopVariantTabs
+                        variants={stopBoard.data.variants}
+                        currentStopUid={stopUid ?? ""}
+                        onSelect={handleSelectVariant}
+                      />
+                    )}
+                  {stopBoard.data ? (
+                    <BusStopBoard
+                      board={stopBoard.data}
+                      stopUid={stopUid ?? ""}
+                      onSelectRoute={handleSelectStopRoute}
+                    />
+                  ) : (
+                    error && (
+                      <>
+                        <NoTrainData apiError={error} />
+                        {/* 查過 TDX 即有廣告：錯誤也顯示（同路線頁） */}
+                        {AdUtils.showAd(0, 0) && (
+                          <div className="mt-4">
+                            <AdBanner mode="trainInfo" />
+                          </div>
+                        )}
+                      </>
+                    )
+                  )}
+                </div>
+              </div>
+            )}
+
+            {selectedRoute && !isStopMode && (
+              <div className="mx-auto mt-1 w-full md:max-w-md">
+                {data && data.length > 0 ? (
+                  // 有看板：方向切換同列左掛詳細資訊、右掛角落槽（登入倒數環 / 未登入刷新+登入引導，互斥）
+                  <BusRouteBoard
+                    boards={data}
+                    direction={direction}
+                    onDirectionChange={handleDirectionChange}
+                    routeName={busName(
+                      selectedRoute.routeName,
+                      selectedRoute.routeNameEn,
+                    )}
+                    subRouteName={selectedRoute.subRouteName}
+                    leadingSlot={routeInfoButton}
+                    cornerSlot={autoRefreshRing ?? refreshControls}
+                    favoriteSlot={renderBusFavorite()}
+                    warningSlot={staleWarningBox}
+                    onSelectStop={handleSelectStopFromRoute}
+                    highlight={stopHighlight}
+                    onHighlightApplied={clearStopHighlight}
+                  />
+                ) : (
+                  <>
+                    {/* 無看板（錯誤 / 無即時）時仍比照 BusRouteBoard 方向列左右分置 info/刷新，位置與有看板時相同
+                        （pt-[9px]＝sentinel 1px + py-2，用 padding 免與外層 margin 合併；h-10＝tab 列高）；載入中不渲染 */}
+                    {(error || (data != null && data.length === 0)) && (
+                      <div className="mb-4 pt-[9px]">
+                        <div className="relative h-10">
+                          <div className="absolute left-0 top-6 -translate-y-1/2">
+                            {routeInfoButton}
+                          </div>
+                          {refreshControls && (
+                            <div className="absolute right-0 top-6 -translate-y-1/2">
+                              {refreshControls}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {error && <NoTrainData apiError={error} />}
+                    {!error && data && data.length === 0 && (
+                      <BusEmptyNotice>{t("busNoRealtime")}</BusEmptyNotice>
+                    )}
+                    {/* 查過 TDX 即有廣告：錯誤 / 無即時班次也顯示（同 TR OD NoTrainData，trainInfo 大版）；載入中不掛 */}
+                    {AdUtils.showAd(0, 0) &&
+                      (error || (data != null && data.length === 0)) && (
+                        <div className="mt-4">
+                          <AdBanner mode="trainInfo" />
+                        </div>
+                      )}
+                  </>
+                )}
+              </div>
+            )}
+
+            {selectedRoute && (
+              <BusRouteInfoModal
+                open={infoModalOpen}
+                setOpen={setInfoModalOpen}
+                route={selectedRoute}
+                info={routeInfo}
+                isLoading={infoLoading}
+                error={infoError}
+              />
+            )}
+
+            {/* 手動刷新冷卻提示（凍結秒數）；未登入才附帶引導登入解鎖自動更新 */}
+            <CommonDialog
+              open={busRefreshCooldown.dialogOpen}
+              setOpen={busRefreshCooldown.setDialogOpen}
+              title="cooldownAlertTitle"
+              centerBody
+              cancelText={isAutoRefresh ? undefined : "cancel"}
+              confirmText={isAutoRefresh ? undefined : "login"}
+              onConfirm={
+                isAutoRefresh
+                  ? undefined
+                  : () => {
+                      gaClickEvent(GaEnum.LOGIN_WITH_GOOGLE);
+                      void loginWithGoogle();
+                    }
+              }
+            >
+              <div className="flex flex-col gap-3">
+                <p>
+                  {t("sameQueryCountdownMsg", {
+                    seconds: busRefreshCooldown.frozenSeconds,
+                  })}
+                </p>
+                {!isAutoRefresh && (
+                  <p className="text-sm text-primary">
+                    {t("busAutoRefreshHint")}
+                  </p>
+                )}
+              </div>
+            </CommonDialog>
+
+            {/* 同查詢冷卻提示（選同路線 / 定位同站牌），比照 TR 單站 */}
+            <QueryCooldownDialog cooldown={busQueryCooldown} />
+
+            {/* 久無操作暫停自動更新：任何關閉動作（繼續更新 / X / 背景 / Esc）都代表使用者在場 → 恢復輪詢 */}
+            <CommonDialog
+              open={isIdle}
+              setOpen={(o) => {
+                if (!o) resumeAutoRefresh();
+              }}
+              title="autoRefreshIdleTitle"
+              confirmText="autoRefreshIdleConfirm"
+            >
+              {t("autoRefreshIdleMsg")}
+            </CommonDialog>
+          </div>
+
+          {isLoading && <Loading />}
+
+          {/* 底部可關閉廣告：有查詢(站牌/路線)才掛；單頁 shallow 不 unmount → 關閉狀態跨模式延續 */}
+          {AdUtils.showAd(0, 0) &&
+            showBottomAd &&
+            (isStopMode || selectedRoute) && <AdBanner mode="bottom" />}
+        </Layout>
+      </MuiThemeProvider>
+    </>
+  );
+};
+
+export default BusSearchPage;

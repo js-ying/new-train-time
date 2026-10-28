@@ -146,3 +146,14 @@ export const busTargetToRoute = (target: StationTarget): JsyBusRoute => {
     routeType: 0,
   };
 };
+
+/** 路線看板網址的 query：只帶 routeUid、子線與方向（與 canonical 規則一致，不帶 name / source / city）。 */
+export const buildBusRouteQuery = (
+  routeUid: string,
+  subRouteName?: string,
+  dir?: number,
+): Record<string, string> => ({
+  routeUid,
+  ...(subRouteName ? { sub: subRouteName } : {}),
+  ...(dir != null ? { dir: String(dir) } : {}),
+});

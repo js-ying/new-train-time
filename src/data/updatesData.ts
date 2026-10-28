@@ -21,6 +21,10 @@ export const updateDataList = [
         type: "update",
         content: "公車路線搜尋框在尚未輸入時，會先列出歷史查詢",
       },
+      {
+        type: "refactor",
+        content: "重構公車頁，切換至公車頁更快速",
+      },
     ],
   },
   {

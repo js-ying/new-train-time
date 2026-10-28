@@ -2,6 +2,7 @@
  * 公車路線頁 sitemap：路線清單由後端提供，於 server 端即時組出。
  * 取數失敗回 503 而非空 urlset，讓爬蟲稍後重試而非視為「沒有 URL」。
  */
+import { PathEnum } from "@/enums/PathEnum";
 import { clientForwardHeaders } from "@/utils/ApiHandlerUtils";
 import type { GetServerSideProps } from "next";
 
@@ -29,10 +30,8 @@ const escapeXml = (s: string): string =>
 
 /** 組單一路線頁的相對路徑（與 useSeo 的 canonical 規則一致：只帶 routeUid + 子線）。 */
 const routePath = ({ routeUid, subRouteName }: BusRouteKey): string => {
-  const sub = subRouteName
-    ? `&sub=${encodeURIComponent(subRouteName)}`
-    : "";
-  return `/bus?routeUid=${encodeURIComponent(routeUid)}${sub}`;
+  const sub = subRouteName ? `&sub=${encodeURIComponent(subRouteName)}` : "";
+  return `${PathEnum.busSearch}?routeUid=${encodeURIComponent(routeUid)}${sub}`;
 };
 
 /** 取路線鍵；取數失敗回 null（與「索引就緒但為空」區分，供上層決定回 503）。 */
