@@ -104,6 +104,8 @@ module.exports = {
         modal: "40",
         tooltip: "50",
         overlay: "100",
+        // 頂部導頁進度條：需高於滿版 Loading（overlay）
+        progress: "110",
       },
       maxWidth: {
         // 對應現有 max-w-[728px] (Google Ads leaderboard)

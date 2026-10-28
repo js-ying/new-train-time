@@ -13,6 +13,7 @@ import useRefreshCooldown, {
   QUERY_COOLDOWN_MS,
   UseRefreshCooldownResult,
 } from "@/hooks/useRefreshCooldown";
+import useRouteChangePending from "@/hooks/useRouteChangePending";
 import useSearchHistory from "@/hooks/useSearchHistory";
 import { useRouter } from "next/router";
 import { useContext } from "react";
@@ -38,8 +39,12 @@ const useSearchSubmit = (): UseSearchSubmitResult => {
   const { searchPath } = usePage();
   const { saveHistory } = useSearchHistory();
   const cooldown = useRefreshCooldown(QUERY_COOLDOWN_MS);
+  const isNavigating = useRouteChangePending();
 
   const submitSearch = (overrides?: SubmitOverrides) => {
+    // 上一次送出的導頁尚未完成：略過且不進冷卻，避免誤跳冷卻彈窗
+    if (isNavigating) return;
+
     const date = overrides?.date ?? params.date;
     const time = overrides?.time ?? params.time;
 

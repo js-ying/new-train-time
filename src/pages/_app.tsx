@@ -3,6 +3,7 @@ import LocaleSuggestionDialog from "@/components/common/LocaleSuggestionDialog";
 import MembershipExpiryDialog from "@/components/common/MembershipExpiryDialog";
 import AppMeta from "@/components/layout/AppMeta";
 import GoogleScript from "@/components/layout/GoogleScript";
+import NavProgressBar from "@/components/layout/NavProgressBar";
 import { appLatin, appSans } from "@/configs/fonts";
 import { defaultSeoConfig } from "@/configs/seoConfig";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -80,6 +81,7 @@ function App({ Component, pageProps, router }: AppProps) {
                             </ErrorBoundary>
                             <LocaleSuggestionDialog />
                             <MembershipExpiryDialog />
+                            <NavProgressBar />
                           </SearchModeProvider>
                         </SearchAreaProvider>
                       </StationFavoritesProvider>
