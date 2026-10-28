@@ -11,6 +11,21 @@ export const updateDataList = [
   {
     date: "2026-10",
     type: "both",
+    ver: "4.6.0",
+    items: [
+      {
+        type: "new",
+        content: "新功能：公車路線搜尋專用鍵盤，點選顏色、字詞與數字組出路線名",
+      },
+      {
+        type: "update",
+        content: "公車路線搜尋框在尚未輸入時，會先列出歷史查詢",
+      },
+    ],
+  },
+  {
+    date: "2026-10",
+    type: "both",
     ver: "4.5.3",
     items: [
       {
