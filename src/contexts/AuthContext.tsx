@@ -13,7 +13,7 @@ import {
   callUserApi,
   createSession,
   deleteSession,
-  hasSessionHint,
+  readSessionHint,
 } from "@/services/userApi";
 import type { User } from "firebase/auth";
 import { useTranslation } from "next-i18next";
@@ -246,12 +246,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loginError, setLoginError] = useState(false);
   /** 已登入後 session 失效（401）時觸發的提示對話框 */
   const [sessionExpired, setSessionExpired] = useState(false);
+  /** 本分頁最後一次確認登入時的提示 cookie 值；與目前 cookie 不同代表其他分頁登出或換了帳號 */
+  const knownHintRef = useRef<string | null>(null);
   /** Provider 是否仍掛載；重試迴圈據此停止 */
   const aliveRef = useRef(true);
   const persistRequestTimerRef = useRef<number>();
 
   /** 更新登入者；內容不變時沿用舊物件 */
   const setUser = useCallback((next: AuthUser | null) => {
+    if (!next) knownHintRef.current = null;
     const prev = userRef.current;
     if (prev && next && isSameUser(prev, next)) return;
     userRef.current = next;
@@ -263,6 +266,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     (me: MeResponse) => {
       setUser(toUser(me));
       setProfile(toProfile(me));
+      knownHintRef.current = readSessionHint();
       window.clearTimeout(persistRequestTimerRef.current);
       persistRequestTimerRef.current = window.setTimeout(
         () => void requestPersistentStorage(),
@@ -448,7 +452,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           void startAuthListener();
           return;
         }
-        if (hasSessionHint()) {
+        if (readSessionHint()) {
           const outcome = await untilSettled(loadMe);
           if (outcome === null) return;
           if (outcome.kind === "ok") {
@@ -480,9 +484,50 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         listenerRef.current = null;
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- 依賴皆為穩定 useCallback；
-    // 列入依賴會讓 dev StrictMode 多跑 effect 與多次 onAuthStateChanged 訂閱
+    // 依賴皆為穩定 useCallback；列入依賴會讓 dev StrictMode 多跑 effect 與多次 onAuthStateChanged 訂閱
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  /** 分頁回到前景時比對提示 cookie：被其他分頁登出就轉訪客，其他分頁登入或換帳號就重取 /me */
+  useEffect(() => {
+    if (loading) return;
+    let syncing = false;
+    const syncWithOtherTabs = async () => {
+      if (document.visibilityState !== "visible") return;
+      if (syncing || isLoggingInRef.current) return;
+      const hint = readSessionHint();
+      if (hint === knownHintRef.current) return;
+      if (!hint) {
+        setUser(null);
+        setProfile(null);
+        return;
+      }
+      syncing = true;
+      try {
+        const outcome = await loadMe();
+        if (outcome.kind === "ok") {
+          applyMe(outcome.me);
+        } else if (outcome.kind === "invalid") {
+          setUser(null);
+          setProfile(null);
+        }
+      } finally {
+        syncing = false;
+      }
+    };
+    /** 從 bfcache 還原時不一定觸發 visibilitychange / focus，補比對一次 */
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) void syncWithOtherTabs();
+    };
+    document.addEventListener("visibilitychange", syncWithOtherTabs);
+    window.addEventListener("focus", syncWithOtherTabs);
+    window.addEventListener("pageshow", onPageShow);
+    return () => {
+      document.removeEventListener("visibilitychange", syncWithOtherTabs);
+      window.removeEventListener("focus", syncWithOtherTabs);
+      window.removeEventListener("pageshow", onPageShow);
+    };
+  }, [loading, applyMe, setUser]);
 
   const loginWithGoogle = async () => {
     try {

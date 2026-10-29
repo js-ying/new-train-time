@@ -1,8 +1,9 @@
+import { createHash } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 /** session token 本體（HttpOnly）；`__Host-` 前綴強制 Secure、Path=/、不可帶 Domain */
 export const SESSION_COOKIE = "__Host-jsy_sid";
-/** 前端判斷「可能已登入」用的提示 cookie，不具任何權限 */
+/** 前端判斷「可能已登入」與「是否換了帳號」用的提示 cookie（值為 uid 雜湊），不具任何權限 */
 export const SESSION_HINT_COOKIE = "jsy_auth";
 /** 轉送給後端的 session header */
 export const SESSION_HEADER = "x-jsy-session";
@@ -20,14 +21,19 @@ const appendSetCookie = (res: NextApiResponse, cookies: string[]) => {
   res.setHeader("Set-Cookie", [...list, ...cookies]);
 };
 
-/** 由 JWT payload 的 exp 算剩餘秒數；解析失敗回 null */
-const remainingSeconds = (token: string): number | null => {
+/** 讀 JWT payload 的剩餘秒數與提示值（uid 雜湊）；解析失敗回 null */
+const readTokenMeta = (
+  token: string,
+): { maxAge: number; hint: string } | null => {
   try {
     const payload = JSON.parse(
       Buffer.from(token.split(".")[1], "base64url").toString("utf8"),
     );
-    const left = Math.floor(payload.exp - Date.now() / 1000);
-    return Number.isFinite(left) && left > 0 ? left : null;
+    const maxAge = Math.floor(payload.exp - Date.now() / 1000);
+    if (!Number.isFinite(maxAge) || maxAge <= 0) return null;
+    if (typeof payload.sub !== "string" || !payload.sub) return null;
+    const hint = createHash("sha256").update(payload.sub).digest("hex").slice(0, 12);
+    return { maxAge, hint };
   } catch {
     return null;
   }
@@ -35,12 +41,12 @@ const remainingSeconds = (token: string): number | null => {
 
 /** 寫入 session 與提示 cookie，效期跟隨 token 的 exp；並禁止任何快取留存此回應 */
 export const setSessionCookies = (res: NextApiResponse, token: string): boolean => {
-  const maxAge = remainingSeconds(token);
-  if (maxAge === null) return false;
-  const attrs = `Path=/; Max-Age=${maxAge}; Secure; SameSite=Lax`;
+  const meta = readTokenMeta(token);
+  if (meta === null) return false;
+  const attrs = `Path=/; Max-Age=${meta.maxAge}; Secure; SameSite=Lax`;
   appendSetCookie(res, [
     `${SESSION_COOKIE}=${token}; ${attrs}; HttpOnly`,
-    `${SESSION_HINT_COOKIE}=1; ${attrs}`,
+    `${SESSION_HINT_COOKIE}=${meta.hint}; ${attrs}`,
   ]);
   res.setHeader("Cache-Control", "private, no-store");
   return true;

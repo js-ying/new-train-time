@@ -1,9 +1,14 @@
 import { ApiError, ProblemDetails, toApiError } from "@/models/problem-details";
 
-/** 是否帶有登入提示 cookie（只代表「可能已登入」，實際以 /me 為準） */
-export const hasSessionHint = (): boolean =>
-  typeof document !== "undefined" &&
-  /(?:^|;\s*)jsy_auth=1(?:;|$)/.test(document.cookie);
+/**
+ * 讀登入提示 cookie（uid 雜湊）；無則回 null。
+ * 只代表「可能已登入」與「是否換了帳號」，實際以 /me 為準。
+ */
+export const readSessionHint = (): string | null => {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(/(?:^|;\s*)jsy_auth=([^;]+)/);
+  return match ? match[1] : null;
+};
 
 /** 送出請求並把非 2xx 的 Problem Details 轉成 ApiError */
 const request = async <T>(
