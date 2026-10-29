@@ -1,5 +1,13 @@
 import type { ProblemCode, ProblemDetails } from "@/models/problem-details";
 import { NextApiRequest, NextApiResponse } from "next";
+import {
+  clearSessionCookies,
+  isSameOriginRequest,
+  readSessionCookie,
+  SESSION_HEADER,
+  SESSION_RENEW_HEADER,
+  setSessionCookies,
+} from "./sessionCookie";
 
 /**
  * 組出轉發給後端的 client 識別 headers：真實 IP（cf-connecting-ip / x-forwarded-for）
@@ -26,7 +34,7 @@ const isJsonObject = (body: unknown): boolean =>
 const PROBLEM_TYPE_BASE = "https://traintime.jsy.tw/problems/";
 
 /** BFF 自行產生的 Problem Details (RFC 9457)，格式對齊後端：type 為 code 小寫。 */
-const problemDetails = (
+export const problemDetails = (
   code: ProblemCode,
   status: number,
   instance: string,
@@ -39,6 +47,25 @@ const problemDetails = (
   detail,
   instance,
 });
+
+/**
+ * 依後端回應維護 session cookie：有續期 token 就改寫 cookie；
+ * 帶 session 卻回 401（後端優先驗 session，故失效的必是 session）就清除。
+ */
+const applySessionResponse = (
+  res: NextApiResponse,
+  response: Response,
+  sessionToken: string | undefined,
+) => {
+  const renewed = response.headers.get(SESSION_RENEW_HEADER);
+  if (renewed) {
+    setSessionCookies(res, renewed);
+    return;
+  }
+  if (sessionToken && response.status === 401) {
+    clearSessionCookies(res);
+  }
+};
 
 /**
  * 通用的 API Proxy 處理器
@@ -65,12 +92,21 @@ export const apiProxyHandler = async (
     return res.status(400).json(problemDetails("INVALID_INPUT", 400, req.url));
   }
 
+  const sessionToken = readSessionCookie(req);
+  // 帶登入 cookie 的寫入請求須來自本站（CSRF）
+  if (sessionToken && method !== "GET" && !isSameOriginRequest(req)) {
+    return res.status(403).json(problemDetails("FORBIDDEN", 403, req.url));
+  }
+
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
       ...clientForwardHeaders(req),
     };
 
+    if (sessionToken) {
+      headers[SESSION_HEADER] = sessionToken;
+    }
     if (req.headers.authorization) {
       headers["Authorization"] = req.headers.authorization as string;
     }
@@ -80,6 +116,8 @@ export const apiProxyHandler = async (
       headers,
       body: method !== "GET" ? JSON.stringify(req.body) : null,
     });
+
+    applySessionResponse(res, response, sessionToken);
 
     const contentType = response.headers.get("content-type") ?? "";
     const isJson = contentType.includes("json");

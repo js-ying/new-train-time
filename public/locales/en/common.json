@@ -508,6 +508,7 @@
     "INVALID_INPUT": "Invalid query parameters. Please check all fields and try again.",
     "DATE_OUT_OF_RANGE": "The selected date is out of the supported range. Please pick another date.",
     "UNAUTHORIZED": "You're not signed in. Please sign in and try again.",
+    "FORBIDDEN": "Request origin mismatch. Please reload the page and try again.",
     "INVALID_TOKEN": "Your session has expired. Please sign in again.",
     "USER_NOT_FOUND": "User account not found. Please contact the administrator.",
     "NOT_FOUND": "Not found. It may have been discontinued or removed.",

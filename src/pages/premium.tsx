@@ -76,7 +76,6 @@ const Premium: FC = () => {
     try {
       const { actionUrl, params } = await createCheckout(
         planCode,
-        user,
         router.locale,
       );
       // 暫存本次訂單號，導回 /payment/result 後用來輪詢「這筆」是否付款成功。

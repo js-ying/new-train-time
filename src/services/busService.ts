@@ -10,7 +10,7 @@ import {
 import { BusStopFavoriteKey } from "@/utils/BusStopFavoriteUtils";
 
 import fetchData from "./fetchData";
-import { optionalAuthHeader } from "./optionalAuth";
+import { callUserApi } from "./userApi";
 
 /** 公車路線號模糊搜（後端記憶體索引 contains 比對），回候選清單供 autocomplete。 */
 export const searchBusRoutes = async (
@@ -27,7 +27,6 @@ export const searchBusRoutes = async (
     {},
     "GET",
     signal,
-    await optionalAuthHeader(),
   );
 };
 
@@ -53,7 +52,6 @@ export const getBusRouteArrivals = async (
     {},
     "GET",
     signal,
-    await optionalAuthHeader(),
   );
 };
 
@@ -71,7 +69,6 @@ export const getBusRouteInfo = async (
     {},
     "GET",
     signal,
-    await optionalAuthHeader(),
   );
 };
 
@@ -87,7 +84,6 @@ export const getBusNearestStop = async (
     {},
     "GET",
     signal,
-    await optionalAuthHeader(),
   );
 };
 
@@ -102,18 +98,14 @@ export const getBusStopBoard = async (
     {},
     "GET",
     signal,
-    await optionalAuthHeader(),
   );
 };
 
-/** 收藏站點看板：多筆（站牌×路線×方向）一次查到站狀態；會員限定（帶 token）。
- *  userApi 須動態 import：靜態引入會讓本模組捲入 firebase/context 的循環初始化
- *  （/bus SSR 直接 500），且與 userApi 延後載入 firebase chunk 的設計一致。 */
+/** 收藏站點看板：多筆（站牌×路線×方向）一次查到站狀態；會員限定。 */
 export const getBusStopBoardsBatch = async (
   items: BusStopFavoriteKey[],
   signal?: AbortSignal,
 ): Promise<JsyBusStopBoardsBatch> => {
-  const { callUserApi } = await import("./userApi");
   return callUserApi<JsyBusStopBoardsBatch>({
     url: "/api/bus/stop-boards-batch",
     method: "POST",

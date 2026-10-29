@@ -1,7 +1,7 @@
 const { i18n } = require("./next-i18next.config");
 
 // next-pwa 預設的 runtimeCaching：其中 cacheName 'apis' 會把 /api/* 的 GET 以
-// NetworkFirst 快取（僅排除 /api/auth/）。/api/users/*、/api/payments/* 帶 PII /
+// NetworkFirst 快取（僅排除 /api/auth/）。/api/users/*、/api/payments/*、/api/session 帶 PII /
 // 權限 / 金流，被快取後離線或逾時回退會命中前一帳號的 /me，造成跨帳號殘留與降級延遲。
 const defaultRuntimeCaching = require("next-pwa/cache");
 const runtimeCaching = [
@@ -10,7 +10,7 @@ const runtimeCaching = [
     // Workbox 採註冊順序、首個命中者勝出，故會先於 'apis' 的 NetworkFirst 命中。
     urlPattern: ({ url }) =>
       self.origin === url.origin &&
-      /^\/api\/(users|payments)\//.test(url.pathname),
+      /^\/api\/(users|payments|session)(\/|$)/.test(url.pathname),
     handler: "NetworkOnly",
   },
   {

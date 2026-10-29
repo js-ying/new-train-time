@@ -1,67 +1,20 @@
-import {
-  isFirebaseAuthLoaded,
-  loadFirebaseAuth,
-  mayHaveStoredSession,
-} from "@/configs/firebase";
 import { ApiError, ProblemDetails, toApiError } from "@/models/problem-details";
-import type { User } from "firebase/auth";
 
-/**
- * 取「已登入才有」的 Authorization header。
- * 未登入、SSR、或取 token 失敗一律回空物件，不阻斷查詢本身。
- */
-export async function getOptionalAuthHeader(): Promise<Record<string, string>> {
-  if (typeof window === "undefined") return {};
-  try {
-    // 從未登入過的訪客不載入 firebase/auth
-    if (!isFirebaseAuthLoaded() && !(await mayHaveStoredSession())) return {};
-    const { auth } = await loadFirebaseAuth();
-    const user = auth.currentUser;
-    if (!user) return {};
-    return { Authorization: `Bearer ${await user.getIdToken()}` };
-  } catch {
-    return {};
-  }
-}
+/** 是否帶有登入提示 cookie（只代表「可能已登入」，實際以 /me 為準） */
+export const hasSessionHint = (): boolean =>
+  typeof document !== "undefined" &&
+  /(?:^|;\s*)jsy_auth=1(?:;|$)/.test(document.cookie);
 
-/**
- * User API 專用呼叫器：自動帶上 Firebase ID Token，並把後端 Problem Details 轉成 ApiError。
- * 呼叫端拿到 ApiError 後可用 `isAuthError(err)` 判斷是否要觸發強制登出。
- * 與泛用 fetchData 刻意分離：僅 user API 需要 token，泛用層不該知道 firebase。
- */
-export async function callUserApi<T = unknown>(options: {
-  url: string;
-  method: "GET" | "POST" | "PUT" | "DELETE";
-  body?: unknown;
-  /** 已知的 firebase user，省一次 currentUser 查詢；未提供則用 auth.currentUser */
-  user?: User | null;
-  /** 可選的中止訊號；呼叫端可在同步被新操作取代時取消進行中的請求 */
-  signal?: AbortSignal;
-}): Promise<T> {
-  // 已知 user 直接帶入；未帶則動態取 auth instance（會延後載入 firebase/auth chunk）
-  let currentUser: User | null | undefined = options.user;
-  if (currentUser === undefined) {
-    const { auth } = await loadFirebaseAuth();
-    currentUser = auth.currentUser;
-  }
-  if (!currentUser) {
-    // 呼叫端應在登入後才呼叫；防呆用 UNAUTHORIZED 統一處理
-    throw new ApiError("UNAUTHORIZED", 401);
-  }
-
-  const token = await currentUser.getIdToken();
-
+/** 送出請求並把非 2xx 的 Problem Details 轉成 ApiError */
+const request = async <T>(
+  url: string,
+  init: RequestInit & { method: string },
+): Promise<T> => {
   let response: Response;
   try {
-    response = await fetch(options.url, {
-      method: options.method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body:
-        options.method !== "GET" ? JSON.stringify(options.body ?? {}) : null,
-      signal: options.signal,
+    response = await fetch(url, {
+      ...init,
+      headers: { "Content-Type": "application/json", ...init.headers },
     });
   } catch (error) {
     throw toApiError(error);
@@ -85,4 +38,39 @@ export async function callUserApi<T = unknown>(options: {
   }
 
   return body as T;
+};
+
+/**
+ * User API 專用呼叫器：身分由瀏覽器自動帶的 session cookie 決定，並把後端 Problem Details 轉成 ApiError。
+ * 呼叫端拿到 ApiError 後可用 `isAuthError(err)` 判斷是否要觸發強制登出。
+ */
+export async function callUserApi<T = unknown>(options: {
+  url: string;
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  body?: unknown;
+  /** 可選的中止訊號；呼叫端可在同步被新操作取代時取消進行中的請求 */
+  signal?: AbortSignal;
+}): Promise<T> {
+  return request<T>(options.url, {
+    method: options.method,
+    body: options.method !== "GET" ? JSON.stringify(options.body ?? {}) : null,
+    signal: options.signal,
+  });
 }
+
+/** 以 Firebase ID token 換發 session cookie；login＝使用者登入、migrate＝既有登入轉移 */
+export const createSession = (idToken: string, source: "login" | "migrate") =>
+  request<{ ok: true }>("/api/session", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${idToken}` },
+    body: JSON.stringify({ source }),
+  });
+
+/** 清除 session cookie；失敗不拋錯（登出流程不可因此中斷） */
+export const deleteSession = async (): Promise<void> => {
+  try {
+    await request("/api/session", { method: "DELETE", body: "{}" });
+  } catch (error) {
+    console.error("清除 session 失敗", error);
+  }
+};

@@ -13,7 +13,7 @@ const fetchData = async <T = unknown>(
   data: unknown = {},
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "POST",
   signal?: AbortSignal,
-  /** 額外 headers（如選擇性 Authorization）；泛用層僅透傳，不知道 token 來源 */
+  /** 額外 headers；泛用層僅透傳 */
   headers?: Record<string, string>,
 ): Promise<T> => {
   const options: RequestInit = {

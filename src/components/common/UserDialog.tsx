@@ -84,9 +84,9 @@ const UserDialog: FC<UserDialogProps> = ({ open, setOpen }) => {
         <div className="flex flex-col gap-4">
           {/* 使用者資訊 */}
           <div className="flex items-center gap-3">
-            {user.photoURL && (
+            {user.photoUrl && (
               <Image
-                src={user.photoURL}
+                src={user.photoUrl}
                 alt="avatar"
                 width={58}
                 height={58}

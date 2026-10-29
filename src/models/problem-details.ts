@@ -9,6 +9,8 @@ export type ProblemCode =
   | "UNAUTHORIZED"
   /** Firebase ID Token 簽章無效 / 過期 / 被竄改；應強制登出 */
   | "INVALID_TOKEN"
+  /** 帶登入 cookie 的非本站請求（CSRF 檢查未過） */
+  | "FORBIDDEN"
   /** 已驗證身份但內部 user 資料不存在；多半屬資料不一致 */
   | "USER_NOT_FOUND"
   /** 查無此資源（如已停駛的公車路線 / 已撤除的站牌） */

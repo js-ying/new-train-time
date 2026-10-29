@@ -501,6 +501,7 @@
     "INVALID_INPUT": "查詢參數有誤，請確認所有欄位都正確填寫。",
     "DATE_OUT_OF_RANGE": "日期超過可查詢範圍，請重新選擇日期。",
     "UNAUTHORIZED": "尚未登入，請先登入後再試。",
+    "FORBIDDEN": "請求來源不符，請重新整理頁面後再試。",
     "INVALID_TOKEN": "登入憑證已失效，請重新登入。",
     "USER_NOT_FOUND": "找不到使用者資料，請聯繫系統管理員。",
     "NOT_FOUND": "查無此資料，可能已停駛或下架。",
